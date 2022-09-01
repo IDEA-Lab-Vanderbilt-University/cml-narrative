@@ -4,7 +4,7 @@ This application is being developed using the Javascript framework, Svelte. Svel
 
 ## Developing
 
-Once you have cloned this repositroy on your machine, you will need to install the required dependencies. You can do so by entering the following into your terminal, given your current working directory is `/application`
+Once you have cloned this repository on your machine, you will need to install the required dependencies. You can do so by entering the following into your terminal, given your current working directory is `/application`
 
 ```bash
 npm run dev
