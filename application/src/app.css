@@ -1,0 +1,14 @@
+/*
+ * app.css
+ * application
+ * 
+ * Created by Ian Thompson on September 1st 2022
+ * icthomp@g.clemson.edu
+ * 
+ * https://idealab.sites.clemson.edu
+ * 
+ */
+
+ @tailwind base;
+ @tailwind components;
+ @tailwind utilities;
