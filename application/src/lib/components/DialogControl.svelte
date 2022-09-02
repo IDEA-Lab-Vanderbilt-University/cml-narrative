@@ -13,11 +13,14 @@
 
 	const dispatch = createEventDispatcher();
 
+	/** Dispatch the back dialogEvent */
 	const back = () => {
 		dispatch('dialogEvent', {
 			state: 'back'
 		});
 	};
+
+	/** Dispatch the forward dialogEvent */
 	const forward = () => {
 		dispatch('dialogEvent', {
 			state: 'forward'
