@@ -15,4 +15,7 @@
 	<a href="/demos/simple-script" class="h-24 w-fit rounded-md bg-blue-400 p-10 text-black text-2xl"
 		>Simple Script Example</a
 	>
+	<a href="/demos/canvas" class="h-24 w-fit rounded-md bg-blue-400 p-10 text-black text-2xl"
+		>Canvas</a
+	>
 </div>
