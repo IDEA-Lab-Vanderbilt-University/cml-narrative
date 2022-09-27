@@ -8,28 +8,40 @@
  https://idealab.sites.clemson.edu
  
 --->
-<script>
+<script lang="ts">
+	// import { Canvas, Layer, t } from 'svelte-canvas';
 	import { onMount } from 'svelte';
 
-	var height = 0;
-	var width = 0;
+	import Scene from '$lib/canvas/Scene';
+
+	let height: number,
+		width: number = 0;
+
 	onMount(() => {
-		var c = document.getElementById('application');
-		var ctx = c.getContext('2d');
-		ctx.width = width; //document.width is obsolete
-		ctx.height = height;
+		const canvas = document.getElementById('canvas1');
+		const ctx: CanvasRenderingContext2D = canvas.getContext('2d');
+		canvas.width = width;
+		canvas.height = height;
 
-		ctx.moveTo(0, 0);
-		ctx.lineTo(200, 100);
-		ctx.stroke();
+		const scene = new Scene(width, height);
 
-		ctx.globalCompositeOperation = 'destination-over';
-		// Now draw!
-		ctx.fillStyle = 'blue';
-		ctx.fillRect(0, 0, c.width, c.height);
+
+		const animate = () => {
+			ctx.clearRect(0, 0, width, height);
+			scene.update();
+			scene.draw(ctx);
+			requestAnimationFrame(animate);
+		};
+
+		animate();
 	});
 </script>
 
 <svelte:window bind:innerHeight={height} bind:innerWidth={width} />
 
-<canvas class="" id="application" width="700" height="400" />
+<canvas {width} {height} id="canvas1" />
+<!-- <Canvas {width} {height}>
+	<Layer {render} />
+</Canvas> -->
+<img src="/img/characters/ian-half.png" alt="" id="player" class="hidden" />
+<img src="/img/principals-office-with-desk.jpg" alt="" id="background" class="hidden" />
