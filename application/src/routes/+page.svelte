@@ -12,6 +12,10 @@
 <div class="p-8 flex flex-col space-y-5">
 	<h1 class="text-4xl text-center">Welcome to the CML SvelteKit Demo</h1>
 
+	<a href="/narrative/" class="h-24 w-fit rounded-md bg-blue-400 p-10 text-black text-2xl"
+	>Narrative</a
+>
+
 	<a href="/demos/simple-script" class="h-24 w-fit rounded-md bg-blue-400 p-10 text-black text-2xl"
 		>Simple Script Example</a
 	>
