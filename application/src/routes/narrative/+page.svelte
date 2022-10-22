@@ -11,36 +11,13 @@
 
 
 <script>
+	 /** @type {import('./$types').PageData} */
+	export let data;
+
 	import DialogBox from '$lib/components/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 
     import script from '$lib/scripts/intro/script1';
-
-	/** A script for a given scene */
-	// const script = [
-	// 	{
-	// 		speaker: 'Captain Storm',
-	// 		dialog: 'Welcome to the Solving Problems of Tomorrow Agency, my name is Captain Storm. ',
-	// 		avatar: '/img/characters/captain-storm/storm_yeah.png'
-	// 	},
-	// 	{
-	// 		speaker: 'Captain Storm',
-	// 		dialog: 'Lorem, ipsum dolor sit amet consectetur adipisicing elit.',
-	// 		avatar: '/img/characters/captain-storm/gesture_2_storm.png',
-            
-	// 	},
-	// 	{
-	// 		speaker: 'Captain Apple',
-	// 		dialog:
-	// 			'Facilis harum soluta maiores possimus recusandae placeat animi ratione pariatur eos qui non quam commodi, quasi sed eaque accusamus hic facere earum minima natus laborum molestiae ut itaque!',
-    //         avatar: '/img/characters/captain-storm/storm_yeah.png'
-	// 	},
-	// 	{
-	// 		speaker: 'Captain Storm',
-	// 		dialog: 'Incidunt voluptatum quod veniam.',
-	// 		avatar: '/img/characters/captain-storm/storm_yeah.png'
-	// 	}
-	// ];
 
 	/** Current index of the script */
 	var scriptState = 0;
@@ -63,10 +40,11 @@
 
 			currentLine = script[scriptState];
 		}
+
 	};
 </script>
 
-<Scene background="/img/backgrounds/captain_office.jpg">
+<Scene background={currentLine.background}>
 	<DialogBox
 		on:dialogEvent={handleDialogEvent}
 		speaker={currentLine.speaker}

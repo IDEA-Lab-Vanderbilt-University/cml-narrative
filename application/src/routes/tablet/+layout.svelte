@@ -1,8 +1,8 @@
 <!--
- TabletView.svelte
+ +layout.svelte
  cml-narrative
  
- Created by Ian Thompson on October 18th 2022
+ Created by Ian Thompson on October 22nd 2022
  icthomp@g.clemson.edu
  
  https://idealab.sites.clemson.edu
@@ -22,7 +22,10 @@
     <div class="flex justify-between items-center p-4">
         <!-- img -->
         <!-- <img src="/img/logos/SPOT-logo.svg" class="w-1/6" alt=""> -->
-        <p class="text-6xl font-bold text-white">S.P.O.T</p>
+        <div class="flex space-x-8 items-center align-middle">
+            <p class="text-6xl font-bold text-white">S.P.O.T</p>
+            <img src="/img/logos/SPOT-dots.svg" class="w-24" alt="">
+        </div>
         <!-- Tagline -->
         <p class="text-3xl font-bold text-white">Solving Problems of Tomorrow</p>
     </div>
