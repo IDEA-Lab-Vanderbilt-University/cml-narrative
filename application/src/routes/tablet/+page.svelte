@@ -9,4 +9,10 @@
  
 --->
 
-hello!
+<script>
+	import DragAndDrop from "$lib/activities/drag-and-drop.svelte";
+
+
+</script>
+
+<DragAndDrop/>
