@@ -43,7 +43,7 @@
 >
 	<!-- <img src="img/characters/ian-half.png" alt="" /> -->
 	<div class="indicator-item indicator-top indicator-start">
-		<p class="font-bold text-4xl bg-peach text-black px-4 py-2 shadow-lg" >
+		<p class="font-bold text-4xl bg-peach text-black px-4 py-2 shadow-lg rounded-lg rounded-br-none" >
 			{speaker}
 		</p>
 	</div>

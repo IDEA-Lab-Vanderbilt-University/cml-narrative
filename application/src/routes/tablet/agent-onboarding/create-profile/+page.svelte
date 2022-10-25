@@ -12,8 +12,12 @@
 <script>
     import { fly } from 'svelte/transition';
 
+    import { agentData } from "$lib/util/stores/store"
+	import { goto } from '$app/navigation';
 
-    let index = 3
+
+
+    let index = 0
 
     let profileData = {
         name: "",
@@ -29,6 +33,12 @@
 
     const advanceFlow = () => {
         index += 1
+        if (index == 5) {
+            // we should now go to the next scene and save the current data
+            agentData.set(profileData)
+            console.log("Data saved!", profileData);
+            goto('/narrative/welcome')
+        }
     }
 
     const regressFlow = () => {

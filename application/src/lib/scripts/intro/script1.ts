@@ -9,7 +9,9 @@
  
 */
 
-const script = [
+import type { Script } from "$lib/types/Script";
+
+const script: [Script] = [
     {
         id: 1,
         speaker: 'Captain Storm',
@@ -153,7 +155,7 @@ const script = [
         avatar: '/img/characters/agent-spark/spark_talking.png',
         background: "/img/backgrounds/Agency_Walkway.jpg",
 
-    },
+    }
 ];
 
 export default script;

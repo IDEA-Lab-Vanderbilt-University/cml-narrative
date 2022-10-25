@@ -20,29 +20,12 @@ export function load({ params, routeId }) {
     let scriptLength = script.length
 
 
-    // if (slug >= scriptLength) {
-    //     return {
-    //         script: script[script.length]
-    //     }
-    // } else if (slug <= scriptLength) {
-    //     return {
-    //         script: script[0]
-    //     }
-    // }
 
-    // goto("")
     return {
         
         script: script[params.slug - 1]
     }
     
     
-//   if (params.slug === 'hello-world') {
-//     return {
-//       title: 'Hello world!',
-//       content: 'Welcome to our blog. Lorem ipsum dolor sit amet...'
-//     };
-//   }
- 
   throw error(404, 'Not found');
 }
