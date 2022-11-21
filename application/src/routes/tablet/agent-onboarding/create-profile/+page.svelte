@@ -37,7 +37,7 @@
             // we should now go to the next scene and save the current data
             agentData.set(profileData)
             console.log("Data saved!", profileData);
-            goto('/narrative/welcome')
+            goto('/narrative/welcome?page=1')
         }
     }
 
@@ -59,7 +59,7 @@
                 <input class="p-4 border-sky-800 border-2 rounded-lg w-full text-black " type="text" placeholder="Johnny" bind:value={profileData.name}>
             </div>
             {#if profileData.name != ""}
-                <div class="mt-12 space-y-5" transition:fly>
+                <div class="mt-12 space-y-5">
                     <p class="text-sky-800 text-4xl font-mono">How old are you?</p>
                     <input class="p-4 border-sky-800 border-2 rounded-lg w-full text-black " type="number" placeholder="8" bind:value={profileData.age}>
                 </div> 

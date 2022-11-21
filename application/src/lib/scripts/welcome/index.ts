@@ -37,6 +37,13 @@ const script = [
         avatar: '/img/characters/agent-spark/spark_clapping.png',
         background: "/img/backgrounds/Spark_Lab.jpg"
     },
+    {
+        id: 2,
+        speaker: 'Agent Spark',
+        dialog: `Now, let's take a look at all the features on your SPOT tablet.`,
+        avatar: '/img/characters/agent-spark/spark_clapping.png',
+        background: "/img/backgrounds/Spark_Lab.jpg"
+    },
   
 ];
 

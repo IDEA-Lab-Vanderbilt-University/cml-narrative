@@ -14,16 +14,20 @@ import script from '$lib/scripts/intro/script1';
 import { goto } from '$app/navigation';
 
 /** @type {import('./$types').PageLoad} */
-export function load({ params, routeId }) {
+export function load({ params, routeId, url }) {
 
     let { slug } = params
     let scriptLength = script.length
-
-
+    
+    // Get the page query param
+    const page = url.searchParams.get('page')
+    
+    console.log("page", page);
+    
 
     return {
         
-        script: script[params.slug - 1]
+        script: script[page - 1]
     }
     
     

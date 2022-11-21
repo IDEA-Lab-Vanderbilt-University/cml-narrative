@@ -20,7 +20,7 @@
 </script>
 <!-- <div class="p-5">
     <div class="p-7 bg-gray-900 border-2 border-gray-400 rounded-xl"> -->
-        <div class="bg-independence w-full h-screen z-50 rounded-md">
+        <div class="bg-independence w-full h-screen z-20 rounded-md">
             <div class="flex justify-between items-center p-4">
                 <!-- img -->
                 <!-- <img src="/img/logos/SPOT-logo.svg" class="w-1/6" alt=""> -->
@@ -34,7 +34,7 @@
         
             <div class="w-full h-4/5 p-8">
                 <!-- content -->
-                <div class="h-full w-full bg-gray-50 rounded-md p-2">
+                <div class="h-full w-full bg-gray-50 rounded-md p-2 z-50">
                     <slot />
                 </div>
                 

@@ -12,15 +12,18 @@
 <script>
 	import { goto } from '$app/navigation';
 
+    /** @type {import('./$types').PageData} */
+    export let data;
+
     // console.log("Data: ", data);
 
    import DialogBox from '$lib/components/DialogBox.svelte';
    import Scene from '$lib/components/scene/Scene.svelte';
 
-   import script from '$lib/scripts/welcome/index';
+//    import script from '$lib/scripts/intro/script1';
 
-   /** Current index of the script */
-   var scriptState = 0;
+//    /** Current index of the script */
+//    var scriptState = 0;
 
 //    /** What is being shown on the screen */
 //    var currentLine = script[0];
@@ -33,23 +36,24 @@
        var state = event.detail.state;
 
        if (state == 'forward') {
-            // if (data.script.id == 18) {
-            //     goto('/tablet/agent-onboarding/welcome')
-            // } else {
-            //     goto(`/narrative/intro/${data.script.id + 1}`)
-            // }
+            if (data.script.id == 2) {
+                goto('/tablet/tutorial')
+            } else {
+                goto(`/narrative/welcome?page=${data.script.id + 1}`)
+            }
        } else if (state == 'back') {
-            // goto(`/narrative/intro/${data.script.id - 1}`)
+            console.log(data.script.id);
+            goto(`/narrative/welcome?page=${data.script.id - 1}`)
        }
 
    };
 </script>
 
-<Scene background={script[scriptState].background}>
+<Scene background={data.script.background}>
    <DialogBox
        on:dialogEvent={handleDialogEvent}
-       speaker={script[scriptState].speaker}
-       dialog={script[scriptState].dialog}
-       avatar={script[scriptState].avatar}
+       speaker={data.script.speaker}
+       dialog={data.script.dialog}
+       avatar={data.script.avatar}
    />
 </Scene>

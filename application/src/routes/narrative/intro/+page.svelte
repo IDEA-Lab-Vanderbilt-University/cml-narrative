@@ -39,10 +39,11 @@
             if (data.script.id == 18) {
                 goto('/tablet/agent-onboarding/welcome')
             } else {
-                goto(`/narrative/intro/${data.script.id + 1}`)
+                goto(`/narrative/intro?page=${data.script.id + 1}`)
             }
        } else if (state == 'back') {
-            goto(`/narrative/intro/${data.script.id - 1}`)
+            console.log(data.script.id);
+            goto(`/narrative/intro?page=${data.script.id - 1}`)
        }
 
    };
