@@ -4,6 +4,7 @@
     {
       "language": "*",
       "template": [
+        "<<filerelativepath>>"
         "<<filename>>",
         "<<projectName>>",
         "",
