@@ -1,6 +1,7 @@
 <!--
+ /src/lib/components/modals/activities/hurtful-harmful/ConfirmationModal.svelte
  ConfirmationModal.svelte
- application
+ cml-narrative
  
  Created by Ian Thompson on September 27th 2022
  icthomp@g.clemson.edu
@@ -8,6 +9,8 @@
  https://idealab.sites.clemson.edu
  
 --->
+
+
 <script>
     export let detail;
 

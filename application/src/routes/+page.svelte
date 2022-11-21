@@ -1,13 +1,16 @@
 <!--
+ /src/routes/+page.svelte
  +page.svelte
- application
+ cml-narrative
  
- Created by Ian Thompson on September 1st 2022
+ Created by Ian Thompson on September 7th 2022
  icthomp@g.clemson.edu
  
  https://idealab.sites.clemson.edu
  
 --->
+
+
 
 <script lang="ts">
     import TabletView from '$lib/components/modals/tablet/TabletView.svelte';

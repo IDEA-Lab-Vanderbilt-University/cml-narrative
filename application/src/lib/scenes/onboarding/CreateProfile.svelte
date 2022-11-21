@@ -1,5 +1,6 @@
 <!--
- AssignName.svelte
+ /src/lib/scenes/onboarding/CreateProfile.svelte
+ CreateProfile.svelte
  cml-narrative
  
  Created by Ian Thompson on October 22nd 2022
@@ -8,6 +9,8 @@
  https://idealab.sites.clemson.edu
  
 --->
+
+
 <script>
     let index = 0
 </script>

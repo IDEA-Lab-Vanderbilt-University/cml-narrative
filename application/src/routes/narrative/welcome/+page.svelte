@@ -1,4 +1,16 @@
 <!--
+ /src/routes/narrative/welcome/+page.svelte
+ +page.svelte
+ cml-narrative
+ 
+ Created by Ian Thompson on October 25th 2022
+ icthomp@g.clemson.edu
+ 
+ https://idealab.sites.clemson.edu
+ 
+--->
+
+<!--
  +page.svelte
  cml-narrative
  

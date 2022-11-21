@@ -1,6 +1,7 @@
 /**
+ /src/lib/types/Layer.ts
  Layer.ts
- application
+ cml-narrative
  
  Created by Ian Thompson on September 9th 2022
  icthomp@g.clemson.edu
@@ -8,6 +9,8 @@
  https://idealab.sites.clemson.edu
  
 */
+
+
 
 export interface Layer {
     scene: CanvasRenderingContext2D,

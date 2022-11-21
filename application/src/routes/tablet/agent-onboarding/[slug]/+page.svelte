@@ -1,4 +1,5 @@
 <!--
+ /src/routes/tablet/agent-onboarding/[slug]/+page.svelte
  +page.svelte
  cml-narrative
  
@@ -8,6 +9,7 @@
  https://idealab.sites.clemson.edu
  
 --->
+
 
 <script lang="ts">
 	import CreateProfile from "$lib/scenes/onboarding/CreateProfile.svelte";

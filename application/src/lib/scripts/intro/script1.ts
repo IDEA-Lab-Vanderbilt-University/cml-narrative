@@ -1,4 +1,5 @@
 /**
+ /src/lib/scripts/intro/script1.ts
  script1.ts
  cml-narrative
  
@@ -8,6 +9,8 @@
  https://idealab.sites.clemson.edu
  
 */
+
+
 
 import type { Script } from "$lib/types/Script";
 

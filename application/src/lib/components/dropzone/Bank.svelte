@@ -1,6 +1,7 @@
 <!--
+ /src/lib/components/dropzone/Bank.svelte
  Bank.svelte
- application
+ cml-narrative
  
  Created by Ian Thompson on September 27th 2022
  icthomp@g.clemson.edu
@@ -8,6 +9,8 @@
  https://idealab.sites.clemson.edu
  
 --->
+
+
 
 <script>
 	import {dndzone} from 'svelte-dnd-action';

@@ -1,4 +1,5 @@
 <!--
+ /src/lib/components/modals/tablet/TabletView.svelte
  TabletView.svelte
  cml-narrative
  
@@ -8,6 +9,8 @@
  https://idealab.sites.clemson.edu
  
 --->
+
+
 
 <script>
     import { getContext } from 'svelte';

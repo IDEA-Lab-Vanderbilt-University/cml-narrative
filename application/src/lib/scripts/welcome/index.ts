@@ -1,5 +1,6 @@
 /**
- welcomeScript.ts
+ /src/lib/scripts/welcome/index.ts
+ index.ts
  cml-narrative
  
  Created by Ian Thompson on October 25th 2022
@@ -9,16 +10,7 @@
  
 */
 
-/**
- script1.ts
- cml-narrative
- 
- Created by Ian Thompson on October 18th 2022
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
-*/
+
 
 import type { AgentData } from '$lib/types/AgentData';
 import { agentData } from '$lib/util/stores/store'

@@ -1,4 +1,5 @@
 /**
+ /src/lib/types/Script.ts
  Script.ts
  cml-narrative
  
@@ -8,6 +9,7 @@
  https://idealab.sites.clemson.edu
  
 */
+
 
 export interface Script {
     id: number,

@@ -1,4 +1,5 @@
 /**
+ /src/routes/narrative/welcome/+page.ts
  +page.ts
  cml-narrative
  
@@ -8,6 +9,7 @@
  https://idealab.sites.clemson.edu
  
 */
+
 
 import { error } from '@sveltejs/kit';
 import script from '$lib/scripts/welcome';

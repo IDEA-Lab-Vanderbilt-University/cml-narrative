@@ -1,4 +1,5 @@
 <!--
+ /src/lib/scenes/onboarding/Welcome.svelte
  Welcome.svelte
  cml-narrative
  
@@ -8,6 +9,8 @@
  https://idealab.sites.clemson.edu
  
 --->
+
+
 
 <div class="w-full h-full flex flex-col justify-center items-center">
     <h1 class="text-5xl text-sky-800 font-semibold">Welcome, new SPOT Agent!</h1>

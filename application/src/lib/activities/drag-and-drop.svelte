@@ -1,4 +1,5 @@
 <!--
+ /src/lib/activities/drag-and-drop.svelte
  drag-and-drop.svelte
  cml-narrative
  
@@ -8,6 +9,8 @@
  https://idealab.sites.clemson.edu
  
 --->
+
+
 
 <script>
 	import Bank from "$lib/components/dropzone/Bank.svelte";

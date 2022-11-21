@@ -1,4 +1,5 @@
 <!--
+ /src/routes/tablet/tutorial/+page.svelte
  +page.svelte
  cml-narrative
  
@@ -8,6 +9,7 @@
  https://idealab.sites.clemson.edu
  
 --->
+
 
 <script lang="ts">
 	import DialogBox from "$lib/components/DialogBox.svelte";
