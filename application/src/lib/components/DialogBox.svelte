@@ -56,12 +56,14 @@
 	<div class="card h-40 w-full">
 		<div class="card-body w-full">
 			<div class="flex justify-evenly align-middle items-center">
-				<button on:click={back} class="h-20 w-20">
-					<img src="/img/icons/previous.png" alt="" class="w-full">
+				<button on:click={back} class="rotate-180 text-4xl rounded-full bg-yellow-500 p-4">
+					<!-- <img src="/img/icons/previous.png" alt="" class="w-full"> -->
+					➜
 				</button>
 				<p class="text-4xl leading-normal w-full px-4">{dialog}</p>
-				<button on:click={forward} class="h-20 w-20">
-					<img src="/img/icons/previous.png" alt="" class="w-full rotate-180">
+				<button on:click={forward} class=" text-4xl rounded-full bg-yellow-500 p-4">
+					<!-- <img src="/img/icons/previous.png" alt="" class="w-full rotate-180"> -->
+					➜
 				</button>
 			</div>
 		</div>
