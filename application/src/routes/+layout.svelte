@@ -19,4 +19,6 @@
     import "../app.css";
 </script>
   
-<slot />
+<div class="font-cantora">
+    <slot />
+</div>
