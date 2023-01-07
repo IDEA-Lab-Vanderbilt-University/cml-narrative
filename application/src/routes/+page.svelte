@@ -19,7 +19,7 @@
 </script>
 
 <Scene background="/img/backgrounds/Spark_Lab.jpg">
-	<div class="w-full h-full p-72">
+	<div class="w-full h-full p-72" slot="content">
 		<div class="bg-white h-full rounded p-8 flex flex-col items-center justify-center">
 			<div class="text-black space-y-5">
 				<h1 class="text-center text-6xl">Welcome, agent!</h1>

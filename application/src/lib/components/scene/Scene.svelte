@@ -44,10 +44,12 @@
 		</div>
 	</div> -->
 	<div class="h-full w-full flex flex-col">
-		<div class="h-full "> .</div>
+		<div class="h-full ">
+			<slot name="content"></slot>
+		</div>
 		<div class="h-fit mb-7">
 			<slot name="dialog"></slot>
-	
+
 		</div>
 	</div>
 
