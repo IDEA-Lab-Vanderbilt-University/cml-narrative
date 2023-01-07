@@ -1,16 +1,15 @@
 /*
  * /src/app.css
  * app.css
- * cml-narrative 
+ * cml-narrative
  * 
- * Created by Ian Thompson on January 7th 2023
+ * Created by Ian Thompson on September 7th 2022
  * icthomp@g.clemson.edu
  * 
  * https://idealab.sites.clemson.edu
  * 
  */
- 
- /* Import TailwindCSS */
+
  @tailwind base;
  @tailwind components;
  @tailwind utilities;
