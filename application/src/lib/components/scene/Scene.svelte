@@ -28,8 +28,28 @@
 	</div>
 </div> -->
 
-<div class="w-screen h-screen bg-cover" style={`background-image: url('${background}');`}>
+<!-- <div class="w-screen h-screen bg-cover" style={`background-image: url('${background}');`}>
 	<div class="w-full h-full z-10">
 		<slot />
 	</div>
+</div> -->
+
+<div class="w-screen h-screen bg-cover" style={`background-image: url('${background}');`}>
+	<!-- <div class="w-full h-full grid grid-rows-6">
+		<div class="row-span-4">
+			<slot name="content"></slot>
+		</div>
+		<div class="row-span-">
+			<slot name="dialog"></slot>
+		</div>
+	</div> -->
+	<div class="h-full w-full flex flex-col">
+		<div class="h-full "> .</div>
+		<div class="h-fit mb-7">
+			<slot name="dialog"></slot>
+	
+		</div>
+	</div>
+
+
 </div>

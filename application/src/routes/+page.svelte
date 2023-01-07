@@ -21,7 +21,12 @@
 <Scene background="/img/backgrounds/Spark_Lab.jpg">
 	<div class="w-full h-full p-72">
 		<div class="bg-white h-full rounded p-8 flex flex-col items-center justify-center">
-			<h1 class="text-center text-6xl">Welcome, agent!</h1>
+			<div class="text-black space-y-5">
+				<h1 class="text-center text-6xl">Welcome, agent!</h1>
+				<p class="text-xl">
+					Welcome to the SPOT Agency portal. Please select an option below
+				</p>
+			</div>
 			<div class="flex flex-col space-y-8 mt-12 w-full items-center">
 				<a href="/introduction" class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">New Agent</a>
 				<a href="/" class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">Returning Agent</a>

@@ -18,5 +18,7 @@ import Scene from "$lib/components/scene/Scene.svelte";
 </script>
 
 <Scene background="/img/backgrounds/captain_office.jpg"> 
-    <DialogBox speaker="Captain Storm" dialog="This is a test!!" avatar="/img/characters/captain-storm/storm_yeah.png"></DialogBox>
+    <div class="" slot="dialog">
+        <DialogBox speaker="Captain Storm" dialog="This is a test!!" avatar="/img/characters/captain-storm/storm_yeah.png"></DialogBox>
+    </div>
 </Scene>
