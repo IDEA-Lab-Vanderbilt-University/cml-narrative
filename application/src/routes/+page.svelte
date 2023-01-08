@@ -59,6 +59,8 @@
 
 				if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
 					drops[i] = 0;
+
+					// Now, we will show the tablet after the initial animation is finished
 					showTablet = true
 
 				}
@@ -77,9 +79,9 @@
 
 <div class="w-full h-screen bg-gray-200 flex justify-center items-center">
 	<div class="bg-gray-400 h-full w-full relative z-0">
-		<canvas />
+		<canvas class="h-full w-full"/>
 		{#if showTablet}
-		<div class="absolute inset-0 flex justify-center items-center z-10 p-48" in:fade="{{delay: 500}}">
+		<div class="absolute inset-0 flex justify-center items-center z-10 py-32 px-48" in:fade="{{delay: 500}}">
 			<Tablet >
 				<div class="bg-white h-full rounded p-8 flex flex-col items-center justify-center" >
 					<div class="text-black space-y-5">
