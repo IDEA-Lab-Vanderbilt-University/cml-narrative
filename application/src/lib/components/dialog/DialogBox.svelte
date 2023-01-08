@@ -12,6 +12,10 @@
 
 
 <script lang="ts">
+	/**
+	 * TODO: Add check to determine if there is a next or previous line in the script and 
+	 * conditionally show arrows
+	*/
 	import type { Line } from '$lib/types/Script';
 
 	// import DialogControl from '$lib/components/DialogControl.svelte';
@@ -57,12 +61,16 @@
 	</div>
 
 	<div class="w-full text-white p-4 rounded relative bg-jet ">
-		<div class="grid grid-cols-5 text-3xl">
-			<button class="rotate-180" on:click={back}>➜</button>
+		<div class="grid grid-cols-5 text-3xl gap-4">
+			<button class="rotate-180 mr-6" on:click={back}>
+				<p class="bg-peach w-fit p-4 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p>
+			</button>
 			<p class="col-span-3 text-3xl leading-relaxed w-full h-36 ">
 				{dialog}
 			</p>
-			<button class="" on:click={forward}>➜</button>
+			<button class="" on:click={forward}>
+				<p class="bg-peach w-fit p-4 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p>
+			</button>
 		</div>
 	</div>
 </div>
