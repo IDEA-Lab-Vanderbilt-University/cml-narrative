@@ -28,7 +28,7 @@
 				</p>
 			</div>
 			<div class="flex flex-col space-y-8 mt-12 w-full items-center">
-				<a href="/introduction" class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">New Agent</a>
+				<a href="/introduction?page=1" class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">New Agent</a>
 				<a href="/" class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">Returning Agent</a>
 			</div>
 		</div>

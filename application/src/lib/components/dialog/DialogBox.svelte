@@ -11,7 +11,9 @@
 --->
 
 
-<script>
+<script lang="ts">
+	import type { Line } from '$lib/types/Script';
+
 	// import DialogControl from '$lib/components/DialogControl.svelte';
 	
 	import { createEventDispatcher } from 'svelte';
@@ -23,6 +25,8 @@
 	export let speaker = '';
 	/** The path to the img file of the avatar speaking */
 	export let avatar = '';
+
+	export let line: Line
 
 	/** Dispatch the back dialogEvent */
 	const back = () => {
@@ -53,9 +57,9 @@
 	</div>
 
 	<div class="w-full text-white p-4 rounded relative bg-jet ">
-		<div class="grid grid-cols-5 text-center text-3xl">
+		<div class="grid grid-cols-5 text-3xl">
 			<button class="rotate-180" on:click={back}>➜</button>
-			<p class="col-span-3 text-left text-2xl leading-relaxed w-full h-36">
+			<p class="col-span-3 text-3xl leading-relaxed w-full h-36 ">
 				{dialog}
 			</p>
 			<button class="" on:click={forward}>➜</button>
