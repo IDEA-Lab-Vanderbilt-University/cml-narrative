@@ -77,7 +77,7 @@
 
 
 
-<div class="w-full h-screen bg-gray-200 flex justify-center items-center">
+<div class="w-full h-screen bg-gray-200 flex justify-center items-center bg-black">
 	<div class="bg-gray-400 h-full w-full relative z-0">
 		<canvas class="h-full w-full"/>
 		{#if showTablet}
