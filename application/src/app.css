@@ -19,3 +19,7 @@
     font-family: "Cantora One";
     src: url("/font/CantoraOne-Regular.ttf");
  }
+ @font-face {
+   font-family: "Mokoto";
+   src: url("/font/MokotoGlitch.ttf");
+}

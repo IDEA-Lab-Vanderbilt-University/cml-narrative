@@ -14,13 +14,15 @@
 
 <script lang="ts">
 	import Scene from "$lib/components/scene/Scene.svelte";
+	import Tablet from "$lib/components/tablet/Tablet.svelte";
 
 
 </script>
 
 <Scene background="/img/backgrounds/Spark_Lab.jpg">
-	<div class="w-full h-full p-72" slot="content">
-		<div class="bg-white h-full rounded p-8 flex flex-col items-center justify-center">
+	<div class="w-full h-full p-2" slot="content">
+		<Tablet></Tablet>
+		<!-- <div class="bg-white h-full rounded p-8 flex flex-col items-center justify-center">
 			<div class="text-black space-y-5">
 				<h1 class="text-center text-6xl">Welcome, agent!</h1>
 				<p class="text-xl">
@@ -31,6 +33,6 @@
 				<a href="/introduction?page=1" class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">New Agent</a>
 				<a href="/" class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">Returning Agent</a>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </Scene>

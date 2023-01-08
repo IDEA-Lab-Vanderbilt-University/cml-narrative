@@ -4,7 +4,8 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        cantora: ["Cantora One"]
+        cantora: ["Cantora One"],
+		mokoto: ["Mokoto"]
       },
       colors: {
 				peach: "#ffbd59",
