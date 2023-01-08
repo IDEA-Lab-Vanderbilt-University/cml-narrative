@@ -38,6 +38,7 @@
         line = data.line
     )
     
+console.log("DATA: ", data);
 
     /**
     * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
@@ -52,7 +53,14 @@
          * which line in the script should be returned to the user.
         */
         if (state == "forward") {
-            goto(`/introduction?page=${line.id + 1}`)
+            console.log(line.id);
+            
+            if (line.id == 18){
+                goto("/introduction/onboarding")
+            } else {
+                goto(`/introduction?page=${line.id + 1}`)
+
+            }
         } else if (state == "back") {
             goto(`/introduction?page=${line.id - 1}`)
         }
