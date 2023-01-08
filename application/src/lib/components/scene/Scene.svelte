@@ -53,7 +53,7 @@
 	  <div class="w-full h-full">
 		<slot name="content"></slot>
 	  </div>
-	  <div class="absolute inset-0 flex items-end pb-5 z-10">
+	  <div class="absolute inset-0 flex items-end pb-5 z-10 w-full">
 		<slot name="dialog"></slot>
 	  </div>
 	</div>
