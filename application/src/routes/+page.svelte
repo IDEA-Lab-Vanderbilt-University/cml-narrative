@@ -48,12 +48,12 @@
 
 		// Setting up the draw function
 		function draw() {
-			ctx.fillStyle = 'rgba(0, 0, 0, .1)';
+			ctx.fillStyle = 'rgba(15, 21, 24, .1)';
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			for (var i = 0; i < drops.length; i++) {
 
 				var text = letters[Math.floor(Math.random() * letters.length)];
-				ctx.fillStyle = '#0f0';
+				ctx.fillStyle = '#22c55e';
 				ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 				drops[i]++;
 
@@ -81,7 +81,7 @@
 	<div class="bg-gray-400 h-full w-full relative z-0">
 		<canvas class="h-full w-full"/>
 		{#if showTablet}
-		<div class="absolute inset-0 flex justify-center items-center z-10 py-32 px-48" in:fade="{{delay: 500}}">
+		<div class="absolute inset-0 flex justify-center items-center z-10 py-32 px-72" in:fade="{{delay: 500}}">
 			<Tablet >
 				<div class="bg-white h-full rounded p-8 flex flex-col items-center justify-center" >
 					<div class="text-black space-y-5">
