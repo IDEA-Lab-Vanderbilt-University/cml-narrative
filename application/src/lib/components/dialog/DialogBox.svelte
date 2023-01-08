@@ -40,6 +40,8 @@
 
 </script>
 
+
+
 <div class="flex flex-col px-4">
 	<div class="flex justify-between align-bottom items-end z-20 relative">
 		<div class=" bg-peach w-fit h-fit z-20 rounded text-4xl px-3 text-black relative -bottom-4">
@@ -51,15 +53,12 @@
 	</div>
 
 	<div class="w-full text-white p-4 rounded relative bg-jet ">
-		<!-- <div class="relative top-2 bg-peach w-fit z-20 rounded text-3xl px-3 text-black">
-			{speaker}
-		</div> -->
 		<div class="grid grid-cols-5 text-center text-3xl">
-			<button class="rotate-180">➜</button>
+			<button class="rotate-180" on:click={back}>➜</button>
 			<p class="col-span-3 text-left text-2xl leading-relaxed">
 				Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quaerat dolores repellat reprehenderit corrupti aliquam veniam voluptas animi delectus ipsam nulla perspiciatis, amet saepe atque, doloribus eaque provident in nobis obcaecati iure nostrum iste inventore. Doloremque eligendi quo architecto quod tenetur.
 			</p>
-			<button class="">➜</button>
+			<button class="" on:click={forward}>➜</button>
 		</div>
 	</div>
 </div>

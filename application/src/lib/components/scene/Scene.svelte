@@ -34,15 +34,7 @@
 	</div>
 </div> -->
 
-<div class="w-screen h-screen bg-cover" style={`background-image: url('${background}');`}>
-	<!-- <div class="w-full h-full grid grid-rows-6">
-		<div class="row-span-4">
-			<slot name="content"></slot>
-		</div>
-		<div class="row-span-">
-			<slot name="dialog"></slot>
-		</div>
-	</div> -->
+<!-- <div class="w-screen h-screen bg-cover" style={`background-image: url('${background}');`}>
 	<div class="h-full w-full flex flex-col">
 		<div class="h-full ">
 			<slot name="content"></slot>
@@ -54,4 +46,15 @@
 	</div>
 
 
+</div> -->
+
+<div class="w-full h-screen bg-gray-200 flex justify-center items-center bg-cover" >
+	<div class=" w-full h-full relative z-0 bg-cover" style={`background-image: url('${background}');`}>
+	  <div class="w-full h-full">
+		<slot name="content"></slot>
+	  </div>
+	  <div class="absolute inset-0 flex items-end pb-5 z-10">
+		<slot name="dialog"></slot>
+	  </div>
+	</div>
 </div>
