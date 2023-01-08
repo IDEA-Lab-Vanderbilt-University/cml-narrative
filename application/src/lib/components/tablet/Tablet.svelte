@@ -15,13 +15,15 @@
         <div class="h-fit w-full flex justify-between p-4 font-mokoto">
             <div class="flex space-x-3 items-center align-middle">
                 <p class="text-5xl font-bold text-white">S.P.O.T</p>
-                <img src="/img/logos/SPOT-dots.svg" class="w-8" alt="">
+                <img src="/img/logos/SPOT-dots.svg" class="w-24 h-full" alt="">
             </div>
             <p class="text-xl font-bold text-white">Solving Problems of Tomorrow</p>
         </div>
-        <div class="h-full bg-base-content  rounded-md">e</div>
+        <div class="h-full bg-base-content  rounded-md">
+            <slot></slot>
+        </div>
         <div class="h-fit  text-white text-center">
             MEGA JOULS METER
         </div>
-    </div>å
+    </div>
 </div>
