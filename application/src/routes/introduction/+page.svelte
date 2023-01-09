@@ -38,7 +38,7 @@
         line = data.line
     )
     
-console.log("DATA: ", data);
+    console.log("DATA: ", data);
 
     /**
     * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
@@ -47,26 +47,55 @@ console.log("DATA: ", data);
     const handleDialogEvent = async (event) => {
         var state = event.detail.state
 
-        /**
-         * Determine the state of the DialogEvent that was emitted. Then, we will navigate
-         * the user to the appropriate url with appropriate querystring which represents
-         * which line in the script should be returned to the user.
-        */
-        if (state == "forward") {
-            console.log(line.id);
-            
+        handleNavigation(state)
+    }
+
+    /**
+     * Check the keycode that has been emitted from a Keydown Event on the Window to determine how we should navigate the user 
+     * through the scene.
+     * 
+     * Event keys were found by using the following site below:
+     * 
+     * https://www.toptal.com/developers/keycode
+     * 
+     * @param event Keyboard Event emitted from  the Window 
+     * 
+     */
+    const handleKeydownEvent = (event: KeyboardEvent) => {
+        switch (event.key) {
+            case "ArrowRight":
+            case " ":
+                handleNavigation("forward")
+                break;
+            case "ArrowLeft":
+                handleNavigation("back")
+            default:
+                break;
+        }
+    }
+
+    /**
+     * Determine the state of the DialogEvent that was emitted. Then, we will navigate
+     * the user to the appropriate url with appropriate querystring which represents
+     * which line in the script should be returned to the user.
+    */
+    const handleNavigation = (direction: string) => {
+        if (direction == "forward") {
             if (line.id == 18){
                 goto("/introduction/onboarding")
             } else {
                 goto(`/introduction?page=${line.id + 1}`)
 
             }
-        } else if (state == "back") {
+        } else if (direction == "back") {
             goto(`/introduction?page=${line.id - 1}`)
+
         }
     }
 
 </script>
+
+<svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
 <Scene background={line.background}> 
     <div class="w-full" slot="dialog">
