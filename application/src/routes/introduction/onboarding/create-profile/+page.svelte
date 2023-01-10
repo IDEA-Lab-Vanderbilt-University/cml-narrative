@@ -22,6 +22,7 @@
 	import TabletNavigationController from "$lib/components/tablet/TabletNavigationController.svelte";
 	import { NavigationDirection } from "$lib/types/Enums";
 	import type { UserData } from "$lib/types/UserData";
+	import { agentData } from "$lib/utils/stores/store";
 
     /** @type {import('./$types').PageData} */
     export let data;
@@ -55,7 +56,13 @@
          * react to it.
         */
         page = data.page
+
+        // Any time profile data is changed, the store is immediatly updated
+        agentData.set(profileData)
+                
     }
+
+
 
     /**
      * Progress the user through the profile creation sequence
@@ -63,6 +70,10 @@
      */
     const handleNavigation = (direction: NavigationDirection) => {
         console.log(profileData);
+
+        // Set the agentData store, which will allow us to access this profile data across the application
+        agentData.set(profileData)
+
         
         if (direction == NavigationDirection.backward) {
             goto(baseNavigationURL + (page - 1))
