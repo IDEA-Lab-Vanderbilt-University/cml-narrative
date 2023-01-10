@@ -23,6 +23,9 @@
     <slot />
 </div>
 
+<svelte:head>
+    <title>S.P.O.T - Solving Problems of Tomorrow</title>
+</svelte:head>
 <div class="lg:hidden text-center font-cantora space-y-6 flex flex-col px-12 items-center h-screen justify-center align-middle ">
     <h1 class="text-5xl">Sorry, Agent!</h1>
     <p class="text-3xl">Your screen size is too small. Please use a compatible device to access the Agent Portal.</p>
