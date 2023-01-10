@@ -10,6 +10,9 @@
  
 */
 
+/**
+ * Enum defining the acceptable navigation directions a user can take through a script/scene
+ */
 export enum NavigationDirection { 
     forward,
     backward

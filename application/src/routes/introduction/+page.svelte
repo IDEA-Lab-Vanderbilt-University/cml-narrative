@@ -14,6 +14,7 @@
 	import { goto } from "$app/navigation";
 	import DialogBox from "$lib/components/dialog/DialogBox.svelte";
     import Scene from "$lib/components/scene/Scene.svelte";
+	import { NavigationDirection } from "$lib/types/Enums";
 	import type { Line } from "$lib/types/Script";
 
     /** @type {import('./$types').PageData} */
@@ -22,7 +23,7 @@
     let line: Line
 
     /**
-     * We declared the line variable above. This varible is "reactive" and will change on
+     * We declared the line variable above. This variable is "reactive" and will change on
      * each goto() call (implemented in handleDialogEvent()) as script data is returned 
      * from the "server".
      * 
@@ -45,7 +46,7 @@
     * @param event can be destructured to obtain which way the dialog in a script should progress
     */
     const handleDialogEvent = async (event) => {
-        var state = event.detail.state
+        var state: NavigationDirection = event.detail.state
 
         handleNavigation(state)
     }
@@ -65,10 +66,10 @@
         switch (event.key) {
             case "ArrowRight":
             case " ":
-                handleNavigation("forward")
+                handleNavigation(NavigationDirection.forward)
                 break;
             case "ArrowLeft":
-                handleNavigation("back")
+                handleNavigation(NavigationDirection.backward)
             default:
                 break;
         }
@@ -79,15 +80,15 @@
      * the user to the appropriate url with appropriate querystring which represents
      * which line in the script should be returned to the user.
     */
-    const handleNavigation = (direction: string) => {
-        if (direction == "forward") {
+    const handleNavigation = (direction: NavigationDirection) => {
+        if (direction == NavigationDirection.forward) {
             if (line.id == 18){
                 goto("/introduction/onboarding")
             } else {
                 goto(`/introduction?page=${line.id + 1}`)
 
             }
-        } else if (direction == "back") {
+        } else if (direction == NavigationDirection.backward) {
             goto(`/introduction?page=${line.id - 1}`)
 
         }

@@ -12,6 +12,7 @@
 
 
 <script lang="ts">
+	import { NavigationDirection } from '$lib/types/Enums';
 	/**
 	 * TODO: Add check to determine if there is a next or previous line in the script and 
 	 * conditionally show arrows
@@ -35,14 +36,14 @@
 	/** Dispatch the back dialogEvent */
 	const back = () => {
 		dispatch('dialogEvent', {
-			state: 'back'
+			state: NavigationDirection.backward
 		});
 	};
 
 	/** Dispatch the forward dialogEvent */
 	const forward = () => {
 		dispatch('dialogEvent', {
-			state: 'forward'
+			state: NavigationDirection.forward
 		});
 	};
 
