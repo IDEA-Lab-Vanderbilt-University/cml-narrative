@@ -27,15 +27,15 @@ const script: Script = {
             id: 1,
             speaker: 'Agent Spark',
             dialog: `Agent ${agent.agentName}, I love it!`,
-            avatar: '/img/characters/captain-storm/storm_yeah.png',
-            background: "/img/backgrounds/captain_office.jpg"
+            avatar: '/img/characters/agent-spark/spark_clapping.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
         },
         {
             id: 2,
             speaker: 'Agent Spark',
-            dialog: `Now, let's take a look at all the feature on your SPOT tablet`,
-            avatar: '/img/characters/captain-storm/storm_yeah.png',
-            background: "/img/backgrounds/captain_office.jpg"
+            dialog: `Now, let's take a look at all the features on your SPOT tablet.`,
+            avatar: '/img/characters/agent-spark/spark_clapping.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
         },
     ],
     length: 2
