@@ -28,6 +28,6 @@
             <input type="text" placeholder="Pineapple" class="input input-bordered w-full" bind:value={profileData.agentName}/>
         </div>
     </div>
-    <button class="bg-lapiz-blue text-white text-3xl px-7 py-3 rounded-md shadow hover:shadow-lg">SUBMIT</button>
+    <a href="/introduction/onboarding/create-profile/confirmation" class="bg-lapiz-blue text-white text-3xl px-7 py-3 rounded-md shadow hover:shadow-lg">SUBMIT</a>
 
 </div>
