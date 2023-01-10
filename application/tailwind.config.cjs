@@ -21,6 +21,9 @@ module.exports = {
 			},
 			animation: {
 				wiggle: 'wiggle 0.8s ease-in-out 4'
+			},
+			scale: {
+				'-1': '-1'
 			}
 		}
 	},
