@@ -14,21 +14,50 @@
 <script lang="ts">
 	import Scene from "$lib/components/scene/Scene.svelte";
 
+    import BotBuddyBase from "$lib/components/bot-buddy/BotBuddyBase.svelte"
+	import Tablet from "$lib/components/tablet/Tablet.svelte";
+
+    let faceColor;
+    let headOutline;
+
+    import ColorPicker from 'svelte-awesome-color-picker';
+
+	let rgb; // or hsv or hex
+
+    let hex
+
 
 </script>
 
 <Scene background="/img/backgrounds/Spark_Lab.jpg">
-    <div slot="content" class="w-full h-full p-96">
-        <div class="bg-jet flex flex-col p-24 items-center justify-center text-white rounded-md shadow-md">
-            <h1 class="text-4xl mb-9 ">Select a Bot Buddy</h1>
-            <div class="flex space-x-7">
-                <p>BOT BUDDY 1</p>
-                <p>BOT BUDDY 2</p>
-                <p>BOT BUDDY 3</p>
-                <p>BOT BUDDY 4</p>
-                <p>BOT BUDDY 5</p>
+    <div slot="content" class="w-full h-full p-12">
+        <Tablet>
+            <div class="h-full w-full flex justify-center items-center">
+                <div class="w-96">
+                    <!-- <BotBuddyBase faceColor={faceColor} /> -->
+
+                </div>
+                <div class="flex ">
+                    <div class="flex flex-col">
+                        <p class="text-white">Face color:</p>
+                        <!-- <ColorPicker bind:hex={faceColor} /> -->
+                    </div>
+                    <div class="flex flex-col">
+                        <p class="text-white">Face color:</p>
+                        <!-- <ColorPicker bind:hex={headOutline} /> -->
+                    </div>
+
+                </div>
+            </div>
+        </Tablet>
+        <!-- <div class="bg-jet flex flex-col p-24 items-center justify-center text-white rounded-md shadow-md">
+            <h1 class="text-4xl mb-9 ">Customize Your Bot Buddy</h1>
+            <div class="h-96">
+                <BotBuddyBase />
+
             </div>
 
-        </div>
+
+        </div> -->
     </div>
 </Scene>
