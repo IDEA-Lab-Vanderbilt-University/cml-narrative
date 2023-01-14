@@ -13,6 +13,9 @@
 <script lang="ts">
 	import { goto } from "$app/navigation";
 	import TabletDialogBox from "$lib/components/dialog/TabletDialogBox.svelte";
+	import Introduction from "$lib/components/sequences/tablet/tablet-tutorial/Introduction.svelte";
+	import SpotApplication from "$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte";
+	import MegaJoulesMeter from "$lib/components/tablet/MegaJoulesMeter.svelte";
 	import { NavigationDirection } from "$lib/types/Enums";
 	import type { Line } from "$lib/types/Script";
 
@@ -79,7 +82,23 @@
             <p class="bg-lapiz-blue text-white text-3xl w-fit p-8 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p>
         </button>
         <div class="w-full h-full">
-            <slot />
+            {#if line.id == 1}
+                <Introduction />
+            {:else if line.id == 2}
+                <SpotApplication title="Travel Log" img="/img/icons/journal.png" />
+            {:else if line.id == 3}
+                <SpotApplication title="Profile" img="/img/icons/profile.png" />
+            {:else if line.id == 4}
+                <SpotApplication title="Badges" img="/img/icons/award.png" />
+            {:else if line.id == 5}
+                <SpotApplication title="Settings" img="/img/icons/settings.png" />
+            {:else if line.id == 6 || line.id == 7 || line.id == 8}
+                <div class="flex justify-center items-center h-full">
+                    <MegaJoulesMeter amount={5}/>
+                </div>
+            {:else if line.id == 9}
+                <Introduction />
+            {/if}
 
         </div>
         <button class={`px-2 `} on:click={() => handleNavigation(NavigationDirection.forward)}>
@@ -87,6 +106,7 @@
         </button>
     </div>
     <div class="absolute inset-0 flex justify-center items-end z-10 h-fit mt-auto  shadow-md bg-jet">
+        <!-- TODO: Improve layout of TabletDialogBox -->
         <TabletDialogBox line={line}/>
     </div>  
 

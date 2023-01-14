@@ -27,7 +27,7 @@
             <slot></slot>
         </div>
         <div class="h-fit  text-white text-center">
-            MEGA JOULS METER
+            MEGA Joules METER
         </div>
     </div>
 </div>
