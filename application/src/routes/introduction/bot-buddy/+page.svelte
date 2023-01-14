@@ -1,9 +1,9 @@
 <!--
- /src/routes/introduction/welcome/+page.svelte
+ /src/routes/introduction/onboarding/bot-buddy/+page.svelte
  +page.svelte
  cml-narrative
  
- Created by Ian Thompson on January 10th 2023
+ Created by Ian Thompson on January 14th 2023
  icthomp@g.clemson.edu
  
  https://idealab.sites.clemson.edu
@@ -68,14 +68,14 @@
     */
     const handleNavigation = (direction: NavigationDirection) => {
         if (direction == NavigationDirection.forward) {
-            if (line.id == 2) {
-                goto("/introduction/onboarding/tablet-tutorial?page=1")
+            if (false) {
+                // goto("/introduction/onboarding/tablet-tutorial?page=1")
             } else {
-                goto(`/introduction/welcome?page=${line.id + 1}`)
+                goto(`/introduction/bot-buddy?page=${line.id + 1}`)
             }
     
         } else if (direction == NavigationDirection.backward) {
-            goto(`/introduction/welcome?page=${line.id - 1}`)
+            goto(`/introduction/bot-buddy?page=${line.id - 1}`)
 
         }
     }
@@ -84,12 +84,10 @@
 
 <svelte:window on:keydown={handleKeydownEvent} />
 
-
 <Scene background={line.background}> 
     <div class="w-full" slot="dialog">
         <DialogBox speaker={line.speaker} dialog={line.dialog} avatar={line.avatar} on:dialogEvent={handleDialogEvent}></DialogBox>
     </div>
     <div slot="content" class="w-full h-full">
-        <!-- <div class=" h-full">hello</div> -->
     </div>
 </Scene>

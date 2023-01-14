@@ -59,8 +59,8 @@
     */
     const handleNavigation = (direction: NavigationDirection) => {
         if (direction == NavigationDirection.forward) {
-            if (false){
-                goto("/introduction/onboarding")
+            if (line.id == 9){
+                goto("/introduction/bot-buddy?page=1")
             } else {
                 goto(`/introduction/onboarding/tablet-tutorial?page=${line.id + 1}`)
 

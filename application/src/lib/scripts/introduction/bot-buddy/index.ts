@@ -107,6 +107,6 @@ const script: Script = {
         },
 
     ],
-    length: 9
+    length: 13
 }
 export default script
