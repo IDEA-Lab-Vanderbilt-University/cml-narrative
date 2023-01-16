@@ -68,8 +68,8 @@
     */
     const handleNavigation = (direction: NavigationDirection) => {
         if (direction == NavigationDirection.forward) {
-            if (false) {
-                // goto("/introduction/onboarding/tablet-tutorial?page=1")
+            if (line.id == 13) {
+                goto("/introduction/bot-buddy/select")
             } else {
                 goto(`/introduction/bot-buddy?page=${line.id + 1}`)
             }
