@@ -105,8 +105,85 @@ const script: Script = {
             avatar: '/img/characters/agent-gear/vanilla_talking.png',
             background: "/img/backgrounds/Spark_Lab.jpg"
         },
+        {
+            id: 14,
+            speaker: 'Bot Buddy',
+            dialog: "$$((( ooo!>>> =+=; $^(( %&<!!",
+            avatar: '/img/characters/bot-buddy/bot-buddy-base.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
+        },
+        {
+            id: 15,
+            speaker: 'Agent Gear',
+            dialog: "????????????",
+            avatar: '/img/characters/agent-gear/vanil_nonplussed.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
+        },
+        {
+            id: 16,
+            speaker: '',
+            dialog: "*CRASH* \n*BANG*",
+            avatar: '/img/characters/captain-storm/storm_better_laugh.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
+        },
+        {
+            id: 17,
+            speaker: 'Bot Buddy',
+            dialog: "Hello! I will be your Bot Buddy!",
+            avatar: '/img/characters/bot-buddy/bot-buddy-base.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
+        },
+        {
+            id: 18,
+            speaker: 'Agent Gear',
+            dialog: "Nailed it!!",
+            avatar: '/img/characters/agent-gear/vanilla_strong.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
+        },
+        {
+            id: 19,
+            speaker: 'Captain Storm',
+            dialog: "Excellent! Thank you Agent Gear and Agent Fern!",
+            avatar: '/img/characters/captain-storm/storm_2_thumbs_up.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
+        },
+        {
+            id: 20,
+            speaker: 'Captain Storm',
+            dialog: "Mission Control needs you to complete some training before going on the mission.",
+            avatar: '/img/characters/captain-storm/storm_gesture_4.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
+        },
+        {
+            id: 21,
+            speaker: 'Captain Storm',
+            dialog: "This training helps us understand what you know about technology and Artificial Intelligence.",
+            avatar: '/img/characters/captain-storm/clapping_storm.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
+        },
+        {
+            id: 22,
+            speaker: 'Captain Storm',
+            dialog: "Then, the Tech Team will load your Bot Buddy with additional information and knowledge to help you on your mission.",
+            avatar: '/img/characters/captain-storm/gesture_2_storm.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
+        },
+        {
+            id: 23,
+            speaker: 'SPOT Agents',
+            dialog: "You can count on us!",
+            avatar: '/img/characters/agent-gear/vanilla_talking.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
+        },
+        {
+            id: 24,
+            speaker: 'Captain Storm',
+            dialog: "Thanks, team! At the end of this first training, you will receive your first badge! Let's get started!",
+            avatar: '/img/characters/captain-storm/storm_arms_up.png',
+            background: "/img/backgrounds/Spark_Lab.jpg"
+        },
 
     ],
-    length: 13
+    length: 24
 }
 export default script

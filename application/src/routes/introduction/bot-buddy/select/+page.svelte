@@ -21,34 +21,46 @@
     let headOutline;
 
     import ColorPicker from 'svelte-awesome-color-picker';
+	import { goto } from "$app/navigation";
 
 	let rgb; // or hsv or hex
 
     let hex
 
+    const handleBotBuddySelect = () => {
+        goto("/introduction/bot-buddy?page=14")
+    }
 
 </script>
 
 <Scene background="/img/backgrounds/Spark_Lab.jpg">
     <div slot="content" class="w-full h-full p-12">
         <Tablet>
-            <div class="h-full w-full flex justify-center items-center">
+            <div class="text-white text-center">
+                Select Bot Buddy
+            </div>
+            <div class="flex text-white text-2xl space-x-6 justify-center mt-8">
+                <button on:click={handleBotBuddySelect}>Bot Buddy 1</button>
+                <button on:click={handleBotBuddySelect}>Bot Buddy 2</button>
+                <button on:click={handleBotBuddySelect}>Bot Buddy 3</button>
+                <button on:click={handleBotBuddySelect}>Bot Buddy 4</button>
+
+            </div>
+            <!-- <div class="h-full w-full flex justify-center items-center">
                 <div class="w-96">
-                    <!-- <BotBuddyBase faceColor={faceColor} /> -->
 
                 </div>
                 <div class="flex ">
                     <div class="flex flex-col">
                         <p class="text-white">Face color:</p>
-                        <!-- <ColorPicker bind:hex={faceColor} /> -->
                     </div>
                     <div class="flex flex-col">
                         <p class="text-white">Face color:</p>
-                        <!-- <ColorPicker bind:hex={headOutline} /> -->
+
                     </div>
 
                 </div>
-            </div>
+            </div> -->
         </Tablet>
         <!-- <div class="bg-jet flex flex-col p-24 items-center justify-center text-white rounded-md shadow-md">
             <h1 class="text-4xl mb-9 ">Customize Your Bot Buddy</h1>

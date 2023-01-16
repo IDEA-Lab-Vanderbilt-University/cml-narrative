@@ -17,6 +17,7 @@
 	import { NavigationDirection } from "$lib/types/Enums";
 	import type { Line } from "$lib/types/Script";
 
+	import { fade } from 'svelte/transition';
 
     /** @type {import('./$types').PageData} */
     export let data;
@@ -89,5 +90,15 @@
         <DialogBox speaker={line.speaker} dialog={line.dialog} avatar={line.avatar} on:dialogEvent={handleDialogEvent}></DialogBox>
     </div>
     <div slot="content" class="w-full h-full">
+        {#if line.id == 16}
+            <div class="w-full h-full">
+                <img src="/img/svg/explosion.svg" alt="" class="w-full h-full" in:fade>
+            </div>
+        {:else if line.id == 23}
+            <div class="w-full h-full flex">
+                <img src="/img/characters/agent-fern/fern_thumbs_up.png" alt="" class="w-56 h-56 mt-auto mb-52">
+                <img src="/img/characters/agent-spark/spark_gesture_1.png" alt="" class="w-48 h-48 mt-auto mb-52">
+            </div>
+        {/if}
     </div>
 </Scene>
