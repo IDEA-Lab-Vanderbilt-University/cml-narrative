@@ -71,7 +71,10 @@
         if (direction == NavigationDirection.forward) {
             if (line.id == 13) {
                 goto("/introduction/bot-buddy/select")
-            } else {
+            } else if (line.id == 24) {
+                goto("/training?page=1")
+            } 
+            else {
                 goto(`/introduction/bot-buddy?page=${line.id + 1}`)
             }
     
