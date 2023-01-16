@@ -56,7 +56,7 @@
 	  
 	  <!-- Conditionally display the Dialog slot, as there wont always be a dialog box present -->
 	  {#if $$slots.dialog}
-		<div class="absolute inset-0 flex items-end pb-5 z-10 w-full">
+		<div class="absolute inset-0 flex items-end pb-2 z-10 w-full">
 			<slot name="dialog"></slot>
 		</div>
 	  {/if}
