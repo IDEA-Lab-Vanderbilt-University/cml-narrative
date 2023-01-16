@@ -84,7 +84,7 @@
 		<div class="absolute inset-0 flex justify-center items-center z-10 py-32 px-72" in:fade="{{delay: 500}}">
 			<Tablet >
 				<div class="text-white h-full rounded p-8 flex flex-col items-center justify-center" >
-					<div class=" space-y-5">
+					<div class="space-y-5">
 						<h1 class="text-center text-6xl">Welcome, agent!</h1>
 						<p class="text-xl">
 							Welcome to the SPOT Agency portal. Please select an option below.
