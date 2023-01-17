@@ -44,7 +44,7 @@ const script: Script = {
         },
         {
             id: 5,
-            speaker: "Agent Spark",
+            speaker: "Captain Storm",
             dialog: "On your SPOT Tablet, tell us who it harms or helps.",
             avatar: '/img/characters/captain-storm/storm_yeah.png',
             background: "/img/backgrounds/captain_office.jpg"

@@ -27,6 +27,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"svelte-awesome-color-picker": "^2.2.2"
+		"svelte-awesome-color-picker": "^2.2.2",
+		"svelte-dnd-action": "^0.9.22"
 	}
 }

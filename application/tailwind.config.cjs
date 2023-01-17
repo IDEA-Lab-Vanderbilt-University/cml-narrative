@@ -24,6 +24,9 @@ module.exports = {
 			},
 			scale: {
 				'-1': '-1'
+			},
+			brightness: {
+				40: '.40',
 			}
 		}
 	},
