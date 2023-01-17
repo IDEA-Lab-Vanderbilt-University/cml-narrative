@@ -101,6 +101,11 @@
         if (direction == NavigationDirection.forward) {
             if (line.id == 5){
                 goto("/activities/harmful-or-helpful")
+            } else if (line.id == 11) { 
+                goto("/activities/what-do-you-think-an-algorithm-is")
+            } else if (line.id == 14) {
+                goto("/activities/what-do-you-think-machine-learning-is")
+
             } else {
                 goto(`/training?page=${line.id + 1}`)
 

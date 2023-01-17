@@ -13,8 +13,8 @@
     import { fade, fly } from 'svelte/transition';
 
 </script>
-
-<div class="h-full w-full p-7 bg-gray-900 border-4 border-gray-400 rounded-xl" in:fly="{{duration: 1000, y:200}}" out:fly="{{duration: 1000, y:200}}">
+<!-- in:fly="{{duration: 1000, y:200}}" out:fly="{{duration: 1000, y:200}}" -->
+<div class="h-full w-full p-7 bg-gray-900 border-4 border-gray-400 rounded-xl" >
     <div class=" h-full w-full rounded-lg flex flex-col">
         <div class="h-fit w-full flex justify-between p-4 font-mokoto">
             <div class="flex space-x-3 items-center align-middle">
