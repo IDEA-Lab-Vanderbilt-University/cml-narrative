@@ -90,7 +90,7 @@
 
 <Scene background={line.background}> 
     <div class="w-full" slot="dialog">
-        <DialogBox speaker={line.speaker} dialog={line.dialog} avatar={line.avatar} on:dialogEvent={handleDialogEvent}></DialogBox>
+        <DialogBox {line} on:dialogEvent={handleDialogEvent}></DialogBox>
     </div>
     <div slot="content" class="w-full h-full">
         {#if line.id == 16}
