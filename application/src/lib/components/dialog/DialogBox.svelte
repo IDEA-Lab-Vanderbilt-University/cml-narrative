@@ -53,7 +53,7 @@
 	$: {
 		console.log(line);
 		
-		flip = (line.id % 2 == 0)
+		flip = (line.id % 3 == 0)
 	}
 
 </script>
