@@ -21,6 +21,13 @@
 	export let items = [];
 	export let type;
     export let id;
+
+    let dropTargetStyle = {
+        "outline": "#e2e8f0 dashed 2px",
+        "border-radius": "0.375rem",
+        "background": type == "bank" ? "#d1d5db" : ""
+        // "outline-color": ""
+    }
 	
 	function handleSort(e) {
 		items = e.detail.items;
@@ -36,10 +43,10 @@
 
 	}
 </script>
-<section use:dndzone={{items, flipDurationMs, type}} on:consider={handleSort} on:finalize={handleSort} class="flex min-h-16 h-full">
+<section use:dndzone={{items, flipDurationMs, type, dropTargetStyle}} on:consider={handleSort} on:finalize={handleSort} class="flex min-h-16 h-full outline-black">
 	{#each items as item(item.id)}
-		<div  animate:flip={{duration:flipDurationMs}} class="p-5 bg-white m-3 rounded-md border shadow-md max-h-44">
-            <div class="flex flex-col items-center space-y-3">
+		<div  animate:flip={{duration:flipDurationMs}} class="p-5 bg-white m-3 rounded-md border shadow-md max-h-44 ">
+            <div class="flex flex-col items-center space-y-3 ">
                 <img src={item.img} alt="" class="h-24">
                 <p class="text-xl text-gray-800">{item.title}</p>
             </div>

@@ -39,8 +39,8 @@
 			{line.speaker}
 		</div>
 	</div>
-	<div class="mx-24 w-full px-9 ">
-		<p class="text-3xl text-white text-center px-5 max-w-6xl">{line.dialog}</p>
+	<div class=" w-full px-9">
+		<p class="text-2xl text-white text-center pr-5 max-w-6xl">{line.dialog}</p>
 	</div>
 	<div class="self-end mr-14 absolute bottom-0">
 		<img src={line.avatar} alt="">

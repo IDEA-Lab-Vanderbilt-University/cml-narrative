@@ -105,7 +105,8 @@
                 goto("/activities/what-do-you-think-an-algorithm-is")
             } else if (line.id == 14) {
                 goto("/activities/what-do-you-think-machine-learning-is")
-
+            } else if (line.id == 19) {
+                goto("/")
             } else {
                 goto(`/training?page=${line.id + 1}`)
 
@@ -126,34 +127,38 @@
 
 <Scene background="/img/backgrounds/Spark_Lab.jpg" darken={shouldDarken}>
     <div class={`w-full h-full ${shouldDarken ? "brightness-40" : ""}`} slot="content">
-        <ProjectorView>
-            {#if line.id == 1 || line.id == 2}
-                <Technology />
-            {:else if line.id == 3}
-                <Training2 />
-            {:else if line.id == 4 || line.id == 5}
-                <TrainingText>
-                    <p class="text-4xl">
-                        These technologies can be helpful, but they can also be harmful to people. 
-                    </p>
-                    <p class="text-4xl">
-                        You need to decide which technologies are helpful or harmful. 
-                    </p>
-                </TrainingText>
-            {:else if line.id == 6 || line.id == 10 || line.id == 11 || line.id == 12}
-                <TrainingText>
-                    <p class="text-5xl text-center font-bold">
-                        Algorithm
-                    </p>
-                </TrainingText>
-            {:else if line.id == 13 || line.id == 14}
-                <TrainingText>
-                    <p class="text-5xl text-center font-bold">
-                        Machine Learning
-                    </p>
-                </TrainingText>
-            {/if}
-        </ProjectorView>
+        {#if line.id <= 14}
+            <ProjectorView>
+                {#if line.id == 1 || line.id == 2}
+                    <Technology />
+                {:else if line.id == 3}
+                    <Training2 />
+                {:else if line.id == 4 || line.id == 5}
+                    <TrainingText>
+                        <p class="text-4xl">
+                            These technologies can be helpful, but they can also be harmful to people. 
+                        </p>
+                        <p class="text-4xl">
+                            You need to decide which technologies are helpful or harmful. 
+                        </p>
+                    </TrainingText>
+                {:else if line.id == 6 || line.id == 10 || line.id == 11 || line.id == 12}
+                    <TrainingText>
+                        <p class="text-5xl text-center font-bold">
+                            Algorithm
+                        </p>
+                    </TrainingText>
+                {:else if line.id == 13 || line.id == 14}
+                    <TrainingText>
+                        <p class="text-5xl text-center font-bold">
+                            Machine Learning
+                        </p>
+                    </TrainingText>
+                {/if}
+            </ProjectorView>
+        {:else}
+        <div class=""></div>
+        {/if}
     </div>
     <div class="w-full" slot="dialog">
         {#if line.id != 3}

@@ -42,9 +42,13 @@ import Scene from "$lib/components/scene/Scene.svelte";
 <Scene background="/img/backgrounds/Spark_Lab.jpg">
     <div class="w-full h-full p-4" slot="content">
         <Tablet>
-            <div class="h-full w-full bg-white rounded-md">
+            <div class="h-full w-full bg-white rounded-md p-4">
                 <div class="flex flex-col justify-around space-y-10">
-                    <div class="mt-4 h-1/4">
+                    <div class="font-mono text-center space-y-4">
+                        <p class="text-3xl font-bold">Is this technology helpful or harmful?</p>
+                        <p>Drag and drop each of the technologies into the proper bin.</p>
+                    </div>
+                    <div class="mt-4 h-1/4 bg-gray-50 border-dashed border-slate-200 border-2">
                         <Bank items={items1} type='light'/>
                     </div>
             
@@ -64,8 +68,9 @@ import Scene from "$lib/components/scene/Scene.svelte";
                             <Bank items={bothHurtfulAndHelpful} type='light' id="harmfulAndHelpful" on:itemDropped={handleDrop}/>
                         </div>
                     </div>
-
-                    <a href="/training?page=6" class="bg-lapiz-blue  w-fit px-5 text-white rounded-md text-3xl">Submit</a>
+                    <div class="flex items-center justify-center">
+                        <a href="/training?page=6" class="bg-lapiz-blue  w-fit px-5 text-white rounded-md text-3xl">Submit</a>
+                    </div>
             </div>
         </Tablet>
     </div>

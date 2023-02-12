@@ -74,7 +74,7 @@
                 goto(`/introduction/welcome?page=${line.id + 1}`)
             }
     
-        } else if (direction == NavigationDirection.backward) {
+        } else if (direction == NavigationDirection.backward && line.id > 1) {
             goto(`/introduction/welcome?page=${line.id - 1}`)
 
         }
@@ -87,7 +87,7 @@
 
 <Scene background={line.background}> 
     <div class="w-full" slot="dialog">
-        <DialogBox speaker={line.speaker} dialog={line.dialog} avatar={line.avatar} on:dialogEvent={handleDialogEvent}></DialogBox>
+        <DialogBox {line} on:dialogEvent={handleDialogEvent}></DialogBox>
     </div>
     <div slot="content" class="w-full h-full">
         <!-- <div class=" h-full">hello</div> -->
