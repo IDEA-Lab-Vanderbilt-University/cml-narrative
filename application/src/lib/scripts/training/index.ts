@@ -12,6 +12,15 @@
 
 import type { Script, Line } from "$lib/types/Script";
 
+import type { UserData } from "$lib/types/UserData";
+import { agentData } from "$lib/utils/stores/store";
+
+let agent: UserData = {}
+
+agentData.subscribe(value => {
+    agent = value as UserData
+})
+
 const script: Script = {
     lines: [
         {
@@ -94,7 +103,7 @@ const script: Script = {
         {
             id: 12,
             speaker: "Captain Storm",
-            dialog: "Interesting thoughts, [AGENT NAME]!",
+            dialog: `Interesting thoughts, ${agent.agentName}!`,
             avatar: '/img/characters/captain-storm/storm_yeah.png',
             background: "/img/backgrounds/captain_office.jpg"
         },
@@ -115,7 +124,7 @@ const script: Script = {
         {
             id: 15,
             speaker: "Agent Spark",
-            dialog: "WAHOOO! Yay, [AGENT NAME]!",
+            dialog: `WAHOOO! Yay, ${agent.agentName}!`,
             avatar: '/img/characters/captain-storm/storm_dance.png',
             background: "/img/backgrounds/captain_office.jpg"
         },
@@ -136,7 +145,7 @@ const script: Script = {
         {
             id: 18,
             speaker: "Agent Gear",
-            dialog: "Hola, almost there [Agent name]!",
+            dialog: `Hola, almost there ${agent.agentName}!`,
             avatar: '/img/characters/agent-gear/vanil_thumbs_up.png',
             background: "/img/backgrounds/captain_office.jpg"
         },
