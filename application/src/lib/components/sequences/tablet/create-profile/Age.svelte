@@ -24,7 +24,7 @@
             <label class="label">
               <span class="label-text text-2xl">Age:</span>
             </label>
-            <input type="number" placeholder="21" class="input input-bordered w-full" bind:value={profileData.age}/>
+            <input type="number" placeholder="9" class="input input-bordered w-full" bind:value={profileData.age}/>
         </div>
     </div>
 </div>
