@@ -116,24 +116,38 @@ const script: Script = {
             id: 15,
             speaker: "Agent Spark",
             dialog: "WAHOOO! Yay, [AGENT NAME]!",
-            avatar: '/img/characters/captain-storm/storm_yeah.png',
+            avatar: '/img/characters/captain-storm/storm_dance.png',
             background: "/img/backgrounds/captain_office.jpg"
         },
         {
             id: 16,
             speaker: "Captain Storm",
             dialog: "Congratulations, you have earned your Agent-in-Training badge! You are now an official SPOT Agent!",
-            avatar: '/img/characters/captain-storm/storm_yeah.png',
+            avatar: '/img/characters/captain-storm/clapping_storm.png',
             background: "/img/backgrounds/captain_office.jpg"
         },
         {
             id: 17,
             speaker: "Captain Storm",
             dialog: "Check your SPOT Tablet to see your new BADGE!",
-            avatar: '/img/characters/captain-storm/storm_yeah.png',
+            avatar: '/img/characters/captain-storm/storm_gesture_3.png',
+            background: "/img/backgrounds/captain_office.jpg"
+        },
+        {
+            id: 18,
+            speaker: "Agent Gear",
+            dialog: "Hola, almost there [Agent name]!",
+            avatar: '/img/characters/agent-gear/vanil_thumbs_up.png',
+            background: "/img/backgrounds/captain_office.jpg"
+        },
+        {
+            id: 19,
+            speaker: "Agent Gear",
+            dialog: "Your bot buddy has been loaded with information for the mission. You are now ready to travel to 2075!",
+            avatar: '/img/characters/agent-gear/vanilla_talking.png',
             background: "/img/backgrounds/captain_office.jpg"
         },
     ],
-    length: 17
+    length: 19
 }
 export default script
