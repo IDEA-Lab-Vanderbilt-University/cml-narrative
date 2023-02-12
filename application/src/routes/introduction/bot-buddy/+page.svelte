@@ -78,7 +78,7 @@
                 goto(`/introduction/bot-buddy?page=${line.id + 1}`)
             }
     
-        } else if (direction == NavigationDirection.backward) {
+        } else if (direction == NavigationDirection.backward  && line.id > 1) {
             goto(`/introduction/bot-buddy?page=${line.id - 1}`)
 
         }
