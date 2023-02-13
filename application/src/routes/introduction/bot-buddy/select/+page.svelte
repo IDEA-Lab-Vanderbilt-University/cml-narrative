@@ -44,7 +44,6 @@
                 <button on:click={handleBotBuddySelect}>Bot Buddy 2</button>
                 <button on:click={handleBotBuddySelect}>Bot Buddy 3</button>
                 <button on:click={handleBotBuddySelect}>Bot Buddy 4</button>
-
             </div>
             <!-- <div class="h-full w-full flex justify-center items-center">
                 <div class="w-96">
