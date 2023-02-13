@@ -18,8 +18,18 @@
 
 </script>
 
-<div class="flex flex-col w-full h-full justify-center items-center space-y-10">
+<div class="flex flex-col w-full h-full justify-center items-center space-y-10 overflow-scroll">
     <h1 class="text-5xl text-lapiz-blue">Choose an avatar</h1>
-    <img src="/img/icons/profile.png" alt="" class="h-1/5">
+    <!-- <img src="/img/icons/profile.png" alt="" class="h-1/5"> -->
+    <div class=" w-full h-full flex flex-wrap overflow-scroll">
+        {#each Array(22) as _, i}
+            <img src={`/img/characters/user-avatar/boy-${i}.svg`} alt="" class="h-32 w-32">
+        {/each}
+        {#each Array(26) as _, i}
+            <img src={`/img/characters/user-avatar/girl-${i}.svg`} alt="" class="h-32 w-32">
+        {/each}
+    </div>
+
+
 
 </div>
