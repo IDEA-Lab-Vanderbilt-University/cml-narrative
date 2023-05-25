@@ -13,7 +13,8 @@
 <!-- Default landing page -->
 
 <script lang="ts">
-	import DialogBox from "$lib/components/dialog/DialogBox.svelte";
+	import Login from "$lib/components/auth/Login.svelte";
+import DialogBox from "$lib/components/dialog/DialogBox.svelte";
 	import Scene from "$lib/components/scene/Scene.svelte";
 	import Tablet from "$lib/components/tablet/Tablet.svelte";
 	
@@ -21,6 +22,8 @@
 	import { fade, fly } from 'svelte/transition';
 
 	let showTablet: boolean = false
+	let showLogIn: boolean = false
+
 
 	onMount(() => {
 		// Initialising the canvas
@@ -71,6 +74,9 @@
 		setInterval(draw, 33);
 	})
 
+	const handleLogin = () => {
+		showLogIn = true
+	}
 	
 
 </script>
@@ -84,6 +90,9 @@
 		<div class="absolute inset-0 flex justify-center items-center z-10 py-32 px-72" in:fade="{{delay: 500}}">
 			<Tablet >
 				<div class="text-white h-full rounded p-8 flex flex-col items-center justify-center" >
+					{#if showLogIn}
+						<Login />
+					{:else}
 					<div class="space-y-5">
 						<h1 class="text-center text-6xl">Welcome, agent!</h1>
 						<p class="text-xl">
@@ -91,9 +100,11 @@
 						</p>
 					</div>
 					<div class="flex flex-col space-y-8 mt-12 w-full items-center">
-						<a href="/introduction?page=1" class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">New Agent</a>
+						<button on:click={handleLogin} class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">New Agent</button>
 						<a href="/" class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">Returning Agent</a>
 					</div>
+					{/if}
+
 				</div>
 			</Tablet>
 		</div>

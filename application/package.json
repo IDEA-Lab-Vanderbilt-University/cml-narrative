@@ -28,6 +28,7 @@
 	"type": "module",
 	"dependencies": {
 		"@excalidraw/excalidraw": "^0.15.2",
+		"@zxing/library": "^0.20.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"svelte-awesome-color-picker": "^2.2.2",
