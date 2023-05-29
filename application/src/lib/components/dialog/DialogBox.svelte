@@ -80,13 +80,13 @@
 
 	</div>
 
-	<div class="w-full text-white p-4 rounded relative bg-jet ">
-		<div class="grid grid-cols-5 text-3xl gap-4 items-center align-middle">
+	<div class="w-full text-white p-4 rounded relative bg-jet h-36 flex items-center justify-center">
+		<div class="grid grid-cols-5 text-3xl gap-8 items-center align-middle justify-center">
 			<button class="rotate-180 mr-6" on:click={back}>
 				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14">
 				<!-- <p class="bg-peach w-fit p-4 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p> -->
 			</button>
-			<p class="col-span-3 text-3xl leading-relaxed w-full h-36 ">
+			<p class="col-span-3 text-3xl leading-relaxed mt-auto w-full  ">
 				{line.dialog}
 			</p>
 			<button class="" on:click={forward}>
