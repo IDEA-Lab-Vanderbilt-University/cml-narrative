@@ -107,12 +107,12 @@
     <section class="mt-auto container h-full flex items-center justify-center flex-col" id="demo-content" style={`visibility: ${shouldAnimateLoader ? "hidden" : "visible"};`}>
     <!-- <section class="container" id="demo-content"> -->
         <div class="h-full">
-          <video class="rounded bg-gray-400 w-full h-full -scale-x-100" id="video">
+          <video class="rounded bg-gray-400 w-full h-full -scale-x-100 border-gray-300 border-4 rounded-md shadow-xl" id="video">
               <track kind="captions" />
           </video>
         </div>
 
-        <div class="options">
+        <div class="options hidden">
             <div id="sourceSelectPanel" style="display:none">
                 <label for="sourceSelect">Change video source:</label>
                 <select id="sourceSelect" style="max-width:400px">
