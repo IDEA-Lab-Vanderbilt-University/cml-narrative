@@ -17,3 +17,10 @@ export enum NavigationDirection {
     forward,
     backward
 }
+
+export enum HomeScreenStates {
+    loading,
+    home,
+    login,
+    signUp
+}

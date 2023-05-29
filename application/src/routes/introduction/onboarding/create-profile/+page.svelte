@@ -85,10 +85,11 @@
 </script>
 
 
-<div class="bg-gray-50 rounded-md w-full h-full relative z-0">
-    <div class="w-full h-full bg-gray-50 rounded-md flex">
+<div class=" rounded-md w-full h-full relative z-0">
+    <div class="w-full h-full  rounded-md flex">
         <button class={`rotate-180 px-2 ${page <= 1 ? "opacity-0" : ""}`} on:click={() => handleNavigation(NavigationDirection.backward)}>
-            <p class="bg-lapiz-blue text-white text-3xl w-fit p-8 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p>
+            <img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-16 w-16">
+            <!-- <p class="bg-lapiz-blue text-white text-3xl w-fit p-8 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p> -->
         </button>
         <div class="w-full h-full">
             {#if page == 1}
@@ -108,7 +109,9 @@
             {/if}
         </div>
         <button class={`px-2 ${page >= numberOfPageSequences ? "opacity-0" : ""}`} on:click={() => handleNavigation(NavigationDirection.forward)}>
-            <p class="bg-lapiz-blue text-white text-3xl w-fit p-8 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p>
+            <img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-16 w-16">
+
+            <!-- <p class="bg-lapiz-blue text-white text-3xl w-fit p-8 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p> -->
         </button>
     </div>
     {#if page == 3 || page == 4 || page == 5}

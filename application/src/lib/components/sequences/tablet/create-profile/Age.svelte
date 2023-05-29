@@ -18,13 +18,13 @@
 </script>
 
 <div class="flex flex-col w-full h-full justify-center items-center space-y-10">
-    <h1 class="text-5xl text-lapiz-blue">How old are you?</h1>
+    <h1 class="text-6xl text-white">How old are you?</h1>
     <div class="flex w-full justify-center space-x-7">
-        <div class="form-control w-full max-w-xs">
-            <label class="label">
-              <span class="label-text text-2xl">Age:</span>
-            </label>
-            <input type="number" placeholder="9" class="input input-bordered w-full" bind:value={profileData.age}/>
+        <div class="form-control w-full max-w-xs h-24">
+            <!-- <label class="label">
+              <span class="label-text text-4xl text-gray-50">Age:</span>
+            </label> -->
+            <input type="number" placeholder="9" class="input input-bordered w-full h-full text-4xl" bind:value={profileData.age}/>
         </div>
     </div>
 </div>

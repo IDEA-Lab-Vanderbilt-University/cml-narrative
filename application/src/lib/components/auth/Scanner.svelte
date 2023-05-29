@@ -103,7 +103,7 @@
     })
 </script>
 
-<div class="wrapper " style="">
+<div class="wrapper h-full w-full" style="">
     <section class="mt-auto container h-full flex items-center justify-center flex-col" id="demo-content" style={`visibility: ${shouldAnimateLoader ? "hidden" : "visible"};`}>
     <!-- <section class="container" id="demo-content"> -->
         <div class="h-full">

@@ -13,10 +13,11 @@
 <!-- Default landing page -->
 
 <script lang="ts">
+	import { HomeScreenStates } from '$lib/types/Enums';
 	import Login from "$lib/components/auth/Login.svelte";
-import DialogBox from "$lib/components/dialog/DialogBox.svelte";
-	import Scene from "$lib/components/scene/Scene.svelte";
-	import Tablet from "$lib/components/tablet/Tablet.svelte";
+	// import DialogBox from "$lib/components/dialog/DialogBox.svelte";
+	// import Scene from "$lib/components/scene/Scene.svelte";
+	// import Tablet from "$lib/components/tablet/Tablet.svelte";
 	
 	import { onMount }  from 'svelte';;
 	import { fade, fly } from 'svelte/transition';
@@ -24,54 +25,60 @@ import DialogBox from "$lib/components/dialog/DialogBox.svelte";
 	let showTablet: boolean = false
 	let showLogIn: boolean = false
 
+	let screenState: HomeScreenStates = HomeScreenStates.loading
 
 	onMount(() => {
-		// Initialising the canvas
-		var canvas = document.querySelector('canvas')
-		var ctx = canvas.getContext('2d');
 
-		// // Setting the width and height of the canvas
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
+		setTimeout(() => {
+			screenState = HomeScreenStates.home
+		}, 2000);
 
-		// // Setting up the letters
-		var letters = 'ABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXY123456789';
-		letters = letters.split('');
+		// // Initialising the canvas
+		// var canvas = document.querySelector('canvas')
+		// var ctx = canvas.getContext('2d');
 
-		// Setting up the columns
-		var fontSize = 10,
-			columns = canvas.width / fontSize;
+		// // // Setting the width and height of the canvas
+		// canvas.width = window.innerWidth;
+		// canvas.height = window.innerHeight;
 
-		// Setting up the drops
-		var drops = [];
-		for (var i = 0; i < columns; i++) {
-			drops[i] = 1;
-		}
+		// // // Setting up the letters
+		// var letters = 'ABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXYZABCDEFGHIJKLMNOPQRSTUVXY123456789';
+		// letters = letters.split('');
+
+		// // Setting up the columns
+		// var fontSize = 10,
+		// 	columns = canvas.width / fontSize;
+
+		// // Setting up the drops
+		// var drops = [];
+		// for (var i = 0; i < columns; i++) {
+		// 	drops[i] = 1;
+		// }
 
 
-		// Setting up the draw function
-		function draw() {
-			ctx.fillStyle = 'rgba(15, 21, 24, .1)';
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
-			for (var i = 0; i < drops.length; i++) {
+		// // Setting up the draw function
+		// function draw() {
+		// 	ctx.fillStyle = 'rgba(15, 21, 24, .1)';
+		// 	ctx.fillRect(0, 0, canvas.width, canvas.height);
+		// 	for (var i = 0; i < drops.length; i++) {
 
-				var text = letters[Math.floor(Math.random() * letters.length)];
-				ctx.fillStyle = '#22c55e';
-				ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-				drops[i]++;
+		// 		var text = letters[Math.floor(Math.random() * letters.length)];
+		// 		ctx.fillStyle = '#22c55e';
+		// 		ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+		// 		drops[i]++;
 
-				if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
-					drops[i] = 0;
+		// 		if (drops[i] * fontSize > canvas.height && Math.random() > .95) {
+		// 			drops[i] = 0;
 
-					// Now, we will show the tablet after the initial animation is finished
-					showTablet = true
+		// 			// Now, we will show the tablet after the initial animation is finished
+		// 			showTablet = true
 
-				}
-			}
-		}
+		// 		}
+		// 	}
+		// }
 
-		// Loop the animation
-		setInterval(draw, 33);
+		// // Loop the animation
+		// setInterval(draw, 33);
 	})
 
 	const handleLogin = () => {
@@ -82,36 +89,58 @@ import DialogBox from "$lib/components/dialog/DialogBox.svelte";
 </script>
 
 
-
+<!-- 
 <div class="w-full h-screen  flex justify-center items-center bg-black">
 	<div class="bg-gray-400 h-full w-full relative z-0">
 		<canvas class="h-full w-full"/>
 		{#if showTablet}
-		<div class="absolute inset-0 flex justify-center items-center z-10 py-32 px-72" in:fade="{{delay: 500}}">
-			<Tablet >
-				<div class="text-white h-full rounded p-8 flex flex-col items-center justify-center" >
-					{#if showLogIn}
-						<Login />
-					{:else}
-					<div class="space-y-5">
-						<h1 class="text-center text-6xl">Welcome, agent!</h1>
-						<p class="text-xl">
-							Welcome to the SPOT Agency portal. Please select an option below.
-						</p>
-					</div>
-					<div class="flex flex-col space-y-8 mt-12 w-full items-center">
-						<button on:click={handleLogin} class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">New Agent</button>
-						<a href="/" class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">Returning Agent</a>
-					</div>
-					{/if}
+			<div class="absolute inset-0 flex justify-center items-center z-10 py-32 px-72" in:fade="{{delay: 500}}">
+				<Tablet >
+					<div class="text-white h-full rounded p-8 flex flex-col items-center justify-center" >
+						{#if showLogIn}
+							<Login />
+						{:else}
+						<div class="space-y-5 font-mokoto text-center">
+							<h1 class="text-center text-4xl">Welcome, agent!</h1>
+							<p class="text-base px-9">
+								Welcome to the SPOT Agency portal. Please select an option below.
+							</p>
+						</div>
+						<div class="flex flex-col space-y-8 mt-12 w-full items-center">
+							<button on:click={handleLogin} class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">New Agent</button>
+							<a href="/" class="text-2xl rounded p-4 bg-blue-400 text-white shadow-md hover:shadow-lg w-full text-center max-w-lg">Returning Agent</a>
+						</div>
+						{/if}
 
-				</div>
-			</Tablet>
-		</div>
-
+					</div>
+				</Tablet>
+			</div>
 		{/if}
 	</div>
+  </div> -->
+
+
+<div class="w-screen h-screen items-center">
+	<div class=" h-full w-full relative z-0">
+		<img src="/img/svg/5999179.jpg" alt="" class="w-full h-full">
+			<div class="absolute inset-0 flex flex-col justify-center align-middle items-center z-10 py-32 px-72">
+				{#if screenState == HomeScreenStates.home}
+					<div class="text-white text-center font-mokoto space-y-4" >
+						<h2 class="text-5xl" in:fade="{{delay: 500}}">WELCOME TO S.P.O.T</h2>
+						<p class="text-xl" in:fade="{{delay: 700}}">Solving Problems of Tomorrow</p>
+					</div>
+					<div class="mt-10 space-x-3" in:fade="{{delay: 1500}}">
+						<button class="px-3 py-2 text-3xl rounded-md shadow-lg text-white bg-red-500" on:click={() => screenState = HomeScreenStates.signUp}>New Agents</button>
+						<button class="px-3 py-2 text-3xl rounded-md shadow-lg text-white bg-blue-400" on:click={() => screenState = HomeScreenStates.login}>Active Agents</button>
+					</div>
+					<img src="/img/logos/SPOT-dots.svg" alt="" class="mt-8 h-24" in:fade="{{delay: 2000}}">
+				{:else if screenState == HomeScreenStates.signUp}
+					<Login on:back={() => screenState = HomeScreenStates.home}/>
+				{/if}
+			</div>
+	</div>
   </div>
+
 
 <!-- <Scene background="/img/backgrounds/Spark_Lab.jpg">
 	<div class="w-full h-full py-6 px-40" slot="content">

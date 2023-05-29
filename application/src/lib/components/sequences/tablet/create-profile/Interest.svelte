@@ -33,10 +33,10 @@
 </script>
 
 <div class="flex flex-col w-full h-full justify-center items-center space-y-10">
-    <h1 class="text-5xl text-lapiz-blue">{prompt}</h1>
+    <h1 class="text-6xl text-white">{prompt}</h1>
     <div class="flex w-full justify-center space-x-7">
-        <div class="form-control w-full max-w-xs">
-            <input type="text" placeholder={`I like to ${randomPlaceholder}!`} class="input input-bordered w-full" bind:value={profileData.interests[index]}/>
+        <div class="form-control w-full max-w-2xl h-24">
+            <input type="text" placeholder={`I like to ${randomPlaceholder}!`} class="input input-bordered w-full  h-full text-4xl" bind:value={profileData.interests[index]}/>
         </div>
     </div>
 </div>

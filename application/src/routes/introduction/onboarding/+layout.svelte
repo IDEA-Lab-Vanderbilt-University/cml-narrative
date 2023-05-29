@@ -19,11 +19,15 @@
 
 </script>
 
-<Scene background="/img/backgrounds/Spark_Lab.jpg">
+<!-- <Scene background="/img/backgrounds/Spark_Lab.jpg">
     <div slot="content" class="h-full w-full py-4 px-12">    
         <Tablet>
             <slot></slot>
         </Tablet>
     </div>
 
-</Scene>
+</Scene> -->
+
+<Tablet>
+    <slot/>
+</Tablet>
