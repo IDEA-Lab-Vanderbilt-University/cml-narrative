@@ -103,6 +103,6 @@
         <DialogBox {line} on:dialogEvent={handleDialogEvent}></DialogBox>
     </div>
     <div slot="content" class="w-full h-full">
-        <div class=" h-full">hello</div>
+        <!-- <div class=" h-full">hello</div> -->
     </div>
 </Scene>

@@ -186,4 +186,3 @@ onMount(() => {
 // window.addEventListener('load', () => new Main());
 </script>
 
-hello
