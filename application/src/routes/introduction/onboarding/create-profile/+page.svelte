@@ -12,6 +12,7 @@
 
 
 <script lang="ts">
+
 	import { goto } from "$app/navigation";
 	import Age from "$lib/components/sequences/tablet/create-profile/Age.svelte";
 	import AgentName from "$lib/components/sequences/tablet/create-profile/AgentName.svelte";
@@ -20,9 +21,11 @@
 	import Name from "$lib/components/sequences/tablet/create-profile/Name.svelte";
 	import ClickToViewProfileBanner from "$lib/components/tablet/ClickToViewProfileBanner.svelte";
 	import TabletNavigationController from "$lib/components/tablet/TabletNavigationController.svelte";
+	import { tourManager } from "$lib/components/tour/TourManager";
 	import { NavigationDirection } from "$lib/types/Enums";
 	import type { UserData } from "$lib/types/UserData";
 	import { agentData } from "$lib/utils/stores/store";
+	import { onMount } from "svelte";
 
     /** @type {import('./$types').PageData} */
     export let data;
@@ -59,10 +62,24 @@
 
         // Any time profile data is changed, the store is immediatly updated
         agentData.set(profileData)
+
+        if (page == 7) {
+            $tourManager = {
+                showTour: true,
+                tourMessage: "S.P.O.T agents usually choose a name about what inspires them. What inspires you?",
+                attachTo: "#agent-name-input", 
+                position: "left"
+            }
+        } else {
+            $tourManager = {}
+        }
                 
     }
 
 
+    onMount(() => {
+
+    })
 
     /**
      * Progress the user through the profile creation sequence
@@ -74,13 +91,14 @@
         // Set the agentData store, which will allow us to access this profile data across the application
         agentData.set(profileData)
 
-        
         if (direction == NavigationDirection.backward && page > 1) {
             goto(baseNavigationURL + (page - 1))
         } else if (direction == NavigationDirection.forward && page < numberOfPageSequences) {
             goto(baseNavigationURL + (page + 1))
         }
     }
+
+
 
 </script>
 

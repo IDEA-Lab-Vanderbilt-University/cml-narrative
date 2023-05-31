@@ -47,9 +47,9 @@
             </div>
             <!-- <slot></slot> -->
         </div>
-        <div class="h-fit pt-3 text-white text-center flex space-x-5 justify-end">
-            <img src="/img/svg/gear.svg" alt="" class="h-20 w-20">
-            <img src="/img/svg/power-button.svg" alt="" class="h-20 w-20">
+        <div id="tablet-actions" class="h-fit pt-3 text-white text-center flex space-x-5 justify-end">
+            <img id="tablet-settings" src="/img/svg/gear.svg" alt="" class="h-20 w-20">
+            <img id="tablet-power-button" src="/img/svg/power-button.svg" alt="" class="h-20 w-20">
         </div>
     </div>
 </div>

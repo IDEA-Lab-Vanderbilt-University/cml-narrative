@@ -18,16 +18,12 @@
 
 </script>
 
-<div class="flex flex-col w-full h-full justify-center items-center space-y-10">
-    <h1 class="text-5xl text-lapiz-blue">Choose an Agent name</h1>
+<div class="flex flex-col w-full h-full justify-center items-center space-y-10 font-mono">
+    <h1 class="text-5xl text-white">Choose an Agent name</h1>
     <div class="flex w-full justify-center space-x-7">
-        <div class="form-control w-full max-w-xs">
-            <label class="label text-center">
-              <span class="label-text text-2xl">Agent</span>
-            </label>
-            <input type="text" placeholder="Pineapple" class="input input-bordered w-full" bind:value={profileData.agentName}/>
+        <div class="form-control w-full max-w-2xl h-24">
+            <input id="agent-name-input" type="text" placeholder="Pineapple" class="input input-bordered w-full text-4xl h-full" bind:value={profileData.agentName}/>
         </div>
     </div>
-    <a href="/introduction/onboarding/create-profile/confirmation" class="bg-lapiz-blue text-white text-3xl px-7 py-3 rounded-md shadow hover:shadow-lg">SUBMIT</a>
-
+    <a href="/introduction/onboarding/create-profile/confirmation" class="bg-lapiz-blue text-white text-3xl px-7 py-3 rounded-md shadow hover:shadow-lg">SUBMIT</a>\
 </div>

@@ -25,7 +25,7 @@
 	let showTablet: boolean = false
 	let showLogIn: boolean = false
 
-	let screenState: HomeScreenStates = HomeScreenStates.loading
+	let screenState: HomeScreenStates = HomeScreenStates.home
 
 	onMount(() => {
 
@@ -125,12 +125,12 @@
 		<img src="/img/svg/5999179.jpg" alt="" class="w-full h-full">
 			<div class="absolute inset-0 flex flex-col justify-center align-middle items-center z-10 py-32 px-72">
 				{#if screenState == HomeScreenStates.home}
-					<div class="text-white text-center font-mokoto space-y-4" >
+					<div class="text-white text-center font-mokoto space-y-4">
 						<h2 class="text-5xl" in:fade="{{delay: 500}}">WELCOME TO S.P.O.T</h2>
 						<p class="text-xl" in:fade="{{delay: 700}}">Solving Problems of Tomorrow</p>
 					</div>
 					<div class="mt-10 space-x-3" in:fade="{{delay: 1500}}">
-						<button class="px-3 py-2 text-3xl rounded-md shadow-lg text-white bg-red-500" on:click={() => screenState = HomeScreenStates.signUp}>New Agents</button>
+						<button id="new-agent" class="new-agent px-3 py-2 text-3xl rounded-md shadow-lg text-white bg-red-500" on:click={() => screenState = HomeScreenStates.signUp}>New Agents</button>
 						<button class="px-3 py-2 text-3xl rounded-md shadow-lg text-white bg-blue-400" on:click={() => screenState = HomeScreenStates.login}>Active Agents</button>
 					</div>
 					<img src="/img/logos/SPOT-dots.svg" alt="" class="mt-8 h-24" in:fade="{{delay: 2000}}">

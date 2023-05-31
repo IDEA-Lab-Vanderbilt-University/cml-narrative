@@ -16,11 +16,18 @@
 --->
 
 <script>
+	import TourStep from "$lib/components/tour/TourStep.svelte";
+	import TourWrapper from "$lib/components/tour/TourWrapper.svelte";
     import "../app.css";
+    import Portal, { portal } from "svelte-portal/src/Portal.svelte";
+
+
 </script>
   
-<div class="hidden lg:block font-cantora">
-    <slot />
+<div class="hidden lg:block font-cantora" use:portal>
+    <TourStep>
+        <slot />
+    </TourStep>
 </div>
 
 <svelte:head>
@@ -29,4 +36,4 @@
 <div class="lg:hidden text-center font-cantora space-y-6 flex flex-col px-12 items-center h-screen justify-center align-middle ">
     <h1 class="text-5xl">Sorry, Agent!</h1>
     <p class="text-3xl">Your screen size is too small. Please use a compatible device to access the Agent Portal.</p>
-</div>
+</div> 
