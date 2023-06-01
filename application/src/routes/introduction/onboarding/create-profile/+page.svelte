@@ -25,7 +25,7 @@
 	import { NavigationDirection } from "$lib/types/Enums";
 	import type { UserData } from "$lib/types/UserData";
 	import { agentData } from "$lib/utils/stores/store";
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 
     /** @type {import('./$types').PageData} */
     export let data;
@@ -52,6 +52,9 @@
         interests: []
     }
 
+    let mounted = false
+    $: page
+
     $: {
         /**
          * page is reactive and dependent on what is being returned from the "server." Here,
@@ -63,22 +66,14 @@
         // Any time profile data is changed, the store is immediatly updated
         agentData.set(profileData)
 
-        if (page == 7) {
-            $tourManager = {
-                showTour: true,
-                tourMessage: "S.P.O.T agents usually choose a name about what inspires them. What inspires you?",
-                attachTo: "#agent-name-input", 
-                position: "left"
-            }
-        } else {
-            $tourManager = {}
-        }
-                
     }
 
 
     onMount(() => {
-
+        mounted = true
+    })
+    onDestroy(() => {
+        mounted = false
     })
 
     /**
@@ -87,6 +82,8 @@
      */
     const handleNavigation = (direction: NavigationDirection) => {
         console.log(profileData);
+
+        // tourManager.reset()
 
         // Set the agentData store, which will allow us to access this profile data across the application
         agentData.set(profileData)
@@ -123,13 +120,11 @@
             {:else if page == 6}
                 <ChooseAnAvatar bind:profileData/>
             {:else if page == 7} 
-                <AgentName bind:profileData/>
+                <AgentName bind:profileData />
             {/if}
         </div>
         <button class={`px-2 ${page >= numberOfPageSequences ? "opacity-0" : ""}`} on:click={() => handleNavigation(NavigationDirection.forward)}>
-            <img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-16 w-16">
-
-            <!-- <p class="bg-lapiz-blue text-white text-3xl w-fit p-8 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p> -->
+            <img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-16 w-16" />
         </button>
     </div>
     {#if page == 3 || page == 4 || page == 5}

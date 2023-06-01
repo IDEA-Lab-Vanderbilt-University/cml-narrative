@@ -11,10 +11,31 @@
 --->
 
 <script lang="ts">
+	import { tourManager } from "$lib/components/tour/TourManager";
+
+
 	
     import type { UserData } from "$lib/types/UserData";
     
     export let profileData: UserData = {}
+
+    import { createEventDispatcher, onDestroy, onMount } from "svelte";
+    const dispatch = createEventDispatcher()
+
+    let tour = {
+        showTour: true,
+        message: "S.P.O.T agents usually choose a name about what inspires them. What inspires you?",
+        bindTo: "#agent-name-input", 
+        position: "left"
+    }
+
+    onMount(() => {
+        tourManager.add(tour)
+    })
+
+    onDestroy(() => {
+        tourManager.remove(tour)
+    })
 
 </script>
 
@@ -25,5 +46,5 @@
             <input id="agent-name-input" type="text" placeholder="Pineapple" class="input input-bordered w-full text-4xl h-full" bind:value={profileData.agentName}/>
         </div>
     </div>
-    <a href="/introduction/onboarding/create-profile/confirmation" class="bg-lapiz-blue text-white text-3xl px-7 py-3 rounded-md shadow hover:shadow-lg">SUBMIT</a>\
+    <a href="/introduction/onboarding/create-profile/confirmation" class="bg-lapiz-blue text-white text-3xl px-7 py-3 rounded-md shadow hover:shadow-lg" on:click>SUBMIT</a>
 </div>

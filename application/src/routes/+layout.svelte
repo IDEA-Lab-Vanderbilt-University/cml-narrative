@@ -16,18 +16,16 @@
 --->
 
 <script>
-	import TourStep from "$lib/components/tour/TourStep.svelte";
 	import TourWrapper from "$lib/components/tour/TourWrapper.svelte";
     import "../app.css";
-    import Portal, { portal } from "svelte-portal/src/Portal.svelte";
 
 
 </script>
   
-<div class="hidden lg:block font-cantora" use:portal>
-    <TourStep>
+<div id="base-container" class="hidden lg:block font-cantora">
+    <TourWrapper>
         <slot />
-    </TourStep>
+    </TourWrapper>
 </div>
 
 <svelte:head>

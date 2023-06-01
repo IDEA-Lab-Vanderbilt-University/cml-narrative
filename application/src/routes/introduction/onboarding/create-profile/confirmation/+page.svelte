@@ -15,10 +15,15 @@
 
 
 	
-    import type { UserData } from "$lib/types/UserData";
-	import { agentData } from "$lib/utils/stores/store";
-	import { onMount } from "svelte";
+    import { agentData } from "$lib/utils/stores/store";
+    import { onDestroy, onMount } from "svelte";
 
+    let tour = {
+        showTour: true,
+        message: "Click on the power button to close your tablet",
+        bindTo: "#tablet-power-button",
+        position: "top"
+    }
 
     let agentName: string
 
@@ -26,15 +31,12 @@
         agentName = value.agentName
     })
 
-
-
     onMount(() => {
-        $tourManager = {
-            showTour: true,
-            attachTo: "#tablet-power-button",
-            position: "top",
-            tourMessage: "Click on the power button to close the tablet."
-        }
+        tourManager.add(tour)
+    })
+
+    onDestroy(() => {
+        tourManager.remove(tour)
     })
 
 </script>
