@@ -88,6 +88,8 @@
         // console.log("DESTROYING Popover with data: ", popoverData);
 
     })
+    
+
 </script>
 
 <div id="popover" bind:this={popoverReference} class="{popoverData.showTour ? 'block':'hidden'}" >
