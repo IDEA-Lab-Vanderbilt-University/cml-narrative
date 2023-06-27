@@ -9,13 +9,11 @@
  https://idealab.sites.clemson.edu
  
 --->
-
-
 <script lang="ts">
 	/**  The background image of the scene */
 	export let background = '';
 
-	export let darken: boolean = false
+	export let darken: boolean = false;
 </script>
 
 <!-- <div class="w-screen h-screen">
@@ -50,18 +48,19 @@
 
 </div> -->
 
-<div class="w-full h-screen bg-gray-200 flex justify-center items-center bg-cover" >
-	<div class={`w-full h-full relative z-0 bg-cover ${darken ? "brightness-40" : ""}`} style={`background-image: url('${background}');`}>
-	  <div class="w-full h-full">
-		<slot name="content"></slot>
-	  </div>
-	  
-	  <!-- Conditionally display the Dialog slot, as there wont always be a dialog box present -->
-	  {#if $$slots.dialog}
-		<div class="absolute inset-0 flex items-end pb-2 z-10 w-full brightness-100">
-			<slot name="dialog"></slot>
+<div class="flex h-screen w-full items-center justify-center bg-gray-200 bg-cover">
+	<div
+		class={`relative z-0 h-full w-full bg-cover ${darken ? 'brightness-40' : ''}`}
+		style={`background-image: url('${background}');`}>
+		<div class="h-full w-full">
+			<slot name="content" />
 		</div>
-	  {/if}
 
+		<!-- Conditionally display the Dialog slot, as there wont always be a dialog box present -->
+		{#if $$slots.dialog}
+			<div class="absolute inset-0 z-10 flex w-full items-end pb-2 brightness-100">
+				<slot name="dialog" />
+			</div>
+		{/if}
 	</div>
 </div>

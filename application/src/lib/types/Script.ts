@@ -10,45 +10,43 @@
  
 */
 
-
 export interface Script {
-    /**
-     * An array of all dialog
-     */
-    lines: [Line],
-    /**
-     * How long the current script segment is
-     */
-    length: number,
+	/**
+	 * An array of all dialog
+	 */
+	lines: [Line];
+	/**
+	 * How long the current script segment is
+	 */
+	length: number;
 }
 
 /**
  * Defines the "Line" type
  */
 export interface Line {
-    /**
-     * Sequential index of the current script
-     */
-    id: number,
+	/**
+	 * Sequential index of the current script
+	 */
+	id: number;
 
-    /**
-     * Who is currently talking
-     */
-    speaker: string,
+	/**
+	 * Who is currently talking
+	 */
+	speaker: string;
 
-    /**
-     * Text the speaker is speaking
-     */
-    dialog: string,
+	/**
+	 * Text the speaker is speaking
+	 */
+	dialog: string;
 
-    /**
-     * Image of the current speaker
-     */
-    avatar: string,
-    
-    /**
-     *  Background image of the current script
-     */ 
-    background: string
+	/**
+	 * Image of the current speaker
+	 */
+	avatar: string;
 
+	/**
+	 *  Background image of the current script
+	 */
+	background: string;
 }

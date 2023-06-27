@@ -10,13 +10,13 @@
  
 --->
 
-<div class="flex flex-col w-full h-full justify-center items-center px-8 space-y-9">
-    <h2 class="text-3xl font-mono">
-        Technology is important in our world, and it comes in many different forms
-    </h2>
-    <div class="flex w-fit space-x-10">
-        <img src="/img/icons/car.svg" alt="" class="w-48">
-        <img src="/img/icons/mobile-app.png" alt="" class="w-48">
-        <img src="/img/icons/controller.svg" alt="" class="w-48">
-    </div>
+<div class="flex h-full w-full flex-col items-center justify-center space-y-9 px-8">
+	<h2 class="font-mono text-3xl">
+		Technology is important in our world, and it comes in many different forms
+	</h2>
+	<div class="flex w-fit space-x-10">
+		<img src="/img/icons/car.svg" alt="" class="w-48" />
+		<img src="/img/icons/mobile-app.png" alt="" class="w-48" />
+		<img src="/img/icons/controller.svg" alt="" class="w-48" />
+	</div>
 </div>

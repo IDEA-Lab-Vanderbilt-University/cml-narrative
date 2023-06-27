@@ -1,36 +1,22 @@
-<!--
- /src/routes/+page.svelte
- +page.svelte
- cml-narrative
- 
- Created by Ian Thompson on January 7th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
-
---->
-
 <!-- Default landing page -->
-
 <script lang="ts">
 	import { HomeScreenStates } from '$lib/types/Enums';
-	import Login from "$lib/components/auth/Login.svelte";
+	import Login from '$lib/components/auth/Login.svelte';
 	// import DialogBox from "$lib/components/dialog/DialogBox.svelte";
 	// import Scene from "$lib/components/scene/Scene.svelte";
 	// import Tablet from "$lib/components/tablet/Tablet.svelte";
-	
-	import { onMount }  from 'svelte';;
+
+	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 
-	let showTablet: boolean = false
-	let showLogIn: boolean = false
+	let showTablet: boolean = false;
+	let showLogIn: boolean = false;
 
-	let screenState: HomeScreenStates = HomeScreenStates.home
+	let screenState: HomeScreenStates = HomeScreenStates.home;
 
 	onMount(() => {
-
 		setTimeout(() => {
-			screenState = HomeScreenStates.home
+			screenState = HomeScreenStates.home;
 		}, 2000);
 
 		// // Initialising the canvas
@@ -55,7 +41,6 @@
 		// 	drops[i] = 1;
 		// }
 
-
 		// // Setting up the draw function
 		// function draw() {
 		// 	ctx.fillStyle = 'rgba(15, 21, 24, .1)';
@@ -79,15 +64,24 @@
 
 		// // Loop the animation
 		// setInterval(draw, 33);
-	})
+	});
 
 	const handleLogin = () => {
-		showLogIn = true
-	}
-	
-
+		showLogIn = true;
+	};
 </script>
 
+<!--
+ /src/routes/+page.svelte
+ +page.svelte
+ cml-narrative
+ 
+ Created by Ian Thompson on January 7th 2023
+ icthomp@g.clemson.edu
+ 
+ https://idealab.sites.clemson.edu
+
+--->
 
 <!-- 
 <div class="w-full h-screen  flex justify-center items-center bg-black">
@@ -119,28 +113,32 @@
 	</div>
   </div> -->
 
-
-<div class="w-screen h-screen items-center">
-	<div class=" h-full w-full relative z-0">
-		<img src="/img/svg/5999179.jpg" alt="" class="w-full h-full">
-			<div class="absolute inset-0 flex flex-col justify-center align-middle items-center z-10 py-32 px-72">
-				{#if screenState == HomeScreenStates.home}
-					<div class="text-white text-center font-mokoto space-y-4">
-						<h2 class="text-5xl" in:fade="{{delay: 500}}">WELCOME TO S.P.O.T</h2>
-						<p class="text-xl" in:fade="{{delay: 700}}">Solving Problems of Tomorrow</p>
-					</div>
-					<div class="mt-10 space-x-3" in:fade="{{delay: 1500}}">
-						<button id="new-agent" class="new-agent px-3 py-2 text-3xl rounded-md shadow-lg text-white bg-red-500" on:click={() => screenState = HomeScreenStates.signUp}>New Agents</button>
-						<button class="px-3 py-2 text-3xl rounded-md shadow-lg text-white bg-blue-400" on:click={() => screenState = HomeScreenStates.login}>Active Agents</button>
-					</div>
-					<img src="/img/logos/SPOT-dots.svg" alt="" class="mt-8 h-24" in:fade="{{delay: 2000}}">
-				{:else if screenState == HomeScreenStates.signUp}
-					<Login on:back={() => screenState = HomeScreenStates.home}/>
-				{/if}
-			</div>
+<div class="h-screen w-screen items-center">
+	<div class=" relative z-0 h-full w-full">
+		<img src="/img/svg/5999179.jpg" alt="" class="h-full w-full" />
+		<div
+			class="absolute inset-0 z-10 flex flex-col items-center justify-center py-32 px-72 align-middle">
+			{#if screenState == HomeScreenStates.home}
+				<div class="space-y-4 text-center font-mokoto text-white">
+					<h2 class="text-5xl" in:fade={{ delay: 500 }}>WELCOME TO S.P.O.T</h2>
+					<p class="text-xl" in:fade={{ delay: 700 }}>Solving Problems of Tomorrow</p>
+				</div>
+				<div class="mt-10 space-x-3" in:fade={{ delay: 1500 }}>
+					<button
+						id="new-agent"
+						class="new-agent rounded-md bg-red-500 px-3 py-2 text-3xl text-white shadow-lg"
+						on:click={() => (screenState = HomeScreenStates.signUp)}>New Agents</button>
+					<button
+						class="rounded-md bg-blue-400 px-3 py-2 text-3xl text-white shadow-lg"
+						on:click={() => (screenState = HomeScreenStates.login)}>Active Agents</button>
+				</div>
+				<img src="/img/logos/SPOT-dots.svg" alt="" class="mt-8 h-24" in:fade={{ delay: 2000 }} />
+			{:else if screenState == HomeScreenStates.signUp}
+				<Login on:back={() => (screenState = HomeScreenStates.home)} />
+			{/if}
+		</div>
 	</div>
-  </div>
-
+</div>
 
 <!-- <Scene background="/img/backgrounds/Spark_Lab.jpg">
 	<div class="w-full h-full py-6 px-40" slot="content">

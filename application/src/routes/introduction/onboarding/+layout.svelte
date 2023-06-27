@@ -9,14 +9,9 @@
  https://idealab.sites.clemson.edu
  
 --->
-
-
-
 <script lang="ts">
-	import Scene from "$lib/components/scene/Scene.svelte";
-	import Tablet from "$lib/components/tablet/Tablet.svelte";
-
-
+	import Scene from '$lib/components/scene/Scene.svelte';
+	import Tablet from '$lib/components/tablet/Tablet.svelte';
 </script>
 
 <!-- <Scene background="/img/backgrounds/Spark_Lab.jpg">
@@ -29,5 +24,5 @@
 </Scene> -->
 
 <Tablet>
-    <slot/>
+	<slot />
 </Tablet>

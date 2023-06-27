@@ -12,15 +12,11 @@
   This 
 
 --->
-
 <script>
-  import {Draw} from "$lib/components/activities/draw/Draw.jsx"
-  import { ReactAdapter } from "svelte-react-kit";
+	import { Draw } from '$lib/components/activities/draw/Draw.jsx';
+	import { ReactAdapter } from 'svelte-react-kit';
 </script>
-  
 
-<div class="h-full w-full mt-8">
-  <ReactAdapter 
-    el={Draw}
-  />
+<div class="mt-8 h-full w-full">
+	<ReactAdapter el={Draw} />
 </div>

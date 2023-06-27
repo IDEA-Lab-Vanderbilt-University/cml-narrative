@@ -9,122 +9,122 @@
  https://idealab.sites.clemson.edu
  
 --->
-
 <script lang="ts">
-    import { getContext, onDestroy, onMount } from 'svelte';
-    import { createEventDispatcher } from 'svelte';
-    const dispatch = createEventDispatcher();
+	import { getContext, onDestroy, onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
-    // const { close } = getContext('simple-modal');
-    
-    import { MultiFormatReader, BarcodeFormat, BrowserMultiFormatReader, NotFoundException } from '@zxing/library';
-   
-    const codeReader = new BrowserMultiFormatReader()
+	// const { close } = getContext('simple-modal');
 
-    export let onDetect = (e) => {}
-    export let onCancel = () => {}
-    export let continuousScanning = false
-    
-    let shouldAnimateLoader = true
+	import {
+		MultiFormatReader,
+		BarcodeFormat,
+		BrowserMultiFormatReader,
+		NotFoundException
+	} from '@zxing/library';
 
-    // const _close = () => {
-    //     onCancel()
-    //     close()
-    // }
-    
-    const action = (e) => {
-        onDetect(e)
+	const codeReader = new BrowserMultiFormatReader();
 
-        console.log("helo", JSON.parse(e.text));
-        
-        dispatch("idProcessed", {
-            ...JSON.parse(e.text)
-        })
+	export let onDetect = (e) => {};
+	export let onCancel = () => {};
+	export let continuousScanning = false;
 
-        if (!continuousScanning) close()
-    }
+	let shouldAnimateLoader = true;
 
-    const loadReader = async () => {
+	// const _close = () => {
+	//     onCancel()
+	//     close()
+	// }
 
-        try {        
-            
-            let selectedDeviceId
+	const action = (e) => {
+		onDetect(e);
 
-            let videoInputDevices = await codeReader.listVideoInputDevices()
-            shouldAnimateLoader = false
+		console.log('helo', JSON.parse(e.text));
 
-            const sourceSelect = document.getElementById('sourceSelect')
-            selectedDeviceId = videoInputDevices[0].deviceId
+		dispatch('idProcessed', {
+			...JSON.parse(e.text)
+		});
 
-            if (videoInputDevices.length >= 1) {
-                videoInputDevices.forEach(element => {
-                    const sourceOption = document.createElement('option')
-                    sourceOption.text = element.label
-                    sourceOption.value = element.deviceId
-                    sourceSelect.appendChild(sourceOption)
-                })
+		if (!continuousScanning) close();
+	};
 
-                sourceSelect.onchange = () => {
-                    selectedDeviceId = soruceSelect.value
-                }
+	const loadReader = async () => {
+		try {
+			let selectedDeviceId;
 
-                const sourceSelectPanel = document.getElementById('sourceSelectPanel')
-                sourceSelectPanel.style.display = 'block' 
+			let videoInputDevices = await codeReader.listVideoInputDevices();
+			shouldAnimateLoader = false;
 
+			const sourceSelect = document.getElementById('sourceSelect');
+			selectedDeviceId = videoInputDevices[0].deviceId;
 
-            }
-            
-            codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
-                if (result) {
-                    console.log(result);
-                    action(result)
-                }
+			if (videoInputDevices.length >= 1) {
+				videoInputDevices.forEach((element) => {
+					const sourceOption = document.createElement('option');
+					sourceOption.text = element.label;
+					sourceOption.value = element.deviceId;
+					sourceSelect.appendChild(sourceOption);
+				});
 
-                if (err && !(err instanceof NotFoundException)) {
-                    console.log(err);
-                }
-            })
+				sourceSelect.onchange = () => {
+					selectedDeviceId = soruceSelect.value;
+				};
 
-        } catch (error) {
-            console.log(error)
+				const sourceSelectPanel = document.getElementById('sourceSelectPanel');
+				sourceSelectPanel.style.display = 'block';
+			}
 
+			codeReader.decodeFromVideoDevice(selectedDeviceId, 'video', (result, err) => {
+				if (result) {
+					console.log(result);
+					action(result);
+				}
 
-            close()
-        }
+				if (err && !(err instanceof NotFoundException)) {
+					console.log(err);
+				}
+			});
+		} catch (error) {
+			console.log(error);
 
-    }
+			close();
+		}
+	};
 
-    onDestroy(() => {
-      codeReader.reset()
-    })
+	onDestroy(() => {
+		codeReader.reset();
+	});
 
-    onMount(async () => {
-        loadReader()
-    })
+	onMount(async () => {
+		loadReader();
+	});
 </script>
 
 <div class="wrapper h-full w-full" style="">
-    <section class="mt-auto container h-full flex items-center justify-center flex-col" id="demo-content" style={`visibility: ${shouldAnimateLoader ? "hidden" : "visible"};`}>
-    <!-- <section class="container" id="demo-content"> -->
-        <div class="h-full">
-          <video class="rounded bg-gray-400 w-full h-full -scale-x-100 border-gray-300 border-4 rounded-md shadow-xl" id="video">
-              <track kind="captions" />
-          </video>
-        </div>
+	<section
+		class="container mt-auto flex h-full flex-col items-center justify-center"
+		id="demo-content"
+		style={`visibility: ${shouldAnimateLoader ? 'hidden' : 'visible'};`}>
+		<!-- <section class="container" id="demo-content"> -->
+		<div class="h-full">
+			<video
+				class="h-full w-full -scale-x-100 rounded rounded-md border-4 border-gray-300 bg-gray-400 shadow-xl"
+				id="video">
+				<track kind="captions" />
+			</video>
+		</div>
 
-        <div class="options hidden">
-            <div id="sourceSelectPanel" style="display:none">
-                <label for="sourceSelect">Change video source:</label>
-                <select id="sourceSelect" style="max-width:400px">
-                </select>
-            </div>
+		<div class="options hidden">
+			<div id="sourceSelectPanel" style="display:none">
+				<label for="sourceSelect">Change video source:</label>
+				<select id="sourceSelect" style="max-width:400px" />
+			</div>
 
-            <div class="switch">
-                <!-- <label for="">Continuous Scanning</label> -->
-            <!-- <Switch on:click={changeStore} bind:checked={$continuouslyScan}></Switch> -->
-            </div>
-
-        </div>
-        <pre><code id="result"></code></pre>
-    </section>
+			<div class="switch">
+				<!-- <label for="">Continuous Scanning</label> -->
+				<!-- <Switch on:click={changeStore} bind:checked={$continuouslyScan}></Switch> -->
+			</div>
+		</div>
+		<pre><code id="result" /></pre>
+	</section>
 </div>

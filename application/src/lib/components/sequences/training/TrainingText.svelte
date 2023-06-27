@@ -10,6 +10,6 @@
  
 --->
 
-<div class="h-full w-full flex flex-col justify-center px-12 space-y-8 font-mono">
-    <slot/>
+<div class="flex h-full w-full flex-col justify-center space-y-8 px-12 font-mono">
+	<slot />
 </div>

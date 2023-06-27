@@ -10,10 +10,10 @@
  
 */
 
-export interface StudentAuthData { 
-    id: number,
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string
+export interface StudentAuthData {
+	id: number;
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
 }

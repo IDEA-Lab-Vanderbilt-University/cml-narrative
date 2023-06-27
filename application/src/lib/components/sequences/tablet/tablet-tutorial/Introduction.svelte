@@ -10,17 +10,18 @@
  
 --->
 
-<div class="flex justify-around items-center font-mokoto text-lapiz-blue p-8 align-middle w-full h-full">
-    <div class="flex flex-col items-center justify-center space-y-7 text-2xl">
-        <img src="/img/icons/journal.png" alt="" class="h-56">
-        <p>Travel Log</p>
-    </div>
-    <div class="flex flex-col items-center justify-center space-y-7 text-2xl">
-        <img src="/img/icons/profile.png" alt="" class="h-56">
-        <p>Profile</p>
-    </div>
-    <div class="flex flex-col items-center justify-center space-y-7 text-2xl">
-        <img src="/img/icons/award.png" alt="" class="h-56">
-        <p>Badges</p>
-    </div>
+<div
+	class="flex h-full w-full items-center justify-around p-8 align-middle font-mokoto text-lapiz-blue">
+	<div class="flex flex-col items-center justify-center space-y-7 text-2xl">
+		<img src="/img/icons/journal.png" alt="" class="h-56" />
+		<p>Travel Log</p>
+	</div>
+	<div class="flex flex-col items-center justify-center space-y-7 text-2xl">
+		<img src="/img/icons/profile.png" alt="" class="h-56" />
+		<p>Profile</p>
+	</div>
+	<div class="flex flex-col items-center justify-center space-y-7 text-2xl">
+		<img src="/img/icons/award.png" alt="" class="h-56" />
+		<p>Badges</p>
+	</div>
 </div>

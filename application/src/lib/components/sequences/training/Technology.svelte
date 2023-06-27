@@ -10,7 +10,7 @@
  
 --->
 
-<div class="w-full h-full flex flex-col justify-center items-center space-y-7">
-    <h1 class="text-6xl font-mono">Technology</h1>
-    <img src="/img/icons/chip.svg" alt="" class="h-56">
+<div class="flex h-full w-full flex-col items-center justify-center space-y-7">
+	<h1 class="font-mono text-6xl">Technology</h1>
+	<img src="/img/icons/chip.svg" alt="" class="h-56" />
 </div>

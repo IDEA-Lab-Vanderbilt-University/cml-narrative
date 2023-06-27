@@ -24,11 +24,11 @@
         </ul>
     </div>
 </div> -->
-<div class="w-full h-full flex px-6 py-12 flex-col">
-    <h3 class="text-white font-mono text-5xl text-center">Agent Gear</h3>
-    <div class="flex flex-col">
-        <div class="">f</div>
-        <div class="">r</div>
-        <div class="">g</div>
-    </div>
+<div class="flex h-full w-full flex-col px-6 py-12">
+	<h3 class="text-center font-mono text-5xl text-white">Agent Gear</h3>
+	<div class="flex flex-col">
+		<div class="">f</div>
+		<div class="">r</div>
+		<div class="">g</div>
+	</div>
 </div>

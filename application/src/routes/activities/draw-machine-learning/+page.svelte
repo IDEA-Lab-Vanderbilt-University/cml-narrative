@@ -9,29 +9,30 @@
  https://idealab.sites.clemson.edu
  
 --->
-
 <script lang="ts">
-	import Scene from "$lib/components/scene/Scene.svelte";
-	import Tablet from "$lib/components/tablet/Tablet.svelte";
-
-
+	import Scene from '$lib/components/scene/Scene.svelte';
+	import Tablet from '$lib/components/tablet/Tablet.svelte';
 </script>
 
 <Scene background="/img/backgrounds/Spark_Lab.jpg">
-    <div class="w-full h-full p-4" slot="content">
-        <Tablet>
-            <div class="flex flex-col font-mono bg-white w-full h-full p-5 rounded-md items-center">
-                <h1 class="text-4xl font-bold">Draw a picture of what you think Machine :earning is</h1>
-                <p class="text-xl italic mt-4">In the box below, draw a picture of what you think Machine Learning is.</p>
-                <textarea class="textarea textarea-bordered w-full mx-8 mt-9 h-full border-dashed border-4 text-xl" placeholder="I think machine learning is...."></textarea>
-                <div class="flex items-center justify-between align-middle mt-8 space-x-5">
-                    <button class="w-8">
-                        <img src="/img/icons/camera.svg" alt="">
-                    </button>
-                    <a href="/training?page=12" class="text-xl px-8 text-white bg-lapiz-blue rounded-md">Submit</a>
-                </div>
-            </div>
-        </Tablet>
-    </div>
+	<div class="h-full w-full p-4" slot="content">
+		<Tablet>
+			<div class="flex h-full w-full flex-col items-center rounded-md bg-white p-5 font-mono">
+				<h1 class="text-4xl font-bold">Draw a picture of what you think Machine :earning is</h1>
+				<p class="mt-4 text-xl italic">
+					In the box below, draw a picture of what you think Machine Learning is.
+				</p>
+				<textarea
+					class="textarea-bordered textarea mx-8 mt-9 h-full w-full border-4 border-dashed text-xl"
+					placeholder="I think machine learning is...." />
+				<div class="mt-8 flex items-center justify-between space-x-5 align-middle">
+					<button class="w-8">
+						<img src="/img/icons/camera.svg" alt="" />
+					</button>
+					<a href="/training?page=12" class="rounded-md bg-lapiz-blue px-8 text-xl text-white"
+						>Submit</a>
+				</div>
+			</div>
+		</Tablet>
+	</div>
 </Scene>
-
