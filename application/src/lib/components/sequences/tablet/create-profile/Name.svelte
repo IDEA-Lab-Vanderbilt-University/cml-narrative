@@ -20,17 +20,11 @@
 <div class="flex flex-col w-full h-full justify-center items-center space-y-10">
     <h1 class="text-6xl text-white">What is your name?</h1>
     <div class="flex w-full justify-center space-x-7">
-        <div class="form-control w-full max-w-xs">
-            <label class="label">
-              <span class="label-text text-4xl text-gray-300">First name:</span>
-            </label>
-            <input type="text" placeholder="Ada" class="input input-bordered w-full" bind:value={profileData.name.first}/>
+        <div class="form-controlw-full max-w-xs h-24">
+            <input type="text" placeholder="First name" class="input input-bordered w-full h-full text-4xl" bind:value={profileData.name.first}/>
         </div>
-        <div class="form-control w-full max-w-xs">
-            <label class="label">
-              <span class="label-text text-4xl text-gray-300">Last name:</span>
-            </label>
-            <input type="text" placeholder="Lovelace" class="input input-bordered w-full" bind:value={profileData.name.last}/>
+        <div class="form-control w-full max-w-xs h-24">
+            <input type="text" placeholder="Lastname" class="input input-bordered w-full h-full text-4xl" bind:value={profileData.name.last}/>
         </div>
     </div>
 </div>

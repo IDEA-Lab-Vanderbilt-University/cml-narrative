@@ -10,7 +10,7 @@
  
 --->
 
-<div class="w-full h-full bg-gray-50 flex items-center justify-center">
+<!-- <div class="w-full h-full bg-gray-50 flex items-center justify-center">
     <div class="flex flex-col items-center space-y-6">
         <img src="/img/characters/agent-spark/spark_talking.png" alt="" class="rounded-full shadow-md">
         <p class="text-2xl font-bold">Agent Spark</p>
@@ -22,5 +22,13 @@
             <li>Read sci-fi books</li>
             <li>Play video games</li>
         </ul>
+    </div>
+</div> -->
+<div class="w-full h-full flex px-6 py-12 flex-col">
+    <h3 class="text-white font-mono text-5xl text-center">Agent Gear</h3>
+    <div class="flex flex-col">
+        <div class="">f</div>
+        <div class="">r</div>
+        <div class="">g</div>
     </div>
 </div>

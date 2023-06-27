@@ -128,7 +128,7 @@
         </button>
     </div>
     {#if page == 3 || page == 4 || page == 5}
-        <div class="absolute inset-0 flex justify-center items-end z-10 bg-white h-fit mt-auto mb-9  shadow-md">
+        <div class="absolute inset-0 flex justify-center items-end z-10  h-fit mt-auto mb-9  shadow-md">
             <ClickToViewProfileBanner />
         </div>  
     {/if}

@@ -35,3 +35,9 @@
    background: rgb(26,26,166);
    background: radial-gradient(circle, rgba(26,26,166,1) 0%, rgba(2,0,36,1) 63%);
 }
+
+.hud-red-blue-border {
+   border: 20px solid;
+   border-image: url("/img/svg/borders/hud-border.svg");
+   border-image-slice:10;
+}
