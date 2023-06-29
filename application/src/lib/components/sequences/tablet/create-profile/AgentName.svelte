@@ -22,8 +22,8 @@
 	let tour = {
 		showTour: true,
 		message: 'S.P.O.T agents usually choose a name about what inspires them. What inspires you?',
-		bindTo: '#agent-name-input',
-		position: 'left'
+		bindTo: '#submit-button',
+		position: 'bottom'
 	};
 
 	onMount(() => {
@@ -48,7 +48,8 @@
 		</div>
 	</div>
 	<a
+		id="submit-button"
 		href="/introduction/onboarding/create-profile/confirmation"
-		class="rounded-md bg-lapiz-blue px-7 py-3 text-3xl text-white shadow hover:shadow-lg"
+		class="bg-lapiz-blue rounded-md px-7 py-3 text-3xl text-white shadow hover:shadow-lg"
 		on:click>SUBMIT</a>
 </div>

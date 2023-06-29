@@ -12,7 +12,7 @@
 <script lang="ts">
 	import { tourManager } from '$lib/components/tour/TourManager';
 
-	import { agentData } from '$lib/utils/stores/store';
+	import { agentData, tabletPowerNavigation } from '$lib/utils/stores/store';
 	import { onDestroy, onMount } from 'svelte';
 
 	let tour = {
@@ -30,15 +30,17 @@
 
 	onMount(() => {
 		tourManager.add(tour);
+		tabletPowerNavigation.set({ href: '/training?page=1' });
 	});
 
 	onDestroy(() => {
 		tourManager.remove(tour);
+		tabletPowerNavigation.set({});
 	});
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-10">
 	<img src="/img/icons/profile.png" alt="" class="h-1/5" />
-	<h1 class="text-5xl text-white">Agent {agentName}</h1>
+	<h1 class="font-mokoto text-5xl text-white">Agent {agentName}</h1>
 	<!-- <a href="/introduction/welcome?page=1" class="bg-lapiz-blue text-white text-3xl px-7 py-3 rounded-md shadow hover:shadow-lg">CONFIRM</a> -->
 </div>
