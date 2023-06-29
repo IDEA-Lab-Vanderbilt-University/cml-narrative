@@ -30,7 +30,7 @@
 
 	onMount(() => {
 		tourManager.add(tour);
-		tabletPowerNavigation.set({ href: '/training?page=1' });
+		tabletPowerNavigation.set({ href: '/introduction/welcome?page=1' });
 	});
 
 	onDestroy(() => {
