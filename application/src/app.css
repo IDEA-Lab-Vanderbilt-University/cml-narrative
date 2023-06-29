@@ -39,4 +39,12 @@
 	border: 20px solid;
 	border-image: url('/img/svg/borders/hud-border.svg');
 	border-image-slice: 10;
+	@apply rounded-lg;
+}
+
+.profile-banner {
+	border: 20px solid;
+	border-image: url('/img/misc/rounded-profile-banner.png');
+	border-image-slice: 10;
+	@apply rounded-full;
 }
