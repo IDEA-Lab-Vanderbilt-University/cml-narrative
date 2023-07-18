@@ -10,6 +10,4 @@
  
 */
 
-export enum Borders {
-    
-}
+export enum Borders {}

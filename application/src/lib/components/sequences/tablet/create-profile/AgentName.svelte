@@ -43,13 +43,13 @@
 				id="agent-name-input"
 				type="text"
 				placeholder="Pineapple"
-				class="input-bordered input h-full w-full text-4xl"
+				class="input-bordered input h-full w-full font-mono text-4xl"
 				bind:value={profileData.agentName} />
 		</div>
 	</div>
 	<a
 		id="submit-button"
 		href="/introduction/onboarding/create-profile/confirmation"
-		class="bg-lapiz-blue rounded-md px-7 py-3 text-3xl text-white shadow hover:shadow-lg"
+		class="rounded-md bg-lapiz-blue px-7 py-3 text-3xl text-white shadow hover:shadow-lg"
 		on:click>SUBMIT</a>
 </div>

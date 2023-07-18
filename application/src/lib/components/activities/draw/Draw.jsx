@@ -32,8 +32,8 @@ export function Draw() {
 	const [excalidrawAPI, setExcalidrawAPI] = useState(null);
 
 	return (
-		<>
-			<div style={{ height: '500px', backgroundColor: 'green' }}>
+		<div className=''>
+			<div style={{ height: '575px', backgroundColor: 'white' }} className=''>
 				<Excalidraw ref={(api) => setExcalidrawAPI(api)} />
 			</div>
 
@@ -54,6 +54,6 @@ export function Draw() {
 					SUBMIT!
 				</button>
 			</div>
-		</>
+		</div>
 	);
 }

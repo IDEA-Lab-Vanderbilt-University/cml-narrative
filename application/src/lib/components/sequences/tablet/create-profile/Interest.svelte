@@ -37,7 +37,7 @@
 			<input
 				type="text"
 				placeholder={`I like to ${randomPlaceholder}!`}
-				class="input-bordered input h-full  w-full text-4xl"
+				class="input-bordered input h-full  w-full font-mono text-4xl"
 				bind:value={profileData.interests[index]} />
 		</div>
 	</div>

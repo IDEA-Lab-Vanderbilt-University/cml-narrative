@@ -51,6 +51,8 @@
 		// Create the bind reference by finding it on the DOM.
 		bindReference = document.querySelector(popoverData.bindTo);
 
+		console.log('Initializing Popover with data: ', popoverData);
+
 		/**
 		 * First, we will check to ensure that the bind reference is not null. It may be null if the popover component
 		 * has mounted before the intended bind element or if the popover is being created at an inappropriate time.

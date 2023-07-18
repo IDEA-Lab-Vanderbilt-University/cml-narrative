@@ -14,21 +14,18 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 </script>
 
-<Scene background="/img/backgrounds/Spark_Lab.jpg">
-	<div class="h-full w-full p-4" slot="content">
-		<Tablet>
-			<div class="flex h-full w-full flex-col items-center rounded-md bg-white p-5 font-mono">
-				<h1 class="text-4xl font-bold">What do you think an algorithm is?</h1>
-				<p class="mt-4 text-xl italic">
-					In the box below, describe what you think an algorithm is.
-				</p>
-				<textarea
-					class="textarea-bordered textarea mx-8 mt-9 h-1/2 w-full border-4 border-dashed text-xl"
-					placeholder="I think an algorithm is...." />
-				<a
-					href="/activities/draw-an-algorithm"
-					class="mt-9 rounded-md bg-lapiz-blue px-8 text-xl text-white">Submit</a>
-			</div>
-		</Tablet>
+<Tablet>
+	<div class="flex h-full w-full flex-col items-center rounded-md justify-center p-5 font-mono text-white bg-gray-900 bg-opacity-50 bg-blend-darken">
+		<h1 class="text-4xl font-bold">What do you think an algorithm is?</h1>
+		<p class="mt-4 text-xl italic">
+			In the box below, describe what you think an algorithm is.
+		</p>
+		<textarea
+			class="textarea-bordered textarea  mt-9 h-1/2 w-full border-4 border-dashed text-xl bg-transparent border-white mx-12"
+			placeholder="I think an algorithm is...." />
+		<a
+			href="/activities/draw-an-algorithm"
+			class="mt-9 rounded-md bg-lapiz-blue px-8 text-xl text-white">Next</a>
 	</div>
-</Scene>
+</Tablet>
+

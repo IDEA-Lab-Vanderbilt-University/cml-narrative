@@ -30,8 +30,8 @@
 	};
 </script>
 
-<Scene background="/img/backgrounds/Spark_Lab.jpg">
-	<div slot="content" class="h-full w-full p-12">
+<!-- <Scene background="/img/backgrounds/Spark_Lab.jpg">
+	<div slot="content" class="h-full w-full p-12"> -->
 		<Tablet>
 			<div class="text-center text-white">Select Bot Buddy</div>
 			<div class="mt-8 flex justify-center space-x-6 text-2xl text-white">
@@ -65,5 +65,5 @@
 
 
         </div> -->
-	</div>
-</Scene>
+	<!-- </div>
+</Scene> -->

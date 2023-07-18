@@ -28,7 +28,7 @@ const createTourManager = () => {
 		 * Add a tour to the tour manager
 		 * @param tour tour to add to the tour manager
 		 */
-		add: (tour) => {
+		add: (tour: Tour) => {
 			update((currentTours) => {
 				return [...currentTours, tour];
 			});
@@ -43,11 +43,15 @@ const createTourManager = () => {
 		 *
 		 * @param tour the tour you want to remove from the DOM
 		 */
-		remove: (tour) => {
+		remove: (tour: Tour) => {
 			update((currentTours) => {
-				tour.showTour = false;
+				// tour.showTour = false;
+				// console.log("current: ", currentTours);
 
-				return currentTours;
+				// Filter the currentTours
+				let withDelete = currentTours.filter((t: Tour) => t.bindTo != tour.bindTo);
+
+				return withDelete;
 			});
 		},
 		/**

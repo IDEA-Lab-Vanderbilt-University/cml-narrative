@@ -10,8 +10,13 @@
  
 */
 
-import { Characters } from "./Characters";
+import { Characters } from './Characters';
+import { Tablet } from './Tablet';
 
+/**
+ * This object defines all of the assets and their respective URLs that we will use throughout the application.
+ */
 export const Assets = {
-    Characters
-}
+	Characters,
+	Tablet
+};

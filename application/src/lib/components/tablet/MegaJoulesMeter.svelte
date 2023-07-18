@@ -10,10 +10,36 @@
  
 --->
 <script lang="ts">
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+
 	export let amount: number = 0;
+
+	let dispatch = createEventDispatcher();
+
+	onMount(() => {
+		console.log('mountng');
+
+		dispatch('applicationContainerEvent', {
+			event: 'mount',
+			id: `#megajoules-meter`
+		});
+	});
+
+	onDestroy(() => {
+		console.log('destroying');
+
+		dispatch('applicationContainerEvent', {
+			event: 'destroy',
+			id: `#megajoules-meter`
+		});
+	});
 </script>
 
-<div class="loader-bar">
+<div class="w-full" id="megajoules-meter">
+	<img src={`/img/tablet/meter/meter-${amount}.svg`} alt="" />
+</div>
+
+<!-- <div class="loader-bar">
 	<div class="block-border" />
 	<div class="block-border" />
 	<div class="block-border" />
@@ -26,9 +52,9 @@
 	{#each Array(amount) as _, i}
 		<div class="block-meter" />
 	{/each}
-</div>
+</div> -->
 
-<style>
+<!-- <style>
 	.loader-bar {
 		width: 60vw;
 		height: 12vw;
@@ -153,4 +179,4 @@
 			opacity: 1;
 		}
 	}
-</style>
+</style> -->

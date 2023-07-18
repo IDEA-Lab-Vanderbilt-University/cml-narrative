@@ -15,7 +15,7 @@
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-8  text-white">
-	<h1 class="font-mokoto text-6xl text-white">Welcome, new SPOT Agent!</h1>
+	<h1 class="text-center font-mokoto text-6xl text-white">Welcome, new SPOT Agent!</h1>
 	<a
 		href="/introduction/onboarding/create-profile?page=1"
 		class=" rounded-full bg-yellow-500 px-6 py-5 font-mono  text-2xl shadow-md transition duration-200 ease-in-out hover:opacity-75 hover:shadow-lg"

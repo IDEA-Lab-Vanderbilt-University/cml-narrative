@@ -11,9 +11,10 @@
 --->
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { tabletPowerNavigation } from '$lib/utils/stores/store';
+	import { megaJoulesMeter, tabletPowerNavigation } from '$lib/utils/stores/store';
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
+	import MegaJoulesMeter from './MegaJoulesMeter.svelte';
 
 	let isPowerDownEnabled: boolean = false;
 
@@ -28,13 +29,14 @@
 			goto($tabletPowerNavigation.href);
 		} else {
 			console.warn('Navigation not permitted at this time!');
+			
 		}
 	};
 </script>
 
-<div class="bg-dark-navy h-screen w-screen p-7 ">
+<div class="h-screen w-screen bg-dark-navy p-7 ">
 	<div class=" flex h-full w-full flex-col rounded-lg">
-		<div class="font-mokoto flex h-fit w-full justify-between p-4">
+		<div class="flex h-fit w-full justify-between p-4 font-mokoto">
 			<div class="flex items-center space-x-3 align-middle">
 				<p class="text-5xl font-bold text-white">S.P.O.T</p>
 				<img src="/img/logos/SPOT-dots.svg" class="h-full w-24" alt="" />
@@ -42,9 +44,20 @@
 			<p class="text-xl font-bold text-white">Solving Problems of Tomorrow</p>
 		</div>
 		<div class="tablet-gradient glow  h-full">
-			<div class="grid-background h-full w-full">
-				<slot />
-			</div>
+
+			<div class="w-full h-full flex justify-center items-center">
+				<div class="h-full w-full relative z-0">
+					<div class="grid-background h-full w-full">
+						<slot />
+					</div>				  
+					<div class="absolute inset-0 flex items-start justify-end  ml-auto z-10 h-fit w-1/6 p-2">
+						<MegaJoulesMeter amount={$megaJoulesMeter} />
+					</div>
+				</div>
+			  </div>
+
+
+
 			<!-- <slot></slot> -->
 		</div>
 		<div id="tablet-actions" class="flex h-fit justify-end space-x-5 pt-3 text-center text-white">

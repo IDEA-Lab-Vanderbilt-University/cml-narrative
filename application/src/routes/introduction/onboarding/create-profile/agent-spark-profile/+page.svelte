@@ -74,11 +74,11 @@
 	<div class="flex w-full flex-col items-center justify-center space-y-6">
 		<div class="flex items-center justify-center space-x-6">
 			<button
-				class="btn btn-primary"
+				class="btn-primary btn"
 				on:click={() => handleNavigation(NavigationDirection.backward)}>Previous</button>
-			<button class="btn btn-primary" on:click={() => handleNavigation(NavigationDirection.forward)}
+			<button class="btn-primary btn" on:click={() => handleNavigation(NavigationDirection.forward)}
 				>Next</button>
 		</div>
-		<a href="/introduction/onboarding/create-profile?page=5" class="btn btn-secondary">Go back</a>
+		<a href="/introduction/onboarding/create-profile?page=5" class="btn-secondary btn">Go back</a>
 	</div>
 </div>

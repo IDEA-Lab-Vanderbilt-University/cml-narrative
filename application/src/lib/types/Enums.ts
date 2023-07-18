@@ -18,6 +18,9 @@ export enum NavigationDirection {
 	backward
 }
 
+/**
+ * Defines the state at which the home screen is at.
+ */
 export enum HomeScreenStates {
 	loading,
 	home,

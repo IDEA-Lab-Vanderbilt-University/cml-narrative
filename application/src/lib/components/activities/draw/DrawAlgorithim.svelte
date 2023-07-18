@@ -9,7 +9,8 @@
  https://idealab.sites.clemson.edu
  
 
-  This 
+  This component is a container for the DrawAlgorithim activity. It's sole purpose is to house the ReactAdapter which
+  we are using to display the Draw component that was developed in React.
 
 --->
 <script>
