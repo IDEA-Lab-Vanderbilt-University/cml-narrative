@@ -10,6 +10,7 @@
  
 --->
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import DataService from '$lib/utils/DataService';
 
@@ -85,6 +86,7 @@
 
 				try {
 					await DataService.Data.submitPostSurvey(questionsAndResponse);
+					await goto('/training/outro?page=1');
 				} catch (error) {
 					console.error(error);
 				}

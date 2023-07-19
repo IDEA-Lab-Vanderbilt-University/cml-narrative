@@ -14,7 +14,7 @@ export interface Script {
 	/**
 	 * An array of all dialog
 	 */
-	lines: [Line];
+	lines: Line[];
 	/**
 	 * How long the current script segment is
 	 */
