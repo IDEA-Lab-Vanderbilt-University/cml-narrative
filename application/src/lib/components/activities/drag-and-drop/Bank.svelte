@@ -46,12 +46,12 @@
 	use:dndzone={{ items, flipDurationMs, type, dropTargetStyle }}
 	on:consider={handleSort}
 	on:finalize={handleSort}
-	class="min-h-16 flex h-full outline-black justify-center">
+	class="min-h-16 flex h-full justify-center outline-black">
 	{#each items as item (item.id)}
 		<div
 			animate:flip={{ duration: flipDurationMs }}
 			class="m-3 max-h-44 rounded-md border bg-white p-5 shadow-md ">
-			<div class="flex flex-col items-center space-y-3 justify-center align-middle">
+			<div class="flex flex-col items-center justify-center space-y-3 align-middle">
 				<img src={item.img} alt="" class="h-24" />
 				<p class="text-xl text-gray-800">{item.title}</p>
 			</div>

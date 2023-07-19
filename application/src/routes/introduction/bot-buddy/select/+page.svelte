@@ -32,15 +32,15 @@
 
 <!-- <Scene background="/img/backgrounds/Spark_Lab.jpg">
 	<div slot="content" class="h-full w-full p-12"> -->
-		<Tablet>
-			<div class="text-center text-white">Select Bot Buddy</div>
-			<div class="mt-8 flex justify-center space-x-6 text-2xl text-white">
-				<button on:click={handleBotBuddySelect}>Bot Buddy 1</button>
-				<button on:click={handleBotBuddySelect}>Bot Buddy 2</button>
-				<button on:click={handleBotBuddySelect}>Bot Buddy 3</button>
-				<button on:click={handleBotBuddySelect}>Bot Buddy 4</button>
-			</div>
-			<!-- <div class="h-full w-full flex justify-center items-center">
+<Tablet>
+	<div class="text-center text-white">Select Bot Buddy</div>
+	<div class="mt-8 flex justify-center space-x-6 text-2xl text-white">
+		<button on:click={handleBotBuddySelect}>Bot Buddy 1</button>
+		<button on:click={handleBotBuddySelect}>Bot Buddy 2</button>
+		<button on:click={handleBotBuddySelect}>Bot Buddy 3</button>
+		<button on:click={handleBotBuddySelect}>Bot Buddy 4</button>
+	</div>
+	<!-- <div class="h-full w-full flex justify-center items-center">
                 <div class="w-96">
 
                 </div>
@@ -55,8 +55,8 @@
 
                 </div>
             </div> -->
-		</Tablet>
-		<!-- <div class="bg-jet flex flex-col p-24 items-center justify-center text-white rounded-md shadow-md">
+</Tablet>
+<!-- <div class="bg-jet flex flex-col p-24 items-center justify-center text-white rounded-md shadow-md">
             <h1 class="text-4xl mb-9 ">Customize Your Bot Buddy</h1>
             <div class="h-96">
                 <BotBuddyBase />
@@ -65,5 +65,5 @@
 
 
         </div> -->
-	<!-- </div>
+<!-- </div>
 </Scene> -->

@@ -14,7 +14,6 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 </script>
 
-
 <Tablet>
 	<div class="flex h-full w-full flex-col items-center rounded-md bg-white p-5 font-mono">
 		<h1 class="text-4xl font-bold">What do you think Machine Learning is?</h1>
@@ -29,4 +28,3 @@
 			class="mt-9 rounded-md bg-lapiz-blue px-8 text-xl text-white">Submit</a>
 	</div>
 </Tablet>
-

@@ -14,7 +14,6 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 </script>
 
-
 <Tablet>
 	<div class="flex h-full w-full flex-col items-center rounded-md bg-white p-5 font-mono">
 		<h1 class="text-4xl font-bold">Draw a picture of what you think Machine :earning is</h1>
@@ -33,4 +32,3 @@
 		</div>
 	</div>
 </Tablet>
-

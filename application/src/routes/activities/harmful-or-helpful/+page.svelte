@@ -18,16 +18,15 @@
 	import { getContext, onMount } from 'svelte';
 	// const { open } = getContext('simple-modal');
 
-
-	let helpfulElement: HTMLParagraphElement
-	let harmfulElement: HTMLParagraphElement
+	let helpfulElement: HTMLParagraphElement;
+	let harmfulElement: HTMLParagraphElement;
 
 	let currentDragObject = {
 		el: null,
 		id: 1,
-		title: "iPhone",
-		img: "/img/icons/mobile-app.png"
-	}
+		title: 'iPhone',
+		img: '/img/icons/mobile-app.png'
+	};
 
 	let items1 = [
 		{ id: 1, title: 'iPhone', img: '/img/icons/mobile-app.png' },
@@ -35,7 +34,7 @@
 		{ id: 3, title: 'Internet', img: '/img/icons/wifi.png' }
 	];
 
-	let designatedContainer: null | string = null
+	let designatedContainer: null | string = null;
 
 	let hurtful = [];
 	let helpful = [];
@@ -43,16 +42,15 @@
 
 	$: {
 		console.log(items1);
-		
 	}
 
 	const handleDrop = (e) => {
-		console.log("Drop", e.detail);
+		console.log('Drop', e.detail);
 		console.log(currentDragObject);
 		console.log(designatedContainer);
-		
-		if (designatedContainer == "helpful") {
-			helpfulElement.classList.add("animate-pulse")
+
+		if (designatedContainer == 'helpful') {
+			helpfulElement.classList.add('animate-pulse');
 		}
 
 		// let containerToDrop = document.getElementById(designatedContainer)
@@ -68,15 +66,14 @@
 	};
 
 	onMount(() => {
-
-		const draggables = document.querySelectorAll(".draggable")
-		const containers = document.querySelectorAll(".container")
+		const draggables = document.querySelectorAll('.draggable');
+		const containers = document.querySelectorAll('.container');
 
 		// draggables.forEach((draggable) => {
 		// 	draggable.addEventListener('dragstart', () => {
 		// 		draggable.classList.add("dragging")
 		// 		console.log("star");
-				
+
 		// 	})
 
 		// 	draggable.addEventListener("dragend", () => {
@@ -86,28 +83,23 @@
 
 		// containers.forEach((contianer) => {
 		// 	contianer.addEventListener("dragover", (e) => {
-		// 		e.preventDefault() 
+		// 		e.preventDefault()
 
 		// 		const draggable = document.querySelector(".dragging")
-				
+
 		// 		contianer.appendChild(draggable)
 		// 	})
 		// })
-
-	})
+	});
 
 	const handleDrag = (event) => {
 		// console.log(event);
-		
-	}
+	};
 
 	const handleContainerDragover = (event) => {
 		// console.log(event);
-		designatedContainer = event
-		
-		
-	}
-
+		designatedContainer = event;
+	};
 </script>
 
 <Tablet>
@@ -150,25 +142,38 @@
 		</div>
 	</div> -->
 
-	<div class="text-white flex flex-col w-full h-full items-center justify-center">
-		<div class="text-center space-y-3">
+	<div class="flex h-full w-full flex-col items-center justify-center text-white">
+		<div class="space-y-3 text-center">
 			<h2 class="text-5xl">Is this technology helpful or harmful?</h2>
 			<p class="text-3xl">Drag the technology into the appropriate box.</p>
 		</div>
-		<div class="flex w-full mt-14 items-center">
-			<div id="helpful-bank" class="container w-full h-full rounded-sm   p-2 text-center text-2xl text-white flex flex-col items-center justify-center" on:drop={handleDrop} on:dragover={() => handleContainerDragover("helpful")}>
-				<p class="text-4xl mb-3" bind:this={helpfulElement}>Helpful</p>
-				<div id="helpful-bank-container" class="flex items-start"></div>
+		<div class="mt-14 flex w-full items-center">
+			<div
+				id="helpful-bank"
+				class="container flex h-full w-full   flex-col items-center justify-center rounded-sm p-2 text-center text-2xl text-white"
+				on:drop={handleDrop}
+				on:dragover={() => handleContainerDragover('helpful')}>
+				<p class="mb-3 text-4xl" bind:this={helpfulElement}>Helpful</p>
+				<div id="helpful-bank-container" class="flex items-start" />
 				<!-- <Bank items={helpful} type="light" id="helpful" on:itemDropped={handleDrop} /> -->
 			</div>
-			<div id="yolo" class="container w-1/2 h-full flex flex-col items-center justify-center">
+			<div id="yolo" class="container flex h-full w-1/2 flex-col items-center justify-center">
 				<!-- <Bank items={[items1[0]]} type="light" /> -->
 				<!-- <div id={currentDragObject.id} class="draggable bg-orange-300 cursor-move h-28 w-28" on:drag={handleDrag} bind:this={currentDragObject.el}> -->
-					<img src={items1[0].img} alt="" class="h-full" on:drag={handleDrag} id="draggable" on:dragend={handleDrop} bind:this={currentDragObject.el}> 
+				<img
+					src={items1[0].img}
+					alt=""
+					class="h-full"
+					on:drag={handleDrag}
+					id="draggable"
+					on:dragend={handleDrop}
+					bind:this={currentDragObject.el} />
 				<!-- </div> -->
 			</div>
-			<div id="" class="container w-full h-full rounded-sm  p-2 text-center text-2xl text-white flex flex-col items-center justify-center">
-				<p class="text-4xl mb-3" bind:this={harmfulElement}>Harmful</p>
+			<div
+				id=""
+				class="container flex h-full w-full  flex-col items-center justify-center rounded-sm p-2 text-center text-2xl text-white">
+				<p class="mb-3 text-4xl" bind:this={harmfulElement}>Harmful</p>
 				<!-- <Bank items={hurtful} type="light" id="harmful" on:itemDropped={handleDrop} /> -->
 			</div>
 		</div>
