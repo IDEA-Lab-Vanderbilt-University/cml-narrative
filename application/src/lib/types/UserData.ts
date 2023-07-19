@@ -11,12 +11,12 @@
 */
 
 export interface UserData {
-    name:{
-        first: string,
-        last: string,
-    },
-    age: number | undefined,
-    interests: [string],
-    avatarImg: string
-    agentName: string
+	name: {
+		first: string;
+		last: string;
+	};
+	age: number | undefined;
+	interests: [string];
+	avatarImg: string;
+	agentName: string;
 }

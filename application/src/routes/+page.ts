@@ -20,6 +20,3 @@
  For now, we will create a fake response and direct the user to the introduction sequence. 
 
 */
-
-
-

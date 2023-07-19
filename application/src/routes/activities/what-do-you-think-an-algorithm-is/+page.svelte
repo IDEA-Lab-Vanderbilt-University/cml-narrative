@@ -9,24 +9,23 @@
  https://idealab.sites.clemson.edu
  
 --->
-
 <script lang="ts">
-	import Scene from "$lib/components/scene/Scene.svelte";
-	import Tablet from "$lib/components/tablet/Tablet.svelte";
-
-
+	import Scene from '$lib/components/scene/Scene.svelte';
+	import Tablet from '$lib/components/tablet/Tablet.svelte';
 </script>
 
-<Scene background="/img/backgrounds/Spark_Lab.jpg">
-    <div class="w-full h-full p-4" slot="content">
-        <Tablet>
-            <div class="flex flex-col font-mono bg-white w-full h-full p-5 rounded-md items-center">
-                <h1 class="text-4xl font-bold">What do you think an algorithm is?</h1>
-                <p class="text-xl italic mt-4">In the box below, describe what you think an algorithm is.</p>
-                <textarea class="textarea textarea-bordered w-full mx-8 mt-9 h-1/2 border-dashed border-4 text-xl" placeholder="I think an algorithm is...."></textarea>
-                <a href="/activities/draw-an-algorithm" class="text-xl px-8 text-white bg-lapiz-blue rounded-md mt-9">Submit</a>
-            </div>
-        </Tablet>
-    </div>
-</Scene>
+<Tablet>
+	<div class="flex h-full w-full flex-col items-center rounded-md justify-center p-5 font-mono text-white bg-gray-900 bg-opacity-50 bg-blend-darken">
+		<h1 class="text-4xl font-bold">What do you think an algorithm is?</h1>
+		<p class="mt-4 text-xl italic">
+			In the box below, describe what you think an algorithm is.
+		</p>
+		<textarea
+			class="textarea-bordered textarea  mt-9 h-1/2 w-full border-4 border-dashed text-xl bg-transparent border-white mx-12"
+			placeholder="I think an algorithm is...." />
+		<a
+			href="/activities/draw-an-algorithm"
+			class="mt-9 rounded-md bg-lapiz-blue px-8 text-xl text-white">Next</a>
+	</div>
+</Tablet>
 

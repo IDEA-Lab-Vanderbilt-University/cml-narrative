@@ -9,20 +9,19 @@
  https://idealab.sites.clemson.edu
  
 --->
-
 <script lang="ts">
 	import { NavigationDirection } from '$lib/types/Enums';
 	/**
-	 * TODO: Add check to determine if there is a next or previous line in the script and 
+	 * TODO: Add check to determine if there is a next or previous line in the script and
 	 * conditionally show arrows
-	*/
+	 */
 	import type { Line } from '$lib/types/Script';
 
 	// import DialogControl from '$lib/components/DialogControl.svelte';
-	
+
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-	
+
 	/** The text of what the speaker should be saying */
 	export let dialog = '';
 	/** Who is saying the text in the dialog box */
@@ -30,7 +29,7 @@
 	/** The path to the img file of the avatar speaking */
 	export let avatar = '';
 
-	export let line: Line
+	export let line: Line;
 
 	/** Dispatch the back dialogEvent */
 	const back = () => {
@@ -45,31 +44,34 @@
 			state: NavigationDirection.forward
 		});
 	};
-
 </script>
 
-
-
-<div class="flex flex-col w-full">
-	<div class="flex justify-between align-bottom items-end z-20 relative w-full">
-		<div class=" bg-peach w-fit h-fit z-20 rounded text-4xl px-3 text-black relative -bottom-4">
+<div class="flex w-full flex-col">
+	<div class="relative z-20 flex w-full items-end justify-between align-bottom">
+		<div class=" relative -bottom-4 z-20 h-fit w-fit rounded bg-peach px-3 text-4xl text-black">
 			{speaker}
 		</div>
-		<div class="self-end mr-14">
-			<img src={avatar} alt="">
+		<div class="mr-14 self-end">
+			<img src={avatar} alt="" />
 		</div>
 	</div>
 
-	<div class="w-full text-white rounded relative bg-jet ">
-		<div class="grid grid-cols-5 text-3xl gap-4 items-center align-middle">
-			<button class="rotate-180 mr-6" on:click={back}>
-				<p class="bg-peach w-fit p-4 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p>
+	<div class="relative w-full rounded bg-jet text-white ">
+		<div class="grid grid-cols-5 items-center gap-4 align-middle text-3xl">
+			<button class="mr-6 rotate-180" on:click={back}>
+				<p
+					class="w-fit rounded-full bg-peach p-4 transition-all duration-200 ease-in-out hover:opacity-80">
+					➜
+				</p>
 			</button>
-			<p class="col-span-3 text-3xl leading-relaxed w-full h-36 ">
+			<p class="col-span-3 h-36 w-full text-3xl leading-relaxed ">
 				{dialog}
 			</p>
 			<button class="" on:click={forward}>
-				<p class="bg-peach w-fit p-4 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p>
+				<p
+					class="w-fit rounded-full bg-peach p-4 transition-all duration-200 ease-in-out hover:opacity-80">
+					➜
+				</p>
 			</button>
 		</div>
 	</div>

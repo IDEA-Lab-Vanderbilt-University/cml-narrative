@@ -14,19 +14,24 @@
  The "slot" component is dynamic, as other components can be fed into it. 
 
 --->
-
 <script>
-    import "../app.css";
+	import TourWrapper from '$lib/components/tour/TourWrapper.svelte';
+	import '../app.css';
 </script>
-  
-<div class="hidden lg:block font-cantora">
-    <slot />
+
+<div id="base-container" class="hidden font-cantora lg:block">
+	<TourWrapper>
+		<slot />
+	</TourWrapper>
 </div>
 
 <svelte:head>
-    <title>S.P.O.T - Solving Problems of Tomorrow</title>
+	<title>S.P.O.T - Solving Problems of Tomorrow</title>
 </svelte:head>
-<div class="lg:hidden text-center font-cantora space-y-6 flex flex-col px-12 items-center h-screen justify-center align-middle ">
-    <h1 class="text-5xl">Sorry, Agent!</h1>
-    <p class="text-3xl">Your screen size is too small. Please use a compatible device to access the Agent Portal.</p>
+<div
+	class="flex h-screen flex-col items-center justify-center space-y-6 px-12 text-center align-middle font-cantora lg:hidden ">
+	<h1 class="text-5xl">Sorry, Agent!</h1>
+	<p class="text-3xl">
+		Your screen size is too small. Please use a compatible device to access the Agent Portal.
+	</p>
 </div>
