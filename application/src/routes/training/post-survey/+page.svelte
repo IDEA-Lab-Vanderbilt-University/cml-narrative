@@ -11,6 +11,7 @@
 --->
 <script lang="ts">
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
+	import DataService from '$lib/utils/DataService';
 
 	/**
 	 * Track the current question that is displaying
@@ -75,10 +76,26 @@
 	 *
 	 * TODO: change alert? How can we make the alert a little more appealing?
 	 */
-	const getNextQuestion = () => {
+	const getNextQuestion = async () => {
+		// Determine if the user has selected a response for the presented question
 		if (questionsAndResponse[questionIndex].response != null) {
-			questionIndex += 1;
+			// Check to see if user is at the last survey question
+			console.log(questionIndex, questionsAndResponse.length);
+
+			if (questionIndex >= questionsAndResponse.length - 1) {
+				console.log('User has finished survey; we can no proceed.');
+
+				try {
+					await DataService.Data.submitPostSurvey(questionsAndResponse);
+				} catch (error) {
+					console.error(error);
+				}
+			} else {
+				// Advance to the next question
+				questionIndex += 1;
+			}
 		} else {
+			// User has not selected a response
 			alert('Please select an option first!');
 		}
 	};

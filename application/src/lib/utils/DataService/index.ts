@@ -53,6 +53,17 @@ const Data = {
 			console.log('Attempting to save profile data with data: ', data);
 			resolve();
 		});
+	},
+	/**
+	 * Handles the submission of the post training survey. 
+	 * @param surveyResponse an object containing the questions and responses of the post survey 
+	 * @returns promise 
+	 */
+	submitPostSurvey: async (surveyResponse: {}) => {
+		return new Promise<void>((resolve, reject) => {
+			console.log("attempting to submit post survey with data: ", surveyResponse);
+			resolve()
+		})
 	}
 };
 
