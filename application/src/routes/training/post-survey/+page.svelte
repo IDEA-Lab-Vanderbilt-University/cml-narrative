@@ -80,8 +80,6 @@
 		// Determine if the user has selected a response for the presented question
 		if (questionsAndResponse[questionIndex].response != null) {
 			// Check to see if user is at the last survey question
-			console.log(questionIndex, questionsAndResponse.length);
-
 			if (questionIndex >= questionsAndResponse.length - 1) {
 				console.log('User has finished survey; we can no proceed.');
 
