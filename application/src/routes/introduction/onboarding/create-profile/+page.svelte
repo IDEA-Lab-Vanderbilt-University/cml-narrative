@@ -21,6 +21,7 @@
 	import { tourManager } from '$lib/components/tour/TourManager';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { UserData } from '$lib/types/UserData';
+	import DataService from '$lib/utils/DataService';
 	import { agentData } from '$lib/utils/stores/store';
 	import { onDestroy, onMount } from 'svelte';
 
@@ -38,7 +39,7 @@
 	 */
 	let baseNavigationURL = '/introduction/onboarding/create-profile?page=';
 
-	const numberOfPageSequences = 7;
+	const numberOfPageSequences = 6;
 
 	let profileData: UserData = {
 		name: {
@@ -61,11 +62,14 @@
 		page = data.page;
 
 		// Any time profile data is changed, the store is immediatly updated
-		agentData.set(profileData);
+		// agentData.set(profileData);
 	}
 
 	onMount(() => {
 		mounted = true;
+		profileData = $agentData;
+
+		console.log('pd: ', profileData);
 	});
 	onDestroy(() => {
 		mounted = false;
@@ -78,8 +82,6 @@
 	const handleNavigation = (direction: NavigationDirection) => {
 		console.log(profileData);
 
-		// tourManager.reset()
-
 		// Set the agentData store, which will allow us to access this profile data across the application
 		agentData.set(profileData);
 
@@ -87,6 +89,15 @@
 			goto(baseNavigationURL + (page - 1));
 		} else if (direction == NavigationDirection.forward && page < numberOfPageSequences) {
 			goto(baseNavigationURL + (page + 1));
+		}
+	};
+
+	const handleSubmit = async () => {
+		try {
+			await DataService.Data.setProfileData(profileData);
+			goto('/introduction/onboarding/create-profile/confirmation');
+		} catch (error) {
+			console.error(error);
 		}
 	};
 </script>
@@ -110,10 +121,10 @@
 				<Interest bind:profileData prompt="Can you think of anything else?" index={1} />
 			{:else if page == 5}
 				<Interest bind:profileData prompt="One more thing you enjoy" index={2} />
+				<!-- {:else if page == 6}
+				<ChooseAnAvatar bind:profileData /> -->
 			{:else if page == 6}
-				<ChooseAnAvatar bind:profileData />
-			{:else if page == 7}
-				<AgentName bind:profileData />
+				<AgentName bind:profileData on:submitClicked={handleSubmit} />
 			{/if}
 		</div>
 		<button

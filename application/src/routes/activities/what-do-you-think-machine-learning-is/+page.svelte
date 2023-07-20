@@ -12,19 +12,25 @@
 <script lang="ts">
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
+	import TextResponse from '$lib/components/activities/free-response/TextResponse.svelte';
+	import DataService from '$lib/utils/DataService';
+	import { goto } from '$app/navigation';
+
+	let response: string = '';
+
+	const handleSubmit = async () => {
+		try {
+			await DataService.Data.submitFreeResponse('machineLearning', response);
+			goto('/activities/draw-machine-learning');
+		} catch (error) {
+			console.error(error);
+		}
+	};
 </script>
 
 <Tablet>
-	<div class="flex h-full w-full flex-col items-center rounded-md bg-white p-5 font-mono">
-		<h1 class="text-4xl font-bold">What do you think Machine Learning is?</h1>
-		<p class="mt-4 text-xl italic">
-			In the box below, describe what you think an Machine Learning is.
-		</p>
-		<textarea
-			class="textarea-bordered textarea mx-8 mt-9 h-1/2 w-full border-4 border-dashed text-xl"
-			placeholder="I think machine learning is...." />
-		<a
-			href="/activities/draw-an-algorithm"
-			class="mt-9 rounded-md bg-lapiz-blue px-8 text-xl text-white">Submit</a>
-	</div>
+	<TextResponse
+		promptedTechnology="Machine Learning"
+		on:submitClicked={handleSubmit}
+		bind:response />
 </Tablet>

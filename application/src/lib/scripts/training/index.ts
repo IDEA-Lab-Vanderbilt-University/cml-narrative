@@ -13,6 +13,7 @@
 import type { Script, Line } from '$lib/types/Script';
 
 import type { UserData } from '$lib/types/UserData';
+import { Assets } from '$lib/utils/Assets';
 import { agentData } from '$lib/utils/stores/store';
 
 let agent: UserData = {};
@@ -27,70 +28,63 @@ const script: Script = {
 			id: 1,
 			speaker: 'Agent Spark',
 			dialog: "It's time for your SPOT Agent Training!",
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			avatar: Assets.Characters.AgentSpark.gesture,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 2,
 			speaker: 'Agent Spark',
 			dialog: 'We will start by talking about technology!',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			avatar: Assets.Characters.AgentSpark.gesture,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 3,
 			speaker: 'Captain Storm',
 			dialog: '',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			avatar: Assets.Characters.AgentSpark.gesture,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 4,
 			speaker: 'Agent Spark',
-			dialog: 'It can be tricky...',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
-			background: '/img/backgrounds/captain_office.jpg'
-		},
-		{
-			id: 5,
-			speaker: 'Captain Storm',
-			dialog: 'On your SPOT Tablet, tell us who it harms or helps.',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			dialog: 'It can be tricky... On your SPOT Tablet, tell us which technologies you think are helpful or harmful.',
+			avatar: Assets.Characters.AgentSpark.gesture,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 6,
 			speaker: 'Agent Spark',
 			dialog: 'Ever heard of Algorithms?',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			avatar: Assets.Characters.AgentSpark.gesture,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 7,
 			speaker: 'Agent Spark',
 			dialog: '...',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			avatar: Assets.Characters.AgentSpark.gesture,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 8,
 			speaker: 'Agent Spark',
 			dialog: 'Gear, did you overload the generator again?',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			avatar: Assets.Characters.AgentSpark.gesture,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 9,
 			speaker: 'Agent Gear',
 			dialog: 'Yeah, sorry! Fixing it now!',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			avatar: Assets.Characters.AgentGear.embarassed,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 10,
 			speaker: 'Agent Spark',
 			dialog: 'Anyway, back to algorithms. What do you think it is?',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			avatar: Assets.Characters.AgentSpark.gesture,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
@@ -98,21 +92,21 @@ const script: Script = {
 			speaker: 'Captain Storm',
 			dialog:
 				'There is no right or wrong answer. We need to know what you know to get you ready for your trip.',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			avatar: Assets.Characters.CaptainStorm.gesture_2,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 12,
 			speaker: 'Captain Storm',
-			dialog: `Interesting thoughts, ${agent.agentName}!`,
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			dialog: `Interesting thoughts, Agent ${agent.agentName}!`,
+			avatar: Assets.Characters.CaptainStorm.thumbs_up,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 13,
 			speaker: 'Agent Spark',
 			dialog: 'The phrase "machine learning" has become popular today. What o you think it means?',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			avatar: Assets.Characters.AgentSpark.gesture,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
@@ -120,14 +114,14 @@ const script: Script = {
 			speaker: 'Agent Spark',
 			dialog:
 				'Remember, there is no right or wrong answer, but we need to know what you know to get you ready for your trip!',
-			avatar: '/img/characters/captain-storm/storm_yeah.png',
+			avatar: Assets.Characters.AgentSpark.gesture,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 15,
 			speaker: 'Agent Spark',
 			dialog: `WAHOOO! Yay, ${agent.agentName}!`,
-			avatar: '/img/characters/captain-storm/storm_dance.png',
+			avatar: Assets.Characters.AgentSpark.gesture,
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{

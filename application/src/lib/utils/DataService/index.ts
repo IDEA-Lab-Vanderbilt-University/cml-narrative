@@ -48,7 +48,7 @@ const Auth = {
 };
 
 const Data = {
-	setProfileData: async (key: string, data) => {
+	setProfileData: async (data) => {
 		return new Promise<void>((resolve, reject) => {
 			console.log('Attempting to save profile data with data: ', data);
 			resolve();
@@ -64,6 +64,19 @@ const Data = {
 			console.log('attempting to submit post survey with data: ', surveyResponse);
 			resolve();
 		});
+	}, 
+	submitFreeResponse: async (id: string, data: any) => {
+		return new Promise<void>((resolve, reject) => {
+			console.log(`Attempting to submit free response with id: ${id} and data: `, data);
+			
+			resolve()
+		})
+	}, 
+	uploadResponseImages: async (id: string, data: HTMLImageElement[] | HTMLOrSVGImageElement) => {
+		return new Promise<void>((resolve, reject) => {
+			console.log(`Attempting to submit an response image for id ${id} with data: `, data);
+			
+		})
 	}
 };
 

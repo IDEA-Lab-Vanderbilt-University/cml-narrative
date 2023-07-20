@@ -17,21 +17,25 @@
 <script>
 	import TourWrapper from '$lib/components/tour/TourWrapper.svelte';
 	import '../app.css';
+	import Modal from 'svelte-simple-modal';
 </script>
-
-<div id="base-container" class="hidden font-cantora lg:block">
-	<TourWrapper>
-		<slot />
-	</TourWrapper>
-</div>
 
 <svelte:head>
 	<title>S.P.O.T - Solving Problems of Tomorrow</title>
 </svelte:head>
-<div
-	class="flex h-screen flex-col items-center justify-center space-y-6 px-12 text-center align-middle font-cantora lg:hidden ">
-	<h1 class="text-5xl">Sorry, Agent!</h1>
-	<p class="text-3xl">
-		Your screen size is too small. Please use a compatible device to access the Agent Portal.
-	</p>
-</div>
+
+<Modal>
+	<div id="base-container" class="font-cantora hidden lg:block">
+		<TourWrapper>
+			<slot />
+		</TourWrapper>
+	</div>
+
+	<div
+		class="font-cantora flex h-screen flex-col items-center justify-center space-y-6 px-12 text-center align-middle lg:hidden ">
+		<h1 class="text-5xl">Sorry, Agent!</h1>
+		<p class="text-3xl">
+			Your screen size is too small. Please use a compatible device to access the Agent Portal.
+		</p>
+	</div>
+</Modal>

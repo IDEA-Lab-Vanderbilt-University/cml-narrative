@@ -44,9 +44,10 @@
 	 * https://stackoverflow.com/questions/74221733/sveltekit-call-load-function-in-page-server-when-params-change
 	 */
 	$: line = data.line;
+	$: lineNumber = data.lineNumber;
 
 	$: {
-		if (line.id == 7 || line.id == 8 || line.id == 9) {
+		if (lineNumber == 6 || lineNumber == 7 || lineNumber == 8) {
 			shouldDarken = true;
 		} else {
 			shouldDarken = false;
@@ -96,22 +97,22 @@
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (line.id == 5) {
+			if (lineNumber == 4) {
 				goto('/activities/harmful-or-helpful');
-			} else if (line.id == 11) {
+			} else if (lineNumber == 10) {
 				goto('/activities/what-do-you-think-an-algorithm-is');
-			} else if (line.id == 14) {
+			} else if (lineNumber == 13) {
 				goto('/activities/what-do-you-think-machine-learning-is');
-			} else if (line.id == 19) {
+			} else if (lineNumber == 19) {
 				goto('/');
 			} else {
-				goto(`/training?page=${line.id + 1}`);
+				goto(`/training?page=${lineNumber + 1}`);
 			}
 		} else if (direction == NavigationDirection.backward) {
-			if (line.id == 1) {
+			if (lineNumber == 1) {
 				goto(`/introduction/bot-buddy?page=24`);
 			} else {
-				goto(`/training?page=${line.id - 1}`);
+				goto(`/training?page=${lineNumber - 1}`);
 			}
 		}
 	};
@@ -121,24 +122,24 @@
 
 <Scene background="/img/backgrounds/Spark_Lab.jpg" darken={shouldDarken}>
 	<div class={`h-full w-full ${shouldDarken ? 'brightness-40' : ''}`} slot="content">
-		{#if line.id <= 14}
+		{#if lineNumber <= 14}
 			<ProjectorView>
-				{#if line.id == 1 || line.id == 2}
+				{#if lineNumber == 1 || lineNumber == 2}
 					<Technology />
-				{:else if line.id == 3}
+				{:else if lineNumber == 3}
 					<Training2 />
-				{:else if line.id == 4 || line.id == 5}
+				{:else if lineNumber == 4 || lineNumber == 5}
 					<TrainingText>
 						<p class="text-4xl">
 							These technologies can be helpful, but they can also be harmful to people.
 						</p>
 						<p class="text-4xl">You need to decide which technologies are helpful or harmful.</p>
 					</TrainingText>
-				{:else if line.id == 6 || line.id == 10 || line.id == 11 || line.id == 12}
+				{:else if lineNumber == 6 || lineNumber == 10 || lineNumber == 11}
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Algorithm</p>
 					</TrainingText>
-				{:else if line.id == 13 || line.id == 14}
+				{:else if lineNumber == 12 || lineNumber == 13}
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Machine Learning</p>
 					</TrainingText>
@@ -149,7 +150,7 @@
 		{/if}
 	</div>
 	<div class="w-full" slot="dialog">
-		{#if line.id != 3}
+		{#if lineNumber != 3}
 			<SlimDialogBox
 				speaker={line.speaker}
 				dialog={line.dialog}

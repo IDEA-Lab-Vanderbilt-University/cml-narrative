@@ -33,6 +33,10 @@
 	onDestroy(() => {
 		tourManager.remove(tour);
 	});
+
+	const handleSubmit = () => {
+		dispatch('submitClicked');
+	};
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-10 font-mono">
@@ -47,9 +51,8 @@
 				bind:value={profileData.agentName} />
 		</div>
 	</div>
-	<a
+	<button
 		id="submit-button"
-		href="/introduction/onboarding/create-profile/confirmation"
-		class="rounded-md bg-lapiz-blue px-7 py-3 text-3xl text-white shadow hover:shadow-lg"
-		on:click>SUBMIT</a>
+		class="bg-lapiz-blue rounded-md px-7 py-3 text-3xl text-white shadow hover:shadow-lg"
+		on:click={handleSubmit}>SUBMIT</button>
 </div>

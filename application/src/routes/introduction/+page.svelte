@@ -79,7 +79,9 @@
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (line.id == 18) {
+			if (line.id == 3) {
+				goto('/introduction/invitation');
+			} else if (line.id == 18) {
 				goto('/introduction/onboarding');
 			} else {
 				goto(`/introduction?page=${line.id + 1}`);
@@ -97,6 +99,18 @@
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
 	<div slot="content" class="h-full w-full">
+		{#if line.id == 18}
+			<div class="flex w-full ">
+				<a
+					href="/introduction/onboarding"
+					class="my-4 mx-4 ml-auto w-fit  rounded-full bg-green-500 py-7 px-6 shadow-md hover:shadow-lg">
+					<img
+						src="/img/icons/mobile-app.png"
+						alt=""
+						class="h-24 animate-pulse hover:animate-none" />
+				</a>
+			</div>
+		{/if}
 		<!-- <div class=" h-full">hello</div> -->
 	</div>
 </Scene>

@@ -12,6 +12,7 @@
 
 import type { UserData } from '$lib/types/UserData';
 import { writable } from 'svelte/store';
+import { persist, createLocalStorage } from "@macfja/svelte-persistent-store"
 
 /**
  * A note on what this file does:
@@ -29,7 +30,8 @@ import { writable } from 'svelte/store';
  * cookies, which is probably something we will do in the future.
  */
 
-export const agentData = writable({});
+// export const agentData = writable({});
+export const agentData = persist(writable({}), createLocalStorage(), "agentData")
 
 export const tabletPowerNavigation = writable({});
 
@@ -38,3 +40,5 @@ export const tabletPowerNavigation = writable({});
  * This store allows this information to be accessed throughout the application.
  */
 export const megaJoulesMeter = writable(0);
+
+export const drawResponse = writable()

@@ -66,7 +66,7 @@
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (line.id == 24) {
+			if (line.id == 23) {
 				goto('/training?page=1');
 			} else {
 				goto(`/introduction/bot-buddy?page=${line.id + 1}`);
@@ -84,7 +84,7 @@
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
 	<div slot="content" class="h-full w-full">
-		{#if line.id == 16}
+		{#if line.id == 15}
 			<div class="h-full w-full">
 				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade />
 			</div>

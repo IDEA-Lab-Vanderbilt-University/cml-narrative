@@ -15,6 +15,10 @@ import { Excalidraw, exportToSvg } from '@excalidraw/excalidraw';
 import React from 'react';
 import { useState } from 'react';
 
+import DataService from '$lib/utils/DataService';
+
+import {drawResponse} from "$lib/utils/stores/store"
+
 /**
  * Defines the Draw React component
  *
@@ -30,6 +34,12 @@ import { useState } from 'react';
  */
 export function Draw() {
 	const [excalidrawAPI, setExcalidrawAPI] = useState(null);
+
+	let drawRes;
+
+	drawResponse.subscribe((value) => {
+		drawRes = value
+	})
 
 	return (
 		<div className="">
@@ -49,7 +59,19 @@ export function Draw() {
 							},
 							files: excalidrawAPI.getFiles()
 						});
-						console.log(svg);
+
+
+						/**
+						 * We will set the drawResponse store to the svg we have just created. This is done because there
+						 * is not a direct way to conencted between
+						 * Svelte and this react component
+						 * 
+						 * We will handle in our code where we expect a response
+						 * and grab the image from the store.
+						 * 
+						 * This is not the best, and is hacky. But will do for the meantime,
+						 */
+						drawResponse.set(svg)
 					}}>
 					SUBMIT!
 				</button>

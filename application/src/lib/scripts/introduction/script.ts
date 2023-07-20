@@ -40,7 +40,7 @@ const script: Script = {
 		{
 			id: 4,
 			speaker: 'Captain Storm',
-			dialog: 'They are specifically interested in the type of technology that will be available. ',
+			dialog: 'Great choice! We are specifically interested in the type of technology that will be available in the future.',
 			avatar: '/img/characters/captain-storm/gesture_2_storm.png',
 			background: '/img/backgrounds/captain_office.jpg'
 		},
@@ -48,7 +48,7 @@ const script: Script = {
 			id: 5,
 			speaker: 'Captain Storm',
 			dialog:
-				"We can solve future problems from the past! Pretty cool, right? But it's very top secret! Let me tell you your secret mission.",
+				"By seeing how technology works and affects people in the future, we might be able to prevent potential problems.",
 			avatar: '/img/characters/captain-storm/gesture_2_storm.png',
 			background: '/img/backgrounds/captain_office.jpg'
 		},
@@ -56,7 +56,7 @@ const script: Script = {
 			id: 6,
 			speaker: 'Captain Storm',
 			dialog:
-				'Your mission is to go into the future, explore any technologies you find, spot any problems the technologies may have and solve those problems.',
+				'Your mission is to travel to the future and spot any problems with technology. Then you will try and solve those problems.',
 			avatar: '/img/characters/captain-storm/storm_gesture_4.png',
 			background: '/img/backgrounds/captain_office.jpg'
 		},
@@ -122,7 +122,7 @@ const script: Script = {
 		{
 			id: 15,
 			speaker: 'Agent Spark',
-			dialog: 'Agent Fern is inspired by plants and things that grow.',
+			dialog: 'In addition to physics, Agent Fern loves plants and things that grow.',
 			avatar: '/img/characters/agent-spark/spark_gesture_1.png',
 			background: '/img/backgrounds/Agency_Walkway.jpg'
 		},
@@ -136,7 +136,7 @@ const script: Script = {
 		{
 			id: 17,
 			speaker: 'Agent Spark',
-			dialog: "What inspired you? I'm sure you will choose a great secret agent name!",
+			dialog: "What inspires you? I'm sure you will choose a great secret agent name!",
 			avatar: '/img/characters/agent-spark/spark_aww.png',
 			background: '/img/backgrounds/Agency_Walkway.jpg'
 		},
@@ -144,7 +144,7 @@ const script: Script = {
 			id: 18,
 			speaker: 'Agent Spark',
 			dialog:
-				"Here is your SPOT tablet. You will use this to keep track of your mission to the future. Let's get yours set up! ",
+				"Click on hte table above to open up your SPOT tablet. You will use this to keep track of your mission to the future and communicate to mission control Let's get yours set up!",
 			avatar: '/img/characters/agent-spark/spark_talking.png',
 			background: '/img/backgrounds/Agency_Walkway.jpg'
 		}

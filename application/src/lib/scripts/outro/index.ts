@@ -11,7 +11,15 @@
 */
 
 import type { Script } from "$lib/types/Script";
+import type { UserData } from "$lib/types/UserData";
 import { Assets } from "$lib/utils/Assets";
+import { agentData } from '$lib/utils/stores/store';
+
+let agent: UserData = {};
+
+agentData.subscribe((value) => {
+	agent = value as UserData;
+});
 
 const script: Script = {
     lines: [
@@ -25,7 +33,7 @@ const script: Script = {
         {
             id: 2,
 			speaker: "Captain Storm",
-			dialog: "Agent [NAME]! It's time to send you and Bot Buddy to the future! I'll be here at Mission Control, but we will stay in contact through the Travel Log in your SPOT Tablet.",
+			dialog: `Agent ${agent.agentName}! It's time to send you and Bot Buddy to the future! I'll be here at Mission Control, but we will stay in contact through the Travel Log in your SPOT Tablet.`,
 			avatar: Assets.Characters.CaptainStorm.arms_up,
 			background: "/img/backgrounds/Spark_Lab.jpg"
         }, {
