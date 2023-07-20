@@ -23,19 +23,15 @@
 	const hanldeImageSubmission = async (event) => {
 		console.log(event);
 
-		await DataService.Data.uploadResponseImages('algorithm', event.detail.image);
-		hasRecievedResponse = true;
-		// try {
-
-		// 		await DataService.Data.uploadResponseImages('algorithm', event.detail.image).then(() => {
-		// 			console.log('finished');
-		// 		});
-
-		// 		hasRecievedResponse = true;
-		// 	}
-		// } catch (error) {
-		// 	console.error(error);
-		// }
+		// await DataService.Data.uploadResponseImages('algorithm', event.detail.image);
+		// hasRecievedResponse = true;
+		try {
+			await DataService.Data.uploadResponseImages('algorithm', event.detail.image);
+			hasRecievedResponse = true;
+			goto("/training?page=11")
+		} catch (error) {
+		console.error(error);
+		}
 	};
 
 	const handleSubmit = () => {

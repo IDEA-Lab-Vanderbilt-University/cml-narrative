@@ -122,7 +122,7 @@
 
 <Scene background="/img/backgrounds/Spark_Lab.jpg" darken={shouldDarken}>
 	<div class={`h-full w-full ${shouldDarken ? 'brightness-40' : ''}`} slot="content">
-		{#if lineNumber <= 14}
+		{#if lineNumber <= 13}
 			<ProjectorView>
 				{#if lineNumber == 1 || lineNumber == 2}
 					<Technology />

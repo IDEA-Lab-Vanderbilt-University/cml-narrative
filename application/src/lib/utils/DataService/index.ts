@@ -75,7 +75,14 @@ const Data = {
 	uploadResponseImages: async (id: string, data: HTMLImageElement[] | HTMLOrSVGImageElement) => {
 		return new Promise<void>((resolve, reject) => {
 			console.log(`Attempting to submit an response image for id ${id} with data: `, data);
+			resolve()
+		})
+	},
+	submitHelpfulOrHarmfulResponse: async (data: {}) => {
+		return new Promise<void>((resolve, reject) => {
+			console.log("Attempting to upload helpfulOrHarmful responses with data: ", data);
 			
+			resolve()
 		})
 	}
 };

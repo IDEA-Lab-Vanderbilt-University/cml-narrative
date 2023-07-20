@@ -10,9 +10,11 @@
  
 --->
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Bank from '$lib/components/activities/drag-and-drop/Bank.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
+	import DataService from '$lib/utils/DataService';
 
 	// import ConfirmationModal from "$lib/components/modals/activities/hurtful-harmful/ConfirmationModal.svelte";
 	import { getContext, onMount } from 'svelte';
@@ -27,6 +29,8 @@
 		title: 'iPhone',
 		img: '/img/icons/mobile-app.png'
 	};
+
+	let itemIndex = 0
 
 	let items1 = [
 		{ id: 1, title: 'iPhone', img: '/img/icons/mobile-app.png' },
@@ -49,20 +53,21 @@
 		console.log(currentDragObject);
 		console.log(designatedContainer);
 
-		if (designatedContainer == 'helpful') {
-			helpfulElement.classList.add('animate-pulse');
-		}
+		if (itemIndex < items1.length - 1) {
+			if (designatedContainer == 'helpful') {
+				// helpfulElement.classList.add('animate-pulse');
+				helpful = [...helpful, currentDragObject]
+				itemIndex += 1
 
-		// let containerToDrop = document.getElementById(designatedContainer)
-		// containerToDrop?.appendChild(currentDragObject.el)
-		// if (
-		// 	e.detail.id == 'harmful' ||
-		// 	e.detail.id == 'helpful' ||
-		// 	e.detail.id == 'harmfulAndHelpful'
-		// ) {
-		// 	// if
-		// 	// open(ConfirmationModal, {detail: e.detail})
-		// }
+			}
+
+			if (designatedContainer == 'harmful') {
+				hurtful = [...hurtful, currentDragObject]
+				itemIndex += 1
+
+			}
+		}
+		
 	};
 
 	onMount(() => {
@@ -92,8 +97,25 @@
 		// })
 	});
 
+	const handleSubmit = async () => {
+		try {
+			await DataService.Data.submitHelpfulOrHarmfulResponse({
+				harmful: hurtful,
+				helpful: helpful
+			})
+			goto("/training?page=5")
+		} catch (error) {
+			console.error(error);
+		}
+	}
+
 	const handleDrag = (event) => {
 		// console.log(event);
+		// console.log(event);
+
+		// let drag: HTMLImageElement = currentDragObject.el
+		// drag.classList.add("opacity-50")
+		
 	};
 
 	const handleContainerDragover = (event) => {
@@ -141,41 +163,45 @@
 			</div>
 		</div>
 	</div> -->
-
 	<div class="flex h-full w-full flex-col items-center justify-center text-white">
-		<div class="space-y-3 text-center">
-			<h2 class="text-5xl">Is this technology helpful or harmful?</h2>
-			<p class="text-3xl">Drag the technology into the appropriate box.</p>
-		</div>
-		<div class="mt-14 flex w-full items-center">
-			<div
-				id="helpful-bank"
-				class="container flex h-full w-full   flex-col items-center justify-center rounded-sm p-2 text-center text-2xl text-white"
-				on:drop={handleDrop}
-				on:dragover={() => handleContainerDragover('helpful')}>
-				<p class="mb-3 text-4xl" bind:this={helpfulElement}>Helpful</p>
-				<div id="helpful-bank-container" class="flex items-start" />
-				<!-- <Bank items={helpful} type="light" id="helpful" on:itemDropped={handleDrop} /> -->
+		{#if itemIndex >= items1.length - 1}
+			<h2 class="text-5xl">Thanks for your response!</h2>
+			<button class="mt-8 text-4xl bg-blue-500 px-4 py-2 rounded-lg" on:click={handleSubmit}>Next</button>
+		{:else}
+			<div class="space-y-3 text-center">
+				<h2 class="text-5xl">Is this technology helpful or harmful?</h2>
+				<p class="text-3xl">Drag the technology into the appropriate box.</p>
 			</div>
-			<div id="yolo" class="container flex h-full w-1/2 flex-col items-center justify-center">
-				<!-- <Bank items={[items1[0]]} type="light" /> -->
-				<!-- <div id={currentDragObject.id} class="draggable bg-orange-300 cursor-move h-28 w-28" on:drag={handleDrag} bind:this={currentDragObject.el}> -->
-				<img
-					src={items1[0].img}
-					alt=""
-					class="h-full"
-					on:drag={handleDrag}
-					id="draggable"
-					on:dragend={handleDrop}
-					bind:this={currentDragObject.el} />
-				<!-- </div> -->
+			<div class="mt-14 flex w-full items-center">
+				<div
+					id="helpful-bank"
+					class="container flex h-full w-full   flex-col items-center justify-center rounded-sm p-2 text-center text-2xl text-white"
+					on:drop={handleDrop}
+					on:dragover={() => handleContainerDragover('helpful')}>
+					<p class="mb-3 text-4xl bg-teal-600 px-4 py-2 rounded-lg" bind:this={helpfulElement}>Helpful</p>
+					<div id="helpful-bank-container" class="flex items-start" />
+					<!-- <Bank items={helpful} type="light" id="helpful" on:itemDropped={handleDrop} /> -->
+				</div>
+				<div id="yolo" class="container flex h-full w-1/2 flex-col items-center justify-center">
+					<!-- <Bank items={[items1[0]]} type="light" /> -->
+					<!-- <div id={currentDragObject.id} class="draggable bg-orange-300 cursor-move h-28 w-28" on:drag={handleDrag} bind:this={currentDragObject.el}> -->
+					<img
+						src={items1[itemIndex].img}
+						alt=""
+						class="h-full"
+						on:drag={handleDrag}
+						id="draggable"
+						on:dragend={handleDrop}
+						bind:this={currentDragObject.el} />
+					<!-- </div> -->
+				</div>
+				<div
+					id=""
+					class="container flex h-full w-full  flex-col items-center justify-center rounded-sm p-2 text-center text-2xl text-white" on:dragover={() => handleContainerDragover('harmful')} on:drop={handleDrop}>
+					<p class="mb-3 text-4xl bg-teal-600 px-4 py-2 rounded-lg" bind:this={harmfulElement}>Harmful</p>
+					<!-- <Bank items={hurtful} type="light" id="harmful" on:itemDropped={handleDrop} /> -->
+				</div>
 			</div>
-			<div
-				id=""
-				class="container flex h-full w-full  flex-col items-center justify-center rounded-sm p-2 text-center text-2xl text-white">
-				<p class="mb-3 text-4xl" bind:this={harmfulElement}>Harmful</p>
-				<!-- <Bank items={hurtful} type="light" id="harmful" on:itemDropped={handleDrop} /> -->
-			</div>
-		</div>
+		{/if}
 	</div>
 </Tablet>

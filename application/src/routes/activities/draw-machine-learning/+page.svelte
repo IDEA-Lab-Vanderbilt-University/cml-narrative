@@ -24,12 +24,8 @@
 		console.log(event);
 
 		try {
-			await DataService.Data.uploadResponseImages('machineLearning', event.detail.image).then(
-				() => {
-					console.log('finished');
-				}
-			);
-			console.log('finisdshed');
+			await DataService.Data.uploadResponseImages('machineLearning', event.detail.image)
+			goto("/training?page=14")
 		} catch (error) {
 			console.error(error);
 		}
