@@ -128,21 +128,14 @@ const script: Script = {
 			id: 16,
 			speaker: 'Captain Storm',
 			dialog:
-				'Congratulations, you have earned your Agent-in-Training badge! You are now an official SPOT Agent!',
+				'Congratulations, you have earned your Agent-in-Training badge! You are now an official SPOT Agent! Check your SPOT tablet to see your new badge!',
 			avatar: '/img/characters/captain-storm/clapping_storm.png',
-			background: '/img/backgrounds/captain_office.jpg'
-		},
-		{
-			id: 17,
-			speaker: 'Captain Storm',
-			dialog: 'Check your SPOT Tablet to see your new BADGE!',
-			avatar: '/img/characters/captain-storm/storm_gesture_3.png',
 			background: '/img/backgrounds/captain_office.jpg'
 		},
 		{
 			id: 18,
 			speaker: 'Agent Gear',
-			dialog: `Hola, almost there ${agent.agentName}!`,
+			dialog: `In addition to earning your Training Badge, your Bot Buddy has been loaded with information that might be needed for the mission. You are now ready to travel to the year 2075!`,
 			avatar: '/img/characters/agent-gear/vanil_thumbs_up.png',
 			background: '/img/backgrounds/captain_office.jpg'
 		},
@@ -150,7 +143,7 @@ const script: Script = {
 			id: 19,
 			speaker: 'Agent Gear',
 			dialog:
-				'Your bot buddy has been loaded with information for the mission. You are now ready to travel to 2075!',
+				'One more thing before you go. We need to know more about what you think by answering a few questions. Open your tablet at the top of your screen and complete the survey to tell us more about you.',
 			avatar: '/img/characters/agent-gear/vanilla_talking.png',
 			background: '/img/backgrounds/captain_office.jpg'
 		}

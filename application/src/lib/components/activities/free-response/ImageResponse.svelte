@@ -27,6 +27,8 @@
 
 	export let promptedTechnology: string;
 
+	export let href: string;
+
 	let dispatch = createEventDispatcher();
 
 	enum ResponseType {
@@ -76,7 +78,7 @@
 				>Draw</button>
 			<button class="btn-secondary btn" on:click={openCamera}>Use Camera</button>
 		</div>
-		<button class="btn btn-accent mt-4" on:click={handleNext}>Next</button>
+		<a {href} class="btn btn-accent mt-4" on:click={handleNext}>Next</a>
 	</div>
 {:else if responseTypeState == ResponseType.draw}
 	<div class="mt-auto h-full w-full  items-center justify-center">

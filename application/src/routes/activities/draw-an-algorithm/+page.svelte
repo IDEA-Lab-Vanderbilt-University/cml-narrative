@@ -23,18 +23,25 @@
 	const hanldeImageSubmission = async (event) => {
 		console.log(event);
 
-		try {
-			await DataService.Data.uploadResponseImages('algorithm', event.detail.image).then(() => {
-				console.log('finished');
-			});
-			console.log('finisdshed');
-			hasRecievedResponse = true;
-		} catch (error) {
-			console.error(error);
-		}
+		await DataService.Data.uploadResponseImages('algorithm', event.detail.image);
+		hasRecievedResponse = true;
+		// try {
+
+		// 		await DataService.Data.uploadResponseImages('algorithm', event.detail.image).then(() => {
+		// 			console.log('finished');
+		// 		});
+
+		// 		hasRecievedResponse = true;
+		// 	}
+		// } catch (error) {
+		// 	console.error(error);
+		// }
 	};
 
 	const handleSubmit = () => {
+		console.log('submit');
+		console.log(hasRecievedResponse);
+
 		if (hasRecievedResponse) {
 			goto('/training?page=11');
 		}
@@ -44,6 +51,7 @@
 <Tablet>
 	<ImageResponse
 		promptedTechnology="an Algorithm"
+		href="/training?page=11"
 		on:imageSubmitted={hanldeImageSubmission}
 		on:submitClicked={handleSubmit} />
 </Tablet>

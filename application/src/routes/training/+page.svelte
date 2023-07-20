@@ -103,8 +103,8 @@
 				goto('/activities/what-do-you-think-an-algorithm-is');
 			} else if (lineNumber == 13) {
 				goto('/activities/what-do-you-think-machine-learning-is');
-			} else if (lineNumber == 19) {
-				goto('/');
+			} else if (lineNumber == 17) {
+				goto('/training/post-survey');
 			} else {
 				goto(`/training?page=${lineNumber + 1}`);
 			}
@@ -143,6 +143,18 @@
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Machine Learning</p>
 					</TrainingText>
+				{:else if lineNumber == 17}
+					hello
+					<!-- <div class="z-50 flex w-full">
+						<a
+							href="/introduction/onboarding"
+							class="my-4 mx-4 ml-auto w-fit rounded-full bg-green-500 py-7 px-6 shadow-md hover:shadow-lg">
+							<img
+								src="/img/icons/mobile-app.png"
+								alt=""
+								class="h-24 animate-pulse hover:animate-none" />
+						</a>
+					</div> -->
 				{/if}
 			</ProjectorView>
 		{:else}

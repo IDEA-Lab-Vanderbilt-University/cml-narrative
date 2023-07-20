@@ -60,11 +60,11 @@
 			<div class="mr-14 -scale-x-100 self-end">
 				<img src={line.avatar} alt="" />
 			</div>
-			<div class=" relative -bottom-4 z-20 h-fit w-fit rounded bg-peach px-3 text-4xl text-black">
+			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-4xl text-black">
 				{line.speaker}
 			</div>
 		{:else}
-			<div class=" relative -bottom-4 z-20 h-fit w-fit rounded bg-peach px-3 text-4xl text-black">
+			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 				{line.speaker}
 			</div>
 			<div class="mr-14 self-end">
@@ -73,13 +73,13 @@
 		{/if}
 	</div>
 
-	<div class="relative flex h-36 w-full items-center justify-center rounded bg-jet p-4 text-white">
+	<div class="bg-jet relative flex h-36 w-full items-center justify-center rounded p-4 text-white">
 		<div class="grid grid-cols-5 items-center justify-center gap-8 align-middle text-3xl">
 			<button class="mr-6 rotate-180" on:click={back}>
 				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
 				<!-- <p class="bg-peach w-fit p-4 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p> -->
 			</button>
-			<p class="col-span-3 mt-auto w-full text-3xl leading-relaxed  ">
+			<p class="col-span-3 mt-auto w-full text-2xl leading-relaxed  ">
 				{line.dialog}
 			</p>
 			<button class="" on:click={forward}>

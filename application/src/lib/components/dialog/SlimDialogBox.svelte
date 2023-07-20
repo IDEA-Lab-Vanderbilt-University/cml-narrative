@@ -48,7 +48,7 @@
 
 <div class="flex w-full flex-col">
 	<div class="relative z-20 flex w-full items-end justify-between align-bottom">
-		<div class=" relative -bottom-4 z-20 h-fit w-fit rounded bg-peach px-3 text-4xl text-black">
+		<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-4xl text-black">
 			{speaker}
 		</div>
 		<div class="mr-14 self-end">
@@ -56,20 +56,20 @@
 		</div>
 	</div>
 
-	<div class="relative w-full rounded bg-jet text-white ">
+	<div class="bg-jet relative w-full rounded text-white ">
 		<div class="grid grid-cols-5 items-center gap-4 align-middle text-3xl">
 			<button class="mr-6 rotate-180" on:click={back}>
 				<p
-					class="w-fit rounded-full bg-peach p-4 transition-all duration-200 ease-in-out hover:opacity-80">
+					class="bg-peach w-fit rounded-full p-4 transition-all duration-200 ease-in-out hover:opacity-80">
 					➜
 				</p>
 			</button>
-			<p class="col-span-3 h-36 w-full text-3xl leading-relaxed ">
+			<p class="col-span-3 h-36 w-full text-2xl leading-relaxed ">
 				{dialog}
 			</p>
 			<button class="" on:click={forward}>
 				<p
-					class="w-fit rounded-full bg-peach p-4 transition-all duration-200 ease-in-out hover:opacity-80">
+					class="bg-peach w-fit rounded-full p-4 transition-all duration-200 ease-in-out hover:opacity-80">
 					➜
 				</p>
 			</button>

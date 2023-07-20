@@ -37,5 +37,8 @@
 </script>
 
 <Tablet>
-	<ImageResponse promptedTechnology="Machine Learning" on:imageSubmitted={hanldeImageSubmission} />
+	<ImageResponse
+		promptedTechnology="Machine Learning"
+		on:imageSubmitted={hanldeImageSubmission}
+		href="/training?page=14" />
 </Tablet>
