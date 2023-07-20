@@ -67,9 +67,9 @@
 			<p>Scan your Agent Badge below</p>
 		</div>
 		<div class=" mt-7 h-1/2 w-1/2 " out:fade>
-			{#if env.PUBLIC_USE_SCANNER == true}
+			<!-- {#if env.PUBLIC_USE_SCANNER == true} -->
 				<Scanner on:idProcessed={handleIDProcess} />
-			{:else}
+			<!-- {:else}
 				<button
 					class="text-4xl text-white"
 					on:click={() =>
@@ -82,7 +82,7 @@
 								email: 'email@ian.com'
 							}
 						})}>TEST</button>
-			{/if}
+			{/if} -->
 		</div>
 		<button
 			out:fade
