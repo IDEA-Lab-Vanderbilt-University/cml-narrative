@@ -11,6 +11,7 @@
 --->
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import SurveyOption from '$lib/components/activities/survey/SurveyOption.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import DataService from '$lib/utils/DataService';
 
@@ -99,6 +100,16 @@
 			alert('Please select an option first!');
 		}
 	};
+
+	/**
+	 * This function is called when a SurveyOption is clicked. The proper survey response should be passed in
+	 * as parameter. Then, that response is saved to the current questionsAndResponse object
+	 *
+	 * @param response survey response selection
+	 */
+	const handleSelection = (response: string) => {
+		questionsAndResponse[questionIndex].response = response;
+	};
 </script>
 
 <Tablet>
@@ -108,53 +119,18 @@
 		<div class="hud-red-blue-border w-full">
 			<p class="text-center text-3xl text-white">{questionsAndResponse[questionIndex].question}</p>
 		</div>
-		<div class="hud-red-blue-border flex w-3/4 flex-col space-y-4 p-4">
-			<label class="text-2xl">
-				<input
-					type="radio"
-					name="disagree"
-					id=""
-					class=""
-					bind:group={questionsAndResponse[questionIndex].response}
-					value="Strongly Disagree" />
-				Strongly Disagree
-			</label>
-			<label class="text-2xl">
-				<input
-					type="radio"
-					name="disagree"
-					id=""
-					bind:group={questionsAndResponse[questionIndex].response}
-					value="Disagree" />
-				Disagree
-			</label>
-			<label class="text-2xl">
-				<input
-					type="radio"
-					name="disagree"
-					id=""
-					bind:group={questionsAndResponse[questionIndex].response}
-					value="Neutral" />
-				Neutral
-			</label>
-			<label class="text-2xl">
-				<input
-					type="radio"
-					name="disagree"
-					id=""
-					bind:group={questionsAndResponse[questionIndex].response}
-					value="Agree" />
-				Agree
-			</label>
-			<label class="text-2xl">
-				<input
-					type="radio"
-					name="disagree"
-					id=""
-					bind:group={questionsAndResponse[questionIndex].response}
-					value="Strongly Agree" />
-				Strongly Agree
-			</label>
+		<div class="hud-red-blue-border flex w-3/4 flex-col space-y-4 p-4 text-3xl">
+			<SurveyOption
+				emoji="😃"
+				response="Strongly Agree"
+				on:click={() => handleSelection('Strongly Agree')} />
+			<SurveyOption emoji="🙂" response="Agree" on:click={() => handleSelection('Agree')} />
+			<SurveyOption emoji="😐" response="Neutral" on:click={() => handleSelection('Neutral')} />
+			<SurveyOption emoji="🙁" response="Disagree" on:click={() => handleSelection('Disagree')} />
+			<SurveyOption
+				emoji="☹️"
+				response="Strongly Disagree"
+				on:click={() => handleSelection('Strongly Disagree')} />
 		</div>
 		<div class="flex w-full items-end justify-end">
 			<button
