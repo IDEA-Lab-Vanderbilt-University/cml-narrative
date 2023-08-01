@@ -167,7 +167,7 @@
 				speaker={line.speaker}
 				dialog={line.dialog}
 				avatar={line.avatar}
-				on:dialogEvent{handleDialogEvent} />
+				on:dialogEvent={handleDialogEvent} />
 		{/if}
 	</div>
 </Scene>
