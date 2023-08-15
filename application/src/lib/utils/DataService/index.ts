@@ -71,7 +71,6 @@ const Auth = {
 
 			console.log(res);
 			
-			
 			resolve();
 			// throw new Error("Could not validate ID. Please make sure you are scanning your AGENT ID badge provided by Mission Control");
 		});
@@ -109,10 +108,20 @@ const Data = {
 		});
 	}, 
 	submitFreeResponse: async (id: string, data: any) => {
-		return new Promise<void>((resolve, reject) => {
+		return new Promise<void>(async (resolve, reject) => {
 			console.log(`Attempting to submit free response with id: ${id} and data: `, data);
 			
-			resolve()
+			try {
+				let res = await RequestFactory("/api/travel-log/add", {
+					travelLog: {
+						response: data,
+						description: id
+					}
+				})
+				resolve()
+			} catch (error) {
+				reject(error)
+			}
 		})
 	}, 
 	uploadResponseImages: async (id: string, data: HTMLImageElement[] | HTMLOrSVGImageElement) => {
@@ -122,10 +131,20 @@ const Data = {
 		})
 	},
 	submitHelpfulOrHarmfulResponse: async (data: {}) => {
-		return new Promise<void>((resolve, reject) => {
+		return new Promise<void>(async (resolve, reject) => {
 			console.log("Attempting to upload helpfulOrHarmful responses with data: ", data);
 			
-			resolve()
+			try {
+				let res = await RequestFactory("/api/travel-log/add", {
+					travelLog: {
+						response: data,
+						description: "helpful-or-harmful"
+					}
+				})
+				resolve()
+			} catch (error) {
+				reject(error)
+			}
 		})
 	}
 };
