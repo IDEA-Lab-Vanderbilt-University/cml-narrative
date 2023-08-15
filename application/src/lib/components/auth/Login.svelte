@@ -32,7 +32,7 @@
 
 		try {
 			let auth = await DataService.Auth.signIn(studentAuth);
-			agentHasBeenFound = true;
+			// agentHasBeenFound = true;
 		} catch (error) {
 			console.log(error);
 			signInError = error;
@@ -54,35 +54,35 @@
 
 <div class="flex h-full w-full flex-col  items-center justify-center">
 	{#if signInError}
-		<div class="mt-9 space-y-4 text-center font-mokoto text-white">
-			<p class="text-3xl text-error" in:fade={{ delay: 600 }}>ACCESS DENIED!</p>
+		<div class="font-mokoto mt-9 space-y-4 text-center text-white">
+			<p class="text-error text-3xl" in:fade={{ delay: 600 }}>ACCESS DENIED!</p>
 			<p class="text-xl" in:fade={{ delay: 1200 }}>{signInError}</p>
 		</div>
 		<button in:fade={{ delay: 1500 }} on:click={handleReset}>
 			<img src="/img/svg/dialog-arrow.svg" alt="" class="mt-8 h-14 rotate-180" />
 		</button>
 	{:else if !agentHasBeenFound}
-		<div class="flex flex-col space-y-3 text-center font-mokoto text-white" out:fade>
+		<div class="font-mokoto flex flex-col space-y-3 text-center text-white" out:fade>
 			<h2 class="text-3xl font-bold">New Agents</h2>
 			<p>Scan your Agent Badge below</p>
 		</div>
 		<div class=" mt-7 h-1/2 w-1/2 " out:fade>
 			<!-- {#if env.PUBLIC_USE_SCANNER == true} -->
-				<Scanner on:idProcessed={handleIDProcess} />
-			<!-- {:else}
-				<button
-					class="text-4xl text-white"
-					on:click={() =>
-						handleIDProcess({
-							detail: {
-								firstName: 'Ian',
-								lastName: 'Thompson',
-								id: 12432,
-								password: 'password',
-								email: 'email@ian.com'
-							}
-						})}>TEST</button>
-			{/if} -->
+			<!-- <Scanner on:idProcessed={handleIDProcess} /> -->
+			<!-- <!-- {:else} -->
+			<button
+				class="text-4xl text-white"
+				on:click={() =>
+					handleIDProcess({
+						detail: {
+							firstName: 'Ian',
+							lastName: 'Thompson',
+							id: 12432,
+							password: 'password',
+							email: 'email@ian.com'
+						}
+					})}>TEST</button>
+			<!-- {/if} -->
 		</div>
 		<button
 			out:fade
@@ -92,7 +92,7 @@
 			<img src="/img/svg/dialog-arrow.svg" alt="" class="mt-8 h-14 rotate-180" />
 		</button>
 	{:else}
-		<div class="mt-9 space-y-4 text-center font-mokoto text-white">
+		<div class="font-mokoto mt-9 space-y-4 text-center text-white">
 			<p class="text-3xl text-green-500" in:fade={{ delay: 600 }}>MATCH FOUND!</p>
 			<p class="text-xl" in:fade={{ delay: 1200 }}>
 				Welcome, {studentAuth.firstName}

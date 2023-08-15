@@ -11,6 +11,7 @@
 --->
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
@@ -20,6 +21,8 @@
 	export let data;
 
 	let line: Line;
+
+	let audios = ['a.m4a', 'b.m4a'];
 
 	/**
 	 * We declared the line variable above. This variable is "reactive" and will change on
@@ -94,6 +97,8 @@
 
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
+<AudioPlayer src={`/audio/${audios[line.id - 1]}`} />
+
 <Scene background={line.background}>
 	<div class="w-full" slot="dialog">
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
@@ -103,7 +108,7 @@
 			<div class="flex w-full ">
 				<a
 					href="/introduction/onboarding"
-					class="my-4 mx-4 ml-auto w-fit  rounded-full bg-green-500 py-7 px-6 shadow-md hover:shadow-lg">
+					class="mx-4 my-4 ml-auto w-fit  rounded-full bg-green-500 px-6 py-7 shadow-md hover:shadow-lg">
 					<img
 						src="/img/icons/mobile-app.png"
 						alt=""

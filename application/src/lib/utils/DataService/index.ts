@@ -11,6 +11,7 @@
 */
 
 import type { StudentAuthData } from '$lib/types/StudentData';
+import { RequestFactory } from '../network/RequestFactory';
 
 /**
  * Handles and contains all of the authentication logic
@@ -23,9 +24,27 @@ const Auth = {
 	 * @param password
 	 * @returns
 	 */
-	signUp: async (username: string, email: string, password: string) => {
-		return new Promise((resolve, reject) => {
-			resolve();
+	signUp: async (profileData) => {
+		return new Promise(async (resolve, reject) => {
+			console.log(profileData);
+			
+			let response = await fetch("http://localhost:5173/api/auth/signup", {
+				method: "POST",
+				body: JSON.stringify({
+					profileData
+				}),
+				headers: {
+					'Content-Type': 'application/json'
+
+				}
+			})
+
+			let result = await response.json()
+
+			// console.log("res: ", await res.json());
+			
+
+			resolve(result);
 		});
 	},
 	/**
@@ -39,8 +58,20 @@ const Auth = {
 	 * @returns promise wheter or not the user has been signed in or not
 	 */
 	signIn: async (credential: StudentAuthData) => {
-		return new Promise<void>((resolve, reject) => {
+		return new Promise<void>(async (resolve, reject) => {
 			console.log('Attempting to sign in user with data: ', credential);
+
+			let res = await fetch("http://localhost:8001/api/auth/signin", {
+				method: "POST",
+				body: {
+					agentName: credential.firstName,
+					password: credential.password
+				}
+			})
+
+			console.log(res);
+			
+			
 			resolve();
 			// throw new Error("Could not validate ID. Please make sure you are scanning your AGENT ID badge provided by Mission Control");
 		});
@@ -60,9 +91,21 @@ const Data = {
 	 * @returns promise
 	 */
 	submitPostSurvey: async (surveyResponse: {}) => {
-		return new Promise<void>((resolve, reject) => {
+		return new Promise<void>(async (resolve, reject) => {
 			console.log('attempting to submit post survey with data: ', surveyResponse);
-			resolve();
+
+			try {
+
+				let res = await RequestFactory("/api/travel-log/add", {
+					travelLog: {
+						surveyResponse,
+						description: "post-survey"
+					}
+				})
+				resolve()
+			} catch (error) {
+				reject(error)
+			}
 		});
 	}, 
 	submitFreeResponse: async (id: string, data: any) => {
