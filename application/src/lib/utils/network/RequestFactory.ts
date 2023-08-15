@@ -11,7 +11,7 @@
 */
 
 /**
- * Create a network request
+ * Create a network POST request
  * @param url url of server you are attempting to request
  * @param body data to send to server
  * @param accessToken optional accessToken for requests that require an access token
