@@ -61,15 +61,22 @@ const Auth = {
 		return new Promise<void>(async (resolve, reject) => {
 			console.log('Attempting to sign in user with data: ', credential);
 
-			let res = await fetch("http://localhost:8001/api/auth/signin", {
-				method: "POST",
-				body: {
-					agentName: credential.firstName,
+			let res = await RequestFactory("/api/auth/signin", {
+				credentials: {
+					agentName: credential.agentName,
 					password: credential.password
 				}
 			})
 
-			console.log(res);
+			// let res = await fetch("http://localhost:8001/api/auth/signin", {
+			// 	method: "POST",
+			// 	body: {
+			// 		agentName: credential.agentName,
+			// 		password: credential.password
+			// 	}
+			// })
+
+			// console.log(res);
 			
 			resolve();
 			// throw new Error("Could not validate ID. Please make sure you are scanning your AGENT ID badge provided by Mission Control");

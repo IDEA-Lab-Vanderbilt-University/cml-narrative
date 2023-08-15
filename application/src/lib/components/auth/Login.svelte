@@ -31,8 +31,12 @@
 		// agentHasBeenFound = true
 
 		try {
-			let auth = await DataService.Auth.signIn(studentAuth);
-			// agentHasBeenFound = true;
+			let auth = await DataService.Auth.signIn({
+				agentName: 'Bendigo',
+				password: '12345'
+			});
+			agentHasBeenFound = true;
+			// studentAuth = auth;
 		} catch (error) {
 			console.log(error);
 			signInError = error;

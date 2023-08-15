@@ -67,7 +67,7 @@
 
 	onMount(() => {
 		mounted = true;
-		profileData = $agentData;
+		// profileData = $agentData;
 
 		console.log('pd: ', profileData);
 	});
@@ -97,7 +97,7 @@
 			// await DataService.Data.setProfileData(profileData);
 
 			await DataService.Auth.signUp(profileData);
-			// goto('/introduction/onboarding/create-profile/confirmation');
+			goto('/introduction/onboarding/create-profile/confirmation');
 		} catch (error) {
 			console.error(error);
 		}
