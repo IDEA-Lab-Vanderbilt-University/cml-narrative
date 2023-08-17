@@ -99,8 +99,10 @@
 			in:fade={{ delay: 1500 }}
 			on:click={() => {
 				goto('/introduction?page=1');
-			}}>
-			<img src="/img/svg/dialog-arrow.svg" alt="" class="mt-8 h-14" />
+			}}
+			class="font-mokoto mt-8 flex items-center justify-center gap-5 rounded-md bg-black bg-opacity-75 px-4 py-3 align-middle shadow-md">
+			<p class="text-3xl font-bold text-white">Begin</p>
+			<!-- <img src="/img/svg/dialog-arrow.svg" alt="" class="h-14" /> -->
 		</button>
 	{/if}
 </div>
