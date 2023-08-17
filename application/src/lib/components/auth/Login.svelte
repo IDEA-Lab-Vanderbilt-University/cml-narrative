@@ -77,7 +77,7 @@
 			<!-- {#if env.PUBLIC_USE_SCANNER == true} -->
 			<!-- <Scanner on:idProcessed={handleIDProcess} /> -->
 			<!-- <!-- {:else} -->
-			<button class="text-4xl text-white" on:click={() => handleIDProcess()}>TEST</button>
+			<button class="text-4xl text-white" on:click={() => handleIDProcess()}>Test Log In</button>
 			<!-- {/if} -->
 		</div>
 		<button
