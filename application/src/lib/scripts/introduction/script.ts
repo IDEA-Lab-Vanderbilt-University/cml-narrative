@@ -19,7 +19,8 @@ const script: Script = {
 			speaker: 'Captain Storm',
 			dialog: 'Welcome to the SPOT Agency, my name is Captain Storm.',
 			avatar: '/img/characters/captain-storm/storm_yeah.png',
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: "/audio/level0/captain_storm/captn_storm_l0s1.wav"
 		},
 		{
 			id: 2,
@@ -27,7 +28,9 @@ const script: Script = {
 			dialog:
 				'Recently, a team of scientists and researchers found a way to travel into the future! ',
 			avatar: '/img/characters/captain-storm/gesture_2_storm.png',
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: "/audio/level0/captain_storm/captn_storm_l0s2.wav"
+
 		},
 		{
 			id: 3,
@@ -35,7 +38,8 @@ const script: Script = {
 			dialog:
 				'But now they need volunteers to go on a mission to the year 2075 to see what the future is like.',
 			avatar: '/img/characters/captain-storm/gesture_2_storm.png',
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: "/audio/level0/captain_storm/captn_storm_l0s6.wav"
 		},
 		{
 			id: 4,
@@ -58,7 +62,8 @@ const script: Script = {
 			dialog:
 				'Your mission is to travel to the future and spot any problems with technology. Then you will try and solve those problems.',
 			avatar: '/img/characters/captain-storm/storm_gesture_4.png',
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: "/audio/level0/captain_storm/captn_storm_l0s10.wav"
 		},
 		{
 			id: 7,
@@ -66,7 +71,8 @@ const script: Script = {
 			dialog:
 				'You will bring back information that will help you design technologies that are good for your community.',
 			avatar: '/img/characters/captain-storm/storm_gesture_4.png',
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: "/audio/level0/captain_storm/captn_storm_l0s11.wav"
 		},
 		{
 			id: 8,
@@ -81,21 +87,24 @@ const script: Script = {
 			speaker: 'Captain Storm',
 			dialog: 'Agent Fern is our brilliant physicist who developed a way to time travel!',
 			avatar: '/img/characters/captain-storm/storm_yeah.png',
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: "/audio/level0/captain_storm/captn_storm_l0s13.wav"
 		},
 		{
 			id: 10,
 			speaker: 'Captain Storm',
 			dialog: 'Agent Gear is our engineer who designed and built special SPOT robots!',
 			avatar: '/img/characters/captain-storm/storm_gesture_4.png',
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: "/audio/level0/captain_storm/captn_storm_l0s14.wav"
 		},
 		{
 			id: 11,
 			speaker: 'Captain Storm',
 			dialog: 'Agent Spark is our software developer. She writes the code for all our SPOT tech!',
 			avatar: '/img/characters/captain-storm/storm_gesture_4.png',
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: "/audio/level0/captain_storm/captn_storm_l0s15.wav"
 		},
 		{
 			id: 12,

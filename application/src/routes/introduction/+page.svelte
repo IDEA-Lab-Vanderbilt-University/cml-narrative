@@ -11,7 +11,7 @@
 --->
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
+	import AudioPlayer, { play } from '$lib/components/audio/AudioPlayer.svelte';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
@@ -97,11 +97,18 @@
 
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
-<AudioPlayer src={`/audio/${audios[line.id - 1]}`} />
+<AudioPlayer src={`${line.audio}`} />
 
 <Scene background={line.background}>
 	<div class="w-full" slot="dialog">
-		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
+		<div
+			class=""
+			on:click={() => {
+				console.log('hsdhj');
+				play();
+			}}>
+			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
+		</div>
 	</div>
 	<div slot="content" class="h-full w-full">
 		{#if line.id == 18}

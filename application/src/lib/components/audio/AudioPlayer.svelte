@@ -9,6 +9,20 @@
  https://idealab.sites.clemson.edu
  
 --->
+<script context="module" lang="ts">
+	const players = new Set();
+
+	export function stopAll() {
+		players.forEach(() => p.pause());
+	}
+
+	export const play = () => {
+		players.forEach((p) => {
+			p.play();
+		});
+	};
+</script>
+
 <script lang="ts">
 	import { onMount } from 'svelte';
 
@@ -16,7 +30,8 @@
 	let player: HTMLAudioElement;
 
 	onMount(() => {
-		player.play();
+		players.add(player);
+		// player.play();
 	});
 </script>
 
