@@ -43,6 +43,8 @@ export const RequestFactory = async (url: string, body: any, accessToken?: strin
             let response = await fetch(url, requestOptions)
             let result = await response.json()
 
+            // console.log("result: ", response.text);
+            
             resolve(result)
         } catch (error) {
             reject(error)

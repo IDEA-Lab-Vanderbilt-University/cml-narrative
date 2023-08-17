@@ -78,7 +78,7 @@ const Auth = {
 
 			// console.log(res);
 			
-			resolve();
+			resolve(res);
 			// throw new Error("Could not validate ID. Please make sure you are scanning your AGENT ID badge provided by Mission Control");
 		});
 	}

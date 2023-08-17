@@ -27,16 +27,19 @@
 	let studentAuth: StudentAuthData;
 
 	const handleIDProcess = async (e) => {
-		studentAuth = e.detail;
+		// studentAuth = e.detail;
 		// agentHasBeenFound = true
 
 		try {
 			let auth = await DataService.Auth.signIn({
-				agentName: 'Bendigo',
+				agentName: 'adalovelace',
 				password: '12345'
 			});
+
+			console.log(auth);
+
 			agentHasBeenFound = true;
-			// studentAuth = auth;
+			studentAuth = auth;
 		} catch (error) {
 			console.log(error);
 			signInError = error;
@@ -74,18 +77,7 @@
 			<!-- {#if env.PUBLIC_USE_SCANNER == true} -->
 			<!-- <Scanner on:idProcessed={handleIDProcess} /> -->
 			<!-- <!-- {:else} -->
-			<button
-				class="text-4xl text-white"
-				on:click={() =>
-					handleIDProcess({
-						detail: {
-							firstName: 'Ian',
-							lastName: 'Thompson',
-							id: 12432,
-							password: 'password',
-							email: 'email@ian.com'
-						}
-					})}>TEST</button>
+			<button class="text-4xl text-white" on:click={() => handleIDProcess()}>TEST</button>
 			<!-- {/if} -->
 		</div>
 		<button

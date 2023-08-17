@@ -24,8 +24,7 @@ export async function POST({ request, cookies }) {
         
         cookies.set("accessToken", response.accessToken, {path: '/', maxAge: 60 * 60 * 24 * 7})
         
-
-        return json("result", {status: 201})
+        return json(response, {status: 201})
     } catch (error) {
         return json(null, { status: 201 });
     }
