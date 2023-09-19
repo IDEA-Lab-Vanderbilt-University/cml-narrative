@@ -28,7 +28,8 @@ const script: Script = {
 			dialog:
 				'Thank you Agent Spark! It looks like our new agent-in-training is ready to go to the lab!',
 			avatar: '/img/characters/captain-storm/storm_thumbs_up.png',
-			background: '/img/backgrounds/Agency_Walkway.jpg'
+			background: '/img/backgrounds/Agency_Walkway.jpg',
+            audio: "/audio/level0/captain_storm/captn_storm_l0s48.wav"
 		},
 		{
 			id: 2,
@@ -109,7 +110,8 @@ const script: Script = {
 			speaker: 'Bot Buddy',
 			dialog: '$$((( ooo!>>> =+=; $^(( %&<!!',
 			avatar: '/img/characters/bot-buddy/bot-buddy-base.png',
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+            audio: "/audio/level0/bot_buddy/bot_buddy_los59.wav"
 		},
 		{
 			id: 13,
@@ -137,7 +139,8 @@ const script: Script = {
 			speaker: 'Bot Buddy',
 			dialog: 'Hello! I am Bot Buddy! I am your robot assistant.',
 			avatar: '/img/characters/bot-buddy/bot-buddy-base.png',
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+            audio: "/audio/level0/bot_buddy/bot_buddy_l0s63.wav"
 		},
 		{
 			id: 17,
@@ -151,14 +154,16 @@ const script: Script = {
 			speaker: 'Captain Storm',
 			dialog: 'Excellent! Thank you Agent Gear and Agent Fern!',
 			avatar: '/img/characters/captain-storm/storm_2_thumbs_up.png',
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+            audio: "/audio/level0/captain_storm/captn_storm_l0s65.wav"
 		},
 		{
 			id: 19,
 			speaker: 'Captain Storm',
 			dialog: `Agent ${agent.agentName}, Mission Control needs you to complete some training before going on the mission.`,
 			avatar: '/img/characters/captain-storm/storm_gesture_4.png',
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+            audio: "/audio/level0/captain_storm/captn_storm_l0s66.wav"
 		},
 		{
 			id: 20,
@@ -166,7 +171,8 @@ const script: Script = {
 			dialog:
 				'This training helps us understand what you know about technology and Artificial Intelligence.',
 			avatar: '/img/characters/captain-storm/clapping_storm.png',
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+            audio: "/audio/level0/captain_storm/captn_storm_l0s67.wav"
 		},
 		{
 			id: 21,
@@ -189,7 +195,8 @@ const script: Script = {
 			dialog:
 				"Thanks, team! At the end of this first training, you will receive your first badge! Let's get started!",
 			avatar: '/img/characters/captain-storm/storm_arms_up.png',
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+            audio: "/audio/level0/captain_storm/captn_storm_l0s70.wav"
 		}
 	],
 	length: 24
