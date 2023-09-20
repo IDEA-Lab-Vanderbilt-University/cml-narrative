@@ -61,24 +61,25 @@ const Auth = {
 		return new Promise<void>(async (resolve, reject) => {
 			console.log('Attempting to sign in user with data: ', credential);
 
-			let res = await RequestFactory("/api/auth/signin", {
-				credentials: {
-					agentName: credential.agentName,
-					password: credential.password
+			try {
+				let res = await RequestFactory("/api/auth/signin", {
+					credentials: {
+						// agentName: credential.agentName,
+						password: credential.password,
+						email: credential.email
+					}
+				})
+	
+				if (res) {
+					resolve(res)
+				} else {
+					reject(res)
 				}
-			})
+			} catch (error) {
+				reject(error)
+			}
 
-			// let res = await fetch("http://localhost:8001/api/auth/signin", {
-			// 	method: "POST",
-			// 	body: {
-			// 		agentName: credential.agentName,
-			// 		password: credential.password
-			// 	}
-			// })
-
-			// console.log(res);
 			
-			resolve(res);
 			// throw new Error("Could not validate ID. Please make sure you are scanning your AGENT ID badge provided by Mission Control");
 		});
 	}
@@ -104,7 +105,7 @@ const Data = {
 
 				let res = await RequestFactory("/api/travel-log/add", {
 					travelLog: {
-						surveyResponse,
+						data: surveyResponse,
 						description: "post-survey"
 					}
 				})
@@ -121,7 +122,7 @@ const Data = {
 			try {
 				let res = await RequestFactory("/api/travel-log/add", {
 					travelLog: {
-						response: data,
+						data: data,
 						description: id
 					}
 				})
@@ -144,7 +145,7 @@ const Data = {
 			try {
 				let res = await RequestFactory("/api/travel-log/add", {
 					travelLog: {
-						response: data,
+						data: data,
 						description: "helpful-or-harmful"
 					}
 				})

@@ -13,6 +13,7 @@
 import { CML_BACKEND } from '$env/static/private';
 import { RequestFactory } from '$lib/utils/network/RequestFactory.js';
 import { json } from '@sveltejs/kit';
+import { error } from '@sveltejs/kit';
 
 export async function POST({ request, cookies }) {
 
@@ -23,9 +24,14 @@ export async function POST({ request, cookies }) {
         let response = await RequestFactory(`${CML_BACKEND}/auth/signin`, credentials)
         
         cookies.set("accessToken", response.accessToken, {path: '/', maxAge: 60 * 60 * 24 * 7})
-        
+                
+
         return json(response, {status: 201})
     } catch (error) {
-        return json(null, { status: 201 });
+
+        throw error(401, {
+            message: "Could not sign user in. Make sure proper credentials are provided!"
+        })
+        return json("Could not sign user in!", { status: 401 });
     }
 }

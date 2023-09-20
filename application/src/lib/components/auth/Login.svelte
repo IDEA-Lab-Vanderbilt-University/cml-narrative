@@ -32,8 +32,8 @@
 
 		try {
 			let auth = await DataService.Auth.signIn({
-				agentName: 'adalovelace',
-				password: '12345'
+				email: 'ian@ian.com',
+				password: '1234'
 			});
 
 			console.log(auth);
