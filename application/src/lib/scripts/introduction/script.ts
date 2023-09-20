@@ -111,14 +111,16 @@ const script: Script = {
 			speaker: 'Agent Spark',
 			dialog: 'Hello! Great to meet you Agent...',
 			avatar: '/img/characters/agent-spark/spark_wave.png',
-			background: '/img/backgrounds/Agency_Walkway.jpg'
+			background: '/img/backgrounds/Agency_Walkway.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s14.wav"
 		},
 		{
 			id: 13,
 			speaker: 'Agent Spark',
 			dialog: "Oops, you don't have a secret agent name yet! That's so important!",
 			avatar: '/img/characters/agent-spark/spark_surprised.png',
-			background: '/img/backgrounds/Agency_Walkway.jpg'
+			background: '/img/backgrounds/Agency_Walkway.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s16.wav"
 		},
 		{
 			id: 14,
@@ -126,36 +128,42 @@ const script: Script = {
 			dialog:
 				'Your agent name should be something that inspires you! Mine is Agent Spark because I love electronic gadgets. ',
 			avatar: '/img/characters/agent-spark/spark_gesture_1.png',
-			background: '/img/backgrounds/Agency_Walkway.jpg'
+			background: '/img/backgrounds/Agency_Walkway.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s18.wav"
 		},
 		{
 			id: 15,
 			speaker: 'Agent Spark',
 			dialog: 'In addition to physics, Agent Fern loves plants and things that grow.',
 			avatar: '/img/characters/agent-spark/spark_gesture_1.png',
-			background: '/img/backgrounds/Agency_Walkway.jpg'
+			background: '/img/backgrounds/Agency_Walkway.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s19.wav"
 		},
 		{
 			id: 16,
 			speaker: 'Agent Spark',
 			dialog: 'Agent Gear is inspired by motorcycles!',
 			avatar: '/img/characters/agent-spark/spark_aww.png',
-			background: '/img/backgrounds/Agency_Walkway.jpg'
+			background: '/img/backgrounds/Agency_Walkway.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s20.wav"
 		},
 		{
 			id: 17,
 			speaker: 'Agent Spark',
 			dialog: "What inspires you? I'm sure you will choose a great secret agent name!",
 			avatar: '/img/characters/agent-spark/spark_aww.png',
-			background: '/img/backgrounds/Agency_Walkway.jpg'
+			background: '/img/backgrounds/Agency_Walkway.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s21.wav"
+
 		},
 		{
 			id: 18,
 			speaker: 'Agent Spark',
 			dialog:
-				"Click on hte table above to open up your SPOT tablet. You will use this to keep track of your mission to the future and communicate to mission control Let's get yours set up!",
+				"O your SPOT tablet. You will use this to keep track of your mission to the future and communicate to mission control Let's get yours set up!",
 			avatar: '/img/characters/agent-spark/spark_talking.png',
-			background: '/img/backgrounds/Agency_Walkway.jpg'
+			background: '/img/backgrounds/Agency_Walkway.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s22.wav"
 		}
 	],
 	length: 18

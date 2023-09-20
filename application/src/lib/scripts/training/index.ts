@@ -29,14 +29,16 @@ const script: Script = {
 			speaker: 'Agent Spark',
 			dialog: "It's time for your SPOT Agent Training!",
 			avatar: Assets.Characters.AgentSpark.gesture,
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s71.wav"
 		},
 		{
 			id: 2,
 			speaker: 'Agent Spark',
 			dialog: 'We will start by talking about technology!',
 			avatar: Assets.Characters.AgentSpark.gesture,
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s72.wav"
 		},
 		{
 			id: 3,
@@ -50,14 +52,16 @@ const script: Script = {
 			speaker: 'Agent Spark',
 			dialog: 'It can be tricky... On your SPOT Tablet, tell us which technologies you think are helpful or harmful.',
 			avatar: Assets.Characters.AgentSpark.gesture,
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s74.wav"
 		},
 		{
 			id: 6,
 			speaker: 'Agent Spark',
 			dialog: 'Ever heard of Algorithms?',
 			avatar: Assets.Characters.AgentSpark.gesture,
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s80.wav"
 		},
 		{
 			id: 7,
@@ -71,7 +75,8 @@ const script: Script = {
 			speaker: 'Agent Spark',
 			dialog: 'Gear, did you overload the generator again?',
 			avatar: Assets.Characters.AgentSpark.gesture,
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s82.wav"
 		},
 		{
 			id: 9,
@@ -85,7 +90,8 @@ const script: Script = {
 			speaker: 'Agent Spark',
 			dialog: 'Anyway, back to algorithms. What do you think it is?',
 			avatar: Assets.Characters.AgentSpark.gesture,
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s84.wav"
 		},
 		{
 			id: 11,
@@ -100,14 +106,16 @@ const script: Script = {
 			speaker: 'Captain Storm',
 			dialog: `Interesting thoughts, Agent ${agent.agentName}!`,
 			avatar: Assets.Characters.CaptainStorm.thumbs_up,
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+            audio: "/audio/level0/captain_storm/captn_storm_l0s88.wav"
 		},
 		{
 			id: 13,
 			speaker: 'Agent Spark',
 			dialog: 'The phrase "machine learning" has become popular today. What o you think it means?',
 			avatar: Assets.Characters.AgentSpark.gesture,
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s89.wav"
 		},
 		{
 			id: 14,
@@ -115,14 +123,16 @@ const script: Script = {
 			dialog:
 				'Remember, there is no right or wrong answer, but we need to know what you know to get you ready for your trip!',
 			avatar: Assets.Characters.AgentSpark.gesture,
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s90.wav"
 		},
 		{
 			id: 15,
 			speaker: 'Agent Spark',
 			dialog: `WAHOOO! Yay, ${agent.agentName}!`,
 			avatar: Assets.Characters.AgentSpark.gesture,
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+            audio: "/audio/level0/agent_spark/agent_spark_l0s93.wav"
 		},
 		{
 			id: 16,
@@ -130,7 +140,8 @@ const script: Script = {
 			dialog:
 				'Congratulations, you have earned your Agent-in-Training badge! You are now an official SPOT Agent! Check your SPOT tablet to see your new badge!',
 			avatar: '/img/characters/captain-storm/clapping_storm.png',
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+            audio: "/audio/level0/captain_storm/captn_storm_l0s94.wav"
 		},
 		{
 			id: 18,
