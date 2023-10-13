@@ -31,7 +31,9 @@
 
 	onMount(() => {
 		players.add(player);
-		// player.play();
+		console.log('mounting plater');
+
+		player.play();
 	});
 </script>
 
