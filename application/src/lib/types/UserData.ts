@@ -16,7 +16,7 @@ export interface UserData {
 		last: string;
 	};
 	age: number | undefined;
-	interests: [string];
-	avatarImg: string;
+	interests: string[];
+	avatarImg?: string;
 	agentName: string;
 }

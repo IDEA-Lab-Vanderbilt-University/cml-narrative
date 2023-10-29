@@ -49,4 +49,6 @@ export interface Line {
 	 *  Background image of the current script
 	 */
 	background: string;
+
+	audio?: string;
 }
