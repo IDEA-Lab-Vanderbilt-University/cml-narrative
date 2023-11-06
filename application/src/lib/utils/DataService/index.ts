@@ -12,6 +12,8 @@
 
 import type { StudentAuthData } from '$lib/types/StudentData';
 import { RequestFactory } from '../network/RequestFactory';
+import { get } from 'svelte/store';
+import { accessTokenData } from '../stores/store';
 
 /**
  * Handles and contains all of the authentication logic
@@ -24,27 +26,41 @@ const Auth = {
 	 * @param password
 	 * @returns
 	 */
+
 	signUp: async (profileData) => {
+		const API_URL = 'http://44.208.184.61:8001';
 		return new Promise(async (resolve, reject) => {
+			console.log("i'm here.");
+			profileData = generateCredentials(profileData);
 			console.log(profileData);
-			
-			let response = await fetch("http://localhost:5173/api/auth/signup", {
-				method: "POST",
-				body: JSON.stringify({
-					profileData
-				}),
+			let response = await fetch(`${API_URL}/api/auth/signup`, {
+				method: 'POST',
+				body: JSON.stringify(profileData),
 				headers: {
 					'Content-Type': 'application/json'
-
 				}
-			})
+			});
 
-			let result = await response.json()
+			let result = await response.json();
 
-			// console.log("res: ", await res.json());
-			
+			console.log('letseewhatsthis: ', result);
 
 			resolve(result);
+			const accessToken = result['accessToken'];
+			accessTokenData.set(result['accessToken']);
+			console.log('ikkada kotti chudham ', get(accessTokenData));
+			let agentResponse = await fetch(`${API_URL}/api/addAgent`, {
+				method: 'POST',
+				body: JSON.stringify(getAgentBody(profileData)),
+				headers: {
+					'Content-Type': 'application/json',
+					'x-access-token': accessToken
+				}
+			});
+
+			let agentResult = await agentResponse.json();
+			console.log('agentResult: ', agentResult);
+			resolve(agentResult);
 		});
 	},
 	/**
@@ -62,24 +78,23 @@ const Auth = {
 			console.log('Attempting to sign in user with data: ', credential);
 
 			try {
-				let res = await RequestFactory("/api/auth/signin", {
+				let res = await RequestFactory('/api/auth/signin', {
 					credentials: {
 						// agentName: credential.agentName,
 						password: credential.password,
 						email: credential.email
 					}
-				})
-	
+				});
+
 				if (res) {
-					resolve(res)
+					resolve(res);
 				} else {
-					reject(res)
+					reject(res);
 				}
 			} catch (error) {
-				reject(error)
+				reject(error);
 			}
 
-			
 			// throw new Error("Could not validate ID. Please make sure you are scanning your AGENT ID badge provided by Mission Control");
 		});
 	}
@@ -100,60 +115,76 @@ const Data = {
 	submitPostSurvey: async (surveyResponse: {}) => {
 		return new Promise<void>(async (resolve, reject) => {
 			console.log('attempting to submit post survey with data: ', surveyResponse);
+			let token: string = '';
+			accessTokenData.subscribe((value) => {
+				token = value;
+			});
+
+			console.log('token ikkada: ', token);
+			const body: TravelLogBody = {
+				description: `level-zero-post-survey`,
+				data: surveyResponse
+			};
 
 			try {
-
-				let res = await RequestFactory("/api/travel-log/add", {
-					travelLog: {
-						data: surveyResponse,
-						description: "post-survey"
-					}
-				})
-				resolve()
+				let res = await RequestFactory('http://44.208.184.61:8001/api/travellogs', body, token);
+				resolve();
 			} catch (error) {
-				reject(error)
+				reject(error);
 			}
 		});
-	}, 
+	},
 	submitFreeResponse: async (id: string, data: any) => {
 		return new Promise<void>(async (resolve, reject) => {
-			console.log(`Attempting to submit free response with id: ${id} and data: `, data);
-			
+			let token: string = '';
+			accessTokenData.subscribe((value) => {
+				token = value;
+			});
+			const body: TravelLogBody = {
+				description: `level-zero-what-is-${id}-free-response`,
+				data: data
+			};
 			try {
-				let res = await RequestFactory("/api/travel-log/add", {
-					travelLog: {
-						data: data,
-						description: id
-					}
-				})
-				resolve()
+				let res = await RequestFactory('http://44.208.184.61:8001/api/travellogs', body, token);
+				resolve();
 			} catch (error) {
-				reject(error)
+				reject(error);
 			}
-		})
-	}, 
+		});
+	},
 	uploadResponseImages: async (id: string, data: HTMLImageElement[] | HTMLOrSVGImageElement) => {
-		return new Promise<void>((resolve, reject) => {
+		return new Promise<void>(async (resolve, reject) => {
+			let token: string = '';
+			accessTokenData.subscribe((value) => {
+				token = value;
+			});
 			console.log(`Attempting to submit an response image for id ${id} with data: `, data);
-			resolve()
-		})
+			let tlBody = getTravelLogBody(data, id);
+			try {
+				let res = await RequestFactory('http://44.208.184.61:8001/api/travellogs', tlBody, token);
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
 	},
 	submitHelpfulOrHarmfulResponse: async (data: {}) => {
 		return new Promise<void>(async (resolve, reject) => {
-			console.log("Attempting to upload helpfulOrHarmful responses with data: ", data);
-			
+			let token: string = '';
+			accessTokenData.subscribe((value) => {
+				token = value;
+			});
+			const body: TravelLogBody = {
+				description: `level-zero-helpful-or-harmful`,
+				data: data
+			};
 			try {
-				let res = await RequestFactory("/api/travel-log/add", {
-					travelLog: {
-						data: data,
-						description: "helpful-or-harmful"
-					}
-				})
-				resolve()
+				let res = await RequestFactory('http://44.208.184.61:8001/api/travellogs', body, token);
+				resolve();
 			} catch (error) {
-				reject(error)
+				reject(error);
 			}
-		})
+		});
 	}
 };
 
@@ -166,3 +197,75 @@ const DataService = {
 };
 
 export default DataService;
+
+function generateCredentials(profileData: any): any {
+	// hardcode the email, password for now
+	profileData['email'] = 'spot-agent@idealab.com';
+	profileData['password'] = 'password';
+	return profileData;
+}
+
+interface UserBody {
+	name: {
+		first: string;
+		last: string;
+	};
+	email: string;
+	password: string;
+}
+
+interface AgentBody {
+	age: number;
+	interests: string[];
+	agentName: string;
+}
+
+interface TravelLogBody {
+	data: any;
+	description: string;
+}
+
+function getUserBody(profileData: any): UserBody {
+	return {
+		name: {
+			first: profileData.firstName,
+			last: profileData.lastName
+		},
+		email: profileData.email,
+		password: profileData.password
+	};
+}
+
+function getAgentBody(profileData: any): AgentBody {
+	return {
+		age: profileData.age,
+		interests: profileData.interests,
+		agentName: profileData.agentName
+	};
+}
+
+function getTravelLogBody(
+	data: HTMLOrSVGImageElement | HTMLImageElement[],
+	id: string
+): TravelLogBody {
+	// assumed that if it's an array, it's an array of images
+	let imageStrings: string[] = [];
+	if (data instanceof Array) {
+		data.forEach((image) => imageStrings.push(serializeToString(image)));
+		let body: TravelLogBody = {
+			description: `level-zero-what-is-${id}-images`,
+			data: imageStrings
+		};
+		return body;
+	}
+	let body: TravelLogBody = {
+		description: `level-zero-what-is-${id}-svg`,
+		data: serializeToString(data)
+	};
+	return body;
+}
+
+function serializeToString(data: HTMLOrSVGImageElement | HTMLImageElement): string {
+	let serializer = new XMLSerializer();
+	return serializer.serializeToString(data);
+}

@@ -12,7 +12,7 @@
 
 import type { UserData } from '$lib/types/UserData';
 import { writable } from 'svelte/store';
-import { persist, createLocalStorage } from "@macfja/svelte-persistent-store"
+import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 
 /**
  * A note on what this file does:
@@ -31,9 +31,11 @@ import { persist, createLocalStorage } from "@macfja/svelte-persistent-store"
  */
 
 // export const agentData = writable({});
-export const agentData = persist(writable({}), createLocalStorage(), "agentData")
+export const agentData = persist(writable({}), createLocalStorage(), 'agentData');
 
 export const tabletPowerNavigation = writable({});
+
+export const accessTokenData = writable('');
 
 /**
  * Defines the store for the Megajoules meter. A number 0-14 should be passed.
@@ -41,4 +43,4 @@ export const tabletPowerNavigation = writable({});
  */
 export const megaJoulesMeter = writable(0);
 
-export const drawResponse = writable()
+export const drawResponse = writable();

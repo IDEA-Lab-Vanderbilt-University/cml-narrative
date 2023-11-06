@@ -28,9 +28,9 @@
 		try {
 			await DataService.Data.uploadResponseImages('algorithm', event.detail.image);
 			hasRecievedResponse = true;
-			goto("/training?page=11")
+			goto('/training?page=11');
 		} catch (error) {
-		console.error(error);
+			console.error(error);
 		}
 	};
 

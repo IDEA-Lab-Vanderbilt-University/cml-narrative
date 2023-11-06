@@ -30,7 +30,7 @@
 		img: '/img/icons/mobile-app.png'
 	};
 
-	let itemIndex = 0
+	let itemIndex = 0;
 
 	let items1 = [
 		{ id: 1, title: 'iPhone', img: '/img/icons/mobile-app.png' },
@@ -56,18 +56,15 @@
 		if (itemIndex < items1.length - 1) {
 			if (designatedContainer == 'helpful') {
 				// helpfulElement.classList.add('animate-pulse');
-				helpful = [...helpful, currentDragObject]
-				itemIndex += 1
-
+				helpful = [...helpful, currentDragObject];
+				itemIndex += 1;
 			}
 
 			if (designatedContainer == 'harmful') {
-				hurtful = [...hurtful, currentDragObject]
-				itemIndex += 1
-
+				hurtful = [...hurtful, currentDragObject];
+				itemIndex += 1;
 			}
 		}
-		
 	};
 
 	onMount(() => {
@@ -102,20 +99,18 @@
 			await DataService.Data.submitHelpfulOrHarmfulResponse({
 				harmful: hurtful,
 				helpful: helpful
-			})
-			goto("/training?page=5")
+			});
+			goto('/training?page=5');
 		} catch (error) {
 			console.error(error);
 		}
-	}
+	};
 
 	const handleDrag = (event) => {
 		// console.log(event);
 		// console.log(event);
-
 		// let drag: HTMLImageElement = currentDragObject.el
 		// drag.classList.add("opacity-50")
-		
 	};
 
 	const handleContainerDragover = (event) => {
@@ -166,7 +161,8 @@
 	<div class="flex h-full w-full flex-col items-center justify-center text-white">
 		{#if itemIndex >= items1.length - 1}
 			<h2 class="text-5xl">Thanks for your response!</h2>
-			<button class="mt-8 text-4xl bg-blue-500 px-4 py-2 rounded-lg" on:click={handleSubmit}>Next</button>
+			<button class="mt-8 rounded-lg bg-blue-500 px-4 py-2 text-4xl" on:click={handleSubmit}
+				>Next</button>
 		{:else}
 			<div class="space-y-3 text-center">
 				<h2 class="text-5xl">Is this technology helpful or harmful?</h2>
@@ -178,7 +174,9 @@
 					class="container flex h-full w-full   flex-col items-center justify-center rounded-sm p-2 text-center text-2xl text-white"
 					on:drop={handleDrop}
 					on:dragover={() => handleContainerDragover('helpful')}>
-					<p class="mb-3 text-4xl bg-teal-600 px-4 py-2 rounded-lg" bind:this={helpfulElement}>Helpful</p>
+					<p class="mb-3 rounded-lg bg-teal-600 px-4 py-2 text-4xl" bind:this={helpfulElement}>
+						Helpful
+					</p>
 					<div id="helpful-bank-container" class="flex items-start" />
 					<!-- <Bank items={helpful} type="light" id="helpful" on:itemDropped={handleDrop} /> -->
 				</div>
@@ -197,8 +195,12 @@
 				</div>
 				<div
 					id=""
-					class="container flex h-full w-full  flex-col items-center justify-center rounded-sm p-2 text-center text-2xl text-white" on:dragover={() => handleContainerDragover('harmful')} on:drop={handleDrop}>
-					<p class="mb-3 text-4xl bg-teal-600 px-4 py-2 rounded-lg" bind:this={harmfulElement}>Harmful</p>
+					class="container flex h-full w-full  flex-col items-center justify-center rounded-sm p-2 text-center text-2xl text-white"
+					on:dragover={() => handleContainerDragover('harmful')}
+					on:drop={handleDrop}>
+					<p class="mb-3 rounded-lg bg-teal-600 px-4 py-2 text-4xl" bind:this={harmfulElement}>
+						Harmful
+					</p>
 					<!-- <Bank items={hurtful} type="light" id="harmful" on:itemDropped={handleDrop} /> -->
 				</div>
 			</div>
