@@ -10,43 +10,18 @@
  
 --->
 <script lang="ts">
+	import AudioPlayer from "../audio/AudioPlayer.svelte";
+
 	/**  The background image of the scene */
 	export let background = '';
 
+	export let audio: string = ""
+	
 	export let darken: boolean = false;
 </script>
 
-<!-- <div class="w-screen h-screen">
-	<div class="bg-gray-400 w-full h-full relative z-0">
-		<div
-			class="bg-center bg-cover z-0 w-full h-full"
-			style={`background-image: url('${background}');`}
-		/>
-		<div class="absolute inset-x-0 bottom-0 flex justify-center items-center z-10">
-			<slot />
-		</div>
-	</div>
-</div> -->
 
-<!-- <div class="w-screen h-screen bg-cover" style={`background-image: url('${background}');`}>
-	<div class="w-full h-full z-10">
-		<slot />
-	</div>
-</div> -->
-
-<!-- <div class="w-screen h-screen bg-cover" style={`background-image: url('${background}');`}>
-	<div class="h-full w-full flex flex-col">
-		<div class="h-full ">
-			<slot name="content"></slot>
-		</div>
-		<div class="h-fit mb-7">
-			<slot name="dialog"></slot>
-
-		</div>
-	</div>
-
-
-</div> -->
+<AudioPlayer src={audio} />
 
 <div class="flex h-screen w-full items-center justify-center bg-gray-200 bg-cover">
 	<div

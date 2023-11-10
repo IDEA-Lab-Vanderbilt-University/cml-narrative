@@ -27,9 +27,20 @@
 	import { onMount } from 'svelte';
 
 	export let src: string;
+	let hasPlayerMounted = false
+
+	$: {
+		if (hasPlayerMounted) {
+			player.src = src
+			player.play()
+		}
+	}
+
 	let player: HTMLAudioElement;
 
 	onMount(() => {
+		hasPlayerMounted = true
+
 		players.add(player);
 		console.log('mounting plater');
 

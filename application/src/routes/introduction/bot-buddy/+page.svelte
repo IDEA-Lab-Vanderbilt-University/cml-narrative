@@ -79,7 +79,7 @@
 
 <svelte:window on:keydown={handleKeydownEvent} />
 
-<Scene background={line.background}>
+<Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>

@@ -120,7 +120,7 @@
 
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
-<Scene background="/img/backgrounds/Spark_Lab.jpg" darken={shouldDarken}>
+<Scene background="/img/backgrounds/Spark_Lab.jpg" darken={shouldDarken} audio={line.audio}>
 	<div class={`h-full w-full ${shouldDarken ? 'brightness-40' : ''}`} slot="content">
 		{#if lineNumber <= 13}
 			<ProjectorView>
