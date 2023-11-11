@@ -33,7 +33,8 @@ export interface Line {
 	/**
 	 * Who is currently talking
 	 */
-	speaker: string;
+	// speaker: string;
+	speakers: string[];
 
 	/**
 	 * Text the speaker is speaking
@@ -43,7 +44,7 @@ export interface Line {
 	/**
 	 * Image of the current speaker
 	 */
-	avatar: string;
+	avatars: string[];
 
 	/**
 	 *  Background image of the current script
