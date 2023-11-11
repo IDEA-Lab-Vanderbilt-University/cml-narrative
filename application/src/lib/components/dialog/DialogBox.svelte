@@ -56,19 +56,48 @@
 
 <div class="flex w-full flex-col px-4">
 	<div class="relative z-20 flex w-full items-end justify-between align-bottom">
-		{#if flip}
-			<div class="mr-14 -scale-x-100 self-end">
-				<img src={line.avatar} alt="" />
+		{#if line.avatars.length > 1}
+			<div class="flex w-full items-end justify-between align-bottom">
+				{#each line.avatars as avatar, i}
+					<div class="mr-14 self-end">
+						<img class="relative -bottom-9 z-20 -scale-x-100" src={avatar} alt="" />
+						{#if line.speakers[i]}
+							<div
+								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+								{line.speakers[i]}
+							</div>
+						{/if}
+					</div>
+				{/each}
 			</div>
-			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-4xl text-black">
-				{line.speaker}
+
+			<!-- <div class="mr-14  self-end">
+				<img class="relative -bottom-9 -scale-x-100" src={line.avatars[0]} alt="" />
+				<div
+					class=" bg-peach relative -bottom-4 -right-3 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+					{line.speakers[0]}
+				</div>
 			</div>
-		{:else}
+			<div class="mr-14  self-end">
+				<img class="relative -bottom-9 -right-4 -scale-x-100" src={line.avatars[1]} alt="" />
+				<div
+					class=" bg-peach relative -bottom-4 -right-7 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+					{line.speakers[1]}
+				</div>
+			</div> -->
+		{:else if flip}
 			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
-				{line.speaker}
+				{line.speakers[0]}
 			</div>
 			<div class="mr-14 self-end">
-				<img src={line.avatar} alt="" />
+				<img src={line.avatars[0]} alt="" />
+			</div>
+		{:else}
+			<div class="mr-14 self-end">
+				<img src={line.avatars[0]} alt="" />
+			</div>
+			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+				{line.speakers[0]}
 			</div>
 		{/if}
 	</div>
