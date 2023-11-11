@@ -35,7 +35,8 @@
 	let items1 = [
 		{ id: 1, title: 'iPhone', img: '/img/icons/mobile-app.png' },
 		{ id: 2, title: 'Social Media', img: '/img/icons/social-media.png' },
-		{ id: 3, title: 'Internet', img: '/img/icons/wifi.png' }
+		{ id: 3, title: 'Internet', img: '/img/icons/wifi.png' },
+		{ id: 4, title: 'Hospital', img: '/img/icons/hospital.png' }
 	];
 
 	let designatedContainer: null | string = null;
@@ -45,7 +46,8 @@
 	let bothHurtfulAndHelpful = [];
 
 	$: {
-		console.log(items1);
+		currentDragObject = items1[itemIndex];
+		// console.log(items1);
 	}
 
 	const handleDrop = (e) => {
