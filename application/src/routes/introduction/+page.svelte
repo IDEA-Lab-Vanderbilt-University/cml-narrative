@@ -97,9 +97,8 @@
 
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
-<AudioPlayer src={`${line.audio}`} />
 
-<Scene background={line.background}>
+<Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
 		<div
 			class=""

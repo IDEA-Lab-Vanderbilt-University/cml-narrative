@@ -51,5 +51,8 @@ export interface Line {
 	 */
 	background: string;
 
+	/**
+	 * The url path to an audio file associated with a line
+	 */
 	audio?: string;
 }
