@@ -47,7 +47,8 @@
 			last: ''
 		},
 		age: undefined,
-		interests: []
+		interests: [],
+		agentName: ''
 	};
 
 	let mounted = false;
@@ -95,8 +96,8 @@
 	const handleSubmit = async () => {
 		try {
 			// await DataService.Data.setProfileData(profileData);
-			alert('We should create profile here, but the current DB structure does not allow.');
-			// await DataService.Auth.signUp(profileData);
+			alert('created agent successfully!');
+			await DataService.Auth.signUp(profileData);
 			goto('/introduction/onboarding/create-profile/confirmation');
 		} catch (error) {
 			console.error(error);

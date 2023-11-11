@@ -9,10 +9,12 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
+		"verbatimModuleSyntax": true,
 		"paths": {
 			"$lib": ["src/lib"],
 			"$lib/*": ["src/lib/*"]
-		}
+		},
+		"jsx": "react"
 	}
 	// Path aliases are handled by https://kit.svelte.dev/docs/configuration#alias
 	//

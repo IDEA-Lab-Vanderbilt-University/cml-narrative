@@ -103,7 +103,6 @@
 		<div
 			class=""
 			on:click={() => {
-				console.log('hsdhj');
 				play();
 			}}>
 			<DialogBox {line} on:dialogEvent={handleDialogEvent} />

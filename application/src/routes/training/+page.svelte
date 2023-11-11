@@ -168,6 +168,8 @@
 				dialog={line.dialog}
 				avatar={line.avatar}
 				on:dialogEvent={handleDialogEvent} />
+		{:else}
+			<SlimDialogBox on:dialogEvent={handleDialogEvent} />
 		{/if}
 	</div>
 </Scene>

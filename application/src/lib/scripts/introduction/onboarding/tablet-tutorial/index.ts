@@ -16,81 +16,81 @@ const script: Script = {
 	lines: [
 		{
 			id: 1,
-			speaker: 'Agent Spark',
+			speakers: ['Agent Spark'],
 			dialog: 'This is your SPOT tabled! Used for all official SPOT missions!',
-			avatar: '/img/characters/agent-spark/spark_clapping.png',
+			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-            audio: "/audio/level0/computer/computer_l0_s37.wav"
+			audio: '/audio/level0/computer/computer_l0_s37.wav'
 		},
 		{
 			id: 2,
-			speaker: 'Agent Spark',
+			speakers: ['Agent Spark'],
 			dialog: 'Use your Travel Log to share information and send updated to SPOT Mission Control',
-			avatar: '/img/characters/agent-spark/spark_clapping.png',
+			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-            audio: "/audio/level0/computer/computer_l0_s45.wav"
+			audio: '/audio/level0/computer/computer_l0_s45.wav'
 		},
 		{
 			id: 3,
-			speaker: 'Agent Spark',
+			speakers: ['Agent Spark'],
 			dialog:
 				'This is the profile button. You can check and edit your profile. You can see the progress of other agents too!',
-			avatar: '/img/characters/agent-spark/spark_clapping.png',
+			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-            audio: "/audio/level0/computer/computer_l0_s38.wav"
+			audio: '/audio/level0/computer/computer_l0_s38.wav'
 		},
 		{
 			id: 4,
-			speaker: 'Agent Spark',
+			speakers: ['Agent Spark'],
 			dialog:
 				'YOu need to earn badges to move from "Special Agent in Training" to "Advanced Special Agent"',
-			avatar: '/img/characters/agent-spark/spark_clapping.png',
+			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-            audio: "/audio/level0/computer/computer_l0_s39.wav"
+			audio: '/audio/level0/computer/computer_l0_s39.wav'
 		},
 		{
 			id: 5,
-			speaker: 'Agent Spark',
+			speakers: ['Agent Spark'],
 			dialog:
 				'The Settings button lets you change the color of your frame! I like mine to be yellow!',
-			avatar: '/img/characters/agent-spark/spark_clapping.png',
+			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-            audio: "/audio/level0/computer/computer_l0_s40.wav"
+			audio: '/audio/level0/computer/computer_l0_s40.wav'
 		},
 		{
 			id: 6,
-			speaker: 'Agent Spark',
+			speakers: ['Agent Spark'],
 			dialog:
 				'Your Time Travel Machine holds 100 megajoules of power, which is exactly the amount it takes to get to the year 2075!',
-			avatar: '/img/characters/agent-spark/spark_clapping.png',
+			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-            audio: "/audio/level0/computer/computer_l0_s43.wav"
+			audio: '/audio/level0/computer/computer_l0_s43.wav'
 		},
 		{
 			id: 7,
-			speaker: 'Agent Spark',
+			speakers: ['Agent Spark'],
 			dialog:
 				'To return to present dau, you will need to refuel by gaining 100 megajoules of power while you are in the future',
-			avatar: '/img/characters/agent-spark/spark_clapping.png',
+			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-            audio: "/audio/level0/computer/computer_l0_s44.wav"
+			audio: '/audio/level0/computer/computer_l0_s44.wav'
 		},
 		{
 			id: 8,
-			speaker: 'Agent Spark',
+			speakers: ['Agent Spark'],
 			dialog:
 				'Complete entries within your Time Travel Log to power up. Mission Control will send you some megajoules of power each time you make an entry.',
-			avatar: '/img/characters/agent-spark/spark_clapping.png',
+			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-            audio: "/audio/level0/computer/computer_l0_s46.wav"
+			audio: '/audio/level0/computer/computer_l0_s46.wav'
 		},
 		{
 			id: 9,
-			speaker: 'Agent Spark',
+			speakers: ['Agent Spark'],
 			dialog: 'Now you have all the information on how to use the SPOT tablet!',
-			avatar: '/img/characters/agent-spark/spark_clapping.png',
+			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-            audio: "/audio/level0/computer/computer_l0_s47.wav"
+			audio: '/audio/level0/computer/computer_l0_s47.wav'
 		}
 	],
 	length: 9
