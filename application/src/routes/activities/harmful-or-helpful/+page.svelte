@@ -15,6 +15,7 @@
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import DataService from '$lib/utils/DataService';
+	import { harmfulHelpfulStore } from '$lib/utils/stores/store';
 
 	// import ConfirmationModal from "$lib/components/modals/activities/hurtful-harmful/ConfirmationModal.svelte";
 	import { getContext, onMount } from 'svelte';
@@ -98,11 +99,13 @@
 
 	const handleSubmit = async () => {
 		try {
-			await DataService.Data.submitHelpfulOrHarmfulResponse({
-				harmful: hurtful,
-				helpful: helpful
-			});
-			goto('/training?page=5');
+			// await DataService.Data.submitHelpfulOrHarmfulResponse({
+			// 	harmful: hurtful,
+			// 	helpful: helpful
+			// });
+			harmfulHelpfulStore.set({ harmful: hurtful, helpful: helpful });
+
+			goto('harmful-or-helpful-reasoning');
 		} catch (error) {
 			console.error(error);
 		}
