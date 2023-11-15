@@ -12,7 +12,8 @@
 <script lang="ts">
 	import DataService from '$lib/utils/DataService';
 	import { createEventDispatcher } from 'svelte';
-
+	import { harmfulHelpfulStore } from '$lib/utils/stores/store';
+	import { ModeValues } from '@zxing/library/esm/core/qrcode/decoder/Mode';
 	// /**
 	//  * The id attribute is used for when we save data to the backend.
 	//  */
@@ -29,9 +30,31 @@
 
 	export let response: string = '';
 
+	const speechToText = () => {};
+
 	const handleSubmit = async () => {
 		console.log(response);
 		// store command
+		harmfulHelpfulStore.update((value) => {
+			let currentReasoning = [
+				{
+					title: harmfulProp.title,
+					id: harmfulProp.id,
+					itemId: harmfulProp.itemId,
+					type: harmfulProp.type,
+					reasonText: response,
+					reasonVideo: ''
+				}
+			];
+			value.reasoning.push(currentReasoning);
+			return value;
+		});
+
+		let demoObject: any = {};
+		harmfulHelpfulStore.subscribe((value) => {
+			demoObject = value;
+		});
+		console.log('demo: ', demoObject);
 		response = '';
 		dispatch('textDone');
 	};
@@ -48,4 +71,6 @@
 		bind:value={response} />
 	<button class="bg-lapiz-blue mt-9 rounded-md px-8 text-xl text-white" on:click={handleSubmit}
 		>Next</button>
+	<button class="bg-lapiz-blue mt-9 rounded-md px-8 text-xl text-white" on:click={speechToText}
+		>Voice</button>
 </div>

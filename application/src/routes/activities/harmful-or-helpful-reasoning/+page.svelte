@@ -3,6 +3,7 @@
 	import DNDResponse from '$lib/components/activities/drag-and-drop/DNDResponse.svelte';
 	import { goto } from '$app/navigation';
 	import { harmfulHelpfulStore } from '$lib/utils/stores/store';
+	import DataService from '$lib/utils/DataService';
 
 	const nextItem = () => {
 		if (currentItemIndex < harmfulProps.length - 1) {
@@ -12,20 +13,21 @@
 		}
 	};
 
-	const handleSubmit = async () => {
-		try {
-			goto('/training?page=5');
-		} catch (error) {
-			console.error(error);
-		}
-	};
+	// const handleSubmit = async () => {
+	// 	try {
+	// 		goto('/training?page=5');
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// };
 
 	const generateHarmfulProps = (harmfulHelpfulObject: any) => {
 		let result = [];
 
-		harmfulHelpfulObject.harmful.forEach((item, id) => {
+		harmfulHelpfulObject.harmful.forEach((item) => {
 			result.push({
-				id: id,
+				id: item.id,
+				itemId: item.itemId,
 				title: item.title,
 				type: 'harmful'
 			});
@@ -33,11 +35,14 @@
 
 		harmfulHelpfulObject.helpful.forEach((item, id) => {
 			result.push({
-				id: id + harmfulHelpfulObject.harmful.length, // Continue the index from the end of the harmful array
+				id: item.id, // Continue the index from the end of the harmful array
+				itemId: item.itemId,
 				title: item.title,
 				type: 'helpful'
 			});
 		});
+
+		result.sort((a, b) => a.id - b.id);
 
 		return result;
 	};
@@ -46,6 +51,8 @@
 	harmfulHelpfulStore.subscribe((value) => {
 		harmfulHelpfulObject = value;
 	});
+
+	console.log('harmfulobject: ', harmfulHelpfulObject);
 
 	let harmfulProps = generateHarmfulProps(harmfulHelpfulObject);
 	console.log(harmfulProps);
