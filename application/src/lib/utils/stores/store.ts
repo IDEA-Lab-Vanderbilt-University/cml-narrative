@@ -44,3 +44,6 @@ export const accessTokenData = writable('');
 export const megaJoulesMeter = writable(0);
 
 export const drawResponse = writable();
+
+export const harmfulHelpfulStore = writable();
+export const harmfulHelpfulReasoningStore = writable();

@@ -15,6 +15,7 @@
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import DataService from '$lib/utils/DataService';
+	import { harmfulHelpfulStore } from '$lib/utils/stores/store';
 
 	// import ConfirmationModal from "$lib/components/modals/activities/hurtful-harmful/ConfirmationModal.svelte";
 	import { getContext, onMount } from 'svelte';
@@ -33,10 +34,10 @@
 	let itemIndex = 0;
 
 	let items1 = [
-		{ id: 1, title: 'iPhone', img: '/img/icons/mobile-app.png' },
-		{ id: 2, title: 'Social Media', img: '/img/icons/social-media.png' },
-		{ id: 3, title: 'Internet', img: '/img/icons/wifi.png' },
-		{ id: 4, title: 'Hospital', img: '/img/icons/hospital.png' }
+		{ id: 1, itemId: 'iphone', title: 'iPhone', img: '/img/icons/mobile-app.png' },
+		{ id: 2, itemId: 'social-media', title: 'Social Media', img: '/img/icons/social-media.png' },
+		{ id: 3, itemId: 'internet', title: 'Internet', img: '/img/icons/wifi.png' },
+		{ id: 4, itemId: 'hospital', title: 'Hospital', img: '/img/icons/hospital.png' }
 	];
 
 	let designatedContainer: null | string = null;
@@ -98,11 +99,13 @@
 
 	const handleSubmit = async () => {
 		try {
-			await DataService.Data.submitHelpfulOrHarmfulResponse({
-				harmful: hurtful,
-				helpful: helpful
-			});
-			goto('/training?page=5');
+			// await DataService.Data.submitHelpfulOrHarmfulResponse({
+			// 	harmful: hurtful,
+			// 	helpful: helpful
+			// });
+			harmfulHelpfulStore.set({ harmful: hurtful, helpful: helpful, reasoning: [] });
+
+			goto('harmful-or-helpful-reasoning');
 		} catch (error) {
 			console.error(error);
 		}
