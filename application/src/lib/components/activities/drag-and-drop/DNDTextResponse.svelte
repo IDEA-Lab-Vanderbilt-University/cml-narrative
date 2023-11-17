@@ -13,7 +13,6 @@
 	import DataService from '$lib/utils/DataService';
 	import { createEventDispatcher } from 'svelte';
 	import { harmfulHelpfulStore } from '$lib/utils/stores/store';
-	import { ModeValues } from '@zxing/library/esm/core/qrcode/decoder/Mode';
 	// /**
 	//  * The id attribute is used for when we save data to the backend.
 	//  */
@@ -27,10 +26,44 @@
 	export let harmfulProp: any;
 
 	let dispatch = createEventDispatcher();
+	let recognition: any;
 
 	export let response: string = '';
 
-	const speechToText = () => {};
+	const speechToText = () => {
+		const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+		const recognition = new SpeechRecognition();
+		recognition.lang = 'en-US';
+		recognition.start();
+
+		let finalTranscript = '';
+		recognition.onresult = (event) => {
+			let interimTranscript = '';
+			for (let i = event.resultIndex; i < event.results.length; i++) {
+				let transcript = event.results[i][0].transcript;
+				if (event.results[i].isFinal) {
+					finalTranscript += transcript;
+				} else {
+					interimTranscript += transcript;
+				}
+			}
+			response = finalTranscript;
+		};
+
+		recognition.onerror = (event) => {
+			console.error(event);
+		};
+
+		recognition.onend = () => {
+			console.log('Speech recognition ended.');
+		};
+	};
+
+	const stopRecording = () => {
+		if (recognition) {
+			recognition.stop();
+		}
+	};
 
 	const handleSubmit = async () => {
 		console.log(response);
@@ -72,5 +105,7 @@
 	<button class="bg-lapiz-blue mt-9 rounded-md px-8 text-xl text-white" on:click={handleSubmit}
 		>Next</button>
 	<button class="bg-lapiz-blue mt-9 rounded-md px-8 text-xl text-white" on:click={speechToText}
-		>Voice</button>
+		>Start Recording</button>
+	<button class="mt-9 rounded-md bg-red-500 px-8 text-xl text-white" on:click={stopRecording}
+		>Stop Recording</button>
 </div>
