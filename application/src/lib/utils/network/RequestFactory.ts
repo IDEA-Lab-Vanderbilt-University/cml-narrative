@@ -18,37 +18,35 @@
  * @returns promise with JSON object
  */
 export const RequestFactory = async (url: string, body: any, accessToken?: string) => {
-    return new Promise<any>( async (resolve, reject) => {
+	return new Promise<any>(async (resolve, reject) => {
+		// Initialize headers
+		var headers = new Headers();
+		headers.append('Content-Type', 'application/json');
 
-        // Initialize headers
-        var headers = new Headers();
-        headers.append("Content-Type", "application/json");
+		// If the optional accessToken param is passed, then we want to append
+		// the access token to the headers of our request
+		if (accessToken) {
+			headers.append('x-access-token', accessToken);
+		}
 
-        // If the optional accessToken param is passed, then we want to append 
-        // the access token to the headers of our request
-        if (accessToken) {
-            headers.append("x-access-token", accessToken)
-        }
+		// Initialize request options for a POST request
+		var requestOptions: RequestInit = {
+			method: 'POST',
+			headers: headers,
+			body: JSON.stringify(body),
+			redirect: 'follow'
+		};
 
-        // Initialize request options for a POST request
-        var requestOptions = {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify(body),
-            redirect: 'follow'
-        };
+		// Execute the POST request
+		try {
+			let response = await fetch(url, requestOptions);
+			let result = await response.json();
 
-        // Execute the POST request
-        try {
-            let response = await fetch(url, requestOptions)
-            let result = await response.json()
+			// console.log("result: ", response.text);
 
-            // console.log("result: ", response.text);
-            
-            resolve(result)
-        } catch (error) {
-            reject(error)
-        }
-
-    })
-}
+			resolve(result);
+		} catch (error) {
+			reject(error);
+		}
+	});
+};

@@ -13,6 +13,7 @@
 import type { UserData } from '$lib/types/UserData';
 import { writable } from 'svelte/store';
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
+import type { HarmfulHelpfulStoreItem } from '$lib/types/DragDropItem';
 
 /**
  * A note on what this file does:
@@ -45,5 +46,4 @@ export const megaJoulesMeter = writable(0);
 
 export const drawResponse = writable();
 
-export const harmfulHelpfulStore = writable();
-export const harmfulHelpfulReasoningStore = writable();
+export const harmfulHelpfulStore = writable<HarmfulHelpfulStoreItem>();
