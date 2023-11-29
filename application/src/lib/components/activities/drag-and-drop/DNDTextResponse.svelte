@@ -13,6 +13,7 @@
 	import DataService from '$lib/utils/DataService';
 	import { createEventDispatcher } from 'svelte';
 	import { harmfulHelpfulStore } from '$lib/utils/stores/store';
+	import type { HarmfulHelpfulItem, HarmfulHelpfulReasoningItem } from '$lib/types/DragDropItem';
 	// /**
 	//  * The id attribute is used for when we save data to the backend.
 	//  */
@@ -23,7 +24,7 @@
 	 * For now, this is just AI and ML as responses.
 	 */
 	// export let promptedTechnology: string;
-	export let harmfulProp: any;
+	export let harmfulProp: HarmfulHelpfulItem;
 
 	let dispatch = createEventDispatcher();
 	let recognition: any;
@@ -31,13 +32,14 @@
 	export let response: string = '';
 
 	const speechToText = () => {
+		// @ts-ignore
 		const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 		const recognition = new SpeechRecognition();
 		recognition.lang = 'en-US';
 		recognition.start();
 
 		let finalTranscript = '';
-		recognition.onresult = (event) => {
+		recognition.onresult = (event: any) => {
 			let interimTranscript = '';
 			for (let i = event.resultIndex; i < event.results.length; i++) {
 				let transcript = event.results[i][0].transcript;
@@ -50,7 +52,7 @@
 			response = finalTranscript;
 		};
 
-		recognition.onerror = (event) => {
+		recognition.onerror = (event: any) => {
 			console.error(event);
 		};
 
@@ -69,25 +71,30 @@
 		console.log(response);
 		// store command
 		harmfulHelpfulStore.update((value) => {
-			let currentReasoning = [
-				{
-					title: harmfulProp.title,
-					id: harmfulProp.id,
-					itemId: harmfulProp.itemId,
-					type: harmfulProp.type,
-					reasonText: response,
-					reasonVideo: ''
-				}
-			];
-			value.reasoning.push(currentReasoning);
+			// let currentReasoning: HarmfulHelpfulReasoningItem = [
+			// 	{
+			// 		// title: harmfulProp.title,
+			// 		// itemId: harmfulProp.itemId,
+			// 		id: harmfulProp.id,
+			// 		type: harmfulProp.type,
+			// 		reasonText: response,
+			// 		reasonVideo: ''
+			// 	}
+			// ];
+			value.reasoning.push({
+				id: harmfulProp.id,
+				type: harmfulProp.type,
+				reasonText: response,
+				reasonVideo: ''
+			});
 			return value;
 		});
 
-		let demoObject: any = {};
-		harmfulHelpfulStore.subscribe((value) => {
-			demoObject = value;
-		});
-		console.log('demo: ', demoObject);
+		// let demoObject: any = {};
+		// harmfulHelpfulStore.subscribe((value) => {
+		// 	demoObject = value;
+		// });
+		// console.log('demo: ', demoObject);
 		response = '';
 		dispatch('textDone');
 	};
