@@ -11,9 +11,11 @@
 */
 
 import type { StudentAuthData } from '$lib/types/StudentData';
+import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 import { RequestFactory } from '../network/RequestFactory';
 import { get } from 'svelte/store';
 import { accessTokenData } from '../stores/store';
+import type { UserData } from '$lib/types/UserData';
 
 /**
  * Handles and contains all of the authentication logic
@@ -27,13 +29,12 @@ const Auth = {
 	 * @returns
 	 */
 
-	signUp: async (profileData) => {
-		const API_URL = 'http://44.208.184.61:8001';
+	signUp: async (profileData: UserData) => {
 		return new Promise(async (resolve, reject) => {
 			console.log("i'm here.");
 			profileData = generateCredentials(profileData);
 			console.log(profileData);
-			let response = await fetch(`${API_URL}/api/auth/signup`, {
+			let response = await fetch(`${PUBLIC_BACKEND_API_URL}/api/auth/signup`, {
 				method: 'POST',
 				body: JSON.stringify(profileData),
 				headers: {
@@ -49,7 +50,7 @@ const Auth = {
 			const accessToken = result['accessToken'];
 			accessTokenData.set(result['accessToken']);
 			console.log('ikkada kotti chudham ', get(accessTokenData));
-			let agentResponse = await fetch(`${API_URL}/api/addAgent`, {
+			let agentResponse = await fetch(`${PUBLIC_BACKEND_API_URL}/api/addAgent`, {
 				method: 'POST',
 				body: JSON.stringify(getAgentBody(profileData)),
 				headers: {
@@ -101,12 +102,12 @@ const Auth = {
 };
 
 const Data = {
-	setProfileData: async (data) => {
-		return new Promise<void>((resolve, reject) => {
-			console.log('Attempting to save profile data with data: ', data);
-			resolve();
-		});
-	},
+	// setProfileData: async (data) => {
+	// 	return new Promise<void>((resolve, reject) => {
+	// 		console.log('Attempting to save profile data with data: ', data);
+	// 		resolve();
+	// 	});
+	// },
 	/**
 	 * Handles the submission of the post training survey.
 	 * @param surveyResponse an object containing the questions and responses of the post survey
@@ -127,7 +128,7 @@ const Data = {
 			};
 
 			try {
-				let res = await RequestFactory('http://44.208.184.61:8001/api/travellogs', body, token);
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, body, token);
 				resolve();
 			} catch (error) {
 				reject(error);
@@ -136,6 +137,7 @@ const Data = {
 	},
 	submitFreeResponse: async (id: string, data: any) => {
 		return new Promise<void>(async (resolve, reject) => {
+			const API_URL = PUBLIC_BACKEND_API_URL;
 			let token: string = '';
 			accessTokenData.subscribe((value) => {
 				token = value;
@@ -145,7 +147,7 @@ const Data = {
 				data: data
 			};
 			try {
-				let res = await RequestFactory('http://44.208.184.61:8001/api/travellogs', body, token);
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, body, token);
 				resolve();
 			} catch (error) {
 				reject(error);
@@ -161,7 +163,7 @@ const Data = {
 			console.log(`Attempting to submit an response image for id ${id} with data: `, data);
 			let tlBody = getTravelLogBody(data, id);
 			try {
-				let res = await RequestFactory('http://44.208.184.61:8001/api/travellogs', tlBody, token);
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, tlBody, token);
 				resolve();
 			} catch (error) {
 				reject(error);
@@ -179,7 +181,7 @@ const Data = {
 				data: data
 			};
 			try {
-				let res = await RequestFactory('http://44.208.184.61:8001/api/travellogs', body, token);
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, body, token);
 				resolve();
 			} catch (error) {
 				reject(error);
