@@ -3,6 +3,7 @@
 	import DNDTextResponse from './DNDTextResponse.svelte';
 	import type { HarmfulHelpfulItem } from '$lib/types/DragDropItem';
 	import VideoModal from '$lib/components/modals/VideoModal.svelte';
+	import DataService from '$lib/utils/DataService';
 	const { open } = getContext('simple-modal');
 	// export let href: string;
 	export let harmfulProp: HarmfulHelpfulItem;
@@ -39,7 +40,7 @@
 	};
 
 	const onFinish = async (video: any) => {
-		// await DataService.Data.uploadResponseImages('drawAlgorithm', images);
+		// await DataService.Data.uploadResponseImages('drawAlgorithm', video);
 		dispatch('videosSubmitted', {
 			video: video
 		});

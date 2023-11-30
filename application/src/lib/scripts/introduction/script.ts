@@ -87,7 +87,7 @@ const script: Script = {
 			speakers: ['Agent Fern', 'Captain Storm'],
 			dialog: 'Agent Fern is our brilliant physicist who developed a way to time travel!',
 			avatars: [
-				'/img/characters/agent-fern/fern_sweet.png',
+				'/img/characters/agent-fern/fern_wave.png',
 				'/img/characters/captain-storm/storm_yeah.png'
 			],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
@@ -126,7 +126,7 @@ const script: Script = {
 		{
 			id: 13,
 			speakers: ['Agent Spark'],
-			dialog: "Oops, you don't have a secret agent name yet! That's so important!",
+			dialog: "Oohh! you don't have a secret agent name yet! That's so important!",
 			avatars: ['/img/characters/agent-spark/spark_surprised.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
 			audio: '/audio/level0/agent_spark/agent_spark_l0s16.wav'

@@ -22,9 +22,6 @@
 
 	const hanldeImageSubmission = async (event) => {
 		console.log(event);
-
-		// await DataService.Data.uploadResponseImages('algorithm', event.detail.image);
-		// hasRecievedResponse = true;
 		try {
 			await DataService.Data.uploadResponseImages('algorithm', event.detail.image);
 			hasRecievedResponse = true;
