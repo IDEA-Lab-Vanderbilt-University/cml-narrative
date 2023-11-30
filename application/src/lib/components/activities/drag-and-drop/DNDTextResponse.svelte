@@ -49,7 +49,7 @@
 					interimTranscript += transcript;
 				}
 			}
-			response = finalTranscript;
+			response += finalTranscript;
 		};
 
 		recognition.onerror = (event: any) => {
