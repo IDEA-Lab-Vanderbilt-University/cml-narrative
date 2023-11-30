@@ -24,9 +24,9 @@
 	import DataService from '$lib/utils/DataService';
 	import { agentData } from '$lib/utils/stores/store';
 	import { onDestroy, onMount } from 'svelte';
+	import type { PageData } from './$types';
 
-	/** @type {import('./$types').PageData} */
-	export let data;
+	export let data: PageData;
 
 	/**
 	 * Current page number which represents the position in the create-profile sequence. This

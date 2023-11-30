@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { harmfulHelpfulStore } from '$lib/utils/stores/store';
 	import DataService from '$lib/utils/DataService';
+	import type { HarmfulHelpfulItem, HarmfulHelpfulStoreItem } from '$lib/types/DragDropItem';
 
 	const nextItem = () => {
 		if (currentItemIndex < harmfulProps.length - 1) {
@@ -21,8 +22,18 @@
 	// 	}
 	// };
 
-	const generateHarmfulProps = (harmfulHelpfulObject: any) => {
-		let result = [];
+	const handleVideoSubmission = async (event) => {
+		// try {
+		// 	await DataService.Data.uploadResponseImages('harmfulHelpful', event.detail.image);
+		// 	nextItem();
+		// } catch (error) {
+		// 	console.error(error);
+		// }
+		console.log('video submssion started!');
+	};
+
+	const generateHarmfulProps = (harmfulHelpfulObject: HarmfulHelpfulStoreItem) => {
+		let result: HarmfulHelpfulItem[] = [];
 
 		harmfulHelpfulObject.harmful.forEach((item) => {
 			result.push({
@@ -47,7 +58,11 @@
 		return result;
 	};
 
-	let harmfulHelpfulObject: any = {};
+	let harmfulHelpfulObject: HarmfulHelpfulStoreItem = {
+		harmful: [],
+		helpful: [],
+		reasoning: []
+	};
 	harmfulHelpfulStore.subscribe((value) => {
 		harmfulHelpfulObject = value;
 	});
@@ -61,5 +76,8 @@
 </script>
 
 <Tablet>
-	<DNDResponse harmfulProp={harmfulProps[currentItemIndex]} on:nextItem={nextItem} />
+	<DNDResponse
+		harmfulProp={harmfulProps[currentItemIndex]}
+		on:nextItem={nextItem}
+		on:videosSubmitted={handleVideoSubmission} />
 </Tablet>

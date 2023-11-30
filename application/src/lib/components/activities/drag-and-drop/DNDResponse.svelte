@@ -1,10 +1,12 @@
 <script lang="ts">
 	import { createEventDispatcher, getContext } from 'svelte';
-	import CameraModal from '$lib/components/modals/CameraModal.svelte';
 	import DNDTextResponse from './DNDTextResponse.svelte';
-
+	import type { HarmfulHelpfulItem } from '$lib/types/DragDropItem';
+	import VideoModal from '$lib/components/modals/VideoModal.svelte';
+	import DataService from '$lib/utils/DataService';
+	const { open } = getContext('simple-modal');
 	// export let href: string;
-	export let harmfulProp: any;
+	export let harmfulProp: HarmfulHelpfulItem;
 
 	let dispatch = createEventDispatcher();
 
@@ -36,6 +38,19 @@
 		responseTypeState = ResponseType.undefined;
 		handleNext();
 	};
+
+	const onFinish = async (video: any) => {
+		// await DataService.Data.uploadResponseImages('drawAlgorithm', video);
+		dispatch('videosSubmitted', {
+			video: video
+		});
+	};
+
+	const openCamera = () => {
+		open(VideoModal, {
+			onFinish
+		});
+	};
 </script>
 
 {#if responseTypeState == ResponseType.undefined}
@@ -47,7 +62,7 @@
 		<div class="mt-7 flex space-x-4">
 			<button class="btn-primary btn" on:click={() => (responseTypeState = ResponseType.write)}
 				>Write</button>
-			<button class="btn-secondary btn">Record</button>
+			<button class="btn-secondary btn" on:click={openCamera}>Record</button>
 		</div>
 		<button class="btn btn-accent mt-4" on:click={handleNext}>Next</button>
 	</div>

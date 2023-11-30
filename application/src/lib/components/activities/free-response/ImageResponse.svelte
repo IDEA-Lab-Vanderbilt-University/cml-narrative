@@ -52,6 +52,7 @@
 	let responseTypeState: ResponseType = ResponseType.undefined;
 
 	const onFinish = async (images: HTMLImageElement[]) => {
+		console.log('images ', images);
 		// await DataService.Data.uploadResponseImages('drawAlgorithm', images);
 		dispatch('imageSubmitted', {
 			image: images

@@ -14,7 +14,15 @@ import type { Script, Line } from '$lib/types/Script';
 import type { UserData } from '$lib/types/UserData';
 import { agentData } from '$lib/utils/stores/store';
 
-let agent: UserData = {};
+let agent: UserData = {
+	name: {
+		first: '',
+		last: ''
+	},
+	age: undefined,
+	interests: [],
+	agentName: ''
+};
 
 agentData.subscribe((value) => {
 	agent = value as UserData;
