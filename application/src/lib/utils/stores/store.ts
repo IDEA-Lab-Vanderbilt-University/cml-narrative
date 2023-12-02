@@ -36,7 +36,7 @@ export const agentData = persist(writable({}), createLocalStorage(), 'agentData'
 
 export const tabletPowerNavigation = writable({});
 
-export const accessTokenData = writable('');
+export const accessTokenStore = writable('');
 
 /**
  * Defines the store for the Megajoules meter. A number 0-14 should be passed.

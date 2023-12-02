@@ -14,7 +14,7 @@ import type { StudentAuthData } from '$lib/types/StudentData';
 import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 import { RequestFactory } from '../network/RequestFactory';
 import { get } from 'svelte/store';
-import { accessTokenData } from '../stores/store';
+import { accessTokenStore } from '../stores/store';
 import type { UserData } from '$lib/types/UserData';
 
 /**
@@ -44,12 +44,11 @@ const Auth = {
 
 			let result = await response.json();
 
-			console.log('letseewhatsthis: ', result);
-
 			resolve(result);
+			console.log('let see if im getting tokens after: ', result);
 			const accessToken = result['accessToken'];
-			accessTokenData.set(result['accessToken']);
-			console.log('ikkada kotti chudham ', get(accessTokenData));
+			accessTokenStore.set(result['accessToken']);
+			console.log('ikkada kotti chudham ', get(accessTokenStore));
 			let agentResponse = await fetch(`${PUBLIC_BACKEND_API_URL}/api/addAgent`, {
 				method: 'POST',
 				body: JSON.stringify(getAgentBody(profileData)),
@@ -116,8 +115,9 @@ const Data = {
 	submitPostSurvey: async (surveyResponse: {}) => {
 		return new Promise<void>(async (resolve, reject) => {
 			console.log('attempting to submit post survey with data: ', surveyResponse);
-			let token: string = '';
-			accessTokenData.subscribe((value) => {
+
+			let token;
+			accessTokenStore.subscribe((value) => {
 				token = value;
 			});
 
@@ -137,11 +137,11 @@ const Data = {
 	},
 	submitFreeResponse: async (id: string, data: any) => {
 		return new Promise<void>(async (resolve, reject) => {
-			const API_URL = PUBLIC_BACKEND_API_URL;
-			let token: string = '';
-			accessTokenData.subscribe((value) => {
+			let token;
+			accessTokenStore.subscribe((value) => {
 				token = value;
 			});
+			console.log('token ikkada: ', token);
 			const body: TravelLogBody = {
 				description: `level-zero-what-is-${id}-free-response`,
 				data: data
@@ -154,12 +154,45 @@ const Data = {
 			}
 		});
 	},
-	uploadResponseImages: async (id: string, data: HTMLImageElement[] | HTMLOrSVGImageElement) => {
+	uploadMediaToS3: async (mediaPath: string) => {
 		return new Promise<void>(async (resolve, reject) => {
-			let token: string = '';
-			accessTokenData.subscribe((value) => {
+			let token;
+			accessTokenStore.subscribe((value) => {
 				token = value;
 			});
+
+			console.log('token ikkada: ', token);
+			try {
+				const formData = new FormData();
+
+				const response = await fetch(mediaPath);
+				const fileBlob = await response.blob();
+
+				formData.append('file', fileBlob);
+				console.log('the form data', formData);
+				console.log('the token', token);
+
+				let res = await RequestFactory(
+					`${PUBLIC_BACKEND_API_URL}/api/uploadContent`,
+					formData,
+					token
+				);
+				console.log(res);
+				resolve();
+			} catch (error) {
+				console.error('upload media to s3 error: ', error);
+				reject(error);
+			}
+		});
+	},
+	uploadResponseImages: async (id: string, data: HTMLImageElement[] | HTMLOrSVGImageElement) => {
+		return new Promise<void>(async (resolve, reject) => {
+			let token;
+			accessTokenStore.subscribe((value) => {
+				token = value;
+			});
+
+			console.log('token ikkada: ', token);
 			console.log(`Attempting to submit an response image for id ${id} with data: `, data);
 			let tlBody = getTravelLogBody(data, id);
 			try {
@@ -172,10 +205,11 @@ const Data = {
 	},
 	submitHelpfulOrHarmfulResponse: async (data: {}) => {
 		return new Promise<void>(async (resolve, reject) => {
-			let token: string = '';
-			accessTokenData.subscribe((value) => {
+			let token;
+			accessTokenStore.subscribe((value) => {
 				token = value;
 			});
+			console.log('token ikkada: ', token);
 			const body: TravelLogBody = {
 				description: `level-zero-helpful-or-harmful`,
 				data: data

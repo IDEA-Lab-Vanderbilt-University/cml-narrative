@@ -4,6 +4,7 @@
 	import type { HarmfulHelpfulItem } from '$lib/types/DragDropItem';
 	import VideoModal from '$lib/components/modals/VideoModal.svelte';
 	import DataService from '$lib/utils/DataService';
+	// @ts-ignore
 	const { open } = getContext('simple-modal');
 	// export let href: string;
 	export let harmfulProp: HarmfulHelpfulItem;
@@ -39,10 +40,11 @@
 		handleNext();
 	};
 
-	const onFinish = async (video: any) => {
+	const onFinish = async (url: string) => {
 		// await DataService.Data.uploadResponseImages('drawAlgorithm', video);
 		dispatch('videosSubmitted', {
-			video: video
+			id: harmfulProp.id,
+			url: url
 		});
 	};
 

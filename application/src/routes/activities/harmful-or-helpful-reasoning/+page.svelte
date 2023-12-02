@@ -10,9 +10,12 @@
 		if (currentItemIndex < harmfulProps.length - 1) {
 			currentItemIndex += 1;
 		} else {
+			handleTotalHarmFulHelpfulSubimission();
 			goto('/training?page=5');
 		}
 	};
+
+	const handleTotalHarmFulHelpfulSubimission = async () => {};
 
 	// const handleSubmit = async () => {
 	// 	try {
@@ -22,14 +25,17 @@
 	// 	}
 	// };
 
-	const handleVideoSubmission = async (event) => {
-		// try {
-		// 	await DataService.Data.uploadResponseImages('harmfulHelpful', event.detail.image);
-		// 	nextItem();
-		// } catch (error) {
-		// 	console.error(error);
-		// }
-		console.log('video submssion started!');
+	const handleVideoSubmission = async (event: any) => {
+		try {
+			console.log(event.detail);
+			// fetch s3 url from the media endpoint
+			// you get url, item id, itemId, from the event.detail
+			// some store logic if there isn't
+			console.log('video submssion started!');
+			nextItem();
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	const generateHarmfulProps = (harmfulHelpfulObject: HarmfulHelpfulStoreItem) => {
