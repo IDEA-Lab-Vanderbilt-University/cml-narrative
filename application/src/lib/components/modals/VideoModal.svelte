@@ -1,11 +1,20 @@
 <script lang="ts">
-	import { onDestroy } from 'svelte';
+	import { onDestroy, getContext } from 'svelte';
+	import DataService from '$lib/utils/DataService';
+	const { close } = getContext('simple-modal');
+
+	export let onFinish = () => {};
 
 	let mediaRecorder: MediaRecorder;
 	let chunks: BlobPart[] = [];
 	let url: string = '';
 	let videoElement: HTMLVideoElement;
 	let stream: MediaStream | null = null;
+
+	const _onFinish = () => {
+		onFinish(url);
+		close();
+	};
 
 	onDestroy(() => {
 		console.log('camera should be destroyed');
@@ -37,11 +46,13 @@
 		};
 	};
 
-	const downloadVideo = () => {
-		const link = document.createElement('a');
-		link.href = url;
-		link.download = 'recorded-video.webm';
-		link.click();
+	const uploadToS3 = async () => {
+		try {
+			await DataService.Data.uploadMediaToS3(url);
+			alert('media uploaded to s3.');
+		} catch (error) {
+			console.error(error);
+		}
 	};
 </script>
 
@@ -64,7 +75,7 @@
 		<video bind:this={videoElement} autoplay />
 		<button on:click={startRecording}>Record</button>
 		<button on:click={stopRecording}>Stop</button>
-		<button on:click={downloadVideo}>Download</button>
+		<button on:click={uploadToS3}>Done</button>
 	</div>
 
 	<!-- <canvas bind:this={canvas} id="canvas" class="hidden" />

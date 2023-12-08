@@ -49,7 +49,7 @@
 					interimTranscript += transcript;
 				}
 			}
-			response = finalTranscript;
+			response += finalTranscript;
 		};
 
 		recognition.onerror = (event: any) => {
@@ -90,11 +90,6 @@
 			return value;
 		});
 
-		// let demoObject: any = {};
-		// harmfulHelpfulStore.subscribe((value) => {
-		// 	demoObject = value;
-		// });
-		// console.log('demo: ', demoObject);
 		response = '';
 		dispatch('textDone');
 	};
