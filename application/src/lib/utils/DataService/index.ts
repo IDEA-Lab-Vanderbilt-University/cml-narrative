@@ -16,6 +16,7 @@ import { RequestFactory } from '../network/RequestFactory';
 import { get } from 'svelte/store';
 import { accessTokenStore } from '../stores/store';
 import type { UserData } from '$lib/types/UserData';
+import { error } from '@sveltejs/kit';
 
 /**
  * Handles and contains all of the authentication logic
@@ -154,8 +155,8 @@ const Data = {
 			}
 		});
 	},
-	uploadMediaToS3: async (mediaPath: string) => {
-		return new Promise<void>(async (resolve, reject) => {
+	uploadVideoToS3: async (mediaPath: string, fileName: string) => {
+		return new Promise<string>(async (resolve, reject) => {
 			let token;
 			accessTokenStore.subscribe((value) => {
 				token = value;
@@ -168,7 +169,7 @@ const Data = {
 				const response = await fetch(mediaPath);
 				const fileBlob = await response.blob();
 
-				formData.append('file', fileBlob);
+				formData.append('file', fileBlob, fileName); // Append the file name with extension
 				console.log('the form data', formData);
 				console.log('the token', token);
 
@@ -177,15 +178,73 @@ const Data = {
 					formData,
 					token
 				);
-				console.log(res);
-				resolve();
+				console.log(res.url);
+				resolve(res);
 			} catch (error) {
 				console.error('upload media to s3 error: ', error);
 				reject(error);
 			}
 		});
 	},
-	uploadResponseImages: async (id: string, data: HTMLImageElement[] | HTMLOrSVGImageElement) => {
+	uploadImageOrSvgToS3: async (mediaPath: string | HTMLOrSVGElement, type: string) => {
+		return new Promise<string>(async (resolve, reject) => {
+			let fileName = generateImageOrSvgFileName(type);
+
+			let token;
+			accessTokenStore.subscribe((value) => {
+				token = value;
+			});
+
+			if (typeof mediaPath !== 'string') {
+				try {
+					let svgElement = mediaPath;
+					if (svgElement instanceof SVGElement) {
+						let serializer = new XMLSerializer();
+						let svgString = serializer.serializeToString(svgElement);
+						let svgBlob = new Blob([svgString], { type: 'image/svg+xml' });
+						let fileName = generateImageOrSvgFileName(type);
+
+						const formData = new FormData();
+						formData.append('file', svgBlob, fileName);
+
+						let res = await RequestFactory(
+							`${PUBLIC_BACKEND_API_URL}/api/uploadContent`,
+							formData,
+							token
+						);
+
+						console.log(res);
+						resolve(res.url);
+					}
+				} catch (error) {
+					console.error('upload media to s3 error: ', error);
+					reject(error);
+				}
+			} else {
+				try {
+					const formData = new FormData();
+
+					const response = await fetch(mediaPath);
+					const fileBlob = await response.blob();
+
+					formData.append('file', fileBlob, fileName); // Append the file name with extension
+
+					let res = await RequestFactory(
+						`${PUBLIC_BACKEND_API_URL}/api/uploadContent`,
+						formData,
+						token
+					);
+
+					console.log(res);
+					resolve(res.url);
+				} catch (error) {
+					console.error('upload media to s3 error: ', error);
+					reject(error);
+				}
+			}
+		});
+	},
+	uploadResponseImages: async (id: string, data: string | string[], type: string) => {
 		return new Promise<void>(async (resolve, reject) => {
 			let token;
 			accessTokenStore.subscribe((value) => {
@@ -194,7 +253,7 @@ const Data = {
 
 			console.log('token ikkada: ', token);
 			console.log(`Attempting to submit an response image for id ${id} with data: `, data);
-			let tlBody = getTravelLogBody(data, id);
+			let tlBody = getTravelLogBody(data, id, type);
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, tlBody, token);
 				resolve();
@@ -214,6 +273,7 @@ const Data = {
 				description: `level-zero-helpful-or-harmful`,
 				data: data
 			};
+			console.log('body ikkada: ', body);
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, body, token);
 				resolve();
@@ -280,28 +340,26 @@ function getAgentBody(profileData: any): AgentBody {
 	};
 }
 
-function getTravelLogBody(
-	data: HTMLOrSVGImageElement | HTMLImageElement[],
-	id: string
-): TravelLogBody {
-	// assumed that if it's an array, it's an array of images
-	let imageStrings: string[] = [];
-	if (data instanceof Array) {
-		data.forEach((image) => imageStrings.push(serializeToString(image)));
-		let body: TravelLogBody = {
-			description: `level-zero-what-is-${id}-images`,
-			data: imageStrings
-		};
-		return body;
-	}
-	let body: TravelLogBody = {
-		description: `level-zero-what-is-${id}-svg`,
-		data: serializeToString(data)
+function getTravelLogBody(data: string | string[], id: string, type: string): TravelLogBody {
+	return {
+		description: `level-zero-what-is-${id}-${type}`,
+		data: data
 	};
-	return body;
 }
 
 function serializeToString(data: HTMLOrSVGImageElement | HTMLImageElement): string {
 	let serializer = new XMLSerializer();
 	return serializer.serializeToString(data);
+}
+
+function generateImageOrSvgFileName(type: string) {
+	const date = new Date();
+	const year = date.getFullYear();
+	const month = date.getMonth() + 1;
+	const day = date.getDate();
+	const hours = date.getHours();
+	const minutes = date.getMinutes();
+	const seconds = date.getSeconds();
+	const extension = type === 'image' ? 'png' : 'svg';
+	return `${year}-${month}-${day}-${hours}-${minutes}-${seconds}.${extension}`;
 }

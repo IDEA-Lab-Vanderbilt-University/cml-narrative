@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onDestroy, getContext } from 'svelte';
 	import DataService from '$lib/utils/DataService';
+	// @ts-ignore
 	const { close } = getContext('simple-modal');
 
 	export let onFinish = () => {};
@@ -12,6 +13,7 @@
 	let stream: MediaStream | null = null;
 
 	const _onFinish = () => {
+		// @ts-ignore
 		onFinish(url);
 		close();
 	};
@@ -46,13 +48,25 @@
 		};
 	};
 
+	const generateFileName = () => {
+		const date = new Date();
+		const year = date.getFullYear();
+		const month = date.getMonth() + 1;
+		const day = date.getDate();
+		const hours = date.getHours();
+		const minutes = date.getMinutes();
+		const seconds = date.getSeconds();
+		return `${year}-${month}-${day}-${hours}-${minutes}-${seconds}.webm`;
+	};
+
 	const uploadToS3 = async () => {
 		try {
-			await DataService.Data.uploadMediaToS3(url);
+			await DataService.Data.uploadVideoToS3(url, generateFileName());
 			alert('media uploaded to s3.');
 		} catch (error) {
 			console.error(error);
 		}
+		close();
 	};
 </script>
 
