@@ -50,7 +50,8 @@
 
 	const openCamera = () => {
 		open(VideoModal, {
-			onFinish
+			onFinish,
+			harmfulProp
 		});
 	};
 </script>

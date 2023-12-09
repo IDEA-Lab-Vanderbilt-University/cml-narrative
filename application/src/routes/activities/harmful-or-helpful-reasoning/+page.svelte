@@ -15,7 +15,17 @@
 		}
 	};
 
-	const handleTotalHarmFulHelpfulSubimission = async () => {};
+	const handleTotalHarmFulHelpfulSubimission = async () => {
+		let data: any;
+		harmfulHelpfulStore.subscribe((value) => {
+			data = value;
+		});
+		try {
+			await DataService.Data.submitHelpfulOrHarmfulResponse(data);
+		} catch (error) {
+			console.error(error);
+		}
+	};
 
 	// const handleSubmit = async () => {
 	// 	try {

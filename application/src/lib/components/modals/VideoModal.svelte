@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { onDestroy, getContext } from 'svelte';
 	import DataService from '$lib/utils/DataService';
+	import type { HarmfulHelpfulItem } from '$lib/types/DragDropItem';
+	import { harmfulHelpfulStore } from '$lib/utils/stores/store';
 	// @ts-ignore
 	const { close } = getContext('simple-modal');
 
 	export let onFinish = () => {};
+	export let harmfulProp: HarmfulHelpfulItem;
 
 	let mediaRecorder: MediaRecorder;
 	let chunks: BlobPart[] = [];
@@ -61,8 +64,18 @@
 
 	const uploadToS3 = async () => {
 		try {
-			await DataService.Data.uploadVideoToS3(url, generateFileName());
-			alert('media uploaded to s3.');
+			console.log('videmodal hprop: ', harmfulProp);
+			let res = await DataService.Data.uploadVideoToS3(url, generateFileName());
+			harmfulHelpfulStore.update((value) => {
+				value.reasoning.push({
+					id: harmfulProp.id,
+					type: harmfulProp.type,
+					reasonText: '',
+					reasonVideo: res
+				});
+				return value;
+			});
+			console.log('media uploaded to s3.');
 		} catch (error) {
 			console.error(error);
 		}

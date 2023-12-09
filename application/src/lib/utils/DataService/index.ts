@@ -179,7 +179,7 @@ const Data = {
 					token
 				);
 				console.log(res.url);
-				resolve(res);
+				resolve(res.url);
 			} catch (error) {
 				console.error('upload media to s3 error: ', error);
 				reject(error);
@@ -262,7 +262,7 @@ const Data = {
 			}
 		});
 	},
-	submitHelpfulOrHarmfulResponse: async (data: {}) => {
+	submitHelpfulOrHarmfulResponse: async (data: any) => {
 		return new Promise<void>(async (resolve, reject) => {
 			let token;
 			accessTokenStore.subscribe((value) => {
