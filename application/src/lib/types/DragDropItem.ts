@@ -6,22 +6,32 @@ export interface DragDropItem {
 	img: string;
 }
 
-export interface HarmfulHelpfulStoreItem {
-	harmful: DragDropItem[];
-	helpful: DragDropItem[];
-	reasoning: HarmfulHelpfulReasoningItem[];
-}
-
 export interface HarmfulHelpfulItem {
 	id: number;
 	itemId: string;
 	title: string;
-	type: 'harmful' | 'helpful';
+	type: 'harmful' | 'helpful' | undefined;
+	reasoning: Reasoning | undefined;
 }
 
 export interface HarmfulHelpfulReasoningItem {
 	id: number;
 	type: 'harmful' | 'helpful';
+	reasonText: string;
+	reasonVideo: string;
+}
+
+export interface DragStackItem {
+	id: number;
+	itemId: string;
+	title: string;
+	el: any;
+	img: string;
+	type: 'harmful' | 'helpful' | undefined;
+	reasoning: Reasoning | undefined;
+}
+
+export interface Reasoning {
 	reasonText: string;
 	reasonVideo: string;
 }

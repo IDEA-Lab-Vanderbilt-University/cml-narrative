@@ -41,7 +41,7 @@
 		if ($drawResponse) {
 			// WE can assume that an image has been drawn and saved because the store is not populated. We can then handle it here.
 			dispatch('imageSubmitted', {
-				image: $drawResponse
+				images: $drawResponse
 			});
 
 			// reset the draw response
@@ -55,7 +55,7 @@
 		console.log('images ', images);
 		// await DataService.Data.uploadResponseImages('drawAlgorithm', images);
 		dispatch('imageSubmitted', {
-			image: images
+			images: images
 		});
 	};
 

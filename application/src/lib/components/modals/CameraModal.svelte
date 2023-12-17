@@ -23,10 +23,10 @@
 
 	let video: HTMLVideoElement = null;
 	let canvas: HTMLCanvasElement = null;
-	let photo = null;
+	let photo: HTMLImageElement | null = null;
 	let button = null;
 	let stream: MediaStream | null = null;
-	let images: [HTMLImageElement] = [];
+	let images: HTMLImageElement[] = [];
 
 	const _onFinish = () => {
 		onFinish(images);
@@ -52,16 +52,20 @@
 	});
 	const takePicture = () => {
 		const context = canvas.getContext('2d');
-		if (width && height) {
+		if (width & height) {
 			canvas.width = width;
 			canvas.height = height;
 			context?.drawImage(video, 0, 0, width, height);
 
-			const data = canvas.toDataURL('image/png');
-			photo.setAttribute('src', data);
-
 			let image: HTMLImageElement = new Image();
-			image.src = data;
+			canvas.toBlob((blob) => {
+				if (blob) {
+					const imageUrl = URL.createObjectURL(blob);
+					photo?.setAttribute('src', image.src);
+					image.src = imageUrl;
+					console.log('chudham image src: ', image.src);
+				}
+			}, 'image/png');
 
 			images = [image, ...images];
 		}

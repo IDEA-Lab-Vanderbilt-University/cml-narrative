@@ -20,12 +20,34 @@
 
 	let hasRecievedResponse;
 
-	const hanldeImageSubmission = async (event) => {
-		console.log(event);
+	// const hanldeImageSubmission = async (event) => {
+	// 	console.log(event);
 
+	// 	try {
+	// 		await DataService.Data.uploadResponseImages('machineLearning', event.detail.image)
+	// 		goto("/training?page=14")
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// };
+
+	const handleImageSubmission = async (event: CustomEvent<any>) => {
+		const images: HTMLImageElement[] | HTMLOrSVGElement = event.detail.images;
+		let imageUrlsS3: string[] = [];
 		try {
-			await DataService.Data.uploadResponseImages('machineLearning', event.detail.image)
-			goto("/training?page=14")
+			if (images instanceof Array) {
+				const promises = images.map(async (image) => {
+					let res = await DataService.Data.uploadImageOrSvgToS3(image.src, 'image');
+					return res;
+				});
+				imageUrlsS3 = await Promise.all(promises);
+				console.log('imageurls: ', imageUrlsS3);
+				await DataService.Data.uploadResponseImages('machineLearning', imageUrlsS3, 'image');
+			} else {
+				let res = await DataService.Data.uploadImageOrSvgToS3(images, 'svg');
+				await DataService.Data.uploadResponseImages('machineLearning', res, 'svg');
+			}
+			goto('/training?page=14');
 		} catch (error) {
 			console.error(error);
 		}
@@ -35,6 +57,6 @@
 <Tablet>
 	<ImageResponse
 		promptedTechnology="Machine Learning"
-		on:imageSubmitted={hanldeImageSubmission}
+		on:imageSubmitted={handleImageSubmission}
 		href="/training?page=14" />
 </Tablet>
