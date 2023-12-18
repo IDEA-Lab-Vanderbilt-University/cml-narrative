@@ -13,7 +13,7 @@
 import type { UserData } from '$lib/types/UserData';
 import { writable } from 'svelte/store';
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
-import type { HarmfulHelpfulStoreItem } from '$lib/types/DragDropItem';
+import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
 
 /**
  * A note on what this file does:
@@ -46,4 +46,44 @@ export const megaJoulesMeter = writable(0);
 
 export const drawResponse = writable();
 
-export const harmfulHelpfulStore = writable<HarmfulHelpfulStoreItem>();
+let deafaultDragItems: DragStackItem[] = [
+	{
+		id: 1,
+		itemId: 'iphone',
+		title: 'iPhone',
+		el: null,
+		img: '/img/icons/mobile-app.png',
+		type: undefined,
+		reasoning: undefined
+	},
+	{
+		id: 2,
+		itemId: 'social-media',
+		title: 'Social Media',
+		el: null,
+		img: '/img/icons/social-media.png',
+		type: undefined,
+		reasoning: undefined
+	},
+	{
+		id: 3,
+		itemId: 'internet',
+		title: 'Internet',
+		el: null,
+		img: '/img/icons/wifi.png',
+		type: undefined,
+		reasoning: undefined
+	},
+	{
+		id: 4,
+		itemId: 'hospital',
+		title: 'Hospital',
+		el: null,
+		img: '/img/icons/hospital.png',
+		type: undefined,
+		reasoning: undefined
+	}
+];
+
+export const dragItemsStore = writable<DragStackItem[]>(deafaultDragItems);
+export const harmfulHelpfulStore = writable<HarmfulHelpfulItem[]>([]);

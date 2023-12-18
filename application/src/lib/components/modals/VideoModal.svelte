@@ -1,9 +1,14 @@
 <script lang="ts">
 	import { onDestroy, getContext } from 'svelte';
 	import DataService from '$lib/utils/DataService';
+	import type { DragStackItem, Reasoning } from '$lib/types/DragDropItem';
+	import { dragItemsStore, harmfulHelpfulStore } from '$lib/utils/stores/store';
+	// @ts-ignore
 	const { close } = getContext('simple-modal');
 
 	export let onFinish = () => {};
+	// export let harmfulProp: HarmfulHelpfulItem;
+	export let currentDragObject: DragStackItem;
 
 	let mediaRecorder: MediaRecorder;
 	let chunks: BlobPart[] = [];
@@ -12,7 +17,8 @@
 	let stream: MediaStream | null = null;
 
 	const _onFinish = () => {
-		onFinish(url);
+		// @ts-ignore
+		onFinish();
 		close();
 	};
 
@@ -46,10 +52,39 @@
 		};
 	};
 
+	const generateFileName = () => {
+		const date = new Date();
+		const year = date.getFullYear();
+		const month = date.getMonth() + 1;
+		const day = date.getDate();
+		const hours = date.getHours();
+		const minutes = date.getMinutes();
+		const seconds = date.getSeconds();
+		return `${year}-${month}-${day}-${hours}-${minutes}-${seconds}.webm`;
+	};
+
 	const uploadToS3 = async () => {
 		try {
-			await DataService.Data.uploadMediaToS3(url);
-			alert('media uploaded to s3.');
+			console.log('videmodal hprop: ', currentDragObject);
+			let res = 'somerandomaws.mp4';
+			// let res = await DataService.Data.uploadVideoToS3(url, generateFileName());
+			// harmfulHelpfulStore.update((value) => {
+			// 	value.reasoning.push({
+			// 		id: harmfulProp.id,
+			// 		type: harmfulProp.type,
+			// 		reasonText: '',
+			// 		reasonVideo: res
+			// 	});
+			// 	return value;
+			// });
+			let data: Reasoning = { reasonText: '', reasonVideo: res };
+			dragItemsStore.update((items) => {
+				items[0].reasoning = data;
+				console.log('uploadtos3 lo ', items);
+				return items;
+			});
+			console.log('media uploaded to s3.');
+			_onFinish();
 		} catch (error) {
 			console.error(error);
 		}

@@ -20,11 +20,36 @@
 
 	let hasRecievedResponse = false;
 
-	const hanldeImageSubmission = async (event) => {
-		console.log(event);
+	// const hanldeImageSubmission = async (event) => {
+	// 	console.log(event);
+	// 	console.log(typeof event.detail.image);
+	// 	try {
+	// 		// await DataService.Data.uploadResponseImages('algorithm', event.detail.image);
+	// 		console.log('chudham image src: ', event.detail.image);
+	// 		console.log(typeof event.detail.image);
+	// 		hasRecievedResponse = true;
+	// 		goto('/training?page=11');
+	// 	} catch (error) {
+	// 		console.error(error);
+	// 	}
+	// };
+
+	const handleImageSubmission = async (event: CustomEvent<any>) => {
+		const images: HTMLImageElement[] | HTMLOrSVGElement = event.detail.images;
+		let imageUrlsS3: string[] = [];
 		try {
-			await DataService.Data.uploadResponseImages('algorithm', event.detail.image);
-			hasRecievedResponse = true;
+			if (images instanceof Array) {
+				const promises = images.map(async (image) => {
+					let res = await DataService.Data.uploadImageOrSvgToS3(image.src, 'image');
+					return res;
+				});
+				imageUrlsS3 = await Promise.all(promises);
+				console.log('imageurls: ', imageUrlsS3);
+				await DataService.Data.uploadResponseImages('algorithm', imageUrlsS3, 'image');
+			} else {
+				let res = await DataService.Data.uploadImageOrSvgToS3(images, 'svg');
+				await DataService.Data.uploadResponseImages('algorithm', res, 'svg');
+			}
 			goto('/training?page=11');
 		} catch (error) {
 			console.error(error);
@@ -45,6 +70,6 @@
 	<ImageResponse
 		promptedTechnology="an Algorithm"
 		href="/training?page=11"
-		on:imageSubmitted={hanldeImageSubmission}
+		on:imageSubmitted={handleImageSubmission}
 		on:submitClicked={handleSubmit} />
 </Tablet>
