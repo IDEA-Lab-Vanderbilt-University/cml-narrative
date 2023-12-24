@@ -1,27 +1,24 @@
-<!--
- /src/lib/components/scene/Scene.svelte
- Scene.svelte
- cml-narrative
- 
- Created by Ian Thompson on September 7th 2022
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script lang="ts">
-	import AudioPlayer from "../audio/AudioPlayer.svelte";
+	import { createEventDispatcher } from 'svelte';
+	import AudioPlayer from '../audio/AudioPlayer.svelte';
 
 	/**  The background image of the scene */
 	export let background = '';
 
-	export let audio: string = ""
-	
+	export let audio: string = '';
+
 	export let darken: boolean = false;
+
+	const dispatch = createEventDispatcher();
+	let player;
+
+	function handlePlayerMounted(event: any) {
+		player = event.detail.player;
+		dispatch('scenePlayerMounted', { player });
+	}
 </script>
 
-
-<AudioPlayer src={audio} />
+<AudioPlayer on:playerMounted={handlePlayerMounted} src={audio} />
 
 <div class="flex h-screen w-full items-center justify-center bg-gray-200 bg-cover">
 	<div

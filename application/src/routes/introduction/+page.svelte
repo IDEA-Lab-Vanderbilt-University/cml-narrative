@@ -17,12 +17,10 @@
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 
-	/** @type {import('./$types').PageData} */
 	export let data;
 
 	let line: Line;
-
-	let audios = ['a.m4a', 'b.m4a'];
+	let player: HTMLAudioElement;
 
 	/**
 	 * We declared the line variable above. This variable is "reactive" and will change on
@@ -45,7 +43,7 @@
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
 	 * @param event can be destructured to obtain which way the dialog in a script should progress
 	 */
-	const handleDialogEvent = async (event) => {
+	const handleDialogEvent = async (event: any) => {
 		var state: NavigationDirection = event.detail.state;
 
 		handleNavigation(state);
@@ -93,17 +91,24 @@
 			goto(`/introduction?page=${line.id - 1}`);
 		}
 	};
+
+	const handleScenePlayerMounted = (event: any) => {
+		player = event.detail.player;
+	};
 </script>
 
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
-
-<Scene background={line.background} audio={line.audio}>
+<Scene
+	background={line.background}
+	audio={line.audio}
+	on:scenePlayerMounted={handleScenePlayerMounted}>
 	<div class="w-full" slot="dialog">
+		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
 			class=""
 			on:click={() => {
-				play();
+				play(player);
 			}}>
 			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 		</div>
@@ -121,6 +126,5 @@
 				</a>
 			</div>
 		{/if}
-		<!-- <div class=" h-full">hello</div> -->
 	</div>
 </Scene>

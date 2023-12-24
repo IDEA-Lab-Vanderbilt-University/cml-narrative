@@ -1,50 +1,45 @@
-<!--
- /src/lib/components/audio/AudioPlayer.svelte
- AudioPlayer.svelte
- cml-narrative
- 
- Created by Ian Thompson on August 8th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script context="module" lang="ts">
-	const players = new Set();
+	const players = new Set<HTMLAudioElement>();
 
 	export function stopAll() {
-		players.forEach(() => p.pause());
+		players.forEach((p) => p.pause());
 	}
 
-	export const play = () => {
+	export const play = (currentPlayer: HTMLAudioElement) => {
 		players.forEach((p) => {
-			p.play();
+			if (p == currentPlayer) {
+				p.play();
+			} else {
+				p.pause();
+			}
 		});
 	};
 </script>
 
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 
 	export let src: string;
-	let hasPlayerMounted = false
+	let hasPlayerMounted = false;
+
+	const dispatch = createEventDispatcher();
 
 	$: {
 		if (hasPlayerMounted) {
-			player.src = src
-			player.play()
+			player.src = src;
+			player.play();
 		}
 	}
 
 	let player: HTMLAudioElement;
 
 	onMount(() => {
-		hasPlayerMounted = true
+		hasPlayerMounted = true;
 
 		players.add(player);
 		console.log('mounting plater');
-
-		player.play();
+		play(player);
+		dispatch('playerMounted', player);
 	});
 </script>
 
