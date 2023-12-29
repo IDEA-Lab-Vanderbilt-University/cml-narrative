@@ -294,9 +294,22 @@ const DataService = {
 
 export default DataService;
 
+function generateEmail(profileData: any): string {
+	console.log('generateEmail: ', profileData);
+	let firstName = profileData.name.first;
+	let agentName = profileData.agentName;
+
+	// Generate a random number between 0 and 9999
+	const randomNumber = Math.floor(Math.random() * 100);
+
+	// Combine the first name, agent name, and random number to create the email
+	const email = `${firstName.toLowerCase()}.${agentName.toLowerCase()}${randomNumber}@spotagency.com`;
+
+	return email;
+}
 function generateCredentials(profileData: any): any {
 	// hardcode the email, password for now
-	profileData['email'] = 'spot-agent@idealab.com';
+	profileData['email'] = generateEmail(profileData);
 	profileData['password'] = 'password';
 	return profileData;
 }
@@ -345,11 +358,6 @@ function getTravelLogBody(data: string | string[], id: string, type: string): Tr
 		description: `level-zero-what-is-${id}-${type}`,
 		data: data
 	};
-}
-
-function serializeToString(data: HTMLOrSVGImageElement | HTMLImageElement): string {
-	let serializer = new XMLSerializer();
-	return serializer.serializeToString(data);
 }
 
 function generateImageOrSvgFileName(type: string) {
