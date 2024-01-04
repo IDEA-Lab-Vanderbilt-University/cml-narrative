@@ -16,7 +16,6 @@
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 
-	/** @type {import('./$types').PageData} */
 	export let data;
 
 	let line: Line;
@@ -42,7 +41,7 @@
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
 	 * @param event can be destructured to obtain which way the dialog in a script should progress
 	 */
-	const handleDialogEvent = async (event) => {
+	const handleDialogEvent = async (event: any) => {
 		var state: NavigationDirection = event.detail.state;
 
 		handleNavigation(state);
@@ -92,11 +91,9 @@
 
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
-<Scene background={line.background}>
+<Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
-	<div slot="content" class="h-full w-full">
-		<!-- <div class=" h-full">hello</div> -->
-	</div>
+	<div slot="content" class="h-full w-full" />
 </Scene>

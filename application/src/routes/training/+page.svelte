@@ -128,14 +128,14 @@
 					<Technology />
 				{:else if lineNumber == 3}
 					<Training2 />
-				{:else if lineNumber == 4 || lineNumber == 5}
+				{:else if lineNumber == 4}
 					<TrainingText>
 						<p class="text-4xl">
 							These technologies can be helpful, but they can also be harmful to people.
 						</p>
 						<p class="text-4xl">You need to decide which technologies are helpful or harmful.</p>
 					</TrainingText>
-				{:else if lineNumber == 6 || lineNumber == 10 || lineNumber == 11}
+				{:else if lineNumber == 5 || lineNumber == 6 || lineNumber == 10 || lineNumber == 11}
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Algorithm</p>
 					</TrainingText>
@@ -164,9 +164,9 @@
 	<div class="w-full" slot="dialog">
 		{#if lineNumber != 3}
 			<SlimDialogBox
-				speaker={line.speaker}
+				speaker={line.speakers[0]}
 				dialog={line.dialog}
-				avatar={line.avatar}
+				avatar={line.avatars[0]}
 				on:dialogEvent={handleDialogEvent} />
 		{:else}
 			<SlimDialogBox on:dialogEvent={handleDialogEvent} />

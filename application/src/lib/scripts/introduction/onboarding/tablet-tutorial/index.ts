@@ -17,7 +17,7 @@ const script: Script = {
 		{
 			id: 1,
 			speakers: ['Agent Spark'],
-			dialog: 'This is your SPOT tabled! Used for all official SPOT missions!',
+			dialog: 'This is your SPOT tablet! Used for all official SPOT missions!',
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s37.wav'
@@ -28,7 +28,7 @@ const script: Script = {
 			dialog: 'Use your Travel Log to share information and send updated to SPOT Mission Control',
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s45.wav'
+			audio: '/audio/level0/computer/computer_l0_s38.wav'
 		},
 		{
 			id: 3,
@@ -37,7 +37,7 @@ const script: Script = {
 				'This is the profile button. You can check and edit your profile. You can see the progress of other agents too!',
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s38.wav'
+			audio: '/audio/level0/computer/computer_l0_s39.wav'
 		},
 		{
 			id: 4,
@@ -46,7 +46,7 @@ const script: Script = {
 				'YOu need to earn badges to move from "Special Agent in Training" to "Advanced Special Agent"',
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s39.wav'
+			audio: '/audio/level0/computer/computer_l0_s40.wav'
 		},
 		{
 			id: 5,
@@ -55,7 +55,7 @@ const script: Script = {
 				'The Settings button lets you change the color of your frame! I like mine to be yellow!',
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s40.wav'
+			audio: '/audio/level0/computer/computer_l0_s41.wav'
 		},
 		{
 			id: 6,
@@ -64,7 +64,7 @@ const script: Script = {
 				'Your Time Travel Machine holds 100 megajoules of power, which is exactly the amount it takes to get to the year 2075!',
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s43.wav'
+			audio: '/audio/level0/computer/computer_l0_s42.wav'
 		},
 		{
 			id: 7,
@@ -73,7 +73,7 @@ const script: Script = {
 				'To return to present dau, you will need to refuel by gaining 100 megajoules of power while you are in the future',
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s44.wav'
+			audio: '/audio/level0/computer/computer_l0_s43.wav'
 		},
 		{
 			id: 8,
@@ -82,7 +82,7 @@ const script: Script = {
 				'Complete entries within your Time Travel Log to power up. Mission Control will send you some megajoules of power each time you make an entry.',
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s46.wav'
+			audio: '/audio/level0/computer/computer_l0_s44.wav'
 		},
 		{
 			id: 9,
@@ -90,7 +90,7 @@ const script: Script = {
 			dialog: 'Now you have all the information on how to use the SPOT tablet!',
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s47.wav'
+			audio: '/audio/level0/computer/computer_l0_s45.wav'
 		}
 	],
 	length: 9

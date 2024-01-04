@@ -1,23 +1,9 @@
-<!--
- /src/routes/+page.svelte
- +page.svelte
- cml-narrative
- 
- Created by Ian Thompson on January 7th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
-
---->
 <script lang="ts">
 	import { HomeScreenStates } from '$lib/types/Enums';
 	import Login from '$lib/components/auth/Login.svelte';
-	// import DialogBox from "$lib/components/dialog/DialogBox.svelte";
-	// import Scene from "$lib/components/scene/Scene.svelte";
-	// import Tablet from "$lib/components/tablet/Tablet.svelte";
 
 	import { onMount } from 'svelte';
-	import { fade, fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 
 	let showTablet: boolean = false;
 	let showLogIn: boolean = false;

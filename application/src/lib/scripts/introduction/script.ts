@@ -46,7 +46,8 @@ const script: Script = {
 			dialog:
 				'Great choice! We are specifically interested in the type of technology that will be available in the future.',
 			avatars: ['/img/characters/captain-storm/gesture_2_storm.png'],
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: '/audio/level0/captain_storm/captn_storm_l0s7.wav'
 		},
 		{
 			id: 5,
@@ -54,7 +55,8 @@ const script: Script = {
 			dialog:
 				'By seeing how technology works and affects people in the future, we might be able to prevent potential problems.',
 			avatars: ['/img/characters/captain-storm/gesture_2_storm.png'],
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: '/audio/level0/captain_storm/captn_storm_l0s8.wav'
 		},
 		{
 			id: 6,
@@ -80,7 +82,8 @@ const script: Script = {
 			dialog:
 				'So glad you are now a part of our team! Now our agents will get you started and set up in the SPOT system.',
 			avatars: ['/img/characters/captain-storm/storm_gesture_4.png'],
-			background: '/img/backgrounds/Agency_Walkway.jpg'
+			background: '/img/backgrounds/Agency_Walkway.jpg',
+			audio: '/audio/level0/captain_storm/captn_storm_l0s12.wav'
 		},
 		{
 			id: 9,

@@ -18,7 +18,6 @@
 
 	import { fade } from 'svelte/transition';
 
-	/** @type {import('./$types').PageData} */
 	export let data;
 
 	let line: Line;
@@ -29,7 +28,7 @@
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
 	 * @param event can be destructured to obtain which way the dialog in a script should progress
 	 */
-	const handleDialogEvent = async (event) => {
+	const handleDialogEvent = async (event: any) => {
 		var state: NavigationDirection = event.detail.state;
 
 		handleNavigation(state);
@@ -93,11 +92,11 @@
 				<img
 					src="/img/characters/agent-fern/fern_thumbs_up.png"
 					alt=""
-					class="mt-auto mb-52 h-56 w-56" />
+					class="mb-52 mt-auto h-56 w-56" />
 				<img
 					src="/img/characters/agent-spark/spark_gesture_1.png"
 					alt=""
-					class="mt-auto mb-52 h-48 w-48" />
+					class="mb-52 mt-auto h-48 w-48" />
 			</div>
 		{/if}
 	</div>

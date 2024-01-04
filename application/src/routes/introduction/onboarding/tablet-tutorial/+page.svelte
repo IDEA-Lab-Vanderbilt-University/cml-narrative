@@ -19,14 +19,16 @@
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import { Assets } from '$lib/utils/Assets';
+	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
 
-	/** @type {import('./$types').PageData} */
 	export let data;
 
 	let line: Line;
+	let audioSrc: string;
 
 	$: {
 		line = data.line;
+		audioSrc = line.audio || '';
 
 		// switch (line.id) {
 		// 	case 1:
@@ -189,11 +191,12 @@
 			class={`rotate-180 px-2 `}
 			on:click={() => handleNavigation(NavigationDirection.backward)}>
 			<p
-				class="w-fit rounded-full bg-lapiz-blue p-8 text-3xl text-white transition-all duration-200 ease-in-out hover:opacity-80">
+				class="bg-lapiz-blue w-fit rounded-full p-8 text-3xl text-white transition-all duration-200 ease-in-out hover:opacity-80">
 				➜
 			</p>
 		</button>
 		<div class="w-full">
+			<AudioPlayer src={audioSrc} />
 			{#if line.id == 1}
 				<Introduction on:applicationContainerEvent={handleAppContainerEvent} />
 			{:else if line.id == 2}
@@ -222,14 +225,14 @@
 				</div>
 			{:else if line.id == 7}
 				<div class="flex h-full items-center justify-center" id="megajoules-dec-1">
-					<p class="hud-red-blue-border max-w-xl py-5 px-3 text-3xl text-white ">
+					<p class="hud-red-blue-border max-w-xl px-3 py-5 text-3xl text-white ">
 						Your time travel machine holds 1200 megajoules of power, which is exactly the amount it
 						takes to get to the year 2075.
 					</p>
 				</div>
 			{:else if line.id == 8}
 				<div class="flex h-full items-center justify-center" id="megajoules-dec-1">
-					<p class="hud-red-blue-border max-w-xl py-5 px-3 text-3xl text-white ">
+					<p class="hud-red-blue-border max-w-xl px-3 py-5 text-3xl text-white ">
 						To return to the present day, you will need to refuel by gaining 100 megajoules of power
 						while you are in the future.
 					</p>
@@ -243,13 +246,11 @@
 		</div>
 		<button class={`px-2 `} on:click={() => handleNavigation(NavigationDirection.forward)}>
 			<p
-				class="w-fit rounded-full bg-lapiz-blue p-8 text-3xl text-white transition-all duration-200 ease-in-out hover:opacity-80">
+				class="bg-lapiz-blue w-fit rounded-full p-8 text-3xl text-white transition-all duration-200 ease-in-out hover:opacity-80">
 				➜
 			</p>
 		</button>
 	</div>
-	<div class="absolute inset-0 z-10 mt-auto flex h-fit items-end justify-center  bg-jet shadow-md">
-		<!-- TODO: Improve layout of TabletDialogBox -->
-		<!-- <TabletDialogBox {line} /> -->
+	<div class="bg-jet absolute inset-0 z-10 mt-auto flex h-fit items-end  justify-center shadow-md">
 	</div>
 </div>

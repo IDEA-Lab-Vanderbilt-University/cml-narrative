@@ -11,7 +11,7 @@
 --->
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import AudioPlayer, { play } from '$lib/components/audio/AudioPlayer.svelte';
+	import { play } from '$lib/components/audio/AudioPlayer.svelte';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
@@ -114,6 +114,17 @@
 		</div>
 	</div>
 	<div slot="content" class="h-full w-full">
+		<div class="absolute left-60 top-60 mx-4 my-4 w-fit">
+			{#if line.id == 14}
+				<img src="/img/character-clouds/level-0-spark.png" alt="" />
+			{/if}
+			{#if line.id == 15}
+				<img src="/img/character-clouds/level-0-fern.png" alt="" />
+			{/if}
+			{#if line.id == 16}
+				<img src="/img/character-clouds/level-0-gear.png" alt="" />
+			{/if}
+		</div>
 		{#if line.id == 18}
 			<div class="flex w-full ">
 				<a

@@ -47,7 +47,8 @@ const script: Script = {
 			speakers: ['Captain Storm'],
 			dialog: 'This is the lab! Before you start training, you will need a...',
 			avatars: ['/img/characters/captain-storm/storm_gesture_4.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/captain_storm/captn_storm_l0s49.wav'
 		},
 		{
 			id: 3,
@@ -61,14 +62,16 @@ const script: Script = {
 			speakers: ['Captain Storm'],
 			dialog: 'Yes, thank you Agent Fern! A Bot Buddy!',
 			avatars: ['/img/characters/captain-storm/storm_laughing.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/captain_storm/captn_storm_l0s51.wav'
 		},
 		{
 			id: 5,
 			speakers: ['Agent Fern'],
 			dialog: `Great to see you, Captain Storm! Welcome, Agent ${agent.agentName}! I can't wait to tell you about Bot Buddy!`,
 			avatars: ['/img/characters/agent-fern/fern_wave.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/agent_fern/agent_fern_l0s52.wav'
 		},
 		{
 			id: 6,
@@ -76,28 +79,32 @@ const script: Script = {
 			dialog:
 				'Your Bot Buddy will be your companion during this mission. The Bot Buddy can provide clues and receive directions from Mission Control.',
 			avatars: ['/img/characters/agent-fern/fern_talking.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/agent_fern/agent_fern_l0s53.wav'
 		},
 		{
 			id: 7,
 			speakers: ['Agent Fern'],
 			dialog: 'It will be super useful in your mission to the future!',
 			avatars: ['/img/characters/agent-fern/fern_bro.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/agent_fern/agent_fern_l0s54.wav'
 		},
 		{
 			id: 8,
 			speakers: ['Captain Storm'],
 			dialog: 'Agent Fern... where is Bot Buddy?',
 			avatars: ['/img/characters/captain-storm/storm_unsure.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/captain_storm/captn_storm_l0s55.wav'
 		},
 		{
 			id: 9,
 			speakers: ['Agent Fern'],
 			dialog: "I don't know!!",
 			avatars: ['/img/characters/agent-fern/fern_oh_no.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/agent_fern/agent_fern_l0s56.wav'
 		},
 		{
 			id: 10,
@@ -105,14 +112,16 @@ const script: Script = {
 			dialog:
 				'I have them, Captain Storm! Sorry I was late, I wanted our new agent to have the updated model!',
 			avatars: ['/img/characters/agent-gear/vanilla_strong.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/agent_gear/agent_gear_l0s57.wav'
 		},
 		{
 			id: 11,
 			speakers: ['Agent Gear'],
 			dialog: `Agent ${agent.agentName}, this is Bot Buddy! Your new helpful robot will accompany you on your mission to the future.`,
 			avatars: ['/img/characters/agent-gear/vanilla_gesture_2.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/agent_gear/agent_gear_l0s58.wav'
 		},
 		{
 			id: 12,
@@ -120,21 +129,23 @@ const script: Script = {
 			dialog: '$$((( ooo!>>> =+=; $^(( %&<!!',
 			avatars: ['/img/characters/bot-buddy/bot-buddy-base.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/bot_buddy/bot_buddy_los59.wav'
+			audio: '/audio/level0/bot_buddy/bot_buddy_l0s59.wav'
 		},
 		{
 			id: 13,
 			speakers: ['Agent Fern And Agent Gear'],
 			dialog: 'What !!!!!!!! ????????????',
 			avatars: ['/img/characters/agent-groups/agent_fern_and_gear.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/agent_fern/agents_fernngear_l0s60.wav'
 		},
 		{
 			id: 14,
 			speakers: ['Agent Fern And Agent Gear'],
 			dialog: "Well That doesn't sound right.",
 			avatars: ['/img/characters/agent-groups/agent_fern_and_gear.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/agent_fern/agents_fernngearl0s61.wav'
 		},
 		{
 			id: 15,
@@ -159,7 +170,8 @@ const script: Script = {
 				'/img/characters/agent-gear/vanilla_strong.png',
 				'/img/characters/agent-fern/fern_smooth.png'
 			],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/agent_gear/agent_gear_l0s64.wav'
 		},
 		{
 			id: 18,
@@ -192,7 +204,8 @@ const script: Script = {
 			dialog:
 				'Then, the Tech Team will load your Bot Buddy with additional information and knowledge to help you on your mission.',
 			avatars: ['/img/characters/captain-storm/gesture_2_storm.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg'
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level0/captain_storm/captn_storm_l0s68.wav'
 		},
 		{
 			id: 22,
