@@ -10,7 +10,7 @@
  
 */
 
-import type { Script, Line } from '$lib/types/Script';
+import type { Script } from '$lib/types/Script';
 
 import type { UserData } from '$lib/types/UserData';
 import { Assets } from '$lib/utils/Assets';
@@ -36,9 +36,13 @@ const script: Script = {
 			id: 1,
 			speakers: ['Agent Spark'],
 			dialog: "It's time for your SPOT Agent Training!",
-			avatars: [Assets.Characters.AgentSpark.gesture],
+			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s71.wav'
+			audio: '/audio/level0/computer/computer_l0_s72.wav'
+			// audio: [
+			// 	'/audio/level0/computer/computer_l0_s72.wav',
+			// 	'/audio/level0/agent_spark/agent_spark_l0s71.wav'
+			// ]
 		},
 		{
 			id: 2,
@@ -53,7 +57,8 @@ const script: Script = {
 			speakers: ['Captain Storm'],
 			dialog: '',
 			avatars: [Assets.Characters.AgentSpark.gesture],
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: '/audio/level0/computer/computer_l0_s73.wav'
 		},
 		{
 			id: 4,
@@ -62,7 +67,11 @@ const script: Script = {
 				'It can be tricky... On your SPOT Tablet, tell us which technologies you think are helpful or harmful.',
 			avatars: [Assets.Characters.AgentSpark.gesture],
 			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s74.wav'
+			audio: '/audio/level0/computer/computer_l0_s74.wav'
+			// audio: [
+			// 	'/audio/level0/computer/computer_l0_s74.wav',
+			// 	'/audio/level0/agent_spark/agent_spark_l0s74.wav'
+			// ]
 		},
 		{
 			id: 6,
@@ -70,7 +79,11 @@ const script: Script = {
 			dialog: 'Ever heard of Algorithms?',
 			avatars: [Assets.Characters.AgentSpark.gesture],
 			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s80.wav'
+			// audio: '/audio/level0/agent_spark/agent_spark_l0s80.wav'
+			audio: '/audio/level0/computer/computer_l0_s80.wav'
+			// audio: [
+			// 	'/audio/level0/computer/computer_l0_s74.wav',
+			// 	'/audio/level0/agent_spark/agent_spark_l0s80.wav']
 		},
 		{
 			id: 7,
@@ -90,9 +103,10 @@ const script: Script = {
 		{
 			id: 9,
 			speakers: ['Agent Gear'],
-			dialog: 'Yeah, sorry! Fixing it now!',
+			dialog: "Oops, Sorry! I'm fixing it now!",
 			avatars: [Assets.Characters.AgentGear.embarassed],
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: '/audio/level0/agent_gear/agent_gear_l0s90.wav'
 		},
 		{
 			id: 10,
@@ -108,7 +122,8 @@ const script: Script = {
 			dialog:
 				'There is no right or wrong answer. We need to know what you know to get you ready for your trip.',
 			avatars: [Assets.Characters.CaptainStorm.gesture_2],
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: '/audio/level0/captain_storm/captn_storm_l0s85.wav'
 		},
 		{
 			id: 12,
@@ -121,10 +136,14 @@ const script: Script = {
 		{
 			id: 13,
 			speakers: ['Agent Spark'],
-			dialog: 'The phrase "machine learning" has become popular today. What o you think it means?',
+			dialog: 'The phrase "machine learning" has become popular today. What do you think it means?',
 			avatars: [Assets.Characters.AgentSpark.gesture],
 			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s89.wav'
+			audio: '/audio/level0/computer/computer_l0_s90.wav'
+			// audio: [
+			// 	'/audio/level0/computer/computer_l0_s90.wav',
+			// 	'/audio/level0/agent_spark/agent_spark_l0s89.wav',
+			// ]
 		},
 		{
 			id: 14,
@@ -157,7 +176,8 @@ const script: Script = {
 			speakers: ['Agent Gear'],
 			dialog: `In addition to earning your Training Badge, your Bot Buddy has been loaded with information that might be needed for the mission. You are now ready to travel to the year 2075!`,
 			avatars: ['/img/characters/agent-gear/vanil_thumbs_up.png'],
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: '/audio/level0/agent_gear/agent_gear_l0s102.wav'
 		},
 		{
 			id: 19,
@@ -165,7 +185,8 @@ const script: Script = {
 			dialog:
 				'One more thing before you go. We need to know more about what you think by answering a few questions. Open your tablet at the top of your screen and complete the survey to tell us more about you.',
 			avatars: ['/img/characters/agent-gear/vanilla_talking.png'],
-			background: '/img/backgrounds/captain_office.jpg'
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: '/audio/level0/agent_gear/agent_gear_l0s103.wav'
 		}
 	],
 	length: 19
