@@ -11,7 +11,6 @@
 --->
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import TabletDialogBox from '$lib/components/dialog/TabletDialogBox.svelte';
 	import Introduction from '$lib/components/sequences/tablet/tablet-tutorial/Introduction.svelte';
 	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
 	import MegaJoulesMeter from '$lib/components/tablet/MegaJoulesMeter.svelte';
@@ -251,6 +250,6 @@
 			</p>
 		</button>
 	</div>
-	<div class="bg-jet absolute inset-0 z-10 mt-auto flex h-fit items-end  justify-center shadow-md">
-	</div>
+	<div
+		class="bg-jet absolute inset-0 z-10 mt-auto flex h-fit items-end  justify-center shadow-md" />
 </div>

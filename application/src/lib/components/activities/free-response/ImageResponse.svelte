@@ -20,7 +20,6 @@
 
 	import { createEventDispatcher, getContext } from 'svelte';
 	import CameraModal from '$lib/components/modals/CameraModal.svelte';
-	import DataService from '$lib/utils/DataService';
 	import { goto } from '$app/navigation';
 	import { draw } from 'svelte/transition';
 	const { open } = getContext('simple-modal');
