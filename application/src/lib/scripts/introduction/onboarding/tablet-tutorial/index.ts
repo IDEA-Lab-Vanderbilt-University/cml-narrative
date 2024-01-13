@@ -43,7 +43,7 @@ const script: Script = {
 			id: 4,
 			speakers: ['Agent Spark'],
 			dialog:
-				'YOu need to earn badges to move from "Special Agent in Training" to "Advanced Special Agent"',
+				'You need to earn badges to move from "Special Agent in Training" to "Advanced Special Agent"',
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s40.wav'
