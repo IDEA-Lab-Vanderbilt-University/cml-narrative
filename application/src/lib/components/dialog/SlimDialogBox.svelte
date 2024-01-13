@@ -23,11 +23,11 @@
 	const dispatch = createEventDispatcher();
 
 	/** The text of what the speaker should be saying */
-	export let dialog = '';
-	/** Who is saying the text in the dialog box */
-	export let speaker = '';
-	/** The path to the img file of the avatar speaking */
-	export let avatar = '';
+	// export let dialog = '';
+	// /** Who is saying the text in the dialog box */
+	// export let speaker = '';
+	// /** The path to the img file of the avatar speaking */
+	// export let avatar = '';
 
 	export let line: Line;
 
@@ -46,32 +46,49 @@
 	};
 </script>
 
-<div class="flex w-full flex-col">
+<div class="flex w-full flex-col px-4">
 	<div class="relative z-20 flex w-full items-end justify-between align-bottom">
-		<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-4xl text-black">
-			{speaker}
-		</div>
-		<div class="mr-14 self-end">
-			<img src={avatar} alt="" />
-		</div>
+		{#if line.avatars.length > 1}
+			<div class="flex w-full items-end justify-between align-bottom">
+				{#each line.avatars as avatar, i}
+					<div class="mr-14 self-end">
+						<img class="relative -bottom-9 z-20 -scale-x-100" src={avatar} alt="" />
+						{#if line.speakers[i]}
+							<div
+								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+								{line.speakers[i]}
+							</div>
+						{/if}
+					</div>
+				{/each}
+			</div>
+		{:else if line.pos == 'right'}
+			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+				{line.speakers[0]}
+			</div>
+			<div class="mr-14 self-end">
+				<img src={line.avatars[0]} alt="" />
+			</div>
+		{:else if line.pos == 'left'}
+			<div class="mr-14 self-end">
+				<img src={line.avatars[0]} alt="" />
+			</div>
+			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+				{line.speakers[0]}
+			</div>
+		{/if}
 	</div>
 
-	<div class="bg-jet relative w-full rounded text-white ">
-		<div class="grid grid-cols-5 items-center gap-4 align-middle text-3xl">
+	<div class="bg-jet relative flex h-36 w-full items-center justify-center rounded p-4 text-white">
+		<div class="grid grid-cols-5 items-center justify-center gap-8 align-middle text-3xl">
 			<button class="mr-6 rotate-180" on:click={back}>
-				<p
-					class="bg-peach w-fit rounded-full p-4 transition-all duration-200 ease-in-out hover:opacity-80">
-					➜
-				</p>
+				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
 			</button>
-			<p class="col-span-3 h-36 w-full text-2xl leading-relaxed ">
-				{dialog}
+			<p class="col-span-3 mt-auto w-full text-2xl leading-relaxed  ">
+				{line.dialog}
 			</p>
 			<button class="" on:click={forward}>
-				<p
-					class="bg-peach w-fit rounded-full p-4 transition-all duration-200 ease-in-out hover:opacity-80">
-					➜
-				</p>
+				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
 			</button>
 		</div>
 	</div>

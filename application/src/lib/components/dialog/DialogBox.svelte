@@ -16,22 +16,13 @@
 	 * conditionally show arrows
 	 */
 	import type { Line } from '$lib/types/Script';
+	import { isAudioPlaying } from '$lib/utils/stores/store';
 
-	// import DialogControl from '$lib/components/DialogControl.svelte';
-
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-
-	/** The text of what the speaker should be saying */
-	export let dialog = '';
-	/** Who is saying the text in the dialog box */
-	export let speaker = '';
-	/** The path to the img file of the avatar speaking */
-	export let avatar = '';
 
 	export let line: Line;
 
-	/** Dispatch the back dialogEvent */
 	const back = () => {
 		dispatch('dialogEvent', {
 			state: NavigationDirection.backward
@@ -44,14 +35,6 @@
 			state: NavigationDirection.forward
 		});
 	};
-
-	let flip: boolean = false;
-
-	$: {
-		console.log(line);
-
-		flip = line.id % 3 == 0;
-	}
 </script>
 
 <div class="flex w-full flex-col px-4">
@@ -70,29 +53,14 @@
 					</div>
 				{/each}
 			</div>
-
-			<!-- <div class="mr-14  self-end">
-				<img class="relative -bottom-9 -scale-x-100" src={line.avatars[0]} alt="" />
-				<div
-					class=" bg-peach relative -bottom-4 -right-3 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
-					{line.speakers[0]}
-				</div>
-			</div>
-			<div class="mr-14  self-end">
-				<img class="relative -bottom-9 -right-4 -scale-x-100" src={line.avatars[1]} alt="" />
-				<div
-					class=" bg-peach relative -bottom-4 -right-7 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
-					{line.speakers[1]}
-				</div>
-			</div> -->
-		{:else if flip}
+		{:else if line.pos == 'right'}
 			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 				{line.speakers[0]}
 			</div>
 			<div class="mr-14 self-end">
 				<img src={line.avatars[0]} alt="" />
 			</div>
-		{:else}
+		{:else if line.pos == 'left'}
 			<div class="mr-14 self-end">
 				<img src={line.avatars[0]} alt="" />
 			</div>
@@ -104,17 +72,27 @@
 
 	<div class="bg-jet relative flex h-36 w-full items-center justify-center rounded p-4 text-white">
 		<div class="grid grid-cols-5 items-center justify-center gap-8 align-middle text-3xl">
+			<!-- {#if $isAudioPlaying}
+				<button class="mr-6 rotate-180">
+					<img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-14 w-14" />
+				</button>
+				<p class="col-span-3 mt-auto w-full text-2xl leading-relaxed  ">
+					{line.dialog}
+				</p>
+				<button class="">
+					<img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-14 w-14" />
+				</button>
+			{:else} -->
 			<button class="mr-6 rotate-180" on:click={back}>
 				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
-				<!-- <p class="bg-peach w-fit p-4 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p> -->
 			</button>
 			<p class="col-span-3 mt-auto w-full text-2xl leading-relaxed  ">
 				{line.dialog}
 			</p>
 			<button class="" on:click={forward}>
 				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
-				<!-- <p class="bg-peach w-fit p-4 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p> -->
 			</button>
+			<!-- {/if} -->
 		</div>
 	</div>
 </div>
