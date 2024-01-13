@@ -16,7 +16,6 @@
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 
-	/** @type {import('./$types').PageData} */
 	export let data;
 
 	let line: Line;
@@ -27,7 +26,7 @@
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
 	 * @param event can be destructured to obtain which way the dialog in a script should progress
 	 */
-	const handleDialogEvent = async (event) => {
+	const handleDialogEvent = async (event: any) => {
 		var state: NavigationDirection = event.detail.state;
 
 		handleNavigation(state);

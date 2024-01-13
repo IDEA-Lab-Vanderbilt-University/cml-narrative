@@ -55,4 +55,6 @@ export interface Line {
 	 * The url path to an audio file associated with a line
 	 */
 	audio?: string;
+
+	pos?: 'left' | 'right' | 'normal';
 }

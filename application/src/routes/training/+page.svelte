@@ -23,7 +23,6 @@
 	import Training2 from '$lib/components/sequences/training/Training2.svelte';
 	import TrainingText from '$lib/components/sequences/training/TrainingText.svelte';
 
-	/** @type {import('./$types').PageData} */
 	export let data;
 
 	let line: Line;
@@ -60,7 +59,7 @@
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
 	 * @param event can be destructured to obtain which way the dialog in a script should progress
 	 */
-	const handleDialogEvent = async (event) => {
+	const handleDialogEvent = async (event: any) => {
 		var state: NavigationDirection = event.detail.state;
 
 		handleNavigation(state);
@@ -145,16 +144,6 @@
 					</TrainingText>
 				{:else if lineNumber == 17}
 					hello
-					<!-- <div class="z-50 flex w-full">
-						<a
-							href="/introduction/onboarding"
-							class="my-4 mx-4 ml-auto w-fit rounded-full bg-green-500 py-7 px-6 shadow-md hover:shadow-lg">
-							<img
-								src="/img/icons/mobile-app.png"
-								alt=""
-								class="h-24 animate-pulse hover:animate-none" />
-						</a>
-					</div> -->
 				{/if}
 			</ProjectorView>
 		{:else}
@@ -163,13 +152,9 @@
 	</div>
 	<div class="w-full" slot="dialog">
 		{#if lineNumber != 3}
-			<SlimDialogBox
-				speaker={line.speakers[0]}
-				dialog={line.dialog}
-				avatar={line.avatars[0]}
-				on:dialogEvent={handleDialogEvent} />
+			<SlimDialogBox {line} on:dialogEvent={handleDialogEvent} />
 		{:else}
-			<SlimDialogBox on:dialogEvent={handleDialogEvent} />
+			<SlimDialogBox {line} on:dialogEvent={handleDialogEvent} />
 		{/if}
 	</div>
 </Scene>
