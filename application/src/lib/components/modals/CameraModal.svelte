@@ -63,7 +63,6 @@
 					const imageUrl = URL.createObjectURL(blob);
 					photo?.setAttribute('src', image.src);
 					image.src = imageUrl;
-					console.log('chudham image src: ', image.src);
 				}
 			}, 'image/png');
 

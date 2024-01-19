@@ -1,14 +1,3 @@
-<!--
- /src/lib/components/activities/free-response/ImageResponse.svelte
- ImageResponse.svelte
- cml-narrative
- 
- Created by Ian Thompson on July 20th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script lang="ts">
 	import DrawAlgorithim from '$lib/components/activities/draw/DrawAlgorithim.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
@@ -51,7 +40,7 @@
 	let responseTypeState: ResponseType = ResponseType.undefined;
 
 	const onFinish = async (images: HTMLImageElement[]) => {
-		console.log('images ', images);
+		// console.log('images ', images);
 		// await DataService.Data.uploadResponseImages('drawAlgorithm', images);
 		dispatch('imageSubmitted', {
 			images: images

@@ -1,14 +1,3 @@
-<!--
- /src/lib/components/activities/free-response/TextResponse.svelte
- TextResponse.svelte
- cml-narrative
- 
- Created by Ian Thompson on July 19th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script lang="ts">
 	import DataService from '$lib/utils/DataService';
 	import { createEventDispatcher } from 'svelte';
@@ -73,7 +62,7 @@
 		let data: Reasoning = { reasonText: response, reasonVideo: '' };
 		dragItemsStore.update((items) => {
 			items[0].reasoning = data;
-			console.log('handlesubmit lo ', items);
+			// console.log('handlesubmit lo ', items);
 			return items;
 		});
 

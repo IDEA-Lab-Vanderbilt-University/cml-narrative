@@ -1,14 +1,3 @@
-<!--
- /src/lib/components/activities/free-response/TextResponse.svelte
- TextResponse.svelte
- cml-narrative
- 
- Created by Ian Thompson on July 19th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script lang="ts">
 	import DataService from '$lib/utils/DataService';
 	import { createEventDispatcher } from 'svelte';

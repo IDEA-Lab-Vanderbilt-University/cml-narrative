@@ -1,14 +1,3 @@
-<!--
- /src/lib/components/DialogControl.svelte
- DialogControl.svelte
- cml-narrative
- 
- Created by Ian Thompson on September 7th 2022
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script>
 	import { createEventDispatcher } from 'svelte';
 

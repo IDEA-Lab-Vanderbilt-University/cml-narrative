@@ -1,14 +1,3 @@
-<!--
- /src/lib/components/DialogBox.svelte
- DialogBox.svelte
- cml-narrative
- 
- Created by Ian Thompson on September 7th 2022
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script lang="ts">
 	import { NavigationDirection } from '$lib/types/Enums';
 	/**
@@ -16,7 +5,6 @@
 	 * conditionally show arrows
 	 */
 	import type { Line } from '$lib/types/Script';
-	import { isAudioPlaying } from '$lib/utils/stores/store';
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
