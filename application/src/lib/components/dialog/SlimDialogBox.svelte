@@ -52,7 +52,7 @@
 			<div class="flex w-full items-end justify-between align-bottom">
 				{#each line.avatars as avatar, i}
 					<div class="mr-14 self-end">
-						<img class="relative -bottom-9 z-20 -scale-x-100" src={avatar} alt="" />
+						<img class="relative -bottom-9 z-20 " src={avatar} alt="" />
 						{#if line.speakers[i]}
 							<div
 								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">

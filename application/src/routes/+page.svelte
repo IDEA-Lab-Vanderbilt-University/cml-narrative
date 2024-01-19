@@ -9,6 +9,7 @@
 	let showLogIn: boolean = false;
 
 	let screenState: HomeScreenStates = HomeScreenStates.home;
+	let source: AudioBufferSourceNode;
 
 	onMount(() => {
 		setTimeout(() => {
@@ -18,6 +19,28 @@
 
 	const handleLogin = () => {
 		showLogIn = true;
+	};
+
+	function runAudio() {
+		const context = new AudioContext();
+		source = context.createBufferSource();
+		const request = new XMLHttpRequest();
+		request.open('GET', '/audio/level0/computer/computer_l0_s1.wav', true);
+		request.responseType = 'arraybuffer';
+		request.onload = function () {
+			context.decodeAudioData(request.response, function (buffer) {
+				source.buffer = buffer;
+				source.connect(context.destination);
+				source.start(0);
+			});
+		};
+		request.send();
+	}
+
+	const stopAudio = () => {
+		if (source) {
+			source.stop();
+		}
 	};
 </script>
 
@@ -32,13 +55,31 @@
 					<p class="text-xl" in:fade={{ delay: 700 }}>Solving Problems of Tomorrow</p>
 				</div>
 				<div class="mt-10 space-x-3" in:fade={{ delay: 1500 }}>
-					<button
-						id="new-agent"
-						class="new-agent rounded-md bg-red-500 px-3 py-2 text-3xl text-white shadow-lg"
-						on:click={() => (screenState = HomeScreenStates.signUp)}>New Agents</button>
-					<button
-						class="rounded-md bg-blue-400 px-3 py-2 text-3xl text-white shadow-lg"
-						on:click={() => (screenState = HomeScreenStates.login)}>Active Agents</button>
+					<div id="button-container" class="mt-10 space-x-3" in:fade={{ delay: 1500 }}>
+						<button
+							id="welcome"
+							class="new-agent rounded-md bg-green-500 px-3 py-2 text-3xl text-white shadow-lg"
+							on:click={() => {
+								runAudio();
+								document.getElementById('welcome').style.display = 'none';
+								document.getElementById('new-agent').style.display = 'inline-block';
+								document.getElementById('active-agent').style.display = 'inline-block';
+							}}>Enter SPOT</button>
+						<button
+							id="new-agent"
+							class="new-agent hidden rounded-md bg-red-500 px-3 py-2 text-3xl text-white shadow-lg"
+							on:click={() => {
+								stopAudio();
+								screenState = HomeScreenStates.signUp;
+							}}>New Agents</button>
+						<button
+							id="active-agent"
+							class="hidden rounded-md bg-blue-400 px-3 py-2 text-3xl text-white shadow-lg"
+							on:click={() => {
+								stopAudio();
+								screenState = HomeScreenStates.login;
+							}}>Active Agents</button>
+					</div>
 				</div>
 				<img src="/img/logos/SPOT-dots.svg" alt="" class="mt-8 h-24" in:fade={{ delay: 2000 }} />
 			{:else if screenState == HomeScreenStates.signUp}
@@ -47,3 +88,10 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	#new-agent,
+	#active-agent {
+		display: none;
+	}
+</style>
