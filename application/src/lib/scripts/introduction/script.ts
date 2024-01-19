@@ -98,7 +98,7 @@ const script: Script = {
 			speakers: ['Agent Fern', 'Captain Storm'],
 			dialog: 'Agent Fern is our brilliant physicist who developed a way to time travel!',
 			avatars: [
-				'/img/characters/agent-fern/fern_wave.png',
+				'/img/characters/agent-fern/fern_wave_inverted.png',
 				'/img/characters/captain-storm/storm_gesture_4.png'
 			],
 			background: '/img/backgrounds/Agency_Walkway.jpg',

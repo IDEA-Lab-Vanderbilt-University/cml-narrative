@@ -36,7 +36,7 @@ const script: Script = {
 			speakers: ['Agent Gear'],
 			dialog:
 				'Awesome! We have sent this information to Mission Control! Thank you, Agent! Good luck in 2075!',
-			avatars: ['/img/characters/agent-gear/vanil_thumbs_up.png'],
+			avatars: ['/img/characters/agent-gear/vanil_thumbs_up_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_gear/agent_gear_l0s113.wav',
 			pos: 'left'

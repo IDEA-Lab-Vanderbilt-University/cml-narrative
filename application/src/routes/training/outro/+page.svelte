@@ -79,7 +79,7 @@
 	const handleNavigation = (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
 			if (line.id == 3) {
-				alert('End of training!');
+				// alert('End of training!');
 			} else {
 				goto(`/training/outro?page=${line.id + 1}`);
 			}

@@ -73,7 +73,7 @@ const script: Script = {
 			id: 5,
 			speakers: ['Agent Fern'],
 			dialog: `Great to see you, Captain Storm! Welcome, Agent ${agent.agentName}! I can't wait to tell you about Bot Buddy!`,
-			avatars: ['/img/characters/agent-fern/fern_wave.png'],
+			avatars: ['/img/characters/agent-fern/fern_wave_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_fern/agent_fern_l0s52.wav',
 			pos: 'left'
@@ -92,7 +92,7 @@ const script: Script = {
 			id: 7,
 			speakers: ['Agent Fern'],
 			dialog: 'It will be super useful in your mission to the future!',
-			avatars: ['/img/characters/agent-fern/fern_bro.png'],
+			avatars: ['/img/characters/agent-fern/fern_bro_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_fern/agent_fern_l0s54.wav',
 			pos: 'right'
