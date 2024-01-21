@@ -1,0 +1,23 @@
+version: 0.2
+
+env:
+  variables:
+    PUBLIC_BACKEND_API_URL: 'https://api.example.com'
+
+phases:
+  install:
+    commands:
+      - echo installing dependencies...
+      - npm install
+  build:
+    - echo build started on `date`
+    - npm run build
+
+artifacts:
+  files:
+    - .svelte-kit/**/*
+    - static/**/*
+    - package.json
+    - svelte.config.js
+    - tsconfig.json
+    - vite.config.ts
