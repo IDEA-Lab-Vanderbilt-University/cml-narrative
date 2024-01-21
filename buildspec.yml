@@ -6,9 +6,10 @@ env:
 
 phases:
   install:
+    runtime-versions:
+      nodejs: 18
     commands:
       - echo installing dependencies...
-      - npm i -g npm@latest
       - npm install
   build:
     commands:
