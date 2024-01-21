@@ -1,14 +1,3 @@
-<!--
- /src/lib/components/activities/drag-and-drop/Bank.svelte
- Bank.svelte
- cml-narrative
- 
- Created by Ian Thompson on January 16th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script>
 	import { dndzone } from 'svelte-dnd-action';
 	import { flip } from 'svelte/animate';
