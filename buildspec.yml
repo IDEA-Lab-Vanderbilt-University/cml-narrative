@@ -8,6 +8,8 @@ phases:
   install:
     commands:
       - echo installing dependencies...
+      - npm i -g npm@latest
+      - npm i npm@latest
       - npm install
   build:
     commands:
