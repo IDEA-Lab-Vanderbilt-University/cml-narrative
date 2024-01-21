@@ -10,8 +10,9 @@ phases:
       - echo installing dependencies...
       - npm install
   build:
-    - echo build started on `date`
-    - npm run build
+    commands:
+      - echo build started on `date`
+      - npm run build
 
 artifacts:
   files:
