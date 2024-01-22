@@ -1,4 +1,4 @@
-import adapter from '@sveltejs/adapter-auto';
+import adapter from '@sveltejs/adapter-node';
 import { vitePreprocess } from '@sveltejs/kit/vite';
 
 import preprocessReact from 'svelte-preprocess-react/preprocessReact';
@@ -13,6 +13,14 @@ const config = {
 
 	kit: {
 		adapter: adapter()
+	},
+	server: {
+		port: 5000,
+		strictPort: false
+	},
+	preview: {
+		port: 6000,
+		strictPort: false
 	}
 };
 
