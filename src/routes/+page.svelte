@@ -64,7 +64,7 @@
 								document.getElementById('welcome').style.display = 'none';
 								document.getElementById('new-agent').style.display = 'inline-block';
 								document.getElementById('active-agent').style.display = 'inline-block';
-							}}>SPOT ENTER ENTER!</button>
+							}}>Enter SPOT</button>
 						<button
 							id="new-agent"
 							class="new-agent hidden rounded-md bg-red-500 px-3 py-2 text-3xl text-white shadow-lg"
