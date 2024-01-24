@@ -1,9 +1,5 @@
 version: 0.2
 
-env:
-  variables:
-    PUBLIC_BACKEND_API_URL: 'https://api.example.com'
-
 phases:
   install:
     runtime-versions:
@@ -19,8 +15,11 @@ phases:
 artifacts:
   files:
     - .svelte-kit/**/*
-    - static/**/*
+    - build/**/*
     - package.json
+    - package-lock.json
     - svelte.config.js
+    - postcss.config.cjs
+    - tailwind.config.cjs
     - tsconfig.json
     - vite.config.ts

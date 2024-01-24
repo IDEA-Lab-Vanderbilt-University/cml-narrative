@@ -10,7 +10,7 @@
 		"format": "prettier --plugin-search-dir . --write .",
 		"lint": "prettier --plugin-search-dir . --check .",
 		"preview": "vite preview --port 4000",
-		"start": "vite start --port 5000 --host 0.0.0.0"
+		"start": "HOST=0.0.0.0 PORT=5000 node ./build/index.js"
 	},
 	"type": "module",
 	"dependencies": {
@@ -27,13 +27,14 @@
 		"svelte-portal": "^2.2.0",
 		"svelte-preprocess-react": "^0.15.0",
 		"svelte-react-kit": "^0.1.12",
-		"svelte-simple-modal": "^1.6.1"
+		"svelte-simple-modal": "^1.6.1",
+		"vite": "^4.0.0"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-node": "^1.3.0",
 		"@sveltejs/kit": "^1.0.0",
 		"@types/react": "^18.2.32",
-		"autoprefixer": "^10.4.13",
+		"autoprefixer": "^10.4.17",
 		"daisyui": "^3.2.1",
 		"postcss": "^8.4.21",
 		"prettier": "^2.8.8",
@@ -41,9 +42,8 @@
 		"prettier-plugin-tailwindcss": "^0.3.0",
 		"svelte": "^3.54.0",
 		"svelte-check": "^2.9.2",
-		"tailwindcss": "^3.2.4",
+		"tailwindcss": "^3.4.1",
 		"tslib": "^2.4.1",
-		"typescript": "^4.9.3",
-		"vite": "^4.0.0"
+		"typescript": "^4.9.3"
 	}
 }
