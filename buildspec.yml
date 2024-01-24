@@ -1,0 +1,31 @@
+version: 0.2
+
+env:
+  variables:
+    PUBLIC_BACKEND_API_URL: 'https://api.example.com'
+    HOST: 0.0.0.0
+    PORT: 5000
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - echo installing dependencies...
+      - npm install
+  build:
+    commands:
+      - echo build started on `date`
+      - npm run build
+
+artifacts:
+  files:
+    - .svelte-kit/**/*
+    - build/**/*
+    - package.json
+    - package-lock.json
+    - svelte.config.js
+    - postcss.config.cjs
+    - tailwind.config.cjs
+    - tsconfig.json
+    - vite.config.ts
