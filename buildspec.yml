@@ -1,5 +1,9 @@
 version: 0.2
 
+env:
+  variables:
+    PUBLIC_BACKEND_API_URL: 'http://spot-server-eb-env.eba-b2vq8ppn.us-east-2.elasticbeanstalk.com'
+
 phases:
   install:
     runtime-versions:
