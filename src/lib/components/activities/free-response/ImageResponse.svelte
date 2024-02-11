@@ -11,6 +11,7 @@
 	import CameraModal from '$lib/components/modals/CameraModal.svelte';
 	import { goto } from '$app/navigation';
 	import { draw } from 'svelte/transition';
+	import DataService from '$lib/utils/DataService';
 	const { open } = getContext('simple-modal');
 
 	export let promptedTechnology: string;
@@ -40,7 +41,7 @@
 	let responseTypeState: ResponseType = ResponseType.undefined;
 
 	const onFinish = async (images: HTMLImageElement[]) => {
-		// console.log('images ', images);
+		console.log('images ', images);
 		// await DataService.Data.uploadResponseImages('drawAlgorithm', images);
 		dispatch('imageSubmitted', {
 			images: images

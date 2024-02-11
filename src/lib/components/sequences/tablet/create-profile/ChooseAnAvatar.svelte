@@ -10,9 +10,6 @@
  
 --->
 <script lang="ts">
-	import type { UserData } from '$lib/types/UserData';
-
-	export let profileData: UserData = {};
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-10 overflow-scroll">
