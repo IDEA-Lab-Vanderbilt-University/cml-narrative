@@ -16,7 +16,6 @@ import { RequestFactory } from '../network/RequestFactory';
 import { get } from 'svelte/store';
 import { accessTokenStore } from '../stores/store';
 import type { UserData } from '$lib/types/UserData';
-import { error } from '@sveltejs/kit';
 
 /**
  * Handles and contains all of the authentication logic
@@ -79,12 +78,9 @@ const Auth = {
 			console.log('Attempting to sign in user with data: ', credential);
 
 			try {
-				let res = await RequestFactory('/api/auth/signin', {
-					credentials: {
-						// agentName: credential.agentName,
-						password: credential.password,
-						email: credential.email
-					}
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/auth/signin`, {
+					email: credential.email,
+					password: credential.password
 				});
 
 				if (res) {
@@ -296,14 +292,16 @@ export default DataService;
 
 function generateEmail(profileData: any): string {
 	console.log('generateEmail: ', profileData);
-	let firstName = profileData.name.first;
+	let firstName = profileData.name.last;
 	let agentName = profileData.agentName;
 
 	// Generate a random number between 0 and 9999
 	const randomNumber = Math.floor(Math.random() * 100);
 
 	// Combine the first name, agent name, and random number to create the email
-	const email = `${firstName.toLowerCase()}.${agentName.toLowerCase()}${randomNumber}@spotagency.com`;
+	const email = `${firstName
+		.toLowerCase()
+		.trim()}.${agentName.toLowerCase()}${randomNumber}@spotagency.com`;
 
 	return email;
 }

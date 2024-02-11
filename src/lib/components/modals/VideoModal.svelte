@@ -66,8 +66,8 @@
 	const uploadToS3 = async () => {
 		try {
 			console.log('videmodal hprop: ', currentDragObject);
-			let res = 'somerandomaws.mp4';
-			// let res = await DataService.Data.uploadVideoToS3(url, generateFileName());
+			// let res = 'somerandomaws.mp4';
+			let res = await DataService.Data.uploadVideoToS3(url, generateFileName());
 			// harmfulHelpfulStore.update((value) => {
 			// 	value.reasoning.push({
 			// 		id: harmfulProp.id,

@@ -14,10 +14,6 @@ const config = {
 	kit: {
 		adapter: adapter({ out: 'build' })
 	},
-	server: {
-		port: 5000,
-		strictPort: false
-	},
 	preview: {
 		port: 6000,
 		strictPort: false
