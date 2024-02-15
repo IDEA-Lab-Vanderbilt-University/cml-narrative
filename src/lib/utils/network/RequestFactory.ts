@@ -71,7 +71,6 @@ export const RequestFactory = async (url: string, body: FormData | any, accessTo
 
 		// Set the request body based on the type of body parameter
 		if (body instanceof FormData) {
-			// headers.append('Content-Type', 'multipart/form-data');
 			requestOptions.body = body;
 		} else {
 			headers.append('Content-Type', 'application/json');
@@ -80,6 +79,8 @@ export const RequestFactory = async (url: string, body: FormData | any, accessTo
 
 		// Execute the POST request
 		try {
+			console.log(url);
+			console.log('requestOptions: ', requestOptions);
 			let response = await fetch(url, requestOptions);
 			let result = await response.json();
 

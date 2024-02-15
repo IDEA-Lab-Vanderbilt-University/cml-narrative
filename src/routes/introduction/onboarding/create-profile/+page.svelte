@@ -48,8 +48,14 @@
 		},
 		age: undefined,
 		interests: [],
-		agentName: ''
+		agentName: '',
+		email: '',
+		password: ''
 	};
+
+	agentData.subscribe((value) => {
+		profileData = value as UserData;
+	});
 
 	let mounted = false;
 	$: page;
