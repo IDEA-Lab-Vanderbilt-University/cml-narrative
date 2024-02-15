@@ -109,7 +109,7 @@
 			}
 		} else if (direction == NavigationDirection.backward) {
 			if (lineNumber == 1) {
-				goto(`/introduction/bot-buddy?page=24`);
+				goto(`/introduction/bot-buddy?page=23`);
 			} else {
 				goto(`/training?page=${lineNumber - 1}`);
 			}
