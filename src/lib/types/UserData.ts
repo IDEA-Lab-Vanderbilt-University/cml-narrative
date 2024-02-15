@@ -19,4 +19,6 @@ export interface UserData {
 	interests: string[];
 	avatarImg?: string;
 	agentName: string;
+	email: string;
+	password: string;
 }

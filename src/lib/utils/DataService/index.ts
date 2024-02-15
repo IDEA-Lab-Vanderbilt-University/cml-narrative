@@ -31,30 +31,22 @@ const Auth = {
 
 	signUp: async (profileData: UserData) => {
 		return new Promise(async (resolve, reject) => {
-			console.log("i'm here.");
 			profileData = generateCredentials(profileData);
-			console.log(profileData);
-			let response = await fetch(`${PUBLIC_BACKEND_API_URL}/api/auth/signup`, {
-				method: 'POST',
-				body: JSON.stringify(profileData),
-				headers: {
-					'Content-Type': 'application/json'
-				}
+			let token: string = '';
+
+			accessTokenStore.subscribe((value) => {
+				token = value;
 			});
 
-			let result = await response.json();
+			console.log('token: ', token);
+			console.log('profileData: ', profileData);
 
-			resolve(result);
-			console.log('let see if im getting tokens after: ', result);
-			const accessToken = result['accessToken'];
-			accessTokenStore.set(result['accessToken']);
-			console.log('ikkada kotti chudham ', get(accessTokenStore));
 			let agentResponse = await fetch(`${PUBLIC_BACKEND_API_URL}/api/addAgent`, {
 				method: 'POST',
 				body: JSON.stringify(getAgentBody(profileData)),
 				headers: {
 					'Content-Type': 'application/json',
-					'x-access-token': accessToken
+					'x-access-token': token
 				}
 			});
 
@@ -73,8 +65,8 @@ const Auth = {
 	 * @param credential StudentAuthData credential to sign in with
 	 * @returns promise wheter or not the user has been signed in or not
 	 */
-	signIn: async (credential: StudentAuthData) => {
-		return new Promise<void>(async (resolve, reject) => {
+	signIn: async (credential: UserData) => {
+		return new Promise<string>(async (resolve, reject) => {
 			console.log('Attempting to sign in user with data: ', credential);
 
 			try {
@@ -84,7 +76,7 @@ const Auth = {
 				});
 
 				if (res) {
-					resolve(res);
+					resolve(res.accessToken);
 				} else {
 					reject(res);
 				}

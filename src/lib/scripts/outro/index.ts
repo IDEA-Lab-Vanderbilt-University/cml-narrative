@@ -22,7 +22,9 @@ let agent: UserData = {
 	},
 	age: undefined,
 	interests: [],
-	agentName: ''
+	agentName: '',
+	email: '',
+	password: ''
 };
 
 agentData.subscribe((value) => {
