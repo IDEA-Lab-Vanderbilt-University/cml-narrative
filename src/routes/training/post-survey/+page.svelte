@@ -39,31 +39,31 @@
 			question: 'I would like to use coding to make something new:',
 			response: null
 		},
-		// {
-		// 	question: 'I am good at building code:',
-		// 	response: null
-		// },
-		// {
-		// 	question: 'I am good at fixing code:',
-		// 	response: null
-		// },
-		// {
-		// 	question: 'I believe I can be successful in coding:',
-		// 	response: null
-		// },
-		// {
-		// 	question: 'Kids like me can help in community activities and decision making:',
-		// 	response: null
-		// },
-		// {
-		// 	question:
-		// 		'My opinion is important because it could someday make a difference in my community:',
-		// 	response: null
-		// },
-		// {
-		// 	question: 'It is important to me that I actively participate in local kids issues:',
-		// 	response: null
-		// },
+		{
+			question: 'I am good at building code:',
+			response: null
+		},
+		{
+			question: 'I am good at fixing code:',
+			response: null
+		},
+		{
+			question: 'I believe I can be successful in coding:',
+			response: null
+		},
+		{
+			question: 'Kids like me can help in community activities and decision making:',
+			response: null
+		},
+		{
+			question:
+				'My opinion is important because it could someday make a difference in my community:',
+			response: null
+		},
+		{
+			question: 'It is important to me that I actively participate in local kids issues:',
+			response: null
+		},
 		{
 			question: 'Most community leaders would listen to me:',
 			response: null
