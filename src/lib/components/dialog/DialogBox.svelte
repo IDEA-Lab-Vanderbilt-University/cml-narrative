@@ -49,10 +49,16 @@
 				<img src={line.avatars[0]} alt="" />
 			</div>
 		{:else if line.pos == 'left'}
-			<div class="mr-14 self-end">
-				<img src={line.avatars[0]} alt="" />
-			</div>
-			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+			{#if line.id == 23}
+				<div class="mr-14 -mb-8 self-end" style="z-index: 1;">
+					<img src={line.avatars[0]} alt="" class="" />
+				</div>
+			{:else}
+				<div class="mr-14 self-end">
+					<img src={line.avatars[0]} alt="" />
+				</div>
+			{/if}
+			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black" style="z-index: 2;">
 				{line.speakers[0]}
 			</div>
 		{/if}

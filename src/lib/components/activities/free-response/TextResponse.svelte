@@ -16,27 +16,30 @@
 
 	export let promptedTechnology: string;
 	export let response: string = '';
+
+	let isRecording = false;
 	let recognition: any;
 
 	const speechToText = () => {
 		// @ts-ignore
 		const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-		const recognition = new SpeechRecognition();
+		recognition = new SpeechRecognition();
 		recognition.lang = 'en-US';
+		recognition.continuous = true;
 		recognition.start();
 
-		let finalTranscript = '';
+		let finalTranscript = response;
 		recognition.onresult = (event: any) => {
 			let interimTranscript = '';
 			for (let i = event.resultIndex; i < event.results.length; i++) {
 				let transcript = event.results[i][0].transcript;
 				if (event.results[i].isFinal) {
-					finalTranscript += transcript;
+					finalTranscript += ' ' + transcript;
 				} else {
 					interimTranscript += transcript;
 				}
 			}
-			response += finalTranscript;
+			response = finalTranscript;
 		};
 
 		recognition.onerror = (event: any) => {
@@ -54,6 +57,11 @@
 		}
 	};
 
+	function toggleRecording() {
+		isRecording = !isRecording;
+		isRecording ? speechToText() : stopRecording();
+	}
+
 	const handleSubmit = async () => {
 		console.log(5);
 
@@ -68,15 +76,16 @@
 		In the box below, describe what you think {promptedTechnology} is.
 	</p>
 	<textarea
-		class="textarea-bordered textarea  mx-12 mt-9 h-1/2 w-full border-4 border-dashed border-white bg-transparent text-xl"
+		class="textarea textarea-bordered  mx-12 mt-9 h-1/2 w-full border-4 border-dashed border-white bg-transparent text-xl"
 		placeholder={`I think ${promptedTechnology.toLowerCase()} is....`}
 		bind:value={response} />
 	<button
-		href="/activities/draw-an-algorithm"
-		class="bg-lapiz-blue mt-9 rounded-md px-8 text-xl text-white"
-		on:click={handleSubmit}>Next</button>
-	<button class="bg-lapiz-blue mt-9 rounded-md px-8 text-xl text-white" on:click={speechToText}
-		>Start Recording</button>
-	<button class="mt-9 rounded-md bg-red-500 px-8 text-xl text-white" on:click={stopRecording}
-		>Stop Recording</button>
+		class="mt-9 rounded-md px-8 text-xl text-white {isRecording
+			? 'animate-pulse bg-red-500'
+			: 'bg-lapiz-blue'}"
+		on:click={toggleRecording}>
+		{isRecording ? 'Stop Recording' : 'Start Recording'}
+	</button>
+	<button class="mt-9 rounded-md bg-lapiz-blue px-8 text-xl text-white" on:click={handleSubmit}
+		>Next</button>
 </div>
