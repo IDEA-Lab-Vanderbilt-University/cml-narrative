@@ -60,7 +60,7 @@ const script: Script = {
 			dialog: 'Bot Buddy!!!',
 			avatars: ['/img/characters/agent-fern/fern_point_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_fern/agent_fern_l0s52.wav',
+			audio: '',
 			pos: 'right'
 		},
 		{
