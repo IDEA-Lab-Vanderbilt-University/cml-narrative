@@ -170,7 +170,7 @@ const script: Script = {
 			dialog: '*CRASH* \n*BANG*',
 			avatars: ['/img/characters/captain-storm/storm_better_laugh.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_fern/agents_fernngearl0s61.wav',
+			audio: '',
 			pos: 'left'
 		},
 		{
@@ -243,7 +243,7 @@ const script: Script = {
 			speakers: ['Captain Storm'],
 			dialog:
 				"Thanks, team! At the end of this first training, you will receive your first badge! Let's get started!",
-			avatars: ['/img/characters/captain-storm/storm_arms_up.png'],
+			avatars: ['/img/characters/agent-groups/spot_agents_2.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s70.wav',
 			pos: 'left'
