@@ -1,17 +1,11 @@
 <script lang="ts">
-	import DrawAlgorithim from '$lib/components/activities/draw/DrawAlgorithim.svelte';
-	import Scene from '$lib/components/scene/Scene.svelte';
-	import Tablet from '$lib/components/tablet/Tablet.svelte';
-
 	import { Draw } from '$lib/components/activities/draw/Draw.jsx';
 	import { ReactAdapter } from 'svelte-react-kit';
 	import { drawResponse, megaJoulesMeter } from '$lib/utils/stores/store';
 
 	import { createEventDispatcher, getContext } from 'svelte';
 	import CameraModal from '$lib/components/modals/CameraModal.svelte';
-	import { goto } from '$app/navigation';
-	import { draw } from 'svelte/transition';
-	import DataService from '$lib/utils/DataService';
+	// @ts-ignore
 	const { open } = getContext('simple-modal');
 
 	export let promptedTechnology: string;

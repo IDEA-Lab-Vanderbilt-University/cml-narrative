@@ -60,7 +60,7 @@ const script: Script = {
 			dialog: 'Bot Buddy!!!',
 			avatars: ['/img/characters/agent-fern/fern_point_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '',
+			audio: '/audio/level0/agent_fern/agent_fern_l0s50.wav',
 			pos: 'right'
 		},
 		{
@@ -170,7 +170,7 @@ const script: Script = {
 			dialog: '*CRASH* \n*BANG*',
 			avatars: ['/img/characters/captain-storm/storm_better_laugh.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '',
+			audio: '/audio/level0/crash-bang.mp3',
 			pos: 'left'
 		},
 		{

@@ -87,6 +87,7 @@
 						id="draggable"
 						on:dragend={handleDrop}
 						bind:this={currentDragObject.el} />
+					<p>{currentDragObject.title}</p>
 				</div>
 				<div
 					id="harmful-bank"

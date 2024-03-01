@@ -12,23 +12,24 @@
 <script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import { getContext } from 'svelte';
+	// @ts-ignore
 	const { close } = getContext('simple-modal');
 
 	export let onFinish = () => {};
 
-	const width = 224;
-	let height = 224;
+	const width = 1000;
+	let height = 1000;
 
 	let streaming = false;
 
-	let video: HTMLVideoElement = null;
-	let canvas: HTMLCanvasElement = null;
-	let photo: HTMLImageElement | null = null;
-	let button = null;
-	let stream: MediaStream | null = null;
+	let video: HTMLVideoElement;
+	let canvas: HTMLCanvasElement;
+	let photo: HTMLImageElement;
+	let stream: MediaStream;
 	let images: HTMLImageElement[] = [];
 
 	const _onFinish = () => {
+		// @ts-ignore
 		onFinish(images);
 		close();
 	};
@@ -73,14 +74,18 @@
 	const handleCanPlay = () => {
 		if (!streaming) {
 			// height = (video.videoHeight / video.videoWidth) * width;
-			video.setAttribute('width', width);
-			video.setAttribute('height', height);
-			canvas.setAttribute('width', width);
-			canvas.setAttribute('height', height);
+			video.setAttribute('width', width.toString());
+			video.setAttribute('height', height.toString());
+			canvas.setAttribute('width', width.toString());
+			canvas.setAttribute('height', height.toString());
 			streaming = true;
 		} else {
 			clearPhoto();
 		}
+	};
+
+	const clearPhotos = () => {
+		images = [];
 	};
 
 	const clearPhoto = () => {
@@ -95,6 +100,7 @@
 
 <div class="space-y-6">
 	<div class="flex h-full w-full flex-col items-center space-y-6">
+		<!-- svelte-ignore a11y-media-has-caption -->
 		<video
 			bind:this={video}
 			src=""
@@ -102,8 +108,12 @@
 			id="video"
 			on:canplay={handleCanPlay}>Video stream not availible</video>
 		<div class="flex space-x-3">
-			<button class="btn-secondary btn" on:click={takePicture}>Capture</button>
-			<button class="btn-success btn" on:click={_onFinish}>Done</button>
+			<button class="btn btn-secondary" on:click={takePicture}>Capture</button>
+			{#if images.length >= 1}
+				<button class="btn btn-success" on:click={_onFinish}>Submit</button>
+				<button class="btn btn-primary" on:click={clearPhotos}>Clear</button>
+
+			{/if}
 		</div>
 	</div>
 
