@@ -52,7 +52,14 @@ let defaultUserData: UserData = {
 	avatarImg: '',
 	agentName: '',
 	email: '',
-	password: ''
+	password: '',
+	progress: {
+		level: 0,
+		levelLabel: '',
+		subLevel: 0,
+		subLevelLabel: '',
+		lastUpdate: undefined
+	}
 };
 
 export const agentData = persist(
@@ -76,37 +83,55 @@ export const drawResponse = writable();
 let deafaultDragItems: DragStackItem[] = [
 	{
 		id: 1,
-		itemId: 'iphone',
-		title: 'iPhone',
+		itemId: 'google',
+		title: 'Google',
 		el: null,
-		img: '/img/icons/mobile-app.png',
+		img: '/img/new-icons/google.png',
 		type: undefined,
 		reasoning: undefined
 	},
 	{
 		id: 2,
-		itemId: 'social-media',
-		title: 'Social Media',
+		itemId: '',
+		title: 'Self Driving Car',
 		el: null,
-		img: '/img/icons/social-media.png',
+		img: '/img/new-icons/self-driving-car.png',
 		type: undefined,
 		reasoning: undefined
 	},
 	{
 		id: 3,
-		itemId: 'internet',
-		title: 'Internet',
+		itemId: 'smart-phone',
+		title: 'Smart Phone',
 		el: null,
-		img: '/img/icons/wifi.png',
+		img: '/img/new-icons/smart-phone.png',
 		type: undefined,
 		reasoning: undefined
 	},
 	{
 		id: 4,
-		itemId: 'hospital',
-		title: 'Hospital',
+		itemId: 'computer',
+		title: 'Computer',
 		el: null,
-		img: '/img/icons/hospital.png',
+		img: '/img/new-icons/computer.png',
+		type: undefined,
+		reasoning: undefined
+	},
+	{
+		id: 5,
+		itemId: 'smart-watch',
+		title: 'Smart Watch',
+		el: null,
+		img: '/img/new-icons/smartwatch.png',
+		type: undefined,
+		reasoning: undefined
+	},
+	{
+		id: 6,
+		itemId: 'tablet',
+		title: 'Tablet',
+		el: null,
+		img: '/img/new-icons/tablet.png',
 		type: undefined,
 		reasoning: undefined
 	}
