@@ -15,6 +15,9 @@
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
+	import type { UserProgress } from '$lib/types/UserData.js';
+	import DataService from '$lib/utils/DataService/index.js';
+	import { userDataStore } from '$lib/utils/stores/store.js';
 
 	import { fade } from 'svelte/transition';
 
@@ -58,14 +61,34 @@
 		}
 	};
 
+	const getUpdatedProgress = ():UserProgress => {
+		return {
+			level: 0,
+			levelLabel: 'level-zero',
+			subLevel: 1,
+			subLevelLabel: '/training?page=1',
+			lastUpdated: new Date()
+		};
+	}
+
+	const updateLocalProgress = (progress: UserProgress) => {
+		userDataStore.update((data) => {
+			data.progress = progress;
+			return data;
+		})
+	}
+
 	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
 	 */
-	const handleNavigation = (direction: NavigationDirection) => {
+	const handleNavigation = async (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
 			if (line.id == 23) {
+				let progress = getUpdatedProgress();
+				await DataService.Data.updateUserProgress(progress);
+				updateLocalProgress(progress)
 				goto('/training?page=1');
 			} else {
 				goto(`/introduction/bot-buddy?page=${line.id + 1}`);

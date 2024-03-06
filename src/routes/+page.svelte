@@ -4,6 +4,7 @@
 
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import ActiveAgentLogin from '$lib/components/auth/ActiveAgentLogin.svelte';
 
 	let showTablet: boolean = false;
 	let showLogIn: boolean = false;
@@ -71,20 +72,22 @@
 							on:click={() => {
 								stopAudio();
 								screenState = HomeScreenStates.signUp;
-							}}>New Agents</button>
-						<button
+							}}>Login Agents</button>
+						<!-- <button
 							id="active-agent"
 							class="hidden rounded-md bg-blue-400 px-3 py-2 text-3xl text-white shadow-lg"
 							on:click={() => {
 								stopAudio();
 								screenState = HomeScreenStates.login;
-							}}>Active Agents</button>
+							}}>Active Agents</button> -->
 					</div>
 				</div>
 				<img src="/img/logos/SPOT-dots.svg" alt="" class="mt-8 h-24" in:fade={{ delay: 2000 }} />
 			{:else if screenState == HomeScreenStates.signUp}
 				<Login on:back={() => (screenState = HomeScreenStates.home)} />
-			{/if}
+			<!-- {:else if screenState == HomeScreenStates.login}
+				<ActiveAgentLogin on:back={() => (screenState = HomeScreenStates.home)} /> -->
+			{/if} 
 		</div>
 	</div>
 </div>

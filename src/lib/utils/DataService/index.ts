@@ -14,8 +14,8 @@ import type { StudentAuthData } from '$lib/types/StudentData';
 import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 import { RequestFactory } from '../network/RequestFactory';
 import { get } from 'svelte/store';
-import { accessTokenStore } from '../stores/store';
-import type { UserData } from '$lib/types/UserData';
+import { accessTokenStore, studentDataStore, userDataStore } from '../stores/store';
+import type { StudentData, UserData, UserProgress } from '$lib/types/UserData';
 
 /**
  * Handles and contains all of the authentication logic
@@ -31,7 +31,6 @@ const Auth = {
 
 	signUp: async (profileData: UserData) => {
 		return new Promise(async (resolve, reject) => {
-			profileData = generateCredentials(profileData);
 			let token: string = '';
 
 			accessTokenStore.subscribe((value) => {
@@ -66,7 +65,7 @@ const Auth = {
 	 * @returns promise wheter or not the user has been signed in or not
 	 */
 	signIn: async (credential: UserData) => {
-		return new Promise<string>(async (resolve, reject) => {
+		return new Promise<UserData>(async (resolve, reject) => {
 			console.log('Attempting to sign in user with data: ', credential);
 
 			try {
@@ -76,7 +75,29 @@ const Auth = {
 				});
 
 				if (res) {
-					resolve(res.accessToken);
+					let user: UserData = {
+						name: {
+							first: res.firstName,
+							last: res.lastName
+						},
+						age: 0,
+						interests: [],
+						agentName: '',
+						email: res.email,
+						password: 'password',
+						progress: res.progress
+					};
+
+					if (res.agent) {
+						user.agentName = res.agent.agentName;
+						user.age = res.agent.age;
+						user.interests = res.agent.interests;
+					}
+
+					console.log('after sign in : ', user);
+					accessTokenStore.set(res.accessToken);
+					console.log('access token: ', res.accessToken);
+					resolve(user);
 				} else {
 					reject(res);
 				}
@@ -137,7 +158,7 @@ const Data = {
 			};
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, body, token);
-				resolve();
+				resolve(res);
 			} catch (error) {
 				reject(error);
 			}
@@ -269,6 +290,65 @@ const Data = {
 				reject(error);
 			}
 		});
+	},
+	getUserProgress: async () => {
+		return new Promise<UserProgress>(async (resolve, reject) => {
+			let token;
+			accessTokenStore.subscribe((value) => {
+				token = value;
+			});
+
+			try {
+				let requestOptions: RequestInit = {};
+				if (token) {
+					var headers = new Headers();
+					headers.append('x-access-token', token);
+					requestOptions = {
+						method: 'GET',
+						headers: headers,
+						redirect: 'follow'
+					};
+				}
+				let res = await fetch(`${PUBLIC_BACKEND_API_URL}/api/users/progress`, requestOptions);
+				resolve(res.json());
+				console.log();
+				// resolve(progress);
+			} catch (err) {
+				console.error('error getting user progress: ', err);
+			}
+		});
+	},
+	updateUserProgress: async (progress: UserProgress) => {
+		return new Promise<void>(async (resolve, reject) => {
+			let token;
+			accessTokenStore.subscribe((value) => {
+				token = value;
+			});
+
+			const { lastUpdated, ...newProgress } = progress;
+			try {
+				let requestOptions: RequestInit = {};
+				if (token) {
+					console.log('token exists.');
+					requestOptions = {
+						method: 'PUT',
+						headers: {
+							'Content-Type': 'application/json',
+							'x-access-token': token
+						},
+						body: JSON.stringify(newProgress)
+					};
+				}
+				console.log('put-body: ', requestOptions.body);
+				let res = await fetch(`${PUBLIC_BACKEND_API_URL}/api/users/progress`, requestOptions);
+				let data = await res.json();
+				console.log('data: ', data);
+				resolve(data);
+			} catch (err) {
+				console.error('error updating user progress: ', err);
+				reject(err);
+			}
+		});
 	}
 };
 
@@ -282,27 +362,27 @@ const DataService = {
 
 export default DataService;
 
-function generateEmail(profileData: any): string {
-	console.log('generateEmail: ', profileData);
-	let firstName = profileData.name.last;
-	let agentName = profileData.agentName;
+// function generateEmail(profileData: any): string {
+// 	console.log('generateEmail: ', profileData);
+// 	let firstName = profileData.name.last;
+// 	let agentName = profileData.agentName;
 
-	// Generate a random number between 0 and 9999
-	const randomNumber = Math.floor(Math.random() * 100);
+// 	// Generate a random number between 0 and 9999
+// 	const randomNumber = Math.floor(Math.random() * 100);
 
-	// Combine the first name, agent name, and random number to create the email
-	const email = `${firstName
-		.toLowerCase()
-		.trim()}.${agentName.toLowerCase()}${randomNumber}@spotagency.com`;
+// 	// Combine the first name, agent name, and random number to create the email
+// 	const email = `${firstName
+// 		.toLowerCase()
+// 		.trim()}.${agentName.toLowerCase()}${randomNumber}@spotagency.com`;
 
-	return email;
-}
-function generateCredentials(profileData: any): any {
-	// hardcode the email, password for now
-	profileData['email'] = generateEmail(profileData);
-	profileData['password'] = 'password';
-	return profileData;
-}
+// 	return email;
+// }
+// function generateCredentials(profileData: any): any {
+// 	// hardcode the email, password for now
+// 	profileData['email'] = generateEmail(profileData);
+// 	profileData['password'] = 'password';
+// 	return profileData;
+// }
 
 interface UserBody {
 	name: {
