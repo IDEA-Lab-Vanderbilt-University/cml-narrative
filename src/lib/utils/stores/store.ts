@@ -10,11 +10,10 @@
  
 */
 
-import type { UserData } from '$lib/types/UserData';
+import type { StudentData, UserData } from '$lib/types/UserData';
 import { writable } from 'svelte/store';
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
-import type { StudentAuthData } from '$lib/types/StudentData';
 
 /**
  * A note on what this file does:
@@ -58,15 +57,25 @@ let defaultUserData: UserData = {
 		levelLabel: '',
 		subLevel: 0,
 		subLevelLabel: '',
-		lastUpdate: undefined
+		lastUpdated: undefined
 	}
 };
 
-export const agentData = persist(
+let defaultStudentData: StudentData = {
+	firstName: '',
+	lastName: '',
+	id: 0,
+	email: '',
+	password: ''
+};
+
+export const userDataStore = persist(
 	writable<UserData>(defaultUserData),
 	createLocalStorage(),
-	'agentData'
+	'userData'
 );
+export const studentDataStore = writable<StudentData>(defaultStudentData);
+export const temporaryUserData = writable<UserData>(defaultUserData);
 
 export const tabletPowerNavigation = writable({});
 

@@ -13,13 +13,13 @@
 	import type { UserData } from '$lib/types/UserData';
 	import { onMount } from 'svelte';
 
-	export let profileData: UserData = {};
+	export let profileData: UserData;
 	export let prompt: string;
 	export let index: number;
 
 	let randomPlaceholder = '';
 	const getRandomInterest = () => {
-		let interests: string = ['play basketball', 'play football', 'dance', 'go outside', 'draw'];
+		let interests: string[] = ['play basketball', 'play football', 'dance', 'go outside', 'draw'];
 
 		const random = Math.floor(Math.random() * interests.length);
 

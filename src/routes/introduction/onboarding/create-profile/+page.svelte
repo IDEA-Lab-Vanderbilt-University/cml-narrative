@@ -13,18 +13,15 @@
 	import { goto } from '$app/navigation';
 	import Age from '$lib/components/sequences/tablet/create-profile/Age.svelte';
 	import AgentName from '$lib/components/sequences/tablet/create-profile/AgentName.svelte';
-	import ChooseAnAvatar from '$lib/components/sequences/tablet/create-profile/ChooseAnAvatar.svelte';
 	import Interest from '$lib/components/sequences/tablet/create-profile/Interest.svelte';
 	import Name from '$lib/components/sequences/tablet/create-profile/Name.svelte';
 	import ClickToViewProfileBanner from '$lib/components/tablet/ClickToViewProfileBanner.svelte';
-	import TabletNavigationController from '$lib/components/tablet/TabletNavigationController.svelte';
-	import { tourManager } from '$lib/components/tour/TourManager';
 	import { NavigationDirection } from '$lib/types/Enums';
-	import type { UserData } from '$lib/types/UserData';
+	import type { UserData, UserProgress } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
-	import { agentData } from '$lib/utils/stores/store';
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageData } from './$types';
+	import { temporaryUserData, userDataStore } from '$lib/utils/stores/store';
 
 	export let data: PageData;
 
@@ -41,20 +38,10 @@
 
 	const numberOfPageSequences = 6;
 
-	let profileData: UserData = {
-		name: {
-			first: '',
-			last: ''
-		},
-		age: undefined,
-		interests: [],
-		agentName: '',
-		email: '',
-		password: ''
-	};
+	let profileData: UserData;
 
-	agentData.subscribe((value) => {
-		profileData = value as UserData;
+	userDataStore.subscribe((value) => {
+		profileData = value;
 	});
 
 	let mounted = false;
@@ -74,7 +61,7 @@
 
 	onMount(() => {
 		mounted = true;
-		// profileData = $agentData;
+		profileData = $userDataStore;
 
 		console.log('pd: ', profileData);
 	});
@@ -90,7 +77,7 @@
 		console.log(profileData);
 
 		// Set the agentData store, which will allow us to access this profile data across the application
-		agentData.set(profileData);
+		// agentData.set(profileData);
 
 		if (direction == NavigationDirection.backward && page > 1) {
 			goto(baseNavigationURL + (page - 1));
@@ -99,11 +86,35 @@
 		}
 	};
 
+	const getUpdatedProgress = (): UserProgress => {
+		return {
+			level: 0,
+			levelLabel: 'level-zero',
+			subLevel: 1,
+			subLevelLabel: '/introduction/welcome?page=1',
+			lastUpdated: new Date()
+		};
+	};
+
+	const updateLocalProgress = (progress: UserProgress) => {
+		userDataStore.update((data) => {
+			data.progress = progress;
+			return data;
+		});
+	};
+
 	const handleSubmit = async () => {
 		try {
 			// await DataService.Data.setProfileData(profileData);
 			alert('created agent successfully!');
+			console.log('profileData before signup: ', profileData);
 			await DataService.Auth.signUp(profileData);
+
+			let progress = getUpdatedProgress();
+			await DataService.Data.updateUserProgress(progress);
+			updateLocalProgress(progress);
+
+			console.log('profileData after signup: ', profileData);
 			goto('/introduction/onboarding/create-profile/confirmation');
 		} catch (error) {
 			console.error(error);

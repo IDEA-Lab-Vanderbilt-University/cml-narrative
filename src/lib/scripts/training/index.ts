@@ -13,21 +13,29 @@
 import type { Script } from '$lib/types/Script';
 
 import type { UserData } from '$lib/types/UserData';
-import { agentData } from '$lib/utils/stores/store';
+import { userDataStore } from '$lib/utils/stores/store';
 
 let agent: UserData = {
 	name: {
 		first: '',
 		last: ''
 	},
-	age: undefined,
+	age: 0,
 	interests: [],
+	avatarImg: '',
 	agentName: '',
 	email: '',
-	password: ''
+	password: '',
+	progress: {
+		level: 0,
+		levelLabel: '',
+		subLevel: 0,
+		subLevelLabel: '',
+		lastUpdated: undefined
+	}
 };
 
-agentData.subscribe((value) => {
+userDataStore.subscribe((value) => {
 	agent = value as UserData;
 });
 

@@ -13,7 +13,9 @@
 	import { goto } from '$app/navigation';
 	import SurveyOption from '$lib/components/activities/survey/SurveyOption.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
+	import type { UserProgress } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
+	import { userDataStore } from '$lib/utils/stores/store';
 
 	/**
 	 * Track the current question that is displaying
@@ -87,6 +89,9 @@
 
 				try {
 					await DataService.Data.submitPostSurvey(questionsAndResponse);
+					let progress = getUpdatedProgress();
+					await DataService.Data.updateUserProgress(progress);
+					updateLocalProgress(progress);
 					await goto('/training/outro?page=1');
 				} catch (error) {
 					console.error(error);
@@ -99,6 +104,23 @@
 			// User has not selected a response
 			alert('Please select an option first!');
 		}
+	};
+
+	const getUpdatedProgress = (): UserProgress => {
+		return {
+			level: 0,
+			levelLabel: 'level-zero',
+			subLevel: 1,
+			subLevelLabel: '/training/outro?page=1',
+			lastUpdated: new Date()
+		};
+	};
+
+	const updateLocalProgress = (progress: UserProgress) => {
+		userDataStore.update((data) => {
+			data.progress = progress;
+			return data;
+		});
 	};
 
 	/**

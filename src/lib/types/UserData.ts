@@ -21,4 +21,21 @@ export interface UserData {
 	agentName: string;
 	email: string;
 	password: string;
+	progress: UserProgress;
+}
+
+export interface UserProgress {
+	level: number;
+	levelLabel: string;
+	subLevel: number;
+	subLevelLabel: string;
+	lastUpdated: Date | undefined;
+}
+
+export interface StudentData {
+	id?: number;
+	firstName: string;
+	lastName: string;
+	email: string;
+	password: string;
 }

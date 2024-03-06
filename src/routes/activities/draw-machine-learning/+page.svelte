@@ -17,6 +17,8 @@
 	import { getContext } from 'svelte';
 	import DataService from '$lib/utils/DataService';
 	import { goto } from '$app/navigation';
+	import type { UserProgress } from '$lib/types/UserData';
+	import { userDataStore } from '$lib/utils/stores/store';
 
 	let hasRecievedResponse;
 
@@ -30,6 +32,23 @@
 	// 		console.error(error);
 	// 	}
 	// };
+
+	const getUpdatedProgress = (): UserProgress => {
+		return {
+			level: 0,
+			levelLabel: 'level-zero',
+			subLevel: 1,
+			subLevelLabel: '/training?page=14',
+			lastUpdated: new Date()
+		};
+	};
+
+	const updateLocalProgress = (progress: UserProgress) => {
+		userDataStore.update((data) => {
+			data.progress = progress;
+			return data;
+		});
+	};
 
 	const handleImageSubmission = async (event: CustomEvent<any>) => {
 		const images: HTMLImageElement[] | HTMLOrSVGElement = event.detail.images;
@@ -47,6 +66,9 @@
 				let res = await DataService.Data.uploadImageOrSvgToS3(images, 'svg');
 				await DataService.Data.uploadResponseImages('machineLearning', res, 'svg');
 			}
+			let progress = getUpdatedProgress();
+			await DataService.Data.updateUserProgress(progress);
+			updateLocalProgress(progress);
 			goto('/training?page=14');
 		} catch (error) {
 			console.error(error);

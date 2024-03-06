@@ -1,34 +1,40 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
-	import type { UserData } from '$lib/types/UserData';
-	import { agentData } from '$lib/utils/stores/store';
+	import type { StudentData, UserData } from '$lib/types/UserData';
+	import { studentDataStore, temporaryUserData } from '$lib/utils/stores/store';
 	import { fade } from 'svelte/transition';
 
-	let agent: UserData = {
-		name: {
-			first: '',
-			last: ''
-		},
-		age: undefined,
-		interests: [],
-		agentName: '',
-		email: '',
-		password: ''
-	};
+	let student: StudentData;
 
-	agentData.subscribe((value) => {
-        console.log(value)
-		agent = value as UserData;
+	studentDataStore.subscribe((value) => {
+		student = value;
 	});
 
-    console.log("agent: " ,agent)
+	// let agent: UserData = {
+	// 	name: {
+	// 		first: '',
+	// 		last: ''
+	// 	},
+	// 	age: undefined,
+	// 	interests: [],
+	// 	agentName: '',
+	// 	email: '',
+	// 	password: ''
+	// };
+
+	// agentData.subscribe((value) => {
+    //     console.log(value)
+	// 	agent = value;
+	// });
+
+    // console.log("agent: " ,agent)
 </script>
 
 <Tablet>
 <div class="flex h-full w-full flex-col  items-center justify-center">
 	<div class="space-y-4 text-center font-mokoto text-white">
-		<h2 class="text-5xl" in:fade={{ delay: 500 }}>WELCOME {agent.name.first} {agent.name.last}!</h2>
+		<h2 class="text-5xl" in:fade={{ delay: 500 }}>WELCOME {student.firstName} {student.lastName}!</h2>
 	</div>
 	<button
 		in:fade={{ delay: 1500 }}

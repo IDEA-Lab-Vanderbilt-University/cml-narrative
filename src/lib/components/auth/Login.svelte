@@ -1,55 +1,21 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { createEventDispatcher, onMount, onDestroy } from 'svelte';
-	import { accessTokenStore, agentData } from '$lib/utils/stores/store';
+	import { studentDataStore, temporaryUserData, userDataStore } from '$lib/utils/stores/store';
 	import { fade } from 'svelte/transition';
-	import type { StudentAuthData } from '$lib/types/StudentData';
 	import DataService from '$lib/utils/DataService';
-	import type { UserData } from '$lib/types/UserData';
+	import type { StudentData, UserData, UserProgress } from '$lib/types/UserData';
 
 	const dispatch = createEventDispatcher();
-
-	// let video: HTMLVideoElement;
-	// let qrScanner: QrScanner | null = null;
-	// let scanning = false;
-
-	// onMount(async () => {
-	// 	qrScanner = new QrScanner(
-	// 		video,
-	// 		(result: any) => {
-	// 			console.log('QR code detected:', result);
-	// 			// let student:StudentAuthData = JSON.parse(result);
-	// 			// let user: UserData = getUserData(student);
-	// 			// agentData.set(user);
-	// 			// doSignIn(user);
-	// 		},
-	// 		{ returnDetailedScanResult: true }
-	// 	);
-	// });
-
-	// onDestroy(() => {
-	// 	qrScanner?.destroy();
-	// 	qrScanner = null;
-	// });
-
-	// function start() {
-	// 	qrScanner?.start();
-	// 	scanning = true;
-	// }
-
-	// function stop() {
-	// 	qrScanner?.stop();
-	// 	scanning = false;
-	// }
-
 	import { Html5QrcodeScanner } from 'html5-qrcode';
 
 	let html5QrcodeScanner: Html5QrcodeScanner;
+	let user: UserData;
 
 	onMount(() => {
 		html5QrcodeScanner = new Html5QrcodeScanner(
 			'reader',
-			{ fps: 10, qrbox: { width: 250, height: 250 }},
+			{ fps: 10, qrbox: { width: 250, height: 250 } },
 			/* verbose= */ false
 		);
 		html5QrcodeScanner.render(onScanSuccess, onScanFailure);
@@ -63,11 +29,15 @@
 		// handle the scanned code as you like, for example:
 		// console.log(`Code matched = ${decodedText}`, decodedResult);
 		// alert(`Code matched = ${decodedText}`);
-		let student: StudentAuthData = JSON.parse(decodedText);
-		student.password = "password"
-		let user: UserData = getUserData(student);
-		console.log(user)
-		agentData.set(user);
+		let student: StudentData = JSON.parse(decodedText);
+		student.password = 'password';
+
+		user = getUserData(student);
+
+		// initialize store
+		studentDataStore.set(student);
+		console.log(user);
+
 		doSignIn(user);
 	}
 
@@ -78,17 +48,87 @@
 	}
 
 	async function doSignIn(user: UserData) {
-		const res = await DataService.Auth.signIn(user);
-		if (res) {
-			accessTokenStore.set(res);
-			alert("login successful")
-			goto('/entry')
-		} else {
-			alert("login failed!")
+		try {
+			let serverUser = await DataService.Auth.signIn(user);
+			alert('login successful');
+
+			// get local and server user progress
+			let localUserProgress: UserProgress = await getLocalUserProgress(user);
+			let serverUserProgress = serverUser.progress;
+			console.log('server user progress: ', serverUserProgress.lastUpdated);
+			console.log('local user progress: ', localUserProgress.lastUpdated);
+			let latestUserProgress = await compareAndUpdateUserProgress(
+				localUserProgress,
+				serverUserProgress,
+				serverUser
+			);
+
+			// console.log here
+			console.log(serverUserProgress);
+
+			user.progress = latestUserProgress;
+			userDataStore.update((data) => {
+				data.progress = latestUserProgress;
+				return data;
+			});
+
+			console.log('is user updated?', user);
+			console.log(user.progress?.subLevelLabel);
+			await goto(user.progress.subLevelLabel || '/entry');
+		} catch (err) {
+			console.log(err);
+			console.log('login failed');
 		}
 	}
 
-	function getUserData(student: StudentAuthData): UserData {
+	async function getLocalUserProgress(user: UserData): Promise<UserProgress> {
+		return new Promise((resolve, reject) => {
+			userDataStore.subscribe((data) => {
+				// compare local user email and agentStore email
+				if (user.email == data.email) {
+					console.log('local user progress - email same');
+					resolve(data.progress);
+				} else {
+					console.log('local user progress - email not same');
+					resolve({
+						level: 0,
+						levelLabel: '',
+						subLevel: 0,
+						subLevelLabel: '',
+						lastUpdated: undefined
+					});
+				}
+			});
+		});
+	}
+
+	async function compareAndUpdateUserProgress(
+		localUserProgress: UserProgress,
+		serverUserProgress: UserProgress,
+		serverUser: UserData
+	): Promise<UserProgress> {
+		// if server is latest update local
+		// if local is latest and local user matches the server user, update server
+		// if local doesn't exist get server, update local and go to entry
+		if (!localUserProgress.lastUpdated) {
+			userDataStore.set(serverUser);
+			return serverUserProgress;
+		} else {
+			// @ts-ignore
+			if (localUserProgress.lastUpdated > new Date(serverUserProgress.lastUpdated)) {
+				console.log('local is latest.');
+				await DataService.Data.updateUserProgress(localUserProgress);
+				console.log('check if progress is updated on server. local is latest.');
+				return localUserProgress;
+			} else {
+				userDataStore.set(serverUser);
+				console.log('server is latest.');
+				return serverUserProgress;
+			}
+		}
+	}
+
+	function getUserData(student: StudentData): UserData {
 		let user: UserData = {
 			name: {
 				first: student.firstName,
@@ -98,7 +138,15 @@
 			interests: [],
 			agentName: '',
 			email: student.email,
-			password: student.password
+			password: student.password,
+			progress: {
+				level: 0,
+				levelLabel: '',
+				subLevel: 0,
+				subLevelLabel: '',
+				lastUpdated: undefined
+			},
+			avatarImg: ''
 		};
 		return user;
 	}
