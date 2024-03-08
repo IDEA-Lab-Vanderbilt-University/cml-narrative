@@ -4,7 +4,6 @@
 
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import ActiveAgentLogin from '$lib/components/auth/ActiveAgentLogin.svelte';
 
 	let showTablet: boolean = false;
 	let showLogIn: boolean = false;
