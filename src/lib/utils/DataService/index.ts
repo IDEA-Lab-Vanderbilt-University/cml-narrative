@@ -14,8 +14,14 @@ import type { StudentAuthData } from '$lib/types/StudentData';
 import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 import { RequestFactory } from '../network/RequestFactory';
 import { get } from 'svelte/store';
-import { accessTokenStore, studentDataStore, userDataStore } from '../stores/store';
+import {
+	accessTokenStore,
+	studentClassStore,
+	studentDataStore,
+	userDataStore
+} from '../stores/store';
 import type { StudentData, UserData, UserProgress } from '$lib/types/UserData';
+import type { Student } from '$lib/types/teacher-view/Student';
 
 /**
  * Handles and contains all of the authentication logic
@@ -348,6 +354,34 @@ const Data = {
 				console.error('error updating user progress: ', err);
 				reject(err);
 			}
+		});
+	},
+	signUpStudentsToClass: async () => {
+		return new Promise<void>(async (resolve, reject) => {
+			let students: Student[] = [];
+			studentClassStore.subscribe((data) => {
+				students = data;
+			});
+			console.log('students in ds: ', students);
+			const responses = await Promise.all(
+				students.map((item) =>
+					fetch(`${PUBLIC_BACKEND_API_URL}/api/auth/signup`, {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						body: JSON.stringify({
+							name: { first: item.firstName, last: item.lastName },
+							email: item.email,
+							password: 'password'
+						})
+					}).catch((error) => {
+						console.error(`Error in request: ${error}`);
+						return error;
+					})
+				)
+			);
+			return responses;
 		});
 	}
 };
