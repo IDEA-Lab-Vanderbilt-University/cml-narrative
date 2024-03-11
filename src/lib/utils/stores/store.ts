@@ -14,6 +14,7 @@ import type { StudentData, UserData } from '$lib/types/UserData';
 import { writable } from 'svelte/store';
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
+import type { Student } from '$lib/types/teacher-view/Student';
 
 /**
  * A note on what this file does:
@@ -148,3 +149,4 @@ let deafaultDragItems: DragStackItem[] = [
 
 export const dragItemsStore = writable<DragStackItem[]>(deafaultDragItems);
 export const harmfulHelpfulStore = writable<HarmfulHelpfulItem[]>([]);
+export const studentClassStore = writable<Student[]>([]);
