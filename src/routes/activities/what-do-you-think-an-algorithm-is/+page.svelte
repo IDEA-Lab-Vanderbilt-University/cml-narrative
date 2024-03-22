@@ -10,24 +10,41 @@
  
 --->
 <script lang="ts">
-	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import TextResponse from '$lib/components/activities/free-response/TextResponse.svelte';
+	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import DataService from '$lib/utils/DataService';
 	import { goto } from '$app/navigation';
 
 	let response: string = '';
+	let message = '';
+	let isSuccess = false;
+	let showFeedbackModal = false;
+
+	function onFeedbackClose() {
+		if (isSuccess) {
+			goto('/activities/draw-an-algorithm');
+		}
+		showFeedbackModal = false;
+	}
 
 	const handleSubmit = async () => {
 		try {
 			await DataService.Data.submitFreeResponse('algorithm', response);
-			goto('/activities/draw-an-algorithm');
+			message = 'Algorithm text response recorded successfully!';
+			isSuccess = true;
 		} catch (error) {
+			message = 'Algorithm text response failed! Please try again.';
+			isSuccess = false;
 			console.error(error);
 		}
+		showFeedbackModal = true;
 	};
 </script>
 
 <Tablet>
+	{#if showFeedbackModal}
+		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
+	{/if}
 	<TextResponse promptedTechnology="an Algorithm" on:submitClicked={handleSubmit} bind:response />
 </Tablet>

@@ -13,6 +13,7 @@
 	import { goto } from '$app/navigation';
 	import SurveyOption from '$lib/components/activities/survey/SurveyOption.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
+	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import type { UserProgress } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
 	import { userDataStore } from '$lib/utils/stores/store';
@@ -21,6 +22,10 @@
 	 * Track the current question that is displaying
 	 */
 	let questionIndex: number = 0;
+
+	let message = '';
+	let isSuccess = false;
+	let showFeedbackModal = false;
 
 	/**
 	 * Array containing objects which hold the questions and the responses to the questions.
@@ -89,13 +94,21 @@
 
 				try {
 					await DataService.Data.submitPostSurvey(questionsAndResponse);
+
+					message = "Survey responses recorded successfully!";
+					isSuccess = true;
+
 					let progress = getUpdatedProgress();
 					await DataService.Data.updateUserProgress(progress);
 					updateLocalProgress(progress);
-					await goto('/training/outro?page=1');
+
 				} catch (error) {
+					message = "Survey responses submission failed!";
+					isSuccess = false;
 					console.error(error);
 				}
+
+		showFeedbackModal = true;
 			} else {
 				// Advance to the next question
 				questionIndex += 1;
@@ -130,11 +143,22 @@
 	 * @param response survey response selection
 	 */
 	const handleSelection = (response: string) => {
+		// @ts-ignore
 		questionsAndResponse[questionIndex].response = response;
+	};
+
+	const onFeedbackClose = () => {
+		showFeedbackModal = false;
+		if (isSuccess) {
+			goto('/training/outro?page=1');
+		}
 	};
 </script>
 
 <Tablet>
+	{#if showFeedbackModal}
+		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
+	{/if}
 	<div
 		on:submit|preventDefault
 		class="ml-auto mr-auto flex h-full w-1/2 flex-col  items-center justify-center space-y-6  text-white">

@@ -13,6 +13,7 @@
 	import { goto } from '$app/navigation';
 	import Age from '$lib/components/sequences/tablet/create-profile/Age.svelte';
 	import AgentName from '$lib/components/sequences/tablet/create-profile/AgentName.svelte';
+	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import Interest from '$lib/components/sequences/tablet/create-profile/Interest.svelte';
 	import Name from '$lib/components/sequences/tablet/create-profile/Name.svelte';
 	import ClickToViewProfileBanner from '$lib/components/tablet/ClickToViewProfileBanner.svelte';
@@ -30,6 +31,9 @@
 	 * will get set from the response from +page.ts as a querystring
 	 */
 	let page: number;
+	let message = '';
+	let isSuccess = false;
+	let showFeedbackModal = false;
 
 	/**
 	 * Base URL for which we will use for navigation within the create-profile sequence
@@ -106,23 +110,37 @@
 	const handleSubmit = async () => {
 		try {
 			// await DataService.Data.setProfileData(profileData);
-			alert('created agent successfully!');
 			console.log('profileData before signup: ', profileData);
 			await DataService.Auth.signUp(profileData);
+
+			message = "Agent created successfully!";
+			isSuccess = true;
 
 			let progress = getUpdatedProgress();
 			await DataService.Data.updateUserProgress(progress);
 			updateLocalProgress(progress);
 
 			console.log('profileData after signup: ', profileData);
-			goto('/introduction/onboarding/create-profile/confirmation');
 		} catch (error) {
+			message = "Agent creation failed!";
+			isSuccess = false;
 			console.error(error);
 		}
+		showFeedbackModal = true;
 	};
+
+	async function onFeedbackClose() {
+		if (isSuccess) {
+			goto('/introduction/onboarding/create-profile/confirmation');
+		}
+		showFeedbackModal = false;
+	}
 </script>
 
 <div class=" relative z-0 h-full w-full rounded-md">
+	{#if showFeedbackModal}
+		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
+	{/if}
 	<div class="flex h-full  w-full rounded-md">
 		<button
 			class={`rotate-180 px-2 ${page <= 1 ? 'opacity-0' : ''}`}

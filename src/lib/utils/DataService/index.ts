@@ -157,7 +157,7 @@ const Data = {
 			accessTokenStore.subscribe((value) => {
 				token = value;
 			});
-			console.log('token ikkada: ', token);
+			console.log('TOKEN IKKADA: ', token);
 			const body: TravelLogBody = {
 				description: `level-zero-what-is-${id}-free-response`,
 				data: data
@@ -177,7 +177,7 @@ const Data = {
 				token = value;
 			});
 
-			console.log('token ikkada: ', token);
+			console.log('TOKEN IKKADA: ', token);
 			try {
 				const formData = new FormData();
 
@@ -209,6 +209,8 @@ const Data = {
 			accessTokenStore.subscribe((value) => {
 				token = value;
 			});
+
+			console.log('TOKEN IKKADA: ', token);
 
 			if (typeof mediaPath !== 'string') {
 				try {
@@ -266,7 +268,7 @@ const Data = {
 				token = value;
 			});
 
-			console.log('token ikkada: ', token);
+			console.log('TOKEN IKKADA: ', token);
 			console.log(`Attempting to submit an response image for id ${id} with data: `, data);
 			let tlBody = getTravelLogBody(data, id, type);
 			try {
@@ -283,12 +285,11 @@ const Data = {
 			accessTokenStore.subscribe((value) => {
 				token = value;
 			});
-			console.log('token ikkada: ', token);
+			console.log('TOKEN IKKADA: ', token);
 			const body: TravelLogBody = {
 				description: `level-zero-helpful-or-harmful`,
 				data: data
 			};
-			console.log('body ikkada: ', body);
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, body, token);
 				resolve();
@@ -357,31 +358,42 @@ const Data = {
 		});
 	},
 	signUpStudentsToClass: async () => {
-		return new Promise<void>(async (resolve, reject) => {
-			let students: Student[] = [];
-			studentClassStore.subscribe((data) => {
-				students = data;
-			});
-			console.log('students in ds: ', students);
-			const responses = await Promise.all(
-				students.map((item) =>
-					fetch(`${PUBLIC_BACKEND_API_URL}/api/auth/signup`, {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							name: { first: item.firstName, last: item.lastName },
-							email: item.email,
-							password: 'password'
-						})
-					}).catch((error) => {
-						console.error(`Error in request: ${error}`);
-						return error;
+		return new Promise<boolean>(async (resolve, reject) => {
+			try {
+				let students: Student[] = [];
+				studentClassStore.subscribe((data) => {
+					students = data;
+				});
+
+				const responses = await Promise.all(
+					students.map(async (item) => {
+						try {
+							const res = await fetch(`${PUBLIC_BACKEND_API_URL}/api/auth/signup`, {
+								method: 'POST',
+								headers: { 'Content-Type': 'application/json' },
+								body: JSON.stringify({
+									name: { first: item.firstName, last: item.lastName },
+									email: item.email,
+									password: 'password'
+								})
+							});
+
+							if (!res.ok) {
+								throw new Error('Error signing up student');
+							}
+							return res;
+						} catch (error) {
+							console.error('Error signing up student: ', error);
+							reject(false);
+							return error;
+						}
 					})
-				)
-			);
-			return responses;
+				);
+				resolve(true);
+			} catch (error) {
+				reject(false);
+				throw new Error('Error singing up student');
+			}
 		});
 	}
 };

@@ -10,25 +10,42 @@
  
 --->
 <script lang="ts">
-	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import TextResponse from '$lib/components/activities/free-response/TextResponse.svelte';
+	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import DataService from '$lib/utils/DataService';
 	import { goto } from '$app/navigation';
 
 	let response: string = '';
+	let message = '';
+	let isSuccess = false;
+	let showFeedbackModal = false;
+
+	async function onFeedbackClose() {
+		if (isSuccess) {
+			await goto('/activities/draw-machine-learning');
+		}
+		showFeedbackModal = false;
+	}
 
 	const handleSubmit = async () => {
 		try {
 			await DataService.Data.submitFreeResponse('machineLearning', response);
-			goto('/activities/draw-machine-learning');
+			message = 'Machine Learning text response recorded successfully!';
+			isSuccess = true;
 		} catch (error) {
+			message = 'Machine Learning text response failed! Please try again.';
+			isSuccess = false;
 			console.error(error);
 		}
+		showFeedbackModal = true;
 	};
 </script>
 
 <Tablet>
+	{#if showFeedbackModal}
+		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
+	{/if}
 	<TextResponse
 		promptedTechnology="Machine Learning"
 		on:submitClicked={handleSubmit}

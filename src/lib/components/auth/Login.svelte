@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { createEventDispatcher, onMount, onDestroy } from 'svelte';
-	import { studentDataStore, temporaryUserData, userDataStore } from '$lib/utils/stores/store';
+	import { studentDataStore, userDataStore } from '$lib/utils/stores/store';
+	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import { fade } from 'svelte/transition';
 	import DataService from '$lib/utils/DataService';
 	import type { StudentData, UserData, UserProgress } from '$lib/types/UserData';
@@ -11,6 +12,9 @@
 
 	let html5QrcodeScanner: Html5QrcodeScanner;
 	let user: UserData;
+	let message = '';
+	let isSuccess = false;
+	let showFeedbackModal = false;
 
 	onMount(() => {
 		html5QrcodeScanner = new Html5QrcodeScanner(
@@ -50,7 +54,8 @@
 	async function doSignIn(user: UserData) {
 		try {
 			let serverUser = await DataService.Auth.signIn(user);
-			alert('login successful');
+			message = 'Login Successful!';
+			isSuccess = true;
 
 			// get local and server user progress
 			let localUserProgress: UserProgress = await getLocalUserProgress(user);
@@ -74,11 +79,13 @@
 
 			console.log('is user updated?', user);
 			console.log(user.progress?.subLevelLabel);
-			await goto(user.progress.subLevelLabel || '/entry');
 		} catch (err) {
+			message = 'Login Failed!';
+			isSuccess = false;
 			console.log(err);
 			console.log('login failed');
 		}
+		showFeedbackModal = true;
 	}
 
 	async function getLocalUserProgress(user: UserData): Promise<UserProgress> {
@@ -150,9 +157,19 @@
 		};
 		return user;
 	}
+
+	async function onFeedbackClose() {
+		if (isSuccess) {
+			await goto(user.progress.subLevelLabel || '/entry');
+		}
+		showFeedbackModal = false;
+	}
 </script>
 
 <div class="flex h-full w-full flex-col  items-center justify-center">
+	{#if showFeedbackModal}
+		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
+	{/if}
 	<button
 		class="absolute left-1/4 top-1/4"
 		out:fade
@@ -163,12 +180,4 @@
 	</button>
 
 	<div id="reader" style="width: 350px; font-family:'Mokoto';  color: white;" />
-	<!-- <button
-		in:fade={{ delay: 1500 }}
-		on:click={() => {
-			goto('/introduction?page=1');
-		}}
-		class="font-mokoto mt-8 flex items-center justify-center gap-5 rounded-md bg-black bg-opacity-75 px-4 py-3 align-middle shadow-md">
-		<p class="text-3xl font-bold text-white">Begin</p>
-	</button> -->
 </div>
