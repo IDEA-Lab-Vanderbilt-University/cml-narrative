@@ -13,25 +13,25 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 
 	import ImageResponse from '$lib/components/activities/free-response/ImageResponse.svelte';
+	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 
-	import { getContext } from 'svelte';
 	import DataService from '$lib/utils/DataService';
 	import { goto } from '$app/navigation';
 	import type { UserProgress } from '$lib/types/UserData';
 	import { userDataStore } from '$lib/utils/stores/store';
 
-	let hasRecievedResponse;
+	let message = '';
+	let isSuccess = false;
+	let showFeedbackModal = false;
+	let submissionType = ''
+	let doSubmit = false;
 
-	// const hanldeImageSubmission = async (event) => {
-	// 	console.log(event);
-
-	// 	try {
-	// 		await DataService.Data.uploadResponseImages('machineLearning', event.detail.image)
-	// 		goto("/training?page=14")
-	// 	} catch (error) {
-	// 		console.error(error);
-	// 	}
-	// };
+	async function onFeedbackClose() {
+		showFeedbackModal = false;
+		if(doSubmit) {
+			onSubmit();
+		}
+	}
 
 	const getUpdatedProgress = (): UserProgress => {
 		return {
@@ -52,6 +52,7 @@
 
 	const handleImageSubmission = async (event: CustomEvent<any>) => {
 		const images: HTMLImageElement[] | HTMLOrSVGElement = event.detail.images;
+		doSubmit = event.detail.doSubmit;
 		let imageUrlsS3: string[] = [];
 		try {
 			if (images instanceof Array) {
@@ -62,23 +63,36 @@
 				imageUrlsS3 = await Promise.all(promises);
 				console.log('imageurls: ', imageUrlsS3);
 				await DataService.Data.uploadResponseImages('machineLearning', imageUrlsS3, 'image');
+				submissionType = 'image';
 			} else {
 				let res = await DataService.Data.uploadImageOrSvgToS3(images, 'svg');
 				await DataService.Data.uploadResponseImages('machineLearning', res, 'svg');
+				submissionType = 'svg';
 			}
+			message = `Machine Learning ${submissionType} responses recorded successfully!`;
+			isSuccess = true
 			let progress = getUpdatedProgress();
 			await DataService.Data.updateUserProgress(progress);
 			updateLocalProgress(progress);
-			goto('/training?page=14');
 		} catch (error) {
+			message = `Machine Learning ${submissionType} responses submission failed!`;
+			isSuccess = false
 			console.error(error);
 		}
+		showFeedbackModal = true;
 	};
+	const onSubmit = () => {
+		goto('/training?page=14');
+	}
 </script>
 
 <Tablet>
+	{#if showFeedbackModal}
+		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
+	{/if}
 	<ImageResponse
 		promptedTechnology="Machine Learning"
 		on:imageSubmitted={handleImageSubmission}
-		href="/training?page=14" />
+		on:submitClicked={onSubmit}
+		/>
 </Tablet>

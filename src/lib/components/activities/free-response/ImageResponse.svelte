@@ -10,7 +10,6 @@
 
 	export let promptedTechnology: string;
 
-	export let href: string;
 
 	let dispatch = createEventDispatcher();
 
@@ -24,7 +23,8 @@
 		if ($drawResponse) {
 			// WE can assume that an image has been drawn and saved because the store is not populated. We can then handle it here.
 			dispatch('imageSubmitted', {
-				images: $drawResponse
+				images: $drawResponse,
+				doSubmit: true
 			});
 
 			// reset the draw response
@@ -38,7 +38,8 @@
 		console.log('images ', images);
 		// await DataService.Data.uploadResponseImages('drawAlgorithm', images);
 		dispatch('imageSubmitted', {
-			images: images
+			images: images,
+			doSubmit: false
 		});
 	};
 
@@ -48,8 +49,8 @@
 		});
 	};
 
-	const handleNext = () => {
-		dispatch('submitClicked');
+	const submitClicked = () => {
+		dispatch('submitClicked')
 	};
 </script>
 
@@ -62,7 +63,7 @@
 				>Draw</button>
 			<button class="btn-secondary btn" on:click={openCamera}>Use Camera</button>
 		</div>
-		<a {href} class="btn btn-accent mt-4" on:click={handleNext}>Next</a>
+		<button class="btn btn-accent mt-4" on:click={submitClicked}>Next</button>
 	</div>
 {:else if responseTypeState == ResponseType.draw}
 	<div class="mt-auto h-full w-full  items-center justify-center">
