@@ -59,6 +59,7 @@
 		} catch (err) {
 			message = 'Error generating agent IDs';
 			isSuccess = false;
+			throw new Error('Error generating agent IDs');
 		}
 		showFeedbackModal = true;
 	};
@@ -73,18 +74,25 @@
 			if (!isOK) {
 				throw new Error('Error adding agents to DB. Please try again.');
 			}
-			message = 'Agents added to DB successfully!';
+			generateAgentIDs();
+			message = 'Registration successful! QR codes generated!';
 			isSuccess = true;
 		} catch (err) {
-			console.log("im here")
+			console.log('im here');
 			message = 'Error adding agents to DB. Please try again.';
 			isSuccess = false;
 		}
 		showFeedbackModal = true;
 	};
+
 	function onFeedbackClose() {
 		showFeedbackModal = false;
 	}
+
+	const removeStudent = (id: number) => {
+		$studentClassStore = $studentClassStore.filter((student) => student.id !== id);
+	};
+
 </script>
 
 <svelte:head>
@@ -93,15 +101,16 @@
 
 <Tablet>
 	<div class="m-9">
-	{#if showFeedbackModal}
-		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
-	{/if}
+		{#if showFeedbackModal}
+			<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
+		{/if}
 		<div class="my-5 flex w-full items-center justify-center">
 			<button class="btn btn-primary mx-5 my-5" on:click={openCSVModal}>Add by Upload</button>
 			<button class="btn btn-secondary mx-5" on:click={showAddManually}>Add Manually</button>
-			<button class="btn btn-accent mx-5" on:click={generateAgentIDs}>Generate Agent IDs</button>
+			<!-- <button class="btn btn-accent mx-5" on:click={generateAgentIDs}>Download QR Codes</button> -->
 			<button class="btn btn-primary mx-5" on:click={clearStudents}>Clear Students</button>
-			<button class="btn btn-secondary mx-5" on:click={submitToDB}>Submit Students to DB</button>
+			<button class="btn btn-secondary mx-5" on:click={submitToDB}
+				>Register & Generated QR Codes</button>
 		</div>
 
 		{#if showManual}
@@ -134,18 +143,24 @@
 			</div>
 		{/if}
 
-		<table class="mt-8 w-full space-y-4 rounded bg-gray-100  shadow">
+		<table class="mt-8 w-full space-y-4 rounded bg-blue-50 shadow">
 			<tr class="text-left">
-				<th>ID</th>
-				<th>Name</th>
-				<th>Email</th>
+				<th class="px-5 py-5">ID</th>
+				<th class="py-5">Name</th>
+				<th class="py-5">Email</th>
+				<th class="w-1/12 py-5">Action</th>
 			</tr>
 
 			{#each $studentClassStore as student}
-				<tr>
-					<td>{student.id}</td>
+				<tr class="py-4 text-lg">
+					<td class="px-5">{student.id}</td>
 					<td>{student.firstName} {student.lastName}</td>
 					<td>{student.email}</td>
+					<td
+						><button
+							on:click={() => removeStudent(student.id)}
+							class="rounded-md bg-red-500 px-4 py-1">x</button
+						></td>
 				</tr>
 			{/each}
 		</table>
