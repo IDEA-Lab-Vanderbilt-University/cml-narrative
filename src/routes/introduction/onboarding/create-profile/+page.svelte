@@ -22,7 +22,7 @@
 	import DataService from '$lib/utils/DataService';
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageData } from './$types';
-	import { temporaryUserData, userDataStore } from '$lib/utils/stores/store';
+	import {  userDataStore } from '$lib/utils/stores/store';
 
 	export let data: PageData;
 
@@ -73,20 +73,40 @@
 		mounted = false;
 	});
 
+	const validateData = () => {
+		console.log(profileData)
+		if (page === 1 && (profileData.name.first === '' || profileData.name.last == '')) {
+			return false;
+		} else if (page === 2 && profileData.age <= 0) {
+			return false;
+		} else if (page > 2 && page < 6 && profileData.interests.length < page-2) {
+			return false;
+		}  else if (page == 6 && profileData.agentName == '') {
+			return false;
+		}
+		return true;
+	};
+
 	/**
 	 * Progress the user through the profile creation sequence
 	 * @param direction NavigationDirection enum representing the direction of navigation
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
-		console.log(profileData);
-
 		// Set the agentData store, which will allow us to access this profile data across the application
 		// agentData.set(profileData);
 
 		if (direction == NavigationDirection.backward && page > 1) {
 			goto(baseNavigationURL + (page - 1));
 		} else if (direction == NavigationDirection.forward && page < numberOfPageSequences) {
-			goto(baseNavigationURL + (page + 1));
+			console.log("page: ",page)
+			console.log("validate data: ", validateData())
+			console.log("length:", profileData.interests.length)
+			if(validateData()) {
+				goto(baseNavigationURL + (page + 1));
+			} else {
+				alert("please fill in the required data before moving to the next page")
+			}
+			
 		}
 	};
 
@@ -107,13 +127,21 @@
 		});
 	};
 
+	const validateAgentName = () => {
+		if(validateData()) {
+			handleSubmit();
+		} else {
+			alert("please fill in the required data before moving to the next page")
+		}
+	}
+
 	const handleSubmit = async () => {
 		try {
 			// await DataService.Data.setProfileData(profileData);
 			console.log('profileData before signup: ', profileData);
 			await DataService.Auth.signUp(profileData);
 
-			message = "Agent created successfully!";
+			message = 'Agent created successfully!';
 			isSuccess = true;
 
 			let progress = getUpdatedProgress();
@@ -122,7 +150,7 @@
 
 			console.log('profileData after signup: ', profileData);
 		} catch (error) {
-			message = "Agent creation failed!";
+			message = 'Agent creation failed!';
 			isSuccess = false;
 			console.error(error);
 		}
@@ -162,7 +190,7 @@
 				<!-- {:else if page == 6}
 				<ChooseAnAvatar bind:profileData /> -->
 			{:else if page == 6}
-				<AgentName bind:profileData on:submitClicked={handleSubmit} />
+				<AgentName bind:profileData on:submitClicked={validateAgentName} />
 			{/if}
 		</div>
 		<button

@@ -39,7 +39,7 @@
 		// await DataService.Data.uploadResponseImages('drawAlgorithm', images);
 		dispatch('imageSubmitted', {
 			images: images,
-			doSubmit: false
+			doSubmit: true
 		});
 	};
 
@@ -63,7 +63,7 @@
 				>Draw</button>
 			<button class="btn-secondary btn" on:click={openCamera}>Use Camera</button>
 		</div>
-		<button class="btn btn-accent mt-4" on:click={submitClicked}>Next</button>
+		<!-- <button class="btn btn-accent mt-4" on:click={submitClicked}>Next</button> -->
 	</div>
 {:else if responseTypeState == ResponseType.draw}
 	<div class="mt-auto h-full w-full  items-center justify-center">

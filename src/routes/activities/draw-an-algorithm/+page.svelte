@@ -12,12 +12,12 @@
 	let message = '';
 	let isSuccess = false;
 	let showFeedbackModal = false;
-	let submissionType = ''
+	let submissionType = '';
 	let doSubmit = false;
 
 	async function onFeedbackClose() {
 		showFeedbackModal = false;
-		if(doSubmit) {
+		if (doSubmit) {
 			onSubmit();
 		}
 	}
@@ -59,21 +59,21 @@
 				submissionType = 'svg';
 			}
 			message = `Algorithm ${submissionType} responses recorded successfully!`;
-			isSuccess = true
+			isSuccess = true;
 			let progress = getUpdatedProgress();
 			await DataService.Data.updateUserProgress(progress);
 			updateLocalProgress(progress);
 		} catch (error) {
 			message = `Algorithm ${submissionType} responses submission failed!`;
-			isSuccess = false
+			isSuccess = false;
 			console.error(error);
 		}
 		showFeedbackModal = true;
 	};
-	
+
 	const onSubmit = () => {
 		goto('/training?page=11');
-	}
+	};
 </script>
 
 <Tablet>
@@ -83,6 +83,5 @@
 	<ImageResponse
 		promptedTechnology="an Algorithm"
 		on:imageSubmitted={handleImageSubmission}
-		on:submitClicked={onSubmit}
-		/>
+		on:submitClicked={onSubmit} />
 </Tablet>
