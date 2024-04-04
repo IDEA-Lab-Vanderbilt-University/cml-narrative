@@ -51,25 +51,48 @@
 		video.pause();
 		stream?.getTracks()[0].stop();
 	});
-	const takePicture = () => {
-		const context = canvas.getContext('2d');
-		if (width & height) {
-			canvas.width = width;
-			canvas.height = height;
-			context?.drawImage(video, 0, 0, width, height);
 
-			let image: HTMLImageElement = new Image();
-			canvas.toBlob((blob) => {
-				if (blob) {
-					const imageUrl = URL.createObjectURL(blob);
-					photo?.setAttribute('src', image.src);
-					image.src = imageUrl;
-				}
-			}, 'image/png');
+	const takePicture = async () => {
+        const context = canvas.getContext('2d');
+        if (width & height) {
+            canvas.width = width;
+            canvas.height = height;
+            context?.drawImage(video, 0, 0, width, height);
 
-			images = [image, ...images];
-		}
-	};
+            let image: HTMLImageElement = new Image();
+            const blob = await new Promise<Blob | null>((resolve) => {
+                canvas.toBlob((blob) => {
+                    resolve(blob);
+                }, 'image/png');
+            });
+
+            if (blob) {
+                const imageUrl = URL.createObjectURL(blob);
+                image.src = imageUrl;
+                images = [image, ...images];
+            }
+        }
+    };
+
+	// const takePicture = () => {
+	// 	const context = canvas.getContext('2d');
+	// 	if (width & height) {
+	// 		canvas.width = width;
+	// 		canvas.height = height;
+	// 		context?.drawImage(video, 0, 0, width, height);
+
+	// 		let image: HTMLImageElement = new Image();
+	// 		canvas.toBlob((blob) => {
+	// 			if (blob) {
+	// 				const imageUrl = URL.createObjectURL(blob);
+	// 				photo?.setAttribute('src', image.src);
+	// 				image.src = imageUrl;
+	// 			}
+	// 		}, 'image/png');
+
+	// 		images = [image, ...images];
+	// 	}
+	// };
 
 	const handleCanPlay = () => {
 		if (!streaming) {

@@ -11,6 +11,15 @@
 	let isRecording = false;
 	let recognition: any;
 
+	const beforeSubmit = () => {
+		if (response === '') {
+			alert('Please provide a response');
+			return;
+		} else {
+			handleSubmit();
+		}
+	};
+
 	const speechToText = () => {
 		// @ts-ignore
 		const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
@@ -102,6 +111,6 @@
 		on:click={toggleRecording}>
 		{isRecording ? 'Stop Recording' : 'Start Recording'}
 	</button>
-	<button class="mt-9 rounded-md bg-lapiz-blue px-8 text-xl text-white" on:click={handleSubmit}
+	<button class="mt-9 rounded-md bg-lapiz-blue px-8 text-xl text-white" on:click={beforeSubmit}
 		>Next</button>
 </div>
