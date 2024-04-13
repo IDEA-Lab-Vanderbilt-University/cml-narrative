@@ -17,7 +17,7 @@
 
 	export let onFinish = () => {};
 
-	const width = 1000;
+	let width = 1000;
 	let height = 1000;
 
 	let streaming = false;
@@ -36,7 +36,10 @@
 
 	onMount(async () => {
 		try {
-			stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+			stream = await navigator.mediaDevices.getUserMedia({
+				video: { width: { ideal: 1980 }, height: { ideal: 1089 } },
+				audio: false
+			});
 
 			video.srcObject = stream;
 			video.play();
@@ -53,26 +56,50 @@
 	});
 
 	const takePicture = async () => {
-        const context = canvas.getContext('2d');
-        if (width & height) {
-            canvas.width = width;
-            canvas.height = height;
-            context?.drawImage(video, 0, 0, width, height);
+		const context = canvas.getContext('2d');
+		if (video.videoWidth && video.videoHeight) {
+			canvas.width = video.videoWidth;
+			canvas.height = video.videoHeight;
+			context?.drawImage(video, 0, 0, canvas.width, canvas.height);
 
-            let image: HTMLImageElement = new Image();
-            const blob = await new Promise<Blob | null>((resolve) => {
-                canvas.toBlob((blob) => {
-                    resolve(blob);
-                }, 'image/png');
-            });
+			let image: HTMLImageElement = new Image();
+			const blob = await new Promise<Blob | null>((resolve) => {
+				canvas.toBlob((blob) => {
+					resolve(blob);
+				}, 'image/png');
+			});
 
-            if (blob) {
-                const imageUrl = URL.createObjectURL(blob);
-                image.src = imageUrl;
-                images = [image, ...images];
-            }
-        }
-    };
+			if (blob) {
+				const imageUrl = URL.createObjectURL(blob);
+				image.src = imageUrl;
+				images = [image, ...images];
+			}
+		}
+	};
+
+	// const takePicture = async () => {
+	// 	const context = canvas.getContext('2d');
+	// 	console.log('video-h', video.videoHeight);
+	// 	console.log('video-w', video.videoWidth);
+	// 	if (width & height) {
+	// 		canvas.width = width;
+	// 		canvas.height = height;
+	// 		context?.drawImage(video, 0, 0, width, height);
+
+	// 		let image: HTMLImageElement = new Image();
+	// 		const blob = await new Promise<Blob | null>((resolve) => {
+	// 			canvas.toBlob((blob) => {
+	// 				resolve(blob);
+	// 			}, 'image/png');
+	// 		});
+
+	// 		if (blob) {
+	// 			const imageUrl = URL.createObjectURL(blob);
+	// 			image.src = imageUrl;
+	// 			images = [image, ...images];
+	// 		}
+	// 	}
+	// };
 
 	// const takePicture = () => {
 	// 	const context = canvas.getContext('2d');
@@ -135,7 +162,6 @@
 			{#if images.length >= 1}
 				<button class="btn btn-success" on:click={_onFinish}>Submit</button>
 				<button class="btn btn-primary" on:click={clearPhotos}>Clear</button>
-
 			{/if}
 		</div>
 	</div>

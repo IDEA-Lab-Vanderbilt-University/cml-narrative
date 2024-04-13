@@ -51,7 +51,7 @@
 		<div class="relative rounded-lg bg-blue-800 shadow">
 			<button
 				type="button"
-				class="items-cente absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 justify-center rounded-lg bg-transparent text-sm text-gray-400"
+				class="items-center absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 justify-center rounded-lg bg-transparent text-sm text-gray-400"
 				on:click={close}>
 				<svg
 					class="h-3 w-3"

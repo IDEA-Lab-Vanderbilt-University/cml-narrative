@@ -134,7 +134,7 @@
 						</p>
 						<p class="text-4xl">You need to decide which technologies are helpful or harmful.</p>
 					</TrainingText>
-				{:else if lineNumber == 5 || lineNumber == 6 || lineNumber == 10 || lineNumber == 11}
+				{:else if lineNumber >= 5 && lineNumber <= 11}
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Algorithm</p>
 					</TrainingText>

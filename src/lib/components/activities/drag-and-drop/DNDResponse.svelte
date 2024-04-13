@@ -51,7 +51,7 @@
 			<div class="mt-7 flex space-x-4">
 				<button class="btn-primary btn" on:click={() => (responseTypeState = ResponseType.write)}
 					>Write</button>
-				<!-- <button class="btn-secondary btn" on:click={openCamera}>Record</button> -->
+				<button class="btn-secondary btn" on:click={openCamera}>Record</button>
 			</div>
 			<!-- <button class="btn btn-accent mt-4" on:click={handleNext}>Next</button> -->
 		</div>
