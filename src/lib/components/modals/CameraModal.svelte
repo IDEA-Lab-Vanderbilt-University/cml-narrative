@@ -37,7 +37,7 @@
 	onMount(async () => {
 		try {
 			stream = await navigator.mediaDevices.getUserMedia({
-				video: { width: { ideal: 1980 }, height: { ideal: 1089 } },
+				video: { width: { ideal: 1980 }, height: { ideal: 1080 } },
 				audio: false
 			});
 

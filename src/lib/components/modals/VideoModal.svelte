@@ -34,7 +34,7 @@
 
 	const startRecording = async () => {
 		isRecording = true;
-		stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+		stream = await navigator.mediaDevices.getUserMedia({ video: { width: { ideal: 1980 }, height: { ideal: 1080 } }, audio: true });
 		mediaRecorder = new MediaRecorder(stream);
 		videoElement.srcObject = stream;
 		videoElement.muted = true;
@@ -60,7 +60,6 @@
 
 			videoElement.srcObject = null;
 		};
-		uploadToS3();
 	};
 
 	const generateFileName = () => {
@@ -90,6 +89,14 @@
 			console.error(error);
 		}
 	};
+	
+	const downloadVideo = () => {
+		const link = document.createElement('a');
+		link.href = url;
+		link.download = generateFileName();
+		link.click();
+	};
+
 </script>
 
 <div class="space-y-6">
