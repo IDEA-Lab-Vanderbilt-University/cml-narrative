@@ -1,11 +1,11 @@
 # cml-narrative
 
 ![logo](/static/img/logos/SPOT-logo.svg)
-This repository contains the narrative web app portion of the CML project.
+This repository contains the narrative web app portion of the Critical Machine Learning (CML) project.
 
 ## About
 
-This project is being developed by the IDEA Lab at Clemson University.
+This project is being developed by the IDEA ([Inclusive Digital Education and Analytics](https://idealab.sites.clemson.edu/)) Lab at Clemson University.
 
 ## Infrastructure 
 
@@ -87,4 +87,4 @@ Pull requests can be made by visiting this projects repository on GitHub.
 
 I would recommend using [VSCode](https://code.visualstudio.com) to develop. This is a free application that is highly extensible.
 
-Additional setup will be documented in another README
+Additional setup will be documented in another README.
