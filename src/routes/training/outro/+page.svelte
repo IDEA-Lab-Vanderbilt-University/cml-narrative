@@ -80,6 +80,7 @@
 		if (direction == NavigationDirection.forward) {
 			if (line.id == 3) {
 				// alert('End of training!');
+				goto('/time-travel')
 			} else {
 				goto(`/training/outro?page=${line.id + 1}`);
 			}
