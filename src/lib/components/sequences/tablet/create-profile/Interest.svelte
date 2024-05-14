@@ -30,7 +30,7 @@
 	});
 </script>
 
-<div class="flex h-full w-full flex-col items-center justify-center space-y-10">
+<div class="flex h-full w-full flex-col items-center justify-center space-y-10 mt-[-100px]">
 	<h1 class="text-6xl text-white">{prompt}</h1>
 	<div class="flex w-full justify-center space-x-7">
 		<div class="form-control h-24 w-full max-w-2xl">
