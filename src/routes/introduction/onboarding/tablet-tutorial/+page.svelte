@@ -113,30 +113,6 @@
 	];
 
 	/**
-	 * Check the keycode that has been emitted from a Keydown Event on the Window to determine how we should navigate the user
-	 * through the scene.
-	 *
-	 * Event keys were found by using the following site below:
-	 *
-	 * https://www.toptal.com/developers/keycode
-	 *
-	 * @param event Keyboard Event emitted from  the Window
-	 *
-	 */
-	const handleKeydownEvent = (event: KeyboardEvent) => {
-		switch (event.key) {
-			case 'ArrowRight':
-			case ' ':
-				handleNavigation(NavigationDirection.forward);
-				break;
-			case 'ArrowLeft':
-				handleNavigation(NavigationDirection.backward);
-			default:
-				break;
-		}
-	};
-
-	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
@@ -181,8 +157,6 @@
 		}
 	};
 </script>
-
-<svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
 <div class="relative z-0 h-full w-full rounded-md">
 	<div class="flex h-full w-full rounded-md">

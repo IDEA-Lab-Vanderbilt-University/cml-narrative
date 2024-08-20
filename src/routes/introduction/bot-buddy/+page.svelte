@@ -37,30 +37,6 @@
 		handleNavigation(state);
 	};
 
-	/**
-	 * Check the keycode that has been emitted from a Keydown Event on the Window to determine how we should navigate the user
-	 * through the scene.
-	 *
-	 * Event keys were found by using the following site below:
-	 *
-	 * https://www.toptal.com/developers/keycode
-	 *
-	 * @param event Keyboard Event emitted from  the Window
-	 *
-	 */
-	const handleKeydownEvent = (event: KeyboardEvent) => {
-		switch (event.key) {
-			case 'ArrowRight':
-			case ' ':
-				handleNavigation(NavigationDirection.forward);
-				break;
-			case 'ArrowLeft':
-				handleNavigation(NavigationDirection.backward);
-			default:
-				break;
-		}
-	};
-
 	const getUpdatedProgress = ():UserProgress => {
 		return {
 			level: 0,
@@ -98,8 +74,6 @@
 		}
 	};
 </script>
-
-<svelte:window on:keydown={handleKeydownEvent} />
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">

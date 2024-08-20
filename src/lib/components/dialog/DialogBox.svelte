@@ -5,13 +5,34 @@
 	 * conditionally show arrows
 	 */
 	import type { Line } from '$lib/types/Script';
+	import typewriter from '$lib/utils/typewriter';
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
 	export let line: Line;
 
+	let dialogueParagraph: HTMLParagraphElement;
+
+	var currentTypewriter: NodeJS.Timer;
+	var lockNavigation: boolean = true;
+
+	$:{ 
+		if(dialogueParagraph != undefined) {
+			if (currentTypewriter != undefined) {
+				clearInterval(currentTypewriter);
+			}
+
+			lockNavigation = true;
+			currentTypewriter = typewriter(dialogueParagraph, line.dialog, 10, 0, () => {
+				lockNavigation = false;
+			});
+		}
+	}
+
 	const back = () => {
+		if (lockNavigation) return;
+
 		dispatch('dialogEvent', {
 			state: NavigationDirection.backward
 		});
@@ -19,11 +40,39 @@
 
 	/** Dispatch the forward dialogEvent */
 	const forward = () => {
+		if (lockNavigation) return;
+
 		dispatch('dialogEvent', {
 			state: NavigationDirection.forward
 		});
 	};
+
+	/**
+	 * Check the keycode that has been emitted from a Keydown Event on the Window to determine how we should navigate the user
+	 * through the scene.
+	 *
+	 * Event keys were found by using the following site below:
+	 *
+	 * https://www.toptal.com/developers/keycode
+	 *
+	 * @param event Keyboard Event emitted from  the Window
+	 *
+	 */
+	 const handleKeydownEvent = (event: KeyboardEvent) => {
+		switch (event.key) {
+			case 'ArrowRight':
+			case ' ':
+				forward();
+				break;
+			case 'ArrowLeft':
+				back();
+			default:
+				break;
+		}
+	};
 </script>
+
+<svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
 <div class="flex w-full flex-col px-4">
 	<div class="relative z-20 flex w-full items-end justify-between align-bottom">
@@ -80,7 +129,7 @@
 			<button class="mr-6 rotate-180 backbutton" on:click={back}>
 				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
 			</button>
-			<p class="col-span-3 mt-auto w-full text-2xl leading-relaxed  ">
+			<p bind:this={dialogueParagraph} class="col-span-3 mt-auto w-full h-full text-2xl leading-relaxed">
 				{line.dialog}
 			</p>
 			<button class="forwardbutton" on:click={forward}>
@@ -97,7 +146,11 @@
 	}
 
 	.backbutton:hover {
-		transform: scale(-1.1, -1.1)
+		transform: scale(-1.1) translateX(15px);
+	}
+
+	.backbutton:active {
+		transform: scale(-1.2) translateX(25px);
 	}
 
 	.forwardbutton {
@@ -105,6 +158,10 @@
 	}
 
 	.forwardbutton:hover {
-		transform: scale(1.1);
+		transform: scale(1.1) translateX(15px);
+	}
+
+	.forwardbutton:active {
+		transform: scale(1.2) translateX(25px);
 	}
 </style>
