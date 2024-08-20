@@ -96,52 +96,58 @@ let deafaultDragItems: DragStackItem[] = [
 		el: null,
 		img: '/img/new-icons/google.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: false
 	},
 	{
 		id: 2,
 		itemId: '',
-		title: 'Self Driving Car',
+		title: 'Self Driving Cars',
 		el: null,
 		img: '/img/new-icons/self-driving-car.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: true
 	},
 	{
 		id: 3,
 		itemId: 'smart-phone',
-		title: 'Smart Phone',
+		title: 'Smart Phones',
 		el: null,
 		img: '/img/new-icons/smart-phone.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: true
 	},
 	{
 		id: 4,
 		itemId: 'computer',
-		title: 'Computer',
+		title: 'Computers',
 		el: null,
 		img: '/img/new-icons/computer.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: true
 	},
 	{
 		id: 5,
 		itemId: 'smart-watch',
-		title: 'Smart Watch',
+		title: 'Smart Watches',
 		el: null,
 		img: '/img/new-icons/smartwatch.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: true
 	},
 	{
 		id: 6,
 		itemId: 'tablet',
-		title: 'Tablet',
+		title: 'Tablets',
 		el: null,
 		img: '/img/new-icons/tablet.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: true
 	}
 ];
 
