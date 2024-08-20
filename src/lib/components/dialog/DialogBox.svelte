@@ -77,16 +77,34 @@
 					<img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-14 w-14" />
 				</button>
 			{:else} -->
-			<button class="mr-6 rotate-180" on:click={back}>
+			<button class="mr-6 rotate-180 backbutton" on:click={back}>
 				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
 			</button>
 			<p class="col-span-3 mt-auto w-full text-2xl leading-relaxed  ">
 				{line.dialog}
 			</p>
-			<button class="" on:click={forward}>
+			<button class="forwardbutton" on:click={forward}>
 				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
 			</button>
 			<!-- {/if} -->
 		</div>
 	</div>
 </div>
+
+<style>
+	.backbutton {
+		transition: transform 0.2s;
+	}
+
+	.backbutton:hover {
+		transform: scale(-1.1, -1.1)
+	}
+
+	.forwardbutton {
+		transition: transform 0.2s;
+	}
+
+	.forwardbutton:hover {
+		transform: scale(1.1);
+	}
+</style>
