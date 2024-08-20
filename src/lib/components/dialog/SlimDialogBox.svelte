@@ -80,7 +80,7 @@
 	</div>
 
 	<div class="bg-jet relative flex h-36 w-full items-center justify-center rounded p-4 text-white">
-		<div class="grid grid-cols-5 items-center justify-center gap-8 align-middle text-3xl">
+		<div class="w-full grid grid-cols-5 items-center justify-center gap-8 align-middle text-3xl">
 			<button class="mr-6 rotate-180" on:click={back}>
 				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
 			</button>
