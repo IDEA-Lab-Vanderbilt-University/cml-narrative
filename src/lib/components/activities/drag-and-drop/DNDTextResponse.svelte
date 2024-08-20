@@ -12,7 +12,7 @@
 	let recognition: any;
 
 	const beforeSubmit = () => {
-		if (response === '') {
+		if (response.trim() === '') {
 			alert('Please provide a response');
 			return;
 		} else {

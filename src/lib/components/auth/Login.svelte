@@ -183,12 +183,13 @@
 </div>
 
 <style>
-	#reader {
+	div#reader {
 		background-color: white;
 		width: 350px;
 		font-family: 'Mokoto';
 		color: black;
 		border-radius: 10px;
 		box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.53);
+		padding: 0 10px !important;
 	}
 </style>

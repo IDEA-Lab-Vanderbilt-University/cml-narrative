@@ -53,7 +53,7 @@
 			console.log('the final data ', allData);
 			await DataService.Data.submitHelpfulOrHarmfulResponse(allData);
 
-			message = 'Your responses recorded successfully!';
+			message = 'Your responses were recorded successfully!';
 			isSuccess = true;
 
 			let progress = getUpdatedProgress();

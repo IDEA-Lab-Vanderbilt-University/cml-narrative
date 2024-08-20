@@ -69,7 +69,7 @@
 				await DataService.Data.uploadResponseImages('machineLearning', res, 'svg');
 				submissionType = 'svg';
 			}
-			message = `Machine Learning ${submissionType} responses recorded successfully!`;
+			message = `Machine Learning ${submissionType} responses were recorded successfully!`;
 			isSuccess = true
 			let progress = getUpdatedProgress();
 			await DataService.Data.updateUserProgress(progress);

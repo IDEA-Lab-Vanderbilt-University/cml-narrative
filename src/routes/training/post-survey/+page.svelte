@@ -90,12 +90,12 @@
 		if (questionsAndResponse[questionIndex].response != null) {
 			// Check to see if user is at the last survey question
 			if (questionIndex >= questionsAndResponse.length - 1) {
-				console.log('User has finished survey; we can no proceed.');
+				console.log('User has finished survey; we can now proceed.');
 
 				try {
 					await DataService.Data.submitPostSurvey(questionsAndResponse);
 
-					message = "Survey responses recorded successfully!";
+					message = "Survey responses were recorded successfully!";
 					isSuccess = true;
 
 					let progress = getUpdatedProgress();
