@@ -179,5 +179,16 @@
 		<img src="/img/svg/dialog-arrow.svg" alt="" class="mt-8 h-14 rotate-180" />
 	</button>
 
-	<div id="reader" style="width: 350px; font-family:'Mokoto';  color: white;" />
+	<div id="reader"/>
 </div>
+
+<style>
+	#reader {
+		background-color: white;
+		width: 350px;
+		font-family: 'Mokoto';
+		color: black;
+		border-radius: 10px;
+		box-shadow: 0 0 10px 0 rgba(255, 255, 255, 0.53);
+	}
+</style>
