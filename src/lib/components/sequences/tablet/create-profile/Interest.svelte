@@ -18,6 +18,7 @@
 	export let index: number;
 
 	let randomPlaceholder = '';
+	
 	const getRandomInterest = () => {
 		let interests: string[] = ['play basketball', 'play football', 'dance', 'go outside', 'draw'];
 
@@ -25,6 +26,7 @@
 
 		return interests[random];
 	};
+
 	onMount(() => {
 		randomPlaceholder = getRandomInterest();
 	});

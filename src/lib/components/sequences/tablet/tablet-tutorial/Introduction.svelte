@@ -16,13 +16,6 @@
 
 	let dispatch = createEventDispatcher<{ event: string; id: string }>();
 
-	// let tour: Tour = {
-	// showTour: true,
-	// message: "This is your SPOT tablet! You will use it for your mission to the future. It can do several different things.",
-	// bindTo: "#profile-element-tablet-intro",
-	// position: "top"
-	// }
-
 	onMount(() => {
 		dispatch('applicationContainerEvent', {
 			event: 'mount',

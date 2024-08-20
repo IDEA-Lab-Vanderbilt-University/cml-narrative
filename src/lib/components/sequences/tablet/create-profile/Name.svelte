@@ -28,7 +28,7 @@
 		<div class="form-control h-24 w-full max-w-xs">
 			<input
 				type="text"
-				placeholder="Lastname"
+				placeholder="Last name"
 				class="input-bordered input h-full w-full font-mono text-4xl"
 				bind:value={profileData.name.last} />
 		</div>

@@ -26,8 +26,9 @@
 			<h2 class="border-y-2 border-dashed border-yellow-500 py-7">
 				Are you ready to help us travel to the future?
 			</h2>
-			<a href="/introduction?page=4" class="rounded-md bg-yellow-500 px-4 py-2 text-black shadow-lg"
-				>I am ready!</a>
+			<a href="/introduction?page=4" class="rounded-md bg-yellow-500 px-4 py-2 text-black shadow-lg">
+				I am ready!
+			</a>
 		</div>
 	</div>
 </Scene>

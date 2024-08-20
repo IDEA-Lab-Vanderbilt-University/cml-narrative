@@ -100,7 +100,7 @@
 	});
 </script>
 
-<div class="wrapper h-full w-full" style="">
+<div class="wrapper h-full w-full">
 	<section
 		class="container mt-auto flex h-full flex-col items-center justify-center"
 		id="demo-content"
@@ -117,7 +117,7 @@
 		<div class="options hidden">
 			<div id="sourceSelectPanel" style="display:none">
 				<label for="sourceSelect">Change video source:</label>
-				<select id="sourceSelect" style="max-width:400px" />
+				<select id="sourceSelect"/>
 			</div>
 
 			<div class="switch">
@@ -128,3 +128,9 @@
 		<pre><code id="result" /></pre>
 	</section>
 </div>
+
+<style>
+	select#sourceSelect {
+		max-width: 400px;
+	}
+</style>

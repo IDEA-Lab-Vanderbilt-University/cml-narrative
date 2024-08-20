@@ -14,7 +14,7 @@
 
 	import type { UserData } from '$lib/types/UserData';
 
-	export let profileData: UserData = {};
+	export let profileData: UserData;
 
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	const dispatch = createEventDispatcher();

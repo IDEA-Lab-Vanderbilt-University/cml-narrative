@@ -76,8 +76,9 @@
 			<button
 				class="btn-primary btn"
 				on:click={() => handleNavigation(NavigationDirection.backward)}>Previous</button>
-			<button class="btn-primary btn" on:click={() => handleNavigation(NavigationDirection.forward)}
-				>Next</button>
+			<button class="btn-primary btn" on:click={() => handleNavigation(NavigationDirection.forward)}>
+				Next
+			</button>
 		</div>
 		<a href="/introduction/onboarding/create-profile?page=5" class="btn-secondary btn">Go back</a>
 	</div>
