@@ -110,13 +110,6 @@
 			<div class="h-full w-full">
 				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade />
 			</div>
-		<!-- {:else if line.id == 23}
-			<div class="flex h-full w-full">
-				<img
-					src="/img/characters/agent-groups/spot_agents_2.png"
-					alt=""
-					style="position: absolute; bottom: 25%; left: 5%;" />
-			</div> -->
 		{/if}
 	</div>
 </Scene>

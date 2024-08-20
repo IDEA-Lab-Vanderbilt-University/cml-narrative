@@ -42,5 +42,4 @@
 <div class="flex h-full w-full flex-col items-center justify-center space-y-10">
 	<img src="/img/icons/profile.png" alt="" class="h-1/5" />
 	<h1 class="font-mokoto text-5xl text-white">Agent {agentName}</h1>
-	<!-- <a href="/introduction/welcome?page=1" class="bg-lapiz-blue text-white text-3xl px-7 py-3 rounded-md shadow hover:shadow-lg">CONFIRM</a> -->
 </div>

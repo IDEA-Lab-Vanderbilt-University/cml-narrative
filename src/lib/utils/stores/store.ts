@@ -32,16 +32,6 @@ import type { Student } from '$lib/types/teacher-view/Student';
  * cookies, which is probably something we will do in the future.
  */
 
-// export const agentData = writable({});
-
-// let defaultStudentData: StudentAuthData = {
-// 	id: 0,
-// 	firstName: '',
-// 	lastName: '',
-// 	email: '',
-// 	password: ''
-// };
-
 let defaultUserData: UserData = {
 	name: {
 		first: '',
@@ -75,6 +65,7 @@ export const userDataStore = persist(
 	createLocalStorage(),
 	'userData'
 );
+
 export const studentDataStore = writable<StudentData>(defaultStudentData);
 export const temporaryUserData = writable<UserData>(defaultUserData);
 
