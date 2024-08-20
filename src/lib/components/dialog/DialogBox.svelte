@@ -5,12 +5,19 @@
 	 * conditionally show arrows
 	 */
 	import type { Line } from '$lib/types/Script';
+	import { defaultSettings, type Settings } from '$lib/types/Settings';
+	import { settingsStore } from '$lib/utils/stores/store';
 	import typewriter from '$lib/utils/typewriter';
 
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
 
 	export let line: Line;
+
+	let settings: Settings = defaultSettings;
+	settingsStore.subscribe(value => {
+		settings = value;
+	});
 
 	let dialogueParagraph: HTMLParagraphElement;
 
@@ -24,7 +31,7 @@
 			}
 
 			lockNavigation = true;
-			currentTypewriter = typewriter(dialogueParagraph, line.dialog, 10, 0, () => {
+			currentTypewriter = typewriter(dialogueParagraph, line.dialog, settings.textPeriod, 0, () => {
 				lockNavigation = false;
 			});
 		}

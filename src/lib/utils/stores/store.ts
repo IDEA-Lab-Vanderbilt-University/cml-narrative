@@ -15,6 +15,7 @@ import { writable } from 'svelte/store';
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
 import type { Student } from '$lib/types/teacher-view/Student';
+import { defaultSettings, type Settings } from '$lib/types/Settings';
 
 /**
  * A note on what this file does:
@@ -64,6 +65,12 @@ export const userDataStore = persist(
 	writable<UserData>(defaultUserData),
 	createLocalStorage(),
 	'userData'
+);
+
+export const settingsStore = persist(
+	writable<Settings>(defaultSettings),
+	createLocalStorage(),
+	'settings'
 );
 
 export const studentDataStore = writable<StudentData>(defaultStudentData);

@@ -25,7 +25,7 @@
 
 	const codeReader = new BrowserMultiFormatReader();
 
-	export let onDetect = (e) => {};
+	export let onDetect = () => {};
 	export let onCancel = () => {};
 	export let continuousScanning = false;
 
@@ -36,8 +36,8 @@
 	//     close()
 	// }
 
-	const action = (e) => {
-		onDetect(e);
+	const action = () => {
+		onDetect();
 
 		console.log('helo', JSON.parse(e.text));
 
@@ -55,7 +55,10 @@
 			let videoInputDevices = await codeReader.listVideoInputDevices();
 			shouldAnimateLoader = false;
 
-			const sourceSelect = document.getElementById('sourceSelect');
+			const sourceSelect = document.getElementById('sourceSelect') as HTMLSelectElement;
+
+			if(sourceSelect === null) return;
+
 			selectedDeviceId = videoInputDevices[0].deviceId;
 
 			if (videoInputDevices.length >= 1) {
@@ -67,10 +70,13 @@
 				});
 
 				sourceSelect.onchange = () => {
-					selectedDeviceId = soruceSelect.value;
+					selectedDeviceId = sourceSelect.value;
 				};
 
 				const sourceSelectPanel = document.getElementById('sourceSelectPanel');
+				
+				if (sourceSelectPanel === null) return;
+
 				sourceSelectPanel.style.display = 'block';
 			}
 
