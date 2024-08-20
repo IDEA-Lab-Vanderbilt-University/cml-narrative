@@ -37,6 +37,56 @@
 	const handleSubmit = () => {
 		dispatch('submitClicked');
 	};
+
+	const getRandomAgentName = () => {
+		const agentNames = [
+			'Pineapple',
+			'Penguin',
+			'Panda',
+			'Raven',
+			'Fox',
+			'Wolf',
+			'Polar Bear',
+			'Snow Leopard',
+			'Dolphin',
+			'Tangerine',
+			'Tango',
+			'Treetop',
+			'Rainbow',
+			'Raindrop',
+			'Freeze',
+			'Frost',
+			'Flame',
+			'Fungi',
+			'Fossil',
+			'Gravity',
+			'Galaxy',
+			'Electron',
+			'Neutron',
+			'Photon',
+			'Quasar',
+			'Cheese',
+			'Cherry',
+			'Rose',
+			'Ruby',
+			'Sapphire',
+			'Emerald',
+			'Amethyst',
+			'Opal',
+			'Platipus',
+			'Ocelot',
+			'Orca',
+			'Octopus',
+			'Nebula',
+			'Nova',
+			'Rocket',
+			'Comet',
+			'Dragon',
+			'Phoenix',
+		];
+
+		return agentNames[Math.floor(Math.random() * agentNames.length)];
+	};
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-10 font-mono">
@@ -46,7 +96,7 @@
 			<input
 				id="agent-name-input"
 				type="text"
-				placeholder="Pineapple"
+				placeholder={getRandomAgentName()}
 				class="input-bordered input h-full w-full font-mono text-4xl"
 				bind:value={profileData.agentName} />
 		</div>
