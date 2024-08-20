@@ -19,14 +19,14 @@
 	<h1 class="text-6xl text-white">How old are you?</h1>
 	<div class="flex w-full justify-center space-x-7">
 		<div class="form-control h-24 w-full max-w-xs">
-			<!-- <label class="label">
-              <span class="label-text text-4xl text-gray-50">Age:</span>
-            </label> -->
 			<input
 				type="number"
 				placeholder="9"
 				class="input-bordered input h-full w-full font-mono text-4xl"
-				bind:value={profileData.age} />
+				bind:value={profileData.age} 
+				min="1"
+				max="999"
+				/>
 		</div>
 	</div>
 </div>
