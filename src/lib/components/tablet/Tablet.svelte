@@ -47,7 +47,7 @@
 
 <div class="h-screen w-screen bg-dark-navy p-7 ">
 	<div class=" flex h-full w-full flex-col rounded-lg">
-		<div class="flex h-fit w-full justify-between p-4 font-mokoto">
+		<div class="tabletHeader flex h-fit w-full justify-between p-4 font-mokoto">
 			<div class="flex items-center space-x-3 align-middle">
 				<p class="text-5xl font-bold text-white">S.P.O.T</p>
 				<img src="/img/logos/SPOT-dots.svg" class="h-full w-24" alt="" />
@@ -77,3 +77,10 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	.tabletHeader {
+		pointer-events: none;
+		user-select: none;
+	}
+</style>
