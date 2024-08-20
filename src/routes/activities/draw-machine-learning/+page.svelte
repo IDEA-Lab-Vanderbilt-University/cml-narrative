@@ -69,6 +69,7 @@
 				await DataService.Data.uploadResponseImages('machineLearning', res, 'svg');
 				submissionType = 'svg';
 			}
+			
 			message = `Machine Learning ${submissionType} responses were recorded successfully!`;
 			isSuccess = true
 			let progress = getUpdatedProgress();
@@ -77,7 +78,7 @@
 		} catch (error) {
 			message = `Machine Learning ${submissionType} responses submission failed!`;
 			isSuccess = false
-			console.error(error);
+			console.error("Error in submitting machine learning responses", error);
 		}
 		showFeedbackModal = true;
 	};

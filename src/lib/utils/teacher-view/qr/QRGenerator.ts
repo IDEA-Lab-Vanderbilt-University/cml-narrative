@@ -38,8 +38,8 @@ const generatePDFDocument = async (students: Student[]) => {
 				.setFontSize(12)
 				.text(
 					[
-						'You havee been seelected to become a new agent with the Solving Problems of Tomorrow Agency!',
-						'Use this credential to log into the SPOT Mainframe'
+						'You have been seelected to become a new agent with SPOT, the Solving Problems of Tomorrow Agency!',
+						'Use this credential to log into the SPOT Mainframe!'
 					],
 					x + 50,
 					y + 30,

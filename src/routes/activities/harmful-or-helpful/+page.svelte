@@ -41,7 +41,6 @@
 
 	const handleSubmit = async () => {
 		// this is the final submit till now we going to update the store values.
-		console.log('im here');
 		try {
 			console.log('everything is done');
 			// let see what's in the final store
@@ -63,8 +62,7 @@
 		} catch (err) {
 			message = 'Your responses not recorded successfully!';
 			isSuccess = false;
-			console.log('im here');
-			// console.log(err);
+			console.error("Error in submitting harmful or helpful responses", err);
 		}
 		showFeedbackModal = true;
 	};

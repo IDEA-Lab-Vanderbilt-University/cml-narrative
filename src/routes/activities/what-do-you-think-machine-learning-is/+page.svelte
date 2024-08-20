@@ -31,13 +31,14 @@
 	const handleSubmit = async () => {
 		try {
 			await DataService.Data.submitFreeResponse('machineLearning', response);
-			message = 'Machine Learning text response recorded successfully!';
+			message = 'Machine Learning text response was recorded successfully!';
 			isSuccess = true;
 		} catch (error) {
 			message = 'Machine Learning text response failed! Please try again.';
 			isSuccess = false;
-			console.error(error);
+			console.error("Error submitting machine learning text response: ", error);
 		}
+		
 		showFeedbackModal = true;
 	};
 </script>

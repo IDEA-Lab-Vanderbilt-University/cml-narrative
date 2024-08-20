@@ -58,7 +58,7 @@
 				await DataService.Data.uploadResponseImages('algorithm', res, 'svg');
 				submissionType = 'svg';
 			}
-			message = `Algorithm ${submissionType} responses recorded successfully!`;
+			message = `Algorithm ${submissionType} responses were recorded successfully!`;
 			isSuccess = true;
 			let progress = getUpdatedProgress();
 			await DataService.Data.updateUserProgress(progress);
