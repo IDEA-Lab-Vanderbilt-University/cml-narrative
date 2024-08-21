@@ -31,10 +31,17 @@
 			<h1>Settings</h1>
 			<hr />
 			<label for="textSpeed">Text Speed:</label>
-			<select>
+			<select id="textSpeed">
 				<option value="15">Fast</option>
 				<option value="50">Medium</option>
 				<option value="80">Slow</option>
+			</select>
+			<hr />
+			<label for="fontSize">Font size:</label>
+			<select id="fontSize">
+				<option value="text-3xl">Big</option>
+				<option value="text-2xl">Medium</option>
+				<option value="text-xl">Small</option>
 			</select>
 			<hr />
 			<!-- svelte-ignore a11y-autofocus -->

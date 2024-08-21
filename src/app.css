@@ -35,3 +35,7 @@
 	border-image-slice: 10;
 	@apply rounded-full;
 }
+
+html {
+	overflow: hidden;
+}
