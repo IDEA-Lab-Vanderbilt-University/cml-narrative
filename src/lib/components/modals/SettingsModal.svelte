@@ -13,6 +13,7 @@
 	onMount(() => {
 		dialog?.addEventListener("close", () => {
 			open = false;
+			settingsStore.set(settings);
 		});
 	});
 
@@ -20,7 +21,10 @@
 
     let settings = defaultSettings;
 
-    settingsStore.subscribe((value) => settings = value);
+    settingsStore.subscribe((value) => {
+		settings = value;
+		settings.textPeriod = settings.textPeriod.toString();
+	});
 </script>
 
 <div id="full" class="{open ? "" : "hidden"}">
@@ -31,18 +35,21 @@
 			<h1>Settings</h1>
 			<hr />
 			<label for="textSpeed">Text Speed:</label>
-			<select id="textSpeed">
-				<option value="15">Fast</option>
-				<option value="50">Medium</option>
-				<option value="80">Slow</option>
+			<select name="textSpeed" bind:value={settings.textPeriod}>
+				<option value=15>Fast</option>
+				<option value=45>Medium</option>
+				<option value=75>Slow</option>
 			</select>
 			<hr />
 			<label for="fontSize">Font size:</label>
-			<select id="fontSize">
+			<select name="fontSize" bind:value={settings.fontSize}>
 				<option value="text-3xl">Big</option>
 				<option value="text-2xl">Medium</option>
 				<option value="text-xl">Small</option>
 			</select>
+			<hr />
+			<label for="audioEnabled">Audio Enabled:</label>
+			<input type="checkbox" name="audioEnabled"  bind:checked={settings.audioEnabled}/>
 			<hr />
 			<!-- svelte-ignore a11y-autofocus -->
 			<button autofocus on:click={() => dialog?.close()}>Save and Close</button>
