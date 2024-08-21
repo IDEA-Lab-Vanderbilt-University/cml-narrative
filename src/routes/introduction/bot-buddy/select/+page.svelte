@@ -12,7 +12,6 @@
 <script lang="ts">
 	import Scene from '$lib/components/scene/Scene.svelte';
 
-	import BotBuddyBase from '$lib/components/bot-buddy/BotBuddyBase.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 
 	let faceColor;
@@ -56,14 +55,3 @@
                 </div>
             </div> -->
 </Tablet>
-<!-- <div class="bg-jet flex flex-col p-24 items-center justify-center text-white rounded-md shadow-md">
-            <h1 class="text-4xl mb-9 ">Customize Your Bot Buddy</h1>
-            <div class="h-96">
-                <BotBuddyBase />
-
-            </div>
-
-
-        </div> -->
-<!-- </div>
-</Scene> -->

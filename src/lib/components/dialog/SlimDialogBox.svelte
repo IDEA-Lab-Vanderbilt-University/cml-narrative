@@ -21,6 +21,7 @@
 	import typewriter from '$lib/utils/typewriter';
 
 	import { createEventDispatcher } from 'svelte';
+	import DialogBoxAvatar from './DialogBoxAvatar.svelte';
 	const dispatch = createEventDispatcher();
 	
 	export let line: Line;
@@ -102,7 +103,7 @@
 			<div class="flex w-full items-end justify-between align-bottom">
 				{#each line.avatars as avatar, i}
 					<div class="mr-14 self-end">
-						<img class="relative -bottom-9 z-20 " src={avatar} alt="" />
+						<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass=".relative .-bottom-9 .z-20" />
 						{#if line.speakers[i]}
 							<div
 								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
@@ -116,13 +117,9 @@
 			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 				{line.speakers[0]}
 			</div>
-			<div class="mr-14 self-end">
-				<img src={line.avatars[0]} alt="" />
-			</div>
+			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}/>
 		{:else if line.pos == 'left'}
-			<div class="mr-14 self-end">
-				<img src={line.avatars[0]} alt="" />
-			</div>
+			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}/>
 			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 				{line.speakers[0]}
 			</div>
