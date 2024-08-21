@@ -15,6 +15,7 @@
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import MegaJoulesMeter from './MegaJoulesMeter.svelte';
+	import SettingsModal from '../modals/SettingsModal.svelte';
 
 	/**
 	 * Tracks if powerdown button is enabled. This is determined by a store
@@ -24,10 +25,10 @@
 	 * be enabled. Then, we will adjust the css properties of the powerdown button to enable user
 	 * interaction.
 	 */
-	let isPowerDownEnabled: boolean = false;
+	let powerDown: string | void;
 
 	$: {
-		isPowerDownEnabled = $tabletPowerNavigation.href;
+		powerDown = $tabletPowerNavigation.href;
 	}
 
 	/**
@@ -37,13 +38,21 @@
 	const handlePowerDown = () => {
 		console.log('powerdown');
 
-		if (isPowerDownEnabled) {
-			goto($tabletPowerNavigation.href);
+		if (powerDown != undefined) {
+			goto(powerDown);
 		} else {
 			console.warn('Navigation not permitted at this time!');
 		}
 	};
+
+	let tabletSettings: SettingsModal | void;
+
+	const showSettings = () => {
+		tabletSettings?.show();
+	};
 </script>
+
+<SettingsModal bind:this={tabletSettings}/>
 
 <div class="h-screen w-screen bg-dark-navy p-7 ">
 	<div class=" flex h-full w-full flex-col rounded-lg">
@@ -67,10 +76,12 @@
 			</div>
 		</div>
 		<div id="tablet-actions" class="flex h-fit justify-end space-x-5 pt-3 text-center text-white">
-			<img id="tablet-settings" src="/img/svg/gear.svg" alt="" class="h-20 w-20" />
+			<button id="tablet-settings-button" on:click={showSettings}>
+				<img id="tablet-settings" src="/img/svg/gear.svg" alt="" class="h-20 w-20" />
+			</button>
 			<button
 				id="tablet-power-button"
-				class={`${!isPowerDownEnabled ? 'cursor-not-allowed opacity-60' : ''} h-20 w-20`}
+				class={`${(powerDown == undefined) ? 'cursor-not-allowed opacity-60 hidden' : ''} h-20 w-20`}
 				on:click={handlePowerDown}>
 				<img src="/img/svg/power-button.svg" alt="" />
 			</button>
@@ -78,9 +89,14 @@
 	</div>
 </div>
 
+
 <style>
 	.tabletHeader {
 		pointer-events: none;
 		user-select: none;
+	}
+
+	.hidden {
+		display: none;
 	}
 </style>

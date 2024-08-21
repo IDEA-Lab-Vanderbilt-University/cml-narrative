@@ -117,12 +117,6 @@ const Auth = {
 };
 
 const Data = {
-	// setProfileData: async (data) => {
-	// 	return new Promise<void>((resolve, reject) => {
-	// 		console.log('Attempting to save profile data with data: ', data);
-	// 		resolve();
-	// 	});
-	// },
 	/**
 	 * Handles the submission of the post training survey.
 	 * @param surveyResponse an object containing the questions and responses of the post survey
@@ -407,28 +401,6 @@ const DataService = {
 };
 
 export default DataService;
-
-// function generateEmail(profileData: any): string {
-// 	console.log('generateEmail: ', profileData);
-// 	let firstName = profileData.name.last;
-// 	let agentName = profileData.agentName;
-
-// 	// Generate a random number between 0 and 9999
-// 	const randomNumber = Math.floor(Math.random() * 100);
-
-// 	// Combine the first name, agent name, and random number to create the email
-// 	const email = `${firstName
-// 		.toLowerCase()
-// 		.trim()}.${agentName.toLowerCase()}${randomNumber}@spotagency.com`;
-
-// 	return email;
-// }
-// function generateCredentials(profileData: any): any {
-// 	// hardcode the email, password for now
-// 	profileData['email'] = generateEmail(profileData);
-// 	profileData['password'] = 'password';
-// 	return profileData;
-// }
 
 interface UserBody {
 	name: {

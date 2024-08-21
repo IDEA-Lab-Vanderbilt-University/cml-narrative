@@ -76,7 +76,9 @@ export const settingsStore = persist(
 export const studentDataStore = writable<StudentData>(defaultStudentData);
 export const temporaryUserData = writable<UserData>(defaultUserData);
 
-export const tabletPowerNavigation = writable({});
+export const tabletPowerNavigation = writable({
+	href: undefined,
+});
 
 export const accessTokenStore = writable('');
 
