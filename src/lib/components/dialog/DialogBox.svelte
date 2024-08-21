@@ -86,11 +86,11 @@
 		{#if line.avatars.length > 1}
 			<div class="flex w-full items-end justify-between align-bottom">
 				{#each line.avatars as avatar, i}
-					<div class="mr-14 self-end">
-						<img class="relative -bottom-9 z-20 " src={avatar} alt="" />
+					<div class="mr-14 self-end avatar">
+						<img class="relative -bottom-9 z-20" src={avatar} alt=""/>
 						{#if line.speakers[i]}
 							<div
-								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black namebox">
 								{line.speakers[i]}
 							</div>
 						{/if}
@@ -98,41 +98,24 @@
 				{/each}
 			</div>
 		{:else if line.pos == 'right'}
-			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black namebox">
 				{line.speakers[0]}
 			</div>
-			<div class="mr-14 self-end">
+			<div class="mr-14 self-end avatar">
 				<img src={line.avatars[0]} alt="" />
 			</div>
 		{:else if line.pos == 'left'}
-			{#if line.id == 23}
-				<div class="mr-14 -mb-8 self-end" style="z-index: 1;">
-					<img src={line.avatars[0]} alt="" class="" />
-				</div>
-			{:else}
-				<div class="mr-14 self-end">
-					<img src={line.avatars[0]} alt="" />
-				</div>
-			{/if}
-			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black" style="z-index: 2;">
+			<div class="mr-14 self-end avatar">
+				<img src={line.avatars[0]} alt="" />
+			</div>
+			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black namebox">
 				{line.speakers[0]}
 			</div>
 		{/if}
 	</div>
 
-	<div class="bg-jet relative flex h-36 w-full items-center justify-center rounded p-4 text-white">
+	<div class="bg-jet relative flex h-36 w-full items-center justify-center rounded p-4 text-white textbox">
 		<div class="grid grid-cols-5 items-center justify-center gap-8 align-middle text-3xl w-full">
-			<!-- {#if $isAudioPlaying}
-				<button class="mr-6 rotate-180">
-					<img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-14 w-14" />
-				</button>
-				<p class="col-span-3 mt-auto w-full text-2xl leading-relaxed  ">
-					{line.dialog}
-				</p>
-				<button class="">
-					<img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-14 w-14" />
-				</button>
-			{:else} -->
 			<button class="mr-6 rotate-180 backbutton" on:click={back}>
 				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
 			</button>
@@ -142,7 +125,6 @@
 			<button class="forwardbutton" on:click={forward}>
 				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
 			</button>
-			<!-- {/if} -->
 		</div>
 	</div>
 </div>
@@ -170,5 +152,17 @@
 
 	.forwardbutton:active {
 		transform: scale(1.2) translateX(25px);
+	}
+
+	.avatar {
+		z-index: -1;
+	}
+
+	.textbox {
+		z-index: 1;
+	}
+
+	.namebox {
+		z-index: 2;
 	}
 </style>
