@@ -31,10 +31,14 @@
 				clearInterval(currentTypewriter);
 			}
 
-			lockNavigation = true;
-			currentTypewriter = typewriter(dialogueParagraph, line.dialog, settings.textPeriod, 0, () => {
+			if(line != undefined && line.dialog != undefined && line.dialog.length > 0) {
+				lockNavigation = true;
+				currentTypewriter = typewriter(dialogueParagraph, line.dialog, settings.textPeriod, 0, () => {
+					lockNavigation = false;
+				});
+			} else {
 				lockNavigation = false;
-			});
+			}
 		}
 	}
 
@@ -91,7 +95,7 @@
 						<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass=".relative .-bottom-9 .z-20" />
 						{#if line.speakers[i]}
 							<div
-								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black namebox">
+								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 								{line.speakers[i]}
 							</div>
 						{/if}
@@ -99,20 +103,20 @@
 				{/each}
 			</div>
 		{:else if line.pos == 'right'}
-			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black namebox">
+			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 				{line.speakers[0]}
 			</div>
 			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}/>
 		{:else if line.pos == 'left'}
 			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}/>
-			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black namebox">
+			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 				{line.speakers[0]}
 			</div>
 		{/if}
 	</div>
 
-	<div class="bg-jet relative flex h-36 w-full items-center justify-center rounded p-4 text-white textbox">
-		<div class="grid grid-cols-5 items-center justify-center gap-8 align-middle text-3xl w-full">
+	<div class="bg-jet relative flex h-36 w-full items-center justify-center rounded p-4 text-white">
+		<div class="w-full grid grid-cols-5 items-center justify-center gap-8 align-middle text-3xl">
 			<button class="mr-6 rotate-180 backbutton" on:click={back}>
 				<img src="/img/svg/dialog-arrow.svg" alt="" class="h-14 w-14" />
 			</button>

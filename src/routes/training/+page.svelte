@@ -11,7 +11,6 @@
 --->
 <script lang="ts">
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
-	import SlimDialogBox from '$lib/components/dialog/SlimDialogBox.svelte';
 	import ProjectorView from '$lib/components/scene/ProjectorView.svelte';
 	import { fade, fly } from 'svelte/transition';
 
@@ -126,9 +125,9 @@
 	</div>
 	<div class="w-full" slot="dialog">
 		{#if lineNumber != 3}
-			<SlimDialogBox {line} on:dialogEvent={handleDialogEvent} />
+			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 		{:else}
-			<SlimDialogBox {line} on:dialogEvent={handleDialogEvent} />
+			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 		{/if}
 	</div>
 </Scene>

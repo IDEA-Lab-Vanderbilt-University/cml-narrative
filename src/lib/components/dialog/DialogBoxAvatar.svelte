@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { onMount } from "svelte";
-
     export let avatar: string;
     export let speaker: string;
     export let avatarClass: string = '';
