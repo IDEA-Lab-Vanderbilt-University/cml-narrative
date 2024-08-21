@@ -36,7 +36,7 @@
 </script>
 
 <div class="w-full" id="megajoules-meter">
-	<img src={`/img/tablet/meter/meter-${amount}.svg`} alt="" />
+	<img src={`/img/tablet/meter/meter-${amount}.svg`} alt="{amount} Megajoules" />
 </div>
 
 <!-- <div class="loader-bar">
@@ -180,3 +180,9 @@
 		}
 	}
 </style> -->
+
+<style>
+	#megajoules-meter img {
+		pointer-events: none;
+	}
+</style>

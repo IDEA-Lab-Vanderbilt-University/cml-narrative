@@ -102,3 +102,17 @@
 		{/if}
 	</div>
 </Tablet>
+
+
+<style>
+	#helpful-bank p {
+		user-select: none;
+	}
+	
+	#harmful-bank p {
+		user-select: none;
+	}
+
+	
+
+</style>
