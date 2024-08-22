@@ -107,7 +107,7 @@
 		<div class="my-5 flex w-full items-center justify-center">
 			<button class="btn btn-primary mx-5 my-5" on:click={openCSVModal}>Add by Upload</button>
 			<button class="btn btn-secondary mx-5" on:click={showAddManually}>Add Manually</button>
-			<!-- <button class="btn btn-accent mx-5" on:click={generateAgentIDs}>Download QR Codes</button> -->
+			<button class="btn btn-accent mx-5" on:click={generateAgentIDs}>Download QR Codes</button>
 			<button class="btn btn-primary mx-5" on:click={clearStudents}>Clear Students</button>
 			<button class="btn btn-secondary mx-5" on:click={submitToDB}
 				>Register & Generated QR Codes</button>
