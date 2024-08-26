@@ -73,9 +73,9 @@
 		if (direction == NavigationDirection.forward) {
 			if (lineNumber == 10) {
 				goto('/activities/what-do-you-think-an-algorithm-is');
-			} else if (lineNumber == 13) {
+			} else if (lineNumber == 12) {
 				goto('/activities/what-do-you-think-machine-learning-is');
-			} else if (lineNumber == 17) {
+			} else if (lineNumber == 13) {
 				goto('/training/post-survey');
 			} else {
 				goto(`/training?page=${lineNumber + 1}`);
@@ -84,6 +84,9 @@
 			if (lineNumber == 1) {
 				goto(`/introduction/bot-buddy?page=23`);
 			} else {
+				if(lineNumber == 11 || lineNumber == 13 || lineNumber == 14) {
+					return;
+				}
 				goto(`/training?page=${lineNumber - 1}`);
 			}
 		}

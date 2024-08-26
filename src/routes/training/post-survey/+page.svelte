@@ -135,7 +135,7 @@
 			level: 0,
 			levelLabel: 'level-zero',
 			subLevel: 1,
-			subLevelLabel: '/training/outro?page=1',
+			subLevelLabel: '/training?page=13',
 			lastUpdated: new Date()
 		};
 	};
@@ -170,7 +170,7 @@
 	const onFeedbackClose = () => {
 		showFeedbackModal = false;
 		if (isSuccess) {
-			goto('/training/outro?page=1');
+			goto('/training?page=14');
 		}
 	};
 
