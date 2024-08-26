@@ -70,20 +70,20 @@
 				submissionType = 'svg';
 			}
 			
-			message = `Machine Learning ${submissionType} responses were recorded successfully!`;
+			message = `Response recorded successfully!`;
 			isSuccess = true
 			let progress = getUpdatedProgress();
 			await DataService.Data.updateUserProgress(progress);
 			updateLocalProgress(progress);
 		} catch (error) {
-			message = `Machine Learning ${submissionType} responses submission failed!`;
+			message = `Responses submission failed!`;
 			isSuccess = false
-			console.error("Error in submitting machine learning responses", error);
+			console.error(`Error in submitting machine learning  ${submissionType} responses`, error);
 		}
 		showFeedbackModal = true;
 	};
 	const onSubmit = () => {
-		goto('/training?page=14');
+		goto('/training?page=13');
 	}
 </script>
 
