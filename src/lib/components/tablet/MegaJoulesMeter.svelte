@@ -184,5 +184,6 @@
 <style>
 	#megajoules-meter img {
 		pointer-events: none;
+		user-select: none;
 	}
 </style>

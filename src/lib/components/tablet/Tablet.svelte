@@ -81,7 +81,7 @@
 			</button>
 			<button
 				id="tablet-power-button"
-				class={`${(powerDown == undefined) ? 'cursor-not-allowed opacity-60 hidden' : ''} h-20 w-20`}
+				class={`${(powerDown == undefined) ? 'cursor-not-allowed powerDown-disabled' : ''} h-20 w-20`}
 				on:click={handlePowerDown}>
 				<img src="/img/svg/power-button.svg" alt="" />
 			</button>
@@ -92,11 +92,19 @@
 
 <style>
 	.tabletHeader {
-		pointer-events: none;
 		user-select: none;
 	}
 
 	.hidden {
 		display: none;
+	}
+
+	.powerDown-disabled {
+		filter: saturate(50%) brightness(30%);
+		cursor: not-allowed;
+	}
+
+	#tablet-actions img {
+		pointer-events: none;
 	}
 </style>
