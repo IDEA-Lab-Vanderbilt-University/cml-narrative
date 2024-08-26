@@ -77,6 +77,8 @@
 				goto('/activities/what-do-you-think-machine-learning-is');
 			} else if (lineNumber == 13) {
 				goto('/training/post-survey');
+			} else if (lineNumber == 16) {
+				goto('/training/outro?page=1');
 			} else {
 				goto(`/training?page=${lineNumber + 1}`);
 			}
@@ -109,8 +111,6 @@
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Machine Learning</p>
 					</TrainingText>
-				{:else if lineNumber == 17}
-					hello
 				{/if}
 			</ProjectorView>
 		{:else}
