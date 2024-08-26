@@ -67,16 +67,16 @@ const script: Script = {
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/computer/computer_l0_s73.wav'
 		},
-		{
-			id: 4,
-			speakers: ['Agent Spark'],
-			dialog:
-				'It can be tricky... On your SPOT Tablet, tell us which technologies you think are helpful or harmful.',
-			avatars: ['/img/characters/agent-spark/spark_unsure_2.png'],
-			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/agent_spark_and_computer/computer_l0_s74_and_agent_spark.wav',
-			pos: 'left'
-		},
+		// {
+		// 	id: 4,
+		// 	speakers: ['Agent Spark'],
+		// 	dialog:
+		// 		'It can be tricky... On your SPOT Tablet, tell us which technologies you think are helpful or harmful.',
+		// 	avatars: ['/img/characters/agent-spark/spark_unsure_2.png'],
+		// 	background: '/img/backgrounds/captain_office.jpg',
+		// 	audio: '/audio/level0/agent_spark_and_computer/computer_l0_s74_and_agent_spark.wav',
+		// 	pos: 'left'
+		// },
 		{
 			id: 6,
 			speakers: ['Agent Spark'],
