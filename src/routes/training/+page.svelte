@@ -71,7 +71,7 @@
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (lineNumber == 10) {
+			if (lineNumber == 9) {
 				goto('/activities/what-do-you-think-an-algorithm-is');
 			} else if (lineNumber == 12) {
 				goto('/activities/what-do-you-think-machine-learning-is');
@@ -86,7 +86,7 @@
 			if (lineNumber == 1) {
 				goto(`/introduction/bot-buddy?page=23`);
 			} else {
-				if(lineNumber == 11 || lineNumber == 13 || lineNumber == 14) {
+				if(lineNumber == 10 || lineNumber == 13 || lineNumber == 14) {
 					return;
 				}
 				goto(`/training?page=${lineNumber - 1}`);
