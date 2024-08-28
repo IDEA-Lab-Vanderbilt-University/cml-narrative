@@ -103,11 +103,11 @@
 					<Technology />
 				{:else if lineNumber == 3}
 					<Training2 />
-				{:else if lineNumber >= 4 && lineNumber <= 11}
+				{:else if lineNumber >= 4 && lineNumber <= 10}
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Algorithms</p>
 					</TrainingText>
-				{:else if lineNumber == 12 || lineNumber == 13}
+				{:else if lineNumber == 11 || lineNumber == 12}
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Machine Learning</p>
 					</TrainingText>
