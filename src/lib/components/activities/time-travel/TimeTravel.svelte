@@ -81,17 +81,19 @@
 </script>
 
 <Tablet showMeter={false}>
-	<TimeRow date={presentDate} bind:this={presTimeRow} />
-	<span class="grid place-items-center text-xl text-white m-4">PRESENT TIME</span>	
-	<TimeRow date={destDate} bind:this={destTimeRow}/>
-	<span class="grid place-items-center text-xl text-white m-4">DESTINATION TIME</span>
-	<TimeRow />
-	<span class="grid place-items-center text-xl text-white m-4">LAST TIME DEPARTED</span>
-	<span id="energyRemaining" class="text-white text-3xl grid place-items-center">{energy} MJ</span>
-	<span class="grid place-items-center text-xl text-white m-4">ENERGY REMAINING</span>
-	<span class="grid place-items-center text-xl text-white m-4">
-	<button bind:this={launchButton} class="launchbutton shadow-green-glow mx-4 min-h-12 min-w-32 rounded-md bg-lime-400 text-slate-800 outline outline-slate-800 px-2" on:click={timeTravel}>LAUNCH</button>
-	</span>
+	<div id="timeTravelStuff">
+		<TimeRow date={presentDate} bind:this={presTimeRow} />
+		<span class="grid place-items-center text-xl text-white m-4">PRESENT TIME</span>	
+		<TimeRow date={destDate} bind:this={destTimeRow}/>
+		<span class="grid place-items-center text-xl text-white m-4">DESTINATION TIME</span>
+		<TimeRow />
+		<span class="grid place-items-center text-xl text-white m-4">LAST TIME DEPARTED</span>
+		<span id="energyRemaining" class="text-white text-3xl grid place-items-center">{energy} MJ</span>
+		<span class="grid place-items-center text-xl text-white m-4">ENERGY REMAINING</span>
+		<span class="grid place-items-center text-xl text-white m-4">
+		<button bind:this={launchButton} class="launchbutton shadow-green-glow mx-4 min-h-12 min-w-32 rounded-md bg-lime-400 text-slate-800 outline outline-slate-800 px-2" on:click={timeTravel}>LAUNCH</button>
+		</span>
+	</div>
 </Tablet>
 
 <style>
@@ -121,6 +123,10 @@
 		margin: 0 auto;
 		background-color: #000;
 		border: 2px solid #a0a0a0;
+	}
+
+	#timeTravelStuff {
+		margin: 4em;
 	}
 
 	@keyframes pulseglow {

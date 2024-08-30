@@ -113,4 +113,8 @@
 	#tablet-actions img {
 		pointer-events: none;
 	}
+
+	.grid-background {
+		overflow: hidden;
+	}
 </style>
