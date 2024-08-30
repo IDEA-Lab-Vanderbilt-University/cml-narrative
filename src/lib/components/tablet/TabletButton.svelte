@@ -1,6 +1,7 @@
 <script>
     import { createEventDispatcher } from 'svelte';
     const dispatch = createEventDispatcher();
+    export let pulse = false;
 
     function handleClick() {
         dispatch('click');
@@ -15,6 +16,6 @@
         <img
             src="/img/icons/mobile-app.png"
             alt=""
-            class="h-24 animate-pulse hover:animate-none" />
+            class="h-24 {pulse? "animate-pulse" : ""} hover:animate-none" />
     </button>
 </div>

@@ -13,6 +13,7 @@
 	import { goto } from '$app/navigation';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
+	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import type { UserProgress } from '$lib/types/UserData.js';
@@ -85,5 +86,6 @@
 				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade />
 			</div>
 		{/if}
+		<TabletButton on:click={() => {}} />
 	</div>
 </Scene>

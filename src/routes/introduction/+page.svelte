@@ -101,7 +101,7 @@
 			{/if}
 		</div>
 		{#if line.id == 18}
-			<TabletButton on:click={() => {goto("/introduction/onboarding")}} />
+			<TabletButton pulse on:click={() => {goto("/introduction/onboarding")}} />
 		{/if}
 	</div>
 </Scene>
