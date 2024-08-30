@@ -25,7 +25,7 @@
 			</div>
 			<div class="flex flex-col text-center">
 				<p class="font-mono text-3xl text-white">Favorite Badge</p>
-				<p class="text-white">{profile.favoriteBadge}r</p>
+				<p class="text-white">{profile.favoriteBadge}</p>
 			</div>
 		</div>
 		<div class="flex h-full w-1/3 items-center justify-center px-24">
