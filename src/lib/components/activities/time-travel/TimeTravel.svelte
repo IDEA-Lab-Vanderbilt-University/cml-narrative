@@ -73,7 +73,10 @@
 				presentDate.setTime(destDate.getTime());
 				energy = 0;
 				clearInterval(timeTravelInterval);
-				goto('/level1');
+
+				setTimeout(() => {
+					goto('/level1');
+				}, 1500);
 			}
 
 			if (presTimeRow) {
