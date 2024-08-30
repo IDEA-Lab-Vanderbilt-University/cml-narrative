@@ -54,6 +54,8 @@
 	const showSettings = () => {
 		tabletSettings?.show();
 	};
+
+	export let showMeter: boolean = true;
 </script>
 
 <SettingsModal bind:this={tabletSettings}/>
@@ -73,7 +75,7 @@
 					<div class="grid-background h-full w-full">
 						<slot />
 					</div>
-					<div class="absolute inset-0 z-10 ml-auto flex  h-fit w-1/6 items-start justify-end p-2">
+					<div class="absolute inset-0 z-10 ml-auto flex  h-fit w-1/6 items-start justify-end p-2 {showMeter? '' : 'hidden'}">
 						<MegaJoulesMeter amount={$megaJoulesMeter} />
 					</div>
 				</div>
