@@ -49,7 +49,7 @@
 			name: 'Captain Storm',
 			rank: 'Captain',
 			favoriteBadge: 'Machine Learning Master',
-			img: Assets.Characters.CaptainStorm.smiling,
+			img: Assets.Characters.CaptainStorm.yeah,
 			interests: [
 				"Watch thunderstorms (when it's safe of course!)",
 				'Play volleyball',
@@ -72,7 +72,7 @@
 		<ProfileContainer profile={profileExamples[index]} />
 	</div>
 	<div class="flex w-full flex-col items-center justify-center space-y-6">
-		<div class="flex items-center justify-center space-x-6">
+		<div class="flex items-center justify-center space-x-6" id="navbuttons">
 			<button
 				class="btn-primary btn"
 				on:click={() => handleNavigation(NavigationDirection.backward)}>Previous</button>
@@ -83,3 +83,10 @@
 		<a href="/introduction/onboarding/create-profile?page=5" class="btn-secondary btn">Go back</a>
 	</div>
 </div>
+
+<style>
+	#navbuttons button {
+		width: 200px;
+		font-size: 1.5rem;
+	}
+</style>
