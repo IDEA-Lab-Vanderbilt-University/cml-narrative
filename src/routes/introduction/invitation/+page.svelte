@@ -26,9 +26,43 @@
 			<h2 class="border-y-2 border-dashed border-yellow-500 py-7">
 				Are you ready to help us travel to the future?
 			</h2>
-			<a href="/introduction?page=4" class="rounded-md bg-yellow-500 px-4 py-2 text-black shadow-lg">
+			<a href="/introduction?page=4" id="readyBtn" class="rounded-md bg-yellow-500 px-4 py-2 text-black shadow-lg">
 				I am ready!
 			</a>
 		</div>
 	</div>
 </Scene>
+
+<style>
+
+	#readyBtn {
+		transition: all 0.2s ease-in-out;
+		animation: pulseGlow 2s infinite reverse ease-in-out;
+	}
+
+	#readyBtn:hover {
+		transform: scale(1.1);
+	}
+
+	#readyBtn:active {
+		transform: scale(0.9);
+	}
+
+	img, h2 {
+		user-select: none;
+		pointer-events: none;
+	}
+
+	@keyframes pulseGlow {
+		0% {
+			box-shadow: 0 0 0 0 rgba(255, 245, 130, 0.7);
+		}
+		70% {
+			box-shadow: 0 0 0 10px rgba(255, 255, 150, 0);
+		}
+		100% {
+			box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+		}
+
+	}
+</style>
