@@ -25,13 +25,14 @@
 </svelte:head>
 
 <Modal>
-	<div id="base-container" class="font-cantora hidden lg:block">
+	<div id="base-container" class="font-cantora hidden lg:block w-full h-full">
 		<TourWrapper>
 			<slot />
 		</TourWrapper>
 	</div>
 
 	<div
+		id="too-small"
 		class="font-cantora flex h-screen flex-col items-center justify-center space-y-6 px-12 text-center align-middle lg:hidden ">
 		<h1 class="text-5xl">Sorry, Agent!</h1>
 		<p class="text-3xl">
@@ -39,3 +40,16 @@
 		</p>
 	</div>
 </Modal>
+
+<style>
+@media (max-height: 640px) {
+	#base-container {
+		display: none;
+	}
+
+	#too-small {
+		display: block;
+	}
+}
+
+</style>

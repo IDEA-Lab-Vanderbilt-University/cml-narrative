@@ -24,8 +24,10 @@
 	 * If the store has a href, then we can assume that the powerdown button should
 	 * be enabled. Then, we will adjust the css properties of the powerdown button to enable user
 	 * interaction.
+	 * 
+	 * If a function is provided, then we will call that function instead.
 	 */
-	let powerDown: string | void;
+	let powerDown: string | Function | void;
 
 	$: {
 		powerDown = $tabletPowerNavigation.href;
@@ -38,8 +40,10 @@
 	const handlePowerDown = () => {
 		console.log('powerdown');
 
-		if (powerDown != undefined) {
+		if (powerDown != undefined && typeof powerDown === 'string') {
 			goto(powerDown);
+		} else if (powerDown != undefined && typeof powerDown === 'function') {
+			powerDown();
 		} else {
 			console.warn('Navigation not permitted at this time!');
 		}
@@ -54,8 +58,8 @@
 
 <SettingsModal bind:this={tabletSettings}/>
 
-<div class="h-screen w-screen bg-dark-navy p-7 ">
-	<div class=" flex h-full w-full flex-col rounded-lg">
+<div class="h-full w-full bg-dark-navy p-7 ">
+	<div class="flex h-full w-full flex-col rounded-lg">
 		<div class="tabletHeader flex h-fit w-full justify-between p-4 font-mokoto">
 			<div class="flex items-center space-x-3 align-middle">
 				<p class="text-5xl font-bold text-white">S.P.O.T</p>

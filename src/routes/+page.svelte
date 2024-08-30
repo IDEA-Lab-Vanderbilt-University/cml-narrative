@@ -45,7 +45,7 @@
 </script>
 
 <div class="h-screen w-screen items-center">
-	<div class=" relative z-0 h-full w-full">
+	<div class="relative z-0 h-full w-full">
 		<img src="/img/svg/5999179.jpg" alt="" class="h-full w-full" />
 		<div
 			class="absolute inset-0 z-10 flex flex-col items-center justify-center px-72 py-32 align-middle">
