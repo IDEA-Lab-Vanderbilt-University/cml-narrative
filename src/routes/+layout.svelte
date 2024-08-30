@@ -23,12 +23,13 @@
 
 	let tabletModal: TabletModal | void;
 	
-	
-	document.addEventListener('showTablet', (e) => {
-		console.log('showTablet event received');
-		if (tabletModal) {
-			tabletModal.hidden = false;
-		}
+	onMount(() => {
+		document.addEventListener('showTablet', (e) => {
+			console.log('showTablet event received');
+			if (tabletModal) {
+				tabletModal.hidden = false;
+			}
+		});
 	});
 </script>
 
