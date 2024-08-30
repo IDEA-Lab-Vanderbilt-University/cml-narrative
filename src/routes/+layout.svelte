@@ -14,10 +14,22 @@
  The "slot" component is dynamic, as other components can be fed into it. 
 
 --->
-<script>
+<script lang="ts">
+	import TabletModal from '$lib/components/modals/TabletModal.svelte';
 	import TourWrapper from '$lib/components/tour/TourWrapper.svelte';
+	import { onMount } from 'svelte';
 	import '../app.css';
 	import Modal from 'svelte-simple-modal';
+
+	let tabletModal: TabletModal | void;
+	
+	
+	document.addEventListener('showTablet', (e) => {
+		console.log('showTablet event received');
+		if (tabletModal) {
+			tabletModal.hidden = false;
+		}
+	});
 </script>
 
 <svelte:head>
@@ -25,6 +37,7 @@
 </svelte:head>
 
 <Modal>
+	<TabletModal hidden bind:this={tabletModal}></TabletModal>
 	<div id="base-container" class="font-cantora hidden lg:block w-full h-full">
 		<TourWrapper>
 			<slot />
