@@ -58,11 +58,29 @@
 		}
 	];
 
+	let nextButton: HTMLButtonElement | void;
+	let previousButton: HTMLButtonElement | void;
+
 	const handleNavigation = (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward && index != profileExamples.length - 1) {
 			index += 1;
 		} else if (direction == NavigationDirection.backward && index != 0) {
 			index -= 1;
+		}
+
+		// Update button enabled/disabled state
+		if(previousButton && nextButton) {
+			if (index == 0) {
+				previousButton.disabled = true;
+			} else {
+				previousButton.disabled = false;
+			}
+
+			if (index == profileExamples.length - 1) {
+				nextButton.disabled = true;
+			} else {
+				nextButton.disabled = false;
+			}
 		}
 	};
 </script>
@@ -75,8 +93,11 @@
 		<div class="flex items-center justify-center space-x-6" id="navbuttons">
 			<button
 				class="btn-primary btn"
-				on:click={() => handleNavigation(NavigationDirection.backward)}>Previous</button>
-			<button class="btn-primary btn" on:click={() => handleNavigation(NavigationDirection.forward)}>
+				id="previous"
+				on:click={() => handleNavigation(NavigationDirection.backward)}
+				bind:this={previousButton} >Previous</button>
+			<button class="btn-primary btn" on:click={() => handleNavigation(NavigationDirection.forward)}
+				id="next" bind:this={nextButton}>
 				Next
 			</button>
 		</div>
