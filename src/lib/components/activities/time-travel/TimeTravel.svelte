@@ -45,7 +45,8 @@
 	let destTimeRow: TimeRow | void;
 	let presTimeRow: TimeRow | void;
 	let launchButton: HTMLButtonElement | void;
-	
+	let energyText: HTMLSpanElement | void;
+
 	let energy = 1200;
 	let presentDate = new Date();
 	let startTime = presentDate.getTime();
@@ -62,6 +63,8 @@
 			
 			let speed = Math.ceil(Math.max(remainingTime / 50, 100000000));
 			energy = 1200 - Math.round(1200 * (1 - (remainingTime / (destDate.getTime() - startTime))));
+			let energyColor = Math.round((energy / 1200) * 200) + 55;
+			energyText?.style.setProperty('color', `rgb(${energyColor}, ${energyColor}, ${energyColor})`);
 
 			presentDate.setTime(presentDate.getTime() + speed);
 			
@@ -88,7 +91,7 @@
 		<span class="grid place-items-center text-xl text-white m-4">DESTINATION TIME</span>
 		<TimeRow />
 		<span class="grid place-items-center text-xl text-white m-4">LAST TIME DEPARTED</span>
-		<span id="energyRemaining" class="text-white text-3xl grid place-items-center">{energy} MJ</span>
+		<span id="energyRemaining" class="text-white text-3xl grid place-items-center" bind:this={energyText}>{energy} MJ</span>
 		<span class="grid place-items-center text-xl text-white m-4">ENERGY REMAINING</span>
 		<span class="grid place-items-center text-xl text-white m-4">
 		<button bind:this={launchButton} class="launchbutton shadow-green-glow mx-4 min-h-12 min-w-32 rounded-md bg-lime-400 text-slate-800 outline outline-slate-800 px-2" on:click={timeTravel}>LAUNCH</button>
@@ -123,6 +126,7 @@
 		margin: 0 auto;
 		background-color: #000;
 		border: 2px solid #a0a0a0;
+		min-width: 18rem;
 	}
 
 	#timeTravelStuff {
