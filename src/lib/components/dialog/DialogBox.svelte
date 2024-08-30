@@ -35,7 +35,7 @@
 
 			if(line != undefined && line.dialog != undefined && line.dialog.length > 0) {
 				lockNavigation = true;
-				currentTypewriter = typewriter(dialogueParagraph, line.dialog, settings.textPeriod ?? defaultSettings.textPeriod, 0, () => {
+				currentTypewriter = typewriter(dialogueParagraph, line.dialog, Number.parseInt((settings.textPeriod ?? defaultSettings.textPeriod).toString()), 0, () => {
 					lockNavigation = false;
 				});
 			} else {
@@ -94,7 +94,7 @@
 			<div class="flex w-full items-end justify-between align-bottom">
 				{#each line.avatars as avatar, i}
 					<div class="mr-14 self-end">
-						<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass=".relative .-bottom-9 .z-20" />
+						<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass="relative -bottom-10 z-20" />
 						{#if line.speakers[i]}
 							<div
 								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
