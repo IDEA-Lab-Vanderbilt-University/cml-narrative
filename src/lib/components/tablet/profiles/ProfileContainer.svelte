@@ -10,7 +10,7 @@
  
 --->
 <script lang="ts">
-	export let profile: {};
+	export let profile: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[]};
 </script>
 
 <div class="flex h-full w-full flex-col px-6 py-12">

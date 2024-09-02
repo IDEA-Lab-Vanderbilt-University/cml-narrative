@@ -21,7 +21,7 @@
 	 */
 	let index = 0;
 
-	let profileExamples = [
+	let profileExamples: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[]}[] = [
 		{
 			name: 'Agent Gear',
 			rank: 'Senior Agent',
@@ -74,7 +74,7 @@
 		updateButtons();
 	};
 
-    export let handleClick: Function;
+    export let handleClick: () => void;
 
     function updateButtons() {
         if (previousButton && nextButton) {

@@ -10,11 +10,10 @@
  
 --->
 <script lang="ts">
-	import { tourManager, type Tour } from '$lib/components/tour/TourManager';
 	import { Assets } from '$lib/utils/Assets';
 	import { onDestroy, onMount, createEventDispatcher } from 'svelte';
 
-	let dispatch = createEventDispatcher<{ event: string; id: string }>();
+	let dispatch = createEventDispatcher();
 
 	onMount(() => {
 		dispatch('applicationContainerEvent', {
