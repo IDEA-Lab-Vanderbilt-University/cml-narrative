@@ -15,8 +15,8 @@
     }
 </script>
 
-<div>
-    <div class="h-full w-full flex justify-center items-center bg-gray-800">
+<div id="timerow">
+    <div class="flex justify-center items-center bg-gray-800">
         <div class="col">
             <div class="colhead">
                 MONTH
@@ -58,18 +58,19 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        margin: 1rem;
+        margin: 0.1vh 1vh;
+        padding: 0.125vh 0;
     }
 
     .colhead {
-        font-size: 1.5rem;
+        font-size: 2.5vh;
         color: white;
         background-color: darkred;
-        padding: 0.5rem;
+        padding: 0.125vh 0.5vh;
     }
 
     .colval {
-        font-size: 3rem;
+        font-size: 3.75vh;
         color: white;
         font-family: monospace;
         transition: text-shadow 1s;
@@ -78,5 +79,4 @@
     .colval.active {
         text-shadow: 0 0 5px white;
     }
-
 </style>
