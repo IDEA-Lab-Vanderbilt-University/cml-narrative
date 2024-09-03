@@ -7,6 +7,7 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import { studentClassStore } from '$lib/utils/stores/store';
 	import DataService from '$lib/utils/DataService';
+	import { v4 as uuidv4 } from 'uuid';
 
 	// @ts-ignore
 	const { open } = getContext('simple-modal');
@@ -16,7 +17,7 @@
 	let showFeedbackModal = false;
 
 	var manualForm: Student = {
-		id: 0,
+		id: uuidv4(),
 		firstName: '',
 		lastName: '',
 		email: ''
@@ -34,7 +35,7 @@
 
 		// Clear form data
 		manualForm = {
-			id: 0,
+			id: uuidv4(),
 			firstName: '',
 			lastName: '',
 			email: ''
@@ -89,7 +90,7 @@
 		showFeedbackModal = false;
 	}
 
-	const removeStudent = (id: number) => {
+	const removeStudent = (id: string) => {
 		$studentClassStore = $studentClassStore.filter((student) => student.id !== id);
 	};
 
@@ -107,20 +108,20 @@
 		<div class="my-5 flex w-full items-center justify-center">
 			<button class="btn btn-primary mx-5 my-5" on:click={openCSVModal}>Add by Upload</button>
 			<button class="btn btn-secondary mx-5" on:click={showAddManually}>Add Manually</button>
-			<button class="btn btn-accent mx-5" on:click={generateAgentIDs}>Download QR Codes</button>
 			<button class="btn btn-primary mx-5" on:click={clearStudents}>Clear Students</button>
 			<button class="btn btn-secondary mx-5" on:click={submitToDB}
-				>Register & Generated QR Codes</button>
+			>Register & Generate QR Codes</button>
+			<button class="btn btn-accent mx-5" on:click={generateAgentIDs}>Download QR Codes</button>
 		</div>
 
 		{#if showManual}
 			<div class="mt-8 flex flex-col  space-y-4 rounded bg-gray-100 p-3 shadow">
 				<div class="flex space-x-2">
-					<input
+					<!-- <input
 						type="text"
 						placeholder="ID"
 						class="input input-bordered w-full max-w-xs"
-						bind:value={manualForm.id} />
+						bind:value={manualForm.id} /> -->
 					<input
 						type="text"
 						placeholder="First name"
@@ -136,24 +137,24 @@
 						placeholder="Email"
 						class="input input-bordered w-full max-w-xs"
 						bind:value={manualForm.email} />
-				</div>
-				<div class="ml-auto">
-					<button class="btn btn-primary" on:click={addStudentManually}>Add student</button>
+					<div class="ml-auto">
+						<button class="btn btn-primary" on:click={addStudentManually}>Add student</button>
+					</div>
 				</div>
 			</div>
 		{/if}
 
 		<table class="mt-8 w-full space-y-4 rounded bg-blue-50 shadow">
 			<tr class="text-left">
-				<th class="px-5 py-5">ID</th>
-				<th class="py-5">Name</th>
+				<!-- <th class="px-5 py-5">ID</th> -->
+				<th class="px-5 py-5">Name</th>
 				<th class="py-5">Email</th>
 				<th class="w-1/12 py-5">Action</th>
 			</tr>
 
 			{#each $studentClassStore as student}
 				<tr class="py-4 text-lg">
-					<td class="px-5">{student.id}</td>
+					<!-- <td class="px-5">{student.id}</td> -->
 					<td>{student.firstName} {student.lastName}</td>
 					<td>{student.email}</td>
 					<td
