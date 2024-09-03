@@ -14,6 +14,7 @@
 	import { play } from '$lib/components/audio/AudioPlayer.svelte';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
+	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 
@@ -100,16 +101,7 @@
 			{/if}
 		</div>
 		{#if line.id == 18}
-			<div class="flex w-full ">
-				<a
-					href="/introduction/onboarding"
-					class="mx-4 my-4 ml-auto w-fit  rounded-full bg-green-500 px-6 py-7 shadow-md hover:shadow-lg">
-					<img
-						src="/img/icons/mobile-app.png"
-						alt=""
-						class="h-24 animate-pulse hover:animate-none" />
-				</a>
-			</div>
+			<TabletButton pulse on:click={() => {goto("/introduction/onboarding")}} />
 		{/if}
 	</div>
 </Scene>

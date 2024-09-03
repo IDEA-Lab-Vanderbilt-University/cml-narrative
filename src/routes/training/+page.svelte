@@ -71,14 +71,14 @@
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (lineNumber == 4) {
-				goto('/activities/harmful-or-helpful');
-			} else if (lineNumber == 10) {
+			if (lineNumber == 9) {
 				goto('/activities/what-do-you-think-an-algorithm-is');
-			} else if (lineNumber == 13) {
+			} else if (lineNumber == 12) {
 				goto('/activities/what-do-you-think-machine-learning-is');
-			} else if (lineNumber == 17) {
+			} else if (lineNumber == 13) {
 				goto('/training/post-survey');
+			} else if (lineNumber == 16) {
+				goto('/training/outro?page=1');
 			} else {
 				goto(`/training?page=${lineNumber + 1}`);
 			}
@@ -86,6 +86,9 @@
 			if (lineNumber == 1) {
 				goto(`/introduction/bot-buddy?page=23`);
 			} else {
+				if(lineNumber == 10 || lineNumber == 13 || lineNumber == 14) {
+					return;
+				}
 				goto(`/training?page=${lineNumber - 1}`);
 			}
 		}
@@ -100,23 +103,14 @@
 					<Technology />
 				{:else if lineNumber == 3}
 					<Training2 />
-				{:else if lineNumber == 4}
+				{:else if lineNumber >= 4 && lineNumber <= 10}
 					<TrainingText>
-						<p class="text-4xl">
-							These technologies can be helpful, but they can also be harmful to people.
-						</p>
-						<p class="text-4xl">You need to decide which technologies are helpful or harmful.</p>
+						<p class="text-center text-5xl font-bold">Algorithms</p>
 					</TrainingText>
-				{:else if lineNumber >= 5 && lineNumber <= 11}
-					<TrainingText>
-						<p class="text-center text-5xl font-bold">Algorithm</p>
-					</TrainingText>
-				{:else if lineNumber == 12 || lineNumber == 13}
+				{:else if lineNumber == 11 || lineNumber == 12}
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Machine Learning</p>
 					</TrainingText>
-				{:else if lineNumber == 17}
-					hello
 				{/if}
 			</ProjectorView>
 		{:else}
@@ -131,3 +125,9 @@
 		{/if}
 	</div>
 </Scene>
+
+<style>
+	.centered {
+		text-align: center;
+	}
+</style>

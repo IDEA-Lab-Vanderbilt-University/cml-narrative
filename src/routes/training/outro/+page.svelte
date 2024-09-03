@@ -54,15 +54,19 @@
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (line.id == 3) {
+			if (line.id == 2) {
 				// alert('End of training!');
 				goto('/time-travel')
 			} else {
 				goto(`/training/outro?page=${line.id + 1}`);
 			}
-		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/training/outro?page=${line.id - 1}`);
-		}
+		} else if (direction == NavigationDirection.backward) {
+			if(line.id > 1) {
+				goto(`/training/outro?page=${line.id - 1}`);
+			} else {
+				goto('/training?page=16');
+			}
+		} 
 	};
 </script>
 

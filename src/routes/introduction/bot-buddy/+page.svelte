@@ -13,15 +13,19 @@
 	import { goto } from '$app/navigation';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
+	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import type { UserProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
 	import { userDataStore } from '$lib/utils/stores/store.js';
+	import { createEventDispatcher } from 'svelte';
 
 	import { fade } from 'svelte/transition';
 
 	export let data;
+
+	const dispatch = createEventDispatcher();
 
 	let line: Line;
 
@@ -73,17 +77,26 @@
 			goto(`/introduction/bot-buddy?page=${line.id - 1}`);
 		}
 	};
+
+	let content: HTMLElement | void;
 </script>
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
-	<div slot="content" class="h-full w-full">
+	<div slot="content" class="h-full w-full"  bind:this={content}>
 		{#if line.id == 15}
 			<div class="h-full w-full">
 				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade />
 			</div>
 		{/if}
+		<TabletButton on:click={() => { 
+			const event  = new CustomEvent('showTablet', {
+				bubbles: true
+			});
+			
+			content?.dispatchEvent(event);
+		}} />
 	</div>
 </Scene>

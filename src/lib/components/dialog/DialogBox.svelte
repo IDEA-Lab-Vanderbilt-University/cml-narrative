@@ -35,7 +35,7 @@
 
 			if(line != undefined && line.dialog != undefined && line.dialog.length > 0) {
 				lockNavigation = true;
-				currentTypewriter = typewriter(dialogueParagraph, line.dialog, settings.textPeriod ?? defaultSettings.textPeriod, 0, () => {
+				currentTypewriter = typewriter(dialogueParagraph, line.dialog, Number.parseInt((settings.textPeriod ?? defaultSettings.textPeriod).toString()), 0, () => {
 					lockNavigation = false;
 				});
 			} else {
@@ -94,7 +94,7 @@
 			<div class="flex w-full items-end justify-between align-bottom">
 				{#each line.avatars as avatar, i}
 					<div class="mr-14 self-end">
-						<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass=".relative .-bottom-9 .z-20" />
+						<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass="relative -bottom-10 z-20" />
 						{#if line.speakers[i]}
 							<div
 								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
@@ -117,7 +117,7 @@
 		{/if}
 	</div>
 
-	<div class="bg-jet relative flex h-36 w-full items-center justify-center rounded p-4 text-white">
+	<div id="textbox" class="bg-jet relative flex w-full items-center justify-center rounded p-4 text-white">
 		<div class="w-full grid grid-cols-5 items-center justify-center gap-8 align-middle">
 			<button class="mr-6 rotate-180 backbutton" on:click={back}>
 				<img src="/img/svg/dialog-arrow.svg" alt="Go Back" class="h-14 w-14" draggable="false" />
@@ -155,5 +155,10 @@
 
 	.forwardbutton:active {
 		transform: scale(1.2) translateX(25px);
+	}
+
+	#textbox {
+		height: fit-content;
+  		min-height: 9rem;
 	}
 </style>

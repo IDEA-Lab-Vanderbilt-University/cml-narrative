@@ -92,9 +92,21 @@
 <div id="popover" bind:this={popoverReference} class={popoverData.showTour ? 'block' : 'hidden'}>
 	<div data-popper-arrow id="arrow" />
 	<div
-		class="hud-red-blue-border z-50 mr-3 max-w-xs break-words  rounded-lg border-2 border-blue-700 bg-teal-900 bg-opacity-70 px-2 py-3 text-left font-mono text-lg leading-normal text-white no-underline bg-blend-darken"
+		class="hud-red-blue-border z-50 mr-3 max-w-xs break-words rounded-lg border-2 border-blue-700 bg-teal-900 bg-opacity-70 px-2 py-3 text-left font-mono text-lg leading-normal text-white no-underline bg-blend-darken"
 		in:fade
 		out:fade>
 		{popoverData.message}
 	</div>
 </div>
+
+<style>
+	#popover div.hud-red-blue-border {
+		position: absolute;
+		width: 50vw;
+	}
+
+	#popover {
+		position: fixed;
+		z-index: 50;
+	}
+</style>

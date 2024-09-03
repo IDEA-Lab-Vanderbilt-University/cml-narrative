@@ -10,9 +10,7 @@
  
 --->
 <script lang="ts">
-	import { Assets } from '$lib/utils/Assets';
-
-	export let profile: {};
+	export let profile: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[]};
 </script>
 
 <div class="flex h-full w-full flex-col px-6 py-12">
@@ -20,12 +18,12 @@
 	<div class="flex h-full items-center space-x-3">
 		<div class="w-1/3 space-y-10">
 			<div class="flex flex-col text-center ">
-				<p class="font-mono text-3xl text-white">SPOT Rank</p>
-				<p class="text-white">{profile.rank}</p>
+				<p class="font-mono text-xl text-white">SPOT Rank</p>
+				<p class="text-white text-3xl">{profile.rank}</p>
 			</div>
 			<div class="flex flex-col text-center">
-				<p class="font-mono text-3xl text-white">Favorite Badge</p>
-				<p class="text-white">{profile.favoriteBadge}r</p>
+				<p class="font-mono text-xl text-white">Favorite Badge</p>
+				<p class="text-white text-3xl">{profile.favoriteBadge}</p>
 			</div>
 		</div>
 		<div class="flex h-full w-1/3 items-center justify-center px-24">

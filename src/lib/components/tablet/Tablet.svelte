@@ -24,8 +24,10 @@
 	 * If the store has a href, then we can assume that the powerdown button should
 	 * be enabled. Then, we will adjust the css properties of the powerdown button to enable user
 	 * interaction.
+	 * 
+	 * If a function is provided, then we will call that function instead.
 	 */
-	let powerDown: string | void;
+	let powerDown: string | Function | void;
 
 	$: {
 		powerDown = $tabletPowerNavigation.href;
@@ -38,8 +40,10 @@
 	const handlePowerDown = () => {
 		console.log('powerdown');
 
-		if (powerDown != undefined) {
+		if (powerDown != undefined && typeof powerDown === 'string') {
 			goto(powerDown);
+		} else if (powerDown != undefined && typeof powerDown === 'function') {
+			powerDown();
 		} else {
 			console.warn('Navigation not permitted at this time!');
 		}
@@ -50,12 +54,14 @@
 	const showSettings = () => {
 		tabletSettings?.show();
 	};
+
+	export let showMeter: boolean = true;
 </script>
 
 <SettingsModal bind:this={tabletSettings}/>
 
-<div class="h-screen w-screen bg-dark-navy p-7 ">
-	<div class=" flex h-full w-full flex-col rounded-lg">
+<div class="h-full w-full bg-dark-navy p-7 ">
+	<div class="flex h-full w-full flex-col rounded-lg">
 		<div class="tabletHeader flex h-fit w-full justify-between p-4 font-mokoto">
 			<div class="flex items-center space-x-3 align-middle">
 				<p class="text-5xl font-bold text-white">S.P.O.T</p>
@@ -69,7 +75,7 @@
 					<div class="grid-background h-full w-full">
 						<slot />
 					</div>
-					<div class="absolute inset-0 z-10 ml-auto flex  h-fit w-1/6 items-start justify-end p-2">
+					<div class="absolute inset-0 z-10 ml-auto flex  h-fit w-1/6 items-start justify-end p-2 {showMeter? '' : 'hidden'}">
 						<MegaJoulesMeter amount={$megaJoulesMeter} />
 					</div>
 				</div>
@@ -81,7 +87,7 @@
 			</button>
 			<button
 				id="tablet-power-button"
-				class={`${(powerDown == undefined) ? 'cursor-not-allowed opacity-60 hidden' : ''} h-20 w-20`}
+				class={`${(powerDown == undefined) ? 'cursor-not-allowed powerDown-disabled' : ''} h-20 w-20`}
 				on:click={handlePowerDown}>
 				<img src="/img/svg/power-button.svg" alt="" />
 			</button>
@@ -92,11 +98,23 @@
 
 <style>
 	.tabletHeader {
-		pointer-events: none;
 		user-select: none;
 	}
 
 	.hidden {
 		display: none;
+	}
+
+	.powerDown-disabled {
+		filter: saturate(50%) brightness(30%);
+		cursor: not-allowed;
+	}
+
+	#tablet-actions img {
+		pointer-events: none;
+	}
+
+	.grid-background {
+		overflow: hidden;
 	}
 </style>

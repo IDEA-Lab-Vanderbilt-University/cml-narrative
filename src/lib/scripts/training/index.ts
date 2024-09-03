@@ -67,16 +67,16 @@ const script: Script = {
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/computer/computer_l0_s73.wav'
 		},
-		{
-			id: 4,
-			speakers: ['Agent Spark'],
-			dialog:
-				'It can be tricky... On your SPOT Tablet, tell us which technologies you think are helpful or harmful.',
-			avatars: ['/img/characters/agent-spark/spark_unsure_2.png'],
-			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/agent_spark_and_computer/computer_l0_s74_and_agent_spark.wav',
-			pos: 'left'
-		},
+		// {
+		// 	id: 4,
+		// 	speakers: ['Agent Spark'],
+		// 	dialog:
+		// 		'It can be tricky... On your SPOT Tablet, tell us which technologies you think are helpful or harmful.',
+		// 	avatars: ['/img/characters/agent-spark/spark_unsure_2.png'],
+		// 	background: '/img/backgrounds/captain_office.jpg',
+		// 	audio: '/audio/level0/agent_spark_and_computer/computer_l0_s74_and_agent_spark.wav',
+		// 	pos: 'left'
+		// },
 		{
 			id: 6,
 			speakers: ['Agent Spark'],
@@ -169,6 +169,16 @@ const script: Script = {
 		},
 		{
 			id: 15,
+			speakers: ['Agent Gear'],
+			dialog:
+				'One more thing before you go. We need to know more about what you think by answering a few questions. Open your tablet at the top of your screen and complete the survey to tell us more about you.',
+			avatars: ['/img/characters/agent-gear/vanilla_talking.png'],
+			background: '/img/backgrounds/captain_office.jpg',
+			audio: '/audio/level0/agent_gear/agent_gear_l0s103.wav',
+			pos: 'left'
+		},
+		{
+			id: 16,
 			speakers: ['Agent Spark', 'Captain Storm'],
 			dialog: `WAHOOO! Yay, ${agent.agentName}!`,
 			avatars: [
@@ -180,7 +190,7 @@ const script: Script = {
 			pos: 'normal'
 		},
 		{
-			id: 16,
+			id: 17,
 			speakers: ['Captain Storm'],
 			dialog:
 				'Congratulations, you have earned your Agent-in-Training badge! You are now an official SPOT Agent! Check your SPOT tablet to see your new badge!',
@@ -198,16 +208,6 @@ const script: Script = {
 			audio: '/audio/level0/agent_gear/agent_gear_l0s102.wav',
 			pos: 'right'
 		},
-		{
-			id: 19,
-			speakers: ['Agent Gear'],
-			dialog:
-				'One more thing before you go. We need to know more about what you think by answering a few questions. Open your tablet at the top of your screen and complete the survey to tell us more about you.',
-			avatars: ['/img/characters/agent-gear/vanilla_talking.png'],
-			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/agent_gear/agent_gear_l0s103.wav',
-			pos: 'left'
-		}
 	],
 	length: 19
 };

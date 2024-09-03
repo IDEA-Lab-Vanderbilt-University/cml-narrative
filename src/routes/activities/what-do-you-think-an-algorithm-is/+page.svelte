@@ -31,10 +31,10 @@
 	const handleSubmit = async () => {
 		try {
 			await DataService.Data.submitFreeResponse('algorithm', response);
-			message = 'Algorithm text response was recorded successfully!';
+			message = 'Response recorded successfully!';
 			isSuccess = true;
 		} catch (error) {
-			message = 'Algorithm text response failed! Please try again.';
+			message = 'Response failed! Please try again.';
 			isSuccess = false;
 			console.error("Error submitting algorithm text response: ", error);
 		}

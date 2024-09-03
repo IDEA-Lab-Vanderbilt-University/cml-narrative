@@ -112,6 +112,9 @@
 			} else {
 				// Advance to the next question
 				questionIndex += 1;
+
+				// Reset the SurveyOption elements
+				resetButtons();
 			}
 		} else {
 			// User has not selected a response
@@ -119,12 +122,20 @@
 		}
 	};
 
+	const resetButtons = () => {
+		strongAgreeElement?.reset();
+		agreeElement?.reset();
+		neutralElement?.reset();
+		disagreeElement?.reset();
+		strongDisagreeElement?.reset();
+	};
+
 	const getUpdatedProgress = (): UserProgress => {
 		return {
 			level: 0,
 			levelLabel: 'level-zero',
 			subLevel: 1,
-			subLevelLabel: '/training/outro?page=1',
+			subLevelLabel: '/training?page=13',
 			lastUpdated: new Date()
 		};
 	};
@@ -136,6 +147,14 @@
 		});
 	};
 
+	var nextButton: HTMLButtonElement | void;
+
+	var strongAgreeElement: SurveyOption | void;
+	var agreeElement: SurveyOption | void;
+	var neutralElement: SurveyOption | void;
+	var disagreeElement: SurveyOption | void;
+	var strongDisagreeElement: SurveyOption | void;
+
 	/**
 	 * This function is called when a SurveyOption is clicked. The proper survey response should be passed in
 	 * as parameter. Then, that response is saved to the current questionsAndResponse object
@@ -143,6 +162,7 @@
 	 * @param response survey response selection
 	 */
 	const handleSelection = (response: string) => {
+		resetButtons();
 		// @ts-ignore
 		questionsAndResponse[questionIndex].response = response;
 	};
@@ -150,9 +170,16 @@
 	const onFeedbackClose = () => {
 		showFeedbackModal = false;
 		if (isSuccess) {
-			goto('/training/outro?page=1');
+			goto('/training?page=14');
 		}
 	};
+
+	// Disable the next button until a response is selected
+	$: {
+		if (nextButton != undefined) {
+			nextButton.disabled = questionsAndResponse[questionIndex].response == null;
+		}
+	}
 </script>
 
 <Tablet>
@@ -166,22 +193,42 @@
 			<p class="text-center text-3xl text-white">{questionsAndResponse[questionIndex].question}</p>
 		</div>
 		<div class="hud-red-blue-border flex w-3/4 flex-col space-y-4 p-4 text-3xl">
-			<SurveyOption
-				emoji="😃"
-				response="Strongly Agree"
-				on:click={() => handleSelection('Strongly Agree')} />
-			<SurveyOption emoji="🙂" response="Agree" on:click={() => handleSelection('Agree')} />
-			<SurveyOption emoji="😐" response="Neutral" on:click={() => handleSelection('Neutral')} />
-			<SurveyOption emoji="🙁" response="Disagree" on:click={() => handleSelection('Disagree')} />
-			<SurveyOption
-				emoji="☹️"
-				response="Strongly Disagree"
-				on:click={() => handleSelection('Strongly Disagree')} />
+			<SurveyOption emoji="😃" response="Strongly Agree" on:click={() => handleSelection('Strongly Agree')} bind:this={strongAgreeElement} />
+			<SurveyOption emoji="🙂" response="Agree" on:click={() => handleSelection('Agree')} bind:this={agreeElement} />
+			<SurveyOption emoji="😐" response="Neutral" on:click={() => handleSelection('Neutral')} bind:this={neutralElement} />
+			<SurveyOption emoji="🙁" response="Disagree" on:click={() => handleSelection('Disagree')} bind:this={disagreeElement} />
+			<SurveyOption emoji="☹️" response="Strongly Disagree" on:click={() => handleSelection('Strongly Disagree')} bind:this={strongDisagreeElement} />
 		</div>
 		<div class="flex w-full items-end justify-end">
 			<button
-				class="rounded-xl bg-blue-300 px-4 py-2 text-3xl font-bold text-black"
-				on:click={getNextQuestion}>Next</button>
+				class="next-button rounded-xl bg-blue-300 px-4 py-2 text-3xl font-bold text-black"
+				on:click={getNextQuestion}
+				bind:this={nextButton}>Next</button>
 		</div>
 	</div>
 </Tablet>
+
+
+<style>
+	.next-button {
+		transition: all 0.2s ease-in-out;
+	}
+
+	.next-button:hover {
+		transform: scale(1.1);
+	}
+
+	.next-button:active {
+		transform: scale(1.2);
+	}
+
+	.next-button:disabled {
+		cursor: not-allowed;
+		filter: grayscale(0.5) brightness(0.5);
+	}
+
+	.next-button:disabled:hover {
+		transform: none;
+	}
+
+</style>

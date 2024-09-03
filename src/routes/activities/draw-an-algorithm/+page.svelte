@@ -27,7 +27,7 @@
 			level: 0,
 			levelLabel: 'level-zero',
 			subLevel: 1,
-			subLevelLabel: '/training?page=12',
+			subLevelLabel: '/training?page=10',
 			lastUpdated: new Date()
 		};
 	};
@@ -72,7 +72,7 @@
 	};
 
 	const onSubmit = () => {
-		goto('/training?page=11');
+		goto('/training?page=10');
 	};
 </script>
 
