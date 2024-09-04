@@ -56,5 +56,7 @@ export interface Line {
 	 */
 	audio?: string;
 
-	pos?: 'left' | 'right' | 'normal';
+	pos?: 'left' | 'right' | 'normal' | 'center';
+
+	size?: 'normal' | 'full';
 }

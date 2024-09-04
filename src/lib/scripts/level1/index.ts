@@ -18,7 +18,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog:
                 'All that time travel made me hungry! Let\'s see what they have to eat here. I hope in 2075 they still have pizza!',
-            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level1/1.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s2.wav',
             pos: 'left'
@@ -39,7 +39,7 @@ const script: Script = {
             dialog:
                 'Welcome! Please have a seat and a server will be with you shortly.',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level1/3.png',
+            background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s4.wav',
             pos: 'left'
         },
@@ -48,14 +48,25 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog:
                 'Wow, there are no humans working here! This is the first technology we can look into!',
-            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level1/4.png',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
+            background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s5.wav',
             pos: 'right'
-        }
+        },
+        {
+            id: 6,
+            speakers: ['Bot Buddy'],
+            dialog:
+                'Delicious pizza technology...',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-pizza.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s6.wav',
+            pos: 'center',
+            size: 'full',
+        },
 
 	],
-	length: 5
+	length: 7
 };
 
 export default script;
