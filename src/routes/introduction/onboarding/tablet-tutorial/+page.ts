@@ -26,13 +26,14 @@ export const load = (({ params, url }) => {
 	 * The XXXX should be a number. We use this to determine what line of the script should be
 	 * returned to the user.
 	 */
-	const page = url.searchParams.get('page');
+	const page = Number.parseInt(url.searchParams.get('page') ?? '0');
 
 	// Check to determine if the page is greater than one and less than the amount of lines in
 	// the given script segment. If the request goes out of bounds, a 404 occurs
 	if (page >= 1 && page <= script.length && page != null) {
 		return {
 			line: script.lines[page - 1],
+			lineNumber: Number(page),
 			length: script.length
 		};
 	}
