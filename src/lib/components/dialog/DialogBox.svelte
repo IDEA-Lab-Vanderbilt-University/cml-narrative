@@ -6,7 +6,7 @@
 	 */
 	import type { Line } from '$lib/types/Script';
 	import { defaultSettings, type Settings } from '$lib/types/Settings';
-	import { settingsStore } from '$lib/utils/stores/store';
+	import { settingsStore, tabletModalActive } from '$lib/utils/stores/store';
 	import typewriter from '$lib/utils/typewriter';
 
 	import { createEventDispatcher } from 'svelte';
@@ -24,7 +24,9 @@
 	let dialogueParagraph: HTMLParagraphElement;
 
 	var currentTypewriter: NodeJS.Timer;
-	var lockNavigation: boolean = true;
+	var isTyping: boolean = true;
+	var tabletUp: boolean = false;
+	var navigationLocked: boolean = false;
 
 	$:{ 
 		if(dialogueParagraph != undefined) {
@@ -34,18 +36,30 @@
 			}
 
 			if(line != undefined && line.dialog != undefined && line.dialog.length > 0) {
-				lockNavigation = true;
+				isTyping = true;
 				currentTypewriter = typewriter(dialogueParagraph, line.dialog, Number.parseInt((settings.textPeriod ?? defaultSettings.textPeriod).toString()), 0, () => {
-					lockNavigation = false;
+					isTyping = false;
 				});
 			} else {
-				lockNavigation = false;
+				isTyping = false;
 			}
 		}
 	}
 
+	tabletModalActive.subscribe(value => {
+		tabletUp = value;
+	});
+
+	$:{ 
+		if(isTyping || tabletUp) {
+			navigationLocked = true;
+		} else {
+			navigationLocked = false;
+		}
+	}
+
 	const back = () => {
-		if (lockNavigation) return;
+		if (navigationLocked) return;
 
 		dispatch('dialogEvent', {
 			state: NavigationDirection.backward
@@ -54,7 +68,7 @@
 
 	/** Dispatch the forward dialogEvent */
 	const forward = () => {
-		if (lockNavigation) return;
+		if (navigationLocked) return;
 
 		dispatch('dialogEvent', {
 			state: NavigationDirection.forward
@@ -118,7 +132,7 @@
 			<div class="center">
 				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}  size={line.size} />
 			</div>	
-			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+			<div class=" bg-peach absolute -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 				{line.speakers[0]}
 			</div>
 		{/if}
