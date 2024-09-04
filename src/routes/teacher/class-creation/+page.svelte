@@ -7,7 +7,6 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import { studentClassStore } from '$lib/utils/stores/store';
 	import DataService from '$lib/utils/DataService';
-	import { v4 as uuidv4 } from 'uuid';
 
 	// @ts-ignore
 	const { open } = getContext('simple-modal');
@@ -17,7 +16,7 @@
 	let showFeedbackModal = false;
 
 	var manualForm: Student = {
-		id: uuidv4(),
+		id: 'uuidv4()',
 		firstName: '',
 		lastName: '',
 		email: ''
@@ -35,7 +34,7 @@
 
 		// Clear form data
 		manualForm = {
-			id: uuidv4(),
+			id: 'uuidv4()',
 			firstName: '',
 			lastName: '',
 			email: ''
@@ -115,8 +114,8 @@
 		</div>
 
 		{#if showManual}
-			<div class="mt-8 flex flex-col  space-y-4 rounded bg-gray-100 p-3 shadow">
-				<div class="flex space-x-2">
+			<div class="mt-8 flex flex-col space-y-4 items-center justify-center">
+				<div class="flex w-3/4 space-x-2 rounded bg-gray-100 p-3 shadow">
 					<!-- <input
 						type="text"
 						placeholder="ID"
@@ -125,17 +124,17 @@
 					<input
 						type="text"
 						placeholder="First name"
-						class="input input-bordered w-full max-w-xs"
+						class="input input-bordered w-1/4"
 						bind:value={manualForm.firstName} />
 					<input
 						type="text"
 						placeholder="Last name"
-						class="input input-bordered w-full max-w-xs"
+						class="input input-bordered w-1/4"
 						bind:value={manualForm.lastName} />
 					<input
 						type="text"
 						placeholder="Email"
-						class="input input-bordered w-full max-w-xs"
+						class="input input-bordered w-1/3"
 						bind:value={manualForm.email} />
 					<div class="ml-auto">
 						<button class="btn btn-primary" on:click={addStudentManually}>Add student</button>
@@ -144,26 +143,31 @@
 			</div>
 		{/if}
 
-		<table class="mt-8 w-full space-y-4 rounded bg-blue-50 shadow">
-			<tr class="text-left">
-				<!-- <th class="px-5 py-5">ID</th> -->
-				<th class="px-5 py-5">Name</th>
-				<th class="py-5">Email</th>
-				<th class="w-1/12 py-5">Action</th>
-			</tr>
-
-			{#each $studentClassStore as student}
-				<tr class="py-4 text-lg">
-					<!-- <td class="px-5">{student.id}</td> -->
-					<td>{student.firstName} {student.lastName}</td>
-					<td>{student.email}</td>
-					<td
-						><button
-							on:click={() => removeStudent(student.id)}
-							class="rounded-md bg-red-500 px-4 py-1">x</button
-						></td>
+		<div class="mt-8 flex items-center justify-center">
+			<table class="w-3/4 space-y-4 rounded bg-blue-50 shadow">
+				<tr class="text-left">
+					<!-- <th class="px-5 py-5">ID</th> -->
+					<th class="w-1/12 px-5"><input type="checkbox" class="checkbox checkbox-primary" /></th>
+					<th class="w-5/12 px-5 py-5">Name</th>
+					<th class="w-5/12 py-5">Email</th>
+					<th class="w-1/12 py-5">Action</th>
 				</tr>
-			{/each}
-		</table>
+
+				{#each $studentClassStore as student}
+					<tr class="py-4 text-lg">
+						<td class="w-1/12 px-5 text-left"><input type="checkbox" class="checkbox checkbox-primary" /></td>
+						<!-- <td class="px-5">{student.id}</td> -->
+						<td class="w-2/6 px-5">{student.firstName} {student.lastName}</td>
+						<td class="w-2/6">{student.email}</td>
+						<td class="w-1/6">
+							<button
+								on:click={() => removeStudent(student.id)}
+								class="rounded-md bg-red-500 px-4 py-1">x
+							</button>
+						</td>
+					</tr>
+				{/each}
+			</table>
+		</div>
 	</div>
 </Tablet>
