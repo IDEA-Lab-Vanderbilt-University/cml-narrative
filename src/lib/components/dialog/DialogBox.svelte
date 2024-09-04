@@ -94,7 +94,7 @@
 			<div class="flex w-full items-end justify-between align-bottom">
 				{#each line.avatars as avatar, i}
 					<div class="mr-14 self-end">
-						<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass="relative -bottom-10 z-20" />
+						<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass="relative -bottom-10 z-20" size={line.size}  />
 						{#if line.speakers[i]}
 							<div
 								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
@@ -108,9 +108,16 @@
 			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 				{line.speakers[0]}
 			</div>
-			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}/>
+			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} />
 		{:else if line.pos == 'left'}
-			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}/>
+			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} />
+			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+				{line.speakers[0]}
+			</div>
+		{:else if line.pos == 'center'}
+			<div class="center">
+				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}  size={line.size} />
+			</div>	
 			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 				{line.speakers[0]}
 			</div>
@@ -160,5 +167,12 @@
 	#textbox {
 		height: fit-content;
   		min-height: 9rem;
+	}
+
+	.center {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 	}
 </style>

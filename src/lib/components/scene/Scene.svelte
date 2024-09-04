@@ -23,7 +23,7 @@
 <div class="flex h-screen w-full items-center justify-center bg-gray-200 bg-cover">
 	<div
 		class={`relative z-50 h-full w-full  bg-cover ${darken ? 'brightness-40' : ''}`}
-		style={`background-image: url('${background}');`}>
+		style={`background-image: url('${background}'); background-size: cover; background-position: center; background-repeat: no-repeat;`}>
 		<div class="z-60 h-full w-full ">
 			<slot name="content" />
 		</div>
