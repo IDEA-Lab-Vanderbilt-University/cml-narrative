@@ -4,6 +4,7 @@
 	import { onMount } from "svelte";
 	import Tablet from "../tablet/Tablet.svelte";
 	import ProfilesApp from "../tablet/profiles/ProfilesApp.svelte";
+	import { tabletModalActive } from "$lib/utils/stores/store";
 
     export let hidden = true;
 
@@ -13,8 +14,10 @@
     $: {
         if (hidden) {
             tabletDiv?.classList.add("hidden");
+            tabletModalActive.set(false);
         } else {
             tabletDiv?.classList.remove("hidden");
+            tabletModalActive.set(true);
         }
     }
 
