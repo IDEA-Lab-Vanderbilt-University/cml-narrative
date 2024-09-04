@@ -5,42 +5,11 @@
 	import { goto } from '$app/navigation';
 	import WarpSpeed from '$lib/components/effects/warpspeed';
 
-	let selectedMonth: string = '';
-	let selectedDay: string = '';
-	let selectedYear: string = '';
-	let selectedTime: string = '';
-
-	const months = [
-		'JAN',
-		'FEB',
-		'MAR',
-		'APR',
-		'MAY',
-		'JUN',
-		'JUL',
-		'AUG',
-		'SEP',
-		'OCT',
-		'NOV',
-		'DEC'
-	];
-
 	let warpEffect: WarpSpeed | null = null;
 
 	onMount(() => {
-		selectedMonth = months[0]; // Set the initial selected month
+		energyText?.style.setProperty('text-shadow', `0 0 10px rgba(255, 255, 0, 1)`);
 	});
-
-	let showDropdown = false;
-
-	function toggleDropdown() {
-		showDropdown = !showDropdown;
-	}
-
-	function selectMonth(month: string) {
-		selectedMonth = month;
-		showDropdown = false;
-	}
 
 	let destDate = new Date();
 	destDate.setFullYear(2075);
@@ -83,8 +52,9 @@
 				warpEffect.STAR_COLOR = `rgba(255, 255, 255, ${warpFactor * 0.5 + 0.5})`; 
 			}	
 
-			let energyColor = Math.round((energy / 1200) * 200) + 55;
-			energyText?.style.setProperty('color', `rgb(${energyColor}, ${energyColor}, ${energyColor})`);
+			let energyColor = Math.round((energy / 1200) * 155) + 100;
+			energyText?.style.setProperty('color', `rgb(${energyColor}, ${energyColor}, 0)`);
+			energyText?.style.setProperty('text-shadow', `0 0 rgba(${energyColor}, ${energyColor}, 0, 1)`);
 
 			presentDate.setTime(presentDate.getTime() + speed);
 			
@@ -147,11 +117,11 @@
 		background-color: #a0a0a0;
 	}
 
-	.launchbutton:hover {
+	.launchbutton:enabled:hover {
 		transform: scale(1.05);
 	}
 
-	.launchbutton:active {
+	.launchbutton:enabled:active {
 		transform: scale(0.95);
 	}
 
@@ -165,6 +135,8 @@
 		font-size: 3vh;
 		line-height: 3vh;
 		vertical-align: middle;
+		color: yellow;
+		animation: pulseglowaddon 2.5s infinite;
 	}
 
 	#timeTravelStuff {
