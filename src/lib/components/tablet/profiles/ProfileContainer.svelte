@@ -29,7 +29,7 @@
 		<div class="flex h-full w-1/3 items-center justify-center px-24">
 			<!-- TODO: Make this look more like the specifications -->
 			<div
-				class="flex w-full items-center justify-center rounded-full border-4 border-blue-300 bg-white p-9 shadow-lg shadow-blue-200" id="profilepiccontainer" style="background: url('{profile.img}') white bottom center no-repeat">
+				class="flex w-full items-center justify-center rounded-full border-4 border-blue-300 bg-white p-9 shadow-lg shadow-blue-200" id="profilepiccontainer" style="background: url('{profile.img}') white bottom center no-repeat; background-size: auto 90%;">
 			</div>
 		</div>
 		<div class="flex h-full w-1/3 flex-col space-y-6">
@@ -53,5 +53,6 @@
 		background-position-y: bottom;
 		background-position-x: center;
 		background-repeat: no-repeat;
+		background-size: contain;
 	}
 </style>
