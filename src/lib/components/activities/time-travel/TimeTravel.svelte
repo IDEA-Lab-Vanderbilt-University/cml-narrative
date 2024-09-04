@@ -104,7 +104,7 @@
 				setTimeout(() => {
 					warpEffect?.destroy();
 					warpEffect = null;
-					goto('/level1');
+					goto('/level1?page=1');
 				}, 1500);
 			}
 

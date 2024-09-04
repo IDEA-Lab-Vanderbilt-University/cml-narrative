@@ -34,6 +34,7 @@ export const load = (({ params, url }) => {
 	if (page >= 1 && page <= script.length && page != null) {
 		return {
 			line: script.lines[page - 1],
+			lineNumber: Number(page),
 			length: script.length
 		};
 	}

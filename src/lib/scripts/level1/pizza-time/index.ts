@@ -1,0 +1,1 @@
+import type { Script } from '$lib/types/Script';

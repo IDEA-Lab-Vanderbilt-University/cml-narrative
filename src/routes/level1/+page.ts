@@ -1,9 +1,9 @@
 /**
- /src/routes/introduction/welcome/+page.ts
+ /src/routes/introduction/+page.ts
  +page.ts
  cml-narrative
  
- Created by Ian Thompson on January 10th 2023
+ Created by Ian Thompson on January 7th 2023
  icthomp@g.clemson.edu
  
  https://idealab.sites.clemson.edu
@@ -14,7 +14,7 @@ import type { PageLoad } from './$types';
 
 import { error } from '@sveltejs/kit';
 
-import script from '$lib/scripts/introduction/welcome';
+import script from '$lib/scripts/level1/index';
 
 export const load = (({ params, url }) => {
 	/**
