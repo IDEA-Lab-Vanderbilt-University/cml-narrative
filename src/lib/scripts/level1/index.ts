@@ -13,8 +13,49 @@ const script: Script = {
 			audio: '/audio/level1/bot_buddy/bot_buddy_l1s1.wav',
 			pos: 'left'
 		},
+        {
+            id: 2,
+            speakers: ['Bot Buddy'],
+            dialog:
+                'All that time travel made me hungry! Let\'s see what they have to eat here. I hope in 2075 they still have pizza!',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            background: '/img/backgrounds/level1/1.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s2.wav',
+            pos: 'left'
+        },
+        {
+            id: 3,
+            speakers: ['Bot Buddy'],
+            dialog:
+                'Mmmmmm! Pizza!',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            background: '/img/backgrounds/level1/2.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s3.wav',
+            pos: 'left'
+        },
+        {
+            id: 4,
+            speakers: ['Pizza Host Bot', 'Bot Buddy'],
+            dialog:
+                'Welcome! Please have a seat and a server will be with you shortly.',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
+            background: '/img/backgrounds/level1/3.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s4.wav',
+            pos: 'left'
+        },
+        {
+            id: 5,
+            speakers: ['Bot Buddy'],
+            dialog:
+                'Wow, there are no humans working here! This is the first technology we can look into!',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            background: '/img/backgrounds/level1/4.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s5.wav',
+            pos: 'right'
+        }
+
 	],
-	length: 1
+	length: 5
 };
 
 export default script;

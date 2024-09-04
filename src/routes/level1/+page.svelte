@@ -77,8 +77,7 @@
 				goto(`/level1?page=${line.id + 1}`);
 			}
 		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			// You can't go back in time, you don't have the megajoules
-            //goto(`/introduction/bot-buddy?page=${line.id - 1}`);
+			goto(`/level1?page=${line.id - 1}`);
 		}
 	};
 
