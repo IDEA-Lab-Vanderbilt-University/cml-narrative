@@ -17,3 +17,9 @@
 <div class="mr-14 self-end avatar {avatarClass}">
     <img src={avatar} alt={speaker} style={extraStyle} />
 </div>
+
+<style>
+    .avatar img {
+        max-height: 35vh;
+    }
+</style>

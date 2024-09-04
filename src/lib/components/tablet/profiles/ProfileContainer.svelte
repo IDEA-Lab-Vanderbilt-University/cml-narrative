@@ -29,8 +29,7 @@
 		<div class="flex h-full w-1/3 items-center justify-center px-24">
 			<!-- TODO: Make this look more like the specifications -->
 			<div
-				class="flex w-full items-center justify-center rounded-full border-4 border-blue-300 bg-white p-9 shadow-lg shadow-blue-200">
-				<img src={profile.img} alt="" class="h-fit w-fit" />
+				class="flex w-full items-center justify-center rounded-full border-4 border-blue-300 bg-white p-9 shadow-lg shadow-blue-200" id="profilepiccontainer" style="background: url('{profile.img}') white bottom center no-repeat">
 			</div>
 		</div>
 		<div class="flex h-full w-1/3 flex-col space-y-6">
@@ -44,3 +43,15 @@
 		</div>
 	</div>
 </div>
+
+
+<style>
+	#profilepiccontainer {
+		width: 20vw;
+		height: 20vw;
+		background-color: white;
+		background-position-y: bottom;
+		background-position-x: center;
+		background-repeat: no-repeat;
+	}
+</style>

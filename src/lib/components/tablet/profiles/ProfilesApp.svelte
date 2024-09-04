@@ -35,7 +35,7 @@
 			favoriteBadge: 'Scratch Code Champion',
 			img: Assets.Characters.AgentSpark.talking,
 			interests: [
-				'Build computers and understand how they work',
+				'Build computers and learn how they work',
 				'Read sci-fi books',
 				'Play video games'
 			]
