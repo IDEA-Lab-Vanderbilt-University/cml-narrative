@@ -35,8 +35,8 @@
 		return {
 			level: 0,
 			levelLabel: 'level-one',
-			subLevel: 0,
-			subLevelLabel: '/level1?page=1',
+			subLevel: 1,
+			subLevelLabel: '/level1/pizza-time?page=1',
 			lastUpdated: new Date()
 		};
 	}
@@ -78,7 +78,7 @@
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
 	<div slot="content" class="h-full w-full"  bind:this={content}>
-		{#if line.id == 9}
+		{#if line.id == 15}
 			<div class="h-full w-full">
 				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade />
 			</div>
