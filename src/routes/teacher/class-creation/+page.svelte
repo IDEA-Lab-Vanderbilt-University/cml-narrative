@@ -7,6 +7,7 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import { studentClassStore } from '$lib/utils/stores/store';
 	import DataService from '$lib/utils/DataService';
+	import { v4 as uuidv4 } from 'uuid';
 
 	// @ts-ignore
 	const { open } = getContext('simple-modal');
@@ -16,13 +17,31 @@
 	let showFeedbackModal = false;
 
 	var manualForm: Student = {
-		id: 'uuidv4()',
+		id: uuidv4(),
 		firstName: '',
 		lastName: '',
 		email: ''
 	};
 
 	var showManual = false;
+
+	// selection management
+	let selectedStudents: Student[] = [];
+
+	function toggleAllSelections(isSelected: boolean) {
+		selectedStudents = isSelected ? [...$studentClassStore] : [];
+		console.log(selectedStudents);
+	}
+
+	function deleteSelectedStudents() {
+		$studentClassStore = $studentClassStore.filter(
+			(student) => !selectedStudents.includes(student)
+		);
+	}
+
+	function logSelectedStudents() {
+		console.log(selectedStudents);
+	}
 
 	const showAddManually = () => {
 		showManual = !showManual;
@@ -34,7 +53,7 @@
 
 		// Clear form data
 		manualForm = {
-			id: 'uuidv4()',
+			id: uuidv4(),
 			firstName: '',
 			lastName: '',
 			email: ''
@@ -92,7 +111,6 @@
 	const removeStudent = (id: string) => {
 		$studentClassStore = $studentClassStore.filter((student) => student.id !== id);
 	};
-
 </script>
 
 <svelte:head>
@@ -109,12 +127,12 @@
 			<button class="btn btn-secondary mx-5" on:click={showAddManually}>Add Manually</button>
 			<button class="btn btn-primary mx-5" on:click={clearStudents}>Clear Students</button>
 			<button class="btn btn-secondary mx-5" on:click={submitToDB}
-			>Register & Generate QR Codes</button>
+				>Register & Generate QR Codes</button>
 			<button class="btn btn-accent mx-5" on:click={generateAgentIDs}>Download QR Codes</button>
 		</div>
 
 		{#if showManual}
-			<div class="mt-8 flex flex-col space-y-4 items-center justify-center">
+			<div class="mt-8 flex flex-col items-center justify-center space-y-4">
 				<div class="flex w-3/4 space-x-2 rounded bg-gray-100 p-3 shadow">
 					<!-- <input
 						type="text"
@@ -147,7 +165,14 @@
 			<table class="w-3/4 space-y-4 rounded bg-blue-50 shadow">
 				<tr class="text-left">
 					<!-- <th class="px-5 py-5">ID</th> -->
-					<th class="w-1/12 px-5"><input type="checkbox" class="checkbox checkbox-primary" /></th>
+					<th class="w-1/12 px-5">
+						<input
+							type="checkbox"
+							class="checkbox-primary checkbox"
+							on:change={(e) => toggleAllSelections(e.target.checked)}
+							checked={$studentClassStore.length > 0 &&
+								selectedStudents.length === $studentClassStore.length} />
+					</th>
 					<th class="w-5/12 px-5 py-5">Name</th>
 					<th class="w-5/12 py-5">Email</th>
 					<th class="w-1/12 py-5">Action</th>
@@ -155,14 +180,23 @@
 
 				{#each $studentClassStore as student}
 					<tr class="py-4 text-lg">
-						<td class="w-1/12 px-5 text-left"><input type="checkbox" class="checkbox checkbox-primary" /></td>
+						<td class="w-1/12 px-5 text-left">
+							<input
+								type="checkbox"
+								class="checkbox-primary checkbox"
+								bind:group={selectedStudents}
+								name={student.lastName}
+								value={student}
+								on:change={logSelectedStudents} />
+						</td>
 						<!-- <td class="px-5">{student.id}</td> -->
 						<td class="w-2/6 px-5">{student.firstName} {student.lastName}</td>
 						<td class="w-2/6">{student.email}</td>
 						<td class="w-1/6">
 							<button
 								on:click={() => removeStudent(student.id)}
-								class="rounded-md bg-red-500 px-4 py-1">x
+								class="rounded-md bg-red-500 px-4 py-1"
+								>x
 							</button>
 						</td>
 					</tr>
