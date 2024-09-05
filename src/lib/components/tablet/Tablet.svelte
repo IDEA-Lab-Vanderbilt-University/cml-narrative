@@ -60,7 +60,7 @@
 
 <SettingsModal bind:this={tabletSettings}/>
 
-<div class="h-full w-full bg-dark-navy p-7 ">
+<div class="h-full w-full bg-dark-navy p-7 z-50 absolute">
 	<div class="flex h-full w-full flex-col rounded-lg">
 		<div class="tabletHeader flex h-fit w-full justify-between p-4 font-mokoto">
 			<div class="flex items-center space-x-3 align-middle">

@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
+	import DefinitionModal from '$lib/components/modals/DefinitionModal.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import script from '$lib/scripts/introduction/script.js';
@@ -11,11 +12,7 @@
 	import { userDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
-	import { fade } from 'svelte/transition';
-
 	export let data;
-
-	const dispatch = createEventDispatcher();
 
 	let line: Line;
 
@@ -79,9 +76,7 @@
 	</div>
 	<div slot="content" class="h-full w-full"  bind:this={content}>
 		{#if line.id == 9}
-			<div class="h-full w-full">
-				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade />
-			</div>
+			<DefinitionModal title="Algorithm" definition="An algorithm is a set of step-by-step instruction for solving a problem or completing a task" on:click={() => { handleDialogEvent({detail: { state: NavigationDirection.forward}})}} />
 		{/if}
 		<TabletButton on:click={() => { 
 			const event  = new CustomEvent('showTablet', {
