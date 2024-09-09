@@ -38,7 +38,7 @@ const script: Script = {
             speakers: ['Pizza Host Bot', 'Bot Buddy'],
             dialog:
                 'Welcome! Please have a seat and a server will be with you shortly.',
-            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
+            avatars: ['/img/characters/level-1/host-bot.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s4.wav',
             pos: 'left'
