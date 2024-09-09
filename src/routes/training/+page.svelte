@@ -21,6 +21,8 @@
 	import Technology from '$lib/components/sequences/training/Technology.svelte';
 	import Training2 from '$lib/components/sequences/training/Training2.svelte';
 	import TrainingText from '$lib/components/sequences/training/TrainingText.svelte';
+	import Tablet from '$lib/components/tablet/Tablet.svelte';
+	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
 
 	export let data;
 
@@ -77,7 +79,7 @@
 				goto('/activities/what-do-you-think-machine-learning-is');
 			} else if (lineNumber == 13) {
 				goto('/training/post-survey');
-			} else if (lineNumber == 16) {
+			} else if (lineNumber == 17) {
 				goto('/training/outro?page=1');
 			} else {
 				goto(`/training?page=${lineNumber + 1}`);
@@ -113,14 +115,14 @@
 					</TrainingText>
 				{/if}
 			</ProjectorView>
+		{:else if lineNumber == 16}
+			<BadgeGetModal handleClick={handleNavigation.bind(null, NavigationDirection.forward)} />
 		{:else}
 			<div class="" />
 		{/if}
 	</div>
 	<div class="w-full" slot="dialog">
-		{#if lineNumber != 3}
-			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
-		{:else}
+		{#if lineNumber != 16}
 			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 		{/if}
 	</div>

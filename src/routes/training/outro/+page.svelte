@@ -64,7 +64,7 @@
 			if(line.id > 1) {
 				goto(`/training/outro?page=${line.id - 1}`);
 			} else {
-				goto('/training?page=16');
+				goto('/training?page=17');
 			}
 		} 
 	};
