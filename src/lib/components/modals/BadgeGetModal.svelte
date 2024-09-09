@@ -1,0 +1,53 @@
+<script lang="ts">
+	import Tablet from "../tablet/Tablet.svelte";
+
+    import type { UserData } from '$lib/types/UserData';
+    import { userDataStore } from '$lib/utils/stores/store';
+
+    export let handleClick: () => void;
+
+    let agent: UserData = {
+        name: {
+            first: '',
+            last: ''
+        },
+        age: 0,
+        interests: [],
+        avatarImg: '',
+        agentName: '',
+        email: '',
+        password: '',
+        progress: {
+            level: 0,
+            levelLabel: '',
+            subLevel: 0,
+            subLevelLabel: '',
+            lastUpdated: undefined
+        }
+    };
+
+    userDataStore.subscribe((value) => {
+        agent = value as UserData;
+    });
+
+</script>
+
+<Tablet>
+    <div class="text-center text-white text-3xl font-mokoto p-16">
+        Congratulations, Agent {agent.agentName}! <br/>
+        You have earned another badge!
+    </div>
+    <!--
+        <BadgeImage />
+    -->
+
+    <div class="flex justify-center">
+        <button class="btn btn-primary" on:click={handleClick}>
+            Close
+        </button>
+    </div>
+</Tablet>
+
+<style>
+
+</style>
