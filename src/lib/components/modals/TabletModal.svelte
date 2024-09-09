@@ -24,8 +24,16 @@
     
 </script>
 
-<div bind:this={tabletDiv} class="h-full w-full hidden">
+<div bind:this={tabletDiv} class="h-full w-full hidden lg:block right-size">
     <Tablet>
         <ProfilesApp handleClick={() => hidden = true} />
     </Tablet>
 </div>
+
+<style>
+    @media (max-height: 640px) {
+        .right-size {
+            display: none;
+        }
+    }    
+</style>

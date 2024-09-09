@@ -38,8 +38,9 @@
 </svelte:head>
 
 <Modal>
-	<TabletModal hidden bind:this={tabletModal}></TabletModal>
-	<div id="base-container" class="font-cantora hidden lg:block w-full h-full">
+	
+		<TabletModal hidden bind:this={tabletModal}></TabletModal>
+	<div class="right-size font-cantora hidden lg:block w-full h-full">
 		<TourWrapper>
 			<slot />
 		</TourWrapper>
@@ -56,14 +57,17 @@
 </Modal>
 
 <style>
-@media (max-height: 640px) {
-	#base-container {
-		display: none;
+	@media (max-height: 640px) {
+		.right-size {
+			display: none;
+		}
+	
+		#too-small {
+			vertical-align: middle;
+			display: table-cell;
+			text-align: center;
+			width: 100vw;
+		}
 	}
-
-	#too-small {
-		display: block;
-	}
-}
-
+	
 </style>
