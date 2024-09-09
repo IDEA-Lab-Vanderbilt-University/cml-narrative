@@ -37,6 +37,20 @@
 		$studentClassStore = $studentClassStore.filter(
 			(student) => !selectedStudents.includes(student)
 		);
+		selectedStudents = [];
+	}
+
+	function generateSelectedAgentIDs() {
+		try {
+			generateQRCodes(selectedStudents);
+			message = 'Agent IDs generated for selected students!';
+			isSuccess = true;
+		} catch (err) {
+			message = 'Error generating agent IDs';
+			isSuccess = false;
+			throw new Error('Error generating agent IDs');
+		}
+		showFeedbackModal = true;
 	}
 
 	function logSelectedStudents() {
@@ -125,10 +139,10 @@
 		<div class="my-5 flex w-full items-center justify-center">
 			<button class="btn btn-primary mx-5 my-5" on:click={openCSVModal}>Add by Upload</button>
 			<button class="btn btn-secondary mx-5" on:click={showAddManually}>Add Manually</button>
-			<button class="btn btn-primary mx-5" on:click={clearStudents}>Clear Students</button>
-			<button class="btn btn-secondary mx-5" on:click={submitToDB}
+			<!-- <button class="btn btn-primary mx-5" on:click={clearStudents}>Clear Students</button> -->
+			<button class="btn btn-accent mx-5" on:click={submitToDB}
 				>Register & Generate QR Codes</button>
-			<button class="btn btn-accent mx-5" on:click={generateAgentIDs}>Download QR Codes</button>
+			<!-- <button class="btn btn-accent mx-5" on:click={generateAgentIDs}>Download QR Codes</button> -->
 		</div>
 
 		{#if showManual}
@@ -173,9 +187,8 @@
 							checked={$studentClassStore.length > 0 &&
 								selectedStudents.length === $studentClassStore.length} />
 					</th>
-					<th class="w-5/12 px-5 py-5">Name</th>
-					<th class="w-5/12 py-5">Email</th>
-					<th class="w-1/12 py-5">Action</th>
+					<th class="w-2/6 px-5 py-5">Name</th>
+					<th class="w-2/6 py-5">Email</th>
 				</tr>
 
 				{#each $studentClassStore as student}
@@ -192,16 +205,25 @@
 						<!-- <td class="px-5">{student.id}</td> -->
 						<td class="w-2/6 px-5">{student.firstName} {student.lastName}</td>
 						<td class="w-2/6">{student.email}</td>
-						<td class="w-1/6">
-							<button
-								on:click={() => removeStudent(student.id)}
-								class="rounded-md bg-red-500 px-4 py-1"
-								>x
-							</button>
-						</td>
 					</tr>
 				{/each}
 			</table>
+
+			{#if selectedStudents.length > 0}
+				<div class="absolute bottom-4 left-4 flex flex-col space-y-2 items-start">
+					<button
+						class="rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-blue-600"
+						on:click={generateSelectedAgentIDs}>
+						Get QR Codes
+					</button>
+
+					<button
+						class="rounded-full bg-red-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-red-600"
+						on:click={deleteSelectedStudents}>
+						Delete
+					</button>
+				</div>
+			{/if}
 		</div>
 	</div>
 </Tablet>
