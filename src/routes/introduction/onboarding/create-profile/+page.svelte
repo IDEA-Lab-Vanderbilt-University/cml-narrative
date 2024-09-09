@@ -104,7 +104,22 @@
 			if(validateData()) {
 				goto(baseNavigationURL + (page + 1));
 			} else {
-				alert("please fill in the required data before moving to the next page")
+				switch (page) {
+					case 1:
+						alert("Please fill in your name before moving to the next page");
+						break;
+					case 2:
+						alert("Please fill in your age before moving to the next page");
+						break;
+					case 3:
+					case 4:
+					case 5:
+						alert("Please fill in your interests before moving to the next page");
+						break;
+					default:
+						alert("Please fill in the required data before moving to the next page");
+						break;
+				}
 			}
 			
 		}
@@ -131,7 +146,7 @@
 		if(validateData()) {
 			handleSubmit();
 		} else {
-			alert("please fill in the required data before moving to the next page")
+			alert("Please fill in an Agent Name before moving to the next page")
 		}
 	}
 
