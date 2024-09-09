@@ -47,8 +47,8 @@
 
 <style>
 	#profilepiccontainer {
-		width: 20vw;
-		height: 20vw;
+		width: calc(min(20vw, 20vh));
+		height: calc(min(20vw, 20vh));
 		background-color: white;
 		background-position-y: bottom;
 		background-position-x: center;
