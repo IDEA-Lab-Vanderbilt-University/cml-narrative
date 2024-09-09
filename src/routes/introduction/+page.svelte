@@ -81,10 +81,7 @@
 	<div class="w-full" slot="dialog">
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div
-			class=""
-			on:click={() => {
-				play(player);
-			}}>
+			class="">
 			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 		</div>
 	</div>
