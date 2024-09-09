@@ -16,6 +16,24 @@
         <img
             src="/img/icons/mobile-app.png"
             alt=""
-            class="h-24 {pulse? "animate-pulse" : ""} hover:animate-none" />
+            class="h-24 {pulse? "animate-pulse" : ""}" draggable="false" />
     </button>
 </div>
+
+<style>
+    button {
+        transition: all 0.3s;
+    }
+
+    button:hover {
+        transform: scale(1.05);
+    }
+
+    button:active {
+        transform: scale(0.95);
+    }
+
+    button img {
+        user-select: none;
+    }
+</style>

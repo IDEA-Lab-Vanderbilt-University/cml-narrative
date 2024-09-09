@@ -27,10 +27,12 @@
 	 * 
 	 * If a function is provided, then we will call that function instead.
 	 */
-	let powerDown: string | Function | void;
+	export let powerDown: string | Function | void = undefined;
 
 	$: {
-		powerDown = $tabletPowerNavigation.href;
+		if ($tabletPowerNavigation != undefined && $tabletPowerNavigation.href != undefined) {
+			powerDown = $tabletPowerNavigation.href;
+		} 
 	}
 
 	/**
