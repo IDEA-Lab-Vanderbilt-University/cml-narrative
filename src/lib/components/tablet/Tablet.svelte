@@ -112,8 +112,33 @@
 		cursor: not-allowed;
 	}
 
+	#tablet-actions {
+		height: 8vh;
+		display: flex;
+		justify-content: flex-end;
+		justify-items: center;
+		position:sticky;
+		bottom: 0;
+		width: 100%;
+		padding: 1vh;
+	}
+
 	#tablet-actions img {
 		pointer-events: none;
+		height: 7.5vh;
+	}
+
+	#tablet-actions button {
+		transition: all 0.3s;
+		align-self: center;
+	}
+
+	#tablet-actions button:hover {
+		transform: scale(1.05);
+	}
+
+	#tablet-actions button:active {
+		transform: scale(0.95);
 	}
 
 	.grid-background {

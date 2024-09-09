@@ -33,3 +33,11 @@
         <ProfilesApp handleClick={() => hidden = true} />
     </Tablet>
 </div>
+
+<style>
+    @media (max-height: 640px) {
+        .right-size {
+            display: none;
+        }
+    }    
+</style>
