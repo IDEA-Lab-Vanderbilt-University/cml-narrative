@@ -14,9 +14,13 @@
     $: {
         if (hidden) {
             tabletDiv?.classList.add("hidden");
+            tabletDiv?.classList.remove("lg:block");
+            tabletDiv?.classList.remove("right-size");
             tabletModalActive.set(false);
         } else {
             tabletDiv?.classList.remove("hidden");
+            tabletDiv?.classList.add("lg:block");
+            tabletDiv?.classList.add("right-size");
             tabletModalActive.set(true);
         }
     }
@@ -24,16 +28,8 @@
     
 </script>
 
-<div bind:this={tabletDiv} class="h-full w-full hidden lg:block right-size">
-    <Tablet>
+<div bind:this={tabletDiv} class="h-full w-full hidden">
+    <Tablet powerDown={() => hidden = true} >
         <ProfilesApp handleClick={() => hidden = true} />
     </Tablet>
 </div>
-
-<style>
-    @media (max-height: 640px) {
-        .right-size {
-            display: none;
-        }
-    }    
-</style>
