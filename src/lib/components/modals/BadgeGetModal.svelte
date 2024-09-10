@@ -41,11 +41,12 @@
         Congratulations, Agent {agent.agentName}! <br/>
         You have earned another badge!
     </div>
-    <div class="flex justify-center">
-        <Confetti />
+    <div class="flex justify-center">    
         <Badge name={badgeName} image={badgeImage} />
     </div>
-
+    <div class="flex justify-center">    
+        <Confetti x={[-2, 2]} y={[-0.5, 1.0]} amount={100} />
+    </div>
     <div class="flex justify-center">
         <button class="btn btn-primary" on:click={handleClick}>
             Close

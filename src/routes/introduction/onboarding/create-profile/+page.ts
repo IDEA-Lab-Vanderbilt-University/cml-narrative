@@ -25,7 +25,7 @@ export const load = (({ params, url }) => {
 	 * The XXXX should be a number. We use this to determine what line of the script should be
 	 * returned to the user.
 	 */
-	const page = url.searchParams.get('page');
+	const page = Number.parseInt(url.searchParams.get('page') ?? '0');
 
 	if (page >= 1 && page != null) {
 		return { page: Number(page) };

@@ -80,7 +80,7 @@ export const tabletModalActive = writable(false);
 
 export const tabletPowerNavigation = writable({
 	href: undefined,
-});
+} as { href: string | undefined });
 
 export const accessTokenStore = writable('');
 
