@@ -15,7 +15,7 @@
 
 <div class="flex h-full w-full flex-col">
 	<div class="z-10 h-9 w-full bg-gray-900" />
-	<div class="z-0 h-full" in:fly={{ y: -800, duration: 2000, delay: 200 }}>
+	<div class="z-0 h-full" in:fly|global={{ y: -800, duration: 2000, delay: 200 }}>
 		<div class="mx-8 h-4/5 rounded-sm border-4 border-b-0 border-t-0 border-black bg-white">
 			<slot />
 		</div>

@@ -18,8 +18,8 @@
 	<div
 		slot="content"
 		class="flex h-full items-center justify-center"
-		in:fly={{ y: 200, duration: 1000 }}
-		out:fly={{ y: 200, duration: 1000 }}>
+		in:fly|global={{ y: 200, duration: 1000 }}
+		out:fly|global={{ y: 200, duration: 1000 }}>
 		<div
 			class="flex w-fit flex-col items-center justify-center space-y-12 rounded-lg bg-gray-600 py-6 px-12 text-5xl text-white shadow-xl">
 			<img src="/img/logos/SPOT-dots.svg" alt="" class="h-24" />
