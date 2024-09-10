@@ -5,6 +5,7 @@
 	import Tablet from "../tablet/Tablet.svelte";
 	import ProfilesApp from "../tablet/profiles/ProfilesApp.svelte";
 	import { tabletModalActive } from "$lib/utils/stores/store";
+	import TabletMenu from "../tablet/TabletMenu.svelte";
 
     export let hidden = true;
 
@@ -25,12 +26,17 @@
         }
     }
 
+    let appMode = null as null | "profile" | "travelLog" | "badges";
     
 </script>
 
 <div bind:this={tabletDiv} class="h-full w-full hidden">
     <Tablet powerDown={() => hidden = true} >
-        <ProfilesApp handleClick={() => hidden = true} />
+        {#if appMode === "profile"}
+            <ProfilesApp handleClick={() => appMode = null} />
+        {:else}
+            <TabletMenu onSelect={(selection) => appMode = selection} />
+        {/if}
     </Tablet>
 </div>
 
