@@ -35,7 +35,7 @@
 
 	onDestroy(() => {
 		tourManager.remove(tour);
-		tabletPowerNavigation.set({});
+		tabletPowerNavigation.set({href: undefined});
 	});
 </script>
 
