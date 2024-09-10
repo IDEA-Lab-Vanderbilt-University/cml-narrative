@@ -170,7 +170,7 @@
 	{/if}
 	<button
 		class="absolute left-1/4 top-1/4"
-		out:fade
+		out:fade|global
 		on:click={() => {
 			dispatch('back');
 		}}>

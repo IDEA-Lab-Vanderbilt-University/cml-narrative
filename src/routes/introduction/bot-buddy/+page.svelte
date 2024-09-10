@@ -88,7 +88,7 @@
 	<div slot="content" class="h-full w-full"  bind:this={content}>
 		{#if line.id == 15}
 			<div class="h-full w-full">
-				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade />
+				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade|global />
 			</div>
 		{/if}
 		<TabletButton on:click={() => { 

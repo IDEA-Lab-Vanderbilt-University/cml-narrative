@@ -34,10 +34,10 @@
 <Tablet>
 <div class="flex h-full w-full flex-col  items-center justify-center">
 	<div class="space-y-4 text-center font-mokoto text-white">
-		<h2 class="text-5xl" in:fade={{ delay: 500 }}>WELCOME {student.firstName} {student.lastName}!</h2>
+		<h2 class="text-5xl" in:fade|global={{ delay: 500 }}>WELCOME {student.firstName} {student.lastName}!</h2>
 	</div>
 	<button
-		in:fade={{ delay: 1500 }}
+		in:fade|global={{ delay: 1500 }}
 		on:click={() => {
 			goto('/introduction?page=1');
 		}}

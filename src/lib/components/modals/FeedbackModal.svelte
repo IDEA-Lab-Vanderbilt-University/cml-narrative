@@ -23,8 +23,8 @@
 
 <!-- <div
 	class="flex h-full items-center justify-center"
-	in:fly={{ y: 200, duration: 1000 }}
-	out:fly={{ y: 200, duration: 1000 }}>
+	in:fly|global={{ y: 200, duration: 1000 }}
+	out:fly|global={{ y: 200, duration: 1000 }}>
 	<div
 		class="flex w-fit flex-col items-center justify-center space-y-12 rounded-lg bg-blue-700 px-12 py-6 text-white shadow-2xl drop-shadow-2xl">
         <button class="absolute top-0 right-0 mx-4 my-0 text-2xl" on:click={close}>×</button>
@@ -44,8 +44,8 @@
 	id="popup-modal"
 	tabindex="-1"
 	class="flex h-full items-center justify-center"
-	in:fly={{ y: 200, duration: 1000 }}
-	out:fly={{ y: 200, duration: 1000 }}>
+	in:fly|global={{ y: 200, duration: 1000 }}
+	out:fly|global={{ y: 200, duration: 1000 }}>
 	>
 	<div class="relative max-h-full w-full max-w-md p-4">
 		<div class="relative rounded-lg bg-blue-800 shadow">
