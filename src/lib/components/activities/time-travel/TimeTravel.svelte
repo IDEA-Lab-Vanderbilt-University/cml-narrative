@@ -4,6 +4,7 @@
 	import TimeRow from './TimeRow.svelte';
 	import { goto } from '$app/navigation';
 	import WarpSpeed from '$lib/components/effects/warpspeed';
+	import { fade } from 'svelte/transition';
 
 	let warpEffect: WarpSpeed | null = null;
 
@@ -85,22 +86,23 @@
 	}
 </script>
 
-<Tablet showMeter={false}>
-	<div id="timeTravelStuff">
-		<TimeRow date={presentDate} bind:this={presTimeRow} />
-		<span class="grid place-items-center text-white timelabel">PRESENT TIME</span>	
-		<TimeRow date={destDate} bind:this={destTimeRow}/>
-		<span class="grid place-items-center text-white timelabel">DESTINATION TIME</span>
-		<TimeRow />
-		<span class="grid place-items-center text-white timelabel">LAST TIME DEPARTED</span>
-		<span id="energyRemaining" class="text-white grid place-items-center" bind:this={energyText}>{energy} MJ</span>
-		<span class="grid place-items-center text-white timelabel">ENERGY REMAINING</span>
-		<span class="grid place-items-center text-xl text-white m-4">
-		<button bind:this={launchButton} class="launchbutton shadow-green-glow mx-4 min-h-12 min-w-32 rounded-md bg-lime-400 text-slate-800 outline outline-slate-800 px-2" on:click={timeTravel}>LAUNCH</button>
-		</span>
-	</div>
-</Tablet>
-
+<div in:fade={{duration: 500}} out:fade={{duration: 500}}>
+	<Tablet showMeter={false}>
+		<div id="timeTravelStuff">
+			<TimeRow date={presentDate} bind:this={presTimeRow} />
+			<span class="grid place-items-center text-white timelabel">PRESENT TIME</span>	
+			<TimeRow date={destDate} bind:this={destTimeRow}/>
+			<span class="grid place-items-center text-white timelabel">DESTINATION TIME</span>
+			<TimeRow />
+			<span class="grid place-items-center text-white timelabel">LAST TIME DEPARTED</span>
+			<span id="energyRemaining" class="text-white grid place-items-center" bind:this={energyText}>{energy} MJ</span>
+			<span class="grid place-items-center text-white timelabel">ENERGY REMAINING</span>
+			<span class="grid place-items-center text-xl text-white m-4">
+			<button bind:this={launchButton} class="launchbutton shadow-green-glow mx-4 min-h-12 min-w-32 rounded-md bg-lime-400 text-slate-800 outline outline-slate-800 px-2" on:click={timeTravel}>LAUNCH</button>
+			</span>
+		</div>
+	</Tablet>
+</div>
 <canvas id="warpCanvas"></canvas>
 
 
