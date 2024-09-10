@@ -3,6 +3,8 @@
 
     import type { UserData } from '$lib/types/UserData';
     import { userDataStore } from '$lib/utils/stores/store';
+	import Badge from "../Badge.svelte";
+    import { Confetti } from "svelte-confetti";
 
     export let handleClick: () => void;
 
@@ -30,6 +32,8 @@
         agent = value as UserData;
     });
 
+    export let badgeName: string;
+    export let badgeImage: string;
 </script>
 
 <Tablet>
@@ -37,9 +41,10 @@
         Congratulations, Agent {agent.agentName}! <br/>
         You have earned another badge!
     </div>
-    <!--
-        <BadgeImage />
-    -->
+    <div class="flex justify-center">
+        <Confetti />
+        <Badge name={badgeName} image={badgeImage} />
+    </div>
 
     <div class="flex justify-center">
         <button class="btn btn-primary" on:click={handleClick}>

@@ -17,7 +17,7 @@ const script: Script = {
 		{
 			id: 1,
 			speakers: ['Captain Storm'],
-			dialog: 'Welcome to the SPOT Agency, my name is Captain Storm.',
+			dialog: 'Welcome to the SPOT Agency! My name is Captain Storm.',
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s1.wav',
