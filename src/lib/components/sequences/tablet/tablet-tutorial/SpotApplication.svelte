@@ -39,5 +39,12 @@
 <div
 	class="flex h-full w-full flex-col items-center justify-center space-y-7 font-mokoto text-2xl text-white">
 	<img src={img} alt="" class="h-72" id={`tablet-app-container-${title.toLowerCase()}`} />
-	<p class="text-3xl">{title}</p>
+	<p class="text-2xl">{title}</p>
 </div>
+
+<style>
+	img {
+		height: 15vw;
+  		width: 15vw;
+	}
+</style>
