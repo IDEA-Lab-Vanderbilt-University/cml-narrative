@@ -10,26 +10,5 @@
  
 */
 
-import type { PageLoad } from './$types';
-
-import { error } from '@sveltejs/kit';
-
-export const load = (({ params, url }) => {
-	/**
-	 * Page number of the current route.
-	 *
-	 * This is found by grabbing the search param for "page".
-	 *
-	 * An example url could look like: www.website.com/introduction?page=XXXX
-	 *
-	 * The XXXX should be a number. We use this to determine what line of the script should be
-	 * returned to the user.
-	 */
-	const page = Number.parseInt(url.searchParams.get('page') ?? '0');
-
-	if (page >= 1 && page != null) {
-		return { page: Number(page) };
-	}
-
-	throw error(404, 'Not found');
-}) satisfies PageLoad;
+import { createPageLoad } from '$lib/utils/createPageLoad';
+export const load = createPageLoad();

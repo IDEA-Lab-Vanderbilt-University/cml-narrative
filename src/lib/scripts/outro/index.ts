@@ -70,8 +70,7 @@ const script: Script = {
 			audio: '/audio/level0/captain_storm/captn_storm_l0s108.wav',
 			pos: 'left'
 		}
-	],
-	length: 2
+	]
 };
 
 export default script;

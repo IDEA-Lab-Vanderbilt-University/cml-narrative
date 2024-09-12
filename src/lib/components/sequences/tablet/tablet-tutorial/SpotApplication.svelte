@@ -18,8 +18,6 @@
 	let dispatch = createEventDispatcher<{ event: string; id: string }>();
 
 	onMount(() => {
-		console.log('mountng');
-
 		dispatch('applicationContainerEvent', {
 			event: 'mount',
 			id: `#tablet-app-container-${title.toLowerCase()}`
@@ -27,8 +25,6 @@
 	});
 
 	onDestroy(() => {
-		console.log('destroying');
-
 		dispatch('applicationContainerEvent', {
 			event: 'destroy',
 			id: `#tablet-app-container-${title.toLowerCase()}`
