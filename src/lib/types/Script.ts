@@ -15,10 +15,6 @@ export interface Script {
 	 * An array of all dialog
 	 */
 	lines: Line[];
-	/**
-	 * How long the current script segment is
-	 */
-	length: number;
 }
 
 /**
