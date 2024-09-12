@@ -15,5 +15,8 @@ export const Tablet = {
 	badges: '/img/tablet/award.svg',
 	profile: '/img/tablet/profile.png',
 	powerButton: '/img/svg/power-button.svg',
-	settingsButton: '/img/svg/gear.svg'
+	settingsButton: '/img/svg/gear.svg',
+	profileIcon: '/img/tablet/profileicon.png',
+	badgesIcon: '/img/tablet/awardicon.svg',
+    travelLogIcon: '/img/tablet/locationicon.svg',
 };

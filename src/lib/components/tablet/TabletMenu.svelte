@@ -15,16 +15,19 @@
 
 <div class="flex justify-center" id="tablet-menu">
     <SpotApplication
+        color="rgb(85,205,110)"
         title="Travel Log"
-        img={Assets.Tablet.travelLog}
+        img={Assets.Tablet.travelLogIcon}
         on:applicationContainerEvent={handleAppContainerEvent} />
     <SpotApplication
+        color="rgb(185,90,210)"
         title="Profile"
-        img={Assets.Tablet.profile}
+        img={Assets.Tablet.profileIcon}
         on:applicationContainerEvent={handleAppContainerEvent} />
     <SpotApplication
+        color="rgb(0,175,210)"
         title="Badges"
-        img={Assets.Tablet.badges}
+        img={Assets.Tablet.badgesIcon}
         on:applicationContainerEvent={handleAppContainerEvent} />
 </div>
 
