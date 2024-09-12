@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import PizzaDisplay from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import DefinitionModal from '$lib/components/modals/DefinitionModal.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
@@ -52,7 +53,7 @@
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (line.id == script.length) {
+			if (line.id == script.lines.length) {
 				let progress = getUpdatedProgress();
 				await DataService.Data.updateUserProgress(progress);
 				updateLocalProgress(progress)
@@ -77,6 +78,10 @@
 	<div slot="content" class="h-full w-full"  bind:this={content}>
 		{#if line.id == 9}
 			<DefinitionModal title="Algorithm" definition="An algorithm is a set of step-by-step instruction for solving a problem or completing a task" on:click={() => { handleDialogEvent({detail: { state: NavigationDirection.forward}})}} />
+		{/if}
+
+		{#if line.id == 10}
+			<PizzaDisplay />
 		{/if}
 		<TabletButton on:click={() => { 
 			const event  = new CustomEvent('showTablet', {
