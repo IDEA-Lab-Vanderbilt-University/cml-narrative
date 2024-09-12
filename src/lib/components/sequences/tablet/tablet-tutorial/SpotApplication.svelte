@@ -45,8 +45,8 @@
 
 <style>
 	div .icon {
-		height: 15vw;
-  		width: 15vw;
+		height: 11vw;
+  		width: 11vw;
 		border-radius: 50%;
 		background: radial-gradient(circle, rgba(33, 33, 33, 0) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.584) 64%, rgba(255,255,255,1) 65%, rgba(255,255,255,1) 100%);
 		transition: all 0.2s;
@@ -63,8 +63,10 @@
 	}
 
 	div .icon img {
+		transition: all 0.2s;
 		height: 60%;
 		width: 60%;
 		margin: 20%;
+		filter:blur(0.5px);
 	}
 </style>
