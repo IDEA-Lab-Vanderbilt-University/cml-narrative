@@ -80,7 +80,6 @@
 			<DefinitionModal title="Algorithm" definition="An algorithm is a set of step-by-step instruction for solving a problem or completing a task" on:click={() => { handleDialogEvent({detail: { state: NavigationDirection.forward}})}} />
 		{/if}
 
-		<PizzaDisplay />
 		<TabletButton on:click={() => { 
 			const event  = new CustomEvent('showTablet', {
 				bubbles: true
