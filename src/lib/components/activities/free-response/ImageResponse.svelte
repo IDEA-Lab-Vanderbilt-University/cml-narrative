@@ -1,10 +1,8 @@
 <script lang="ts">
-	import { Draw } from '$lib/components/activities/draw/Draw.jsx';
-	import { ReactAdapter } from 'svelte-react-kit';
-	import { drawResponse, megaJoulesMeter } from '$lib/utils/stores/store';
 
 	import { createEventDispatcher, getContext } from 'svelte';
 	import CameraModal from '$lib/components/modals/CameraModal.svelte';
+	import DrawingArea from '../draw/DrawingArea.svelte';
 	// @ts-ignore
 	const { open } = getContext('simple-modal');
 
@@ -19,18 +17,6 @@
 		camera
 	}
 
-	$: {
-		if ($drawResponse) {
-			// WE can assume that an image has been drawn and saved because the store is not populated. We can then handle it here.
-			dispatch('imageSubmitted', {
-				images: $drawResponse,
-				doSubmit: true
-			});
-
-			// reset the draw response
-			drawResponse.set(null);
-		}
-	}
 
 	let responseTypeState: ResponseType = ResponseType.undefined;
 
@@ -43,14 +29,17 @@
 		});
 	};
 
+	const handleDrawingSubmit = (img: HTMLImageElement) => {
+		dispatch('imageSubmitted', {
+			images: [img],
+			doSubmit: true
+		});
+	};
+
 	const openCamera = () => {
 		open(CameraModal, {
 			onFinish
 		});
-	};
-
-	const submitClicked = () => {
-		dispatch('submitClicked')
 	};
 </script>
 
@@ -80,12 +69,6 @@
 	</div>
 {:else if responseTypeState == ResponseType.draw}
 	<div class="mt-auto h-full w-full  items-center justify-center">
-		<!-- 
-            The Draw component is utlizes a React based library. As such, a special adapter is needed to 
-            allow interface between a Svelte and React component. More can be read in the documentation of the 
-            Draw component.
-        --->
-
-		<ReactAdapter el={Draw} />
+		<DrawingArea onSubmit={handleDrawingSubmit} />
 	</div>
 {/if}

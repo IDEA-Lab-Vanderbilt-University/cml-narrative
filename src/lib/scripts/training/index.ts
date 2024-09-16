@@ -91,14 +91,6 @@ const script: Script = {
 			// 	'/audio/level0/agent_spark/agent_spark_l0s80.wav']
 		},
 		{
-			id: 7,
-			speakers: ['Agent Spark'],
-			dialog: '...',
-			avatars: ['/img/characters/agent-spark/spark_sad.png'],
-			background: '/img/backgrounds/captain_office.jpg',
-			pos: 'left'
-		},
-		{
 			id: 8,
 			speakers: ['Agent Spark'],
 			dialog: 'Gear, did you overload the generator again?',
@@ -219,6 +211,5 @@ const script: Script = {
 			pos: 'right'
 		},
 	],
-	length: 19
 };
 export default script;

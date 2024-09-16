@@ -14,7 +14,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@excalidraw/excalidraw": "0.17.6",
 		"@macfja/svelte-persistent-store": "^2.4.1",
 		"@popperjs/core": "^2.11.8",
 		"@zxing/library": "^0.21.3",

@@ -28,8 +28,7 @@
 
 	let line: Line;
 
-	let shouldDarken: boolean = false;
-
+	
 	/**
 	 * We declared the line variable above. This variable is "reactive" and will change on
 	 * each goto() call (implemented in handleDialogEvent()) as script data is returned
@@ -45,9 +44,11 @@
 	 */
 	$: line = data.line;
 	$: lineNumber = data.lineNumber;
+	
+	let shouldDarken: boolean = lineNumber > 4 && lineNumber < 7;
 
 	$: {
-		if (lineNumber == 6 || lineNumber == 7 || lineNumber == 8) {
+		if (lineNumber > 4 && lineNumber < 7) {
 			shouldDarken = true;
 		} else {
 			shouldDarken = false;
@@ -73,13 +74,13 @@
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (lineNumber == 9) {
+			if (lineNumber == 8) {
 				goto('/activities/what-do-you-think-an-algorithm-is');
-			} else if (lineNumber == 12) {
+			} else if (lineNumber == 11) {
 				goto('/activities/what-do-you-think-machine-learning-is');
-			} else if (lineNumber == 13) {
+			} else if (lineNumber == 12) {
 				goto('/training/post-survey');
-			} else if (lineNumber == 17) {
+			} else if (lineNumber == 16) {
 				goto('/training/outro?page=1');
 			} else {
 				goto(`/training?page=${lineNumber + 1}`);
@@ -88,7 +89,7 @@
 			if (lineNumber == 1) {
 				goto(`/introduction/bot-buddy?page=23`);
 			} else {
-				if(lineNumber == 10 || lineNumber == 13 || lineNumber == 14) {
+				if(lineNumber == 9 || lineNumber == 12 || lineNumber == 13) {
 					return;
 				}
 				goto(`/training?page=${lineNumber - 1}`);
@@ -99,30 +100,30 @@
 
 <Scene background="/img/backgrounds/Spark_Lab.jpg" darken={shouldDarken} audio={line.audio}>
 	<div class={`h-full w-full ${shouldDarken ? 'brightness-40' : ''}`} slot="content">
-		{#if lineNumber <= 13}
+		{#if lineNumber <= 12}
 			<ProjectorView>
 				{#if lineNumber == 1 || lineNumber == 2}
 					<Technology />
 				{:else if lineNumber == 3}
 					<Training2 />
-				{:else if lineNumber >= 4 && lineNumber <= 10}
+				{:else if lineNumber >= 4 && lineNumber <= 9}
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Algorithms</p>
 					</TrainingText>
-				{:else if lineNumber == 11 || lineNumber == 12}
+				{:else if lineNumber == 10 || lineNumber == 11}
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Machine Learning</p>
 					</TrainingText>
 				{/if}
 			</ProjectorView>
-		{:else if lineNumber == 16}
+		{:else if lineNumber == 15}
 			<BadgeGetModal handleClick={handleNavigation.bind(null, NavigationDirection.forward)} badgeName="Agent-In-Training" badgeImage="img/misc/badge1.png"/>
 		{:else}
 			<div class="" />
 		{/if}
 	</div>
 	<div class="w-full" slot="dialog">
-		{#if lineNumber != 16}
+		{#if lineNumber != 15}
 			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 		{/if}
 	</div>

@@ -72,11 +72,11 @@
 	};
 
 	const onSubmit = () => {
-		goto('/training?page=10');
+		goto('/training?page=9');
 	};
 </script>
 
-<Tablet>
+<Tablet showMeter={false}>
 	{#if showFeedbackModal}
 		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
 	{/if}
