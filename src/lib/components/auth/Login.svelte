@@ -168,15 +168,6 @@
 	{#if showFeedbackModal}
 		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
 	{/if}
-	<button
-		class="absolute left-1/4 top-1/4"
-		out:fade|global
-		on:click={() => {
-			dispatch('back');
-		}}>
-		<img src="/img/svg/dialog-arrow.svg" alt="" class="mt-8 h-14 rotate-180" />
-	</button>
-
 	<div id="reader"/>
 </div>
 

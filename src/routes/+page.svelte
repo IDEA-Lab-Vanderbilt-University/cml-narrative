@@ -73,20 +73,11 @@
 								stopAudio();
 								screenState = HomeScreenStates.signUp;
 							}}>Login Agent</button>
-						<!-- <button
-							id="active-agent"
-							class="hidden rounded-md bg-blue-400 px-3 py-2 text-3xl text-white shadow-lg"
-							on:click={() => {
-								stopAudio();
-								screenState = HomeScreenStates.login;
-							}}>Active Agents</button> -->
 					</div>
 				</div>
 				<img id="spotdots" src="/img/logos/SPOT-dots.svg" alt="" class="mt-8 h-24" in:fade|global={{ delay: 2000 }} />
 			{:else if screenState == HomeScreenStates.signUp}
 				<Login on:back={() => (screenState = HomeScreenStates.home)} />
-			<!-- {:else if screenState == HomeScreenStates.login}
-				<ActiveAgentLogin on:back={() => (screenState = HomeScreenStates.home)} /> -->
 			{/if} 
 		</div>
 	</div>
