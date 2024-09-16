@@ -23,6 +23,48 @@ function selectColor(event: CustomEvent) {
 
 let canvas: HTMLCanvasElement | null = null;
 
+let offScreenCanvas = document.createElement('canvas');
+let prevWidth = 0;
+let prevHeight = 0;
+
+function resizeCanvas() {
+    if (!canvas || !offScreenCanvas) return;
+    
+    const offScreenCtx = offScreenCanvas.getContext('2d');
+    if (!offScreenCtx) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    if(prevWidth == 0 || prevHeight == 0) {
+        prevWidth = canvas.width;
+        prevHeight = canvas.height;
+    }
+
+    // Save current content on off-screen canvas
+    offScreenCanvas.width = prevWidth;
+    offScreenCanvas.height = prevHeight;
+    offScreenCtx.drawImage(canvas, 0, 0);
+
+    // Resize the canvas to the new window size
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+
+    // Calculate the scale factor
+    const scaleX = canvas.width / prevWidth;
+    const scaleY = canvas.height / prevHeight;
+
+    // Redraw the saved content with scaling
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.scale(scaleX, scaleY);
+    ctx.drawImage(offScreenCanvas, 0, 0);
+    ctx.setTransform(1, 0, 0, 1, 0, 0); // Reset the transformation matrix after scaling
+
+    // Update previous canvas dimensions for the next resize
+    prevWidth = canvas.width;
+    prevHeight = canvas.height;
+}
+
 const clearCanvas = () => {
     const ctx = canvas?.getContext('2d');
     if (ctx) {
@@ -37,32 +79,57 @@ const submit = () => {
     onSubmit(img);
 };
 
+const getMousePosition = (event: MouseEvent) => {
+    if (!canvas) return { x: 0, y: 0 };
+    const rect = canvas.getBoundingClientRect(); // Get the canvas position on the screen
+    return {
+        x: (event.clientX - rect.left) * (canvas.width / rect.width),
+        y: (event.clientY - rect.top) * (canvas.height / rect.height)
+    };
+};
+
+const getTouchPosition = (event: TouchEvent) => {
+    if (!canvas) return { x: 0, y: 0 };
+    const rect = canvas.getBoundingClientRect(); // Get the canvas position on the screen
+    return {
+        x: (event.touches[0].clientX - rect.left) * (canvas.width / rect.width),
+        y: (event.touches[0].clientY - rect.top) * (canvas.height / rect.height)
+    };
+};
+
 onMount(() => {
     if (canvas) {
-        const ctx = canvas.getContext('2d');
-
+        let ctx = canvas.getContext('2d');
         if(ctx) {
-            canvas.width = canvas.clientWidth * 2;
-            canvas.height = canvas.clientHeight * 2;
+            resizeCanvas();
             clearCanvas();
             ctx.imageSmoothingEnabled = true;
             ctx.imageSmoothingQuality = 'high';
 
             canvas.addEventListener('mousedown', (event) => {
-                if (event.buttons === 1) {
+                if (canvas && event.buttons === 1) {
+                    let ctx = canvas.getContext('2d');
+                    if (!ctx) return;
+
                     ctx.strokeStyle = selectedColor;
                     ctx.lineWidth = 10;
                     ctx.lineCap = 'round';
                     ctx.lineJoin = 'round';
                     ctx.beginPath();
                     ctx.translate(0.5,0.5);
-                    ctx.moveTo(event.layerX * 2 + 0.5, event.layerY * 2 + 0.5);
+                    
+                    const pos = getMousePosition(event);
+                    ctx.moveTo(pos.x, pos.y);
                 }
             });
 
             canvas.addEventListener('mousemove', (event) => {
-                if (event.buttons === 1) {
-                    ctx.lineTo(event.layerX * 2 + 0.5, event.layerY * 2 + 0.5);
+                if (canvas && event.buttons === 1) {
+                    let ctx = canvas.getContext('2d');
+                    if (!ctx) return;
+                    
+                    const pos = getMousePosition(event);
+                    ctx.lineTo(pos.x, pos.y);
                     ctx.stroke();
                 }
             });
@@ -76,20 +143,23 @@ onMount(() => {
             });
 
             canvas.addEventListener('touchstart', (event) => {
-                if (event.touches.length === 1) {
+                if (canvas && event.touches.length === 1) {
                     ctx.strokeStyle = selectedColor;
                     ctx.lineWidth = 10;
                     ctx.lineCap = 'round';
                     ctx.lineJoin = 'round';
                     ctx.beginPath();
                     ctx.translate(0.5,0.5);
-                    ctx.moveTo(event.touches[0].clientX * 2 + 0.5, event.touches[0].clientY * 2 + 0.5);
+                    
+                    const pos = getTouchPosition(event);
+                    ctx.moveTo(pos.x, pos.y);
                 }
             });
 
             canvas.addEventListener('touchmove', (event) => {
-                if (event.touches.length === 1) {
-                    ctx.lineTo(event.touches[0].clientX * 2 + 0.5, event.touches[0].clientY * 2 + 0.5);
+                if (canvas && event.touches.length === 1) {
+                    const pos = getTouchPosition(event);
+                    ctx.lineTo(pos.x, pos.y);
                     ctx.stroke();
                 }
             });
@@ -108,8 +178,7 @@ onMount(() => {
 
             canvas.addEventListener('resize', () => { 
                 if (canvas) {
-                    canvas.width = canvas.clientWidth * 2;
-                    canvas.height = canvas.clientHeight * 2;
+                    resizeCanvas();
                 }
             });
         }
