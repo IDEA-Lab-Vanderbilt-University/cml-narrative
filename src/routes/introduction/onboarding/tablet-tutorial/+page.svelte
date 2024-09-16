@@ -199,7 +199,7 @@
 			{:else if line.id == 7}
 				<div class="flex h-full items-center justify-center" id="megajoules-dec-1">
 					<p class="hud-red-blue-border max-w-xl px-3 py-5 text-3xl text-white ">
-						Your time travel machine holds 1200 megajoules of power, which is exactly the amount it
+						Your time travel machine holds 100 megajoules of power, which is exactly the amount it
 						takes to get to the year 2075.
 					</p>
 				</div>
