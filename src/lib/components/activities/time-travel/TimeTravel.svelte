@@ -20,7 +20,8 @@
 	let launchButton: HTMLButtonElement | void;
 	let energyText: HTMLSpanElement | void;
 
-	let energy = 1200;
+	const MAX_ENERGY = 100;
+	let energy = MAX_ENERGY;
 	let presentDate = new Date();
 	let startTime = presentDate.getTime();
 
@@ -43,17 +44,17 @@
 		let timeTravelInterval = setInterval(() => {
 			let remainingTime = Math.max(destDate.getTime() - presentDate.getTime(), 1);
 			
-			let speed = Math.ceil(Math.max(remainingTime / 50, 120000000));
-			energy = 1200 - Math.round(1200 * (1 - (remainingTime / (destDate.getTime() - startTime))));
+			let speed = Math.ceil(Math.max(remainingTime / 40, 200000000));
+			energy = MAX_ENERGY - Math.round(MAX_ENERGY * (1 - (remainingTime / (destDate.getTime() - startTime))));
 			
 			if (warpEffect) {
-				let warpFactor = Math.sin(energy * Math.PI / 1200);
+				let warpFactor = Math.sin(energy * Math.PI / MAX_ENERGY);
 				warpEffect.SPEED = 5.0 * warpFactor;
 				warpEffect.DENSITY = 0.5 * warpFactor + 0.5;
 				warpEffect.STAR_COLOR = `rgba(255, 255, 255, ${warpFactor * 0.5 + 0.5})`; 
 			}	
 
-			let energyColor = Math.round((energy / 1200) * 155) + 100;
+			let energyColor = Math.round((energy / MAX_ENERGY) * 155) + 100;
 			energyText?.style.setProperty('color', `rgb(${energyColor}, ${energyColor}, 0)`);
 			energyText?.style.setProperty('text-shadow', `0 0 rgba(${energyColor}, ${energyColor}, 0, 1)`);
 
@@ -93,8 +94,6 @@
 			<span class="grid place-items-center text-white timelabel">PRESENT TIME</span>	
 			<TimeRow date={destDate} bind:this={destTimeRow}/>
 			<span class="grid place-items-center text-white timelabel">DESTINATION TIME</span>
-			<TimeRow />
-			<span class="grid place-items-center text-white timelabel">LAST TIME DEPARTED</span>
 			<span id="energyRemaining" class="text-white grid place-items-center" bind:this={energyText}>{energy} MJ</span>
 			<span class="grid place-items-center text-white timelabel">ENERGY REMAINING</span>
 			<span class="grid place-items-center text-xl text-white m-4">
