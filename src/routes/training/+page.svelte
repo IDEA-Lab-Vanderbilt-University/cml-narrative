@@ -23,6 +23,7 @@
 	import TrainingText from '$lib/components/sequences/training/TrainingText.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
+	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 
 	export let data;
 
@@ -100,7 +101,10 @@
 
 <Scene background="/img/backgrounds/Spark_Lab.jpg" darken={shouldDarken} audio={line.audio}>
 	<div class={`h-full w-full ${shouldDarken ? 'brightness-40' : ''}`} slot="content">
-		{#if lineNumber <= 12}
+		{#if lineNumber == 12}
+			<TabletButton pulse on:click={() => {goto("/training/post-survey")}} />
+		{/if}
+		{#if lineNumber < 12}
 			<ProjectorView>
 				{#if lineNumber == 1 || lineNumber == 2}
 					<Technology />
