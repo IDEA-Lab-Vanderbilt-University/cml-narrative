@@ -83,7 +83,7 @@
 		showFeedbackModal = true;
 	};
 	const onSubmit = () => {
-		goto('/training?page=13');
+		goto('/training?page=12');
 	}
 </script>
 
