@@ -1,4 +1,31 @@
 import type { Script } from '$lib/types/Script';
+import type { UserData } from '$lib/types/UserData';
+import { userDataStore } from '$lib/utils/stores/store';
+
+let agent: UserData = {
+	name: {
+		first: '',
+		last: ''
+	},
+	age: 0,
+	interests: [],
+	avatarImg: '',
+	agentName: '',
+	email: '',
+	password: '',
+	progress: {
+		level: 0,
+		levelLabel: '',
+		subLevel: 0,
+		subLevelLabel: '',
+		lastUpdated: undefined
+	}
+};
+
+userDataStore.subscribe((value) => {
+	agent = value as UserData;
+});
+
 
 
 const script: Script = {
@@ -104,8 +131,50 @@ const script: Script = {
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s10.wav',
             pos: 'left'
         },
+        {
+            id: 11,
+            speakers: ['Bot Buddy'],
+            dialog:
+                'Hello, robot from the future–I mean regular, normal pizza chef robot! Can we try making our own pizzas using an algorithm?',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            background: '/img/backgrounds/level1/16596.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s11.wav',
+            pos: 'right'
+        },
+        {
+            id: 12,
+            speakers: ['Chef Bot'],
+            dialog:
+                'Yes you can! I\'ll help you!',
+            avatars: ['/img/characters/level-1/chef-bot.png'],
+            background: '/img/backgrounds/level1/16596.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s12.wav',
+            pos: 'left'
+        },
+        {
+            id: 13,
+            speakers: ['Bot Buddy'],
+            dialog:
+                'Sorry, Agent ' + agent.agentName + ', I almost blew our cover back there.',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-ohno.png'],
+            background: '/img/backgrounds/level1/16596.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s13.wav',
+            pos: 'center',
+            size: 'full',
+        },
+        {
+            id: 14,
+            speakers: ['Bot Buddy'],
+            dialog:
+                'Now let\'s make some pizza!',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            background: '/img/backgrounds/level1/16596.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s14.wav',
+            pos: 'center',
+            size: 'full',
+        },
+
 	],
-	length: 10
 };
 
 export default script;
