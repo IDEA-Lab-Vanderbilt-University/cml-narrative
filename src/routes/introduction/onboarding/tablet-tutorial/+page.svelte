@@ -175,12 +175,14 @@
 			{:else if line.id == 2}
 				<SpotApplication
 					title="Profile"
-					img={Assets.Tablet.profile}
+					img={Assets.Tablet.profileIcon}
+					color="rgb(185,90,210)"
 					on:applicationContainerEvent={handleAppContainerEvent} />
 			{:else if line.id == 3}
 				<SpotApplication
 					title="Badges"
-					img={Assets.Tablet.badges}
+					img={Assets.Tablet.badgesIcon}
+					color="rgb(0,175,210)"
 					on:applicationContainerEvent={handleAppContainerEvent} />
 			{:else if line.id == 4}
 				<SpotApplication
@@ -213,7 +215,8 @@
 			{:else if line.id == 9}
 				<SpotApplication
 					title="Travel"
-					img={Assets.Tablet.travelLog}
+					img={Assets.Tablet.travelLogIcon}
+					color="rgb(85,205,110)"
 					on:applicationContainerEvent={handleAppContainerEvent} />
 			{/if}
 		</div>
