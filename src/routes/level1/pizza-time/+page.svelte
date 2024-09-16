@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import PizzaDialogBox from '$lib/components/activities/pizza-time/PizzaDialogBox.svelte';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
@@ -73,22 +74,10 @@
 	let content: HTMLElement | void;
 </script>
 
-<Scene background={line.background} audio={line.audio}>
+<Scene background="/img/backgrounds/level1/16596.png" audio={line.audio}>
 	<div class="w-full" slot="dialog">
-		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
+		<PizzaDialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
 	<div slot="content" class="h-full w-full"  bind:this={content}>
-		{#if line.id == 15}
-			<div class="h-full w-full">
-				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade|global />
-			</div>
-		{/if}
-		<TabletButton on:click={() => { 
-			const event  = new CustomEvent('showTablet', {
-				bubbles: true
-			});
-			
-			content?.dispatchEvent(event);
-		}} />
 	</div>
 </Scene>
