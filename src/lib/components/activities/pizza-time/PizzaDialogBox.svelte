@@ -108,9 +108,6 @@
 			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} />
 	</div>
 	
-	<div class="nametag bg-peach relative z-20 rounded px-3 text-3xl text-black">
-		{line.speakers[0]}
-	</div>
 
 	<div id="textbox" class="bg-jet relative flex items-center justify-center rounded p-4 text-white">
 		<div class="w-full grid grid-cols-5 items-center justify-center gap-8 align-middle">
@@ -124,6 +121,9 @@
 				<img src="/img/svg/dialog-arrow.svg" alt="Go Forward" class="h-14 w-14" draggable="false"  />
 			</button>
 		</div>
+	</div>
+	<div class="nametag bg-peach relative z-20 rounded px-3 text-3xl text-black">
+		{line.speakers[0]}
 	</div>
 </div>
 
@@ -171,19 +171,22 @@
 
 	.avatar {
 		position: absolute;
-		top: 0;
-		left: 0;
+		top: 10%;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 10;
 	}
 
 	.nametag {
-		top: 0;
+		position: absolute;
+		bottom: 0;
 		left: 50%;
 		transform: translateX(-50%);
 	}
 
 	#textbox {
-		height: fit-content;
-  		min-height: 9rem;
+		height: 100vh;
+		width: 30vw;
 	}
 
 
