@@ -30,9 +30,7 @@
 
 		<!-- Conditionally display the Dialog slot, as there wont always be a dialog box present -->
 		{#if $$slots.dialog}
-			<div class="absolute inset-0 z-30 mt-auto flex h-fit w-full items-end  pb-2 brightness-100">
-				<slot name="dialog" />
-			</div>
+			<slot name="dialog" />
 		{/if}
 	</div>
 </div>

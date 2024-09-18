@@ -77,9 +77,20 @@
 </script>
 
 <Scene background="/img/backgrounds/level1/16596.png" audio={line.audio}>
-	<div class="w-full" slot="dialog">
+	<div id="dialogue" slot="dialog">
 		<PizzaDialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
 	<div slot="content" class="h-full w-full"  bind:this={content}>
 	</div>
 </Scene>
+
+
+<style>
+	#dialogue {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>

@@ -103,43 +103,16 @@
 
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
-<div class="flex w-full flex-col px-4">
-	<div class="relative z-20 flex w-full items-end justify-between align-bottom">
-		{#if line.avatars.length > 1}
-			<div class="flex w-full items-end justify-between align-bottom">
-				{#each line.avatars as avatar, i}
-					<div class="mr-14 self-end">
-						<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass="relative -bottom-10 z-20" size={line.size}  />
-						{#if line.speakers[i]}
-							<div
-								class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
-								{line.speakers[i]}
-							</div>
-						{/if}
-					</div>
-				{/each}
-			</div>
-		{:else if line.pos == 'right'}
-			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
-				{line.speakers[0]}
-			</div>
+<div id="dialogueroot">
+	<div class="avatar">
 			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} />
-		{:else if line.pos == 'left'}
-			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} />
-			<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
-				{line.speakers[0]}
-			</div>
-		{:else if line.pos == 'center'}
-			<div class="center">
-				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}  size={line.size} />
-			</div>	
-			<div class=" bg-peach absolute -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
-				{line.speakers[0]}
-			</div>
-		{/if}
+	</div>
+	
+	<div class="nametag bg-peach relative z-20 rounded px-3 text-3xl text-black">
+		{line.speakers[0]}
 	</div>
 
-	<div id="textbox" class="bg-jet relative flex w-full items-center justify-center rounded p-4 text-white">
+	<div id="textbox" class="bg-jet relative flex items-center justify-center rounded p-4 text-white">
 		<div class="w-full grid grid-cols-5 items-center justify-center gap-8 align-middle">
 			<button class="mr-6 rotate-180 backbutton" on:click={back}>
 				<img src="/img/svg/dialog-arrow.svg" alt="Go Back" class="h-14 w-14" draggable="false" />
@@ -179,10 +152,7 @@
 		transform: scale(1.2) translateX(25px);
 	}
 
-	#textbox {
-		height: fit-content;
-  		min-height: 9rem;
-	}
+	
 
 	.center {
 		width: 100%;
@@ -190,4 +160,31 @@
 		justify-content: center;
 		align-items: center;
 	}
+
+	#dialogueroot {
+		width: 30vw;
+		height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+	}
+
+	.avatar {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.nametag {
+		top: 0;
+		left: 50%;
+		transform: translateX(-50%);
+	}
+
+	#textbox {
+		height: fit-content;
+  		min-height: 9rem;
+	}
+
+
 </style>
