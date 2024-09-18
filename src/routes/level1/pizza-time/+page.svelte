@@ -64,10 +64,12 @@
                 // Next level
                 goto('/level1/pizza-time?page=1');
 			} else {
-				goto(`/level1?page=${line.id + 1}`);
+				goto(`/level1/pizza-time?page=${line.id + 1}`);
 			}
 		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/level1?page=${line.id - 1}`);
+			goto(`/level1/pizza-time?page=${line.id - 1}`);
+		} else if (direction == NavigationDirection.backward && line.id == 1) {
+			goto(`/level1?page=14`);
 		}
 	};
 
