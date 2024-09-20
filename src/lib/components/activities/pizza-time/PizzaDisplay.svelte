@@ -1,17 +1,46 @@
-<script lang="ts">
+<script lang="ts" context="module">
+    export type Crust = 'thin' | 'thick' | 'cauliflower';
+    export type Sauce = 'alfredo' | 'marinara' | 'spicy' | 'bbq';
+    export type MeatTopping = 'pepperoni' | 'shrimp' | 'bacon' | 'ham';
+    export type VeggieTopping = 'mushrooms' | 'onions' | 'tomatoes' | 'peppers' | 'pineapple' | 'bolts';
+    export type FinishingTouch = 'basil' | 'herbs' | 'parmesan' | 'olives' | 'jalapeno';
+    export type PizzaConfig = {
+        crust: Crust;
+        sauce: Sauce | null;
+        cheese: boolean;
+        meats: MeatTopping[];
+        veggies: VeggieTopping[];
+        finishingTouches: FinishingTouch[];
+    };
+</script>
 
-export let crust: 'thin' | 'thick' | 'cauliflower' = 'thick';
-export let sauce: 'alfredo' | 'marinara' | 'spicy' | 'bbq' = 'marinara';
-export let cheese: boolean = true;
-export let meats: ('pepperoni' | 'shrimp' | 'bacon' | 'ham')[] = [];
-export let veggies: ('mushrooms' | 'onions' | 'tomatoes' | 'peppers' | 'pineapple' | 'bolts')[] = ['bolts'];
-export let finishingTouches: ('basil' | 'herbs' | 'parmesan' | 'olives' | 'jalapeno')[] = ['jalapeno', 'herbs'];
+<script lang="ts">
+export let crust: Crust = 'thick';
+export let sauce: Sauce | null = null;
+export let cheese: boolean = false;
+export let meats: MeatTopping[] = [];
+export let veggies: VeggieTopping[] = [];
+export let finishingTouches: FinishingTouch[] = [];
 export let size: number | string = "50vh";
+
+/**
+ * Take a PizzaConfig object and set the component's properties to match it
+*/
+export function setPizzaConfig(config: PizzaConfig) {
+    crust = config.crust;
+    sauce = config.sauce;
+    cheese = config.cheese;
+    meats = config.meats;
+    veggies = config.veggies;
+    finishingTouches = config.finishingTouches;
+}
 </script>
 
 <div class="pizzabase" style="width: {size}; height: {size};">
 <img id="crust" src={`/img/pizzaparts/${crust}crust.svg`} alt="Pizza Crust" />
+{#if sauce}
 <img id="sauce" src={`/img/pizzaparts/${sauce}.svg`} alt="Pizza Sauce" />
+{/if}
 {#if cheese}
 <img id="cheese" src="/img/pizzaparts/cheese.svg" alt="Pizza Cheese" />
 {/if}
@@ -41,6 +70,8 @@ export let size: number | string = "50vh";
     left: 5%;
     width: 90%;
     height: 90%;
+    user-select: none;
+    pointer-events: none;
 }
 
 .pizzabase .topping {

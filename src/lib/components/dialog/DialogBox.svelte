@@ -101,8 +101,8 @@
 </script>
 
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
-
-<div class="absolute inset-0 z-30 mt-auto flex h-fit w-full items-end  pb-2 brightness-100">
+			
+<div class="z-60 h-full w-full absolute inset-0 z-30 mt-auto flex h-fit items-end  pb-2 brightness-100">
 	<div class="flex w-full flex-col px-4">
 		<div class="relative z-20 flex w-full items-end justify-between align-bottom">
 			{#if line.avatars.length > 1}

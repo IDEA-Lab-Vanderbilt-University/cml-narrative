@@ -24,9 +24,7 @@
 	<div
 		class={`relative z-50 h-full w-full  bg-cover ${darken ? 'brightness-40' : ''}`}
 		style={`background-image: url('${background}'); background-size: cover; background-position: center; background-repeat: no-repeat;`}>
-		<div class="z-60 h-full w-full ">
-			<slot name="content" />
-		</div>
+		<slot name="content" />
 
 		<!-- Conditionally display the Dialog slot, as there wont always be a dialog box present -->
 		{#if $$slots.dialog}
