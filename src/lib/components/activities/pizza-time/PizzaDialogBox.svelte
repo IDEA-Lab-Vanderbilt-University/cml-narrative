@@ -103,17 +103,19 @@
 
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
-<div id="dialogueroot">
-	<div id="textbox" class="bg-jet relative flex items-center justify-center rounded p-4 text-white">
-		<div class="w-full grid grid-cols-5 items-center justify-center gap-8 align-middle">
-			<p bind:this={dialogueParagraph} class="col-span-5 mt-auto w-full h-full leading-relaxed {settings.fontSize ?? defaultSettings.fontSize}">
-				{line.dialog}
-			</p>
+<div id="dialogueroot" class="bg-jet">
+	{#if line.dialog != undefined && line.dialog.length > 0}
+		<div id="textbox" class="relative flex items-center justify-center rounded p-4 text-white">
+			<div class="w-full grid grid-cols-5 items-center justify-center gap-8 align-middle">
+				<p bind:this={dialogueParagraph} class="col-span-5 mt-auto w-full h-full leading-relaxed {settings.fontSize ?? defaultSettings.fontSize}">
+					{line.dialog}
+				</p>
+			</div>
 		</div>
-	</div>
-
+	{/if}
+	
 	<div class="davatar">
-			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} extraStyle={"height: 35vh; max-height:35vh; max-width: fit-content;"} avatarClass={""} />
+			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} extraStyle={"width: 20vw; max-width:20vw; max-height: fit-content;"} avatarClass={""} />
 	</div>
 	
 
@@ -181,8 +183,11 @@
 	}
 
 	#textbox {
-		height: 100vh;
-		width: 30vw;
+		margin: 4vw;
+		border: 1px solid white;
+		border-radius: 10px;
+		position: relative;
+		top: 10%;
 	}
 
 
