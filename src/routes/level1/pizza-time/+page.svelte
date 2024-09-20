@@ -85,7 +85,7 @@
 	};
 
 	$: {
-		noDialogueLine = {...line, dialog: ''};
+		noDialogueLine = {...line, dialog: '', avatars: [], speakers: ['']};
 	}
 
 	let pizza: PizzaConfig = {
@@ -104,7 +104,7 @@
 
 <Scene background="/img/backgrounds/level1/16596.png" audio={line.audio}>
 	<div id="dialogue" slot="dialog">
-		{#if lineNumber < 3}
+		{#if lineNumber < 3 || lineNumber > 8}
 			<PizzaDialogBox {line} on:dialogEvent={handleDialogEvent} />
 		{:else}
 			<PizzaDialogBox line={noDialogueLine} on:dialogEvent={handleDialogEvent} />
@@ -150,8 +150,184 @@
 				
 				{/if}
 				{#if lineNumber == 5}
-				<div id="pizzaChoiceHeader">Add cheese?</div>
+					<div id="pizzaChoiceHeader">Add cheese?</div>
+					<div id="pizzaChoiceButtons">
+						<button on:click={() => pizza.cheese = true}>
+							<img src="/img/pizzaparts/cheese.svg" alt="Cheese" />
+							Yes
+						</button>
+						<button on:click={() => pizza.cheese = false}>
+							<img src="/img/misc/no.svg" alt="No Cheese" />
+							No
+						</button>
+					</div>
+				{/if}
+				{#if lineNumber == 6}
+					<div id="pizzaChoiceHeader">Choose your meats!</div>
+					<div id="pizzaChoiceButtons">
+						<button on:click={() => {
+							if (pizza.meats.includes('pepperoni')) {
+								return;
+							}
 
+							pizza.meats = [...pizza.meats, 'pepperoni'];
+						}}>
+							<img src="/img/pizzaparts/pepperoni.svg" alt="Pepperoni" />
+							Pepperoni
+						</button>
+						<button on:click={() => {
+							if (pizza.meats.includes('shrimp')) {
+								return;
+							}
+
+							pizza.meats = [...pizza.meats, 'shrimp'];
+						}}>
+							<img src="/img/pizzaparts/shrimp.svg" alt="Shrimp" />
+							Shrimp
+						</button>
+						<button on:click={() => {
+							if (pizza.meats.includes('bacon')) {
+								return;
+							}
+
+							pizza.meats = [...pizza.meats, 'bacon'];
+						}}>
+							<img src="/img/pizzaparts/bacon.svg" alt="Bacon" />
+							Bacon
+						</button>
+						<button on:click={() => {
+							if (pizza.meats.includes('ham')) {
+								return;
+							}
+
+							pizza.meats = [...pizza.meats, 'ham'];
+						}}>
+							<img src="/img/pizzaparts/ham.svg" alt="Ham" />
+							Ham
+						</button>
+						<button on:click={() => pizza.meats = []}>
+							<img src="/img/misc/no.svg" alt="No Meats" />
+							No Meats
+						</button>
+					</div>
+				{/if}
+				{#if lineNumber == 7}
+					<div id="pizzaChoiceHeader">Choose your veggies!</div>
+					<div id="pizzaChoiceButtons">
+						<button on:click={() => {
+							if (pizza.veggies.includes('mushrooms')) {
+								return;
+							}
+
+							pizza.veggies = [...pizza.veggies, 'mushrooms'];
+						}}>
+							<img src="/img/pizzaparts/mushrooms.svg" alt="Mushrooms" />
+							Mushrooms
+						</button>
+						<button on:click={() => {
+							if (pizza.veggies.includes('onions')) {
+								return;
+							}
+
+							pizza.veggies = [...pizza.veggies, 'onions'];
+						}}>
+							<img src="/img/pizzaparts/onions.svg" alt="Onions" />
+							Onions
+						</button>
+						<button on:click={() => {
+							if (pizza.veggies.includes('tomatoes')) {
+								return;
+							}
+
+							pizza.veggies = [...pizza.veggies, 'tomatoes'];
+						}}>
+							<img src="/img/pizzaparts/tomatoes.svg" alt="Tomatoes" />
+							Tomatoes
+						</button>
+						<button on:click={() => {
+							if (pizza.veggies.includes('peppers')) {
+								return;
+							}
+
+							pizza.veggies = [...pizza.veggies, 'peppers'];
+						}}>
+							<img src="/img/pizzaparts/peppers.svg" alt="Peppers" />
+							Peppers
+						</button>
+						<button on:click={() => {
+							if (pizza.veggies.includes('pineapple')) {
+								return;
+							}
+
+							pizza.veggies = [...pizza.veggies, 'pineapple'];
+						}}>
+							<img src="/img/pizzaparts/pineapple.svg" alt="Pineapple" />
+							Pineapple
+						</button>
+						<button on:click={() => pizza.veggies = []}>
+							<img src="/img/misc/no.svg" alt="No Veggies" />
+							No Veggies
+						</button>
+					</div>
+				{/if}
+				{#if lineNumber == 8}
+					<div id="pizzaChoiceHeader">Finishing touches?</div>
+					<div id="pizzaChoiceButtons">
+						<button on:click={() => {
+							if (pizza.finishingTouches.includes('basil')) {
+								return;
+							}
+
+							pizza.finishingTouches = [...pizza.finishingTouches, 'basil'];
+						}}>
+							<img src="/img/pizzaparts/basil.svg" alt="Basil" />
+							Basil
+						</button>
+						<button on:click={() => {
+							if (pizza.finishingTouches.includes('herbs')) {
+								return;
+							}
+
+							pizza.finishingTouches = [...pizza.finishingTouches, 'herbs'];
+						}}>
+							<img src="/img/pizzaparts/herbs.svg" alt="Herbs" />
+							Herbs
+						</button>
+						<button on:click={() => {
+							if (pizza.finishingTouches.includes('parmesan')) {
+								return;
+							}
+
+							pizza.finishingTouches = [...pizza.finishingTouches, 'parmesan'];
+						}}>
+							<img src="/img/pizzaparts/parmesan.svg" alt="Parmesan" />
+							Parmesan
+						</button>
+						<button on:click={() => {
+							if (pizza.finishingTouches.includes('olives')) {
+								return;
+							}
+
+							pizza.finishingTouches = [...pizza.finishingTouches, 'olives'];
+						}}>
+							<img src="/img/pizzaparts/olives.svg" alt="Olives" />
+							Olives
+						</button>
+						<button on:click={() => {
+							if (pizza.finishingTouches.includes('jalapeno')) {
+								return;
+							}
+
+							pizza.finishingTouches = [...pizza.finishingTouches, 'jalapeno'];
+						}}>
+							<img src="/img/pizzaparts/jalapeno.svg" alt="Jalapeno" />
+							Jalapeno
+						</button>
+						<button on:click={() => pizza.finishingTouches = []}>
+							<img src="/img/misc/no.svg" alt="No Finishing Touches" />
+							None
+						</button>
+					</div>
 				{/if}
 
 			</div>
@@ -253,14 +429,14 @@
 		top: 0;
 		left: 0;
 		width: 30vw;
-		height: 70%;
+		height: 100%;
 		background-color: rgba(0, 0, 0, 0.1);
 		color: white;
 		font-size: 2em;
 	}
 
 	#pizzaChoiceHeader {
-		font-size: 1.5em;
+		font-size: 1.25em;
 		color: white;
 		text-align: center;
 	}
@@ -271,8 +447,9 @@
 		flex-wrap: wrap;
 		justify-content: center;
 		align-items: center;
-		height: 80%;
-  		gap: 5vw;
+		height: 100%;
+  		column-gap: 5vw;
+		row-gap: 2vh;
 		align-content: center;
 	}
 
@@ -281,7 +458,8 @@
 	}
 
 	#pizzaChoiceButtons button img {
-		width: 10vw;
+		width: 8vw;
+		max-width: 8vw;
 		margin: auto;
 	}
 
