@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import PizzaDialogBox from '$lib/components/activities/pizza-time/PizzaDialogBox.svelte';
+	import PizzaDisplay, { type PizzaConfig } from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
@@ -21,6 +22,7 @@
 	let line: Line;
 
 	$: line = data.line;
+	$: lineNumber = data.lineNumber;
 
 	/**
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
@@ -59,7 +61,7 @@
 			if (line.id == script.lines.length) {
 				let progress = getUpdatedProgress();
 				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress)
+				updateLocalProgress(progress);
 				
                 // Next level
                 goto('/level1/pizza-time?page=1');
@@ -73,24 +75,215 @@
 		}
 	};
 
+	let noDialogueLine: Line = {
+		id: 0,
+		audio: '',
+		dialog: '',
+		speakers: [],
+		avatars: [],
+		background: '',
+	};
+
+	$: {
+		noDialogueLine = {...line, dialog: ''};
+	}
+
+	let pizza: PizzaConfig = {
+		crust: 'thin',
+		sauce: null,
+		cheese: false,
+		meats: [],
+		veggies: [],
+		finishingTouches: []
+	};
+
+	let pizzaDisplay: PizzaDisplay | void;
+
 	let content: HTMLElement | void;
 </script>
 
 <Scene background="/img/backgrounds/level1/16596.png" audio={line.audio}>
 	<div id="dialogue" slot="dialog">
-		<PizzaDialogBox {line} on:dialogEvent={handleDialogEvent} />
+		{#if lineNumber < 3}
+			<PizzaDialogBox {line} on:dialogEvent={handleDialogEvent} />
+		{:else}
+			<PizzaDialogBox line={noDialogueLine} on:dialogEvent={handleDialogEvent} />
+
+			<div id="pizzaChoices">
+				{#if lineNumber == 3}
+				<div id="pizzaChoiceHeader">Choose your crust!</div>
+				<div id="pizzaChoiceButtons">
+					<button on:click={() => pizza.crust = 'thin'}>
+						<img src="/img/pizzaparts/thincrust.svg" alt="Thin" />
+						Thin
+					</button>
+					<button on:click={() => pizza.crust = 'thick'}>
+						<img src="/img/pizzaparts/thickcrust.svg" alt="Thick" />
+						Thick
+					</button>
+					<button on:click={() => pizza.crust = 'cauliflower'}>
+						<img src="/img/pizzaparts/cauliflowercrust.svg" alt="Cauliflower" />
+						Cauliflower
+					</button>
+				</div>
+				{/if}
+				{#if lineNumber == 4}
+				<div id="pizzaChoiceHeader">Choose your sauce!</div>
+				<div id="pizzaChoiceButtons">
+					<button on:click={() => pizza.sauce = 'alfredo'}>
+						<img src="/img/pizzaparts/alfredo.svg" alt="Alfredo" />
+						Alfredo
+					</button>
+					<button on:click={() => pizza.sauce = 'marinara'}>
+						<img src="/img/pizzaparts/marinara.svg" alt="Marinara" />
+						Marinara
+					</button>
+					<button on:click={() => pizza.sauce = 'bbq'}>
+						<img src="/img/pizzaparts/bbq.svg" alt="BBQ" />
+						BBQ
+					</button>
+					<button on:click={() => pizza.sauce = 'spicy'}>
+						<img src="/img/pizzaparts/spicy.svg" alt="Spicy" />
+						Spicy
+					</button>
+				</div>
+				
+				{/if}
+				{#if lineNumber == 5}
+				<div id="pizzaChoiceHeader">Add cheese?</div>
+
+				{/if}
+
+			</div>
+		{/if}
 	</div>
-	<div slot="content" class="h-full w-full"  bind:this={content}>
+	<div slot="content" id="content"  bind:this={content}>
+		{#if lineNumber == 1 }
+			<button id="startButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
+				<img src="/img/misc/pizzastart.png" alt="Start" />
+			</button>
+		{/if}
+		{#if lineNumber > 1 }
+			<img src="/img/misc/cuttingboard.png" id="bgboard" alt="cutting board" />
+
+			{#if lineNumber > 2}
+				<PizzaDisplay size={"45vw"} bind:this={pizzaDisplay} {...pizza} />
+			{/if}
+
+			<div id="navButtons">
+				<button id="prevButton" on:click={() => handleNavigation(NavigationDirection.backward)}>
+					<img src="/img/misc/pizzaback.png" alt="Previous" />
+				</button>
+				<button id="nextButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
+					<img src="/img/misc/pizzanext.png" alt="Next" />
+				</button>
+			</div>
+		{/if}
 	</div>
 </Scene>
 
 
 <style>
-	#dialogue {
-		position: fixed;
+	#content {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		position: absolute;
+		right: 0;
+		width: 70vw;
+	}
+
+	#startButton {
+		transition: all 0.3s;
+	}
+
+	#startButton:hover {
+		transform: scale(1.1);
+		filter: brightness(1.1);
+	}
+
+	#startButton:active {
+		transform: scale(0.9);
+		filter: brightness(0.9);
+	}
+
+	#startButton img {
+		width: 30vw;
+	}
+
+	#bgboard {
+		width: 90%;
+		max-width: unset;
+		position: absolute;
+		pointer-events: none;
+		user-select: none;
+		right: 0;
+	}
+
+	#navButtons {
+		position: absolute;
+		bottom: 0;
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+		max-height: 10vh;
+	}
+
+	#prevButton, #nextButton {
+		transition: all 0.3s;
+	}
+
+	#prevButton:hover, #nextButton:hover {
+		transform: scale(1.05);
+		filter: brightness(1.1);
+	}
+
+	#prevButton:active, #nextButton:active {
+		transform: scale(0.9);
+		filter: brightness(0.9);
+	}
+
+	#prevButton img, #nextButton img {
+		max-height: 10vh;
+	}
+
+	#pizzaChoices {
+		position: absolute;
 		top: 0;
 		left: 0;
-		width: 100%;
-		height: 100%;
+		width: 30vw;
+		height: 70%;
+		background-color: rgba(0, 0, 0, 0.1);
+		color: white;
+		font-size: 2em;
 	}
+
+	#pizzaChoiceHeader {
+		font-size: 1.5em;
+		color: white;
+		text-align: center;
+	}
+
+	#pizzaChoiceButtons {
+		display: flex;
+		flex-flow: row;
+		flex-wrap: wrap;
+		justify-content: center;
+		align-items: center;
+		height: 80%;
+  		gap: 5vw;
+		align-content: center;
+	}
+
+	#pizzaChoiceButtons button {
+		text-align: center;
+	}
+
+	#pizzaChoiceButtons button img {
+		width: 10vw;
+		margin: auto;
+	}
+
+
 </style>

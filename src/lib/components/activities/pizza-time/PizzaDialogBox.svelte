@@ -104,25 +104,20 @@
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
 <div id="dialogueroot">
-	<div class="avatar">
-			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} />
+	<div id="textbox" class="bg-jet relative flex items-center justify-center rounded p-4 text-white">
+		<div class="w-full grid grid-cols-5 items-center justify-center gap-8 align-middle">
+			<p bind:this={dialogueParagraph} class="col-span-5 mt-auto w-full h-full leading-relaxed {settings.fontSize ?? defaultSettings.fontSize}">
+				{line.dialog}
+			</p>
+		</div>
+	</div>
+
+	<div class="davatar">
+			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} extraStyle={"height: 35vh; max-height:35vh; max-width: fit-content;"} avatarClass={""} />
 	</div>
 	
 
-	<div id="textbox" class="bg-jet relative flex items-center justify-center rounded p-4 text-white">
-		<div class="w-full grid grid-cols-5 items-center justify-center gap-8 align-middle">
-			<button class="mr-6 rotate-180 backbutton" on:click={back}>
-				<img src="/img/svg/dialog-arrow.svg" alt="Go Back" class="h-14 w-14" draggable="false" />
-			</button>
-			<p bind:this={dialogueParagraph} class="col-span-3 mt-auto w-full h-full leading-relaxed {settings.fontSize ?? defaultSettings.fontSize}">
-				{line.dialog}
-			</p>
-			<button class="forwardbutton" on:click={forward}>
-				<img src="/img/svg/dialog-arrow.svg" alt="Go Forward" class="h-14 w-14" draggable="false"  />
-			</button>
-		</div>
-	</div>
-	<div class="nametag bg-peach relative z-20 rounded px-3 text-3xl text-black">
+	<div class="nametag relative z-20 rounded px-3 text-3xl text-black">
 		{line.speakers[0]}
 	</div>
 </div>
@@ -169,10 +164,10 @@
 		left: 0;
 	}
 
-	.avatar {
+	.davatar {
 		position: absolute;
-		top: 10%;
 		left: 50%;
+		bottom: -5%;
 		transform: translateX(-50%);
 		z-index: 10;
 	}
@@ -182,6 +177,7 @@
 		bottom: 0;
 		left: 50%;
 		transform: translateX(-50%);
+		background-color: gray;
 	}
 
 	#textbox {
