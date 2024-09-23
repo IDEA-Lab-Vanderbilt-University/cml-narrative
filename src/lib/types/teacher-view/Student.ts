@@ -7,4 +7,8 @@ export interface Student {
 	interests?: string[];
 	avatar?: string;
 	agent_name?: string;
+	updated_at?: {
+		secs_since_epoch: number;
+		nanos_since_epoch: number;
+	}
 }

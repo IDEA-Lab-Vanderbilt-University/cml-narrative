@@ -216,7 +216,7 @@
 								selectedStudents.length === $studentClassStore.length} />
 					</th>
 					<th class="w-2/6 px-5 py-5">Name</th>
-					<th class="w-2/6 py-5">Age</th>
+					<th class="w-2/6 py-5">Progress Updated At</th>
 				</tr>
 
 				{#each $studentClassStore as student}
@@ -232,7 +232,8 @@
 						</td>
 						<!-- <td class="px-5">{student.id}</td> -->
 						<td class="w-2/6 px-5">{student.first_name} {student.last_name}</td>
-						<td class="w-2/6">{student.age}</td>
+						<td class="w-2/6"
+							>{new Date(student.updated_at.secs_since_epoch * 1000).toLocaleString()}</td>
 					</tr>
 				{/each}
 			</table>
