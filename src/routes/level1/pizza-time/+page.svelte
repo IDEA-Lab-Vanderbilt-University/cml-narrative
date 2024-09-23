@@ -5,7 +5,7 @@
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
-	import script from '$lib/scripts/introduction/script.js';
+	import script from '$lib/scripts/level1/pizza-time/index.js';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import type { UserProgress } from '$lib/types/UserData.js';
@@ -58,13 +58,13 @@
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (line.id == script.lines.length) {
+			if (line.id >= script.lines.length) {
 				let progress = getUpdatedProgress();
 				await DataService.Data.updateUserProgress(progress);
 				updateLocalProgress(progress);
 				
                 // Next level
-                goto('/level1/pizza-time?page=1');
+				goto('/level1/pizza-algorithm?page=1');
 			} else {
 				goto(`/level1/pizza-time?page=${line.id + 1}`);
 			}

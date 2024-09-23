@@ -22,12 +22,23 @@
 	import Modal from 'svelte-simple-modal';
 
 	let tabletModal: TabletModal | void;
+	let main: HTMLDivElement | void;
 	
 	onMount(() => {
 		document.addEventListener('showTablet', (e) => {
 			console.log('showTablet event received');
 			if (tabletModal) {
 				tabletModal.hidden = false;
+				main.classList.remove('lg:block');
+				main.classList.add('hidden');
+			}
+		});
+		document.addEventListener('hideTablet', (e) => {
+			console.log('showTablet event received');
+			if (tabletModal) {
+				tabletModal.hidden = true;
+				main.classList.add('lg:block');
+				main.classList.remove('hidden');
 			}
 		});
 	});
@@ -40,7 +51,7 @@
 <Modal>
 	
 		<TabletModal hidden bind:this={tabletModal}></TabletModal>
-	<div class="right-size font-cantora hidden lg:block w-full h-full">
+	<div class="right-size font-cantora lg:block w-full h-full" bind:this={main}>
 		<TourWrapper>
 			<slot />
 		</TourWrapper>

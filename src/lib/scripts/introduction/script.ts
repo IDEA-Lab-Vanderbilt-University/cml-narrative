@@ -200,7 +200,6 @@ const script: Script = {
 			audio: '/audio/level0/agent_spark/agent_spark_l0s22.wav',
 			pos: 'left'
 		}
-	],
-	length: 18
+	]
 };
 export default script;
