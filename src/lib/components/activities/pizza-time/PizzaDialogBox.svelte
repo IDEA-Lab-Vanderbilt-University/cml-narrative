@@ -188,6 +188,8 @@
 		border-radius: 10px;
 		position: relative;
 		top: 10%;
+		z-index: 15;
+		background-color: rgba(0, 0, 0, 0.5);
 	}
 
 
