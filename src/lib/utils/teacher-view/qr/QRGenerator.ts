@@ -34,7 +34,7 @@ const generatePDFDocument = async (students: Student[]) => {
 				})
 				.addImage(img, 'PNG', x, y + 10, 50, 50)
 				.setFontSize(18)
-				.text(student.firstName + ' ' + student.lastName, x + 50, y + 20)
+				.text(student.first_name + ' ' + student.last_name, x + 50, y + 20)
 				.setFontSize(12)
 				.text(
 					[

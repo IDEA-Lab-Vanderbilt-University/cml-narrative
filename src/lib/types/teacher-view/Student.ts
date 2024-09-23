@@ -1,7 +1,10 @@
 export interface Student {
-	id: string;
-	firstName: string;
-	lastName: string;
-	email: string;
-	password?: string;
+	id?: string;
+	teacher_id: string;
+	first_name: string;
+	last_name: string;
+	age?: number;
+	interests?: string[];
+	avatar?: string;
+	agent_name?: string;
 }
