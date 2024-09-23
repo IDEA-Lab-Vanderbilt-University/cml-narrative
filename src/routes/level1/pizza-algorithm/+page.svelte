@@ -17,8 +17,10 @@
 	export let data;
 
 	let line: Line;
+    let lineNumber: number;
 
 	$: line = data.line;
+    $: lineNumber = data.lineNumber;
 
 	/**
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
@@ -77,7 +79,18 @@
         <PizzaDialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
 	<div slot="content"  id="content"  bind:this={content}>
-        
+        {#if lineNumber == 1}
+            <div id="algo1">
+                <img src="/img/misc/pizzastep.png" alt="Place the flattened dough on a pizza baking board and spread pizza sauce evenly on the dough." />
+                <img src="/img/misc/pizzastep.png" alt="Add desired topping on crust." />
+                <img src="/img/misc/pizzastep.png" alt="Place pizza in preheated oven set at 350 degrees." />
+                <img src="/img/misc/pizzastep.png" alt="Allow pizza to cook for 10 minutes or until crust is golden." />
+                <img src="/img/misc/pizzastep.png" alt="Use robotic arms to carefully remove the pizza from the oven." />
+                <img src="/img/misc/pizzastep.png" alt="Allow the pizza to cool for 5 minutes.  Use the pizza cutter to slice the pizza into  8 equal triangular slices." />
+                <img src="/img/misc/pizzastep.png" alt="Give customer pizza and napkins." />
+                
+            </div>
+        {/if}        
 
         <div id="navButtons">
             <button id="nextButton" disabled on:click={() => handleNavigation(NavigationDirection.forward)}>
@@ -97,6 +110,10 @@
 		position: absolute;
 		right: 0;
 		width: 70vw;
+        background: url('/img/backgrounds/cuttingboard.png') no-repeat;
+        background-position-x: 95%;
+        background-position-y: center;
+        background-size: auto 105%;
     }
 
 	#navButtons {
@@ -126,10 +143,4 @@
     #nextButton img {
 		max-height: 10vh;
 	}
-
-    #tabletButtonContainer {
-        position: absolute;
-        top: 0;
-        right: 0;
-    }
 </style>

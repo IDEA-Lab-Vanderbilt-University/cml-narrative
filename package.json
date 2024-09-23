@@ -17,6 +17,7 @@
 		"@macfja/svelte-persistent-store": "^2.4.1",
 		"@popperjs/core": "^2.11.8",
 		"@zxing/library": "^0.21.3",
+		"dragula": "^3.7.3",
 		"intro.js": "^7.2.0",
 		"jspdf": "^2.5.1",
 		"lodash": "^4.17.21",
