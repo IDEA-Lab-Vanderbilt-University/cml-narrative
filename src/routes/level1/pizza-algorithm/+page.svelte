@@ -77,20 +77,7 @@
         <PizzaDialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
 	<div slot="content"  id="content"  bind:this={content}>
-		{#if line.id == 9}
-			<DefinitionModal title="Algorithm" definition="An algorithm is a set of step-by-step instruction for solving a problem or completing a task" on:click={() => { handleDialogEvent({detail: { state: NavigationDirection.forward}})}} />
-		{/if}
-
-        <div id="tabletButtonContainer">
-            <TabletButton on:click={() => { 
-                const event  = new CustomEvent('showTablet', {
-                    bubbles: true
-                });
-                
-                content?.dispatchEvent(event);
-            }} />
-        </div>
-
+        
 
         <div id="navButtons">
             <button id="nextButton" disabled on:click={() => handleNavigation(NavigationDirection.forward)}>
@@ -111,10 +98,11 @@
 		right: 0;
 		width: 70vw;
     }
-    
+
 	#navButtons {
 		position: absolute;
-		bottom: 0;
+        right: 1vw;
+        bottom: 12vh;
 		width: 100%;
 		max-height: 10vh;
 	}
