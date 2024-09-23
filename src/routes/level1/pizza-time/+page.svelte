@@ -455,7 +455,15 @@
 
 	#pizzaChoiceButtons button {
 		text-align: center;
+		transition: all 0.3s;
 	}
+
+	#pizzaChoiceButtons button:hover {
+		transform: scale(1.1);
+		filter: brightness(1.1);
+	}
+
+
 
 	#pizzaChoiceButtons button img {
 		width: 8vw;
