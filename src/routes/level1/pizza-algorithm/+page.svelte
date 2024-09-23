@@ -72,6 +72,26 @@
 	};
 
 	let content: HTMLElement | void;
+
+    let algorithmSteps = [
+        "Place the flattened dough on a pizza baking board and spread pizza sauce evenly on the dough.",
+        "Add desired topping on crust.",
+        "Place pizza in preheated oven set at 350 degrees.",
+        "Allow pizza to cook for 10 minutes or until crust is golden.",
+        "Use robotic arms to carefully remove the pizza from the oven.",
+        "Allow the pizza to cool for 5 minutes.  Use the pizza cutter to slice the pizza into  8 equal triangular slices.",
+        "Give customer pizza and napkins."
+    ];
+
+    let algorithmStepStyles = [
+        "filter: drop-shadow(0 0 0.75rem black) hue-rotate(0deg);",
+        "filter: drop-shadow(0 0 0.75rem black) hue-rotate(45deg);",
+        "filter: drop-shadow(0 0 0.75rem black) hue-rotate(90deg);",
+        "filter: drop-shadow(0 0 0.75rem black) hue-rotate(135deg);",
+        "filter: drop-shadow(0 0 0.75rem black) hue-rotate(180deg);",
+        "filter: drop-shadow(0 0 0.75rem black) hue-rotate(225deg);",
+        "filter: drop-shadow(0 0 0.75rem black) hue-rotate(270deg);"
+    ];
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -81,13 +101,11 @@
 	<div slot="content"  id="content"  bind:this={content}>
         {#if lineNumber == 1}
             <div id="algo1">
-                <img src="/img/misc/pizzastep.png" alt="Place the flattened dough on a pizza baking board and spread pizza sauce evenly on the dough." />
-                <img src="/img/misc/pizzastep.png" alt="Add desired topping on crust." />
-                <img src="/img/misc/pizzastep.png" alt="Place pizza in preheated oven set at 350 degrees." />
-                <img src="/img/misc/pizzastep.png" alt="Allow pizza to cook for 10 minutes or until crust is golden." />
-                <img src="/img/misc/pizzastep.png" alt="Use robotic arms to carefully remove the pizza from the oven." />
-                <img src="/img/misc/pizzastep.png" alt="Allow the pizza to cool for 5 minutes.  Use the pizza cutter to slice the pizza into  8 equal triangular slices." />
-                <img src="/img/misc/pizzastep.png" alt="Give customer pizza and napkins." />
+                {#each algorithmSteps as step, i}
+                    <div class="step" style={algorithmStepStyles[i]}>
+                        <p>{step}</p>
+                    </div>
+                {/each}
                 
             </div>
         {/if}        
@@ -113,7 +131,7 @@
         background: url('/img/backgrounds/cuttingboard.png') no-repeat;
         background-position-x: 95%;
         background-position-y: center;
-        background-size: auto 105%;
+        background-size: 100vw 105vh;
     }
 
 	#navButtons {
@@ -143,4 +161,34 @@
     #nextButton img {
 		max-height: 10vh;
 	}
+
+    .step {
+        margin: 1vh;
+        padding: 1vh;
+        height: 8vh;
+        display: table;
+        width: 40vw;
+        text-align: center;
+        background: repeating-linear-gradient(
+          -45deg,
+        #ff7373,
+        #ff7373 10px,
+        #db4a4a 10px,
+        #db4a4a 20px
+        );
+        border-radius: 3vh;
+        border: 0.5vh solid #454545;
+    }
+
+    .step p {
+        display: table-cell;
+        vertical-align: middle;
+        font-size: 1.5rem;
+        font-family: 'Cantora One', sans-serif;
+        color: white;
+        text-shadow: 0 0 0.1em black;
+        -webkit-text-stroke: 0.02rem #000;
+        height: 100%;
+        user-select: none;
+    }
 </style>
