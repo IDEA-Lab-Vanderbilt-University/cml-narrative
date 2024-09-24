@@ -177,8 +177,8 @@
         }
 
         .step {
-            margin: 1vh;
-            padding: 1vh;
+            margin: 0.75vh;
+            padding: 0.75vh;
             height: 8vh;
             display: table;
             width: 40vw;
