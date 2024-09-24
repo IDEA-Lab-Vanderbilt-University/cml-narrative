@@ -150,15 +150,16 @@
         #navButtons {
             position: absolute;
             right: 1vw;
-            bottom: 12vh;
+            bottom: 10vh;
             width: 100%;
-            max-height: 10vh;
+            max-height: 8vh;
         }
 
         #nextButton {
             transition: all 0.3s;
             position: absolute;
             right: 0;
+            height: 8vh;
         }
 
         #nextButton:hover {
@@ -172,7 +173,7 @@
         }
 
         #nextButton img {
-            max-height: 10vh;
+            height: 100%;
         }
 
         .step {
