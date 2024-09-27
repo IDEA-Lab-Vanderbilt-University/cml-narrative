@@ -14,6 +14,7 @@
         import { userDataStore } from '$lib/utils/stores/store.js';
         import { createEventDispatcher, onMount } from 'svelte';
         import Sortable from 'sortablejs';
+        import { fade } from 'svelte/transition';
 
         export let data;
 
@@ -94,6 +95,18 @@
             "filter: drop-shadow(0 0 0.75rem black) hue-rotate(270deg);"
         ];
 
+        let algorithmIndices = [0, 1, 2, 3, 4, 5, 6];
+        let algorithmRandomIndices = [];
+        
+        for (let i = algorithmIndices.length - 1; i >= 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [algorithmIndices[i], algorithmIndices[j]] = [algorithmIndices[j], algorithmIndices[i]];
+        }
+
+        for (let i = 0; i < algorithmIndices.length; i++) {
+            algorithmRandomIndices.push(algorithmIndices[i]);
+        }
+
         let algo1: HTMLElement | void;
 
         $: if (lineNumber == 1 && algo1) {
@@ -112,22 +125,31 @@
             <PizzaDialogBox {line} on:dialogEvent={handleDialogEvent} />
         </div>
         <div slot="content"  id="content"  bind:this={content}>
-            {#if lineNumber == 1}
+
+            {#if lineNumber == 1 || lineNumber == 2 || lineNumber == 3}
                 <ul id="algo1" bind:this={algo1}>
-                    {#each algorithmSteps as step, i}
+                    {#each algorithmRandomIndices as i}
                         <li class="step" style={algorithmStepStyles[i]}>
-                            <p>{step}</p>
+                            <p>{algorithmSteps[i]}</p>
                         </li>
                     {/each}
-                    
                 </ul>
-            {/if}        
-
-            <div id="navButtons">
-                <button id="nextButton" disabled on:click={() => handleNavigation(NavigationDirection.forward)}>
-                    <img src="/img/misc/pizzasend.png" alt="Send" />
-                </button>
-            </div>
+                
+                <div id="navButtons">
+                    <button id="nextButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
+                        <img src="/img/misc/pizzasend.png" alt="Send" />
+                    </button>
+                </div>
+            {/if}
+            {#if lineNumber == 4}
+                <div class="commandBlock" draggable="true">
+                    <div class="blockstart" />
+                    <div class="blockcontent">
+                        <p>Place the flattened dough on a pizza baking board and spread pizza sauce evenly on the dough.</p>
+                    </div>
+                    <div class="blockend" />
+                </div>
+            {/if}    
         </div>
     </Scene>
 
@@ -204,5 +226,45 @@
             -webkit-text-stroke: 0.02rem #000;
             height: 100%;
             user-select: none;
+        }
+
+        .commandBlock {
+            z-index: 1;
+            padding: 1vh;
+            height: 8vh;
+        }
+
+        .blockcontent p {
+            background: url('/img/misc/blockparts/commandm.png') repeat-x;
+            height: 100%;
+            background-size: 100% 100%;
+            text-align: left;
+            vertical-align: middle;
+            line-height: 5vh;
+            height: 6vh;
+        }
+
+        .blockcontent p {
+            clear: none;
+            float: right;
+        }
+
+        .blockend {
+            background: url('/img/misc/blockparts/commandr.png') no-repeat;
+            background-size: auto 100%;
+            width: 5vh;
+            left: 100%;
+            height: 6vh;
+            bottom: 0;
+        }
+
+        .blockstart {
+            background: url('/img/misc/blockparts/commandl.png') no-repeat;
+            background-size: auto 100%;
+            width: 5vh;
+            right: 100%;            
+            height: 6vh;
+            bottom: 0;
+            float: left;
         }
     </style>
