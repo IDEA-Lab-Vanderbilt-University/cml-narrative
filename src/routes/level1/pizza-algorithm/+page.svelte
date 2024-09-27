@@ -158,6 +158,19 @@
                     <div class="blockend" />
                 </div>
 
+                <div class="ifBlock" draggable="true">
+                    <div class="blockstart" />
+                    <div class="blockcontent">
+                        <p>If then</p>
+                    </div>
+                    <div class="blocktopend" />
+                    <div class="blockstem" />
+                    <div class="blockcontent">
+                        <p>Do it</p>
+                    </div>
+                    <div class="blockend" />
+                </div>
+
             {/if}    
         </div>
     </Scene>
@@ -287,11 +300,12 @@
         .predicateBlock .blockcontent p {
             background-color: #59C059;
             height: 100%;
-            background-size: 100% 100%;
             text-align: left;
             vertical-align: middle;
             line-height: 4vh;
             height: 5vh;
+            margin-left: -0.025vh;
+            margin-right: -0.025vh;
             border-top: 0.5vh solid #389438;
             border-bottom: 0.5vh solid #389438;
         }
