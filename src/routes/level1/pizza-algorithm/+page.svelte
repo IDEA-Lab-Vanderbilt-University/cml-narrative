@@ -159,14 +159,18 @@
                 </div>
 
                 <div class="ifBlock" draggable="true">
-                    <div class="blockstart" />
-                    <div class="blockcontent">
-                        <p>If then</p>
+                    <div style="clear: both;">
+                        <div class="blocktopstart" />
+                        <div class="blockcontent">
+                            <p>If blah blah blah then</p>
+                        </div>
+                        <div class="blocktopend" />
                     </div>
-                    <div class="blocktopend" />
-                    <div class="blockstem" />
-                    <div class="blockcontent">
-                        <p>Do it</p>
+                    <div style="clear: both;">
+                        <div class="blockstem" />
+                        <div class="blockinner">
+                            <p>Do it</p>
+                        </div>
                     </div>
                     <div class="blockend" />
                 </div>
@@ -257,6 +261,10 @@
         }
 
         .commandBlock .blockcontent p {
+            margin-left: -3vh;
+        }
+
+        .commandBlock .blockcontent {
             background: url('/img/misc/blockparts/commandm.png') repeat-x;
             height: 100%;
             background-size: 100% 100%;
@@ -264,9 +272,6 @@
             vertical-align: middle;
             line-height: 5vh;
             height: 6vh;
-        }
-
-        .commandBlock .blockcontent {
             clear: none;
             float: left;
         }
@@ -357,6 +362,75 @@
             background-color: #59C059;
             clip-path: polygon(0 0, 100% 50%, 0 100%);
             display: block;
+        }
+
+        .ifBlock {
+            z-index: 1;
+            padding: 1vh;
+            min-height: 16vh;
+        }
+
+        .ifBlock .blockcontent p {
+            margin-left: -3vh;
+        }
+
+        .ifBlock .blockcontent {
+            background: url('/img/misc/blockparts/iftopmiddle.png') repeat-x;
+            background-size: 100% 100%;
+            height: 100%;
+            text-align: left;
+            vertical-align: middle;
+            line-height: 4vh;
+            height: 5vh;
+            clear: none;
+            float: left;
+            margin-left: -0.025vh;
+            margin-right: -0.025vh;
+        }
+
+        .ifBlock .blocktopend {
+            background: url('/img/misc/blockparts/iftopend.png') no-repeat;
+            background-size: auto 100%;
+            width: 2.5vh;
+            left: 100%;
+            height: 5vh;
+            bottom: 0;
+            float: left;
+        }
+
+        .ifBlock .blocktopstart {
+            background: url('/img/misc/blockparts/iftopstart.png') no-repeat;
+            background-size: auto 100%;
+            width: 6vh;
+            right: 100%;
+            height: 5vh;
+            bottom: 0;
+            float: left;
+        }
+
+        .ifBlock .blockstem {
+            background: url('/img/misc/blockparts/ifstem.png') repeat-y;
+            background-size: 100% 100%;
+            height: 6vh;
+            width: 1.6vh;
+            left: 100%;
+            bottom: 0;
+            float: left;
+        }
+
+        .ifBlock .blockinner {
+            clear: none;
+            float: left;
+        }
+
+        .ifBlock .blockend {
+            background: url('/img/misc/blockparts/ifbottom.png') no-repeat;
+            background-size: auto 100%;
+            width: 30vh;
+            left: 100%;
+            height: 4vh;
+            bottom: 0;
+            float: left;
         }
 
     </style>
