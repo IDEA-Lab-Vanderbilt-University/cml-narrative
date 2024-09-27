@@ -145,10 +145,19 @@
                 <div class="commandBlock" draggable="true">
                     <div class="blockstart" />
                     <div class="blockcontent">
-                        <p>Place the flattened dough on a pizza baking board and spread pizza sauce evenly on the dough.</p>
+                        <p>Add cheese to pizza</p>
                     </div>
                     <div class="blockend" />
                 </div>
+                
+                <div class="predicateBlock" draggable="true">
+                    <div class="blockstart" />
+                    <div class="blockcontent">
+                        <p>Cheese requested</p>
+                    </div>
+                    <div class="blockend" />
+                </div>
+
             {/if}    
         </div>
     </Scene>
@@ -234,7 +243,7 @@
             height: 8vh;
         }
 
-        .blockcontent p {
+        .commandBlock .blockcontent p {
             background: url('/img/misc/blockparts/commandm.png') repeat-x;
             height: 100%;
             background-size: 100% 100%;
@@ -244,21 +253,22 @@
             height: 6vh;
         }
 
-        .blockcontent p {
+        .commandBlock .blockcontent {
             clear: none;
-            float: right;
+            float: left;
         }
 
-        .blockend {
+        .commandBlock .blockend {
             background: url('/img/misc/blockparts/commandr.png') no-repeat;
             background-size: auto 100%;
-            width: 5vh;
+            width: 2.5vh;
             left: 100%;
             height: 6vh;
             bottom: 0;
+            float: right;
         }
 
-        .blockstart {
+        .commandBlock .blockstart {
             background: url('/img/misc/blockparts/commandl.png') no-repeat;
             background-size: auto 100%;
             width: 5vh;
@@ -267,4 +277,72 @@
             bottom: 0;
             float: left;
         }
+
+        .predicateBlock {
+            z-index: 1;
+            padding: 1vh;
+            height: 8vh;
+        }
+
+        .predicateBlock .blockcontent p {
+            background-color: #59C059;
+            height: 100%;
+            background-size: 100% 100%;
+            text-align: left;
+            vertical-align: middle;
+            line-height: 4vh;
+            height: 5vh;
+            border-top: 0.5vh solid #389438;
+            border-bottom: 0.5vh solid #389438;
+        }
+
+        .predicateBlock .blockcontent {
+            clear: none;
+            float: left;
+        }
+
+        .predicateBlock .blockstart {
+            background-color: #389438;
+            width: 2.5vh;
+            left: 100%;
+            height: 5vh;
+            bottom: 0;
+            float: left;
+            clip-path: polygon(100% 0, 0% 50%, 100% 100%);
+        }
+
+        .predicateBlock .blockstart::after {
+            content: '';
+            position: relative;
+            top: 0.5vh;
+            left: 0.65vh;
+            width: calc(100% - 0.65vh);
+            height: calc(100% - 1vh);
+            background-color: #59C059;
+            clip-path: polygon(100% 0, 0% 50%, 100% 100%);
+            display: block;
+        }
+
+        .predicateBlock .blockend {
+            background-color: #389438;
+            width: 2.5vh;
+            left: 100%;
+            height: 5vh;
+            bottom: 0;
+            float: right;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+        }
+
+        .predicateBlock .blockend::after {
+            content: '';
+            position: relative;
+            top: 0.5vh;
+            left: 0;
+            width: calc(100% - 0.65vh);
+            height: calc(100% - 1vh);
+            background-color: #59C059;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+            display: block;
+        }
+
     </style>
