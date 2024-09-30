@@ -142,10 +142,11 @@
                 </div>
             {/if}
             {#if lineNumber == 4}
+            <!--
                 <div class="commandBlock" draggable="true">
                     <div class="blockstart" />
                     <div class="blockcontent">
-                        <p>Add cheese to pizza</p>
+                        <p>Add cheese</p>
                     </div>
                     <div class="blockend" />
                 </div>
@@ -170,6 +171,42 @@
                         <div class="blockstem" />
                         <div class="blockinner">
                             <p>Do it</p>
+                        </div>
+                    </div>
+                    <div class="blockend" />
+                </div>
+            -->
+
+                <div class="ifBlock">
+                    <div style="clear: both;">
+                        <div class="blocktopstart" />
+                        <div class="blockcontent">
+                            <span>
+                                If 
+                            </span>
+                            <div class="predicateBlock" draggable="true">
+                                <div class="blockstart" />
+                                <div class="blockcontent">
+                                    <p>Cheese requested</p>
+                                </div>
+                                <div class="blockend" />
+                            </div>
+                            <span>
+                                then
+                            </span>
+                        </div>
+                        <div class="blocktopend" />
+                    </div>
+                    <div style="clear: both;">
+                        <div class="blockstem" />
+                        <div class="blockinner">
+                            <div class="commandBlock" draggable="true">
+                                <div class="blockstart" />
+                                <div class="blockcontent">
+                                    <p>Add cheese to pizza</p>
+                                </div>
+                                <div class="blockend" />
+                            </div>
                         </div>
                     </div>
                     <div class="blockend" />
@@ -260,11 +297,11 @@
             height: 8vh;
         }
 
-        .commandBlock .blockcontent p {
+        .commandBlock > .blockcontent p {
             margin-left: -3vh;
         }
 
-        .commandBlock .blockcontent {
+        .commandBlock > .blockcontent {
             background: url('/img/misc/blockparts/commandm.png') repeat-x;
             height: 100%;
             background-size: 100% 100%;
@@ -300,6 +337,7 @@
             z-index: 1;
             padding: 1vh;
             height: 8vh;
+            display: inline-block;
         }
 
         .predicateBlock .blockcontent p {
@@ -370,22 +408,28 @@
             min-height: 16vh;
         }
 
-        .ifBlock .blockcontent p {
+        .ifBlock .blockcontent span {
             margin-left: -3vh;
         }
 
-        .ifBlock .blockcontent {
+        .ifBlock .predicateBlock {
+            margin-left: 2vh;
+            margin-right: 2vh; 
+        }
+
+        .ifBlock > * > .blockcontent {
             background: url('/img/misc/blockparts/iftopmiddle.png') repeat-x;
             background-size: 100% 100%;
             height: 100%;
             text-align: left;
             vertical-align: middle;
             line-height: 4vh;
-            height: 5vh;
+            height: 8vh;
             clear: none;
             float: left;
             margin-left: -0.025vh;
             margin-right: -0.025vh;
+            display: flex;
         }
 
         .ifBlock .blocktopend {
@@ -393,7 +437,7 @@
             background-size: auto 100%;
             width: 2.5vh;
             left: 100%;
-            height: 5vh;
+            height: 8vh;
             bottom: 0;
             float: left;
         }
@@ -401,9 +445,9 @@
         .ifBlock .blocktopstart {
             background: url('/img/misc/blockparts/iftopstart.png') no-repeat;
             background-size: auto 100%;
-            width: 6vh;
+            width: 9vh;
             right: 100%;
-            height: 5vh;
+            height: 8vh;
             bottom: 0;
             float: left;
         }
@@ -411,8 +455,8 @@
         .ifBlock .blockstem {
             background: url('/img/misc/blockparts/ifstem.png') repeat-y;
             background-size: 100% 100%;
-            height: 6vh;
-            width: 1.6vh;
+            min-height: 6vh;
+            width: 2.55vh;
             left: 100%;
             bottom: 0;
             float: left;
@@ -423,14 +467,20 @@
             float: left;
         }
 
-        .ifBlock .blockend {
+        .ifBlock > .blockend {
             background: url('/img/misc/blockparts/ifbottom.png') no-repeat;
             background-size: auto 100%;
-            width: 30vh;
-            left: 100%;
-            height: 4vh;
+            width: 45vh;
+            left: 0;
+            height: 6.2vh;
             bottom: 0;
             float: left;
+            clear: both;
+        }
+
+        .ifBlock .blockinner .commandBlock {
+            margin-top: -2.5vh;
+            margin-left: -1vh;
         }
 
     </style>
