@@ -288,7 +288,6 @@
                                                 t.innerHTML = e.dataTransfer.getData('text/plain');
                                                 t.children[0].style['padding'] = '0';
                                                 t.style['padding'] = '0';
-                                                t.children[0].style['margin-top'] = '-1vh';
                                                 t.classList.add('slotDropped');
                                                 t.classList.remove('commandBlockSlot');
                                             }
@@ -552,7 +551,7 @@
             margin-left: -3vh;
         }
 
-        .ifBlock .predicateBlock {
+        .ifBlock :global(.predicateBlock) {
             margin-left: 2vh;
             margin-right: 2vh; 
         }
@@ -572,6 +571,10 @@
             display: flex;
             align-items: center;
             gap: 1vh;
+        }
+
+        .ifBlock > * > .blockcontent span:first-child {
+            margin-left: -5vh;
         }
 
         .ifBlock .blocktopend {
@@ -620,9 +623,8 @@
             clear: both;
         }
 
-        .ifBlock .blockinner .commandBlock {
-            margin-top: -2.5vh;
-            margin-left: -1vh;
+        .ifBlock .blockinner :global(.commandBlock) {
+            margin-top: -1.25vh;
+            margin-left: 0.25vh;
         }
-
     </style>
