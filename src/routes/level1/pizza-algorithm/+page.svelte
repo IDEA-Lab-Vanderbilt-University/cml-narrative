@@ -176,6 +176,21 @@
                     <div class="blockend" />
                 </div>
             -->
+            <div class="predicateBlock" draggable="true">
+                <div class="blockstart" />
+                <div class="blockcontent">
+                    <p>Cheese requested</p>
+                </div>
+                <div class="blockend" />
+            </div>
+
+            <div class="commandBlock" draggable="true">
+                <div class="blockstart" />
+                <div class="blockcontent">
+                    <p>Add cheese to pizza</p>
+                </div>
+                <div class="blockend" />
+            </div>
 
                 <div class="ifBlock">
                     <div style="clear: both;">
@@ -184,13 +199,9 @@
                             <span>
                                 If 
                             </span>
-                            <div class="predicateBlock" draggable="true">
-                                <div class="blockstart" />
-                                <div class="blockcontent">
-                                    <p>Cheese requested</p>
-                                </div>
-                                <div class="blockend" />
+                            <div class="predicateBlockSlot">
                             </div>
+
                             <span>
                                 then
                             </span>
@@ -200,12 +211,8 @@
                     <div style="clear: both;">
                         <div class="blockstem" />
                         <div class="blockinner">
-                            <div class="commandBlock" draggable="true">
-                                <div class="blockstart" />
-                                <div class="blockcontent">
-                                    <p>Add cheese to pizza</p>
-                                </div>
-                                <div class="blockend" />
+                            <div class="commandBlockSlot">
+                                
                             </div>
                         </div>
                     </div>
@@ -402,6 +409,59 @@
             display: block;
         }
 
+
+        .predicateBlockSlot {
+            z-index: 1;
+            padding: 1vh;
+            height: 5vh;
+            display: inline-block;
+            position: relative;
+            left: -1vh;
+            top: -0.5vh;
+            margin-right: 4vh;
+            min-width: 10vh;
+            margin-left: 4vh;
+            background-color: #9a9a9a;
+        }
+
+        .predicateBlockSlot::before {
+            content: '';
+            background-color: #9a9a9a;
+            width: 2.5vh;
+            position: relative;
+            left: -3.5vh;
+            height: 5vh;
+            top: -1vh;
+            float: left;
+            clip-path: polygon(100% 0, 0% 50%, 100% 100%);
+        }
+        
+
+        .predicateBlockSlot::after {
+            content: '';
+            background-color: #9a9a9a;
+            width: 2.5vh;
+            height: 5vh;
+            position: relative;
+            right: -3.45vh;
+            height: 5vh;
+            top: -1vh;
+            float: right;
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+        }
+
+        .commandBlockSlot {
+            z-index: 1;
+            padding: 1vh;
+            height: 6vh;
+            background: #9a9a9a;
+            text-align: left;
+            vertical-align: middle;
+            min-width: 20vh;
+        }
+
+
+
         .ifBlock {
             z-index: 1;
             padding: 1vh;
@@ -430,6 +490,8 @@
             margin-left: -0.025vh;
             margin-right: -0.025vh;
             display: flex;
+            align-items: center;
+            gap: 1vh;
         }
 
         .ifBlock .blocktopend {

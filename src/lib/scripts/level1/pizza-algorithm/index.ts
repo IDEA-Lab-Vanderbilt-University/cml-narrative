@@ -33,7 +33,7 @@ export const script: Script = {
             id: 4,
             speakers: ['Chef Bot'],
             dialog:
-                'If/then statements help machines understand the order of your algorithm. Drag and drop the [If] and [Then] blocks in the correct places in the algorithm.',
+                'If/then statements help machines make choices. Drag and drop the <condition> and [action] blocks in the correct places in the algorithm.',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
             audio: '/audio/level1/chef_bot/chef_bot_l1s4.wav',
