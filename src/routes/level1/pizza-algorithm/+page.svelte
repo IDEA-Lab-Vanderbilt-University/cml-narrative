@@ -81,7 +81,7 @@
             "Place pizza in preheated oven set at 350 degrees.",
             "Allow pizza to cook for 10 minutes or until crust is golden.",
             "Use robotic arms to carefully remove the pizza from the oven.",
-            "Allow the pizza to cool for 5 minutes.  Use the pizza cutter to slice the pizza into  8 equal triangular slices.",
+            "Allow the pizza to cool for 5 minutes. Use the pizza cutter to slice the pizza into 8 equal triangular slices.",
             "Give customer pizza and napkins."
         ];
 
@@ -109,7 +109,7 @@
 
         let algo1: HTMLElement | void;
 
-        $: if (lineNumber == 1 && algo1) {
+        $: if (algo1) {
             let sortable = new Sortable(algo1, {
                 animation: 150,
                 ghostClass: 'bg-jet',
@@ -128,18 +128,44 @@
 
             {#if lineNumber == 1 || lineNumber == 2 || lineNumber == 3}
                 <ul id="algo1" bind:this={algo1}>
-                    {#each algorithmRandomIndices as i}
-                        <li class="step" style={algorithmStepStyles[i]}>
+                    {#each algorithmRandomIndices as i, index}
+                        <li class="step" style={algorithmStepStyles[index]}>
                             <p>{algorithmSteps[i]}</p>
                         </li>
                     {/each}
                 </ul>
-                
-                <div id="navButtons">
-                    <button id="nextButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
-                        <img src="/img/misc/pizzasend.png" alt="Send" />
-                    </button>
-                </div>
+                {#if lineNumber == 3}
+                    <div id="navButtons">
+                        <button id="nextButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
+                            <img src="/img/misc/pizzasend.png" alt="Send" />
+                        </button>
+                    </div>
+                {:else}
+                    <div id="navButtons">
+                        <button id="nextButton" on:click={() => {
+                            // Validate the order of the steps
+                            let steps = algo1.querySelectorAll('.step');
+
+                            console.dir(steps);
+                            let correct = true;
+                            for (let i = 0; i < steps.length; i++) {
+                                if (steps[i].innerText != algorithmSteps[i]) {
+                                    correct = false;
+                                    console.log('Incorrect step at index', i, steps[i].innerText, algorithmSteps[i]);
+                                    break;
+                                }
+                            }
+
+                            if (correct) {
+                                goto(`/level1/pizza-algorithm?page=3`);
+                            } else {
+                                goto(`/level1/pizza-algorithm?page=2`);
+                            }
+                        }}>
+                            <img src="/img/misc/pizzasend.png" alt="Send" />
+                        </button>
+                    </div>
+                {/if}
             {/if}
             {#if lineNumber == 4}
             <!--
