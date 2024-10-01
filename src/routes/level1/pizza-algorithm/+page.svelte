@@ -176,7 +176,15 @@
                     <div class="blockend" />
                 </div>
             -->
-            <div class="predicateBlock" draggable="true">
+            <div class="predicateBlock" draggable="true" role="listitem"
+            on:dragstart={(e) => {
+                console.log('dragstart', e);
+                if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+                    e.dataTransfer.dropEffect = 'move';
+                    e.dataTransfer.setData('text/plain', e.target.outerHTML);
+                }
+            }}
+            >
                 <div class="blockstart" />
                 <div class="blockcontent">
                     <p>Cheese requested</p>
@@ -199,9 +207,40 @@
                             <span>
                                 If 
                             </span>
-                            <div class="predicateBlockSlot">
-                            </div>
+                            <div class="predicateBlockSlot slot" 
+                            role="listitem" 
+                            on:dragenter={(e) => {
+                                console.log('dragenter', e);
+                                e.preventDefault();
+                            }}
+                            on:dragleave={(e) => {
+                                console.log('dragleave', e);
+                                e.preventDefault();
+                            }}
+                            on:dragover={(e) => {
+                                e.preventDefault();
+                            }}
+                            on:drop={(e) => {
+                                console.log('drop', e);
+                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
+                                    let t = e.target;
+                                    while(t.parentElement instanceof HTMLElement && !t.classList.contains('slot')) {
+                                        t = t.parentElement;
+                                    }
 
+                                    if(t instanceof HTMLElement) {
+                                        if(!t.classList.contains('slotDropped')) {
+                                            t.innerHTML = e.dataTransfer.getData('text/plain');
+                                            t.children[0].style['padding'] = '0';
+                                            t.style['padding'] = '0';
+                                            t.classList.add('slotDropped');
+                                            t.classList.remove('predicateBlockSlot');
+                                        }
+                                    }
+                                }
+                                e.preventDefault();
+                            }}
+                            />
                             <span>
                                 then
                             </span>
@@ -343,7 +382,6 @@
         .predicateBlock {
             z-index: 1;
             padding: 1vh;
-            height: 8vh;
             display: inline-block;
         }
 
@@ -429,7 +467,7 @@
             background-color: #9a9a9a;
             width: 2.5vh;
             position: relative;
-            left: -3.5vh;
+            left: -3.45vh;
             height: 5vh;
             top: -1vh;
             float: left;
@@ -449,7 +487,7 @@
             float: right;
             clip-path: polygon(0 0, 100% 50%, 0 100%);
         }
-
+ 
         .commandBlockSlot {
             z-index: 1;
             padding: 1vh;
@@ -460,15 +498,13 @@
             min-width: 20vh;
         }
 
-
-
         .ifBlock {
             z-index: 1;
             padding: 1vh;
             min-height: 16vh;
         }
 
-        .ifBlock .blockcontent span {
+        .ifBlock .blockcontent span:first {
             margin-left: -3vh;
         }
 
