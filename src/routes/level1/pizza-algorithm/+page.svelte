@@ -192,7 +192,14 @@
                 <div class="blockend" />
             </div>
 
-            <div class="commandBlock" draggable="true">
+            <div class="commandBlock" draggable="true" role="listitem"            
+            on:dragstart={(e) => {
+                console.log('dragstart', e);
+                if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+                    e.dataTransfer.dropEffect = 'move';
+                    e.dataTransfer.setData('text/plain', e.target.outerHTML);
+                }
+            }}>
                 <div class="blockstart" />
                 <div class="blockcontent">
                     <p>Add cheese to pizza</p>
@@ -223,18 +230,20 @@
                             on:drop={(e) => {
                                 console.log('drop', e);
                                 if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
-                                    let t = e.target;
-                                    while(t.parentElement instanceof HTMLElement && !t.classList.contains('slot')) {
-                                        t = t.parentElement;
-                                    }
+                                    if(e.dataTransfer.getData('text/plain').includes('predicateBlock')) {
+                                        let t = e.target;
+                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('slot')) {
+                                            t = t.parentElement;
+                                        }
 
-                                    if(t instanceof HTMLElement) {
-                                        if(!t.classList.contains('slotDropped')) {
-                                            t.innerHTML = e.dataTransfer.getData('text/plain');
-                                            t.children[0].style['padding'] = '0';
-                                            t.style['padding'] = '0';
-                                            t.classList.add('slotDropped');
-                                            t.classList.remove('predicateBlockSlot');
+                                        if(t instanceof HTMLElement) {
+                                            if(!t.classList.contains('slotDropped')) {
+                                                t.innerHTML = e.dataTransfer.getData('text/plain');
+                                                t.children[0].style['padding'] = '0';
+                                                t.style['padding'] = '0';
+                                                t.classList.add('slotDropped');
+                                                t.classList.remove('predicateBlockSlot');
+                                            }
                                         }
                                     }
                                 }
@@ -250,9 +259,45 @@
                     <div style="clear: both;">
                         <div class="blockstem" />
                         <div class="blockinner">
-                            <div class="commandBlockSlot">
-                                
-                            </div>
+                            <div class="commandBlockSlot"  role="listitem"
+                            on:dragenter={(e) => {
+                                console.log('dragenter', e);
+                                e.preventDefault();
+                            }}
+
+                            on:dragleave={(e) => {
+                                console.log('dragleave', e);
+                                e.preventDefault();
+                            }}
+
+                            on:dragover={(e) => {
+                                e.preventDefault();
+                            }}
+
+                            on:drop={(e) => {
+                                console.log('drop', e);
+                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
+                                    if(e.dataTransfer.getData('text/plain').includes('commandBlock')) {
+                                        let t = e.target;
+                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('commandBlockSlot')) {
+                                            t = t.parentElement;
+                                        }
+
+                                        if(t instanceof HTMLElement) {
+                                            if(!t.classList.contains('slotDropped')) {
+                                                t.innerHTML = e.dataTransfer.getData('text/plain');
+                                                t.children[0].style['padding'] = '0';
+                                                t.style['padding'] = '0';
+                                                t.children[0].style['margin-top'] = '-1vh';
+                                                t.classList.add('slotDropped');
+                                                t.classList.remove('commandBlockSlot');
+                                            }
+                                        }
+                                    }
+                                }
+                                e.preventDefault();
+                            }}
+                            />
                         </div>
                     </div>
                     <div class="blockend" />
@@ -340,7 +385,6 @@
         .commandBlock {
             z-index: 1;
             padding: 1vh;
-            height: 8vh;
         }
 
         .commandBlock > .blockcontent p {
