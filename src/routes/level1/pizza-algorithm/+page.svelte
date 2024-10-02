@@ -57,20 +57,20 @@
          * which line in the script should be returned to the user.
          */
         const handleNavigation = async (direction: NavigationDirection) => {
-            if (direction == NavigationDirection.forward) {
-                if (line.id == 14) {
-                    let progress = getUpdatedProgress();
-                    await DataService.Data.updateUserProgress(progress);
-                    updateLocalProgress(progress)
+            // if (direction == NavigationDirection.forward) {
+            //     if (line.id == 14) {
+            //         let progress = getUpdatedProgress();
+            //         await DataService.Data.updateUserProgress(progress);
+            //         updateLocalProgress(progress)
                     
-                    // Next level
-                    goto('/level1/outro?page=1');
-                } else {
-                    goto(`/level1/pizza-algorithm?page=${line.id + 1}`);
-                }
-            } else if (direction == NavigationDirection.backward && line.id > 1) {
-                goto(`/level1/pizza-algorithm?page=${line.id - 1}`);
-            }
+            //         // Next level
+            //         goto('/level1/outro?page=1');
+            //     } else {
+            //         goto(`/level1/pizza-algorithm?page=${line.id + 1}`);
+            //     }
+            // } else if (direction == NavigationDirection.backward && line.id > 1) {
+            //     goto(`/level1/pizza-algorithm?page=${line.id - 1}`);
+            // }
         };
 
         let content: HTMLElement | void;
@@ -136,7 +136,7 @@
                 </ul>
                 {#if lineNumber == 3}
                     <div id="navButtons">
-                        <button id="nextButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
+                        <button id="nextButton" on:click={() => goto('/level1/pizza-algorithm?page=4')}>
                             <img src="/img/misc/pizzasend.png" alt="Send" />
                         </button>
                     </div>
@@ -157,7 +157,7 @@
                             }
 
                             if (correct) {
-                                goto(`/level1/pizza-algorithm?page=3`);
+                                goto('/level1/pizza-algorithm?page=3');
                             } else {
                                 goto(`/level1/pizza-algorithm?page=2`);
                             }
@@ -168,40 +168,7 @@
                 {/if}
             {/if}
             {#if lineNumber == 4}
-            <!--
-                <div class="commandBlock" draggable="true">
-                    <div class="blockstart" />
-                    <div class="blockcontent">
-                        <p>Add cheese</p>
-                    </div>
-                    <div class="blockend" />
-                </div>
-                
-                <div class="predicateBlock" draggable="true">
-                    <div class="blockstart" />
-                    <div class="blockcontent">
-                        <p>Cheese requested</p>
-                    </div>
-                    <div class="blockend" />
-                </div>
-
-                <div class="ifBlock" draggable="true">
-                    <div style="clear: both;">
-                        <div class="blocktopstart" />
-                        <div class="blockcontent">
-                            <p>If blah blah blah then</p>
-                        </div>
-                        <div class="blocktopend" />
-                    </div>
-                    <div style="clear: both;">
-                        <div class="blockstem" />
-                        <div class="blockinner">
-                            <p>Do it</p>
-                        </div>
-                    </div>
-                    <div class="blockend" />
-                </div>
-            -->
+            
             <div class="predicateBlock" draggable="true" role="listitem"
             on:dragstart={(e) => {
                 console.log('dragstart', e);
