@@ -109,6 +109,8 @@
 
         let algo1: HTMLElement | void;
 
+        let palette: HTMLElement | void;
+
         $: if (algo1) {
             let sortable = new Sortable(algo1, {
                 animation: 150,
@@ -118,6 +120,43 @@
                 }
             });
         }
+
+        $: if (palette) {
+            // Shuffle blocks in palette
+            let blocksList = palette.querySelectorAll('.predicateBlock, .commandBlock');
+            let blocks = Array.from(blocksList);
+            for (let i = blocks.length - 1; i >= 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [blocks[i], blocks[j]] = [blocks[j], blocks[i]];
+            }
+
+            for (let i = 0; i < blocks.length; i++) {
+                palette.appendChild(blocks[i]);
+            }
+        }
+
+        const blockDropHandler = (e: DragEvent, blockClass: string) => {
+            console.log('drop', e);
+            if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
+                if(e.dataTransfer.getData('text/plain').includes(blockClass)) {
+                    let t = e.target;
+                    while(t.parentElement instanceof HTMLElement && !t.classList.contains(blockClass + 'Slot')) {
+                        t = t.parentElement;
+                    }
+
+                    if(t instanceof HTMLElement && t.classList.contains(blockClass + 'Slot')) {
+                        if(!t.classList.contains('slotDropped')) {
+                            t.innerHTML = e.dataTransfer.getData('text/plain');
+                            t.children[0].style['padding'] = '0';
+                            t.style['padding'] = '0';
+                            t.classList.add('slotDropped');
+                            t.classList.remove(blockClass + 'Slot');
+                        }
+                    }
+                }
+            }
+            e.preventDefault();
+        };
     </script>
 
     <Scene background={line.background} audio={line.audio}>
@@ -168,7 +207,7 @@
                 {/if}
             {/if}
             {#if lineNumber == 4}
-            <div class="palette">
+            <div class="palette" bind:this={palette}>
                 <div class="predicateBlock" draggable="true" role="listitem"
                 on:dragstart={(e) => {
                     console.log('dragstart', e);
@@ -185,6 +224,40 @@
                     <div class="blockend" />
                 </div>
 
+
+                <div class="predicateBlock" draggable="true" role="listitem"
+                on:dragstart={(e) => {
+                    console.log('dragstart', e);
+                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+                        e.dataTransfer.dropEffect = 'move';
+                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
+                    }
+                }}
+                >
+                    <div class="blockstart" />
+                    <div class="blockcontent">
+                        <p>Veggie topping requested</p>
+                    </div>
+                    <div class="blockend" />
+                </div>
+
+
+                <div class="predicateBlock" draggable="true" role="listitem"
+                on:dragstart={(e) => {
+                    console.log('dragstart', e);
+                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+                        e.dataTransfer.dropEffect = 'move';
+                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
+                    }
+                }}
+                >
+                    <div class="blockstart" />
+                    <div class="blockcontent">
+                        <p>Meat topping requested</p>
+                    </div>
+                    <div class="blockend" />
+                </div>
+
                 <div class="commandBlock" draggable="true" role="listitem"            
                 on:dragstart={(e) => {
                     console.log('dragstart', e);
@@ -196,6 +269,38 @@
                     <div class="blockstart" />
                     <div class="blockcontent">
                         <p>Add cheese to pizza</p>
+                    </div>
+                    <div class="blockend" />
+                </div>
+
+
+                <div class="commandBlock" draggable="true" role="listitem"            
+                on:dragstart={(e) => {
+                    console.log('dragstart', e);
+                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+                        e.dataTransfer.dropEffect = 'move';
+                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
+                    }
+                }}>
+                    <div class="blockstart" />
+                    <div class="blockcontent">
+                        <p>Add veggies to pizza</p>
+                    </div>
+                    <div class="blockend" />
+                </div>
+
+
+                <div class="commandBlock" draggable="true" role="listitem"            
+                on:dragstart={(e) => {
+                    console.log('dragstart', e);
+                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+                        e.dataTransfer.dropEffect = 'move';
+                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
+                    }
+                }}>
+                    <div class="blockstart" />
+                    <div class="blockcontent">
+                        <p>Add meat to pizza</p>
                     </div>
                     <div class="blockend" />
                 </div>
@@ -222,28 +327,7 @@
                             on:dragover={(e) => {
                                 e.preventDefault();
                             }}
-                            on:drop={(e) => {
-                                console.log('drop', e);
-                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
-                                    if(e.dataTransfer.getData('text/plain').includes('predicateBlock')) {
-                                        let t = e.target;
-                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('slot')) {
-                                            t = t.parentElement;
-                                        }
-
-                                        if(t instanceof HTMLElement) {
-                                            if(!t.classList.contains('slotDropped')) {
-                                                t.innerHTML = e.dataTransfer.getData('text/plain');
-                                                t.children[0].style['padding'] = '0';
-                                                t.style['padding'] = '0';
-                                                t.classList.add('slotDropped');
-                                                t.classList.remove('predicateBlockSlot');
-                                            }
-                                        }
-                                    }
-                                }
-                                e.preventDefault();
-                            }}
+                            on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
                             />
                             <span>
                                 then
@@ -269,28 +353,7 @@
                                 e.preventDefault();
                             }}
 
-                            on:drop={(e) => {
-                                console.log('drop', e);
-                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
-                                    if(e.dataTransfer.getData('text/plain').includes('commandBlock')) {
-                                        let t = e.target;
-                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('commandBlockSlot')) {
-                                            t = t.parentElement;
-                                        }
-
-                                        if(t instanceof HTMLElement) {
-                                            if(!t.classList.contains('slotDropped')) {
-                                                t.innerHTML = e.dataTransfer.getData('text/plain');
-                                                t.children[0].style['padding'] = '0';
-                                                t.style['padding'] = '0';
-                                                t.classList.add('slotDropped');
-                                                t.classList.remove('commandBlockSlot');
-                                            }
-                                        }
-                                    }
-                                }
-                                e.preventDefault();
-                            }}
+                            on:drop={(e) => blockDropHandler(e, 'commandBlock')}
                             />
                         </div>
                     </div>
@@ -317,28 +380,7 @@
                             on:dragover={(e) => {
                                 e.preventDefault();
                             }}
-                            on:drop={(e) => {
-                                console.log('drop', e);
-                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
-                                    if(e.dataTransfer.getData('text/plain').includes('predicateBlock')) {
-                                        let t = e.target;
-                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('slot')) {
-                                            t = t.parentElement;
-                                        }
-
-                                        if(t instanceof HTMLElement) {
-                                            if(!t.classList.contains('slotDropped')) {
-                                                t.innerHTML = e.dataTransfer.getData('text/plain');
-                                                t.children[0].style['padding'] = '0';
-                                                t.style['padding'] = '0';
-                                                t.classList.add('slotDropped');
-                                                t.classList.remove('predicateBlockSlot');
-                                            }
-                                        }
-                                    }
-                                }
-                                e.preventDefault();
-                            }}
+                            on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
                             />
                             <span>
                                 then
@@ -366,28 +408,7 @@
                                 e.preventDefault();
                             }}
 
-                            on:drop={(e) => {
-                                console.log('drop', e);
-                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
-                                    if(e.dataTransfer.getData('text/plain').includes('commandBlock')) {
-                                        let t = e.target;
-                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('commandBlockSlot')) {
-                                            t = t.parentElement;
-                                        }
-
-                                        if(t instanceof HTMLElement) {
-                                            if(!t.classList.contains('slotDropped')) {
-                                                t.innerHTML = e.dataTransfer.getData('text/plain');
-                                                t.children[0].style['padding'] = '0';
-                                                t.style['padding'] = '0';
-                                                t.classList.add('slotDropped');
-                                                t.classList.remove('commandBlockSlot');
-                                            }
-                                        }
-                                    }
-                                }
-                                e.preventDefault();
-                            }}
+                            on:drop={(e) => blockDropHandler(e, 'commandBlock')}
                             />
                         </div>
                     </div>
@@ -415,28 +436,7 @@
                             on:dragover={(e) => {
                                 e.preventDefault();
                             }}
-                            on:drop={(e) => {
-                                console.log('drop', e);
-                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
-                                    if(e.dataTransfer.getData('text/plain').includes('predicateBlock')) {
-                                        let t = e.target;
-                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('slot')) {
-                                            t = t.parentElement;
-                                        }
-
-                                        if(t instanceof HTMLElement) {
-                                            if(!t.classList.contains('slotDropped')) {
-                                                t.innerHTML = e.dataTransfer.getData('text/plain');
-                                                t.children[0].style['padding'] = '0';
-                                                t.style['padding'] = '0';
-                                                t.classList.add('slotDropped');
-                                                t.classList.remove('predicateBlockSlot');
-                                            }
-                                        }
-                                    }
-                                }
-                                e.preventDefault();
-                            }}
+                            on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
                             />
                             <span>
                                 then
@@ -462,28 +462,7 @@
                                 e.preventDefault();
                             }}
 
-                            on:drop={(e) => {
-                                console.log('drop', e);
-                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
-                                    if(e.dataTransfer.getData('text/plain').includes('commandBlock')) {
-                                        let t = e.target;
-                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('commandBlockSlot')) {
-                                            t = t.parentElement;
-                                        }
-
-                                        if(t instanceof HTMLElement) {
-                                            if(!t.classList.contains('slotDropped')) {
-                                                t.innerHTML = e.dataTransfer.getData('text/plain');
-                                                t.children[0].style['padding'] = '0';
-                                                t.style['padding'] = '0';
-                                                t.classList.add('slotDropped');
-                                                t.classList.remove('commandBlockSlot');
-                                            }
-                                        }
-                                    }
-                                }
-                                e.preventDefault();
-                            }}
+                            on:drop={(e) => blockDropHandler(e, 'commandBlock')}
                             />
                         </div>
                     </div>
