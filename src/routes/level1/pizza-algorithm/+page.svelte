@@ -168,38 +168,40 @@
                 {/if}
             {/if}
             {#if lineNumber == 4}
-            
-            <div class="predicateBlock" draggable="true" role="listitem"
-            on:dragstart={(e) => {
-                console.log('dragstart', e);
-                if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
-                    e.dataTransfer.dropEffect = 'move';
-                    e.dataTransfer.setData('text/plain', e.target.outerHTML);
-                }
-            }}
-            >
-                <div class="blockstart" />
-                <div class="blockcontent">
-                    <p>Cheese requested</p>
+            <div class="palette">
+                <div class="predicateBlock" draggable="true" role="listitem"
+                on:dragstart={(e) => {
+                    console.log('dragstart', e);
+                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+                        e.dataTransfer.dropEffect = 'move';
+                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
+                    }
+                }}
+                >
+                    <div class="blockstart" />
+                    <div class="blockcontent">
+                        <p>Cheese requested</p>
+                    </div>
+                    <div class="blockend" />
                 </div>
-                <div class="blockend" />
+
+                <div class="commandBlock" draggable="true" role="listitem"            
+                on:dragstart={(e) => {
+                    console.log('dragstart', e);
+                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+                        e.dataTransfer.dropEffect = 'move';
+                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
+                    }
+                }}>
+                    <div class="blockstart" />
+                    <div class="blockcontent">
+                        <p>Add cheese to pizza</p>
+                    </div>
+                    <div class="blockend" />
+                </div>
             </div>
 
-            <div class="commandBlock" draggable="true" role="listitem"            
-            on:dragstart={(e) => {
-                console.log('dragstart', e);
-                if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
-                    e.dataTransfer.dropEffect = 'move';
-                    e.dataTransfer.setData('text/plain', e.target.outerHTML);
-                }
-            }}>
-                <div class="blockstart" />
-                <div class="blockcontent">
-                    <p>Add cheese to pizza</p>
-                </div>
-                <div class="blockend" />
-            </div>
-
+            <div class="targetBlocks">
                 <div class="ifBlock">
                     <div style="clear: both;">
                         <div class="blocktopstart" />
@@ -295,6 +297,199 @@
                     <div class="blockend" />
                 </div>
 
+                <div class="ifBlock">
+                    <div style="clear: both;">
+                        <div class="blocktopstart" />
+                        <div class="blockcontent">
+                            <span>
+                                If 
+                            </span>
+                            <div class="predicateBlockSlot slot" 
+                            role="listitem" 
+                            on:dragenter={(e) => {
+                                console.log('dragenter', e);
+                                e.preventDefault();
+                            }}
+                            on:dragleave={(e) => {
+                                console.log('dragleave', e);
+                                e.preventDefault();
+                            }}
+                            on:dragover={(e) => {
+                                e.preventDefault();
+                            }}
+                            on:drop={(e) => {
+                                console.log('drop', e);
+                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
+                                    if(e.dataTransfer.getData('text/plain').includes('predicateBlock')) {
+                                        let t = e.target;
+                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('slot')) {
+                                            t = t.parentElement;
+                                        }
+
+                                        if(t instanceof HTMLElement) {
+                                            if(!t.classList.contains('slotDropped')) {
+                                                t.innerHTML = e.dataTransfer.getData('text/plain');
+                                                t.children[0].style['padding'] = '0';
+                                                t.style['padding'] = '0';
+                                                t.classList.add('slotDropped');
+                                                t.classList.remove('predicateBlockSlot');
+                                            }
+                                        }
+                                    }
+                                }
+                                e.preventDefault();
+                            }}
+                            />
+                            <span>
+                                then
+                            </span>
+                        </div>
+                        <div class="blocktopend" />
+                    </div>
+
+
+                    <div style="clear: both;">
+                        <div class="blockstem" />
+                        <div class="blockinner">
+                            <div class="commandBlockSlot"  role="listitem"
+                            on:dragenter={(e) => {
+                                console.log('dragenter', e);
+                                e.preventDefault();
+                            }}
+
+                            on:dragleave={(e) => {
+                                console.log('dragleave', e);
+                                e.preventDefault();
+                            }}
+
+                            on:dragover={(e) => {
+                                e.preventDefault();
+                            }}
+
+                            on:drop={(e) => {
+                                console.log('drop', e);
+                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
+                                    if(e.dataTransfer.getData('text/plain').includes('commandBlock')) {
+                                        let t = e.target;
+                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('commandBlockSlot')) {
+                                            t = t.parentElement;
+                                        }
+
+                                        if(t instanceof HTMLElement) {
+                                            if(!t.classList.contains('slotDropped')) {
+                                                t.innerHTML = e.dataTransfer.getData('text/plain');
+                                                t.children[0].style['padding'] = '0';
+                                                t.style['padding'] = '0';
+                                                t.classList.add('slotDropped');
+                                                t.classList.remove('commandBlockSlot');
+                                            }
+                                        }
+                                    }
+                                }
+                                e.preventDefault();
+                            }}
+                            />
+                        </div>
+                    </div>
+                    <div class="blockend" />
+                </div>
+
+
+                <div class="ifBlock">
+                    <div style="clear: both;">
+                        <div class="blocktopstart" />
+                        <div class="blockcontent">
+                            <span>
+                                If 
+                            </span>
+                            <div class="predicateBlockSlot slot" 
+                            role="listitem" 
+                            on:dragenter={(e) => {
+                                console.log('dragenter', e);
+                                e.preventDefault();
+                            }}
+                            on:dragleave={(e) => {
+                                console.log('dragleave', e);
+                                e.preventDefault();
+                            }}
+                            on:dragover={(e) => {
+                                e.preventDefault();
+                            }}
+                            on:drop={(e) => {
+                                console.log('drop', e);
+                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
+                                    if(e.dataTransfer.getData('text/plain').includes('predicateBlock')) {
+                                        let t = e.target;
+                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('slot')) {
+                                            t = t.parentElement;
+                                        }
+
+                                        if(t instanceof HTMLElement) {
+                                            if(!t.classList.contains('slotDropped')) {
+                                                t.innerHTML = e.dataTransfer.getData('text/plain');
+                                                t.children[0].style['padding'] = '0';
+                                                t.style['padding'] = '0';
+                                                t.classList.add('slotDropped');
+                                                t.classList.remove('predicateBlockSlot');
+                                            }
+                                        }
+                                    }
+                                }
+                                e.preventDefault();
+                            }}
+                            />
+                            <span>
+                                then
+                            </span>
+                        </div>
+                        <div class="blocktopend" />
+                    </div>
+                    <div style="clear: both;">
+                        <div class="blockstem" />
+                        <div class="blockinner">
+                            <div class="commandBlockSlot"  role="listitem"
+                            on:dragenter={(e) => {
+                                console.log('dragenter', e);
+                                e.preventDefault();
+                            }}
+
+                            on:dragleave={(e) => {
+                                console.log('dragleave', e);
+                                e.preventDefault();
+                            }}
+
+                            on:dragover={(e) => {
+                                e.preventDefault();
+                            }}
+
+                            on:drop={(e) => {
+                                console.log('drop', e);
+                                if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
+                                    if(e.dataTransfer.getData('text/plain').includes('commandBlock')) {
+                                        let t = e.target;
+                                        while(t.parentElement instanceof HTMLElement && !t.classList.contains('commandBlockSlot')) {
+                                            t = t.parentElement;
+                                        }
+
+                                        if(t instanceof HTMLElement) {
+                                            if(!t.classList.contains('slotDropped')) {
+                                                t.innerHTML = e.dataTransfer.getData('text/plain');
+                                                t.children[0].style['padding'] = '0';
+                                                t.style['padding'] = '0';
+                                                t.classList.add('slotDropped');
+                                                t.classList.remove('commandBlockSlot');
+                                            }
+                                        }
+                                    }
+                                }
+                                e.preventDefault();
+                            }}
+                            />
+                        </div>
+                    </div>
+                    <div class="blockend" />
+                </div>
+            </div>
             {/if}    
         </div>
     </Scene>
@@ -428,8 +623,8 @@
             vertical-align: middle;
             line-height: 4vh;
             height: 5vh;
-            margin-left: -0.025vh;
-            margin-right: -0.025vh;
+            margin-left: -0.05vh;
+            margin-right: -0.05vh;
             border-top: 0.5vh solid #389438;
             border-bottom: 0.5vh solid #389438;
         }
@@ -619,5 +814,29 @@
         .ifBlock .blockinner :global(.commandBlock) {
             margin-top: -1.25vh;
             margin-left: 0.25vh;
+        }
+
+        .targetBlocks {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .targetBlocks .ifBlock {
+            padding: 0;
+            margin-top: -0.75vh;
+            margin-bottom: -0.75vh;
+        }
+
+        .palette {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 20vw;
+            background-color: rgba(0, 0, 0, 0.5);
+            position: relative;
+            left: 0;
+            position: absolute;
         }
     </style>
