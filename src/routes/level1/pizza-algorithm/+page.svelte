@@ -81,6 +81,7 @@
             "Give customer pizza and napkins."
         ];
 
+        // Used to provide a nice set of colors to be randomly assigned to the algorithm steps
         let algorithmStepStyles = [
             "filter: drop-shadow(0 0 0.75rem black) hue-rotate(0deg);",
             "filter: drop-shadow(0 0 0.75rem black) hue-rotate(45deg);",
@@ -94,6 +95,7 @@
         let algorithmIndices = [0, 1, 2, 3, 4, 5, 6];
         let algorithmRandomIndices = [];
         
+        // Shuffle the algorithm steps
         for (let i = algorithmIndices.length - 1; i >= 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [algorithmIndices[i], algorithmIndices[j]] = [algorithmIndices[j], algorithmIndices[i]];
@@ -103,9 +105,8 @@
             algorithmRandomIndices.push(algorithmIndices[i]);
         }
 
+        // This is the sortable list for the algorithm steps
         let algo1: HTMLElement | void;
-
-        let palette: HTMLElement | void;
 
         $: if (algo1) {
             let sortable = new Sortable(algo1, {
@@ -116,6 +117,9 @@
                 }
             });
         }
+
+        // The palette of blocks available in the Parsons Problem
+        let palette: HTMLElement | void;
 
         $: if (palette) {
             // Shuffle blocks in palette
@@ -153,10 +157,13 @@
             if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
                 if(e.dataTransfer.getData('text/plain').includes(blockClass)) {
                     let t = e.target;
+
+                    // Find the slot that the block was dropped on
                     while(t.parentElement instanceof HTMLElement && !t.classList.contains(blockClass + 'Slot')) {
                         t = t.parentElement;
                     }
 
+                    // If we found a slot of the correct type, drop the block in it
                     if(t instanceof HTMLElement && t.classList.contains(blockClass + 'Slot')) {
                         if(!t.classList.contains('slotDropped')) {
                             t.innerHTML = e.dataTransfer.getData('text/plain');
