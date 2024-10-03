@@ -42,6 +42,15 @@ export const script: Script = {
             id: 5,
             speakers: ['Chef Bot'],
             dialog:
+                '...running simulation... Uh-oh! Those instructions don\'t make pizzas right! Let\'s try again!',
+            avatars: ['/img/characters/level-1/chef-bot.png'],
+            background: '/img/backgrounds/level1/pizza-time/1.png',
+            audio: '/audio/level1/chef_bot/chef_bot_l1s5.wav',
+        },
+        {
+            id: 6,
+            speakers: ['Chef Bot'],
+            dialog:
                 'With the instructions in this algorithm we can make the pizza exactly how you want it! I\'ll get started right away! Have a seat and we will bring it out when it\'s ready.',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',

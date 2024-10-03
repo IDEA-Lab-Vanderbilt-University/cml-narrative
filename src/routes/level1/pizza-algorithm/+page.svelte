@@ -1,11 +1,7 @@
     <script lang="ts">
         import { goto } from '$app/navigation';
         import PizzaDialogBox from '$lib/components/activities/pizza-time/PizzaDialogBox.svelte';
-        import PizzaDisplay from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
-        import DialogBox from '$lib/components/dialog/DialogBox.svelte';
-        import DefinitionModal from '$lib/components/modals/DefinitionModal.svelte';
         import Scene from '$lib/components/scene/Scene.svelte';
-        import TabletButton from '$lib/components/tablet/TabletButton.svelte';
         import script from '$lib/scripts/introduction/script.js';
         import { NavigationDirection } from '$lib/types/Enums';
         import type { Line } from '$lib/types/Script';
@@ -206,7 +202,7 @@
                     </div>
                 {/if}
             {/if}
-            {#if lineNumber == 4}
+            {#if lineNumber == 4 || lineNumber == 5 || lineNumber == 6}
             <div class="palette" bind:this={palette}>
                 <div class="predicateBlock" draggable="true" role="listitem"
                 on:dragstart={(e) => {
