@@ -131,8 +131,25 @@
             }
         }
 
+        /**
+         * Handles the drag event for blocks in the palette
+         * @param e Drag event object
+         */
+        const blockDragHandler = (e: DragEvent) => {
+            console.log('Block picked up', e);
+            if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+                e.dataTransfer.dropEffect = 'move';
+                e.dataTransfer.setData('text/plain', e.target.outerHTML);
+            }
+        };
+
+        /**
+         * Handles the drop event for blocks on the target slots
+         * @param e Drag event object
+         * @param blockClass The class of the block that is being dropped (e.g. predicateBlock, commandBlock)
+         */
         const blockDropHandler = (e: DragEvent, blockClass: string) => {
-            console.log('drop', e);
+            console.log('Block dropped', e);
             if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
                 if(e.dataTransfer.getData('text/plain').includes(blockClass)) {
                     let t = e.target;
@@ -205,13 +222,7 @@
             {#if lineNumber == 4 || lineNumber == 5 || lineNumber == 6}
             <div class="palette" bind:this={palette}>
                 <div class="predicateBlock" draggable="true" role="listitem"
-                on:dragstart={(e) => {
-                    console.log('dragstart', e);
-                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
-                        e.dataTransfer.dropEffect = 'move';
-                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
-                    }
-                }}
+                on:dragstart={blockDragHandler}
                 >
                     <div class="blockstart" />
                     <div class="blockcontent">
@@ -222,13 +233,7 @@
 
 
                 <div class="predicateBlock" draggable="true" role="listitem"
-                on:dragstart={(e) => {
-                    console.log('dragstart', e);
-                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
-                        e.dataTransfer.dropEffect = 'move';
-                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
-                    }
-                }}
+                on:dragstart={blockDragHandler}
                 >
                     <div class="blockstart" />
                     <div class="blockcontent">
@@ -239,13 +244,7 @@
 
 
                 <div class="predicateBlock" draggable="true" role="listitem"
-                on:dragstart={(e) => {
-                    console.log('dragstart', e);
-                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
-                        e.dataTransfer.dropEffect = 'move';
-                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
-                    }
-                }}
+                on:dragstart={blockDragHandler}
                 >
                     <div class="blockstart" />
                     <div class="blockcontent">
@@ -255,13 +254,7 @@
                 </div>
 
                 <div class="commandBlock" draggable="true" role="listitem"            
-                on:dragstart={(e) => {
-                    console.log('dragstart', e);
-                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
-                        e.dataTransfer.dropEffect = 'move';
-                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
-                    }
-                }}>
+                on:dragstart={blockDragHandler}>
                     <div class="blockstart" />
                     <div class="blockcontent">
                         <p>Add cheese to pizza</p>
@@ -271,13 +264,7 @@
 
 
                 <div class="commandBlock" draggable="true" role="listitem"            
-                on:dragstart={(e) => {
-                    console.log('dragstart', e);
-                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
-                        e.dataTransfer.dropEffect = 'move';
-                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
-                    }
-                }}>
+                on:dragstart={blockDragHandler}>
                     <div class="blockstart" />
                     <div class="blockcontent">
                         <p>Add veggies to pizza</p>
@@ -287,13 +274,7 @@
 
 
                 <div class="commandBlock" draggable="true" role="listitem"            
-                on:dragstart={(e) => {
-                    console.log('dragstart', e);
-                    if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
-                        e.dataTransfer.dropEffect = 'move';
-                        e.dataTransfer.setData('text/plain', e.target.outerHTML);
-                    }
-                }}>
+                on:dragstart={blockDragHandler}>
                     <div class="blockstart" />
                     <div class="blockcontent">
                         <p>Add meat to pizza</p>
