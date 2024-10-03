@@ -96,8 +96,8 @@
 
         let parsonsPairs = [
             ['Cheese requested', 'Add cheese to pizza'],
-            ['Veggie topping requested', 'Add veggies to pizza'],
-            ['Meat topping requested', 'Add meat to pizza']
+            ['Toppings requested', 'Add toppings to pizza'],
+            ['Finishing touches requested', 'Add finishing touches to pizza']
         ];
 
         let algorithmIndices = [0, 1, 2, 3, 4, 5, 6];
