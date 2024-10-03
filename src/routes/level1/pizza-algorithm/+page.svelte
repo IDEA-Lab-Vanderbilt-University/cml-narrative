@@ -247,6 +247,42 @@
             e.preventDefault();
         };
 
+        const validateParsonsProblem = () => {
+            let ifs = document.querySelectorAll('.ifBlock');
+            let correct = true;
+
+            for(let i = 0; i < ifs.length; i++) {
+                // Check if the predicate and command slots are filled
+                let predicateSlot = ifs[i].querySelector('.predicateBlock');
+                let commandSlot = ifs[i].querySelector('.commandBlock');
+
+                if(predicateSlot && commandSlot) {
+                    // Check if the predicate and command slots are filled with the correct blocks
+                    let predicate = predicateSlot.querySelector('.blockcontent p');
+                    let command = commandSlot.querySelector('.blockcontent p');
+
+                    if(predicate && command) {
+                        if(predicate.innerText != parsonsPairs[i][0] || command.innerText != parsonsPairs[i][1]) {
+                            correct = false;
+                            break;
+                        }
+                    } else {
+                        correct = false;
+                        break;
+                    }
+                } else {
+                    correct = false;
+                    break;
+                }
+            }
+
+            if (correct) {
+                goto('/level1/pizza-algorithm?page=6');
+            } else {
+                goto('/level1/pizza-algorithm?page=5');
+            }
+        };
+
 
     </script>
 
@@ -267,7 +303,7 @@
                 {#if lineNumber == 3}
                     <div id="navButtons">
                         <button id="nextButton" on:click={() => goto('/level1/pizza-algorithm?page=4')}>
-                            <img src="/img/misc/pizzasend.png" alt="Send" />
+                            <img src="/img/misc/pizzanext.png" alt="Send" />
                         </button>
                     </div>
                 {:else}
@@ -377,6 +413,20 @@
                         <div class="blockend" />
                     </div>
                 {/each}
+
+                {#if lineNumber == 6}
+                    <div id="navButtons">
+                        <button id="nextButton" on:click={() => goto('/level1/outro')}>
+                            <img src="/img/misc/pizzanext.png" alt="Send" />
+                        </button>
+                    </div>
+                {:else}
+                    <div id="navButtons">
+                        <button id="nextButton" on:click={validateParsonsProblem}>
+                            <img src="/img/misc/pizzasend.png" alt="Send" />
+                        </button>
+                    </div>
+                {/if}
             </div>
             {/if}    
         </div>
