@@ -205,16 +205,30 @@
 
                         } else {
                             // If the slot is already filled, remove the block from the slot and place it back in the palette
+                            
+                            // Send the block back to the palette
+                            let palette = document.querySelector('.palette');
+                            if(palette instanceof HTMLElement) {
+                                t.children[0].style['padding'] = '';
+                                palette.appendChild(t.children[0]);
+                            }
+
                             let originalBlock = Array.from(document.querySelectorAll('.' + blockClass))
                                 .filter((block) => block.outerHTML == e.dataTransfer?.getData('text/plain'));
 
                             if(originalBlock.length > 0) {
-                                // Send the block back to the palette
-                                let palette = document.querySelector('.palette');
-                                if(palette instanceof HTMLElement) {
-                                    palette.appendChild(originalBlock[0]);
+                                // Check if the block was already in a slot
+                                if(originalBlock[0].parentElement instanceof HTMLElement && originalBlock[0].parentElement.classList.contains('slotDropped')) {
+                                    let slot = originalBlock[0].parentElement;
+                                    slot.classList.remove('slotDropped');
+                                    slot.classList.add(blockClass + 'Slot');
+                                    slot.style['padding'] = '';
+                                    slot.innerHTML = '';
+                                } else {
+                                    originalBlock[0].remove();
                                 }
                             }
+
 
                             t.innerHTML = e.dataTransfer.getData('text/plain');
 
