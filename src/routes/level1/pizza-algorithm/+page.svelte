@@ -94,6 +94,12 @@
             "filter: drop-shadow(0 0 0.75rem black) hue-rotate(270deg);"
         ];
 
+        let parsonsPairs = [
+            ['Cheese requested', 'Add cheese to pizza'],
+            ['Veggie topping requested', 'Add veggies to pizza'],
+            ['Meat topping requested', 'Add meat to pizza']
+        ];
+
         let algorithmIndices = [0, 1, 2, 3, 4, 5, 6];
         let algorithmRandomIndices = [];
         
@@ -215,7 +221,7 @@
                             let block = t.children[0] as HTMLElement;
                             block.style['padding'] = '0';
                             block.ondragstart = blockDragHandler;
-                            
+
                             t.style['padding'] = '0';
                             t.classList.add('slotDropped');
                             t.classList.remove(blockClass + 'Slot');
@@ -279,66 +285,27 @@
             {/if}
             {#if lineNumber == 4 || lineNumber == 5 || lineNumber == 6}
             <div class="palette" bind:this={palette}>
-                <div class="predicateBlock" draggable="true" role="listitem"
-                on:dragstart={blockDragHandler}
-                >
-                    <div class="blockstart" />
-                    <div class="blockcontent">
-                        <p>Cheese requested</p>
+                {#each parsonsPairs as pair}
+                    <div class="predicateBlock" draggable="true" role="listitem"
+                    on:dragstart={blockDragHandler}
+                    >
+                        <div class="blockstart" />
+                        <div class="blockcontent">
+                            <p>{pair[0]}</p>
+                        </div>
+                        <div class="blockend" />
                     </div>
-                    <div class="blockend" />
-                </div>
 
-
-                <div class="predicateBlock" draggable="true" role="listitem"
-                on:dragstart={blockDragHandler}
-                >
-                    <div class="blockstart" />
-                    <div class="blockcontent">
-                        <p>Veggie topping requested</p>
+                    <div class="commandBlock" draggable="true" role="listitem"            
+                    on:dragstart={blockDragHandler}>
+                        <div class="blockstart" />
+                        <div class="blockcontent">
+                            <p>{pair[1]}</p>
+                        </div>
+                        <div class="blockend" />
                     </div>
-                    <div class="blockend" />
-                </div>
+                {/each}
 
-
-                <div class="predicateBlock" draggable="true" role="listitem"
-                on:dragstart={blockDragHandler}
-                >
-                    <div class="blockstart" />
-                    <div class="blockcontent">
-                        <p>Meat topping requested</p>
-                    </div>
-                    <div class="blockend" />
-                </div>
-
-                <div class="commandBlock" draggable="true" role="listitem"            
-                on:dragstart={blockDragHandler}>
-                    <div class="blockstart" />
-                    <div class="blockcontent">
-                        <p>Add cheese to pizza</p>
-                    </div>
-                    <div class="blockend" />
-                </div>
-
-
-                <div class="commandBlock" draggable="true" role="listitem"            
-                on:dragstart={blockDragHandler}>
-                    <div class="blockstart" />
-                    <div class="blockcontent">
-                        <p>Add veggies to pizza</p>
-                    </div>
-                    <div class="blockend" />
-                </div>
-
-
-                <div class="commandBlock" draggable="true" role="listitem"            
-                on:dragstart={blockDragHandler}>
-                    <div class="blockstart" />
-                    <div class="blockcontent">
-                        <p>Add meat to pizza</p>
-                    </div>
-                    <div class="blockend" />
-                </div>
             </div>
 
             <div class="targetBlocks">
