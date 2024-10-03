@@ -1,4 +1,6 @@
-    <script lang="ts">
+<svelte:document />
+
+<script lang="ts">
         import { goto } from '$app/navigation';
         import PizzaDialogBox from '$lib/components/activities/pizza-time/PizzaDialogBox.svelte';
         import Scene from '$lib/components/scene/Scene.svelte';
@@ -142,6 +144,7 @@
         const blockDragHandler = (e: DragEvent) => {
             console.log('Block picked up', e);
             if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+                e.dataTransfer.clearData();
                 e.dataTransfer.dropEffect = 'move';
                 e.dataTransfer.setData('text/plain', e.target.outerHTML);
             }
@@ -159,15 +162,60 @@
                     let t = e.target;
 
                     // Find the slot that the block was dropped on
-                    while(t.parentElement instanceof HTMLElement && !t.classList.contains(blockClass + 'Slot')) {
+                    while(t.parentElement instanceof HTMLElement && !t.classList.contains('slot')) {
                         t = t.parentElement;
                     }
 
                     // If we found a slot of the correct type, drop the block in it
-                    if(t instanceof HTMLElement && t.classList.contains(blockClass + 'Slot')) {
+                    if(t instanceof HTMLElement && t.classList.contains('slot')) {
                         if(!t.classList.contains('slotDropped')) {
+                            // Find original block to remove
+                            let originalBlock = Array.from(document.querySelectorAll('.' + blockClass))
+                                .filter((block) => block.outerHTML == e.dataTransfer?.getData('text/plain'));
+                                
+                                if(originalBlock.length > 0) {
+                                    // Check if the block was already in a slot
+                                    if(originalBlock[0].parentElement instanceof HTMLElement && originalBlock[0].parentElement.classList.contains('slotDropped')) {
+                                            let slot = originalBlock[0].parentElement;
+                                            slot.classList.remove('slotDropped');
+                                            slot.classList.add(blockClass + 'Slot');
+                                            slot.style['padding'] = '';
+                                            slot.innerHTML = '';
+                                    } else {
+                                        originalBlock[0].remove();
+                                    }
+                            }
+
+
                             t.innerHTML = e.dataTransfer.getData('text/plain');
-                            t.children[0].style['padding'] = '0';
+                            
+                            let block = t.children[0] as HTMLElement;
+                            block.style['padding'] = '0';
+                            block.ondragstart = blockDragHandler;
+
+                            t.style['padding'] = '0';
+                            t.classList.add('slotDropped');
+                            t.classList.remove(blockClass + 'Slot');
+
+                        } else {
+                            // If the slot is already filled, remove the block from the slot and place it back in the palette
+                            let originalBlock = Array.from(document.querySelectorAll('.' + blockClass))
+                                .filter((block) => block.outerHTML == e.dataTransfer?.getData('text/plain'));
+
+                            if(originalBlock.length > 0) {
+                                // Send the block back to the palette
+                                let palette = document.querySelector('.palette');
+                                if(palette instanceof HTMLElement) {
+                                    palette.appendChild(originalBlock[0]);
+                                }
+                            }
+
+                            t.innerHTML = e.dataTransfer.getData('text/plain');
+
+                            let block = t.children[0] as HTMLElement;
+                            block.style['padding'] = '0';
+                            block.ondragstart = blockDragHandler;
+                            
                             t.style['padding'] = '0';
                             t.classList.add('slotDropped');
                             t.classList.remove(blockClass + 'Slot');
@@ -175,8 +223,11 @@
                     }
                 }
             }
+
             e.preventDefault();
         };
+
+
     </script>
 
     <Scene background={line.background} audio={line.audio}>
@@ -322,7 +373,7 @@
                     <div style="clear: both;">
                         <div class="blockstem" />
                         <div class="blockinner">
-                            <div class="commandBlockSlot"  role="listitem"
+                            <div class="commandBlockSlot slot"  role="listitem"
                             on:dragenter={(e) => {
                                 console.log('dragenter', e);
                                 e.preventDefault();
@@ -377,7 +428,7 @@
                     <div style="clear: both;">
                         <div class="blockstem" />
                         <div class="blockinner">
-                            <div class="commandBlockSlot"  role="listitem"
+                            <div class="commandBlockSlot slot"  role="listitem"
                             on:dragenter={(e) => {
                                 console.log('dragenter', e);
                                 e.preventDefault();
@@ -431,7 +482,7 @@
                     <div style="clear: both;">
                         <div class="blockstem" />
                         <div class="blockinner">
-                            <div class="commandBlockSlot"  role="listitem"
+                            <div class="commandBlockSlot slot"  role="listitem"
                             on:dragenter={(e) => {
                                 console.log('dragenter', e);
                                 e.preventDefault();
@@ -590,6 +641,8 @@
             margin-right: -0.05vh;
             border-top: 0.5vh solid #389438;
             border-bottom: 0.5vh solid #389438;
+            padding-left: 1vh;
+            padding-right: 1vh;
         }
 
         .predicateBlock .blockcontent {
@@ -611,7 +664,7 @@
             content: '';
             position: relative;
             top: 0.5vh;
-            left: 0.65vh;
+            left: 0.66vh;
             width: calc(100% - 0.65vh);
             height: calc(100% - 1vh);
             background-color: #59C059;
@@ -634,7 +687,7 @@
             position: relative;
             top: 0.5vh;
             left: 0;
-            width: calc(100% - 0.65vh);
+            width: calc(100% - 0.66vh);
             height: calc(100% - 1vh);
             background-color: #59C059;
             clip-path: polygon(0 0, 100% 50%, 0 100%);
