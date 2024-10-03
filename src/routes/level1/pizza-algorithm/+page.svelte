@@ -309,167 +309,60 @@
             </div>
 
             <div class="targetBlocks">
-                <div class="ifBlock">
-                    <div style="clear: both;">
-                        <div class="blocktopstart" />
-                        <div class="blockcontent">
-                            <span>
-                                If 
-                            </span>
-                            <div class="predicateBlockSlot slot" 
-                            role="listitem" 
-                            on:dragenter={(e) => {
-                                console.log('dragenter', e);
-                                e.preventDefault();
-                            }}
-                            on:dragleave={(e) => {
-                                console.log('dragleave', e);
-                                e.preventDefault();
-                            }}
-                            on:dragover={(e) => {
-                                e.preventDefault();
-                            }}
-                            on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
-                            />
-                            <span>
-                                then
-                            </span>
+                {#each parsonsPairs as pair}
+                    <div class="ifBlock">
+                        <div style="clear: both;">
+                            <div class="blocktopstart" />
+                            <div class="blockcontent">
+                                <span>
+                                    If 
+                                </span>
+                                <div class="predicateBlockSlot slot" 
+                                role="listitem" 
+                                on:dragenter={(e) => {
+                                    console.log('dragenter', e);
+                                    e.preventDefault();
+                                }}
+                                on:dragleave={(e) => {
+                                    console.log('dragleave', e);
+                                    e.preventDefault();
+                                }}
+                                on:dragover={(e) => {
+                                    e.preventDefault();
+                                }}
+                                on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
+                                />
+                                <span>
+                                    then
+                                </span>
+                            </div>
+                            <div class="blocktopend" />
                         </div>
-                        <div class="blocktopend" />
-                    </div>
-                    <div style="clear: both;">
-                        <div class="blockstem" />
-                        <div class="blockinner">
-                            <div class="commandBlockSlot slot"  role="listitem"
-                            on:dragenter={(e) => {
-                                console.log('dragenter', e);
-                                e.preventDefault();
-                            }}
+                        <div style="clear: both;">
+                            <div class="blockstem" />
+                            <div class="blockinner">
+                                <div class="commandBlockSlot slot"  role="listitem"
+                                on:dragenter={(e) => {
+                                    console.log('dragenter', e);
+                                    e.preventDefault();
+                                }}
 
-                            on:dragleave={(e) => {
-                                console.log('dragleave', e);
-                                e.preventDefault();
-                            }}
+                                on:dragleave={(e) => {
+                                    console.log('dragleave', e);
+                                    e.preventDefault();
+                                }}
 
-                            on:dragover={(e) => {
-                                e.preventDefault();
-                            }}
+                                on:dragover={(e) => {
+                                    e.preventDefault();
+                                }}
 
-                            on:drop={(e) => blockDropHandler(e, 'commandBlock')}
-                            />
+                                on:drop={(e) => blockDropHandler(e, 'commandBlock')}
+                                />
+                            </div>
                         </div>
+                        <div class="blockend" />
                     </div>
-                    <div class="blockend" />
-                </div>
-
-                <div class="ifBlock">
-                    <div style="clear: both;">
-                        <div class="blocktopstart" />
-                        <div class="blockcontent">
-                            <span>
-                                If 
-                            </span>
-                            <div class="predicateBlockSlot slot" 
-                            role="listitem" 
-                            on:dragenter={(e) => {
-                                console.log('dragenter', e);
-                                e.preventDefault();
-                            }}
-                            on:dragleave={(e) => {
-                                console.log('dragleave', e);
-                                e.preventDefault();
-                            }}
-                            on:dragover={(e) => {
-                                e.preventDefault();
-                            }}
-                            on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
-                            />
-                            <span>
-                                then
-                            </span>
-                        </div>
-                        <div class="blocktopend" />
-                    </div>
-
-
-                    <div style="clear: both;">
-                        <div class="blockstem" />
-                        <div class="blockinner">
-                            <div class="commandBlockSlot slot"  role="listitem"
-                            on:dragenter={(e) => {
-                                console.log('dragenter', e);
-                                e.preventDefault();
-                            }}
-
-                            on:dragleave={(e) => {
-                                console.log('dragleave', e);
-                                e.preventDefault();
-                            }}
-
-                            on:dragover={(e) => {
-                                e.preventDefault();
-                            }}
-
-                            on:drop={(e) => blockDropHandler(e, 'commandBlock')}
-                            />
-                        </div>
-                    </div>
-                    <div class="blockend" />
-                </div>
-
-
-                <div class="ifBlock">
-                    <div style="clear: both;">
-                        <div class="blocktopstart" />
-                        <div class="blockcontent">
-                            <span>
-                                If 
-                            </span>
-                            <div class="predicateBlockSlot slot" 
-                            role="listitem" 
-                            on:dragenter={(e) => {
-                                console.log('dragenter', e);
-                                e.preventDefault();
-                            }}
-                            on:dragleave={(e) => {
-                                console.log('dragleave', e);
-                                e.preventDefault();
-                            }}
-                            on:dragover={(e) => {
-                                e.preventDefault();
-                            }}
-                            on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
-                            />
-                            <span>
-                                then
-                            </span>
-                        </div>
-                        <div class="blocktopend" />
-                    </div>
-                    <div style="clear: both;">
-                        <div class="blockstem" />
-                        <div class="blockinner">
-                            <div class="commandBlockSlot slot"  role="listitem"
-                            on:dragenter={(e) => {
-                                console.log('dragenter', e);
-                                e.preventDefault();
-                            }}
-
-                            on:dragleave={(e) => {
-                                console.log('dragleave', e);
-                                e.preventDefault();
-                            }}
-
-                            on:dragover={(e) => {
-                                e.preventDefault();
-                            }}
-
-                            on:drop={(e) => blockDropHandler(e, 'commandBlock')}
-                            />
-                        </div>
-                    </div>
-                    <div class="blockend" />
-                </div>
+                {/each}
             </div>
             {/if}    
         </div>
