@@ -52,20 +52,20 @@
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
-		if (direction == NavigationDirection.forward) {
-			if (line.id == 14) {
-				let progress = getUpdatedProgress();
-				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress)
+		// if (direction == NavigationDirection.forward) {
+		// 	if (line.id == 14) {
+		// 		let progress = getUpdatedProgress();
+		// 		await DataService.Data.updateUserProgress(progress);
+		// 		updateLocalProgress(progress)
 				
-                // Next level
-                goto('/level1/pizza-time?page=1');
-			} else {
-				goto(`/level1?page=${line.id + 1}`);
-			}
-		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/level1?page=${line.id - 1}`);
-		}
+        //         // Next level
+        //         goto('/level1/pizza-time?page=1');
+		// 	} else {
+		// 		goto(`/level1?page=${line.id + 1}`);
+		// 	}
+		// } else if (direction == NavigationDirection.backward && line.id > 1) {
+		// 	goto(`/level1?page=${line.id - 1}`);
+		// }
 	};
 
 	let content: HTMLElement | void;
