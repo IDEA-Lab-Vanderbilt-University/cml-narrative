@@ -6,7 +6,7 @@ export const script: Script = {
             id: 1,
             speakers: ['Bot Buddy'],
             dialog:
-                'I can\'t wait to see our pizzas! Let\'s open mine first',
+                'I can\'t wait to see our pizzas! Let\'s open mine first!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s1.wav',
@@ -16,7 +16,7 @@ export const script: Script = {
             id: 2,
             speakers: ['Bot Buddy'],
             dialog:
-                'Mmmmm….thick crust pizza with nuts and bolts and spicy jalapenos! Doesn\'t it look delicious?!',
+                'Mmmmm... thick crust pizza with nuts and bolts and spicy jalapenos! Doesn\'t it look delicious?!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s2.wav',
