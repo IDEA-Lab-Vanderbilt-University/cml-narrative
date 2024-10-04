@@ -16,6 +16,7 @@ import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
 import type { Student } from '$lib/types/teacher-view/Student';
 import { defaultSettings, type Settings } from '$lib/types/Settings';
+import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes';
 
 /**
  * A note on what this file does:
@@ -75,6 +76,8 @@ export const settingsStore = persist(
 
 export const studentDataStore = writable<StudentData>(defaultStudentData);
 export const temporaryUserData = writable<UserData>(defaultUserData);
+
+export const pizzaConfigStore = writable<PizzaConfig | undefined>(undefined);
 
 export const tabletModalActive = writable(false);
 

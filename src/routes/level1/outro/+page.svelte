@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import PizzaDisplay from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
+	import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes.js';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import DefinitionModal from '$lib/components/modals/DefinitionModal.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
@@ -10,7 +11,7 @@
 	import type { Line } from '$lib/types/Script';
 	import type { UserProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { userDataStore } from '$lib/utils/stores/store.js';
+	import { pizzaConfigStore, userDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
 	export let data;
@@ -18,6 +19,20 @@
 	let line: Line;
 
 	$: line = data.line;
+
+    let userPizzaConfig: PizzaConfig | undefined;
+    let userPizza: PizzaDisplay | void;
+
+    pizzaConfigStore.subscribe((value) => {
+        userPizzaConfig = value;
+    });
+
+    $: {
+        if(lineNumber == 3 && userPizza && userPizzaConfig) {
+            // Use user pizza config
+            userPizza.setPizzaConfig(userPizzaConfig);
+        }
+    }
 
 	/**
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
@@ -53,7 +68,7 @@
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (line.id == script.length) {
+			if (line.id == script.lines.length) {
 				let progress = getUpdatedProgress();
 				await DataService.Data.updateUserProgress(progress);
 				updateLocalProgress(progress)
@@ -87,11 +102,16 @@
 				content?.dispatchEvent(event);
 			}} />
 
-        {#if lineNumber == 2}
-            <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center pizzabox">
-                <PizzaDisplay crust="thick" sauce="marinara" cheese veggies={['bolts']} finishingTouches={['jalapeno']}/>
-            </div>
-        {/if}
+{#if lineNumber == 2}
+<div class="absolute top-0 left-0 w-full h-full flex justify-center items-center pizzabox">
+    <PizzaDisplay crust="thick" sauce="marinara" cheese veggies={['bolts']} finishingTouches={['jalapeno']}/>
+</div>
+{/if}
+{#if lineNumber == 3}
+    <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center pizzabox">
+        <PizzaDisplay bind:this={userPizza} />
+    </div>
+{/if}
 	</div>
 </Scene>
 

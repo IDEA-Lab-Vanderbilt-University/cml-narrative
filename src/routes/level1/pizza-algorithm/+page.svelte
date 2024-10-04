@@ -416,7 +416,7 @@
 
                 {#if lineNumber == 6}
                     <div id="navButtons">
-                        <button id="nextButton" on:click={() => goto('/level1/outro')}>
+                        <button id="nextButton" on:click={() => goto('/level1/outro?page=1')}>
                             <img src="/img/misc/pizzanext.png" alt="Send" />
                         </button>
                     </div>

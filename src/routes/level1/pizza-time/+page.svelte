@@ -1,7 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import PizzaDialogBox from '$lib/components/activities/pizza-time/PizzaDialogBox.svelte';
-	import PizzaDisplay, { type PizzaConfig } from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
+	import PizzaDisplay from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
+	import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes.js';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
@@ -10,7 +11,7 @@
 	import type { Line } from '$lib/types/Script';
 	import type { UserProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { userDataStore } from '$lib/utils/stores/store.js';
+	import { pizzaConfigStore, userDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
 	import { fade } from 'svelte/transition';
@@ -62,6 +63,8 @@
 				let progress = getUpdatedProgress();
 				await DataService.Data.updateUserProgress(progress);
 				updateLocalProgress(progress);
+
+				pizzaConfigStore.set(pizza);
 				
                 // Next level
 				goto('/level1/pizza-algorithm?page=1');
@@ -329,7 +332,6 @@
 						</button>
 					</div>
 				{/if}
-
 			</div>
 		{/if}
 	</div>
@@ -463,13 +465,9 @@
 		filter: brightness(1.1);
 	}
 
-
-
 	#pizzaChoiceButtons button img {
 		width: 8vw;
 		max-width: 8vw;
 		margin: auto;
 	}
-
-
 </style>
