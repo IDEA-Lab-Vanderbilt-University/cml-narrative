@@ -53,7 +53,7 @@ export const script: Script = {
             pos: 'left',
         },
         {
-            id: 4,
+            id: 6,
             speakers: ['SPOT Computer'],
             dialog:
                 'Incoming message from Captain Storm!',

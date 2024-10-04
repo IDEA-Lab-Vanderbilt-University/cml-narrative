@@ -5,6 +5,7 @@
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import DefinitionModal from '$lib/components/modals/DefinitionModal.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
+	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import script from '$lib/scripts/introduction/script.js';
 	import { NavigationDirection } from '$lib/types/Enums';
@@ -94,24 +95,43 @@
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
 	<div slot="content" class="h-full w-full"  bind:this={content}>
+        {#if lineNumber == 2 || lineNumber == 3}
 			<TabletButton on:click={() => { 
-				const event  = new CustomEvent('showTablet', {
-					bubbles: true
+                const event  = new CustomEvent('showTablet', {
+                    bubbles: true
 				});
 				
 				content?.dispatchEvent(event);
 			}} />
+        {/if}
 
-{#if lineNumber == 2}
-<div class="absolute top-0 left-0 w-full h-full flex justify-center items-center pizzabox">
-    <PizzaDisplay crust="thick" sauce="marinara" cheese veggies={['bolts']} finishingTouches={['jalapeno']}/>
-</div>
-{/if}
-{#if lineNumber == 3}
-    <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center pizzabox">
-        <PizzaDisplay bind:this={userPizza} />
-    </div>
-{/if}
+        {#if lineNumber == 2}
+        <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center pizzabox">
+            <PizzaDisplay crust="thick" sauce="marinara" cheese veggies={['bolts']} finishingTouches={['jalapeno']}/>
+        </div>
+        {/if}
+        {#if lineNumber == 3}
+            <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center pizzabox">
+                <PizzaDisplay bind:this={userPizza} />
+            </div>
+        {/if}
+        {#if lineNumber == 4}
+            <Tablet>
+                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen">
+                    <h1 class="text-5xl">Incoming message 
+                        from Mission Control!</h1>
+                    <img src="/img/misc/mail.png" alt="letter" id="mailicon" />
+                    <button on:click={() => handleNavigation(NavigationDirection.forward)}>
+                        <img src="/img/misc/readbutton.png" alt="Read" id="readbutton" />
+                    </button>
+                </div>
+            </Tablet>
+        {/if}
+        {#if lineNumber == 5}
+            <Tablet>
+
+            </Tablet>
+        {/if}
 	</div>
 </Scene>
 
@@ -121,5 +141,38 @@
         background: url('/img/misc/pizzabox.png') no-repeat center center;
         background-size: 70vh auto;
         background-position-y: -5vh;
+    }
+
+    #mailicon {
+        height: 20vh;
+        animation: shake 1.5s infinite ease-in-out;
+    }
+
+    @keyframes shake {
+        0% { transform: rotate(0deg); }
+        10% { transform: rotate(5deg); }
+        15% { transform: rotate(0deg); }
+        20% { transform: rotate(-5deg); }
+        25% { transform: rotate(0deg); }
+    }
+
+    #readbutton {
+        height: 10vh;
+        transition: transform 0.2s;
+    }
+
+    #readbutton:hover {
+        transform: scale(1.1);
+    }
+
+    #readbutton:active {
+        transform: scale(0.9);
+    }
+
+    #mailscreen {
+        justify-items: center;
+        align-items: center;
+        height: 100%;
+        gap: 10vh;
     }
 </style>
