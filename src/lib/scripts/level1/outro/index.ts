@@ -46,7 +46,7 @@ export const script: Script = {
             id: 5,
             speakers: ['Captain Storm'],
             dialog:
-                'Hello, Agent. Your Bot Buddy’s system has informed us that you have completed your first mission. Mission Control needs to know a few more things. We have included our questions in this message.',
+                'Your Bot Buddy’s system has informed us that you have completed your first mission. Mission Control needs to know a few more things. We have included our questions in this message.',
             avatars: ['/img/characters/captain-storm/storm_yeah.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/captain_storm/captn_storm_l1s1.wav',

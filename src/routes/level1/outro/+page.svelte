@@ -129,6 +129,18 @@
         {/if}
         {#if lineNumber == 5}
             <Tablet>
+                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen">
+                    <h1 class="text-5xl">Hello Agent,</h1>
+                    <div class="border-white border-2 p-4 w-7/12">
+                        <p class="text-3xl">
+                            {line.dialog}
+                        </p>
+                    </div>
+                    <h1 class="text-5xl">{line.speakers[0]}</h1>
+                    <button on:click={() => handleNavigation(NavigationDirection.forward)}>
+                        <img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
+                    </button>
+                </div>
 
             </Tablet>
         {/if}
@@ -156,16 +168,16 @@
         25% { transform: rotate(0deg); }
     }
 
-    #readbutton {
+    #readbutton, #nextbutton {
         height: 10vh;
         transition: transform 0.2s;
     }
 
-    #readbutton:hover {
+    #readbutton:hover, #nextbutton:hover {
         transform: scale(1.1);
     }
 
-    #readbutton:active {
+    #readbutton:active, #nextbutton:active {
         transform: scale(0.9);
     }
 
@@ -173,6 +185,13 @@
         justify-items: center;
         align-items: center;
         height: 100%;
-        gap: 10vh;
+        gap: 4vh;
     }
+
+    #nextbutton {
+        height: 7vh;
+        position: relative;
+        left: 40vh;
+    }
+ 
 </style>
