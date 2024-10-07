@@ -56,13 +56,52 @@ export const script: Script = {
             id: 6,
             speakers: ['SPOT Computer'],
             dialog:
-                'Incoming message from Captain Storm!',
+                'Pizza opinion 1',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
             pos: 'left',
         },
-        
+        {
+            id: 7,
+            speakers: ['SPOT Computer'],
+            dialog:
+                'Pizza opinion 2',
+            avatars: ['/img/characters/level-1/spot-computer.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            pos: 'left',
+        },
+        {
+            id: 8,
+            speakers: ['SPOT Computer'],
+            dialog:
+                'Pizza opinion 3',
+            avatars: ['/img/characters/level-1/spot-computer.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            pos: 'left',
+        },
+        {
+            id: 9,
+            speakers: ['SPOT Computer'],
+            dialog:
+                'Incoming message from Mission Control!',
+            avatars: ['/img/characters/level-1/spot-computer.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            pos: 'left',
+        },
+        {
+            id: 10,
+            speakers: ['Captain Storm'],
+            dialog:
+                'Blah blah blah',
+            avatars: ['/img/characters/captain-storm/storm_yeah.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/captain_storm/captn_storm_l1s1.wav',
+            pos: 'left',
+        },
     ]
 };
 
