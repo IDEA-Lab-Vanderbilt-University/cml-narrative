@@ -37,7 +37,10 @@
         });
         
         tabletDiv?.dispatchEvent(event);
-    }} >
+    }} 
+    
+    showBottomButtons={true} 
+    showMeter={true}>
         {#if appMode === "profile"}
             <ProfilesApp handleClick={() => appMode = null} />
         {:else}
