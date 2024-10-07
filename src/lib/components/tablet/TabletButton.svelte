@@ -9,7 +9,7 @@
 </script>
 
 
-<div class="flex w-full ">
+<div class="flex w-full">
     <button
         on:click={handleClick}
         class="mx-4 my-4 ml-auto w-fit  rounded-full bg-green-500 px-6 py-7 shadow-md hover:shadow-lg">
@@ -35,5 +35,10 @@
 
     button img {
         user-select: none;
+    }
+
+    div {
+        z-index: 100;
+        position: relative;
     }
 </style>
