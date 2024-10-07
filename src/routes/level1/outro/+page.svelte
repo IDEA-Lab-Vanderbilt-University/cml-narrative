@@ -1,9 +1,12 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import TextResponse from '$lib/components/activities/free-response/TextResponse.svelte';
+	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
 	import PizzaDisplay from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
 	import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes.js';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import DefinitionModal from '$lib/components/modals/DefinitionModal.svelte';
+	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
@@ -90,6 +93,7 @@
     $: lineNumber = line.id;
 </script>
 
+{#if lineNumber != 6}
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
@@ -129,14 +133,14 @@
         {/if}
         {#if lineNumber == 5}
             <Tablet>
-                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen">
+                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen2">
                     <h1 class="text-5xl">Hello Agent,</h1>
                     <div class="border-white border-2 p-4 w-7/12">
                         <p class="text-3xl">
                             {line.dialog}
                         </p>
                     </div>
-                    <h1 class="text-5xl">{line.speakers[0]}</h1>
+                    <h1 class="text-5xl mailfrom">{line.speakers[0]}</h1>
                     <button on:click={() => handleNavigation(NavigationDirection.forward)}>
                         <img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
                     </button>
@@ -146,7 +150,11 @@
         {/if}
 	</div>
 </Scene>
+{/if}
 
+{#if lineNumber == 6}
+    <TextResponseModal id="botBuddyPizza" title={"How was Bot Buddy's pizza algorithm different from yours?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+{/if}
 
 <style>
     .pizzabox {
@@ -181,7 +189,7 @@
         transform: scale(0.9);
     }
 
-    #mailscreen {
+    #mailscreen, #mailscreen2 {
         justify-items: center;
         align-items: center;
         height: 100%;
@@ -194,4 +202,7 @@
         left: 40vh;
     }
  
+    #mailscreen2 {
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
 </style>
