@@ -102,6 +102,47 @@ export const script: Script = {
             audio: '/audio/level1/captain_storm/captn_storm_l1s1.wav',
             pos: 'left',
         },
+        {
+            id: 11,
+            speakers: ['SPOT Computer'],
+            dialog:
+                'Badge GET!',
+            avatars: ['/img/characters/level-1/spot-computer.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            pos: 'left',
+        },
+        
+        {
+            id: 12,
+            speakers: ['SPOT Computer'],
+            dialog:
+                'MegaJoules GET!',
+            avatars: ['/img/characters/level-1/spot-computer.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            pos: 'left',
+        },
+        {
+            id: 13,
+            speakers: ['Bot Buddy'],
+            dialog:
+                'Thank you for having us, pizza robots! Our algorithms were very different, but we each made a delicious pizza for ourselves.',
+            avatars: [ '/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-1/host-bot.png',],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s4.wav',
+            pos: 'left'
+        },
+        {
+            id: 14,
+            speakers: ['Bot Buddy'],
+            dialog:
+                'I hope these robots know how to make everyone\'s favorite pizza!',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            background: '/img/backgrounds/level1/2.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s3.wav',
+            pos: 'left'
+        },
     ]
 };
 
