@@ -47,7 +47,7 @@
     	<img src={`/img/tablet/meter/meter-${imageAmount}.svg`} alt="{amount} Megajoules" />
     </div>
     <div class="flex justify-center">    
-        <Confetti x={[-2, 2]} y={[-0.5, 1.0]} amount={100} />
+        <Confetti x={[-2, 2]} y={[-0.5, 1.0]} amount={100} colorRange={[40, 50]} />
     </div>
     <div class="flex justify-center">
         <button class="btn btn-primary" on:click={handleClick}>
