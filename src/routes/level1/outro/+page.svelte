@@ -5,6 +5,7 @@
 	import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes.js';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
+	import MegaJoulesGetModal from '$lib/components/modals/MegaJoulesGetModal.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
@@ -208,6 +209,10 @@ megajoules! I sent them right to your SPOT Tablet.
 
         {#if lineNumber == 11}
             <BadgeGetModal badgeName="Algorithm All Stars"  badgeImage="/img/misc/badge2.png" handleClick={() => handleNavigation(NavigationDirection.forward)} />
+        {/if}
+
+        {#if lineNumber == 12}
+            <MegaJoulesGetModal amount={100} handleClick={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
 	</div>
 </Scene>

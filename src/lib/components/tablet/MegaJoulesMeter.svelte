@@ -39,5 +39,7 @@
 	#megajoules-meter img {
 		pointer-events: none;
 		user-select: none;
+		height: 100%;
+		width: auto;
 	}
 </style>
