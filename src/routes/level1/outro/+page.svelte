@@ -207,7 +207,7 @@ megajoules! I sent them right to your SPOT Tablet.
         {/if}
 
         {#if lineNumber == 11}
-            <BadgeGetModal badgeName="Algorithm All Stars" badgeImage="/img/badges/algorithm-all-stars.png" handleClick={() => handleNavigation(NavigationDirection.forward)} />
+            <BadgeGetModal badgeName="Algorithm All Stars"  badgeImage="/img/misc/badge2.png" handleClick={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
 	</div>
 </Scene>
