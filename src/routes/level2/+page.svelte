@@ -61,8 +61,12 @@
 			} else {
 				goto(`/level2?page=${line.id + 1}`);
 			}
-		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/level2?page=${line.id - 1}`);
+		} else if (direction == NavigationDirection.backward) {
+			if(line.id > 1) {
+				goto(`/level2?page=${line.id - 1}`);
+			} else {
+				goto('/level1/outro?page=14');
+			}
 		}
 	};
 

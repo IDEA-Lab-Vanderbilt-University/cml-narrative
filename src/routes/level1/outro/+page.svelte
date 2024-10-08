@@ -9,7 +9,7 @@
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
-	import script from '$lib/scripts/introduction/script.js';
+	import { script } from '$lib/scripts/level1/outro/index.js';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import type { UserData, UserProgress } from '$lib/types/UserData.js';
@@ -95,7 +95,7 @@
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (lineNumber == script.lines.length) {
+			if (lineNumber >= script.lines.length) {
 				let progress = getUpdatedProgress();
 				await DataService.Data.updateUserProgress(progress);
 				updateLocalProgress(progress)
