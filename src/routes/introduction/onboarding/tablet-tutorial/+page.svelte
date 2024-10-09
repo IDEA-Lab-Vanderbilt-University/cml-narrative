@@ -174,7 +174,7 @@
 				<Introduction on:applicationContainerEvent={handleAppContainerEvent} />
 			{:else if line.id == 2}
 				<SpotApplication
-					title="Profile"
+					title="Profiles"
 					img={Assets.Tablet.profileIcon}
 					color="rgb(185,90,210)"
 					on:applicationContainerEvent={handleAppContainerEvent} />

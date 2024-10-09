@@ -14,7 +14,7 @@
 
 	let dispatch = createEventDispatcher();
 
-	export let promptedTechnology: string;
+	export let promptedTechnology: string | undefined = undefined;
 	export let response: string = '';
 
 	let isRecording = false;
@@ -76,17 +76,39 @@
 
 		dispatch('submitClicked');
 	};
+
+	export let title: string | undefined = undefined;
+	export let prompt: string | undefined = undefined;
+	export let placeholder: string | undefined = undefined;
+
+	$: {
+		if (title == undefined && promptedTechnology != undefined) {
+			title = `What do you think ${promptedTechnology} is?`;
+		}
+	}
+
+	$: {
+		if (prompt == undefined && promptedTechnology != undefined) {
+			prompt = `In the box below, describe what you think ${promptedTechnology} is.`;
+		}
+	}
+
+	$: {
+		if (placeholder == undefined && promptedTechnology != undefined) {
+			placeholder = `I think ${promptedTechnology.toLowerCase()} is....`;
+		}
+	}
 </script>
 
 <div
 	class="flex h-full w-full flex-col items-center justify-center rounded-md bg-gray-900 bg-opacity-50 p-5 font-mono text-white bg-blend-darken">
-	<h1 class="text-4xl font-bold">What do you think {promptedTechnology} is?</h1>
+	<h1 class="text-4xl font-bold">{title}</h1>
 	<p class="mt-4 text-xl italic">
-		In the box below, describe what you think {promptedTechnology} is.
+		{prompt}
 	</p>
 	<textarea
 		class="textarea textarea-bordered  mx-12 mt-9 h-1/2 w-full border-4 border-dashed border-white bg-transparent text-xl"
-		placeholder={`I think ${promptedTechnology.toLowerCase()} is....`}
+		placeholder={placeholder}
 		bind:value={response} />
 	{#if isRecording}
 		<p class="mt-9 text-xl italic">Recording...</p>

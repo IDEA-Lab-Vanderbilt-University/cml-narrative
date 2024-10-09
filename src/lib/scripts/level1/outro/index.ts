@@ -6,7 +6,7 @@ export const script: Script = {
             id: 1,
             speakers: ['Bot Buddy'],
             dialog:
-                'I can\'t wait to see our pizzas! Let\'s open mine first',
+                'I can\'t wait to see our pizzas! Let\'s open mine first!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s1.wav',
@@ -16,7 +16,7 @@ export const script: Script = {
             id: 2,
             speakers: ['Bot Buddy'],
             dialog:
-                'Mmmmm….thick crust pizza with nuts and bolts and spicy jalapenos! Doesn\'t it look delicious?!',
+                'Mmmmm... thick crust pizza with nuts and bolts and spicy jalapenos! Doesn\'t it look delicious?!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s2.wav',
@@ -46,23 +46,103 @@ export const script: Script = {
             id: 5,
             speakers: ['Captain Storm'],
             dialog:
-                'Hello, Agent. Your Bot Buddy’s system has informed us that you have completed your first mission. Mission Control needs to know a few more things. We have included our questions in this message.',
+                'Your Bot Buddy’s system has informed us that you have completed your first mission. Mission Control needs to know a few more things. We have included our questions in this message.',
             avatars: ['/img/characters/captain-storm/storm_yeah.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/captain_storm/captn_storm_l1s1.wav',
             pos: 'left',
         },
         {
-            id: 4,
+            id: 6,
             speakers: ['SPOT Computer'],
             dialog:
-                'Incoming message from Captain Storm!',
+                'Pizza opinion 1',
+            avatars: ['/img/characters/level-1/spot-computer.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            pos: 'left',
+        },
+        {
+            id: 7,
+            speakers: ['SPOT Computer'],
+            dialog:
+                'Pizza opinion 2',
+            avatars: ['/img/characters/level-1/spot-computer.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            pos: 'left',
+        },
+        {
+            id: 8,
+            speakers: ['SPOT Computer'],
+            dialog:
+                'Pizza opinion 3',
+            avatars: ['/img/characters/level-1/spot-computer.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            pos: 'left',
+        },
+        {
+            id: 9,
+            speakers: ['SPOT Computer'],
+            dialog:
+                'Incoming message from Mission Control!',
+            avatars: ['/img/characters/level-1/spot-computer.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            pos: 'left',
+        },
+        {
+            id: 10,
+            speakers: ['Captain Storm'],
+            dialog:
+                'Blah blah blah',
+            avatars: ['/img/characters/captain-storm/storm_yeah.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/captain_storm/captn_storm_l1s1.wav',
+            pos: 'left',
+        },
+        {
+            id: 11,
+            speakers: ['SPOT Computer'],
+            dialog:
+                'Badge GET!',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
             pos: 'left',
         },
         
+        {
+            id: 12,
+            speakers: ['SPOT Computer'],
+            dialog:
+                'MegaJoules GET!',
+            avatars: ['/img/characters/level-1/spot-computer.png'],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            pos: 'left',
+        },
+        {
+            id: 13,
+            speakers: ['Bot Buddy'],
+            dialog:
+                'Thank you for having us, pizza robots! Our algorithms were very different, but we each made a delicious pizza for ourselves.',
+            avatars: [ '/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-1/host-bot.png',],
+            background: '/img/backgrounds/level1/cafe.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s4.wav',
+            pos: 'left'
+        },
+        {
+            id: 14,
+            speakers: ['Bot Buddy'],
+            dialog:
+                'I hope these robots know how to make everyone\'s favorite pizza!',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            background: '/img/backgrounds/level1/2.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s3.wav',
+            pos: 'left'
+        },
     ]
 };
 

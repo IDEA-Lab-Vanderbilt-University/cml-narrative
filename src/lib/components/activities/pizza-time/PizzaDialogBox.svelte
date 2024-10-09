@@ -106,11 +106,9 @@
 <div id="dialogueroot" class="bg-jet">
 	{#if line.dialog != undefined && line.dialog.length > 0}
 		<div id="textbox" class="relative flex items-center justify-center rounded p-4 text-white">
-			<div class="w-full grid grid-cols-5 items-center justify-center gap-8 align-middle">
-				<p bind:this={dialogueParagraph} class="col-span-5 mt-auto w-full h-full leading-relaxed {settings.fontSize ?? defaultSettings.fontSize}">
-					{line.dialog}
-				</p>
-			</div>
+			<p bind:this={dialogueParagraph} class="w-full h-full {settings.fontSize ?? defaultSettings.fontSize}">
+				{line.dialog}
+			</p>
 		</div>
 	{/if}
 	
@@ -183,11 +181,11 @@
 	}
 
 	#textbox {
-		margin: 4vw;
+		margin: 3vw;
 		border: 1px solid white;
 		border-radius: 10px;
-		position: relative;
-		top: 10%;
+		z-index: 15;
+		background-color: rgba(0, 0, 0, 0.5);
 	}
 
 

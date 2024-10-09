@@ -1,39 +1,25 @@
-<script lang="ts" context="module">
-    export type Crust = 'thin' | 'thick' | 'cauliflower';
-    export type Sauce = 'alfredo' | 'marinara' | 'spicy' | 'bbq';
-    export type MeatTopping = 'pepperoni' | 'shrimp' | 'bacon' | 'ham';
-    export type VeggieTopping = 'mushrooms' | 'onions' | 'tomatoes' | 'peppers' | 'pineapple' | 'bolts';
-    export type FinishingTouch = 'basil' | 'herbs' | 'parmesan' | 'olives' | 'jalapeno';
-    export type PizzaConfig = {
-        crust: Crust;
-        sauce: Sauce | null;
-        cheese: boolean;
-        meats: MeatTopping[];
-        veggies: VeggieTopping[];
-        finishingTouches: FinishingTouch[];
-    };
-</script>
-
 <script lang="ts">
-export let crust: Crust = 'thick';
-export let sauce: Sauce | null = null;
-export let cheese: boolean = false;
-export let meats: MeatTopping[] = [];
-export let veggies: VeggieTopping[] = [];
-export let finishingTouches: FinishingTouch[] = [];
-export let size: number | string = "50vh";
+	import type { Crust, FinishingTouch, MeatTopping, PizzaConfig, Sauce, VeggieTopping } from "./pizzatypes";
 
-/**
- * Take a PizzaConfig object and set the component's properties to match it
-*/
-export function setPizzaConfig(config: PizzaConfig) {
-    crust = config.crust;
-    sauce = config.sauce;
-    cheese = config.cheese;
-    meats = config.meats;
-    veggies = config.veggies;
-    finishingTouches = config.finishingTouches;
-}
+    export let crust: Crust = 'thick';
+    export let sauce: Sauce | null = null;
+    export let cheese: boolean = false;
+    export let meats: MeatTopping[] = [];
+    export let veggies: VeggieTopping[] = [];
+    export let finishingTouches: FinishingTouch[] = [];
+    export let size: number | string = "50vh";
+
+    /**
+     * Take a PizzaConfig object and set the component's properties to match it
+    */
+    export function setPizzaConfig(config: PizzaConfig) {
+        crust = config.crust;
+        sauce = config.sauce;
+        cheese = config.cheese;
+        meats = config.meats;
+        veggies = config.veggies;
+        finishingTouches = config.finishingTouches;
+    }
 </script>
 
 <div class="pizzabase" style="width: {size}; height: {size};">

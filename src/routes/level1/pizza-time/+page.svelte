@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import PizzaDialogBox from '$lib/components/activities/pizza-time/PizzaDialogBox.svelte';
-	import PizzaDisplay, { type PizzaConfig } from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
+	import PizzaDisplay from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
+	import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes.js';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
-	import script from '$lib/scripts/introduction/script.js';
+	import script from '$lib/scripts/level1/pizza-time/index.js';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import type { UserProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { userDataStore } from '$lib/utils/stores/store.js';
+	import { pizzaConfigStore, userDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
 	import { fade } from 'svelte/transition';
@@ -58,13 +59,15 @@
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward) {
-			if (line.id == script.lines.length) {
+			if (line.id >= script.lines.length) {
 				let progress = getUpdatedProgress();
 				await DataService.Data.updateUserProgress(progress);
 				updateLocalProgress(progress);
+
+				pizzaConfigStore.set(pizza);
 				
                 // Next level
-                goto('/level1/pizza-time?page=1');
+				goto('/level1/pizza-algorithm?page=1');
 			} else {
 				goto(`/level1/pizza-time?page=${line.id + 1}`);
 			}
@@ -329,7 +332,6 @@
 						</button>
 					</div>
 				{/if}
-
 			</div>
 		{/if}
 	</div>
@@ -455,6 +457,12 @@
 
 	#pizzaChoiceButtons button {
 		text-align: center;
+		transition: all 0.3s;
+	}
+
+	#pizzaChoiceButtons button:hover {
+		transform: scale(1.1);
+		filter: brightness(1.1);
 	}
 
 	#pizzaChoiceButtons button img {
@@ -462,6 +470,4 @@
 		max-width: 8vw;
 		margin: auto;
 	}
-
-
 </style>

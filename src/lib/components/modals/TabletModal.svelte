@@ -31,7 +31,16 @@
 </script>
 
 <div bind:this={tabletDiv} class="h-full w-full hidden">
-    <Tablet powerDown={() => hidden = true} >
+    <Tablet powerDown={() => {
+        const event  = new CustomEvent('hideTablet', {
+            bubbles: true
+        });
+        
+        tabletDiv?.dispatchEvent(event);
+    }} 
+    
+    showBottomButtons={true} 
+    showMeter={true}>
         {#if appMode === "profile"}
             <ProfilesApp handleClick={() => appMode = null} />
         {:else}
@@ -45,5 +54,5 @@
         .right-size {
             display: none;
         }
-    }    
+    }
 </style>

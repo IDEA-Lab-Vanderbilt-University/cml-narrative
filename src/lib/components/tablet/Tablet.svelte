@@ -58,6 +58,7 @@
 	};
 
 	export let showMeter: boolean = true;
+	export let showBottomButtons: boolean = true;
 </script>
 
 <SettingsModal bind:this={tabletSettings}/>
@@ -83,7 +84,7 @@
 				</div>
 			</div>
 		</div>
-		<div id="tablet-actions" class="flex h-fit justify-end space-x-5 pt-3 text-center text-white">
+		<div id="tablet-actions" class="flex h-fit justify-end space-x-5 pt-3 text-center text-white" style="{showBottomButtons? "": "display: none !important;"}">
 			<button id="tablet-settings-button" on:click={showSettings}>
 				<img id="tablet-settings" src="/img/svg/gear.svg" alt="" class="h-20 w-20" />
 			</button>
