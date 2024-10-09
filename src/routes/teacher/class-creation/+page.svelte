@@ -41,6 +41,9 @@
 	}
 
 	function deleteSelectedStudents() {
+		let result = confirm('Are you sure you want to delete these students?');
+		if (!result) return;
+
 		selectedStudents.forEach((student) => {
 			if (student.id) {
 				DataService.Data.deleteStudent(student.id);
@@ -110,7 +113,7 @@
 				fetchStudents();
 			})
 			.catch((err) => {
-				alert('Not logged in');
+				alert('You are not logged in!');
 				goto('/teacher');
 			});
 	});
