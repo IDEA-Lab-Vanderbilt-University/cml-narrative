@@ -354,6 +354,16 @@ const Data = {
 			}
 		});
 	},
+	fetchTeacherID: async () => {
+		return new Promise<string>(async (resolve, reject) => {
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/whoami`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
 	fetchStudents: async (teacher_id: string) => {
 		return new Promise<Student[]>(async (resolve, reject) => {
 			try {

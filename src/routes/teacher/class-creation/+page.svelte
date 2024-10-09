@@ -5,9 +5,9 @@
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import { generateQRCodes } from '$lib/utils/teacher-view/qr/QRGenerator';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
-	import { studentClassStore } from '$lib/utils/stores/store';
+	import { studentClassStore, sessionTeacherID } from '$lib/utils/stores/store';
 	import DataService from '$lib/utils/DataService';
-	// import { v4 as uuidv4 } from 'uuid';
+	import { goto } from '$app/navigation';
 
 	// @ts-ignore
 	const { open } = getContext('simple-modal');
@@ -16,10 +16,8 @@
 	let isSuccess = false;
 	let showFeedbackModal = false;
 
-	let sessionTeacherID = '00000000-0000-0000-0000-000000000001';
-
 	var newStudent: Student = {
-		teacher_id: sessionTeacherID, // TODO: read from session
+		teacher_id: $sessionTeacherID, // TODO: read from session
 		first_name: '',
 		last_name: ''
 		// age: 0
@@ -28,7 +26,7 @@
 	var showManual = false;
 
 	function fetchStudents() {
-		DataService.Data.fetchStudents(sessionTeacherID).then((res) => {
+		DataService.Data.fetchStudents($sessionTeacherID).then((res) => {
 			$studentClassStore = res;
 		});
 		console.log('Fetched students: ', $studentClassStore);
@@ -76,26 +74,13 @@
 		showManual = !showManual;
 	};
 
-	const addStudentManuallyOld = () => {
-		// Add the current form data to the students array
-		$studentClassStore = [...$studentClassStore, newStudent];
-
-		// Clear form data
-		newStudent = {
-			teacher_id: sessionTeacherID, // TODO: read from session
-			first_name: '',
-			last_name: ''
-			// age: 0
-		};
-	};
-
 	const addStudentManually = async () => {
 		const student = await DataService.Data.registerStudent(newStudent);
 		$studentClassStore = [...$studentClassStore, student];
 
 		// Clear form data
 		newStudent = {
-			teacher_id: sessionTeacherID, // TODO: read from session
+			teacher_id: $sessionTeacherID, // TODO: read from session
 			first_name: '',
 			last_name: ''
 			// age: 0,
@@ -113,50 +98,21 @@
 		$studentClassStore = [...$studentClassStore, ...csv];
 	};
 
-	const generateAgentIDs = () => {
-		try {
-			generateQRCodes($studentClassStore);
-			message = 'Agent IDs generated!';
-			isSuccess = true;
-		} catch (err) {
-			message = 'Error generating agent IDs';
-			isSuccess = false;
-			throw new Error('Error generating agent IDs');
-		}
-		showFeedbackModal = true;
-	};
-
-	const clearStudents = () => {
-		$studentClassStore = [];
-	};
-
-	const submitToDB = async () => {
-		try {
-			const isOK = await DataService.Data.registerAllStudents($studentClassStore);
-			if (!isOK) {
-				throw new Error('Error adding agents to DB. Please try again.');
-			}
-			generateAgentIDs();
-			message = 'Registration successful! QR codes generated!';
-			isSuccess = true;
-		} catch (err) {
-			console.log('im here');
-			message = 'Error adding agents to DB. Please try again.';
-			isSuccess = false;
-		}
-		showFeedbackModal = true;
-	};
-
 	function onFeedbackClose() {
 		showFeedbackModal = false;
 	}
 
-	const removeStudent = (id: string) => {
-		$studentClassStore = $studentClassStore.filter((student) => student.id !== id);
-	};
-
 	onMount(() => {
-		fetchStudents();
+		DataService.Data.fetchTeacherID()
+			.then((res) => {
+				$sessionTeacherID = res;
+				console.log('Teacher ID: ', $sessionTeacherID);
+				fetchStudents();
+			})
+			.catch((err) => {
+				alert('Not logged in');
+				goto('/teacher');
+			});
 	});
 </script>
 
@@ -164,7 +120,7 @@
 	<title>Create Class - CML Teacher</title>
 </svelte:head>
 
-<Tablet>
+<Tablet showMeter={false}>
 	<div class="m-9">
 		{#if showFeedbackModal}
 			<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />

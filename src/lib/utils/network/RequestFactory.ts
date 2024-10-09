@@ -37,6 +37,7 @@ export const RequestFactory = async (
 		// Initialize request options for a POST request
 		var requestOptions: RequestInit = {
 			method: method,
+			credentials: 'include',
 			headers: headers,
 			redirect: 'follow'
 		};

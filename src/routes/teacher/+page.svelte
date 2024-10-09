@@ -1,29 +1,38 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
+	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
+	import { sessionTeacherID } from '$lib/utils/stores/store';
+	import { RequestFactory } from '../../lib/utils/network/RequestFactory';
+
+	let isSignUp = false;
 
 	let email: string;
 	let password: string;
 
-	const authenticateAndGoToCC = () => {
-        console.log("im-here")
-        console.log(email)
-        console.log(password)
+	async function authenticateAndGoToCC() {
+		console.log(email);
+		console.log(password);
 		try {
-            if(email == "sriharsha.9554@gmail.com" && password == "password") {
-                goto('teacher/class-creation')
-            } else {
-                throw new Error("Invalid credentials")
-            }
+			const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/login`, 'POST', {
+				email: email,
+				password: password
+			});
+			console.log(res);
+			$sessionTeacherID = res.id;
+			goto('/teacher/class-creation');
 		} catch (error) {
-            alert("Invalid credentials")
+			alert('Invalid credentials');
 			console.log(error);
 		}
-	};
+	}
 </script>
 
-<Tablet>
-	<div class="flex h-full w-full flex-col  items-center justify-center">
+<Tablet showMeter={false}>
+	<div class="flex h-full w-full flex-col items-center justify-center">
+		<div class="my-5 flex w-full items-center justify-center">
+			<h1 class="text-5xl font-bold text-white">Teacher Dashboard</h1>
+		</div>
 		<input
 			type="email"
 			placeholder="Email"
