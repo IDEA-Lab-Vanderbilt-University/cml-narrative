@@ -85,5 +85,46 @@
 			
 			content?.dispatchEvent(event);
 		}} />
+
+		{#if line.id == 2}
+		<div id="spinring">
+			{line.dialog}
+		</div>
+		{/if}
 	</div>
 </Scene>
+
+<style>
+	#spinring::before {
+		content: '';
+		background: url('/img/misc/spinring.png');
+		width: 70vh;
+		height: 70vh;
+		animation: spin 2s linear infinite;
+		background-size: contain;
+		position: absolute;
+		left: calc(50% - 35vh);
+		top: calc(50% - 35vh);
+		z-index: -1;
+	}
+
+	#spinring {
+		width: 45vh;
+		text-align: center;
+		vertical-align: middle;
+		font-size: 4vh;
+		color: mediumspringgreen;
+		text-transform: uppercase;
+		position: absolute;
+		left: calc(50% - 22.5vh);
+		top: calc(50% - 22.5vh);
+	}
+
+	@keyframes spin {
+		0% { transform: rotate(0deg); }
+		25% { transform: rotate(90deg); }
+		75% { transform: rotate(-270deg); }
+		100% { transform: rotate(0deg); }
+	}
+
+</style>
