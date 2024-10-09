@@ -35,18 +35,19 @@ const script: Script = {
 			speakers: ['Bot Buddy'],
 			dialog:
 				'Oh! It looks like we are getting an alert! Let’s see what it says!',
-			avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-			background: '/img/backgrounds/level2/1.png',
+			avatars: ['/img/characters/bot-buddy/bot-buddy-warning.png'],
+			background: '/img/backgrounds/level1/2.png',
 			audio: '/audio/level1/bot_buddy/bot_buddy_l2s1.wav',
-			pos: 'left'
+			pos: 'center',
+            size: 'full',
 		},
         {
             id: 2,
             speakers: ['Computer Voice'],
             dialog:
                 'Detecting problems with self-driving cars near the school!',
-            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/1.png',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-warning.png'],
+            background: '/img/backgrounds/level1/2.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s2.wav',
             pos: 'left'
         },
@@ -56,7 +57,7 @@ const script: Script = {
             dialog:
                 'Let’s go see if we can find one of those cars and investigate what the problem is!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/1.png',
+            background: '/img/backgrounds/level1/2.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s3.wav',
             pos: 'left'
         },
@@ -279,8 +280,6 @@ const script: Script = {
             pos: 'center',
             size: 'full',
         },
-        
-
 	],
 };
 
