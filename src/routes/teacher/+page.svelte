@@ -2,24 +2,40 @@
 	import { goto } from '$app/navigation';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
-	import { sessionTeacherID } from '$lib/utils/stores/store';
 	import { RequestFactory } from '../../lib/utils/network/RequestFactory';
 
-	let isSignUp = false;
+	let showSignUp = false;
 
+	let first_name: string;
+	let last_name: string;
+	let agent_name: string;
 	let email: string;
 	let password: string;
 
-	async function authenticateAndGoToCC() {
-		console.log(email);
-		console.log(password);
+	async function loginAndGoToCC() {
 		try {
 			const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/login`, 'POST', {
 				email: email,
 				password: password
 			});
 			console.log(res);
-			$sessionTeacherID = res.id;
+			goto('/teacher/class-creation');
+		} catch (error) {
+			alert('Invalid credentials');
+			console.log(error);
+		}
+	}
+
+	async function signupAndGoToCC() {
+		try {
+			const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/teachers`, 'POST', {
+				first_name: first_name,
+				last_name: last_name,
+				agent_name: agent_name,
+				email: email,
+				password: password
+			});
+			console.log(res);
 			goto('/teacher/class-creation');
 		} catch (error) {
 			alert('Invalid credentials');
@@ -33,10 +49,31 @@
 		<div class="my-5 flex w-full items-center justify-center">
 			<h1 class="text-5xl font-bold text-white">Teacher Dashboard</h1>
 		</div>
+
+		{#if showSignUp}
+			<input
+				type="text"
+				placeholder="First Name"
+				class="mt-4 w-64 rounded-md bg-white px-4 py-3 shadow-md"
+				bind:value={first_name} />
+
+			<input
+				type="text"
+				placeholder="Last Name"
+				class="mt-4 w-64 rounded-md bg-white px-4 py-3 shadow-md"
+				bind:value={last_name} />
+
+			<input
+				type="text"
+				placeholder="Agent Name"
+				class="mt-4 w-64 rounded-md bg-white px-4 py-3 shadow-md"
+				bind:value={agent_name} />
+		{/if}
+
 		<input
 			type="email"
 			placeholder="Email"
-			class="mt-8 w-64 rounded-md bg-white px-4 py-3 shadow-md"
+			class="mt-4 w-64 rounded-md bg-white px-4 py-3 shadow-md"
 			bind:value={email} />
 		<input
 			type="password"
@@ -44,10 +81,34 @@
 			class="mt-4 w-64 rounded-md bg-white px-4 py-3 shadow-md"
 			bind:value={password} />
 
-		<button
-			on:click={authenticateAndGoToCC}
-			class="mt-8 flex items-center justify-center gap-5 rounded-md bg-yellow-400 bg-opacity-75 px-4 py-3 align-middle font-mokoto shadow-md">
-			<p class="text-3xl font-bold text-gray-800">Login</p>
-		</button>
+		{#if showSignUp}
+			<button
+				on:click={signupAndGoToCC}
+				class="mt-8 flex items-center justify-center gap-5 rounded-md bg-yellow-400 bg-opacity-75 px-4 py-3 align-middle font-mokoto shadow-md">
+				<p class="text-3xl font-bold text-gray-800">Sign Up</p>
+			</button>
+
+			<button
+				on:click={() => {
+					showSignUp = false;
+				}}
+				class="mt-8 flex h-8 items-center justify-center gap-5 rounded-full bg-green-400 bg-opacity-75 px-4 py-3 align-middle shadow-md">
+				<p class="text-l font-bold text-gray-800">Existing Teacher Log In</p>
+			</button>
+		{:else}
+			<button
+				on:click={loginAndGoToCC}
+				class="mt-8 flex items-center justify-center gap-5 rounded-md bg-yellow-400 bg-opacity-75 px-4 py-3 align-middle font-mokoto shadow-md">
+				<p class="text-3xl font-bold text-gray-800">Login</p>
+			</button>
+
+			<button
+				on:click={() => {
+					showSignUp = true;
+				}}
+				class="mt-8 flex h-8 items-center justify-center gap-5 rounded-full bg-green-400 bg-opacity-75 px-4 py-3 align-middle shadow-md">
+				<p class="text-l font-bold text-gray-800">New Teacher Sign Up</p>
+			</button>
+		{/if}
 	</div>
 </Tablet>
