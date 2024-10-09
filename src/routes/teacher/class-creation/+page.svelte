@@ -123,7 +123,7 @@
 	<title>Create Class - CML Teacher</title>
 </svelte:head>
 
-<Tablet showMeter={false}>
+<Tablet showMeter={false} showBottomButtons={false}>
 	<div class="m-9">
 		{#if showFeedbackModal}
 			<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />

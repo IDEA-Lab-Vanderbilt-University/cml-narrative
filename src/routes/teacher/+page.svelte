@@ -28,7 +28,7 @@
 	}
 </script>
 
-<Tablet showMeter={false}>
+<Tablet showMeter={false} showBottomButtons={false}>
 	<div class="flex h-full w-full flex-col items-center justify-center">
 		<div class="my-5 flex w-full items-center justify-center">
 			<h1 class="text-5xl font-bold text-white">Teacher Dashboard</h1>
