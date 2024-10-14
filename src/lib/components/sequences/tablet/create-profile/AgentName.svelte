@@ -89,15 +89,16 @@
 	};
 </script>
 
-<div class="flex h-full w-full flex-col items-center justify-center space-y-10 font-mono">
-	<h1 class="text-5xl text-white">Choose an Agent name</h1>
+<div class="flex h-full w-full flex-col items-center justify-center space-y-5 font-mono" style="transform: translateY(-10%)">
+	<h1 class="text-white" style="font-size:6vh">Choose an Agent name</h1>
 	<div class="flex w-full justify-center space-x-7">
-		<div class="form-control h-24 w-full max-w-2xl">
+		<div class="form-control w-full max-w-2xl">
 			<input
 				id="agent-name-input"
 				type="text"
 				placeholder={getRandomAgentName()}
-				class="input-bordered input h-full w-full font-mono text-4xl"
+				class="input-bordered input h-full w-full font-mono"
+				style="padding: 2vh 2vw; font-size: 4vh"
 				bind:value={profileData.agentName} />
 		</div>
 	</div>

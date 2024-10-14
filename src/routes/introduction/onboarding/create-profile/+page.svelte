@@ -224,7 +224,7 @@
 				<img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-16 w-16" />
 			</button>
 			{#if page == 3 || page == 4 || page == 5 || page == 6}
-				<div class="absolute inset-0 z-10 mb-9 mt-auto flex  h-fit items-end justify-center  shadow-md" style="z-index: 1;">
+				<div class="absolute inset-0 z-10 mb-4 mt-auto flex  h-fit items-end justify-center  shadow-md" style="z-index: 1;">
 					<ClickToViewProfileBanner handleClick={() => showAgentProfile = true} />
 				</div>
 			{/if}
