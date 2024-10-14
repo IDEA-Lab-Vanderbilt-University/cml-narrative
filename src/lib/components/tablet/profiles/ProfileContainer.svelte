@@ -13,8 +13,8 @@
 	export let profile: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[]};
 </script>
 
-<div class="flex h-full w-full flex-col px-6 py-12">
-	<h3 class="text-center font-mono text-5xl text-white">{profile.name}</h3>
+<div class="flex h-full w-full flex-col px-6 py-2">
+	<h3 class="text-center font-mono  text-white" style="font-size: 6vh;">{profile.name}</h3>
 	<div class="flex h-full items-center space-x-3">
 		<div class="w-1/3 space-y-10">
 			<div class="flex flex-col text-center ">
@@ -37,7 +37,7 @@
 				<div
 					class="hud-red-blue-border flex h-full w-full flex-col items-center bg-slate-700 text-center text-xl text-white">
 					<p>I like to:</p>
-					<p class="mt-auto mb-auto text-3xl">{interest}</p>
+					<p class="mt-auto mb-auto text-2xl">{interest}</p>
 				</div>
 			{/each}
 		</div>

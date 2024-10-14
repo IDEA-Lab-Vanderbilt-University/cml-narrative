@@ -101,7 +101,7 @@
 	<div class="h-5/6">
 		<ProfileContainer profile={profileExamples[index]} />
 	</div>
-	<div class="flex w-full flex-col items-center justify-center space-y-6">
+	<div class="flex w-full flex-col items-center justify-center space-y-2">
 		<div class="flex items-center justify-center space-x-6" id="navbuttons">
 			<button
                 disabled
