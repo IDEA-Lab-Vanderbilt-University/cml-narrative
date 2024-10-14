@@ -36,7 +36,7 @@ export const script: Script = {
                 'If/then statements help machines make choices. Drag and drop the <condition> and [action] blocks in the correct places in the algorithm.',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef_bot_L1S28.wav',
+            audio: 'MISSING?',
         },
         {
             id: 5,
@@ -45,7 +45,7 @@ export const script: Script = {
                 '...running simulation... Uh-oh! Those instructions don\'t make pizzas right! Let\'s try again!',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef_bot_L1S29.wav',
+            audio: 'MISSING?',
         },
         {
             id: 6,
