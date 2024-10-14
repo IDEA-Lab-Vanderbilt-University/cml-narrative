@@ -27,7 +27,7 @@ const script: Script = {
 			id: 2,
 			speakers: ['Captain Storm'],
 			dialog:
-				'Recently, a team of scientists and researchers found a way to travel into the future! ',
+				'Recently, our team of scientists and researchers found a way to travel into the future! ',
 			avatars: ['/img/characters/captain-storm/gesture_2_storm.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s2.wav',
@@ -37,7 +37,7 @@ const script: Script = {
 			id: 3,
 			speakers: ['Captain Storm'],
 			dialog:
-				'But now they need volunteers to go on a mission to the year 2075 to see what the future is like.',
+				'But now we need volunteers to go on a mission to the year 2075 to see what the future is like.',
 			avatars: ['/img/characters/captain-storm/gesture_2_storm.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s6.wav',
@@ -108,7 +108,7 @@ const script: Script = {
 		{
 			id: 10,
 			speakers: ['Agent Gear', 'Captain Storm'],
-			dialog: 'Agent Gear is our engineer who designed and built special SPOT robots!',
+			dialog: 'Agent Gear is our engineer who designed and built our robots at SPOT agency!',
 			avatars: [
 				'/img/characters/agent-gear/vanil_wave.png',
 				'/img/characters/captain-storm/storm_gesture_4.png'
@@ -160,7 +160,7 @@ const script: Script = {
 		{
 			id: 15,
 			speakers: ['Agent Fern', 'Agent Spark'],
-			dialog: 'In addition to physics, Agent Fern loves plants and things that grow.',
+			dialog: 'In addition to physics, Agent Fern loves plants and all things that grow in nature.',
 			avatars: [
 				'/img/characters/agent-fern/fern_sweet.png',
 				'/img/characters/agent-spark/spark_gesture_1_inverted.png'
