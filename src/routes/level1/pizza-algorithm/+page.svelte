@@ -102,7 +102,7 @@
         let parsonsPairs = [
             ['Cheese requested', 'Add cheese to pizza'],
             ['Toppings requested', 'Add toppings to pizza'],
-            ['Pizza is cool', 'Remove pizza from oven']
+            ['Pizza is cooked', 'Remove pizza from oven']
         ];
 
         let algorithmIndices = [0, 1, 2, 3, 4, 5, 6];
@@ -211,15 +211,16 @@
                         } else {
                             // If the slot is already filled, remove the block from the slot and place it back in the palette
                             
+                            // First, check if this is the same block being dragged back to its original position
+                            let originalBlock = Array.from(document.querySelectorAll('.' + blockClass))
+                                .filter((block) => block.outerHTML == e.dataTransfer?.getData('text/plain'));                            
+
                             // Send the block back to the palette
                             let palette = document.querySelector('.palette');
                             if(palette instanceof HTMLElement) {
                                 t.children[0].style['padding'] = '';
                                 palette.appendChild(t.children[0]);
                             }
-
-                            let originalBlock = Array.from(document.querySelectorAll('.' + blockClass))
-                                .filter((block) => block.outerHTML == e.dataTransfer?.getData('text/plain'));
 
                             if(originalBlock.length > 0) {
                                 // Check if the block was already in a slot
