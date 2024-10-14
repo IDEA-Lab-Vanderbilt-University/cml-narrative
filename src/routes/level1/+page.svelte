@@ -77,10 +77,10 @@
 	</div>
 	<div slot="content" class="h-full w-full"  bind:this={content}>
 		{#if line.id == 9}
-			<DefinitionModal title="Algorithm" definition="An algorithm is a set of step-by-step instruction for solving a problem or completing a task" on:click={() => { handleDialogEvent({detail: { state: NavigationDirection.forward}})}} />
+			<DefinitionModal title="Algorithm" definition="An algorithm is a set of step-by-step instructions for solving a problem or completing a task" on:click={() => { handleDialogEvent({detail: { state: NavigationDirection.forward}})}} />
 		{/if}
 
-		{#if line.id != 8}
+		{#if line.id != 9}
 			<TabletButton on:click={() => { 
 				const event  = new CustomEvent('showTablet', {
 					bubbles: true

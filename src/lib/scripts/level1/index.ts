@@ -67,7 +67,7 @@ const script: Script = {
                 'Welcome! Please have a seat and a server will be with you shortly.',
             avatars: ['/img/characters/level-1/host-bot.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s4.wav',
+            audio: '/audio/level1/Pizza_Host_Bot_L1S4.mp3',
             pos: 'left'
         },
         {
@@ -118,7 +118,7 @@ const script: Script = {
                 'My database says that an algorithm is a set of step-by-step instructions that describe how to perform a task. It is kind of like a recipe!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s9.wav',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s10.wav',
             pos: 'left'
         },
         {
@@ -128,7 +128,7 @@ const script: Script = {
                 'Let\'s go into the kitchen and see if we can use an algorithm to make our own pizzas.',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s10.wav',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s11.wav',
             pos: 'left'
         },
         {
@@ -138,7 +138,7 @@ const script: Script = {
                 'Hello, robot from the future–I mean regular, normal pizza chef robot! Can we try making our own pizzas using an algorithm?',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/16596.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s11.wav',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s12.wav',
             pos: 'right'
         },
         {
@@ -148,7 +148,7 @@ const script: Script = {
                 'Yes you can! I\'ll help you!',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/16596.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s12.wav',
+            audio: '/audio/level1/chef_bot/Chef_Bot_L1S13.wav',
             pos: 'left'
         },
         {
@@ -158,7 +158,7 @@ const script: Script = {
                 'Sorry, Agent ' + agent.agentName + ', I almost blew our cover back there.',
             avatars: ['/img/characters/bot-buddy/bot-buddy-ohno.png'],
             background: '/img/backgrounds/level1/16596.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s13.wav',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s14.wav',
             pos: 'center',
             size: 'full',
         },
@@ -169,7 +169,7 @@ const script: Script = {
                 'Now let\'s make some pizza!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/16596.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s14.wav',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s15.wav',
             pos: 'center',
             size: 'full',
         },
