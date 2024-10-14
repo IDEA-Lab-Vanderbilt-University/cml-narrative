@@ -23,6 +23,7 @@
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageData } from './$types';
 	import {  userDataStore } from '$lib/utils/stores/store';
+	import ProfilesApp from '$lib/components/tablet/profiles/ProfilesApp.svelte';
 
 	export let data: PageData;
 
@@ -178,45 +179,55 @@
 		}
 		showFeedbackModal = false;
 	}
+
+	let showAgentProfile = false;
 </script>
 
 <div class=" relative z-0 h-full w-full rounded-md">
 	{#if showFeedbackModal}
 		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
 	{/if}
-	<div class="flex h-full  w-full rounded-md">
-		<button
-			class={`rotate-180 px-2 ${page <= 1 ? 'opacity-0' : ''}`}
-			on:click={() => handleNavigation(NavigationDirection.backward)}>
-			<img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-16 w-16" />
-			<!-- <p class="bg-lapiz-blue text-white text-3xl w-fit p-8 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p> -->
-		</button>
-		<div class="h-full w-full">
-			{#if page == 1}
-				<Name bind:profileData />
-			{:else if page == 2}
-				<Age bind:profileData />
-			{:else if page == 3}
-				<Interest bind:profileData prompt="What do you like to do?" index={0} />
-			{:else if page == 4}
-				<Interest bind:profileData prompt="Can you think of anything else?" index={1} />
-			{:else if page == 5}
-				<Interest bind:profileData prompt="One more thing you enjoy" index={2} />
-				<!-- {:else if page == 6}
-				<ChooseAnAvatar bind:profileData /> -->
-			{:else if page == 6}
-				<AgentName bind:profileData on:submitClicked={validateAgentName} />
-			{/if}
+	{#if showAgentProfile}
+		<div style="z-index: 1000;">
+			<ProfilesApp handleClick={() => showAgentProfile = false} />
 		</div>
-		<button
-			class={`px-2 ${page >= numberOfPageSequences ? 'opacity-0' : ''}`}
-			on:click={() => handleNavigation(NavigationDirection.forward)}>
-			<img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-16 w-16" />
-		</button>
-	</div>
-	{#if page == 3 || page == 4 || page == 5}
-		<div class="absolute inset-0 z-10 mb-9 mt-auto flex  h-fit items-end justify-center  shadow-md">
-			<ClickToViewProfileBanner />
+	{/if}
+
+	{#if !showAgentProfile}
+		<div class="flex h-full  w-full rounded-md" style="z-index: -1;">
+			<button
+				class={`rotate-180 px-2 ${page <= 1 ? 'opacity-0' : ''}`}
+				on:click={() => handleNavigation(NavigationDirection.backward)}>
+				<img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-16 w-16" />
+				<!-- <p class="bg-lapiz-blue text-white text-3xl w-fit p-8 rounded-full hover:opacity-80 transition-all ease-in-out duration-200">➜</p> -->
+			</button>
+			<div class="h-full w-full">
+				{#if page == 1}
+					<Name bind:profileData />
+				{:else if page == 2}
+					<Age bind:profileData />
+				{:else if page == 3}
+					<Interest bind:profileData prompt="What do you like to do?" index={0} />
+				{:else if page == 4}
+					<Interest bind:profileData prompt="Can you think of anything else?" index={1} />
+				{:else if page == 5}
+					<Interest bind:profileData prompt="One more thing you enjoy" index={2} />
+					<!-- {:else if page == 6}
+					<ChooseAnAvatar bind:profileData /> -->
+				{:else if page == 6}
+					<AgentName bind:profileData on:submitClicked={validateAgentName} />
+				{/if}
+			</div>
+			<button
+				class={`px-2 ${page >= numberOfPageSequences ? 'opacity-0' : ''}`}
+				on:click={() => handleNavigation(NavigationDirection.forward)}>
+				<img src="/img/svg/dialog-arrow-blue.svg" alt="" class="h-16 w-16" />
+			</button>
+			{#if page == 3 || page == 4 || page == 5 || page == 6}
+				<div class="absolute inset-0 z-10 mb-9 mt-auto flex  h-fit items-end justify-center  shadow-md" style="z-index: 1;">
+					<ClickToViewProfileBanner handleClick={() => showAgentProfile = true} />
+				</div>
+			{/if}
 		</div>
 	{/if}
 </div>
