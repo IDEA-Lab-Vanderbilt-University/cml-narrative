@@ -6,7 +6,7 @@
     export let definition: string;
 </script>
 
-<Tablet>
+<Tablet showMeter={false}>
     <DefinitionView title={title} definition={definition} />
 
     <div class="button-container">
