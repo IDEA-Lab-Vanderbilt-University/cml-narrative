@@ -142,11 +142,23 @@
                 <PizzaDisplay bind:this={userPizza} />
             </div>
         {/if}
-        {#if lineNumber == 4 || lineNumber == 9}
+        {#if lineNumber == 4}
             <Tablet showMeter={false}>
                 <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen">
                     <h1 class="text-5xl">Incoming message 
                         from Mission Control!</h1>
+                    <img src="/img/misc/mail.png" alt="letter" id="mailicon" />
+                    <button on:click={() => handleNavigation(NavigationDirection.forward)}>
+                        <img src="/img/misc/readbutton.png" alt="Read" id="readbutton" />
+                    </button>
+                </div>
+            </Tablet>
+        {/if}
+        {#if lineNumber == 9}
+            <Tablet showMeter={false}>
+                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen">
+                    <h1 class="text-5xl">Incoming message 
+                        from Captain Storm!</h1>
                     <img src="/img/misc/mail.png" alt="letter" id="mailicon" />
                     <button on:click={() => handleNavigation(NavigationDirection.forward)}>
                         <img src="/img/misc/readbutton.png" alt="Read" id="readbutton" />
@@ -212,7 +224,7 @@ megajoules! I sent them right to your SPOT Tablet.
         {/if}
 
         {#if lineNumber == 12}
-            <MegaJoulesGetModal amount={100} handleClick={() => handleNavigation(NavigationDirection.forward)} />
+            <MegaJoulesGetModal amount={10} handleClick={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
 	</div>
 </Scene>

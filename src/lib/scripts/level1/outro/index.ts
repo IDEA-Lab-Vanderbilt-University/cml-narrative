@@ -9,7 +9,7 @@ export const script: Script = {
                 'I can\'t wait to see our pizzas! Let\'s open mine first!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s1.wav',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s30.wav',
             pos: 'right',
         },
         {
@@ -19,7 +19,7 @@ export const script: Script = {
                 'Mmmmm... thick crust pizza with nuts and bolts and spicy jalapenos! Doesn\'t it look delicious?!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s2.wav',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s31.wav',
             pos: 'right',
         },
         {
@@ -29,7 +29,7 @@ export const script: Script = {
                 'Oh, yuck. I would never eat your pizza! That is not what I like. It looks like algorithms can be very different depending on who makes them. As you can see, algorithms are not just based on order of instructions, but also on preferences and opinions.',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s3.wav',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s32.wav',
             pos: 'right',
         },
         {
@@ -39,7 +39,7 @@ export const script: Script = {
                 'Incoming message from Mission Control!',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S33.wav',
             pos: 'left',
         },
         {
@@ -48,8 +48,8 @@ export const script: Script = {
             dialog:
                 'Your Bot Buddy’s system has informed us that you have completed your first mission. Mission Control needs to know a few more things. We have included our questions in this message.',
             avatars: ['/img/characters/captain-storm/storm_yeah.png'],
-            background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/captain_storm/captn_storm_l1s1.wav',
+            background: '/img/backgrounds/level1/cafe.png',           
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S34.wav',
             pos: 'left',
         },
         {
@@ -59,7 +59,7 @@ export const script: Script = {
                 'Pizza opinion 1',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S35.wav',
             pos: 'left',
         },
         {
@@ -69,7 +69,7 @@ export const script: Script = {
                 'Pizza opinion 2',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S36.wav',
             pos: 'left',
         },
         {
@@ -79,17 +79,17 @@ export const script: Script = {
                 'Pizza opinion 3',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S37.wav',
             pos: 'left',
         },
         {
             id: 9,
             speakers: ['SPOT Computer'],
             dialog:
-                'Incoming message from Mission Control!',
+                'Incoming message from Captain Storm!',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S38.wav',
             pos: 'left',
         },
         {
@@ -99,7 +99,7 @@ export const script: Script = {
                 'Blah blah blah',
             avatars: ['/img/characters/captain-storm/storm_yeah.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/captain_storm/captn_storm_l1s1.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S39.wav',
             pos: 'left',
         },
         {
@@ -109,7 +109,7 @@ export const script: Script = {
                 'Badge GET!',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S40.wav',
             pos: 'left',
         },
         
@@ -120,7 +120,7 @@ export const script: Script = {
                 'MegaJoules GET!',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/spot_computer/spot_computer_l1s1.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S42.wav',
             pos: 'left',
         },
         {
@@ -130,7 +130,7 @@ export const script: Script = {
                 'Thank you for having us, pizza robots! Our algorithms were very different, but we each made a delicious pizza for ourselves.',
             avatars: [ '/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-1/host-bot.png',],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s4.wav',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s43.wav',
             pos: 'left'
         },
         {
@@ -140,7 +140,7 @@ export const script: Script = {
                 'I hope these robots know how to make everyone\'s favorite pizza!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/2.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s3.wav',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l1s44.wav',
             pos: 'left'
         },
     ]

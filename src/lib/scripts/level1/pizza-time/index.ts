@@ -29,7 +29,7 @@ const script: Script = {
                 'You can choose from a thin crust, a thick crust, or a stuffed crust. Which one would you like?',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s3.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S18.wav',
             pos: 'left'
         },
         {
@@ -39,7 +39,7 @@ const script: Script = {
                 'Now, let\'s choose the sauce! You can choose from tomato sauce, alfredo sauce, spicy sauce, or BBQ sauce. Which one would you like?',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s4.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S19.wav',
             pos: 'left'
         },
         {
@@ -49,7 +49,7 @@ const script: Script = {
                 'Would you like to add cheese to your pizza?',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s5.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S20.wav',
             pos: 'left'
         },
         {
@@ -59,7 +59,7 @@ const script: Script = {
                 'Now, let\'s choose the meat topping! You can choose from ham, pepperoni, shrimp or bacon, or none. Which ones would you like?',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s5.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S21.wav',
             pos: 'left'
         },
         {
@@ -69,7 +69,7 @@ const script: Script = {
                 'Now, let\'s choose some vegetable toppings! You can choose from mushrooms, bell peppers, onions, tomatoes, or pineapple. Which ones would you like?',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s6.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S22.wav',
             pos: 'left'
         },
         {
@@ -79,7 +79,7 @@ const script: Script = {
                 'Now for the finishing touch! You can choose from basil, herbs, parmesan, olives, or jalapenos. Which one would you like?',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s7.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S23.wav',
             pos: 'left'
         },
         {
