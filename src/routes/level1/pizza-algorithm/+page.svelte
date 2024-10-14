@@ -218,7 +218,7 @@
                             // Send the block back to the palette
                             let palette = document.querySelector('.palette');
                             if(palette instanceof HTMLElement) {
-                                t.children[0].style['padding'] = '';
+                                (t.children[0] as HTMLElement).style['padding'] = '';
                                 palette.appendChild(t.children[0]);
                             }
 
@@ -264,8 +264,8 @@
 
                 if(predicateSlot && commandSlot) {
                     // Check if the predicate and command slots are filled with the correct blocks
-                    let predicate = predicateSlot.querySelector('.blockcontent p');
-                    let command = commandSlot.querySelector('.blockcontent p');
+                    let predicate = predicateSlot.querySelector('.blockcontent p') as HTMLElement;
+                    let command = commandSlot.querySelector('.blockcontent p') as HTMLElement;
 
                     if(predicate && command) {
                         if(predicate.innerText != parsonsPairs[i][0] || command.innerText != parsonsPairs[i][1]) {
@@ -324,15 +324,18 @@
                 {:else}
                     <div id="navButtons">
                         <button id="nextButton" on:click={() => {
+                            if(!algo1) return;
+
                             // Validate the order of the steps
                             let steps = algo1.querySelectorAll('.step');
 
-                            console.dir(steps);
                             let correct = true;
                             for (let i = 0; i < steps.length; i++) {
-                                if (steps[i].innerText != algorithmSteps[i]) {
+                                let step = steps[i];
+                                
+                                if (step instanceof HTMLElement && step.innerText != algorithmSteps[i]) {
                                     correct = false;
-                                    console.log('Incorrect step at index', i, steps[i].innerText, algorithmSteps[i]);
+                                    console.log('Incorrect step at index', i, step.innerText, algorithmSteps[i]);
                                     break;
                                 }
                             }
