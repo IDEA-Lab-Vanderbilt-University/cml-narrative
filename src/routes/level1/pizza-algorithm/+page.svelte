@@ -253,6 +253,42 @@
             e.preventDefault();
         };
 
+        const paletteDrop = (e: DragEvent) => {
+            // Allow dropping blocks in the palette
+            e.preventDefault();
+
+            let block = e.dataTransfer?.getData('text/plain');
+
+            if(block && palette) {
+                console.log('Block dropped in palette', e, block);
+
+                // Check if block is already in the palette
+                let blocks = palette.querySelectorAll('.predicateBlock, .commandBlock');
+                let blockExists = blocks.length > 0 && Array.from(blocks).some((b) => b.outerHTML == block);
+
+                if(!blockExists) {
+                    // Create a new block element and add it to the palette
+                    let blockElement = document.createElement('div');
+                    blockElement.innerHTML = block;
+                    blockElement.ondragstart = blockDragHandler;
+                    palette.appendChild(blockElement);
+
+
+                    // If block is in a slot, remove it from the slot
+                    let originalBlock = Array.from(document.querySelectorAll('.slotDropped'))
+                        .filter((slot) => slot.innerHTML == block);
+
+                    if(originalBlock.length > 0) {
+                        originalBlock[0].classList.remove('slotDropped');
+                        originalBlock[0].classList.add(blockElement.children[0].classList[0] + 'Slot');
+                        originalBlock[0].style['padding'] = '';
+                        originalBlock[0].innerHTML = '';
+                    }
+
+                }
+            }
+        };
+
         const validateParsonsProblem = () => {
             let ifs = document.querySelectorAll('.ifBlock');
             let correct = true;
@@ -352,7 +388,7 @@
                 {/if}
             {/if}
             {#if lineNumber == 4 || lineNumber == 5 || lineNumber == 6}
-            <div class="palette" bind:this={palette}>
+            <div class="palette" bind:this={palette} on:drop={paletteDrop} on:dragover={(e) => e.preventDefault()} role="list">
                 {#each parsonsPairs as pair}
                     <div class="predicateBlock" draggable="true" role="listitem"
                     on:dragstart={blockDragHandler}
