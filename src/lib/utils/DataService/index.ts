@@ -364,10 +364,10 @@ const Data = {
 			}
 		});
 	},
-	fetchStudents: async (teacher_id: string) => {
+	fetchStudents: async (teacher_id: string, include_progress: boolean = false) => {
 		return new Promise<Student[]>(async (resolve, reject) => {
 			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students?teacher_id=${teacher_id}`, 'GET');
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students?teacher_id=${teacher_id}&include_progress=${include_progress}`, 'GET');
 				resolve(res);
 			} catch (error) {
 				reject(error);

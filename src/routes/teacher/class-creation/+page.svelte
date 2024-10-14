@@ -2,6 +2,7 @@
 	import { getContext, onMount } from 'svelte';
 	import type { Student } from '$lib/types/teacher-view/Student';
 	import UploadCsvModal from '$lib/components/teacher-view/modals/UploadCSVModal.svelte';
+	import StudentInfoModal from '$lib/components/teacher-view/modals/StudentInfoModal.svelte';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import { generateQRCodes } from '$lib/utils/teacher-view/qr/QRGenerator';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -16,6 +17,8 @@
 	let isSuccess = false;
 	let showFeedbackModal = false;
 
+	let showStudentInfoModal = false;
+
 	var newStudent: Student = {
 		teacher_id: $sessionTeacherID, // TODO: read from session
 		first_name: '',
@@ -26,7 +29,7 @@
 	var showManual = false;
 
 	function fetchStudents() {
-		DataService.Data.fetchStudents($sessionTeacherID).then((res) => {
+		DataService.Data.fetchStudents($sessionTeacherID, true).then((res) => {
 			$studentClassStore = res;
 		});
 		console.log('Fetched students: ', $studentClassStore);
@@ -96,6 +99,10 @@
 		});
 	};
 
+	const openStudentInfoModal = (student: Student) => {
+		open(StudentInfoModal, { student: student });
+	};
+
 	const onParse = async (csv: Student[]): Promise<void> => {
 		await DataService.Data.registerAllStudents(csv);
 		$studentClassStore = [...$studentClassStore, ...csv];
@@ -110,6 +117,7 @@
 			.then((res) => {
 				$sessionTeacherID = res;
 				console.log('Teacher ID: ', $sessionTeacherID);
+				newStudent.teacher_id = $sessionTeacherID;
 				fetchStudents();
 			})
 			.catch((err) => {
@@ -128,6 +136,7 @@
 		{#if showFeedbackModal}
 			<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
 		{/if}
+
 		<div class="my-5 flex w-full items-center justify-center">
 			<h1 class="text-4xl font-bold text-white">Your Students</h1>
 		</div>
@@ -175,24 +184,32 @@
 								selectedStudents.length === $studentClassStore.length} />
 					</th>
 					<th class="w-2/6 px-5 py-5">Name</th>
-					<th class="w-2/6 py-5">Progress Updated At</th>
+					<th class="w-2/6 py-5">Updated At</th>
 				</tr>
 
 				{#each $studentClassStore as student}
-					<tr class="py-4 text-lg">
-						<td class="w-1/12 px-5 text-left">
+					<tr
+						class="cursor-pointer py-4 text-lg hover:shadow-inner hover:bg-gray-100"
+						on:click={() => {
+							console.log(student);
+							openStudentInfoModal(student);
+						}}>
+						<td class="flex w-1/12 items-center px-5 py-2 text-left">
 							<input
 								type="checkbox"
 								class="checkbox-primary checkbox"
 								bind:group={selectedStudents}
 								name={student.last_name}
 								value={student}
+								on:click|stopPropagation
 								on:change={logSelectedStudents} />
 						</td>
 						<!-- <td class="px-5">{student.id}</td> -->
 						<td class="w-2/6 px-5">{student.first_name} {student.last_name}</td>
 						<td class="w-2/6"
-							>{new Date(student.updated_at.secs_since_epoch * 1000).toLocaleString()}</td>
+							>{student.updated_at
+								? new Date(student.updated_at.secs_since_epoch * 1000).toLocaleString()
+								: 'NULL'}</td>
 					</tr>
 				{/each}
 			</table>
