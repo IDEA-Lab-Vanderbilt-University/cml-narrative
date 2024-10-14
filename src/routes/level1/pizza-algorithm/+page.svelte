@@ -4,7 +4,6 @@
         import { goto } from '$app/navigation';
         import PizzaDialogBox from '$lib/components/activities/pizza-time/PizzaDialogBox.svelte';
         import Scene from '$lib/components/scene/Scene.svelte';
-        import script from '$lib/scripts/introduction/script.js';
         import { NavigationDirection } from '$lib/types/Enums';
         import type { Line } from '$lib/types/Script';
         import type { UserProgress } from '$lib/types/UserData.js';
@@ -283,6 +282,15 @@
             }
         };
 
+        const getStepStyle = (step: string) => {
+            let index = algorithmSteps.indexOf(step);
+
+            if (index == -1) {
+                return 'filter: drop-shadow(0 0 0.75rem black) hue-rotate(' + Math.floor(Math.random() * 360) + 'deg);';
+            }
+
+            return algorithmStepStyles[index];
+        };
 
     </script>
 
@@ -295,7 +303,7 @@
             {#if lineNumber == 1 || lineNumber == 2 || lineNumber == 3}
                 <ul id="algo1" bind:this={algo1}>
                     {#each algorithmRandomIndices as i, index}
-                        <li class="step" style={algorithmStepStyles[index]}>
+                        <li class="step" style={getStepStyle(algorithmSteps[i])}>
                             <p>{algorithmSteps[i]}</p>
                         </li>
                     {/each}
