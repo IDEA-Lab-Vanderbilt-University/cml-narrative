@@ -37,7 +37,7 @@ const script: Script = {
 				'Oh! It looks like we are getting an alert! Let’s see what it says!',
 			avatars: ['/img/characters/bot-buddy/bot-buddy-warning.png'],
 			background: '/img/backgrounds/level1/2.png',
-			audio: '/audio/level1/bot_buddy/bot_buddy_l2s1.wav',
+			audio: 'MISSING?',
 			pos: 'center',
             size: 'full',
 		},
@@ -48,7 +48,7 @@ const script: Script = {
                 'Detecting problems with self-driving cars near the school!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-warning.png'],
             background: '/img/backgrounds/level1/2.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l2s2.wav',
+			audio: '/audio/level1/bot_buddy/bot_buddy_l1s45.wav',
             pos: 'left'
         },
         {

@@ -36,7 +36,7 @@
     export let badgeImage: string;
 </script>
 
-<Tablet>
+<Tablet showMeter={false}>
     <div class="text-center text-white text-3xl font-mokoto p-16">
         Congratulations, Agent {agent.agentName}! <br/>
         You have earned another badge!

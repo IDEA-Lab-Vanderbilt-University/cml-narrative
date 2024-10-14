@@ -36,10 +36,10 @@
     export let amount: number;
 
 
-    let imageAmount = Math.floor(amount * 14 / 1200);
+    let imageAmount = Math.floor(amount * 14 / 100);
 </script>
 
-<Tablet>
+<Tablet showMeter={false}>
     <div class="text-center text-white text-3xl font-mokoto p-16">
         You earned {amount} Megajoules!
     </div>
