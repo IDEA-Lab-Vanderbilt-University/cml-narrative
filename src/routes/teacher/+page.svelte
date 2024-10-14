@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
-	import { RequestFactory } from '../../lib/utils/network/RequestFactory';
+	import { RequestFactory } from '$lib/utils/network/RequestFactory';
 
 	let showSignUp = false;
 

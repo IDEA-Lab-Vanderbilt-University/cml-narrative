@@ -10,14 +10,15 @@
 	import DataService from '$lib/utils/DataService';
 	import { goto } from '$app/navigation';
 
+	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
+	import { RequestFactory } from '$lib/utils/network/RequestFactory';
+
 	// @ts-ignore
 	const { open } = getContext('simple-modal');
 
 	let message = '';
 	let isSuccess = false;
 	let showFeedbackModal = false;
-
-	let showStudentInfoModal = false;
 
 	var newStudent: Student = {
 		teacher_id: $sessionTeacherID, // TODO: read from session
@@ -27,6 +28,17 @@
 	};
 
 	var showManual = false;
+
+	async function logout() {
+		try {
+			const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/logout`, 'POST');
+			console.log(res);
+			goto('/teacher');
+		} catch (error) {
+			alert('Error logging out');
+			console.log(error);
+		}
+	}
 
 	function fetchStudents() {
 		DataService.Data.fetchStudents($sessionTeacherID, true).then((res) => {
@@ -189,7 +201,7 @@
 
 				{#each $studentClassStore as student}
 					<tr
-						class="cursor-pointer py-4 text-lg hover:shadow-inner hover:bg-blue-100"
+						class="cursor-pointer py-4 text-lg hover:bg-blue-100 hover:shadow-inner"
 						on:click={() => {
 							console.log(student);
 							openStudentInfoModal(student);
@@ -214,7 +226,7 @@
 				{/each}
 			</table>
 
-			<div class="absolute bottom-4 left-4 flex flex-col items-start space-y-2">
+			<div class="absolute bottom-5 left-4 flex flex-col items-start space-y-2">
 				{#if selectedStudents.length > 0}
 					<button
 						class="rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-blue-600"
@@ -246,6 +258,14 @@
 						Refresh
 					</button>
 				{/if}
+			</div>
+
+			<div class="absolute right-4 top-4 flex flex-col items-start space-y-2">
+				<button
+					class="rounded-full bg-red-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-red-600"
+					on:click={logout}>
+					Log Out
+				</button>
 			</div>
 		</div>
 	</div>
