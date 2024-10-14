@@ -189,7 +189,7 @@
 
 				{#each $studentClassStore as student}
 					<tr
-						class="cursor-pointer py-4 text-lg hover:shadow-inner hover:bg-gray-100"
+						class="cursor-pointer py-4 text-lg hover:shadow-inner hover:bg-blue-100"
 						on:click={() => {
 							console.log(student);
 							openStudentInfoModal(student);
