@@ -9,7 +9,7 @@ const script: Script = {
                 'Welcome to our pizza place! I\'m Chef Bot and I will help you make an algorithm for your pizza!',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s1.wav',
+            audio: 'MISSING?',
             pos: 'left'
         },
         {
@@ -19,7 +19,7 @@ const script: Script = {
                 'First, design your perfect pizza! You can choose your crust, sauce, and toppings.',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s2.wav',
+            audio: '/audio/level1/chef_bot/Chef_bot_L1S17.wav',
             pos: 'left'
         },
         {
@@ -89,7 +89,7 @@ const script: Script = {
                 'Looking good! Now that you have created your pizza, it\'s time to create the algorithm so that robots will make it in the right order.',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s8.wav',
+            audio: '/audio/level1/chef_bot/Chef_bot_L1S24.wav',
             pos: 'left'
         },
     ],
