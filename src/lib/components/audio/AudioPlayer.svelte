@@ -4,10 +4,6 @@
 
 	const players = new Set<HTMLAudioElement>();
 
-	export function stopAll() {
-		players.forEach((p) => p.pause());
-	}
-
 	let settings: Settings = defaultSettings;
 	
 	settingsStore.subscribe(value => {
@@ -49,6 +45,15 @@
 		players.add(player);		
 		dispatch('playerMounted', player);
 	});
+
+	
+	export function stopAll() {
+		players.forEach((p) => p.pause());
+	}
+
+	export function playAll() {
+		players.forEach((p) => p.play());
+	}
 </script>
 
 <audio bind:this={player} {src}>

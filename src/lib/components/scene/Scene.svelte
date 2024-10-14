@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import AudioPlayer from '../audio/AudioPlayer.svelte';
 
 	/**  The background image of the scene */
@@ -10,15 +10,26 @@
 	export let darken: boolean = false;
 
 	const dispatch = createEventDispatcher();
-	let player;
+	let player: HTMLAudioElement;
 
 	function handlePlayerMounted(event: any) {
 		player = event.detail.player;
 		dispatch('scenePlayerMounted', { player });
 	}
+
+	let audioPlayer: AudioPlayer | void;
+
+	onMount(() => {
+		document.addEventListener('showTablet', (e) => {
+			audioPlayer?.stopAll();		
+		});
+		document.addEventListener('hideTablet', (e) => {
+			audioPlayer?.playAll();
+		});
+	});
 </script>
 
-<AudioPlayer on:playerMounted={handlePlayerMounted} src={audio} />
+<AudioPlayer on:playerMounted={handlePlayerMounted} src={audio} bind:this={audioPlayer} />
 
 <div class="flex h-screen w-full items-center justify-center bg-gray-200 bg-cover">
 	<div
