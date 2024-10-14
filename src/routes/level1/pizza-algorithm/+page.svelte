@@ -93,6 +93,12 @@
             "filter: drop-shadow(0 0 0.75rem black) hue-rotate(270deg);"
         ];
 
+        // Shuffle the algorithm styles
+        for (let i = algorithmStepStyles.length - 1; i >= 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [algorithmStepStyles[i], algorithmStepStyles[j]] = [algorithmStepStyles[j], algorithmStepStyles[i]];
+        }
+
         let parsonsPairs = [
             ['Cheese requested', 'Add cheese to pizza'],
             ['Toppings requested', 'Add toppings to pizza'],
