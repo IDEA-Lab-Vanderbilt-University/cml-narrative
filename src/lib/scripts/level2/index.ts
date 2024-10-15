@@ -120,7 +120,7 @@ const script: Script = {
             speakers: ['Kelvin'],
             dialog: 'Today I have soccer practice, and I\'m going to be late…AGAIN!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/kid.png'],
-            background: '/img/backgrounds/level2/2.png',
+            background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s10.wav',
             pos: 'right'
         },
@@ -129,7 +129,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog: 'Don\'t worry! The SPOT team is here to help!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/kid.png'],
-            background: '/img/backgrounds/level2/2.png',
+            background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s11.wav',
             pos: 'left'
         },
@@ -138,7 +138,7 @@ const script: Script = {
             speakers: ['Kelvin'],
             dialog: 'Umm, the what?',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/kid.png'],
-            background: '/img/backgrounds/level2/2.png',
+            background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s12.wav',
             pos: 'right'
         },
@@ -147,7 +147,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog: 'The... the.. Serving People on Transportation Team!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/kid.png'],
-            background: '/img/backgrounds/level2/2.png',
+            background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s13.wav',
             pos: 'left'
         },
@@ -156,7 +156,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog: 'Yes, that is definitely who we work for! We are not secret agents or anything like that...',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/kid.png'],
-            background: '/img/backgrounds/level2/2.png',
+            background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s14.wav',
             pos: 'left'
         },
@@ -165,7 +165,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog: 'Sorry, Agent. I almost blew our cover again!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/2.png',
+            background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s15.wav',
             pos: 'center',
             size: 'full',
@@ -175,7 +175,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog: 'Let\'s test the self-driving car. Agent, could you try to scan your face and see if this car works for you?',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/3.png',
+            background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s16.wav',
             pos: 'left'
         },
