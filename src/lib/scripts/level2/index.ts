@@ -66,7 +66,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog: 'We found one! Oh, there are no drivers needed! How do these cars work?',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/2.png',
+            background: '/img/backgrounds/level2/school2.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s4.wav',
             pos: 'left'
         },
@@ -75,7 +75,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog: 'Amazing! In the future, they use cameras to scan people\'s faces and that allows them to get a ride.',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/2.png',
+            background: '/img/backgrounds/level2/school3.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s5.wav',
             pos: 'left'
         },
@@ -84,7 +84,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog: 'It seems like kids use these self-driving cars to get to school! So cool!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/2.png',
+            background: '/img/backgrounds/level2/school4.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s6.wav',
             pos: 'left'
         },
@@ -93,7 +93,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog: 'Oh no, the self-driving car isn\'t working for that kid.',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/2.png',
+            background: '/img/backgrounds/level2/school5.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s7.wav',
             pos: 'left'
         },
@@ -101,8 +101,8 @@ const script: Script = {
             id: 8,
             speakers: ['Bot Buddy'],
             dialog: 'Hello, I am Bot Buddy. What\'s your name? Why isn\'t the car working for you?',
-            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/kid.png'],
-            background: '/img/backgrounds/level2/2.png',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/boy/boy_sad-removebg-preview.png'],
+            background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s8.wav',
             pos: 'left'
         },
@@ -110,8 +110,8 @@ const script: Script = {
             id: 9,
             speakers: ['Kelvin'],
             dialog: 'Hi, I\'m Kelvin. These self-driving cars never work for me except when I\'m with my parents. It\'s so frustrating! It only works for some of my friends.',
-            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/kid.png'],
-            background: '/img/backgrounds/level2/2.png',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/boy/boy_fist-removebg-preview.png'],
+            background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s9.wav',
             pos: 'right'
         },
