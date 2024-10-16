@@ -109,7 +109,7 @@
 				<div class="flex w-full items-end justify-between align-bottom">
 					{#each line.avatars as avatar, i}
 						<div class="mr-14 self-end">
-							<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass="relative -bottom-10 z-20" size={line.size}  />
+							<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass="relative {line.speakers[i]? " -bottom-10 " : ""} z-20" size={line.size}  />
 							{#if line.speakers[i]}
 								<div
 									class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
