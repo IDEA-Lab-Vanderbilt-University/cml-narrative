@@ -17,7 +17,7 @@
 </script>
 
 <div class="davatar {avatarClass} {size} ">
-    <img src={avatar} alt={speaker} style={extraStyle} />
+    <img src={avatar} alt={avatar != '' ? speaker: ''} style={extraStyle} />
 </div>
 
 <style>

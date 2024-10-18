@@ -98,11 +98,18 @@
 		</div>
 		{/if}
 
-		{#if line.id == 18 || line.id == 19 || line.id == 21}
+		{#if line.id == 18 || line.id == 21}
 		<div id="carscanner">
 			<img src="/img/misc/scanfailed.png" alt={line.dialog}>
 		</div>
 		{/if}
+
+		{#if line.id == 27}
+		<div id="licenseplate">
+			<img src="/img/misc/licenseplate.png" alt={line.dialog}>
+		</div>
+		{/if}
+
 	</div>
 </Scene>
 
@@ -142,6 +149,18 @@
 		position: absolute;
 		left: calc(50% - 22.5vh);
 		top: calc(50% - 22.5vh);
+	}
+
+	#licenseplate {
+		width: 35vw;
+		text-align: center;
+		vertical-align: middle;
+		font-size: 4vh;
+		color: yellow;
+		text-transform: uppercase;
+		position: absolute;
+		left: calc(50% - 17.5vw);
+		top: 2%;
 	}
 
 	@keyframes spin {
