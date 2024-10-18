@@ -91,6 +91,18 @@
 			{line.dialog}
 		</div>
 		{/if}
+
+		{#if line.id == 17 || line.id == 20}
+		<div id="carscanner">
+			<img src="/img/misc/scanprompt.png" alt={line.dialog}>
+		</div>
+		{/if}
+
+		{#if line.id == 18 || line.id == 19 || line.id == 21}
+		<div id="carscanner">
+			<img src="/img/misc/scanfailed.png" alt={line.dialog}>
+		</div>
+		{/if}
 	</div>
 </Scene>
 
@@ -114,6 +126,18 @@
 		vertical-align: middle;
 		font-size: 4vh;
 		color: mediumspringgreen;
+		text-transform: uppercase;
+		position: absolute;
+		left: calc(50% - 22.5vh);
+		top: calc(50% - 22.5vh);
+	}
+
+	#carscanner {
+		width: 45vh;
+		text-align: center;
+		vertical-align: middle;
+		font-size: 4vh;
+		color: yellow;
 		text-transform: uppercase;
 		position: absolute;
 		left: calc(50% - 22.5vh);

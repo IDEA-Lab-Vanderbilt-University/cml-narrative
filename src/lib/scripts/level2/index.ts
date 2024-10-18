@@ -184,7 +184,7 @@ const script: Script = {
             speakers: ['Computer Voice'],
             dialog: 'Hold your face still for a scan...',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/3.png',
+            background: '/img/backgrounds/level2/car.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s17.wav',
             pos: 'left'
         },
@@ -193,7 +193,7 @@ const script: Script = {
             speakers: ['Computer Voice'],
             dialog: 'Face Scan Failed.',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/3.png',
+            background: '/img/backgrounds/level2/car.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s18.wav',
             pos: 'left'
         },
@@ -202,7 +202,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog: 'Agent, it didn\'t work. Try it again. Maybe try smiling really big this time!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/3.png',
+            background: '/img/backgrounds/level2/car.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s19.wav',
             pos: 'left'
         },
@@ -211,7 +211,7 @@ const script: Script = {
             speakers: ['Computer Voice'],
             dialog: 'Hold your face still for a scan...',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/3.png',
+            background: '/img/backgrounds/level2/car.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s17.wav',
             pos: 'left'
         },
@@ -220,7 +220,7 @@ const script: Script = {
             speakers: ['Computer Voice'],
             dialog: 'Face Scan Failed.',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/3.png',
+            background: '/img/backgrounds/level2/car.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s18.wav',
             pos: 'left'
         },
