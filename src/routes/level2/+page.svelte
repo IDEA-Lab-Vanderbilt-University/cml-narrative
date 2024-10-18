@@ -59,10 +59,20 @@
                 // Next level
                 goto('/level2/car-training?page=1');
 			} else {
+
+				if (line.id >= 29 && line.id <= 34) {
+					// GPS navigation screens
+					return;
+				}
 				goto(`/level2?page=${line.id + 1}`);
 			}
 		} else if (direction == NavigationDirection.backward) {
 			if(line.id > 1) {
+				if (line.id >= 29 && line.id <= 34) {
+					// GPS navigation screens
+					goto(`/level2?page=29`);
+					return;
+				}
 				goto(`/level2?page=${line.id - 1}`);
 			} else {
 				goto('/level1/outro?page=14');
