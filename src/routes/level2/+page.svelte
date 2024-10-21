@@ -97,7 +97,7 @@
 					<p>
 						{line.dialog}
 					</p>
-					<button on:click={() => { if(line.id == 35) { goto('/level2/car-training?page=1') } else { goto('/level2?page=29') } }}>
+					<button on:click={() => { if(line.id == 35) { goto('/level2?page=36') } else { goto('/level2?page=29') } }}>
 						<div id="mapdialogbuttontext"> 
 							{line.id == 35 ? 'Let\'s Go' : 'Back'}
 						</div>
@@ -254,18 +254,18 @@
 	}
 
 	#firestation {
-		left: 30%;
+		left: 20%;
 		top: 50%;
 	}
 
 	#icecream {
-		left: 70%;
+		left: 80%;
 		top: 50%;
 	}
 
 	#museum {
-		left: 50%;
-		top: 30%;
+		left: 70%;
+		top: 20%;
 	}
 
 	#pizzaplace {
@@ -274,8 +274,8 @@
 	}
 
 	#toilet {
-		left: 30%;
-		top: 30%;
+		left: 10%;
+		top: 20%;
 	}
 
 	#vroom {
@@ -285,8 +285,7 @@
 
 	#mapdialog {
 		position: absolute;
-		width: 50vw;	
-		height: 50vh;
+		width: 55vw;	
 		background: rgb(6, 93, 174);
 		color: white;
 		border-radius: 1rem;
@@ -300,8 +299,9 @@
 		color: black;
 		margin: 1rem;
 		padding: 1rem;
-		font-size: 2rem;
+		font-size: 2.5rem;
 		border-radius: 1rem;
+		font-weight: bold;
 	}
 
 	#mapdialogcontent {
@@ -311,13 +311,27 @@
 		padding: 1rem;
 		font-size: 2rem;
 		border-radius: 1rem;
-		height: 35vh;
+		min-height: 35vh;
 	}
 	
 	#mapdialogimage {
-		height: 25vw;
-		max-height: 25vh;
+		max-height: 65%;
+		max-width: 20vw;
 		float: left;
+		position: absolute;
+		bottom: 1rem;
+		left: 1rem;
+	}
+
+	#mapdialogcontent {  
+		padding-left: 18vw;
+	}
+
+	#mapdialogcontent p {
+		background: lightblue;
+		padding: 1rem;
+		border-radius: 1rem;
+		margin: 1rem;
 	}
 
 	#mapdialogcontent button {
@@ -328,7 +342,7 @@
 		padding: 1rem;
 		font-size: 2rem;
 		cursor: pointer;
-		margin-left: 15vh;
+		margin-left: 18vh;
 	}
 
 	@keyframes spin {
