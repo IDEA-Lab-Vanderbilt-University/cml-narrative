@@ -87,7 +87,25 @@
 	<div class="w-full" slot="dialog">
 		{#if line.id < 29 || line.id > 35}
 			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
+		{:else if line.id > 29 && line.id <= 35}
+			<div id="mapdialog">
+				<div id="mapdialogtitle">
+					{line.speakers[0]}
+				</div>
+				<div id="mapdialogcontent">
+					<img id="mapdialogimage" src={line.avatars[0]} alt={line.speakers[0]} />
+					<p>
+						{line.dialog}
+					</p>
+					<button on:click={() => { if(line.id == 35) { goto('/level2/car-training?page=1') } else { goto('/level2?page=29') } }}>
+						<div id="mapdialogbuttontext"> 
+							{line.id == 35 ? 'Let\'s Go' : 'Back'}
+						</div>
+					</button>
+				</div>
+			</div>
 		{/if}
+
 	</div>
 	<div slot="content" class="h-full w-full"  bind:this={content}>
 		<TabletButton on:click={() => { 
@@ -123,18 +141,18 @@
 		{/if}
 
 		{#if line.id >= 29 && line.id <= 35}
-		<div id="map">
+		<div id="map" class="{line.id > 29 && line.id <= 35 ? 'map-disabled' : ''}">
 			<img src="/img/misc/map-icons/school.png" id="school" class="mapicon" alt="School" />
-			<button id="firestation" on:click={() => { goto('/level2?page=30') }} class="mapicon">
+			<button id="firestation" on:click={() => { goto('/level2?page=33') }} class="mapicon">
 				<img src="/img/misc/map-icons/firestation.png" alt="Fire Station"/>
 			</button>
-			<button id="icecream" on:click={() => { goto('/level2?page=31') }} class="mapicon">
+			<button id="icecream" on:click={() => { goto('/level2?page=32') }} class="mapicon">
 				<img src="/img/misc/map-icons/icecream.png" alt="Ice Cream"/>
 			</button>
-			<button id="museum" on:click={() => { goto('/level2?page=32') }} class="mapicon">
+			<button id="museum" on:click={() => { goto('/level2?page=30') }} class="mapicon">
 				<img src="/img/misc/map-icons/museum.png" alt="Museum"/>
 			</button>
-			<button id="pizzaplace" on:click={() => { goto('/level2?page=33') }} class="mapicon">
+			<button id="pizzaplace" on:click={() => { goto('/level2?page=31') }} class="mapicon">
 				<img src="/img/misc/map-icons/pizzaplace.png" alt="Pizza Place"/>
 			</button>
 			<button id="toilet" on:click={() => { goto('/level2?page=34') }} class="mapicon">
@@ -210,6 +228,10 @@
 		background-position: center 10%;
 	}
 
+	.map-disabled {
+		pointer-events: none;
+		filter: grayscale(40%) brightness(50%) blur(2px);
+	}
 
 	.mapicon {
 		position: absolute;
@@ -259,6 +281,54 @@
 	#vroom {
 		left: 70%;
 		top: 70%;
+	}
+
+	#mapdialog {
+		position: absolute;
+		width: 50vw;	
+		height: 50vh;
+		background: rgb(6, 93, 174);
+		color: white;
+		border-radius: 1rem;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	#mapdialogtitle {
+		background: white;
+		color: black;
+		margin: 1rem;
+		padding: 1rem;
+		font-size: 2rem;
+		border-radius: 1rem;
+	}
+
+	#mapdialogcontent {
+		background: white;
+		color: black;
+		margin: 1rem;
+		padding: 1rem;
+		font-size: 2rem;
+		border-radius: 1rem;
+		height: 35vh;
+	}
+	
+	#mapdialogimage {
+		height: 25vw;
+		max-height: 25vh;
+		float: left;
+	}
+
+	#mapdialogcontent button {
+		border: 0.5vh solid rgb(6, 93, 174);
+		background: rgb(88, 216, 255);
+		color: black;
+		border-radius: 1rem;
+		padding: 1rem;
+		font-size: 2rem;
+		cursor: pointer;
+		margin-left: 15vh;
 	}
 
 	@keyframes spin {
