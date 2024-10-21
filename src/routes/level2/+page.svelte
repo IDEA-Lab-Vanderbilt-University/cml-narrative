@@ -164,6 +164,10 @@
 		</div>
 		{/if}
 
+		{#if line.id == 36}
+		<button id="elevatorbtn" on:click={() => { goto('/level2?page=37') }}></button>
+		{/if}
+
 	</div>
 </Scene>
 
@@ -343,6 +347,26 @@
 		font-size: 2rem;
 		cursor: pointer;
 		margin-left: 18vh;
+		transition: all 0.2s ease-in-out;
+	}
+
+	#mapdialogcontent button:hover {
+		background: rgb(6, 93, 174);
+		transform: scale(1.1);
+	}
+
+	#mapdialogcontent button:active {
+		background: rgb(88, 216, 255);
+		transform: scale(0.9);
+	}
+
+	#elevatorbtn {
+		position: absolute;
+		width: 10vw;
+		height: 10vh;
+		left: calc(50% - 10vw);
+		top: calc(50% + 1vh);
+		z-index: 100;
 	}
 
 	@keyframes spin {

@@ -358,7 +358,7 @@ const script: Script = {
             speakers: ['Bot Buddy'],
             dialog: 'Looks like the visitor elevator for the Vroom-Vroom car factory is here. Agent, press on the visitor button.',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level2/factory.png',
+            background: '/img/backgrounds/level2/elevators.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s36.wav',
             pos: 'left',
         },
