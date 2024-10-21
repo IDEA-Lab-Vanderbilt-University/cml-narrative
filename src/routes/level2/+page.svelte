@@ -85,7 +85,9 @@
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
+		{#if line.id < 29 || line.id > 35}
+			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
+		{/if}
 	</div>
 	<div slot="content" class="h-full w-full"  bind:this={content}>
 		<TabletButton on:click={() => { 
@@ -117,6 +119,30 @@
 		{#if line.id == 27}
 		<div id="licenseplate">
 			<img src="/img/misc/licenseplate.png" alt={line.dialog}>
+		</div>
+		{/if}
+
+		{#if line.id >= 29 && line.id <= 35}
+		<div id="map">
+			<img src="/img/misc/map-icons/school.png" id="school" class="mapicon" alt="School" />
+			<button id="firestation" on:click={() => { goto('/level2?page=30') }} class="mapicon">
+				<img src="/img/misc/map-icons/firestation.png" alt="Fire Station"/>
+			</button>
+			<button id="icecream" on:click={() => { goto('/level2?page=31') }} class="mapicon">
+				<img src="/img/misc/map-icons/icecream.png" alt="Ice Cream"/>
+			</button>
+			<button id="museum" on:click={() => { goto('/level2?page=32') }} class="mapicon">
+				<img src="/img/misc/map-icons/museum.png" alt="Museum"/>
+			</button>
+			<button id="pizzaplace" on:click={() => { goto('/level2?page=33') }} class="mapicon">
+				<img src="/img/misc/map-icons/pizzaplace.png" alt="Pizza Place"/>
+			</button>
+			<button id="toilet" on:click={() => { goto('/level2?page=34') }} class="mapicon">
+				<img src="/img/misc/map-icons/toilet.png" alt="Toilet"/>
+			</button>
+			<button id="vroom" on:click={() => { goto('/level2?page=35') }} class="mapicon">
+				<img src="/img/misc/map-icons/vroom.png" alt="Vroom Vroom"/>
+			</button>
 		</div>
 		{/if}
 
@@ -171,6 +197,68 @@
 		position: absolute;
 		left: calc(50% - 17.5vw);
 		top: 2%;
+	}
+
+	#map {
+		width: 100vw;
+		height: 100vh;
+		position: absolute;
+		left: 0;
+		top: 0;
+		background: url('/img/misc/map.svg');
+		background-size: cover;
+		background-position: center 10%;
+	}
+
+
+	.mapicon {
+		position: absolute;
+		width: 15vh;
+		transition: all 0.2s ease-in-out;
+	}
+
+	.mapicon:hover {
+		transform: scale(1.2);
+	}
+
+	.mapicon:active {
+		transform: scale(0.8);
+	}
+
+	#school {
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+	#firestation {
+		left: 30%;
+		top: 50%;
+	}
+
+	#icecream {
+		left: 70%;
+		top: 50%;
+	}
+
+	#museum {
+		left: 50%;
+		top: 30%;
+	}
+
+	#pizzaplace {
+		left: 50%;
+		top: 70%;
+	}
+
+	#toilet {
+		left: 30%;
+		top: 30%;
+	}
+
+	#vroom {
+		left: 70%;
+		top: 70%;
 	}
 
 	@keyframes spin {
