@@ -373,9 +373,9 @@ const script: Script = {
         },
         {
             id: 38,
-            speakers: ['Bot Buddy'],
+            speakers: ['Bot Buddy', ''],
             dialog: 'Wait what is that sound? Uh, hi, are you okay?',
-            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/misc/icecreamscream.png'],
             background: '/img/backgrounds/level2/showroom.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s38.wav',
             pos: 'left',
