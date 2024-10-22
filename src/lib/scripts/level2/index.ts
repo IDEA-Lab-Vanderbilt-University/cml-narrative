@@ -454,6 +454,14 @@ const script: Script = {
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s46.wav',
             pos: 'center',
             size: 'full',
+        },
+        {
+            id: 47,
+            speakers: ['Bot Buddy'],
+            dialog: 'Let’s go to the car training system and see if we can find out what is going on!',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            background: '/img/backgrounds/level2/factory2.png',
+            audio: '/audio/level1/bot_buddy/bot_buddy_l2s47.wav',
         }
 	],
 };
