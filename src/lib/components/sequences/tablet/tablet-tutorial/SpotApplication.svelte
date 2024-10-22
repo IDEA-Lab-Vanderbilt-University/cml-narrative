@@ -34,7 +34,7 @@
 	});
 </script>
 
-<div
+<button on:click={() => dispatch('click')} role="button" 
 	class="flex h-full w-full flex-col items-center justify-center space-y-7 font-mokoto text-2xl text-white" >
 	<div class="icon  {pulse? "animate-pulse" : ""}" style="background-color: {color};">
 		<div class="overlay">
@@ -42,10 +42,10 @@
 		</div>
 	</div>
 	<p class="text-2xl">{title}</p>
-</div>
+</button>
 
 <style>
-	div .icon {
+	button .icon {
 		height: 11vw;
   		width: 11vw;
 		border-radius: 50%;
@@ -53,17 +53,17 @@
 		transition: all 0.2s;
 	}
 
-	div .icon:hover {
+	button .icon:hover {
 		transform: scale(1.1);
 		background: radial-gradient(circle, rgba(33, 33, 33, 0) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.7) 64%, rgba(255,255,255,1) 65%, rgba(255,255,255,1) 100%);
 	}
 
-	div .icon:active {
+	button .icon:active {
 		transform: scale(0.9);
 		background: radial-gradient(circle, rgba(33, 33, 33, 0) 0%, rgba(255, 255, 255, 0) 50%, rgba(255, 255, 255, 0.7) 64%, rgba(255,255,255,1) 65%, rgba(255,255,255,1) 100%);
 	}
 
-	div .icon img {
+	button .icon img {
 		transition: all 0.2s;
 		height: 60%;
 		width: 60%;
