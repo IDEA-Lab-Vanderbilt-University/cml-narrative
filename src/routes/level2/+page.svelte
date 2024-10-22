@@ -56,7 +56,7 @@
 			if (line.id == script.lines.length) {
 				let progress = getUpdatedProgress();
 				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress)
+				updateLocalProgress(progress);
 				
                 // Next level
                 goto('/level2/car-training?page=1');
@@ -185,7 +185,8 @@
         color="rgb(175,105,190)"
         title="Car Training"
         img="/img/icons/car.svg"
-		on:applicationContainerEvent={() => {}} 
+		on:applicationContainerEvent={() => {}}
+		on:click={() => handleNavigation(NavigationDirection.forward)} 
 		pulse />
 		</Tablet>
 		{/if}
