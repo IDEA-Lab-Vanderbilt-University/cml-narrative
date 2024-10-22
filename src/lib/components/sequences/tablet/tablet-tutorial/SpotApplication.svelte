@@ -15,7 +15,8 @@
 	export let color: string;
 	export let img: string;
 	export let title: string;
-
+	export let pulse: boolean = false;
+	
 	let dispatch = createEventDispatcher<{ event: string; id: string }>();
 
 	onMount(() => {
@@ -35,7 +36,7 @@
 
 <div
 	class="flex h-full w-full flex-col items-center justify-center space-y-7 font-mokoto text-2xl text-white" >
-	<div class="icon" style="background-color: {color};">
+	<div class="icon  {pulse? "animate-pulse" : ""}" style="background-color: {color};">
 		<div class="overlay">
 		<img src={img} alt="" id={`tablet-app-container-${title.toLowerCase()}`} />
 		</div>

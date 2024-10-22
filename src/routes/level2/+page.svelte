@@ -10,6 +10,8 @@
 	import { userDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level2/index.js';
+	import Tablet from '$lib/components/tablet/Tablet.svelte';
+	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
 
 	export let data;
 
@@ -108,13 +110,22 @@
 
 	</div>
 	<div slot="content" class="h-full w-full"  bind:this={content}>
+		{#if line.id < 46}
 		<TabletButton on:click={() => { 
-			const event  = new CustomEvent('showTablet', {
-				bubbles: true
-			});
-			
-			content?.dispatchEvent(event);
+			if(line.id != 46){
+				const event  = new CustomEvent('showTablet', {
+					bubbles: true
+				});
+				
+				content?.dispatchEvent(event);
+			}
+		}}
+		/>
+		{:else if line.id == 46}
+		<TabletButton pulse on:click={() => { 
+			handleNavigation(NavigationDirection.forward);
 		}} />
+		{/if}
 
 		{#if line.id == 2}
 		<div id="spinring">
@@ -166,6 +177,17 @@
 
 		{#if line.id == 36}
 		<button id="elevatorbtn" on:click={() => { goto('/level2?page=37') }}></button>
+		{/if}
+
+		{#if line.id == 47}
+		<Tablet>
+			<SpotApplication
+        color="rgb(175,105,190)"
+        title="Car Training"
+        img="/img/icons/car.svg"
+		on:applicationContainerEvent={() => {}} 
+		pulse />
+		</Tablet>
 		{/if}
 
 	</div>
