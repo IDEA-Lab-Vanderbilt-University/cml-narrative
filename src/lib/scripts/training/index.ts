@@ -139,7 +139,7 @@ const script: Script = {
 		{
 			id: 13,
 			speakers: ['Agent Spark'],
-			dialog: 'The phrase "machine learning" has become popular today. What do you think it means?',
+			dialog: 'The phrase "machine learning" has become popular today. Take a minute to reflect on what you think "machine learning" means.',
 			avatars: ['/img/characters/agent-spark/spark_talking.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/agent_spark_and_computer/computer_l0_s90_and_agent_spark.wav',
