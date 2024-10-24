@@ -184,7 +184,7 @@ const script: Script = {
 		{
 			id: 16,
 			speakers: ['Bot Buddy'],
-			dialog: 'Hello! I am Bot Buddy! I am your robot assistant.',
+			dialog: 'Hello! I am Bot Buddy! I will be your robot assistant.',
 			avatars: ['/img/characters/bot-buddy/bot-buddy-base.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/bot_buddy/bot_buddy_l0s63.wav',
@@ -256,7 +256,6 @@ const script: Script = {
 			audio: '/audio/level0/captain_storm/captn_storm_l0s70.wav',
 			pos: 'left'
 		}
-	],
-	length: 24
+	]
 };
 export default script;
