@@ -111,7 +111,7 @@ const script: Script = {
 		{
 			id: 10,
 			speakers: ['Agent Spark'],
-			dialog: 'Anyway, back to algorithms. What do you think it is?',
+			dialog: 'Anyway, back to algorithms. What do you think an algorithm is?',
 			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/agent_spark/agent_spark_l0s84.wav',
@@ -121,7 +121,7 @@ const script: Script = {
 			id: 11,
 			speakers: ['Captain Storm'],
 			dialog:
-				'There is no right or wrong answer. We need to know what you know to get you ready for your trip.',
+				'There is no right or wrong answer. We need to know what you know to get you and your Bot Buddy ready for your trip.',
 			avatars: ['/img/characters/captain-storm/gesture_2_storm.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s85.wav',
@@ -153,7 +153,7 @@ const script: Script = {
 			id: 14,
 			speakers: ['Agent Spark'],
 			dialog:
-				'Remember, there is no right or wrong answer, but we need to know what you know to get you ready for your trip!',
+				'Remember, there is no right or wrong answer, we just need to know what you know to get you ready for your mission!',
 			avatars: ['/img/characters/agent-spark/spark_aww.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/agent_spark/agent_spark_l0s90.wav',
