@@ -44,7 +44,7 @@ const script: Script = {
 			id: 1,
 			speakers: ['Captain Storm', 'Agent Spark'],
 			dialog:
-				'Thank you Agent Spark! It looks like our new agent-in-training is ready to go to the lab!',
+				'Thank you Agent Spark! It looks like our new agent-in-training is ready to go into the lab!',
 			avatars: [
 				'/img/characters/captain-storm/storm_thumbs_up_inverted.png',
 				'/img/characters/agent-spark/spark_gesture_1_inverted.png'
