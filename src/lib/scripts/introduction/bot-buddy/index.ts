@@ -193,7 +193,7 @@ const script: Script = {
 		{
 			id: 17,
 			speakers: ['Agent Gear'],
-			dialog: 'Nailed it!!',
+			dialog: 'Yes! Nailed it!!',
 			avatars: ['/img/characters/agent-gear/vanilla_strong.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_gear/agent_gear_l0s64.wav',
