@@ -13,6 +13,7 @@
 	import { goto } from '$app/navigation';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
+	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 
@@ -68,11 +69,21 @@
 			}
 		} 
 	};
+	let content: HTMLElement | void;
 </script>
 
 <Scene background={line.background} audio={line.audio}>
+
 	<div class="w-full" slot="dialog">
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
-	<div slot="content" class="h-full w-full" />
+	<div slot="content" class="h-full w-full" bind:this={content}>
+		<TabletButton on:click={() => { 
+			const event  = new CustomEvent('showTablet', {
+				bubbles: true
+			});
+			
+			content?.dispatchEvent(event);
+		}} />
+	</div>
 </Scene>
