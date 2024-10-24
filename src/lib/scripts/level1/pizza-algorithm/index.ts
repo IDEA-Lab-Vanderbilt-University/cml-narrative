@@ -54,7 +54,7 @@ export const script: Script = {
                 'With the instructions in this algorithm we can make the pizza exactly how you want it! I\'ll get started right away! Have a seat and we will bring it out when it\'s ready.',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef_bot_L1S30.wav',
+            audio: '/audio/level1/chef_bot/Chef_bot_L1S29.wav',
         }
     ],
 };
