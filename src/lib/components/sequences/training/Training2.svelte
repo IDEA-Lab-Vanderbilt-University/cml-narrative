@@ -12,7 +12,7 @@
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-9 px-8">
 	<h2 class="font-mono text-3xl">
-		Technology is important in our world, and it comes in many different forms
+		Technology is important in our world, and it comes in many forms
 	</h2>
 	<div class="flex w-fit space-x-10">
 		<img src="/img/icons/car.svg" alt="" class="w-48" />
