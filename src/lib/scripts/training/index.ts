@@ -204,7 +204,7 @@ const script: Script = {
 		{
 			id: 19,
 			speakers: ['Agent Gear'],
-			dialog: `In addition to earning your Training Badge, your Bot Buddy has been loaded with information that might be needed for the mission. You are now ready to travel to the year 2075!`,
+			dialog: `In addition to earning your Training Badge, your Bot Buddy has been loaded with information that might be needed on the mission. You are now ready to travel to the year 2075!`,
 			avatars: ['/img/characters/agent-gear/vanilla_talking.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/agent_gear/agent_gear_l0s102.wav',
