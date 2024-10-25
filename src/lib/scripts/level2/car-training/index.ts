@@ -42,8 +42,8 @@ const script: Script = {
             id: 2,
             speakers: ['Dash'],
             dialog: 'First, we tell our cars what we want them to learn, like reading road signs, spotting people and animals on the road, or opening doors for people to get in. Which of these do we need to train our cars to be able to do?',
-            avatars: ['/img/characters/level-2/dash/dash-question.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            avatars: ['/img/characters/level-2/dash/dash-front.png'],
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s2.wav',
         },
         {
@@ -51,7 +51,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'To drive safely, our cars need to learn how to spot people crossing the street, find stop signs, and look at traffic lights to know when to stop and go.',
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
-            background: '/img/backgrounds/level2/car-training/3.png',
+            background: '/img/backgrounds/level2/car-training/2.png',
             audio: '/audio/level2/dash/dash-l2s3.wav',
         },
         {
@@ -148,7 +148,7 @@ const script: Script = {
             id: 15,
             speakers: ['Dash'],
             dialog: 'We use different faces because human faces can be different, and we want everyone to be able to use our cars! All new “face” and “no face” images are called TEST DATA.',
-            avatars: ['/img/characters/level-2/dash/dash-thumb-up.png'],
+            avatars: ['/img/characters/level-2/dash/dash-thumb-flipped.png'],
             background: '/img/backgrounds/level2/car-training/2.png',
             audio: '/audio/level2/dash/dash-l2s15.wav',
         },
@@ -172,7 +172,7 @@ const script: Script = {
             id: 18,
             speakers: ['Dash'],
             dialog: 'And that’s how we train our cars here at Vroom Vroom. You did a “Dash-tastic” Job! Come back soon!',
-            avatars: ['/img/characters/level-2/dash/dash-thumbs-up.png'],
+            avatars: ['/img/characters/level-2/dash/dash-thumbs-flipped.png'],
             background: '/img/backgrounds/level2/car-training/2.png',
         },
     ]
