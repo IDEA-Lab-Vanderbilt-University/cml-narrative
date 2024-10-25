@@ -100,41 +100,26 @@
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} />
+		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length} showBack={lineNumber > 1} />
 	</div>
-	<div slot="content" class="h-full w-full"  bind:this={content}>
-        <TabletButton on:click={() => { 
-            const event  = new CustomEvent('showTablet', {
-                bubbles: true
-            });
-            
-            content?.dispatchEvent(event);
-        }} />
-        <button class="nextButton" on:click={() => { handleDialogEvent({detail: { state: NavigationDirection.forward}})}}>
-            <img src="/img/misc/vroomnext.png" alt="Next" />
-        </button>
+	<div slot="content" class="content"  bind:this={content}>
+		{#if line.id == 1}
+			<img src="/img/misc/vroomlogo.png" alt="Vroom" style="width: 70%;" />
+		{/if}
 	</div>
 </Scene>
 
 
 <style>
-    .nextButton {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        margin: 1rem;
-        transition: transform 0.2s ease-in-out;
-    }
+	.content {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		width: 65vw;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
 
-    .nextButton img {
-        height: 10vh;
-    }
-
-    .nextButton:hover {
-        transform: scale(1.1) translateX(-1vw);
-    }
-
-    .nextButton:active {
-        transform: scale(0.9) translateX(3vw);
-    }
 </style>

@@ -76,6 +76,9 @@
 		});
 	};
 
+	export let showNext: boolean = true;
+	export let showBack: boolean = false;
+
 	/**
 	 * Check the keycode that has been emitted from a Keydown Event on the Window to determine how we should navigate the user
 	 * through the scene.
@@ -99,55 +102,78 @@
 				break;
 		}
 	};
+
 </script>
 
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
-<div id="dialogueroot" class="bg-jet">
-	{#if line.dialog != undefined && line.dialog.length > 0}
-		<div id="textbox" class="relative flex items-center justify-center rounded p-4 text-white">
-			<p bind:this={dialogueParagraph} class="w-full h-full {settings.fontSize ?? defaultSettings.fontSize}">
-				{line.dialog}
-			</p>
-		</div>
-	{/if}
-	
+<div id="dialogueroot" class="flex flex-col items-center justify-end">
 	<div class="davatar">
-			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} extraStyle={"width: 20vw; max-width:20vw; max-height: fit-content;"} avatarClass={""} />
+			<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} extraStyle={"height: 35vh; max-height:18vw; max-width: fit-content;"} avatarClass={""} />
 	</div>
-	
 
 	<div class="nametag relative z-20 rounded px-3 text-3xl text-black">
 		{line.speakers[0]}
 	</div>
+
+	{#if line.dialog != undefined && line.dialog.length > 0}
+		<div id="textbox" class="relative flex items-center justify-center rounded p-4 text-white">
+			<p bind:this={dialogueParagraph} class="w-full h-full text-2xl">
+				{line.dialog}
+			</p>
+
+			{#if showBack}
+				<button class="backButton" on:click={back}>
+					<img src="/img/misc/vroomnext.png" alt="Next" style="transform: scaleX(-1);" />
+				</button>
+			{/if}
+
+			{#if showNext}
+				<button class="nextButton" on:click={forward}>
+					<img src="/img/misc/vroomnext.png" alt="Next" />
+				</button>
+			{/if}
+		</div>
+	{/if}
+
 </div>
 
 <style>
-	.backbutton {
-		transition: transform 0.2s;
+	.nextButton, .backButton {
+        position: absolute;
+        bottom: 0;
+        margin: 1rem;
+        transition: transform 0.2s ease-in-out;
+    }
+
+	.nextButton {
+        right: 0;
 	}
 
-	.backbutton:hover {
-		transform: scale(-1.1) translateX(15px);
+	.backButton {
+		left: 0;
 	}
 
-	.backbutton:active {
-		transform: scale(-1.2) translateX(25px);
-	}
+    .nextButton img, .backButton img {
+        height: 5vh;
+    }
 
-	.forwardbutton {
-		transition: transform 0.2s;
-	}
 
-	.forwardbutton:hover {
-		transform: scale(1.1) translateX(15px);
-	}
+    .nextButton:hover {
+        transform: scale(1.1) translateX(-1vw);
+    }
 
-	.forwardbutton:active {
-		transform: scale(1.2) translateX(25px);
-	}
+    .nextButton:active {
+        transform: scale(0.9) translateX(3vw);
+    }
 
-	
+	.backButton:hover {
+        transform: scale(1.1) translateX(1vw);
+    }
+
+	.backButton:active {
+        transform: scale(0.9) translateX(-3vw);
+    }
 
 	.center {
 		width: 100%;
@@ -165,27 +191,26 @@
 	}
 
 	.davatar {
-		position: absolute;
-		left: 50%;
-		bottom: -5%;
-		transform: translateX(-50%);
 		z-index: 10;
+		position: relative;
+		top: 3vh;
 	}
 
 	.nametag {
-		position: absolute;
-		bottom: 0;
-		left: 50%;
-		transform: translateX(-50%);
+		width: fit-content;
 		background-color: gray;
+		position: relative;
+		top: 2vh;
+		padding: 0 3vw;
 	}
 
 	#textbox {
-		margin: 3vw;
-		border: 1px solid white;
+		min-height: 60vh;
+		border: 1vh solid rgb(245, 221, 248);
 		border-radius: 10px;
 		z-index: 15;
 		background-color: rgba(0, 0, 0, 0.5);
+		padding-bottom: 15vh;
 	}
 
 </style>
