@@ -59,7 +59,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'Our self-driving cars are trained to open the doors when they scan a human face. Just like these faces!',
             avatars: ['/img/characters/level-2/dash/dash-dance.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s4.wav',
         },
         {
@@ -67,7 +67,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'To teach the cars what a face looks like, the company creates a file full of images with all the different kinds of faces they use to train the cars.  Now you try. Tap a few images to add the faces to the folder.',
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s5.wav',
         },
         {
@@ -75,7 +75,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'The car doors should only open when the scanner detects a human face.',
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s6.wav',
         },
         {
@@ -83,7 +83,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'To train the cars what is not a face, the company creates a file full of images with all  different kinds of objects that are not human faces. Now you try. Tap a few images to add the objects that are not human faces to the folder.',
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s7.wav',
         },
         {
@@ -91,7 +91,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'The car doors should only open when it detects a human face. Not other objects like trees.',
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s8.wav',
         },
         {
@@ -99,7 +99,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'We call this a TRAINING dataset because it TRAINS the cars to recognize two different classes: a human face and not a human face.',
             avatars: ['/img/characters/level-2/dash/dash-laying.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s9.wav',
             pos: 'center'
         },
@@ -108,7 +108,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'With this training dataset, the cars can learn and get really good at recognizing people! This means the cars will only open the doors for humans and not other things like racoons or skunks!',
             avatars: ['/img/characters/level-2/dash/dash-laying.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s10.wav',
             pos: 'center'
         },
@@ -133,7 +133,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'Now that we have our algorithm and training data set, let\'s test it. When we test our algorithm, we have to use a TEST DATA SET that has  different images than the training data set',
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s13.wav',
         },
         {
@@ -141,7 +141,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'Testing the algorithm with the same images from the training data set is like giving the cars the answers to the test. So to test if the car’s algorithm can work outside our factory, we have to test with images that the cars were not trained with',
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s14.wav',
         },
         {
@@ -149,7 +149,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'We use different faces because human faces can be different, and we want everyone to be able to use our cars! All new “face” and “no face” images are called TEST DATA.',
             avatars: ['/img/characters/level-2/dash/dash-thumb-flipped.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s15.wav',
         },
         {
@@ -157,7 +157,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'Lets test our face scan algorithm to see if it can detect a human face. Drag one of the test images onto the scanner to test',
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s16.wav',
         },
         {
@@ -165,7 +165,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'Now, let\'s test our face scan algorithm to see if can detect objects that are not human faces. Drag one of the test images onto the scanner to test',
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s17.wav',
         },
         {
@@ -173,7 +173,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'And that’s how we train our cars here at Vroom Vroom. You did a “Dash-tastic” Job! Come back soon!',
             avatars: ['/img/characters/level-2/dash/dash-thumbs-flipped.png'],
-            background: '/img/backgrounds/level2/car-training/2.png',
+            background: '/img/backgrounds/level2/car-training/1.png',
         },
     ]
 };
