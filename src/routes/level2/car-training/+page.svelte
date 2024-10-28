@@ -211,6 +211,10 @@
 				</button>
 			{/if}
 		{/if}
+
+		{#if line.id == 4}
+			<img src="/img/misc/faces.png" alt="Faces" style="width: 70%;" />
+		{/if}
 	</div>
 </Scene>
 
