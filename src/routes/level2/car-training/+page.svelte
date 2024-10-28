@@ -151,7 +151,7 @@
 
 <Scene background={line.background} audio={line.audio} bgPosition={line.id == 11 ? 'bottom' : 'center'}>
 	<div class="w-full" slot="dialog">
-		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length && !([2, 5, 7, 11].includes(lineNumber))} showBack={lineNumber > 1} />
+		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length && !([2, 5, 7, 11, 12].includes(lineNumber))} showBack={lineNumber > 1} />
 	</div>
 	<div slot="content" class="content"  bind:this={content}>
 		{#if line.id == 1}
@@ -309,7 +309,9 @@
 
 		{#if line.id == 11}
 			<img id="dashboard" src="/img/backgrounds/level2/car-training/dashboard.png" alt="Dashboard" />
-			<button id="gpsglowing"></button>
+			<button id="gpsglowing"
+				on:click={() => handleNavigation(NavigationDirection.forward)}
+			></button>
 		{/if}		
 
 	</div>
