@@ -146,7 +146,7 @@
 
 <svelte:document />
 
-<Scene background={line.background} audio={line.audio}>
+<Scene background={line.background} audio={line.audio} bgPosition={line.id == 11 ? 'bottom' : 'center'}>
 	<div class="w-full" slot="dialog">
 		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length && lineNumber != 2} showBack={lineNumber > 1} />
 	</div>
@@ -215,6 +215,42 @@
 		{#if line.id == 4}
 			<img src="/img/misc/faces.png" alt="Faces" style="width: 70%;" />
 		{/if}
+
+		{#if line.id == 5}
+			<img src="/img/misc/trainingfaces.png" alt="Training data faces" style="height: 80%;" />
+		{/if}
+
+		{#if line.id == 6}
+			<div>
+				<img src="/img/misc/facerecognized.png" alt="Face" style="width: 70%;" />
+				<div class="recognizedText">HUMAN FACE RECOGNIZED</div>
+			</div>
+		{/if}
+
+		
+
+
+		{#if line.id == 7}
+			<img src="/img/misc/trainingnofaces.png" alt="Training data faces" style="height: 80%;" />
+		{/if}
+
+		{#if line.id == 8}
+			<div>
+				<img src="/img/misc/nofacerecognized.png" alt="No Face" style="width: 70%;" />
+				<div class="notRecognizedText text-red">NO FACE RECOGNIZED</div>
+			</div>
+		{/if}
+
+		{#if line.id == 9 || line.id == 10}
+			<img src="/img/characters/level-2/dash/dash-trainingdata.png" alt="Training data" style="height:  70%;" />
+		{/if}
+
+		{#if line.id == 11}
+			<button id="gpsglowing"></button>
+		{/if}
+
+		
+
 	</div>
 </Scene>
 
@@ -296,4 +332,57 @@
 		transform: scale(0.9) translateX(3vw);
 	}
 
+	.recognizedText {
+		font-size: 2vw;
+		color: white;
+		width: 70%;
+		text-align: center;
+		animation: whiteinout 2s infinite ease-in-out;
+		margin-top: 1vh;
+	}
+
+	.notRecognizedText {
+		font-size: 2vw;
+		color: red;
+		width: 70%;
+		text-align: center;
+		animation: redinout 2s infinite ease-in-out;
+		margin-top: 1vh;
+	}
+
+	#gpsglowing {
+		position: absolute;
+		width: 22vw;
+		height: 25vh;
+		left: calc(50% - 50vh);
+		top: calc(50% + 15vw);
+		z-index: 100;
+		box-shadow: 0 0 1vw 0.5vw rgb(255, 150, 230);
+		animation: gpsglow 2s infinite ease-in-out;
+	}
+
+
+	@keyframes whiteinout {
+		0% {
+			color: white;
+		}
+		50% {
+			color: rgba(255, 255, 255, 0.35);
+		}
+		100% {
+			color: white;
+		}
+	}
+
+	@keyframes redinout {
+		0% {
+			color: red;
+		}
+		50% {
+			color: rgba(255, 0, 0, 0.35);
+		}
+		100% {
+			color: red;
+		}
+	}
 </style>
