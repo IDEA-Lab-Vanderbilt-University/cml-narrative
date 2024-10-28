@@ -98,7 +98,7 @@ const script: Script = {
             id: 9,
             speakers: ['Dash'],
             dialog: 'We call this a TRAINING dataset because it TRAINS the cars to recognize two different classes: a human face and not a human face.',
-            avatars: ['/img/characters/level-2/dash/dash-laying.png'],
+            avatars: [''],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s9.wav',
             pos: 'center'
@@ -107,7 +107,7 @@ const script: Script = {
             id: 10,
             speakers: ['Dash'],
             dialog: 'With this training dataset, the cars can learn and get really good at recognizing people! This means the cars will only open the doors for humans and not other things like racoons or skunks!',
-            avatars: ['/img/characters/level-2/dash/dash-laying.png'],
+            avatars: [''],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/dash-l2s10.wav',
             pos: 'center'
@@ -117,7 +117,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'So, the training data becomes a set of instructions, aka an algorithm, that the cars follow. Tap on the blinking GPS  to see an algorithm our car uses.',
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
-            background: '/img/backgrounds/level2/car-training/4.png', 
+            background: '/img/backgrounds/level2/car-training/3.png', 
             audio: '/audio/level2/dash/dash-l2s11.wav',
         },
         {
