@@ -94,10 +94,11 @@
 		switch (event.key) {
 			case 'ArrowRight':
 			case ' ':
-				forward();
+				if(showNext) forward();
 				break;
 			case 'ArrowLeft':
-				back();
+				if(showBack) back();
+				break;
 			default:
 				break;
 		}

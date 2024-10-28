@@ -113,14 +113,42 @@
 		false,
 		true,
 		false,
-	]
+	];
+
+	let choicesCorrect = false;
+
+	let validateChoices = () => {
+		choicesCorrect = false;
+
+		let options = document.querySelectorAll(".option");
+		
+		for(let i = 1; i < options.length; i++) {
+			let option = options[i];
+			let yes = option.querySelector(".positive button");
+			let no = option.querySelector(".negative button");
+
+			if (choiceCorrect[i - 1] && yes.style.backgroundColor == 'green') {
+				continue;
+			} else if (!choiceCorrect[i - 1] && no.style.backgroundColor == 'green') {
+				continue;
+			} else {
+				console.log("Choice " + i + " is incorrect");
+				return;
+			}
+		}
+
+		console.log("All choices correct");
+
+		choicesCorrect = true;
+	}
+
 </script>
 
 <svelte:document />
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length} showBack={lineNumber > 1} />
+		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length && lineNumber != 2} showBack={lineNumber > 1} />
 	</div>
 	<div slot="content" class="content"  bind:this={content}>
 		{#if line.id == 1}
@@ -142,8 +170,7 @@
 				</div>
 				{#each choiceOptions as option, i}
 					<div class="option flex flex-row w-full">
-						<div>
-							<input type="radio" id={option} name={"choice" + i} value={option} />
+						<div class="positive">
 							<button class="radio" on:click={(e) => {
 								if (choiceCorrect[i]) {
 									e.target.style.backgroundColor = 'green';
@@ -152,12 +179,13 @@
 									e.target.style.backgroundColor = 'red';
 									document.getElementById("choice" + i + "_no").style.backgroundColor = '';
 								}
+
+								validateChoices();
 							}}
 							id={"choice" + i + "_yes"}>
 							</button>
 						</div>
-						<div>
-							<input type="radio" id={option} name={"choice" + i} value={option} />
+						<div class="negative">
 							<button class="radio" on:click={(e) => {
 								if (!choiceCorrect[i]) {
 									e.target.style.backgroundColor = 'green';
@@ -166,6 +194,8 @@
 									e.target.style.backgroundColor = 'red';
 									document.getElementById("choice" + i + "_yes").style.backgroundColor = '';
 								}
+
+								validateChoices();
 							}}
 							id={"choice" + i + "_no"} >
 							</button>
@@ -174,6 +204,12 @@
 					</div>
 				{/each}
 			</div>
+
+			{#if choicesCorrect}
+				<button class="nextButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
+					<img src="/img/misc/vroomnext.png" alt="Next" />
+				</button>
+			{/if}
 		{/if}
 	</div>
 </Scene>
@@ -235,5 +271,25 @@
 		background-color: black;
 	}
 
+	.nextButton {
+		transition: all 0.2s ease-in-out;
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		margin: 1rem;
+		height: 10vh;
+	}
+
+	.nextButton img {
+		height: 10vh;
+	}
+
+	.nextButton:hover {
+		transform: scale(1.1) translateX(-1vw);
+	}
+
+	.nextButton:active {
+		transform: scale(0.9) translateX(3vw);
+	}
 
 </style>
