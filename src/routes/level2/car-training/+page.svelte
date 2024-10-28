@@ -314,6 +314,11 @@
 			></button>
 		{/if}		
 
+		{#if line.id == 12}
+			<img id="dashboard" src="/img/backgrounds/level2/car-training/dashboard.png" alt="Dashboard" />
+			<div class="grayfilter"></div>
+		{/if}
+
 	</div>
 </Scene>
 
@@ -430,6 +435,15 @@
 		z-index: 100;
 		box-shadow: 0 0 1vw 0.5vw rgb(255, 150, 230);
 		animation: gpsglow 2s infinite ease-in-out;
+	}
+
+	.grayfilter {
+		position: fixed;
+		left: 0;
+		top: 0;
+		width: 100vw;
+		height: 100vh;
+		background: rgba(0, 0, 0, 0.85);
 	}
 
 
