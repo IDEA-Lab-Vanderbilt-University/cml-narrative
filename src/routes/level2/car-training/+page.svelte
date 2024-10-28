@@ -142,6 +142,9 @@
 		choicesCorrect = true;
 	}
 
+	let trainingFaceFolder: HTMLElement | void;
+	let addedFaces = 0;
+	let addedNoFaces = 0;
 </script>
 
 <svelte:document />
@@ -217,7 +220,38 @@
 		{/if}
 
 		{#if line.id == 5}
-			<img src="/img/misc/trainingfaces.png" alt="Training data faces" style="height: 80%;" />
+			<div class="flex flex-col justify-center items-center">
+				<div>
+					{#each [0, 1, 2, 3] as i}
+						{#each [0, 1, 2, 3] as j}
+							<button 
+								style="background: url('/img/misc/trainingfaces.png'); width: 10vw; height: 8vw; background-position: -{j * 10}vw -{i * 8}vw; background-size: 40vw 32vw; transition: transform 1.5s ease-out, opacity 1.5s ease-out;"
+								on:click={(event) => {
+									// Move to the folder icon
+									let folderPos = trainingFaceFolder.getBoundingClientRect();
+									let buttonPos = event.target.getBoundingClientRect();
+
+									let x = folderPos.left - buttonPos.left;
+									let y = folderPos.top - buttonPos.top;
+
+									event.target.style.transform = `translate(${x}px, ${y}px) scale(0.5)`;
+									event.target.style.opacity = '0';
+									addedFaces++;
+								}}
+							>
+							</button>
+						{/each}
+						<br/>
+					{/each}
+				</div>
+				<img src="/img/misc/trainingfacesfolder.png" alt="Training data faces" style="height: 20vh;  width: fit-content;" bind:this={trainingFaceFolder} />
+			</div>
+
+			{#if addedFaces >= 3}
+				<button class="nextButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
+					<img src="/img/misc/vroomnext.png" alt="Next" />
+				</button>
+			{/if}
 		{/if}
 
 		{#if line.id == 6}
@@ -227,11 +261,39 @@
 			</div>
 		{/if}
 
-		
-
-
 		{#if line.id == 7}
-			<img src="/img/misc/trainingnofaces.png" alt="Training data faces" style="height: 80%;" />
+		<div class="flex flex-col justify-center items-center">
+			<div>
+				{#each [0, 1, 2, 3] as i}
+					{#each [0, 1, 2, 3] as j}
+						<button 
+							style="background: url('/img/misc/trainingnofaces.png'); width: 10vw; height: 8vw; background-position: -{j * 10}vw -{i * 8}vw; background-size: 40vw 32vw; transition: transform 1.5s ease-out, opacity 1.5s ease-out;"
+							on:click={(event) => {
+								// Move to the folder icon
+								let folderPos = trainingFaceFolder.getBoundingClientRect();
+								let buttonPos = event.target.getBoundingClientRect();
+
+								let x = folderPos.left - buttonPos.left;
+								let y = folderPos.top - buttonPos.top;
+
+								event.target.style.transform = `translate(${x}px, ${y}px) scale(0.5)`;
+								event.target.style.opacity = '0';
+								addedNoFaces++;
+							}}
+						>
+						</button>
+					{/each}
+					<br/>
+				{/each}
+			</div>
+			<img src="/img/misc/trainingnofacesfolder.png" alt="Training data faces" style="height: 20vh;  width: fit-content;" bind:this={trainingFaceFolder} />
+		</div>
+
+		{#if addedNoFaces >= 3}
+			<button class="nextButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
+				<img src="/img/misc/vroomnext.png" alt="Next" />
+			</button>
+		{/if}
 		{/if}
 
 		{#if line.id == 8}
@@ -248,9 +310,7 @@
 		{#if line.id == 11}
 			<img id="dashboard" src="/img/backgrounds/level2/car-training/dashboard.png" alt="Dashboard" />
 			<button id="gpsglowing"></button>
-		{/if}
-
-		
+		{/if}		
 
 	</div>
 </Scene>
