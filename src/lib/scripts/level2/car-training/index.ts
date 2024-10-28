@@ -125,7 +125,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'Order is important in an algorithm. Drag and drop the blocks to complete the car’s instructions on the right.',
             avatars: ['/img/characters/level-2/dash/dash-dance.png'],
-            background: '/img/backgrounds/level2/car-training/4.png',
+            background: '/img/backgrounds/level2/car-training/3.svg',
             audio: '/audio/level2/dash/dash-l2s12.wav',
         },
         {
