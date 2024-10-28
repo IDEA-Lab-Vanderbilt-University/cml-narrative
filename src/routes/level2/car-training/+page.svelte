@@ -148,7 +148,7 @@
 
 <Scene background={line.background} audio={line.audio} bgPosition={line.id == 11 ? 'bottom' : 'center'}>
 	<div class="w-full" slot="dialog">
-		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length && lineNumber != 2} showBack={lineNumber > 1} />
+		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length && !([2, 5, 7, 11].includes(lineNumber))} showBack={lineNumber > 1} />
 	</div>
 	<div slot="content" class="content"  bind:this={content}>
 		{#if line.id == 1}
@@ -246,6 +246,7 @@
 		{/if}
 
 		{#if line.id == 11}
+			<img id="dashboard" src="/img/backgrounds/level2/car-training/dashboard.png" alt="Dashboard" />
 			<button id="gpsglowing"></button>
 		{/if}
 
@@ -350,12 +351,20 @@
 		margin-top: 1vh;
 	}
 
+	#dashboard {
+		position: absolute;
+		bottom: -10vh;
+		left: -40vw;
+		width: 110vw;
+		max-width: none;
+	}
+
 	#gpsglowing {
 		position: absolute;
-		width: 22vw;
-		height: 25vh;
-		left: calc(50% - 50vh);
-		top: calc(50% + 15vw);
+		width: 20vw;
+		height: 15vw;
+		left: calc(50% - 27vw);
+		bottom: 0;
 		z-index: 100;
 		box-shadow: 0 0 1vw 0.5vw rgb(255, 150, 230);
 		animation: gpsglow 2s infinite ease-in-out;
@@ -383,6 +392,18 @@
 		}
 		100% {
 			color: red;
+		}
+	}
+
+	@keyframes gpsglow {
+		0% {
+			background: none;
+		}
+		50% {
+			background: rgba(255, 150, 230, 0.35);
+		}
+		100% {
+			background: none;
 		}
 	}
 </style>

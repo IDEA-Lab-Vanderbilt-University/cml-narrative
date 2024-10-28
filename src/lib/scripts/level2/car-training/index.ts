@@ -117,7 +117,7 @@ const script: Script = {
             speakers: ['Dash'],
             dialog: 'So, the training data becomes a set of instructions, aka an algorithm, that the cars follow. Tap on the blinking GPS  to see an algorithm our car uses.',
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
-            background: '/img/backgrounds/level2/car-training/3.png', 
+            background: '/img/backgrounds/level2/car-training/3.svg', 
             audio: '/audio/level2/dash/dash-l2s11.wav',
         },
         {
