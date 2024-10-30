@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import CarTrainingDialogBox from '$lib/components/activities/car-training/CarTrainingDialogBox.svelte';
-	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
@@ -10,7 +9,7 @@
 	import type { Line } from '$lib/types/Script';
 	import type { UserData, UserProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { pizzaConfigStore, userDataStore } from '$lib/utils/stores/store.js';
+	import { userDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
     let agent: UserData = {
@@ -124,12 +123,12 @@
 		
 		for(let i = 1; i < options.length; i++) {
 			let option = options[i];
-			let yes = option.querySelector(".positive button");
-			let no = option.querySelector(".negative button");
+			let yes = option.querySelector(".positive button") as HTMLButtonElement;
+			let no = option.querySelector(".negative button") as HTMLButtonElement;
 
-			if (choiceCorrect[i - 1] && yes.style.backgroundColor == 'green') {
+			if (choiceCorrect[i - 1] && yes?.style.backgroundColor == 'green') {
 				continue;
-			} else if (!choiceCorrect[i - 1] && no.style.backgroundColor == 'green') {
+			} else if (!choiceCorrect[i - 1] && no?.style.backgroundColor == 'green') {
 				continue;
 			} else {
 				console.log("Choice " + i + " is incorrect");
@@ -145,6 +144,210 @@
 	let trainingFaceFolder: HTMLElement | void;
 	let addedFaces = 0;
 	let addedNoFaces = 0;
+
+
+
+	let parsonsPairs = [
+		['Cheese requested', 'Add cheese to pizza'],
+		['Toppings requested', 'Add toppings to pizza'],
+		['Pizza is cooked', 'Remove pizza from oven']
+	];
+
+	// The palette of blocks available in the Parsons Problem
+	let palette: HTMLElement | void;
+
+	$: if (palette) {
+		// Shuffle blocks in palette
+		let blocksList = palette.querySelectorAll('.predicateBlock, .commandBlock');
+		let blocks = Array.from(blocksList);
+		for (let i = blocks.length - 1; i >= 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[blocks[i], blocks[j]] = [blocks[j], blocks[i]];
+		}
+
+		for (let i = 0; i < blocks.length; i++) {
+			palette.appendChild(blocks[i]);
+		}
+	}
+
+
+	/**
+	 * Handles the drag event for blocks in the palette
+	 * @param e Drag event object
+	 */
+		const blockDragHandler = (e: DragEvent) => {
+		console.log('Block picked up', e);
+		if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+			e.dataTransfer.clearData();
+			e.dataTransfer.dropEffect = 'move';
+			e.dataTransfer.setData('text/plain', e.target.outerHTML);
+		}
+	};
+
+	/**
+	 * Handles the drop event for blocks on the target slots
+	 * @param e Drag event object
+	 * @param blockClass The class of the block that is being dropped (e.g. predicateBlock, commandBlock)
+	 */
+	const blockDropHandler = (e: DragEvent, blockClass: string) => {
+		console.log('Block dropped', e);
+		if(e.dataTransfer && e.dataTransfer.getData('text/plain') && e.target instanceof HTMLElement) {
+			if(e.dataTransfer.getData('text/plain').includes(blockClass)) {
+				let t = e.target;
+
+				// Find the slot that the block was dropped on
+				while(t.parentElement instanceof HTMLElement && !t.classList.contains('slot')) {
+					t = t.parentElement;
+				}
+
+				// If we found a slot of the correct type, drop the block in it
+				if(t instanceof HTMLElement && t.classList.contains('slot')) {
+					if(!t.classList.contains('slotDropped')) {
+						// Find original block to remove
+						let originalBlock = Array.from(document.querySelectorAll('.' + blockClass))
+							.filter((block) => block.outerHTML == e.dataTransfer?.getData('text/plain'));
+							
+							if(originalBlock.length > 0) {
+								// Check if the block was already in a slot
+								if(originalBlock[0].parentElement instanceof HTMLElement && originalBlock[0].parentElement.classList.contains('slotDropped')) {
+										let slot = originalBlock[0].parentElement;
+										slot.classList.remove('slotDropped');
+										slot.classList.add(blockClass + 'Slot');
+										slot.style['padding'] = '';
+										slot.innerHTML = '';
+								} else {
+									originalBlock[0].remove();
+								}
+						}
+
+
+						t.innerHTML = e.dataTransfer.getData('text/plain');
+						
+						let block = t.children[0] as HTMLElement;
+						block.style['padding'] = '0';
+						block.ondragstart = blockDragHandler;
+
+						t.style['padding'] = '0';
+						t.classList.add('slotDropped');
+						t.classList.remove(blockClass + 'Slot');
+
+					} else {
+						// If the slot is already filled, remove the block from the slot and place it back in the palette
+						
+						// First, check if this is the same block being dragged back to its original position
+						let originalBlock = Array.from(document.querySelectorAll('.' + blockClass))
+							.filter((block) => block.outerHTML == e.dataTransfer?.getData('text/plain'));                            
+
+						// Send the block back to the palette
+						let palette = document.querySelector('.palette');
+						if(palette instanceof HTMLElement) {
+							(t.children[0] as HTMLElement).style['padding'] = '';
+							palette.appendChild(t.children[0]);
+						}
+
+						if(originalBlock.length > 0) {
+							// Check if the block was already in a slot
+							if(originalBlock[0].parentElement instanceof HTMLElement && originalBlock[0].parentElement.classList.contains('slotDropped')) {
+								let slot = originalBlock[0].parentElement;
+								slot.classList.remove('slotDropped');
+								slot.classList.add(blockClass + 'Slot');
+								slot.style['padding'] = '';
+								slot.innerHTML = '';
+							} else {
+								originalBlock[0].remove();
+							}
+						}
+
+
+						t.innerHTML = e.dataTransfer.getData('text/plain');
+
+						let block = t.children[0] as HTMLElement;
+						block.style['padding'] = '0';
+						block.ondragstart = blockDragHandler;
+
+						t.style['padding'] = '0';
+						t.classList.add('slotDropped');
+						t.classList.remove(blockClass + 'Slot');
+					}
+				}
+			}
+		}
+
+		e.preventDefault();
+	};
+
+	const paletteDrop = (e: DragEvent) => {
+		// Allow dropping blocks in the palette
+		e.preventDefault();
+
+		let block = e.dataTransfer?.getData('text/plain');
+
+		if(block && palette) {
+			console.log('Block dropped in palette', e, block);
+
+			// Check if block is already in the palette
+			let blocks = palette.querySelectorAll('.predicateBlock, .commandBlock');
+			let blockExists = blocks.length > 0 && Array.from(blocks).some((b) => b.outerHTML == block);
+
+			if(!blockExists) {
+				// Create a new block element and add it to the palette
+				let blockElement = document.createElement('div');
+				blockElement.innerHTML = block;
+				blockElement.ondragstart = blockDragHandler;
+				palette.appendChild(blockElement);
+
+
+				// If block is in a slot, remove it from the slot
+				let originalBlock = Array.from(document.querySelectorAll('.slotDropped'))
+					.filter((slot) => slot.innerHTML == block);
+
+				if(originalBlock.length > 0 && originalBlock[0] instanceof HTMLElement) {
+					originalBlock[0].classList.remove('slotDropped');
+					originalBlock[0].classList.add(blockElement.children[0].classList[0] + 'Slot');
+					originalBlock[0].style['padding'] = '';
+					originalBlock[0].innerHTML = '';
+				}
+
+			}
+		}
+	};
+
+	const validateParsonsProblem = () => {
+		let ifs = document.querySelectorAll('.ifBlock');
+		let correct = true;
+
+		for(let i = 0; i < ifs.length; i++) {
+			// Check if the predicate and command slots are filled
+			let predicateSlot = ifs[i].querySelector('.predicateBlock');
+			let commandSlot = ifs[i].querySelector('.commandBlock');
+
+			if(predicateSlot && commandSlot) {
+				// Check if the predicate and command slots are filled with the correct blocks
+				let predicate = predicateSlot.querySelector('.blockcontent p') as HTMLElement;
+				let command = commandSlot.querySelector('.blockcontent p') as HTMLElement;
+
+				if(predicate && command) {
+					if(predicate.innerText != parsonsPairs[i][0] || command.innerText != parsonsPairs[i][1]) {
+						correct = false;
+						break;
+					}
+				} else {
+					correct = false;
+					break;
+				}
+			} else {
+				correct = false;
+				break;
+			}
+		}
+
+		if (correct) {
+			goto('/level2/car-training?page=13');
+		} else {
+			goto('/level2/car-training?page=14');
+		}
+	};
+
 </script>
 
 <svelte:document />
@@ -175,12 +378,22 @@
 					<div class="option flex flex-row w-full">
 						<div class="positive">
 							<button class="radio" on:click={(e) => {
+								if(!(e.target instanceof HTMLElement)) {
+									return;
+								}
+
+								let ele = document.getElementById("choice" + i + "_no");
+
+								if(!ele) {
+									return;
+								}
+
 								if (choiceCorrect[i]) {
 									e.target.style.backgroundColor = 'green';
-									document.getElementById("choice" + i + "_no").style.backgroundColor = '';
+									ele.style.backgroundColor = '';
 								} else {
 									e.target.style.backgroundColor = 'red';
-									document.getElementById("choice" + i + "_no").style.backgroundColor = '';
+									ele.style.backgroundColor = '';
 								}
 
 								validateChoices();
@@ -190,12 +403,22 @@
 						</div>
 						<div class="negative">
 							<button class="radio" on:click={(e) => {
+								if(!(e.target instanceof HTMLElement)) {
+									return;
+								}
+
+								let ele = document.getElementById("choice" + i + "_yes");
+
+								if(!ele) {
+									return;
+								}
+
 								if (!choiceCorrect[i]) {
 									e.target.style.backgroundColor = 'green';
-									document.getElementById("choice" + i + "_yes").style.backgroundColor = '';
+									ele.style.backgroundColor = '';
 								} else {
 									e.target.style.backgroundColor = 'red';
-									document.getElementById("choice" + i + "_yes").style.backgroundColor = '';
+									ele.style.backgroundColor = '';
 								}
 
 								validateChoices();
@@ -227,15 +450,26 @@
 							<button 
 								style="background: url('/img/misc/trainingfaces.png'); width: 10vw; height: 8vw; background-position: -{j * 10}vw -{i * 8}vw; background-size: 40vw 32vw; transition: transform 1.5s ease-out, opacity 1.5s ease-out;"
 								on:click={(event) => {
+									let target = event.target;
+	
+									if (!(target instanceof HTMLElement)) {
+										return;
+									}
+	
 									// Move to the folder icon
-									let folderPos = trainingFaceFolder.getBoundingClientRect();
-									let buttonPos = event.target.getBoundingClientRect();
+									let folderPos = trainingFaceFolder?.getBoundingClientRect();
+									let buttonPos = target.getBoundingClientRect();
+	
+									if (!folderPos || !buttonPos) {
+										return;
+									}
+
 
 									let x = folderPos.left - buttonPos.left;
 									let y = folderPos.top - buttonPos.top;
 
-									event.target.style.transform = `translate(${x}px, ${y}px) scale(0.5)`;
-									event.target.style.opacity = '0';
+									target.style.transform = `translate(${x}px, ${y}px) scale(0.5)`;
+									target.style.opacity = '0';
 									addedFaces++;
 								}}
 							>
@@ -269,15 +503,25 @@
 						<button 
 							style="background: url('/img/misc/trainingnofaces.png'); width: 10vw; height: 8vw; background-position: -{j * 10}vw -{i * 8}vw; background-size: 40vw 32vw; transition: transform 1.5s ease-out, opacity 1.5s ease-out;"
 							on:click={(event) => {
+								let target = event.target;
+
+								if (!(target instanceof HTMLElement)) {
+									return;
+								}
+
 								// Move to the folder icon
-								let folderPos = trainingFaceFolder.getBoundingClientRect();
-								let buttonPos = event.target.getBoundingClientRect();
+								let folderPos = trainingFaceFolder?.getBoundingClientRect();
+								let buttonPos = target.getBoundingClientRect();
+
+								if (!folderPos || !buttonPos) {
+									return;
+								}
 
 								let x = folderPos.left - buttonPos.left;
 								let y = folderPos.top - buttonPos.top;
 
-								event.target.style.transform = `translate(${x}px, ${y}px) scale(0.5)`;
-								event.target.style.opacity = '0';
+								target.style.transform = `translate(${x}px, ${y}px) scale(0.5)`;
+								target.style.opacity = '0';
 								addedNoFaces++;
 							}}
 						>
@@ -317,6 +561,101 @@
 		{#if line.id == 12}
 			<img id="dashboard" src="/img/backgrounds/level2/car-training/dashboard.png" alt="Dashboard" />
 			<div class="grayfilter"></div>
+
+			<div class="palette" bind:this={palette} on:drop={paletteDrop} on:dragover={(e) => e.preventDefault()} role="list">
+				{#each parsonsPairs as pair}
+					<div class="predicateBlock" draggable="true" role="listitem"
+					on:dragstart={blockDragHandler}
+					>
+						<div class="blockstart" />
+						<div class="blockcontent">
+							<p>{pair[0]}</p>
+						</div>
+						<div class="blockend" />
+					</div>
+
+					<div class="commandBlock" draggable="true" role="listitem"            
+					on:dragstart={blockDragHandler}>
+						<div class="blockstart" />
+						<div class="blockcontent">
+							<p>{pair[1]}</p>
+						</div>
+						<div class="blockend" />
+					</div>
+				{/each}
+
+			</div>
+
+			<div class="targetBlocks">
+				{#each parsonsPairs as pair}
+					<div class="ifBlock">
+						<div style="clear: both;">
+							<div class="blocktopstart" />
+							<div class="blockcontent">
+								<span>
+									If 
+								</span>
+								<div class="predicateBlockSlot slot" 
+								role="listitem" 
+								on:dragenter={(e) => {
+									console.log('dragenter', e);
+									e.preventDefault();
+								}}
+								on:dragleave={(e) => {
+									console.log('dragleave', e);
+									e.preventDefault();
+								}}
+								on:dragover={(e) => {
+									e.preventDefault();
+								}}
+								on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
+								/>
+								<span>
+									then
+								</span>
+							</div>
+							<div class="blocktopend" />
+						</div>
+						<div style="clear: both;">
+							<div class="blockstem" />
+							<div class="blockinner">
+								<div class="commandBlockSlot slot"  role="listitem"
+								on:dragenter={(e) => {
+									console.log('dragenter', e);
+									e.preventDefault();
+								}}
+
+								on:dragleave={(e) => {
+									console.log('dragleave', e);
+									e.preventDefault();
+								}}
+
+								on:dragover={(e) => {
+									e.preventDefault();
+								}}
+
+								on:drop={(e) => blockDropHandler(e, 'commandBlock')}
+								/>
+							</div>
+						</div>
+						<div class="blockend" />
+					</div>
+				{/each}
+
+				{#if lineNumber == 6}
+					<div id="navButtons">
+						<button id="nextButton" on:click={() => goto('/level1/outro?page=1')}>
+							<img src="/img/misc/pizzanext.png" alt="Send" />
+						</button>
+					</div>
+				{:else}
+					<div id="navButtons">
+						<button id="nextButton" on:click={validateParsonsProblem}>
+							<img src="/img/misc/pizzasend.png" alt="Send" />
+						</button>
+					</div>
+				{/if}
+			</div>
 		{/if}
 
 	</div>
@@ -481,5 +820,279 @@
 		100% {
 			background: none;
 		}
+	}
+
+
+	.commandBlock {
+		z-index: 1;
+		padding: 1vh;
+	}
+
+	.commandBlock > .blockcontent p {
+		margin-left: -3vh;
+	}
+
+	.commandBlock > .blockcontent {
+		background: url('/img/misc/blockparts/commandm.png') repeat-x;
+		height: 100%;
+		background-size: 100% 100%;
+		text-align: left;
+		vertical-align: middle;
+		line-height: 5vh;
+		height: 6vh;
+		clear: none;
+		float: left;
+	}
+
+	.commandBlock .blockend {
+		background: url('/img/misc/blockparts/commandr.png') no-repeat;
+		background-size: auto 100%;
+		width: 2.5vh;
+		left: 100%;
+		height: 6vh;
+		bottom: 0;
+		float: right;
+	}
+
+	.commandBlock .blockstart {
+		background: url('/img/misc/blockparts/commandl.png') no-repeat;
+		background-size: auto 100%;
+		width: 5vh;
+		right: 100%;            
+		height: 6vh;
+		bottom: 0;
+		float: left;
+	}
+
+	.predicateBlock {
+		z-index: 1;
+		padding: 1vh;
+		display: inline-block;
+	}
+
+	.predicateBlock .blockcontent p {
+		background-color: #59C059;
+		height: 100%;
+		text-align: left;
+		vertical-align: middle;
+		line-height: 4vh;
+		height: 5vh;
+		margin-left: -0.05vh;
+		margin-right: -0.05vh;
+		border-top: 0.5vh solid #389438;
+		border-bottom: 0.5vh solid #389438;
+		padding-left: 1vh;
+		padding-right: 1vh;
+	}
+
+	.predicateBlock .blockcontent {
+		clear: none;
+		float: left;
+	}
+
+	.predicateBlock .blockstart {
+		background-color: #389438;
+		width: 2.5vh;
+		left: 100%;
+		height: 5vh;
+		bottom: 0;
+		float: left;
+		clip-path: polygon(100% 0, 0% 50%, 100% 100%);
+	}
+
+	.predicateBlock .blockstart::after {
+		content: '';
+		position: relative;
+		top: 0.5vh;
+		left: 0.66vh;
+		width: calc(100% - 0.65vh);
+		height: calc(100% - 1vh);
+		background-color: #59C059;
+		clip-path: polygon(100% 0, 0% 50%, 100% 100%);
+		display: block;
+	}
+
+	.predicateBlock .blockend {
+		background-color: #389438;
+		width: 2.5vh;
+		left: 100%;
+		height: 5vh;
+		bottom: 0;
+		float: right;
+		clip-path: polygon(0 0, 100% 50%, 0 100%);
+	}
+
+	.predicateBlock .blockend::after {
+		content: '';
+		position: relative;
+		top: 0.5vh;
+		left: 0;
+		width: calc(100% - 0.66vh);
+		height: calc(100% - 1vh);
+		background-color: #59C059;
+		clip-path: polygon(0 0, 100% 50%, 0 100%);
+		display: block;
+	}
+
+
+	.predicateBlockSlot {
+		z-index: 1;
+		padding: 1vh;
+		height: 5vh;
+		display: inline-block;
+		position: relative;
+		left: -1vh;
+		top: -0.5vh;
+		margin-right: 4vh;
+		min-width: 10vh;
+		margin-left: 4vh;
+		background-color: #9a9a9a;
+	}
+
+	.predicateBlockSlot::before {
+		content: '';
+		background-color: #9a9a9a;
+		width: 2.5vh;
+		position: relative;
+		left: -3.45vh;
+		height: 5vh;
+		top: -1vh;
+		float: left;
+		clip-path: polygon(100% 0, 0% 50%, 100% 100%);
+	}
+	
+
+	.predicateBlockSlot::after {
+		content: '';
+		background-color: #9a9a9a;
+		width: 2.5vh;
+		height: 5vh;
+		position: relative;
+		right: -3.45vh;
+		height: 5vh;
+		top: -1vh;
+		float: right;
+		clip-path: polygon(0 0, 100% 50%, 0 100%);
+	}
+
+	.commandBlockSlot {
+		z-index: 1;
+		padding: 1vh;
+		height: 6vh;
+		background: #9a9a9a;
+		text-align: left;
+		vertical-align: middle;
+		min-width: 20vh;
+	}
+
+	.ifBlock {
+		z-index: 1;
+		padding: 1vh;
+		min-height: 16vh;
+	}
+
+	.ifBlock .blockcontent span:first {
+		margin-left: -3vh;
+	}
+
+	.ifBlock :global(.predicateBlock) {
+		margin-left: 2vh;
+		margin-right: 2vh; 
+	}
+
+	.ifBlock > * > .blockcontent {
+		background: url('/img/misc/blockparts/iftopmiddle.png') repeat-x;
+		background-size: 100% 100%;
+		height: 100%;
+		text-align: left;
+		vertical-align: middle;
+		line-height: 4vh;
+		height: 8vh;
+		clear: none;
+		float: left;
+		margin-left: -0.025vh;
+		margin-right: -0.025vh;
+		display: flex;
+		align-items: center;
+		gap: 1vh;
+	}
+
+	.ifBlock > * > .blockcontent span:first-child {
+		margin-left: -5vh;
+	}
+
+	.ifBlock .blocktopend {
+		background: url('/img/misc/blockparts/iftopend.png') no-repeat;
+		background-size: auto 100%;
+		width: 2.5vh;
+		left: 100%;
+		height: 8vh;
+		bottom: 0;
+		float: left;
+	}
+
+	.ifBlock .blocktopstart {
+		background: url('/img/misc/blockparts/iftopstart.png') no-repeat;
+		background-size: auto 100%;
+		width: 9vh;
+		right: 100%;
+		height: 8vh;
+		bottom: 0;
+		float: left;
+	}
+
+	.ifBlock .blockstem {
+		background: url('/img/misc/blockparts/ifstem.png') repeat-y;
+		background-size: 100% 100%;
+		min-height: 6vh;
+		width: 2.55vh;
+		left: 100%;
+		bottom: 0;
+		float: left;
+	}
+
+	.ifBlock .blockinner {
+		clear: none;
+		float: left;
+	}
+
+	.ifBlock > .blockend {
+		background: url('/img/misc/blockparts/ifbottom.png') no-repeat;
+		background-size: auto 100%;
+		width: 45vh;
+		left: 0;
+		height: 6.2vh;
+		bottom: 0;
+		float: left;
+		clear: both;
+	}
+
+	.ifBlock .blockinner :global(.commandBlock) {
+		margin-top: -1.25vh;
+		margin-left: 0.25vh;
+	}
+
+	.targetBlocks {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.targetBlocks .ifBlock {
+		padding: 0;
+		margin-top: -0.75vh;
+		margin-bottom: -0.75vh;
+	}
+
+	.palette {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: 20vw;
+		background-color: rgba(0, 0, 0, 0.5);
+		position: relative;
+		left: 0;
+		position: absolute;
 	}
 </style>
