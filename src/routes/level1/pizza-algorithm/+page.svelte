@@ -99,12 +99,6 @@
             [algorithmStepStyles[i], algorithmStepStyles[j]] = [algorithmStepStyles[j], algorithmStepStyles[i]];
         }
 
-        let parsonsPairs = [
-            ['Cheese requested', 'Add cheese to pizza'],
-            ['Toppings requested', 'Add toppings to pizza'],
-            ['Pizza is cooked', 'Remove pizza from oven']
-        ];
-
         let algorithmIndices = [0, 1, 2, 3, 4, 5, 6];
         let algorithmRandomIndices = [];
         
@@ -130,6 +124,13 @@
                 }
             });
         }
+
+        // The pairs of predicates and commands for the Parsons Problem
+        let parsonsPairs = [
+            ['Cheese requested', 'Add cheese to pizza'],
+            ['Toppings requested', 'Add toppings to pizza'],
+            ['Pizza is cooked', 'Remove pizza from oven']
+        ];
 
         // The palette of blocks available in the Parsons Problem
         let palette: HTMLElement | void;
@@ -278,7 +279,7 @@
                     let originalBlock = Array.from(document.querySelectorAll('.slotDropped'))
                         .filter((slot) => slot.innerHTML == block);
 
-                    if(originalBlock.length > 0) {
+                    if(originalBlock.length > 0 && originalBlock[0] instanceof HTMLElement) {
                         originalBlock[0].classList.remove('slotDropped');
                         originalBlock[0].classList.add(blockElement.children[0].classList[0] + 'Slot');
                         originalBlock[0].style['padding'] = '';
@@ -388,100 +389,100 @@
                 {/if}
             {/if}
             {#if lineNumber == 4 || lineNumber == 5 || lineNumber == 6}
-            <div class="palette" bind:this={palette} on:drop={paletteDrop} on:dragover={(e) => e.preventDefault()} role="list">
-                {#each parsonsPairs as pair}
-                    <div class="predicateBlock" draggable="true" role="listitem"
-                    on:dragstart={blockDragHandler}
-                    >
-                        <div class="blockstart" />
-                        <div class="blockcontent">
-                            <p>{pair[0]}</p>
-                        </div>
-                        <div class="blockend" />
-                    </div>
-
-                    <div class="commandBlock" draggable="true" role="listitem"            
-                    on:dragstart={blockDragHandler}>
-                        <div class="blockstart" />
-                        <div class="blockcontent">
-                            <p>{pair[1]}</p>
-                        </div>
-                        <div class="blockend" />
-                    </div>
-                {/each}
-
-            </div>
-
-            <div class="targetBlocks">
-                {#each parsonsPairs as pair}
-                    <div class="ifBlock">
-                        <div style="clear: both;">
-                            <div class="blocktopstart" />
+                <div class="palette" bind:this={palette} on:drop={paletteDrop} on:dragover={(e) => e.preventDefault()} role="list">
+                    {#each parsonsPairs as pair}
+                        <div class="predicateBlock" draggable="true" role="listitem"
+                        on:dragstart={blockDragHandler}
+                        >
+                            <div class="blockstart" />
                             <div class="blockcontent">
-                                <span>
-                                    If 
-                                </span>
-                                <div class="predicateBlockSlot slot" 
-                                role="listitem" 
-                                on:dragenter={(e) => {
-                                    console.log('dragenter', e);
-                                    e.preventDefault();
-                                }}
-                                on:dragleave={(e) => {
-                                    console.log('dragleave', e);
-                                    e.preventDefault();
-                                }}
-                                on:dragover={(e) => {
-                                    e.preventDefault();
-                                }}
-                                on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
-                                />
-                                <span>
-                                    then
-                                </span>
+                                <p>{pair[0]}</p>
                             </div>
-                            <div class="blocktopend" />
+                            <div class="blockend" />
                         </div>
-                        <div style="clear: both;">
-                            <div class="blockstem" />
-                            <div class="blockinner">
-                                <div class="commandBlockSlot slot"  role="listitem"
-                                on:dragenter={(e) => {
-                                    console.log('dragenter', e);
-                                    e.preventDefault();
-                                }}
 
-                                on:dragleave={(e) => {
-                                    console.log('dragleave', e);
-                                    e.preventDefault();
-                                }}
-
-                                on:dragover={(e) => {
-                                    e.preventDefault();
-                                }}
-
-                                on:drop={(e) => blockDropHandler(e, 'commandBlock')}
-                                />
+                        <div class="commandBlock" draggable="true" role="listitem"            
+                        on:dragstart={blockDragHandler}>
+                            <div class="blockstart" />
+                            <div class="blockcontent">
+                                <p>{pair[1]}</p>
                             </div>
+                            <div class="blockend" />
                         </div>
-                        <div class="blockend" />
-                    </div>
-                {/each}
+                    {/each}
 
-                {#if lineNumber == 6}
-                    <div id="navButtons">
-                        <button id="nextButton" on:click={() => goto('/level1/outro?page=1')}>
-                            <img src="/img/misc/pizzanext.png" alt="Send" />
-                        </button>
-                    </div>
-                {:else}
-                    <div id="navButtons">
-                        <button id="nextButton" on:click={validateParsonsProblem}>
-                            <img src="/img/misc/pizzasend.png" alt="Send" />
-                        </button>
-                    </div>
-                {/if}
-            </div>
+                </div>
+
+                <div class="targetBlocks">
+                    {#each parsonsPairs as pair}
+                        <div class="ifBlock">
+                            <div style="clear: both;">
+                                <div class="blocktopstart" />
+                                <div class="blockcontent">
+                                    <span>
+                                        If 
+                                    </span>
+                                    <div class="predicateBlockSlot slot" 
+                                    role="listitem" 
+                                    on:dragenter={(e) => {
+                                        console.log('dragenter', e);
+                                        e.preventDefault();
+                                    }}
+                                    on:dragleave={(e) => {
+                                        console.log('dragleave', e);
+                                        e.preventDefault();
+                                    }}
+                                    on:dragover={(e) => {
+                                        e.preventDefault();
+                                    }}
+                                    on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
+                                    />
+                                    <span>
+                                        then
+                                    </span>
+                                </div>
+                                <div class="blocktopend" />
+                            </div>
+                            <div style="clear: both;">
+                                <div class="blockstem" />
+                                <div class="blockinner">
+                                    <div class="commandBlockSlot slot"  role="listitem"
+                                    on:dragenter={(e) => {
+                                        console.log('dragenter', e);
+                                        e.preventDefault();
+                                    }}
+
+                                    on:dragleave={(e) => {
+                                        console.log('dragleave', e);
+                                        e.preventDefault();
+                                    }}
+
+                                    on:dragover={(e) => {
+                                        e.preventDefault();
+                                    }}
+
+                                    on:drop={(e) => blockDropHandler(e, 'commandBlock')}
+                                    />
+                                </div>
+                            </div>
+                            <div class="blockend" />
+                        </div>
+                    {/each}
+
+                    {#if lineNumber == 6}
+                        <div id="navButtons">
+                            <button id="nextButton" on:click={() => goto('/level1/outro?page=1')}>
+                                <img src="/img/misc/pizzanext.png" alt="Send" />
+                            </button>
+                        </div>
+                    {:else}
+                        <div id="navButtons">
+                            <button id="nextButton" on:click={validateParsonsProblem}>
+                                <img src="/img/misc/pizzasend.png" alt="Send" />
+                            </button>
+                        </div>
+                    {/if}
+                </div>
             {/if}    
         </div>
     </Scene>
