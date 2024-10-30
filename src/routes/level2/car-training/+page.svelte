@@ -563,84 +563,178 @@
 			<div class="grayfilter"></div>
 
 			<div class="palette" bind:this={palette} on:drop={paletteDrop} on:dragover={(e) => e.preventDefault()} role="list">
-				{#each parsonsPairs as pair}
-					<div class="predicateBlock" draggable="true" role="listitem"
-					on:dragstart={blockDragHandler}
-					>
-						<div class="blockstart" />
-						<div class="blockcontent">
-							<p>{pair[0]}</p>
-						</div>
-						<div class="blockend" />
+				
+				<div class="commandBlock" draggable="true" role="listitem"            
+				on:dragstart={blockDragHandler}>
+					<div class="blockstart" />
+					<div class="blockcontent">
+						<p>Scan for face</p>
 					</div>
+					<div class="blockend" />
+				</div>
 
-					<div class="commandBlock" draggable="true" role="listitem"            
-					on:dragstart={blockDragHandler}>
-						<div class="blockstart" />
-						<div class="blockcontent">
-							<p>{pair[1]}</p>
-						</div>
-						<div class="blockend" />
+				<div class="commandBlock" draggable="true" role="listitem"
+				on:dragstart={blockDragHandler}
+				>
+					<div class="blockstart" />
+					<div class="blockcontent">
+						<p>Open Door</p>
 					</div>
-				{/each}
+					<div class="blockend" />
+				</div>
+
+				<div class="commandBlock" draggable="true" role="listitem"
+				on:dragstart={blockDragHandler}
+				>
+					<div class="blockstart" />
+					<div class="blockcontent">
+						<p>Don't Open Door</p>
+					</div>
+					<div class="blockend" />
+				</div>
+
+				<div class="predicateBlock" draggable="true" role="listitem"            
+				on:dragstart={blockDragHandler}>
+					<div class="blockstart" />
+					<div class="blockcontent">
+						<p>Face detected</p>
+					</div>
+					<div class="blockend" />
+				</div>
+
+				<div class="predicateBlock" draggable="true" role="listitem"            
+				on:dragstart={blockDragHandler}>
+					<div class="blockstart" />
+					<div class="blockcontent">
+						<p>No face detected</p>
+					</div>
+					<div class="blockend" />
+				</div>
 
 			</div>
 
 			<div class="targetBlocks">
-				{#each parsonsPairs as pair}
-					<div class="ifBlock">
-						<div style="clear: both;">
-							<div class="blocktopstart" />
-							<div class="blockcontent">
-								<span>
-									If 
-								</span>
-								<div class="predicateBlockSlot slot" 
-								role="listitem" 
-								on:dragenter={(e) => {
-									console.log('dragenter', e);
-									e.preventDefault();
-								}}
-								on:dragleave={(e) => {
-									console.log('dragleave', e);
-									e.preventDefault();
-								}}
-								on:dragover={(e) => {
-									e.preventDefault();
-								}}
-								on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
-								/>
-								<span>
-									then
-								</span>
-							</div>
-							<div class="blocktopend" />
+				<div class="commandBlockSlot slot"  role="listitem"
+					on:dragenter={(e) => {
+						console.log('dragenter', e);
+						e.preventDefault();
+					}}
+
+					on:dragleave={(e) => {
+						console.log('dragleave', e);
+						e.preventDefault();
+					}}
+
+					on:dragover={(e) => {
+						e.preventDefault();
+					}}
+
+					on:drop={(e) => blockDropHandler(e, 'commandBlock')}
+				/>
+				<div class="ifBlock">
+					<div style="clear: both;">
+						<div class="blocktopstart" />
+						<div class="blockcontent">
+							<span>
+								If 
+							</span>
+							<div class="predicateBlockSlot slot" 
+							role="listitem" 
+							on:dragenter={(e) => {
+								console.log('dragenter', e);
+								e.preventDefault();
+							}}
+							on:dragleave={(e) => {
+								console.log('dragleave', e);
+								e.preventDefault();
+							}}
+							on:dragover={(e) => {
+								e.preventDefault();
+							}}
+							on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
+							/>
+							<span>
+								then
+							</span>
 						</div>
-						<div style="clear: both;">
-							<div class="blockstem" />
-							<div class="blockinner">
-								<div class="commandBlockSlot slot"  role="listitem"
-								on:dragenter={(e) => {
-									console.log('dragenter', e);
-									e.preventDefault();
-								}}
-
-								on:dragleave={(e) => {
-									console.log('dragleave', e);
-									e.preventDefault();
-								}}
-
-								on:dragover={(e) => {
-									e.preventDefault();
-								}}
-
-								on:drop={(e) => blockDropHandler(e, 'commandBlock')}
-								/>
-							</div>
-						</div>
-						<div class="blockend" />
+						<div class="blocktopend" />
 					</div>
-				{/each}
+					<div style="clear: both;">
+						<div class="blockstem" />
+						<div class="blockinner">
+							<div class="commandBlockSlot slot"  role="listitem"
+							on:dragenter={(e) => {
+								console.log('dragenter', e);
+								e.preventDefault();
+							}}
+
+							on:dragleave={(e) => {
+								console.log('dragleave', e);
+								e.preventDefault();
+							}}
+
+							on:dragover={(e) => {
+								e.preventDefault();
+							}}
+
+							on:drop={(e) => blockDropHandler(e, 'commandBlock')}
+							/>
+						</div>
+					</div>
+					<div class="blockend" />
+				</div>
+				<div class="ifBlock">
+					<div style="clear: both;">
+						<div class="blocktopstart" />
+						<div class="blockcontent">
+							<span>
+								If 
+							</span>
+							<div class="predicateBlockSlot slot" 
+							role="listitem" 
+							on:dragenter={(e) => {
+								console.log('dragenter', e);
+								e.preventDefault();
+							}}
+							on:dragleave={(e) => {
+								console.log('dragleave', e);
+								e.preventDefault();
+							}}
+							on:dragover={(e) => {
+								e.preventDefault();
+							}}
+							on:drop={(e) => blockDropHandler(e, 'predicateBlock')}
+							/>
+							<span>
+								then
+							</span>
+						</div>
+						<div class="blocktopend" />
+					</div>
+					<div style="clear: both;">
+						<div class="blockstem" />
+						<div class="blockinner">
+							<div class="commandBlockSlot slot"  role="listitem"
+							on:dragenter={(e) => {
+								console.log('dragenter', e);
+								e.preventDefault();
+							}}
+
+							on:dragleave={(e) => {
+								console.log('dragleave', e);
+								e.preventDefault();
+							}}
+
+							on:dragover={(e) => {
+								e.preventDefault();
+							}}
+
+							on:drop={(e) => blockDropHandler(e, 'commandBlock')}
+							/>
+						</div>
+					</div>
+					<div class="blockend" />
+				</div>
 
 				{#if lineNumber == 6}
 					<div id="navButtons">
