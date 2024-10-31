@@ -1169,6 +1169,7 @@
 	.targetBlocks {
 		display: flex;
 		flex-direction: column;
+		padding-left: 20vw;
 	}
 
 	.targetBlocks .ifBlock {
