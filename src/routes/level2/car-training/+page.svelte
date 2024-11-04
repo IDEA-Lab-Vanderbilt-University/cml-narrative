@@ -1,9 +1,9 @@
+<svelte:document />
+
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import CarTrainingDialogBox from '$lib/components/activities/car-training/CarTrainingDialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
-	import Tablet from '$lib/components/tablet/Tablet.svelte';
-	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { script } from '$lib/scripts/level1/outro/index.js';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
@@ -273,6 +273,8 @@
 			}
 		}
 
+		validateParsonsProblem();
+
 		e.preventDefault();
 	};
 
@@ -312,6 +314,8 @@
 		}
 	};
 
+	let parsonsProblemSolved = false;
+
 	const validateParsonsProblem = () => {
 		let ifs = document.querySelectorAll('.ifBlock');
 		let correct = true;
@@ -341,16 +345,10 @@
 			}
 		}
 
-		if (correct) {
-			goto('/level2/car-training?page=13');
-		} else {
-			goto('/level2/car-training?page=14');
-		}
+		parsonsProblemSolved = correct;
 	};
 
 </script>
-
-<svelte:document />
 
 <Scene background={line.background} audio={line.audio} bgPosition={line.id == 11 ? 'bottom' : 'center'}>
 	<div class="w-full" slot="dialog">
@@ -736,16 +734,10 @@
 					<div class="blockend" />
 				</div>
 
-				{#if lineNumber == 6}
+				{#if parsonsProblemSolved}
 					<div id="navButtons">
-						<button id="nextButton" on:click={() => goto('/level1/outro?page=1')}>
+						<button id="nextButton" on:click={() => goto('/level2/car-training?page=13')}>
 							<img src="/img/misc/pizzanext.png" alt="Send" />
-						</button>
-					</div>
-				{:else}
-					<div id="navButtons">
-						<button id="nextButton" on:click={validateParsonsProblem}>
-							<img src="/img/misc/pizzasend.png" alt="Send" />
 						</button>
 					</div>
 				{/if}
@@ -857,6 +849,7 @@
 		left: -40vw;
 		width: 110vw;
 		max-width: none;
+		z-index: -2;
 	}
 
 	#gpsglowing {
@@ -872,6 +865,7 @@
 
 	.grayfilter {
 		position: fixed;
+		z-index: -1;
 		left: 0;
 		top: 0;
 		width: 100vw;
@@ -920,6 +914,7 @@
 	.commandBlock {
 		z-index: 1;
 		padding: 1vh;
+		width: fit-content;
 	}
 
 	.commandBlock > .blockcontent p {
@@ -932,8 +927,8 @@
 		background-size: 100% 100%;
 		text-align: left;
 		vertical-align: middle;
-		line-height: 5vh;
-		height: 6vh;
+		line-height: 8vh;
+		height: 8vh;
 		clear: none;
 		float: left;
 	}
@@ -941,9 +936,9 @@
 	.commandBlock .blockend {
 		background: url('/img/misc/blockparts/commandr.png') no-repeat;
 		background-size: auto 100%;
-		width: 2.5vh;
+		width: 3vh;
 		left: 100%;
-		height: 6vh;
+		height: 8vh;
 		bottom: 0;
 		float: right;
 	}
@@ -951,9 +946,9 @@
 	.commandBlock .blockstart {
 		background: url('/img/misc/blockparts/commandl.png') no-repeat;
 		background-size: auto 100%;
-		width: 5vh;
+		width: 7vh;
 		right: 100%;            
-		height: 6vh;
+		height: 8vh;
 		bottom: 0;
 		float: left;
 	}
@@ -1079,6 +1074,10 @@
 		min-width: 20vh;
 	}
 
+	:not(.ifBlock) .commandBlockSlot {
+		width: 20vh;
+	}
+
 	.ifBlock {
 		z-index: 1;
 		padding: 1vh;
@@ -1138,7 +1137,7 @@
 	.ifBlock .blockstem {
 		background: url('/img/misc/blockparts/ifstem.png') repeat-y;
 		background-size: 100% 100%;
-		min-height: 6vh;
+		min-height: 8vh;
 		width: 2.55vh;
 		left: 100%;
 		bottom: 0;
@@ -1189,5 +1188,26 @@
 		position: relative;
 		left: 0;
 		position: absolute;
+	}
+
+	#navButtons {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+	}
+
+	#navButtons button {
+		width: 10vw;
+		height: 10vh;
+		transition: all 0.2s ease-in-out;
+	}
+
+	#navButtons button:hover {
+		transform: scale(1.1);
+	}
+
+	#navButtons button:active {
+		transform: scale(0.9);
 	}
 </style>
