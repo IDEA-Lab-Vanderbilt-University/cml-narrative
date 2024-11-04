@@ -172,7 +172,7 @@ const script: Script = {
             id: 18,
             speakers: ['Dash'],
             dialog: 'And that’s how we train our cars here at Vroom Vroom. You did a “Dash-tastic” Job! Come back soon!',
-            avatars: ['/img/characters/level-2/dash/dash-thumbs-flipped.png'],
+            avatars: ['/img/characters/level-2/dash/dash-thumb-flipped.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
         },
     ]
