@@ -348,11 +348,13 @@
 		parsonsProblemSolved = correct;
 	};
 
+	let facesScanned = 0;
+
 </script>
 
 <Scene background={line.background} audio={line.audio} bgPosition={line.id == 11 ? 'bottom' : 'center'}>
 	<div class="w-full" slot="dialog">
-		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length && !([2, 5, 7, 11, 12].includes(lineNumber))} showBack={lineNumber > 1} />
+		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length && !([2, 5, 7, 11, 12, 16].includes(lineNumber))} showBack={lineNumber > 1} />
 	</div>
 	<div slot="content" class="content"  bind:this={content}>
 		{#if line.id == 1}
@@ -748,14 +750,72 @@
 			<img src="/img/misc/testset.png" alt="Test set faces" style="width: 70%;" />
 		{/if}
 
-		{#if line.id == 16}
+		{#if line.id == 16 || line.id == 17}
 		<div id="scanner">
 			<div id="scannerimgs">
+				{#if line.id == 16}
+					{#each [0, 1, 2, 3] as i}
+						<div id="scanface{i}" style="background: url('/img/misc/testfaces.png'); width: 10vw; height: 8vw; background-position: 0 -{i * 8}vw; background-size: 10vw 32vw;"
+						draggable="true"
+						on:dragstart={(e) => {
+							if (e.dataTransfer) {
+								e.dataTransfer.setData('text/plain', e?.target?.id);
+								e.dataTransfer.effectAllowed = 'move';
+							}
+						}}
+						role="listitem"
+						/>
+					{/each}
+				{:else if line.id == 17}
+					{#each [0, 1, 2, 3] as i}
+						<div id="scanface{i}" style="background: url('/img/misc/testnofaces.png'); width: 10vw; height: 8vw; background-position: 0 -{i * 8}vw; background-size: 10vw 32vw;"
+						draggable="true"
+						on:dragstart={(e) => {
+							if (e.dataTransfer) {
+								e.dataTransfer.setData('text/plain', e?.target?.id);
+								e.dataTransfer.effectAllowed = 'move';
+							}
+						}}
+						role="listitem"
+						/>
+					{/each}
+				{/if}
 
 			</div>
-			<img src="/img/misc/scanprompt.png" alt="Scanner" style="width: 70%;" />
+			<img src="/img/misc/scanprompt.png" alt="Scanner" style="width: 50%;" id="scanprompt"
+			on:drop={(e) => {
+				e.preventDefault();
+
+				let data = e.dataTransfer?.getData('text/plain');
+				if (!data) {
+					return;
+				}
+
+				document.getElementById(data).style.background = 'none';
+				if(line.id == 16){
+					document.getElementById("scanprompt").src = "/img/misc/facedetected.png";
+				} else {
+					document.getElementById("scanprompt").src = "/img/misc/scanfailed.png";
+				}
+				setTimeout(() => {
+					document.getElementById("scanprompt").src = "/img/misc/scanprompt.png";
+				}, 1500);
+
+				facesScanned++;
+
+			}}
+			on:dragover={(e) => e.preventDefault()} 
+			/>
 		</div>
 
+			{#if facesScanned > 0}
+				<button class="nextButton" on:click={() => {
+					handleNavigation(NavigationDirection.forward); 
+					facesScanned = 0;
+				}}>
+					<img src="/img/misc/vroomnext.png" alt="Next" />
+				</button>
+			{/if}
 		{/if}
 
 	</div>
@@ -1223,5 +1283,20 @@
 
 	#navButtons button:active {
 		transform: scale(0.9);
+	}
+
+	#scanner {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		gap: 5vw;
+	}
+
+	#scannerimgs {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
 	}
 </style>
