@@ -1,4 +1,3 @@
-
 import type { Script } from '$lib/types/Script';
 import type { UserData } from '$lib/types/UserData';
 import { userDataStore } from '$lib/utils/stores/store';
@@ -27,10 +26,11 @@ userDataStore.subscribe((value) => {
 	agent = value as UserData;
 });
 
+
+
 const script: Script = {
 	lines: [
-
-    ],
+    ]
 };
 
 export default script;
