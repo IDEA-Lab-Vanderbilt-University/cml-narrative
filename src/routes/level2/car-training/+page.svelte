@@ -818,6 +818,12 @@
 			{/if}
 		{/if}
 
+
+		{#if line.id == 18}
+			<button class="endButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
+				<img src="/img/misc/goodbyebtn.png" alt="Next" />
+			</button>
+		{/if}
 	</div>
 </Scene>
 
@@ -891,12 +897,28 @@
 		height: 10vh;
 	}
 
+	.endButton {
+		transition: all 0.2s ease-in-out;
+		height: 15vh;
+	}
+
+	.endButton img {
+		height: 15vh;
+	}
+
 	.nextButton:hover {
 		transform: scale(1.1) translateX(-1vw);
 	}
 
 	.nextButton:active {
 		transform: scale(0.9) translateX(3vw);
+	}
+
+	.endButton:hover {
+		transform: scale(1.1);
+	}
+	.endButton:active {
+		transform: scale(0.9);
 	}
 
 	.recognizedText {
