@@ -127,7 +127,7 @@
                         <p class="text-2xl">
                             Your Bot Buddy’s system has informed us that you have
 completed your second mission. Mission Control needs to know a few more things. We have
-included our questions in this message
+included our questions in this message.
                         </p>
 
                     </div>
@@ -190,15 +190,15 @@ included our questions in this message
 {/if}
 
 {#if line.id == 3}
-    <TextResponseModal id="carTrainingSet" title={"Explain to Mission Control what a training data set is"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+    <TextResponseModal id="carTrainingSet" title={"What did you find out about training data sets?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
 {/if}
 
 {#if line.id == 4}
-    <TextResponseModal id="carTestSet" title={"Explain to Mission Control what a test data set is"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+    <TextResponseModal id="carTestSet" title={"What did you find out about test data sets?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
 {/if}
 
 {#if line.id == 5}
-    <TextResponseModal id="carTestTrainDifference" title={"Why should the training and test data set not use the same images?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+    <TextResponseModal id="carTestTrainDifference" title={"Why should the training and test data sets be different?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
 {/if}
 
 {#if lineNumber == 8}
