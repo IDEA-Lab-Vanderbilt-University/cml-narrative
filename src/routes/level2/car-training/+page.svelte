@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 	import CarTrainingDialogBox from '$lib/components/activities/car-training/CarTrainingDialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
-	import { script } from '$lib/scripts/level1/outro/index.js';
+	import script from '$lib/scripts/level2/car-training/index.js';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import type { UserData, UserProgress } from '$lib/types/UserData.js';
@@ -742,6 +742,20 @@
 					</div>
 				{/if}
 			</div>
+		{/if}
+
+		{#if line.id == 13 || line.id == 14 || line.id == 15}
+			<img src="/img/misc/testset.png" alt="Test set faces" style="width: 70%;" />
+		{/if}
+
+		{#if line.id == 16}
+		<div id="scanner">
+			<div id="scannerimgs">
+
+			</div>
+			<img src="/img/misc/scanprompt.png" alt="Scanner" style="width: 70%;" />
+		</div>
+
 		{/if}
 
 	</div>
