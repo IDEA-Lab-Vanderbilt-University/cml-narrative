@@ -30,6 +30,14 @@ userDataStore.subscribe((value) => {
 
 const script: Script = {
 	lines: [
+        {
+            id: 1,
+            speakers: ['Bot Buddy'],
+            dialog: 'Finding out how the smart cars are trained and tested was super fun! I love downloading new information!',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            background: '/img/backgrounds/level3/1.png',
+            audio: '/audio/bot-buddy/bot-buddy-l3s1.wav',
+        }
     ]
 };
 
