@@ -354,7 +354,7 @@
 
 <Scene background={line.background} audio={line.audio} bgPosition={line.id == 11 ? 'bottom' : 'center'}>
 	<div class="w-full" slot="dialog">
-		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length && !([2, 5, 7, 11, 12, 16].includes(lineNumber))} showBack={lineNumber > 1} />
+		<CarTrainingDialogBox {line} on:dialogEvent={handleDialogEvent} showNext={lineNumber < script.lines.length && !([2, 5, 7, 11, 12, 16, 17].includes(lineNumber))} showBack={lineNumber > 1} />
 	</div>
 	<div slot="content" class="content"  bind:this={content}>
 		{#if line.id == 1}
@@ -568,6 +568,15 @@
 				on:dragstart={blockDragHandler}>
 					<div class="blockstart" />
 					<div class="blockcontent">
+						<p>Honk Horn</p>
+					</div>
+					<div class="blockend" />
+				</div>
+
+				<div class="commandBlock" draggable="true" role="listitem"            
+				on:dragstart={blockDragHandler}>
+					<div class="blockstart" />
+					<div class="blockcontent">
 						<p>Scan for face</p>
 					</div>
 					<div class="blockend" />
@@ -588,7 +597,7 @@
 				>
 					<div class="blockstart" />
 					<div class="blockcontent">
-						<p>Don't Open Door</p>
+						<p>Say "Face Not Recognized"</p>
 					</div>
 					<div class="blockend" />
 				</div>
