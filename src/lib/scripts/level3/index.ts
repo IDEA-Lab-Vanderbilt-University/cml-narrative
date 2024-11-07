@@ -34,9 +34,10 @@ const script: Script = {
             id: 1,
             speakers: ['Bot Buddy'],
             dialog: 'Finding out how the smart cars are trained and tested was super fun! I love downloading new information!',
-            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
-            background: '/img/backgrounds/level3/1.png',
+            avatars: ['/img/characters/bot-buddy/bot-buddy-stop.png'],
+            background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/bot-buddy/bot-buddy-l3s1.wav',
+            pos: 'center',
         },
         {
             id: 2,
@@ -45,6 +46,7 @@ const script: Script = {
             avatars: ['/img/characters/bot-buddy/bot-buddy-point.png'],
             background: '/img/backgrounds/level3/1.png',
             audio: '/audio/bot-buddy/bot-buddy-l3s2.wav',
+            pos: 'center',
         },
         {
             id: 3,
@@ -53,6 +55,7 @@ const script: Script = {
             avatars: ['/img/characters/bot-buddy/bot-buddy-ohno.png'],
             background: '/img/backgrounds/level3/1.png',
             audio: '/audio/bot-buddy/bot-buddy-l3s3.wav',
+            pos: 'center',
         },
         {
             id: 4,
@@ -61,6 +64,7 @@ const script: Script = {
             avatars: ['/img/characters/bot-buddy/bot-buddy-ohno.png'],
             background: '/img/backgrounds/level3/1.png',
             audio: '/audio/bot-buddy/bot-buddy-l3s4.wav',
+            pos: 'center',
         },
         {
             id: 5,
