@@ -61,25 +61,15 @@
 				updateLocalProgress(progress);
 				
                 // Next level
-                goto('/level2/car-training?page=1');
+                goto('/level3/outro?page=1');
 			} else {
-
-				if (line.id >= 29 && line.id <= 34) {
-					// GPS navigation screens
-					return;
-				}
-				goto(`/level2?page=${line.id + 1}`);
+				goto(`/level3?page=${line.id + 1}`);
 			}
 		} else if (direction == NavigationDirection.backward) {
 			if(line.id > 1) {
-				if (line.id >= 29 && line.id <= 34) {
-					// GPS navigation screens
-					goto(`/level2?page=29`);
-					return;
-				}
-				goto(`/level2?page=${line.id - 1}`);
+				goto(`/level3?page=${line.id - 1}`);
 			} else {
-				goto('/level1/outro?page=14');
+				goto('/level2/outro?page=9');
 			}
 		}
 	};
@@ -88,11 +78,11 @@
 </script>
 
 <Scene background={line.background} audio={line.audio}>
-    <div slot="dialog">
-        <DialogBox line={line} on:dialogEvent={handleDialogEvent} />
-    </div>
+	<div class="w-full" slot="dialog">
+		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
+	</div>
 
-    <div slot="content" bind:this={content}>
+	<div slot="content" class="h-full w-full" bind:this={content}>
 		<TabletButton on:click={() => { 
             const event  = new CustomEvent('showTablet', {
                 bubbles: true

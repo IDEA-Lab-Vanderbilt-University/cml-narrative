@@ -136,6 +136,11 @@
 				<div class=" bg-peach absolute -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 					{line.speakers[0]}
 				</div>
+			{:else}
+				<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+					{line.speakers[0]}
+				</div>
+				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} />
 			{/if}
 		</div>
 
