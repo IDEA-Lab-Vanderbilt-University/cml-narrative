@@ -75,6 +75,17 @@
 	};
 
     let content: HTMLDivElement | null;
+
+    let signMessages = [
+        'HELP THE KIDS!',
+        'I\'M ALWAYS LATE BUT IT\'S NOT MY FAULT',
+        'Fix the cars!',
+        'We want cars that work!',
+        'Make cars work for kids!',
+        'Accesible transport for kids',
+        'No more missed birthday parties!',
+        'HELP THE KIDS!',
+    ];
 </script>
 
 <Scene background={line.background} audio={line.audio}>
