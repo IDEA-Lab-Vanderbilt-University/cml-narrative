@@ -102,6 +102,11 @@
             content?.dispatchEvent(event);
 		}}
 		/>
+        {#each signMessages as sign}
+            <div class="sign">
+                <div class="text-4xl text-white">{sign}</div>
+            </div>            
+        {/each}
     </div>
 </Scene>
 
