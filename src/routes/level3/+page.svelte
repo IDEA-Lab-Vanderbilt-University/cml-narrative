@@ -146,17 +146,19 @@
             content?.dispatchEvent(event);
 		}}
 		/>
-        <div class="signs">
-            {#each signMessages as sign, i}
-                <div class="signOuter" style="animation-duration: {signAnimationDurations[i]}s; animation-delay: {signAnimationDelays[i]}s">
-                    <div class="sign" style="transform: {signAngles[i]}">
-                        <div class="signtext" style="background-color: {signColors[i]}">
-                            {sign}
-                        </div>
-                    </div>            
-                </div>
-            {/each}
-        </div>
+        {#if lineNumber > 4 && lineNumber < 14}
+            <div class="signs">
+                {#each signMessages as sign, i}
+                    <div class="signOuter" style="animation-duration: {signAnimationDurations[i]}s; animation-delay: {signAnimationDelays[i]}s">
+                        <div class="sign" style="transform: {signAngles[i]}">
+                            <div class="signtext" style="background-color: {signColors[i]}">
+                                {sign}
+                            </div>
+                        </div>            
+                    </div>
+                {/each}
+            </div>
+        {/if}
     </div>
 </Scene>
 
