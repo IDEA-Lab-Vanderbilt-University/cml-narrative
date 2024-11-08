@@ -86,6 +86,50 @@
         'No more missed birthday parties!',
         'HELP THE KIDS!',
     ];
+
+    let signColors = [
+        '#eee',
+        '#fdfdfd',
+        '#e9e8d7',
+        '#fdfdfd',
+        '#e9e8d7',
+        '#eee',
+        '#fdfdfd',
+        '#e9e8d7',
+    ];
+
+    let signAngles = [
+        'rotate(-10deg)',
+        'rotate(5deg)',
+        'rotate(-1deg)',
+        'rotate(-5deg)',
+        'rotate(1deg)',
+        'rotate(-4deg)',
+        'rotate(4deg)',
+        'rotate(8deg)',
+    ];
+
+    let signAnimationDurations = [
+        10,
+        12,
+        8,
+        9,
+        11,
+        7,
+        13,
+        10,
+    ];
+
+    let signAnimationDelays = [
+        -2,
+        -1,
+        -5,
+        -4,
+        -5,
+        -6,
+        -7,
+        -8,
+    ];
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -102,14 +146,63 @@
             content?.dispatchEvent(event);
 		}}
 		/>
-        {#each signMessages as sign}
-            <div class="sign">
-                <div class="text-4xl text-white">{sign}</div>
-            </div>            
-        {/each}
+        <div class="signs">
+            {#each signMessages as sign, i}
+                <div class="signOuter" style="animation-duration: {signAnimationDurations[i]}s; animation-delay: {signAnimationDelays[i]}s">
+                    <div class="sign" style="transform: {signAngles[i]}">
+                        <div class="signtext" style="background-color: {signColors[i]}">
+                            {sign}
+                        </div>
+                    </div>            
+                </div>
+            {/each}
+        </div>
     </div>
 </Scene>
 
 <style>
+.signs {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    position: absolute;
+    bottom: 10vh;
+    width: 100%;
+}
+
+.signOuter {
+    animation: sign infinite;
+}
+
+.signtext {
+    color: black;
+    font-size: 1.75vw;
+    max-width: 15vw;
+    min-height: 8vw;
+    padding: 1.5vw;
+    text-align: center;
+}
+
+.sign::after {
+    display: block;
+    content: '';
+    width: 10%;
+    height: 8vh;
+    background-color: #56370e;
+    position:relative;
+    left: 45%;
+}
+
+@keyframes sign {
+    0% {
+        transform: rotate(-5deg);
+    }
+    50% {
+        transform: rotate(5deg) translateY(2vw);
+    }
+    100% {
+        transform: rotate(-5deg);
+    }
+}
 
 </style>
