@@ -1330,4 +1330,8 @@
 		justify-content: center;
 		align-items: center;
 	}
+
+	#scannerimgs div { 
+		cursor: pointer;
+	}
 </style>
