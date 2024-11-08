@@ -318,8 +318,39 @@
 
 	const validateParsonsProblem = () => {
 		let ifs = document.querySelectorAll('.ifBlock');
+		let droppedSlots = document.querySelectorAll('.slotDropped');
+
+		// Check if all slots are filled
+		if(droppedSlots.length != 5) {
+			parsonsProblemSolved = false;
+			return;
+		}
+
+		// Check if all slots are filled with the correct blocks
 		let correct = true;
 
+		// Check first command block
+		let commandSlot = droppedSlots[0];
+		if(commandSlot) {
+			let command = commandSlot.querySelector('.blockcontent p') as HTMLElement;
+
+			if(command) {
+				console.log(command.innerText);
+				if(command.innerText == "Scan for face") {
+					// Continue
+				} else {
+					parsonsProblemSolved = false;
+					console.log('Incorrect block in slot');
+					return;
+				}
+			} else {
+				correct = false;
+			}
+		} else {
+			correct = false;
+		}
+
+		// Check if statement blocks 
 		for(let i = 0; i < ifs.length; i++) {
 			// Check if the predicate and command slots are filled
 			let predicateSlot = ifs[i].querySelector('.predicateBlock');
@@ -331,9 +362,16 @@
 				let command = commandSlot.querySelector('.blockcontent p') as HTMLElement;
 
 				if(predicate && command) {
-					if(predicate.innerText != parsonsPairs[i][0] || command.innerText != parsonsPairs[i][1]) {
-						correct = false;
-						break;
+
+					console.log(predicate.innerText, command.innerText);
+					if(predicate.innerText == "Face detected" && command.innerText == "Open Door") {
+						continue;
+					} else if(predicate.innerText == "No face detected" && command.innerText == "Say \"Face Not Recognized\"") {
+						continue;
+					} else {
+						parsonsProblemSolved = false;
+						console.log('Incorrect block in slot');
+						return;
 					}
 				} else {
 					correct = false;
