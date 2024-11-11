@@ -5,6 +5,7 @@
 	import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes.js';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
+	import IncomingMessageModal from '$lib/components/modals/IncomingMessageModal.svelte';
 	import MegaJoulesGetModal from '$lib/components/modals/MegaJoulesGetModal.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -143,28 +144,10 @@
             </div>
         {/if}
         {#if lineNumber == 4}
-            <Tablet showMeter={false}>
-                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen">
-                    <h1 class="text-5xl">Incoming message 
-                        from Mission Control!</h1>
-                    <img src="/img/misc/mail.png" alt="letter" id="mailicon" />
-                    <button on:click={() => handleNavigation(NavigationDirection.forward)}>
-                        <img src="/img/misc/readbutton.png" alt="Read" id="readbutton" />
-                    </button>
-                </div>
-            </Tablet>
+            <IncomingMessageModal from="Mission Control" onNext={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
         {#if lineNumber == 9}
-            <Tablet showMeter={false}>
-                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen">
-                    <h1 class="text-5xl">Incoming message 
-                        from Captain Storm!</h1>
-                    <img src="/img/misc/mail.png" alt="letter" id="mailicon" />
-                    <button on:click={() => handleNavigation(NavigationDirection.forward)}>
-                        <img src="/img/misc/readbutton.png" alt="Read" id="readbutton" />
-                    </button>
-                </div>
-            </Tablet>
+            <IncomingMessageModal from="Captain Storm" onNext={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
         {#if lineNumber == 5}
             <Tablet showMeter={false}>
