@@ -15,6 +15,7 @@
 	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
 	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
 	import MegaJoulesGetModal from '$lib/components/modals/MegaJoulesGetModal.svelte';
+	import IncomingMessageModal from '$lib/components/modals/IncomingMessageModal.svelte';
 
 	export let data;
 
@@ -108,16 +109,7 @@
 	</div>
 	<div slot="content" class="h-full w-full">
         {#if lineNumber == 1}
-            <Tablet showMeter={false}>
-                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen">
-                    <h1 class="text-5xl">Incoming message 
-                        from Mission Control!</h1>
-                    <img src="/img/misc/mail.png" alt="letter" id="mailicon" />
-                    <button on:click={() => handleNavigation(NavigationDirection.forward)}>
-                        <img src="/img/misc/readbutton.png" alt="Read" id="readbutton" />
-                    </button>
-                </div>
-            </Tablet>
+            <IncomingMessageModal from="Mission Control" onNext={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
         {#if lineNumber == 2}
             <Tablet showMeter={false}>
@@ -141,16 +133,7 @@ included our questions in this message.
             </Tablet>
         {/if}
         {#if line.id == 6}
-            <Tablet showMeter={false}>
-                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen">
-                    <h1 class="text-5xl">Incoming message 
-                        from Mission Control!</h1>
-                    <img src="/img/misc/mail.png" alt="letter" id="mailicon" />
-                    <button on:click={() => handleNavigation(NavigationDirection.forward)}>
-                        <img src="/img/misc/readbutton.png" alt="Read" id="readbutton" />
-                    </button>
-                </div>
-            </Tablet>
+            <IncomingMessageModal from="Mission Control" onNext={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
         {#if line.id == 7}
             <Tablet showMeter={false}>

@@ -12,6 +12,7 @@
 	import script from '$lib/scripts/level2/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
+	import IncomingMessageModal from '$lib/components/modals/IncomingMessageModal.svelte';
 
 	export let data;
 
@@ -84,17 +85,74 @@
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
-		<TabletButton on:click={() => { 
-            const event  = new CustomEvent('showTablet', {
-                bubbles: true
-            });
-            
-            content?.dispatchEvent(event);
-		}}
-		/>
+        {#if ![10, 11, 12].includes(line.id)}
+        	<TabletButton on:click={() => { 
+                const event  = new CustomEvent('showTablet', {
+                    bubbles: true
+                });
+                
+                content?.dispatchEvent(event);
+            }}
+            />
+        {/if}
+    
+        {#if line.id == 10}
+            <IncomingMessageModal from="Mission Control" onNext={() => handleNavigation(NavigationDirection.forward)} />
+        {/if}
     </div>
 </Scene>
 
 <style>
     
+#mailicon {
+        height: 20vh;
+        animation: shake 1.5s infinite ease-in-out;
+    }
+
+    @keyframes shake {
+        0% { transform: rotate(0deg); }
+        10% { transform: rotate(5deg); }
+        15% { transform: rotate(0deg); }
+        20% { transform: rotate(-5deg); }
+        25% { transform: rotate(0deg); }
+    }
+
+    #readbutton, #nextbutton {
+        height: 10vh;
+        transition: transform 0.2s;
+    }
+
+    #readbutton:hover, #nextbutton:hover {
+        transform: scale(1.1);
+    }
+
+    #readbutton:active, #nextbutton:active {
+        transform: scale(0.9);
+    }
+
+    #mailscreen, #mailscreen2 {
+        justify-items: center;
+        align-items: center;
+        height: 100%;
+        gap: 1vh;
+    }
+
+    #nextbutton {
+        height: 7vh;
+        position: relative;
+        left: 40vh;
+    }
+ 
+    #mailscreen2 {
+        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    }
+
+    #mailscreen2 ul li {
+        list-style-type: disc;
+        margin-left: 2vw;
+    }
+
+    .ps {
+        float: left;
+    }
 </style>
