@@ -61,15 +61,15 @@
 				updateLocalProgress(progress);
 				
                 // Next level
-                goto('/level3/outro?page=1');
+                goto('/level4?page=1');
 			} else {
-				goto(`/level3?page=${line.id + 1}`);
+				goto(`/level3/outro?page=${line.id + 1}`);
 			}
 		} else if (direction == NavigationDirection.backward) {
 			if(line.id > 1) {
-				goto(`/level3?page=${line.id - 1}`);
+				goto(`/level3/outro?page=${line.id - 1}`);
 			} else {
-				goto('/level2/outro?page=9');
+				goto('/level3/outro?page=1');
 			}
 		}
 	};
