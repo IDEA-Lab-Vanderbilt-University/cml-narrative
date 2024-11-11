@@ -10,43 +10,17 @@
 	import { userDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level2/outro/index.js';
-	import Tablet from '$lib/components/tablet/Tablet.svelte';
-	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
 	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
 	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
 	import MegaJoulesGetModal from '$lib/components/modals/MegaJoulesGetModal.svelte';
 	import IncomingMessageModal from '$lib/components/modals/IncomingMessageModal.svelte';
+	import ReadMessageModal from '$lib/components/modals/ReadMessageModal.svelte';
 
 	export let data;
 
 	let line: Line;
 
 	$: line = data.line;
-
-
-    let agent: UserData = {
-        name: {
-            first: '',
-            last: ''
-        },
-        age: 0,
-        interests: [],
-        avatarImg: '',
-        agentName: '',
-        email: '',
-        password: '',
-        progress: {
-            level: 0,
-            levelLabel: '',
-            subLevel: 0,
-            subLevelLabel: '',
-            lastUpdated: undefined
-        }
-    };
-
-    userDataStore.subscribe((value) => {
-        agent = value;
-    });
 
 	/**
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
@@ -58,7 +32,7 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = ():UserProgress => {
+	const getUpdatedProgress = (): UserProgress => {
 		return {
 			level: 0,
 			levelLabel: 'level-one',
@@ -112,33 +86,21 @@
             <IncomingMessageModal from="Mission Control" onNext={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
         {#if lineNumber == 2}
-            <Tablet showMeter={false}>
-                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen2">
-                    <h1 class="text-3xl w-10/12">Hello Agent {agent.agentName},</h1>
+            <ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)}>
                     <div class="border-white border-2 p-2 w-10/12">
                         <p class="text-2xl">
                             Your Bot Buddy’s system has informed us that you have
 completed your second mission. Mission Control needs to know a few more things. We have
 included our questions in this message.
                         </p>
-
                     </div>
-                    <div class="w-10/12">
-                        <h1 class="text-3xl mailfrom" style="float: right;">{line.speakers[0]}</h1>
-                    </div>
-                    <button on:click={() => handleNavigation(NavigationDirection.forward)}>
-                        <img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
-                    </button>
-                </div>
-            </Tablet>
+            </ReadMessageModal>
         {/if}
         {#if line.id == 6}
             <IncomingMessageModal from="Mission Control" onNext={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
         {#if line.id == 7}
-            <Tablet showMeter={false}>
-                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen2">
-                    <h1 class="text-3xl w-10/12">Hello Agent {agent.agentName},</h1>
+            <ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)}>
                     <div class="border-white border-2 p-2 w-10/12">
                         <p class="text-2xl">
                             Agent, congratulations on completing the next part of your mission! I was super excited to learn more about the self-driving cars. You know how much I love technology and gadgets!!
@@ -157,16 +119,8 @@ included our questions in this message.
                             You have earned the Machine Learning Master Badge and generated some more megajoules for
                             your journey back!
                         </p>
-
                     </div>
-                    <div class="w-10/12">
-                        <h1 class="text-3xl mailfrom" style="float: right;">{line.speakers[0]}</h1>
-                    </div>
-                    <button on:click={() => handleNavigation(NavigationDirection.forward)}>
-                        <img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
-                    </button>
-                </div>
-            </Tablet>
+            </ReadMessageModal>
         {/if}
     </div>
 </Scene>
@@ -191,60 +145,3 @@ included our questions in this message.
 {#if lineNumber == 9}
     <MegaJoulesGetModal amount={10} handleClick={() => handleNavigation(NavigationDirection.forward)} />
 {/if}
-
-
-<style>
-
-#mailicon {
-        height: 20vh;
-        animation: shake 1.5s infinite ease-in-out;
-    }
-
-    @keyframes shake {
-        0% { transform: rotate(0deg); }
-        10% { transform: rotate(5deg); }
-        15% { transform: rotate(0deg); }
-        20% { transform: rotate(-5deg); }
-        25% { transform: rotate(0deg); }
-    }
-
-    #readbutton, #nextbutton {
-        height: 10vh;
-        transition: transform 0.2s;
-    }
-
-    #readbutton:hover, #nextbutton:hover {
-        transform: scale(1.1);
-    }
-
-    #readbutton:active, #nextbutton:active {
-        transform: scale(0.9);
-    }
-
-    #mailscreen, #mailscreen2 {
-        justify-items: center;
-        align-items: center;
-        height: 100%;
-        gap: 1vh;
-    }
-
-    #nextbutton {
-        height: 7vh;
-        position: relative;
-        left: 40vh;
-    }
- 
-    #mailscreen2 {
-        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    }
-
-    #mailscreen2 ul li {
-        list-style-type: disc;
-        margin-left: 2vw;
-    }
-
-    .ps {
-        float: left;
-    }
-
-</style>

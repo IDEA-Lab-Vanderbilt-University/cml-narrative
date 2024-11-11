@@ -7,6 +7,7 @@
 	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
 	import IncomingMessageModal from '$lib/components/modals/IncomingMessageModal.svelte';
 	import MegaJoulesGetModal from '$lib/components/modals/MegaJoulesGetModal.svelte';
+	import ReadMessageModal from '$lib/components/modals/ReadMessageModal.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
@@ -150,55 +151,37 @@
             <IncomingMessageModal from="Captain Storm" onNext={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
         {#if lineNumber == 5}
-            <Tablet showMeter={false}>
-                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen2">
-                    <h1 class="text-5xl">Hello Agent,</h1>
+            <ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)}>
                     <div class="border-white border-2 p-4 w-7/12">
                         <p class="text-3xl">
                             {line.dialog}
                         </p>
                     </div>
-                    <h1 class="text-5xl mailfrom">{line.speakers[0]}</h1>
-                    <button on:click={() => handleNavigation(NavigationDirection.forward)}>
-                        <img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
-                    </button>
-                </div>
-
-            </Tablet>
+            </ReadMessageModal>
         {/if}
         {#if lineNumber == 10}
-            <Tablet showMeter={false}>
-                <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen2">
-                    <h1 class="text-3xl w-10/12">Hello Agent {agent.agentName},</h1>
-                    <div class="border-white border-2 p-2 w-10/12">
-                        <p class="text-2xl">
-                            I just read your travel log, and I wanted to thank you for the great work on algorithms! You and Bot Buddy have helped us understand that: 
-                        </p>
-                        <br/>
-                        <ul class="text-2xl">
-                            <li>Computer algorithms are instructions based on people's opinions</li>
-                            <li>We get different results with different algorithms</li>
-                            <li>This means some results may not benefit everyone</li>
-                        </ul>
-                        <br/>
-                        <p class="text-2xl">
-                            You have earned the Algorithm All Stars Badge and generated some 
+            <ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)} ps={[
+                'PS. All the agents were happy to learn there is still pizza in the future!',
+                'PPS. Agent Gear wants to hear more about future robots!'
+            ]}>
+                <div class="border-white border-2 p-2 w-10/12">
+                    <p class="text-2xl">
+                        I just read your travel log, and I wanted to thank you for the great work on algorithms! You and Bot Buddy have helped us understand that: 
+                    </p>
+                    <br/>
+                    <ul class="text-2xl">
+                        <li>Computer algorithms are instructions based on people's opinions</li>
+                        <li>We get different results with different algorithms</li>
+                        <li>This means some results may not benefit everyone</li>
+                    </ul>
+                    <br/>
+                    <p class="text-2xl">
+                        You have earned the Algorithm All Stars Badge and generated some 
 megajoules! I sent them right to your SPOT Tablet.
-                        </p>
+                    </p>
 
-                    </div>
-                    <div class="w-10/12">
-                        <div class="ps">
-                            <strong>PS. All the agents were happy to learn there is still pizza in the future!<br/>
-                                PPS. Agent Gear wants to hear more about future robots!</strong>
-                            </div>
-                        <h1 class="text-3xl mailfrom" style="float: right;">{line.speakers[0]}</h1>
-                    </div>
-                    <button on:click={() => handleNavigation(NavigationDirection.forward)}>
-                        <img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
-                    </button>
                 </div>
-            </Tablet>
+            </ReadMessageModal>
 
         {/if}
 
@@ -229,57 +212,5 @@ megajoules! I sent them right to your SPOT Tablet.
         background: url('/img/misc/pizzabox.png') no-repeat center center;
         background-size: 70vh auto;
         background-position-y: -5vh;
-    }
-
-    #mailicon {
-        height: 20vh;
-        animation: shake 1.5s infinite ease-in-out;
-    }
-
-    @keyframes shake {
-        0% { transform: rotate(0deg); }
-        10% { transform: rotate(5deg); }
-        15% { transform: rotate(0deg); }
-        20% { transform: rotate(-5deg); }
-        25% { transform: rotate(0deg); }
-    }
-
-    #readbutton, #nextbutton {
-        height: 10vh;
-        transition: transform 0.2s;
-    }
-
-    #readbutton:hover, #nextbutton:hover {
-        transform: scale(1.1);
-    }
-
-    #readbutton:active, #nextbutton:active {
-        transform: scale(0.9);
-    }
-
-    #mailscreen, #mailscreen2 {
-        justify-items: center;
-        align-items: center;
-        height: 100%;
-        gap: 1vh;
-    }
-
-    #nextbutton {
-        height: 7vh;
-        position: relative;
-        left: 40vh;
-    }
- 
-    #mailscreen2 {
-        font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    }
-
-    #mailscreen2 ul li {
-        list-style-type: disc;
-        margin-left: 2vw;
-    }
-
-    .ps {
-        float: left;
     }
 </style>
