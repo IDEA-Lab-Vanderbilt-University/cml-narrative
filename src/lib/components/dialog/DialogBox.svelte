@@ -102,14 +102,14 @@
 
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 			
-<div class="z-60 h-full w-full absolute inset-0 z-30 mt-auto flex h-fit items-end  pb-2 brightness-100">
+<div class="z-60 w-full absolute inset-0 z-30 mt-auto flex h-fit items-end pb-2 brightness-100">
 	<div class="flex w-full flex-col px-4">
 		<div class="relative z-20 flex w-full items-end justify-between align-bottom">
 			{#if line.avatars.length > 1}
 				<div class="flex w-full items-end justify-between align-bottom">
 					{#each line.avatars as avatar, i}
 						<div class="mr-14 self-end">
-							<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass="relative {line.speakers[i]? " -bottom-10 " : ""} z-20" size={line.size}  />
+							<DialogBoxAvatar avatar={avatar} speaker={line.speakers[i]} avatarClass="relative {line.speakers[i]? " -bottom-10 " : ""} z-20" size={line.size} mirror={line.mirror} />
 							{#if line.speakers[i]}
 								<div
 									class="bg-peach relative -bottom-4 -right-5 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
@@ -123,15 +123,15 @@
 				<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 					{line.speakers[0]}
 				</div>
-				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} />
+				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} mirror={line.mirror} />
 			{:else if line.pos == 'left'}
-				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} />
+				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} mirror={line.mirror} />
 				<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 					{line.speakers[0]}
 				</div>
 			{:else if line.pos == 'center'}
 				<div class="center">
-					<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}  size={line.size} />
+					<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}  size={line.size} mirror={line.mirror} />
 				</div>	
 				<div class=" bg-peach absolute -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 					{line.speakers[0]}
@@ -140,7 +140,7 @@
 				<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 					{line.speakers[0]}
 				</div>
-				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} />
+				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} mirror={line.mirror} />
 			{/if}
 		</div>
 

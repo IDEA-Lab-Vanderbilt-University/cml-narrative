@@ -61,4 +61,9 @@ export interface Line {
 	 * Size of the speaker's avatar (note: 'full' works best with 'center' pos)
 	 */
 	size?: 'normal' | 'full';
+
+	/**
+	 * Should the avatar be mirrored?
+	 */	
+	mirror?: boolean;
 }
