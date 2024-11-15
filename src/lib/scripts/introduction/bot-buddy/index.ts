@@ -66,10 +66,11 @@ const script: Script = {
 			id: 3,
 			speakers: ['Agent Fern'],
 			dialog: 'Bot Buddy!!!',
-			avatars: ['/img/characters/agent-fern/fern_point_inverted.png'],
+			avatars: ['/img/characters/agent-fern/fern_point.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_fern/agent_fern_l0s50.wav',
-			pos: 'right'
+			pos: 'right',
+			mirror: true
 		},
 		{
 			id: 4,
@@ -103,10 +104,11 @@ const script: Script = {
 			id: 7,
 			speakers: ['Agent Fern'],
 			dialog: 'It will be super useful in your mission to the future!',
-			avatars: ['/img/characters/agent-fern/fern_bro_inverted.png'],
+			avatars: ['/img/characters/agent-fern/fern_bro.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_fern/agent_fern_l0s54.wav',
-			pos: 'right'
+			pos: 'right',
+			mirror: true
 		},
 		{
 			id: 8,
