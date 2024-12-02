@@ -75,7 +75,7 @@ const Auth = {
 			console.log('Attempting to sign in user with data: ', credential);
 
 			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/auth/signin`, {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/auth/signin`, 'POST', {
 					email: credential.email,
 					password: credential.password
 				});
@@ -138,7 +138,7 @@ const Data = {
 			};
 
 			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, body, token);
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, 'POST', body, token);
 				resolve();
 			} catch (error) {
 				reject(error);
@@ -157,7 +157,7 @@ const Data = {
 				data: data
 			};
 			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, body, token);
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, 'POST', body, token);
 				resolve(res);
 			} catch (error) {
 				reject(error);
@@ -184,6 +184,7 @@ const Data = {
 
 				let res = await RequestFactory(
 					`${PUBLIC_BACKEND_API_URL}/api/uploadContent`,
+					'POST',
 					formData,
 					token
 				);
@@ -220,6 +221,7 @@ const Data = {
 
 						let res = await RequestFactory(
 							`${PUBLIC_BACKEND_API_URL}/api/uploadContent`,
+							'POST',
 							formData,
 							token
 						);
@@ -242,6 +244,7 @@ const Data = {
 
 					let res = await RequestFactory(
 						`${PUBLIC_BACKEND_API_URL}/api/uploadContent`,
+						'POST',
 						formData,
 						token
 					);
@@ -266,7 +269,7 @@ const Data = {
 			console.log(`Attempting to submit an response image for id ${id} with data: `, data);
 			let tlBody = getTravelLogBody(data, id, type);
 			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, tlBody, token);
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, 'POST', tlBody, token);
 				resolve();
 			} catch (error) {
 				reject(error);
@@ -285,7 +288,7 @@ const Data = {
 				data: data
 			};
 			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, body, token);
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, 'POST', body, token);
 				resolve();
 			} catch (error) {
 				reject(error);
@@ -351,30 +354,61 @@ const Data = {
 			}
 		});
 	},
-	signUpStudentsToClass: async () => {
+	fetchTeacherID: async () => {
+		return new Promise<string>(async (resolve, reject) => {
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/whoami`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	fetchStudents: async (teacher_id: string, include_progress: boolean = false) => {
+		return new Promise<Student[]>(async (resolve, reject) => {
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students?teacher_id=${teacher_id}&include_progress=${include_progress}`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	registerStudent: async (student: Student) => {
+		return new Promise<Student>(async (resolve, reject) => {
+			try {
+				console.log('student: ' + JSON.stringify(student));
+
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students`, 'POST', student);
+
+				console.log('registerStudent res: ', res);
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	deleteStudent: async (id: string) => {
+		return new Promise<void>(async (resolve, reject) => {
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students/${id}`, 'DELETE');
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	registerAllStudents: async (students: Student[]) => {
 		return new Promise<boolean>(async (resolve, reject) => {
 			try {
-				let students: Student[] = [];
-				studentClassStore.subscribe((data) => {
-					students = data;
-				});
-
+				// let students: Student[] = [];
+				// studentClassStore.subscribe((data) => {
+				// 	students = data;
+				// });
 				const responses = await Promise.all(
 					students.map(async (item) => {
 						try {
-							const res = await fetch(`${PUBLIC_BACKEND_API_URL}/api/auth/signup`, {
-								method: 'POST',
-								headers: { 'Content-Type': 'application/json' },
-								body: JSON.stringify({
-									name: { first: item.firstName, last: item.lastName },
-									email: item.email,
-									password: 'password'
-								})
-							});
-
-							if (!res.ok) {
-								throw new Error('Error signing up student');
-							}
+							const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students`, 'POST', item);
 							return res;
 						} catch (error) {
 							console.error('Error signing up student: ', error);

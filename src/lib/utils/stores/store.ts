@@ -161,3 +161,4 @@ let deafaultDragItems: DragStackItem[] = [
 export const dragItemsStore = writable<DragStackItem[]>(deafaultDragItems);
 export const harmfulHelpfulStore = writable<HarmfulHelpfulItem[]>([]);
 export const studentClassStore = writable<Student[]>([]);
+export const sessionTeacherID = writable('');

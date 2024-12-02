@@ -43,15 +43,14 @@
 <div
 	id="popup-modal"
 	tabindex="-1"
-	class="flex h-full items-center justify-center"
-	in:fly|global={{ y: 200, duration: 1000 }}
-	out:fly|global={{ y: 200, duration: 1000 }}>
-	>
+	class="absolute left-1/2 top-1/2 flex h-full -translate-x-1/2 -translate-y-1/2 transform items-center justify-center"
+	in:fly|global|global={{ y: 200, duration: 1000 }}
+	out:fly|global|global={{ y: 200, duration: 1000 }}>
 	<div class="relative max-h-full w-full max-w-md p-4">
 		<div class="relative rounded-lg bg-blue-800 shadow">
 			<button
 				type="button"
-				class="items-center absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 justify-center rounded-lg bg-transparent text-sm text-gray-400"
+				class="absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400"
 				on:click={close}>
 				<svg
 					class="h-3 w-3"
