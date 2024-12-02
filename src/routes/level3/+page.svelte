@@ -9,7 +9,7 @@
 	import DataService from '$lib/utils/DataService/index.js';
 	import { userDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
-	import script from '$lib/scripts/level2/index.js';
+	import script from '$lib/scripts/level3/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
 
@@ -61,7 +61,7 @@
 				updateLocalProgress(progress);
 				
                 // Next level
-                goto('/level3/outro?page=1');
+                goto('/level3/traininator?page=1');
 			} else {
 				goto(`/level3?page=${line.id + 1}`);
 			}
