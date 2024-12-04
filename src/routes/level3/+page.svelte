@@ -146,7 +146,7 @@
             content?.dispatchEvent(event);
 		}}
 		/>
-        {#if lineNumber > 4 && lineNumber < 14}
+        {#if lineNumber > 3 && lineNumber < 13}
             <div class="signs">
                 {#each signMessages as sign, i}
                     <div class="signOuter" style="animation-duration: {signAnimationDurations[i]}s; animation-delay: {signAnimationDelays[i]}s">
