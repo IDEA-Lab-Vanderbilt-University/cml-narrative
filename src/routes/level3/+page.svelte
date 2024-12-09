@@ -146,6 +146,11 @@
             content?.dispatchEvent(event);
 		}}
 		/>
+        {#if lineNumber == 3}
+            <img src="/img/characters/bot-buddy/bot-buddy-protest-screen.png" id="bbscreen"/>
+            <button id="bbscreenbtn" on:click={() => handleNavigation(NavigationDirection.forward)}>
+                </button>
+        {/if}
         {#if lineNumber > 3 && lineNumber < 13}
             <div class="signs">
                 {#each signMessages as sign, i}
@@ -163,6 +168,26 @@
 </Scene>
 
 <style>
+#bbscreen {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    transform: translateX(-50%);
+}
+
+#bbscreenbtn {
+    position: absolute;
+    top: 40%;
+    left: calc(50% - 15vh);
+    height: 30%;
+    width: 30vh;
+    background: none;
+    border: none;
+}
+
 .signs {
     display: flex;
     justify-content: space-between;
