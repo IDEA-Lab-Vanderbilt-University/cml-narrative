@@ -14,12 +14,27 @@
 			goto('/traininator?page=2');
 		}}
 		class="my-5 mt-10 flex items-center justify-center gap-5 rounded-full border-2 border-white bg-blue-400 bg-opacity-75 px-4 py-3 align-middle shadow-md">
-		<p class="mx-5 text-xl font-bold text-gray-800">New Model</p>
+		<p class="mx-5 text-xl font-bold text-white">New Model</p>
 	</button>
 
 	<button
 		on:click={() => {}}
 		class="my-5 flex items-center justify-center gap-5 rounded-full border-2 border-white bg-orange-400 bg-opacity-75 px-4 py-3 align-middle shadow-md">
-		<p class="mx-5 text-xl font-bold text-gray-800">Load Model</p>
+		<p class="mx-5 text-xl font-bold text-white">Load Model</p>
 	</button>
 </div>
+
+
+<style>
+	button {
+		transition: all 0.3s;
+	}
+
+	button:hover {
+		transform: scale(1.05);
+	}
+
+	button:active {
+		transform: scale(0.95);
+	}
+</style>
