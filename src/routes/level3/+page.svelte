@@ -12,6 +12,8 @@
 	import script from '$lib/scripts/level3/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
+	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
+	import PizzaDisplay from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
 
 	export let data;
 
@@ -130,6 +132,118 @@
         -7,
         -8,
     ];
+
+    let trainingSetImgs = [
+        'pexels-10761393.jpg',
+        'pexels-3936894.jpg',
+        'pexels-5940020.jpg',
+        'pexels-5940022.jpg',
+        'pexels-alena-darmel-7322232.jpg',
+        'pexels-alexandru-molnar-7597466.jpg',
+        'pexels-allan-franca-carmo-5333090.jpg',
+        'pexels-amina-filkins-5561138.jpg',
+        'pexels-amina-filkins-5561141.jpg',
+        'pexels-anastasia-shuraeva-5704405.jpg',
+        'pexels-anastasia-shuraeva-5704736.jpg',
+        'pexels-andrea-piacquadio-3781916.jpg',
+        'pexels-andrea-piacquadio-3831569.jpg',
+        'pexels-andrea-piacquadio-3868631.jpg',
+        'pexels-andrea-piacquadio-788567.jpg',
+        'pexels-anna-shvets-5067742.jpg',
+        'pexels-anna-shvets-5257317.jpg',
+        'pexels-anna-shvets-5257474.jpg',
+        'pexels-anna-shvets-5257477.jpg',
+        'pexels-anna-shvets-5257495.jpg',
+        'pexels-anna-shvets-5257499.jpg',
+        'pexels-anna-shvets-5257554.jpg',
+        'pexels-arthouse-studio-4571943.jpg',
+        'pexels-august-de-richelieu-7428149.jpg',
+        'pexels-barbara-olsen-7869697.jpg',
+        'pexels-bhavesh-jain-3559739.jpg',
+        'pexels-chevanon-photography-2421934.jpg',
+        'pexels-cottonbro-10057606.jpg',
+        'pexels-cottonbro-5961941.jpg',
+        'pexels-cottonbro-6292756.jpg',
+        'pexels-cottonbro-6293197.jpg',
+        'pexels-cottonbro-6690063.jpg',
+        'pexels-cottonbro-7609953.jpg',
+        'pexels-dayvison-de-oliveira-silva-6263047.jpg',
+        'pexels-douglas-santiago-2589409.jpg',
+        'pexels-engin-akyurt-2174606.jpg',
+        'pexels-estudio-polaroid-3116381.jpg',
+        'pexels-evelina-zhu-5737177.jpg',
+        'pexels-furkanfdemir-6206939.jpg',
+        'pexels-furkanfdemir-7124299.jpg',
+        'pexels-gabriel-santos-1843896.jpg',
+        'pexels-gary-barnes-6248659.jpg',
+        'pexels-george-milton-6953595.jpg',
+        'pexels-ghen-mar-4313354.jpg',
+        'pexels-griffin-wooldridge-5088236.jpg',
+        'pexels-himesh-mehta-2856346.jpg',
+        'pexels-hitesh-ghate-2601464.jpg',
+        'pexels-italo-melo-1786258.jpg',
+        'pexels-ivan-babydov-7787914.jpg',
+        'pexels-jaroslav-nymbursk-3862753.jpg',
+        'pexels-jonas-kakaroto-2850984.jpg',
+        'pexels-jonas-kakaroto-2850985.jpg',
+        'pexels-joshua-mcknight-1139245.jpg',
+        'pexels-juan-vargas-6398330.jpg',
+        'pexels-kaboompics-com-6110.jpg',
+        'pexels-kampus-production-6667685.jpg',
+        'pexels-kampus-production-6950704.jpg',
+        'pexels-kampus-production-8422670.jpg',
+        'pexels-ketut-subiyanto-4350178.jpg',
+        'pexels-kindel-media-8172610.jpg',
+        'pexels-laura-garcia-3271268.jpg',
+        'pexels-laura-tancredi-7065261.jpg',
+        'pexels-liza-summer-6383015.jpg',
+        'pexels-los-muertos-crew-10041269.jpg',
+        'pexels-lucas-pezeta-1878522.jpg',
+        'pexels-marcelo-chagas-6357429.jpg',
+        'pexels-marcus-aurelius-6787920.jpg',
+        'pexels-marcus-aurelius-6787936.jpg',
+        'pexels-marllon-cristhian-barbosa-3110392.jpg',
+        'pexels-mart-production-7328511.jpg',
+        'pexels-mart-production-7330712.jpg',
+        'pexels-mary-taylor-5896618.jpg',
+        'pexels-meruyert-gonullu-6888761.jpg',
+        'pexels-michelle-zallouaa-6816181.jpg',
+        'pexels-mikhail-nilov-8317673.jpg',
+        'pexels-moe-magners-5333749.jpg',
+        'pexels-moe-magners-5335305.jpg',
+        'pexels-moe-magners-5335306.jpg',
+        'pexels-monstera-5876516.jpg',
+        'pexels-monstera-6238083.jpg',
+        'pexels-monstera-6310890.jpg',
+        'pexels-monstera-6311127.jpg',
+        'pexels-monstera-6311661.jpg',
+        'pexels-namgel-sherpa-4490075.jpg',
+        'pexels-omar-ramadan-6577460.jpg',
+        'pexels-ono-kosuki-5648376.jpg',
+        'pexels-ono-kosuki-5999814.jpg',
+        'pexels-pnw-production-8980772.jpg',
+        'pexels-polina-tankilevitch-6927556.jpg',
+        'pexels-rene-asmussen-638196.jpg',
+        'pexels-rodnae-productions-7845361.jpg',
+        'pexels-shvets-production-7544674.jpg',
+        'pexels-shvets-production-7544926.jpg',
+        'pexels-shvets-production-7545335.jpg',
+        'pexels-skyler-ewing-4904586.jpg',
+        'pexels-skyler-ewing-5422380.jpg',
+        'pexels-skyler-ewing-5422381.jpg',
+        'pexels-sora-shimazaki-5673486.jpg',
+        'pexels-svh-4250875.jpg',
+        'pexels-tarzine-jackson-773371.jpg',
+        'pexels-team-maestroo-4150434.jpg',
+        'pexels-tehmasip-khan-9678499.jpg',
+        'pexels-teona-swift-6873954.jpg',
+        'pexels-teona-swift-6873993.jpg',
+        'pexels-teona-swift-6874030.jpg',
+        'pexels-tim-mossholder-3336057.jpg',
+        'pexels-tim-samuel-5835016.jpg',
+        'pexels-vincent-tan-6934326.jpg',
+        'pexels-yaroslav-shuraev-8087566.jpg',
+    ];
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -138,14 +252,16 @@
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
-		<TabletButton on:click={() => { 
-            const event  = new CustomEvent('showTablet', {
-                bubbles: true
-            });
-            
-            content?.dispatchEvent(event);
-		}}
-		/>
+        {#if lineNumber != 17}
+            <TabletButton on:click={() => { 
+                const event  = new CustomEvent('showTablet', {
+                    bubbles: true
+                });
+                
+                content?.dispatchEvent(event);
+            }}
+            />
+        {/if}
         {#if lineNumber == 3}
             <img src="/img/characters/bot-buddy/bot-buddy-protest-screen.png" id="bbscreen"/>
             <button id="bbscreenbtn" on:click={() => handleNavigation(NavigationDirection.forward)}>
@@ -163,6 +279,24 @@
                     </div>
                 {/each}
             </div>
+        {/if}
+        {#if lineNumber == 16 || lineNumber == 18}
+            <div id="faketablet">
+                <div id="faketabletcontent">
+                    {#each trainingSetImgs as img}
+                        <img src={'/img/traininator datasets/training set 1/' + img} />
+                    {/each}
+                </div>
+            </div>
+        {/if}
+        {#if lineNumber == 17}
+            <TextResponseModal id="carTrainingSet" title={`What groups of people are represented in this dataset? What groups of people are not represented in this dataset?`} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />    
+        {/if}
+        {#if lineNumber == 20}
+                <img src="/img/misc/thoughts.png" id="thoughtbubble"/>
+                <div id="thoughtpizza">
+                    <PizzaDisplay crust="thick" sauce="marinara" cheese veggies={['bolts']} finishingTouches={['jalapeno']}/>
+                </div>
         {/if}
     </div>
 </Scene>
@@ -232,4 +366,64 @@
     }
 }
 
+#faketablet {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    border: 1vw solid #666;
+    border-radius: 4vw;
+}
+
+#faketablet::after {
+    /* Screen shine effect*/
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: calc(100% + 1vw);
+    height: calc(100% + 1vw);
+    background: linear-gradient(140deg, rgba(255,255,255,0.25) 0%,rgba(255,255,255,0.15) 35%, rgba(255,255,255,0) 45%);
+    border-radius: 3vw;
+}
+
+#faketabletcontent {
+    position: absolute;
+    top: 2vw;
+    left: 2vw;
+    width: calc(100% - 4vw);
+    height: calc(100% - 4vw);
+    background-color: #eee;
+    border-radius: 2vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 2vw;
+    padding: 2vw;
+}
+
+#faketabletcontent img {
+    width: 10%;
+    height: 30%;
+    object-fit: cover;
+    border-radius: 1vw;
+}
+
+#thoughtbubble {
+    position: absolute;
+    top: 0;
+    left: 60%;
+    height: 50%;
+    width: auto;
+    object-fit: cover;
+}
+
+#thoughtpizza {
+    position: absolute;
+    top: 0;
+    left: 60%;
+    transform: scale(0.5) translateY(-10%);
+}
 </style>
