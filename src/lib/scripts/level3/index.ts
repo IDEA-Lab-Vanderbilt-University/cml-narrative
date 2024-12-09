@@ -54,7 +54,7 @@ const script: Script = {
             id: 3,
             speakers: ['Bot Buddy'],
             dialog: 'Isn\'t this that same kid, Kelvin, we met earlier in front of the school? Agent, push on my belly screen to activate the story.',
-            avatars: ['/img/characters/bot-buddy/bot-buddy-ohno.png'],
+            avatars: [''],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S3.mp3',
             pos: 'center',
