@@ -82,7 +82,7 @@ const script: Script = {
         {
             id: 6,
             speakers: ['Kelvin'],
-            dialog: 'It\'s not just me! There are other kids that have had the same problems. Let\'s hear from them.!',
+            dialog: 'It\'s not just me! There are other kids that have had the same problems. Let\'s hear from them!',
             avatars: ['/img/characters/level-2/boy/boy_talking-removebg-preview.png'],
             background: '/img/backgrounds/level3/2.png',
             audio: '/audio/level3/kelvin/kelvin_L3_S6.mp3',
