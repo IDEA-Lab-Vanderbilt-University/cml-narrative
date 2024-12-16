@@ -252,13 +252,17 @@
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
-        {#if lineNumber != 17}
+        {#if ![16, 17, 18].includes(lineNumber)}
             <TabletButton on:click={() => { 
-                const event  = new CustomEvent('showTablet', {
-                    bubbles: true
-                });
-                
-                content?.dispatchEvent(event);
+                if (lineNumber == 15) {
+                    handleNavigation(NavigationDirection.forward);
+                } else {
+                    const event  = new CustomEvent('showTablet', {
+                        bubbles: true
+                    });
+                    
+                    content?.dispatchEvent(event);
+                }
             }}
             />
         {/if}
