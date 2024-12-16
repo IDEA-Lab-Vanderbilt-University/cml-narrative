@@ -259,6 +259,31 @@
     {#if lineNumber == 1}
 
     <div id='header'><div class="activestep">Training</div><div>Testing</div></div>
+    <div>
+        <div id="left">
+            <div class="header">Categories</div>
+            <ul id="categories">
+                <li>Face ({trainingSetImgs.length})</li>
+                <li>No Face ({trainingSet2Imgs.length})</li>
+            </ul>
+            <div class="header">Model Booster (x2)</div>
+            <ul id="boosters">
+                <li>Rotate</li>
+                <li>Flip</li>
+                <li>Adjust</li>
+            </ul>
+
+            <button>Train Model</button>
+        </div>
+        <div id="right">
+            <div class="header">Training Data</div>
+            <div class="training-set">
+                {#each trainingSetImgs as img}
+                    <img src={'/img/traininator datasets/training set 1/' + img} alt={img} />
+                {/each}
+            </div>
+        </div>
+    </div>
 
     {/if}
 </Tablet>
