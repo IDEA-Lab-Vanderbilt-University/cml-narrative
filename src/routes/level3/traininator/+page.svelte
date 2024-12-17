@@ -258,37 +258,82 @@
 <Tablet showMeter={false}>
     {#if lineNumber == 1}
 
-    <div id='header'><div class="activestep">Training</div><div>Testing</div></div>
-    <div>
-        <div id="left">
-            <div class="header">Categories</div>
-            <ul id="categories">
-                <li>Face ({trainingSetImgs.length})</li>
-                <li>No Face ({trainingSet2Imgs.length})</li>
-            </ul>
-            <div class="header">Model Booster (x2)</div>
-            <ul id="boosters">
-                <li>Rotate</li>
-                <li>Flip</li>
-                <li>Adjust</li>
-            </ul>
+        <div id='header'><div class="activestep">Training</div><div>Testing</div></div>
+        <div id="traininatorbody">
+            <div id="left">
+                <div class="header">Categories</div>
+                <ul id="categories">
+                    <li>Face ({trainingSetImgs.length})</li>
+                    <li>No Face ({trainingSet2Imgs.length})</li>
+                </ul>
+                <div class="header">Model Booster (x2)</div>
+                <ul id="boosters">
+                    <li>Rotate</li>
+                    <li>Flip</li>
+                    <li>Adjust</li>
+                </ul>
 
-            <button>Train Model</button>
-        </div>
-        <div id="right">
-            <div class="header">Training Data</div>
-            <div class="training-set">
-                {#each trainingSetImgs as img}
-                    <img src={'/img/traininator datasets/training set 1/' + img} alt={img} />
-                {/each}
+                <button>Train Model</button>
+            </div>
+            <div id="right">
+                <div class="header">Training Data</div>
+                <div id="trainingSets">
+                    <div class="trainingSet">
+                        {#each trainingSetImgs as img}
+                            <img src={'/img/traininator datasets/training set 1/' + img} alt={img} class="trainingImg" />
+                        {/each}
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
     {/if}
 </Tablet>
 
 <style>
+    #traininatorbody {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        margin: 10px;
+        width: 100%;
+        align-content: center;
+        gap: 2vw;
+        width: 80vw;
+        margin: 0 auto;
+    }
+
+
+    .trainingSet {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+
+    .trainingImg {
+        width: 7.5vw;
+        height: 7.5vw;
+        margin: 0.25vw;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 5px;
+    }
+
+    #trainingSets {
+        overflow: scroll;
+        height: 70vh;
+    }
+
+    #left {
+        width: 20vw; 
+        min-width: 20vw;
+    }
+
+    .header {
+        color: #eee;
+        font-size: 1.5rem;
+    }
+
     #header {
         display: flex;
         justify-content: space-between;
