@@ -263,24 +263,35 @@
             <div id="left">
                 <div class="header">Categories</div>
                 <ul id="categories">
-                    <li>Face ({trainingSetImgs.length})</li>
-                    <li>No Face ({trainingSet2Imgs.length})</li>
+                    <li><span>Face</span> ({trainingSetImgs.length})</li>
+                    <li><span>No Face</span> ({trainingSet2Imgs.length})</li>
                 </ul>
                 <div class="header">Model Booster (x2)</div>
                 <ul id="boosters">
-                    <li>Rotate</li>
-                    <li>Flip</li>
-                    <li>Adjust</li>
+                    <li><input type="radio" id="rotate" name="booster" value="rotate"><label for="rotate">Rotate</label></li>
+                    <li><input type="radio" id="flip" name="booster" value="flip"><label for="flip">Reflect</label></li>
+                    <li><input type="radio" id="adjust" name="booster" value="adjust"><label for="adjust">Recolor</label></li>
                 </ul>
 
-                <button>Train Model</button>
+                <button id="trainButton">Train Model</button>
             </div>
             <div id="right">
                 <div class="header">Training Data</div>
                 <div id="trainingSets">
                     <div class="trainingSet">
+                        <div class="trainingSetHeader">
+                            <h2>Face ({trainingSetImgs.length}):</h2>
+                        </div>
                         {#each trainingSetImgs as img}
                             <img src={'/img/traininator datasets/training set 1/' + img} alt={img} class="trainingImg" />
+                        {/each}
+                    </div>
+                    <div class="trainingSet">
+                        <div class="trainingSetHeader">
+                            <h2>No Face ({trainingSet2Imgs.length}):</h2>
+                        </div>
+                        {#each trainingSet2Imgs as img}
+                            <img src={'/img/traininator datasets/training set 2/' + img} alt={img} class="trainingImg" />
                         {/each}
                     </div>
                 </div>
@@ -331,7 +342,97 @@
 
     .header {
         color: #eee;
+        font-size: 2.5rem;
+        width: 100%;
+        text-align: center;
+        border-bottom: #eee 0.5vh solid;
+        margin-bottom: 1vh;
+    }
+
+    .trainingSetHeader {
+        color: #eee;
+        font-size: 2rem;
+        width: 100%;
+    }
+
+    #categories {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    #categories li {
+        color: #eee;
+        cursor: pointer;
         font-size: 1.5rem;
+        width: 80%;
+        margin: 1vh auto;
+        text-align: justify; 
+        text-align-last: justify;
+    }
+
+    #categories li span {
+        text-justify: none;
+    }
+
+    #boosters {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    #boosters input[type="radio"] {
+        display: none;
+    }
+
+    #boosters input[type="radio"] + label {
+        color: #eee;
+        cursor: pointer;
+        font-size: 1.5rem;
+        width: 100%;
+        margin: 1vh auto;
+        text-align: center;
+        background-color: #f0f0f01d;
+        border-radius: 10px;
+        transition: 0.3s;
+        display: block;
+    }
+
+    #boosters input[type="radio"]:hover + label {
+        background-color: #f0f0f0d1;
+        color: #000;
+    }
+
+    #boosters input[type="radio"]:active + label {
+        background-color: #f0f0f0;
+        color: #000;
+    }
+
+    #boosters input[type="radio"]:checked + label {
+        background-color: #50107a;
+        color: #eee;
+    }
+
+    #trainButton {
+        background: radial-gradient(farthest-corner at bottom right, #49c5ff 75%, #fff 100%);
+        background-color: #49c5ff;
+        color: #111;
+        border: none;
+        border: 2px solid #289dd3;
+        height: 7vh;
+        border-radius: 3.5vh;
+        padding: 1vh 2vw;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: 0.3s;
+        display: block;
+        margin: 5vh auto;
+    }
+
+    #trainButton:hover {
+        transform: scale(1.05);
+    }
+
+    #trainButton:active {
+        transform: scale(0.95);
     }
 
     #header {
