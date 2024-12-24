@@ -13,71 +13,8 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
 	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
-	import PizzaDisplay from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
 
-	export let data;
-
-	let line: Line;
-	$: line = data.line;
-
-    let lineNumber = 1;
-    $: lineNumber = line.id;
-
-	/**
-	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
-	 * @param event can be destructured to obtain which way the dialog in a script should progress
-	 */
-	const handleDialogEvent = async (event: any) => {
-		var state: NavigationDirection = event.detail.state;
-
-		handleNavigation(state);
-	};
-
-	const getUpdatedProgress = ():UserProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-one',
-			subLevel: 0,
-			subLevelLabel: '/level1?page=1',
-			lastUpdated: new Date()
-		};
-	}
-
-	const updateLocalProgress = (progress: UserProgress) => {
-		userDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		})
-	}
-
-	/**
-	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
-	 * the user to the appropriate url with appropriate querystring which represents
-	 * which line in the script should be returned to the user.
-	 */
-	const handleNavigation = async (direction: NavigationDirection) => {
-		if (direction == NavigationDirection.forward) {
-			if (line.id == script.lines.length) {
-				let progress = getUpdatedProgress();
-				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress);
-				
-                // Next level
-                goto('/level3/outro?page=1');
-			} else {
-				goto(`/level3/traininator??page=${line.id + 1}`);
-			}
-		} else if (direction == NavigationDirection.backward) {
-			if(line.id > 1) {
-				goto(`/level3/traininator?page=${line.id - 1}`);
-			} else {
-				goto('/level3?page=23');
-			}
-		}
-	};
-
-
-
+    let step = 1;
 
     let trainingSetImgs = [
         'pexels-10761393.jpg',
@@ -253,10 +190,20 @@
         'Picture9.jpg',
     ];
 
+    let model;
+
+    const startTraining = () => {
+        step = 2;
+    }
+
 </script>
 
+<svelte:head>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
+</svelte:head>
+
 <Tablet showMeter={false}>
-    {#if lineNumber == 1}
+    {#if step == 1}
 
         <div id='header'><div class="activestep">Training</div><div>Testing</div></div>
         <div id="traininatorbody">
@@ -273,7 +220,7 @@
                     <li><input type="radio" id="adjust" name="booster" value="adjust"><label for="adjust">Recolor</label></li>
                 </ul>
 
-                <button id="trainButton">Train Model</button>
+                <button id="trainButton" on:click={startTraining}>Train Model</button>
             </div>
             <div id="right">
                 <div class="header">Training Data</div>
@@ -297,6 +244,10 @@
                 </div>
             </div>
         </div>
+
+    {:else if step == 2}
+        <div id='header'><div class="activestep">Training</div><div>Testing</div></div>
+
 
     {/if}
 </Tablet>
