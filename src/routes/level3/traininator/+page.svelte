@@ -263,6 +263,7 @@
         gap: 2vw;
         width: 80vw;
         margin: 0 auto;
+        height: 60vh;
     }
 
 
@@ -282,8 +283,9 @@
     }
 
     #trainingSets {
-        overflow: scroll;
-        height: 70vh;
+        overflow-y: scroll;
+        height: 50vh;
+        scrollbar-color: white transparent;
     }
 
     #left {
