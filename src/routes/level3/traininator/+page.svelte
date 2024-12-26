@@ -196,6 +196,38 @@
         step = 2;
     }
 
+    let booster = 'none';
+
+    const updateBooster = (event: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
+        booster = event?.target?.value || 'none';
+    }
+
+
+    const getBoosterStyle = (booster, img) => {
+        switch (booster) {
+            case 'rotate':
+                const angleMax = 25; // Maximum rotation angle in degrees
+
+                // Random rotation angle between -angleMax and +angleMax
+                const angle = ((Math.random() + 0.25) * 1.8 * angleMax) - angleMax;
+
+                // Scale depends on the angle: the more the angle, the smaller the scale range
+                const scaleBase = 1.1; // Base scale to ensure it overflows slightly
+                const scaleFactor = Math.max(1.65, Math.abs(angle) / angleMax * 2.5); // Adjust scale based on angle
+                const scale = scaleBase + Math.random() * (scaleFactor - scaleBase);
+
+                // Create a CSS transform string
+                const transform = `transform: scale(${scale}) rotate(${angle}deg)`;
+
+                return transform;
+            case 'flip':
+                return 'transform: scaleX(-1);';
+            case 'adjust':
+                return 'filter: hue-rotate(' + Math.round((Math.random() * 20 + 10) * Math.sign(Math.random() - 0.5) ) + 'deg) saturate(' + Math.round(Math.random() * 2 + 1) + ');';
+            default:
+                return '';
+        }
+    }
 </script>
 
 <svelte:head>
@@ -210,14 +242,15 @@
             <div id="left">
                 <div class="header">Categories</div>
                 <ul id="categories">
-                    <li><span>Face</span> ({trainingSetImgs.length})</li>
-                    <li><span>No Face</span> ({trainingSet2Imgs.length})</li>
+                    <li><a href="#face"><span>Face</span> ({trainingSetImgs.length})</a></li>
+                    <li><a href="#noFace"><span>No Face</span> ({trainingSet2Imgs.length})</a></li>
                 </ul>
                 <div class="header">Model Booster (x2)</div>
                 <ul id="boosters">
-                    <li><input type="radio" id="rotate" name="booster" value="rotate"><label for="rotate">Rotate</label></li>
-                    <li><input type="radio" id="flip" name="booster" value="flip"><label for="flip">Reflect</label></li>
-                    <li><input type="radio" id="adjust" name="booster" value="adjust"><label for="adjust">Recolor</label></li>
+                    <li><input type="radio" id="none" name="booster" value="none" checked on:change={updateBooster}><label for="none">None</label></li>
+                    <li><input type="radio" id="rotate" name="booster" value="rotate" on:change={updateBooster}><label for="rotate">Rotate</label></li>
+                    <li><input type="radio" id="flip" name="booster" value="flip" on:change={updateBooster}><label for="flip">Reflect</label></li>
+                    <li><input type="radio" id="adjust" name="booster" value="adjust" on:change={updateBooster}><label for="adjust">Recolor</label></li>
                 </ul>
 
                 <button id="trainButton" on:click={startTraining}>Train Model</button>
@@ -226,20 +259,38 @@
                 <div class="header">Training Data</div>
                 <div id="trainingSets">
                     <div class="trainingSet">
+                        <a id="face" />
                         <div class="trainingSetHeader">
                             <h2>Face ({trainingSetImgs.length}):</h2>
                         </div>
-                        {#each trainingSetImgs as img}
-                            <img src={'/img/traininator datasets/training set 1/' + img} alt={img} class="trainingImg" />
-                        {/each}
+                        <div class="trainingSetImages">
+                            {#each trainingSetImgs as img}
+                                <img src={'/img/traininator datasets/training set 1/' + img} alt={img} class="trainingImg" />
+                            {/each}
+                        </div>
+                        {#if booster != 'none'}
+                            <div class="boosterImages">
+                                {#each trainingSetImgs as img}
+                                    <div class="imgContainer">
+                                        <img src={'/img/traininator datasets/training set 1/' + img} alt={img} class="trainingImg" style={getBoosterStyle(booster, img)} />
+                                    </div>
+                                {/each}
+                            </div>
+                            <div class="boosterOverlay">
+                                +{trainingSetImgs.length} Boosted Images!
+                            </div>
+                        {/if}
                     </div>
                     <div class="trainingSet">
+                        <a id="noFace" />
                         <div class="trainingSetHeader">
                             <h2>No Face ({trainingSet2Imgs.length}):</h2>
                         </div>
-                        {#each trainingSet2Imgs as img}
-                            <img src={'/img/traininator datasets/training set 2/' + img} alt={img} class="trainingImg" />
-                        {/each}
+                        <div class="trainingSetImages">
+                            {#each trainingSet2Imgs as img}
+                                <img src={'/img/traininator datasets/training set 2/' + img} alt={img} class="trainingImg" />
+                            {/each}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -266,16 +317,71 @@
         height: 60vh;
     }
 
+    .trainingSetImages {
+        display: flex;
+        flex-wrap: wrap;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .boosterImages {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: hidden;
+        width: 100%;
+        max-width: 55vw;
+    }
+
+    .boosterImages .imgContainer {
+        width: 7.5vw;
+        min-width: 7.5vw;
+        height: 7.5vw;
+        min-height: 7.5vw;
+        aspect-ratio: 1/1;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        position: relative;
+        background-color: #f0f0f01d;
+        margin: 0.25vw;
+    }
+
+    .boosterImages .imgContainer img {
+        width: 7.5vw;
+        min-width: 7.5vw;
+        height: 7.5vw;
+        min-height: 7.5vw;
+        transform-origin: center center;
+        margin: 0;
+    }
+
+    .boosterOverlay {
+        background-color: #555555a9;
+        color: #eee;
+        font-size: 1.5rem;
+        width: 75%;
+        margin: 1vh auto;
+        text-align: center;
+        border-radius: 10px;
+        padding: 1vh 0;
+        position: relative;
+        z-index: 1;
+        top: -12vh;
+    }
 
     .trainingSet {
         display: flex;
         flex-wrap: wrap;
     }
 
-
     .trainingImg {
         width: 7.5vw;
         height: 7.5vw;
+        aspect-ratio: 1/1;
         margin: 0.25vw;
         object-fit: cover;
         object-position: center;
@@ -295,7 +401,7 @@
 
     .header {
         color: #eee;
-        font-size: 2.5rem;
+        font-size: 2rem;
         width: 100%;
         text-align: center;
         border-bottom: #eee 0.5vh solid;
@@ -347,6 +453,7 @@
         border-radius: 10px;
         transition: 0.3s;
         display: block;
+        user-select: none;
     }
 
     #boosters input[type="radio"]:hover + label {
