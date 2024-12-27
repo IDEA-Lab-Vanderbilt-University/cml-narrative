@@ -13,6 +13,7 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
 	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
+    import { onMount } from 'svelte';
 
     let step = 1;
 
@@ -199,11 +200,13 @@
     let booster = 'none';
 
     const updateBooster = (event: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
-        booster = event?.target?.value || 'none';
+        const target = event.target as HTMLInputElement;
+        if (target) {
+            booster = target.value || 'none';
+        }
     }
 
-
-    const getBoosterStyle = (booster, img) => {
+    const getBoosterStyle = (booster: string, img: string) => {
         switch (booster) {
             case 'rotate':
                 const angleMax = 25; // Maximum rotation angle in degrees
@@ -228,6 +231,41 @@
                 return '';
         }
     }
+
+    let mobilenet: tf.GraphModel | null = null;
+    const MOBILE_NET_INPUT_HEIGHT = 224;
+    const MOBILE_NET_INPUT_WIDTH = 224;
+
+    /**
+     * Loads the MobileNet model and warms it up so ready for use.
+     **/
+    async function loadMobileNetFeatureModel() {
+        if (mobilenet) {
+            return;
+        }
+
+        if (!tf) {
+            console.error('TensorFlow.js not loaded');
+            return;
+        }
+
+        const URL = 
+            'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1';
+        
+        mobilenet = await tf.loadGraphModel(URL, {fromTFHub: true});
+        
+        // Warm up the model by passing zeros through it once.
+        tf.tidy(function () {
+            let answer = mobilenet.predict(tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3]));
+            console.log(answer.shape);
+        });
+    }
+
+
+    onMount(async () => {
+        console.log('Component mounted');
+        await loadMobileNetFeatureModel();
+    });
 </script>
 
 <svelte:head>
@@ -299,6 +337,9 @@
     {:else if step == 2}
         <div id='header'><div class="activestep">Training</div><div>Testing</div></div>
 
+        <div class="header">Training Model</div>
+        
+        <progress id="trainingProgress" value="50" max="100"></progress>
 
     {/if}
 </Tablet>
@@ -517,5 +558,18 @@
     #header div.activestep {
         background-color: #f0f0f0;
         color: #000;
+    }
+
+    #trainingProgress {
+        width: 80%;
+        position: relative;
+        left: 10%;
+        top: 20vh;
+        margin: 0 auto;
+        height: 5vh;
+        border-radius: 1vh;
+        background-color: #f0f0f01d;
+        transition: 0.3s;
+        filter: drop-shadow(0 0 0.75vh #30e0ff);
     }
 </style>
