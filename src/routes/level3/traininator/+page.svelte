@@ -1,19 +1,15 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
-	import Scene from '$lib/components/scene/Scene.svelte';
-	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
-	import { NavigationDirection } from '$lib/types/Enums';
-	import type { Line } from '$lib/types/Script';
 	import type { UserProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
 	import { userDataStore } from '$lib/utils/stores/store.js';
-	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level3/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
 	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
-    import { onMount } from 'svelte';
+    import { onMount, onDestroy } from 'svelte';
+    import * as tf from '@tensorflow/tfjs';
+
 
     let step = 1;
 
@@ -252,6 +248,11 @@
         
         mobilenet = await tf.loadGraphModel(URL, {fromTFHub: true});
         
+        if (!mobilenet) {
+            console.error('Failed to load MobileNet model');
+            return;
+        }
+
         // Warm up the model by passing zeros through it once.
         tf.tidy(function () {
             let answer = mobilenet.predict(tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3]));
@@ -262,6 +263,16 @@
     onMount(async () => {
         console.log('Component mounted');
         await loadMobileNetFeatureModel();
+    });
+
+    onDestroy(() => {
+        if (mobilenet) {
+            mobilenet.dispose();
+        }
+
+        if (model) {
+            model.dispose();
+        }
     });
 
     let trainingProgress = 0;
@@ -356,11 +367,19 @@
         await model.fit(xs, ys, {
             epochs,
             callbacks: {
-                onEpochEnd: async (epoch, logs) => {
+                onEpochEnd: async (epoch: number, logs: any) => {
                     trainingProgress = Math.round((epoch + 1) / 10 * 90) + 10;
                     trainingStep = 'Training Model... (' + (epoch + 1) + '/' + epochs + ')';
 
                     console.log('Epoch: ', epoch, ' Loss: ', logs.loss, ' Accuracy: ', logs.acc);
+
+                    if (epoch === epochs - 1) {
+                        trainingProgress = 100;
+                        trainingStep = 'Training Complete!';
+                        setTimeout(() => {
+                            step = 3;
+                        }, 2000);
+                    }
                 }
             }
         });
@@ -374,10 +393,6 @@
         }
     }
 </script>
-
-<svelte:head>
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"> </script>
-</svelte:head>
 
 <Tablet showMeter={false}>
     {#if step == 1}
@@ -448,9 +463,12 @@
         
         <progress id="trainingProgress" value={trainingProgress} max="100"></progress>
         <div id="trainingStep">{trainingStep}</div>
+    {:else if step == 3}
+        <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
 
-
+        <div class="header">Testing Model</div>
     {/if}
+
 </Tablet>
 
 <style>
