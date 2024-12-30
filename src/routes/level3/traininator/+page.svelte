@@ -191,8 +191,6 @@
         'Picture9.jpg',
     ];
 
-    let model;
-
     const startTraining = () => {
         step = 2;
     }
@@ -261,11 +259,120 @@
         });
     }
 
-
     onMount(async () => {
         console.log('Component mounted');
         await loadMobileNetFeatureModel();
     });
+
+    let trainingProgress = 0;
+    let trainingStep = 'Loading Training Data...';
+    let isTraining = false;
+    let model: tf.Sequential | null = null;
+    const CLASS_NAMES = ['Face', 'No Face'];
+
+    async function trainModel() {
+        if (isTraining) {
+            return;
+        }
+
+        isTraining = true;
+
+        model = tf.sequential();
+        model.add(tf.layers.dense({inputShape: [1024], units: 128, activation: 'relu'}));
+        model.add(tf.layers.dense({units: CLASS_NAMES.length, activation: 'softmax'}));
+
+
+        model.compile({
+            optimizer: 'adam',
+            loss: (CLASS_NAMES.length === 2) ? 'binaryCrossentropy': 'categoricalCrossentropy',
+            metrics: ['accuracy']
+        });
+        
+        console.log('Model created: ', );
+        model.summary();
+        console.log('Training model...');
+
+
+        const trainingData: tf.Tensor[] = [];
+        const trainingLabels: number[] = [];
+
+        const loadImage = (img: string, label: number, path: string) => {
+            return new Promise<void>((resolve) => {
+                const image = new Image();
+                image.src = path + img;
+                image.onload = () => {
+                    const tensor = tf.browser.fromPixels(image).resizeBilinear([MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH]).toFloat().div(255);
+                    trainingData.push(tensor);
+                    trainingLabels.push(label);
+
+                    // Update the training progress
+                    trainingProgress += 5 / (trainingSetImgs.length + trainingSet2Imgs.length);
+
+                    resolve();
+                }
+            });
+        }
+
+        const loadAllImages = async () => {
+            const promises = [];
+
+            for (const img of trainingSetImgs) {
+                promises.push(loadImage(img, 1, '/img/traininator datasets/training set 1/'));
+            }
+
+            for (const img of trainingSet2Imgs) {
+                promises.push(loadImage(img, 0, '/img/traininator datasets/training set 2/'));
+            }
+
+            await Promise.all(promises);
+
+            console.log('Training data loaded: ', trainingData);
+            console.log('Training labels loaded: ', trainingLabels);
+        }
+
+        await loadAllImages();
+        
+        // Predict the features for all images
+        const features = [];
+        for (let i = 0; i < trainingData.length; i++) {
+            const img = trainingData[i];
+            const feature = mobilenet.predict(img.expandDims(0));
+            features.push(feature);
+            
+            // Update the training progress
+            trainingProgress = Math.round((i + 1) / trainingData.length * 5) + 5;
+        }
+
+        console.log('Features extracted');
+
+        // Convert the features to tensors
+        const xs = tf.concat(features);
+        const ys = tf.oneHot(tf.tensor1d(trainingLabels, 'int32'), CLASS_NAMES.length);
+
+        trainingStep = 'Training Model...';
+
+        // Train the model
+        const epochs = 10;
+        await model.fit(xs, ys, {
+            epochs,
+            callbacks: {
+                onEpochEnd: async (epoch, logs) => {
+                    trainingProgress = Math.round((epoch + 1) / 10 * 90) + 10;
+                    trainingStep = 'Training Model... (' + (epoch + 1) + '/' + epochs + ')';
+
+                    console.log('Epoch: ', epoch, ' Loss: ', logs.loss, ' Accuracy: ', logs.acc);
+                }
+            }
+        });
+
+        isTraining = false;
+    }
+
+    $: {
+        if (step == 2) {
+            trainModel();
+        }
+    }
 </script>
 
 <svelte:head>
@@ -339,7 +446,9 @@
 
         <div class="header">Training Model</div>
         
-        <progress id="trainingProgress" value="50" max="100"></progress>
+        <progress id="trainingProgress" value={trainingProgress} max="100"></progress>
+        <div id="trainingStep">{trainingStep}</div>
+
 
     {/if}
 </Tablet>
@@ -571,5 +680,29 @@
         background-color: #f0f0f01d;
         transition: 0.3s;
         filter: drop-shadow(0 0 0.75vh #30e0ff);
+    }
+
+    #trainingProgress::-webkit-progress-bar {
+        background-color: #f0f0f01d;
+        border-radius: 1vh;
+    }
+
+    #trainingProgress::-webkit-progress-value {
+        background: linear-gradient(to right, #82ecff, #30e0ff);
+        border-radius: 1vh;
+        transition: all 0.3s;
+    }
+
+    #trainingProgress::-moz-progress-bar {
+        background: linear-gradient(to right, #82ecff, #30e0ff);
+        border-radius: 1vh;
+    }
+
+    #trainingStep {
+        color: #eee;
+        font-size: 2rem;
+        width: 100%;
+        text-align: center;
+        margin: 1vh auto;
     }
 </style>
