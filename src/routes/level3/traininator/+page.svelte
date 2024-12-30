@@ -226,7 +226,7 @@
         }
     }
 
-    let mobilenet: tf.GraphModel | null = null;
+    let mobilenet: tf.GraphModel | Promise<tf.GraphModel> | null = null;
     const MOBILE_NET_INPUT_HEIGHT = 224;
     const MOBILE_NET_INPUT_WIDTH = 224;
 
@@ -246,7 +246,9 @@
         const URL = 
             'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1';
         
-        mobilenet = await tf.loadGraphModel(URL, {fromTFHub: true});
+        mobilenet = tf.loadGraphModel(URL, {fromTFHub: true});
+
+        mobilenet = await mobilenet;
         
         if (!mobilenet) {
             console.error('Failed to load MobileNet model');
@@ -255,6 +257,10 @@
 
         // Warm up the model by passing zeros through it once.
         tf.tidy(function () {
+            if (!mobilenet || mobilenet instanceof Promise) {
+                return;
+            }
+
             let answer = mobilenet.predict(tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3]));
             console.log(answer.shape);
         });
@@ -267,7 +273,13 @@
 
     onDestroy(() => {
         if (mobilenet) {
-            mobilenet.dispose();
+            if (mobilenet instanceof Promise) {
+                mobilenet.then((model) => {
+                    model.dispose();
+                });
+            } else {
+                mobilenet.dispose();
+            }
         }
 
         if (model) {
@@ -343,8 +355,17 @@
 
         await loadAllImages();
         
+        if (!mobilenet) {
+            console.error('MobileNet model not loaded');
+            return;
+        }
+
+        if (mobilenet instanceof Promise) {
+            mobilenet = await mobilenet;
+        }
+
         // Predict the features for all images
-        const features = [];
+        const features: tf.Tensor[] = [];
         for (let i = 0; i < trainingData.length; i++) {
             const img = trainingData[i];
             const feature = mobilenet.predict(img.expandDims(0));
@@ -363,7 +384,7 @@
         trainingStep = 'Training Model...';
 
         // Train the model
-        const epochs = 10;
+        const epochs = 7;
         await model.fit(xs, ys, {
             epochs,
             callbacks: {
@@ -465,8 +486,62 @@
         <div id="trainingStep">{trainingStep}</div>
     {:else if step == 3}
         <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
+        <div id="traininatorbody">
+            <div id="left">
+                <div class="header">Model Performance</div>
+                <div id="modelPerformance">
+                    Should be correct <br/>
+                    <span id="testgoal">90%</span> <br/>
+                    of the time <br/>
+                    (or better!)
+                </div>
 
-        <div class="header">Testing Model</div>
+                <div class="header">Model Matrix:</div>
+                <table id="modelMatrix">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th colspan="2">Model Says...</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td>Face</td>
+                            <td>No Face</td>
+                        </tr>
+                        <tr>
+                            <td>Face</td>
+                            <td><span>-</span></td>
+                            <td><span>-</span></td>
+                        </tr>
+                        <tr>
+                            <td>No Face</td>
+                            <td><span>-</span></td>
+                            <td><span>-</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div id="modelMatrixOverlay">
+                    Test model to see results!
+                </div>
+            </div>
+            <div id="right">
+                <div class="header">Testing Model</div>
+                <div id="trainingSets">
+                    <div class="trainingSet">
+                        <div class="trainingSetHeader">
+                            <h2>Test Set 1 ({testSet1Imgs.length}):</h2>
+                        </div>
+                        <div class="trainingSetImages">
+                            {#each testSet1Imgs as img}
+                                <img src={'/img/traininator datasets/test set/' + img} alt={img} class="trainingImg" />
+                            {/each}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {/if}
 
 </Tablet>
@@ -569,7 +644,7 @@
 
     .header {
         color: #eee;
-        font-size: 2rem;
+        font-size: 3vh;
         width: 100%;
         text-align: center;
         border-bottom: #eee 0.5vh solid;
@@ -722,5 +797,57 @@
         width: 100%;
         text-align: center;
         margin: 1vh auto;
+    }
+
+    #modelPerformance {
+        color: #eee;
+        font-size: 1.25rem;
+        width: 100%;
+        text-align: center;
+        margin: 1vh auto;
+    }
+
+    #modelPerformance span {
+        font-size: 1.5rem;
+        background-color: #ffb814e4;
+        color: #fefefe;
+        border-radius: 10px;
+        padding: 0.5vh 0.5vw;
+    }
+
+    #modelMatrix {
+        width: 100%;
+        margin: 1vh auto;
+        border-collapse: collapse;
+        color: #eee;
+        text-align: center;
+        font-size: 2.35vh
+    }
+
+    #modelMatrix tbody tr td {
+        border: 1px solid #eee;
+        padding: 1vh 1vw;
+    }
+
+    #modelMatrix tbody tr:first-child td {
+        border: none;
+    }
+
+    #modelMatrix tbody tr td:first-child {
+        border: none;
+    }
+
+    #modelMatrixOverlay {
+        background-color: #99bacfcc;
+        color: #eee;
+        font-size: 2.5vh;
+        width: 75%;
+        margin: 1vh auto;
+        text-align: center;
+        border-radius: 10px;
+        padding: 3vh 2vh;
+        position: relative;
+        z-index: 1;
+        top: -15vh;
     }
 </style>
