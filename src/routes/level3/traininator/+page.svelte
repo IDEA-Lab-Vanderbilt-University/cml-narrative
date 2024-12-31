@@ -8,6 +8,8 @@
     import * as tf from '@tensorflow/tfjs';
 	import TraininatorProgressBar from '$lib/components/activities/traininator/TraininatorProgressBar.svelte';
     import { trainingSetImgs, trainingSet2Imgs, testSet1Imgs } from '$lib/utils/Assets/TraininatorDataSets';
+	import TraininatorCard from '$lib/components/activities/traininator/TraininatorCard.svelte';
+	import { classes } from '../../traininator/stores';
 
     let step = 1;
 
@@ -480,6 +482,10 @@
         <div class="header">Testing Model</div>
 
         <TraininatorProgressBar trainingProgress={testingProgress} trainingStep={testingStep} />
+    {:else if step == 5}
+        <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
+
+        <TraininatorCard prediction={predictions[0]} image={'/img/traininator datasets/test set/' + testSet1Imgs[0]} classes={CLASS_NAMES} />
     {/if}
 
 </Tablet>
