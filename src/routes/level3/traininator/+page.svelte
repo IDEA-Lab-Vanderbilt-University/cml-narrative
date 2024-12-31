@@ -217,7 +217,7 @@
         trainingStep = 'Training Model...';
 
         // Train the model
-        const epochs = 7;
+        const epochs = 10;
         await model.fit(xs, ys, {
             epochs,
             callbacks: {
@@ -232,7 +232,7 @@
                         trainingStep = 'Training Complete!';
                         setTimeout(() => {
                             step = 3;
-                        }, 1500);
+                        }, 1000);
                     }
                 }
             }
@@ -334,6 +334,17 @@
         setTimeout(() => {
             step = 5;
         }, 1500);
+    }
+
+    let activeTestImg = 0;
+    let testLabels: number[] = [];
+
+    const nextTestImage = (choice: number) => {
+        testLabels.push(choice);
+        activeTestImg++;
+        if (activeTestImg >= testSet1Imgs.length) {
+            step = 6;
+        }
     }
 
     $: {
@@ -485,7 +496,7 @@
     {:else if step == 5}
         <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
 
-        <TraininatorCard prediction={predictions[0]} image={'/img/traininator datasets/test set/' + testSet1Imgs[0]} classes={CLASS_NAMES} />
+        <TraininatorCard prediction={predictions[activeTestImg]} image={'/img/traininator datasets/test set/' + testSet1Imgs[activeTestImg]} classes={CLASS_NAMES} choice={nextTestImage} />
     {/if}
 
 </Tablet>

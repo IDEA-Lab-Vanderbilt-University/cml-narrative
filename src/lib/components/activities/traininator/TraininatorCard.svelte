@@ -3,7 +3,7 @@
     export let classes: string[];
     export let image: string;
 
-    export const choice = (i: number) => {
+    export let choice = (i: number) => {
         console.log(`You chose ${classes[i]}`);
     }
 
