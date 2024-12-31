@@ -9,6 +9,7 @@
 	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
     import { onMount, onDestroy } from 'svelte';
     import * as tf from '@tensorflow/tfjs';
+	import TraininatorProgressBar from '$lib/components/activities/traininator/TraininatorProgressBar.svelte';
 
 
     let step = 1;
@@ -290,6 +291,9 @@
     let trainingProgress = 0;
     let trainingStep = 'Loading Training Data...';
     let isTraining = false;
+
+    let testingProgress = 0;
+
     let model: tf.Sequential | null = null;
     const CLASS_NAMES = ['Face', 'No Face'];
 
@@ -482,8 +486,7 @@
 
         <div class="header">Training Model</div>
         
-        <progress id="trainingProgress" value={trainingProgress} max="100"></progress>
-        <div id="trainingStep">{trainingStep}</div>
+        <TraininatorProgressBar trainingProgress={trainingProgress} trainingStep={trainingStep} />
     {:else if step == 3}
         <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
         <div id="traininatorbody">
@@ -542,6 +545,11 @@
                 </div>
             </div>
         </div>
+    {:else if step == 4}
+        <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
+        <div class="header">Testing Model</div>
+
+        <TraininatorProgressBar trainingProgress={testingProgress} trainingStep="Classifying test images..." />
     {/if}
 
 </Tablet>
@@ -760,43 +768,6 @@
     #header div.activestep {
         background-color: #f0f0f0;
         color: #000;
-    }
-
-    #trainingProgress {
-        width: 80%;
-        position: relative;
-        left: 10%;
-        top: 20vh;
-        margin: 0 auto;
-        height: 5vh;
-        border-radius: 1vh;
-        background-color: #f0f0f01d;
-        transition: 0.3s;
-        filter: drop-shadow(0 0 0.75vh #30e0ff);
-    }
-
-    #trainingProgress::-webkit-progress-bar {
-        background-color: #f0f0f01d;
-        border-radius: 1vh;
-    }
-
-    #trainingProgress::-webkit-progress-value {
-        background: linear-gradient(to right, #82ecff, #30e0ff);
-        border-radius: 1vh;
-        transition: all 0.3s;
-    }
-
-    #trainingProgress::-moz-progress-bar {
-        background: linear-gradient(to right, #82ecff, #30e0ff);
-        border-radius: 1vh;
-    }
-
-    #trainingStep {
-        color: #eee;
-        font-size: 2rem;
-        width: 100%;
-        text-align: center;
-        margin: 1vh auto;
     }
 
     #modelPerformance {
