@@ -157,17 +157,14 @@ export let testSet1Imgs = [
     'pexels-monstera-7139022.jpg',
     'pexels-rodnae-productions-8385873.jpg',
     'pexels-victoria-borodinova-1620760.jpg',
-];
-
-export let testSet2Imgs = [
-    'Picture1.jpg',
-    'Picture10.jpg',
-    'Picture2.jpg',
-    'Picture3.jpg',
-    'Picture4.jpg',
-    'Picture5.jpg',
-    'Picture6.jpg',
-    'Picture7.jpg',
-    'Picture8.jpg',
-    'Picture9.jpg',
+    'bob-brewer-Y3U8HmtxTa8-unsplash.jpg',
+    'christoph-nolte-vfDnY63kY7E-unsplash.jpg',
+    'hari-nandakumar-hh9OkRFj-Pw-unsplash.jpg',
+    'logan-weaver-lgnwvr-T28_-7R7eek-unsplash.jpg',
+    'luca-ercolani-rMdhc3toUKk-unsplash.jpg',
+    'mathias-reding-QQzvJYuo_Q8-unsplash.jpg',
+    'michal-balog-33euGdt6YeQ-unsplash.jpg',
+    'samsung-memory-IJolVhJKk7c-unsplash.jpg',
+    'sichen-xiang-k2KPhZEZbBs-unsplash.jpg',
+    'silas-schneider-e9pUVc_yfNs-unsplash.jpg',
 ];
