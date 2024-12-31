@@ -256,7 +256,7 @@
 
         const testSetImgs = testSet1Imgs;
 
-        const testData = [];
+        const testData: tf.Tensor[] = [];
 
         const loadImage = (img: string, path: string) => {
             return new Promise<void>((resolve) => {
