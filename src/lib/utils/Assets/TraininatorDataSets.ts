@@ -167,4 +167,8 @@ export let testSet1Imgs = [
     'samsung-memory-IJolVhJKk7c-unsplash.jpg',
     'sichen-xiang-k2KPhZEZbBs-unsplash.jpg',
     'silas-schneider-e9pUVc_yfNs-unsplash.jpg',
+    'alex-harwood-1SB-26irsMA-unsplash.jpg',
+    'casey-chae-3DrCZblTGoQ-unsplash.jpg',
+    'nasa-hubble-space-telescope-3jHQMBKWObM-unsplash.jpg',
+    'tegan-conway-CNuaf4gsYHA-unsplash.jpg',
 ];
