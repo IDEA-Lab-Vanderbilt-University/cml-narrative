@@ -291,8 +291,10 @@
     let trainingProgress = 0;
     let trainingStep = 'Loading Training Data...';
     let isTraining = false;
-
+    
     let testingProgress = 0;
+    let testingStep = 'Loading Training Data...';
+    let isTesting = false;
 
     let model: tf.Sequential | null = null;
     const CLASS_NAMES = ['Face', 'No Face'];
@@ -403,7 +405,7 @@
                         trainingStep = 'Training Complete!';
                         setTimeout(() => {
                             step = 3;
-                        }, 2000);
+                        }, 1500);
                     }
                 }
             }
@@ -412,9 +414,110 @@
         isTraining = false;
     }
 
+    let predictions: number[] = [];
+
+    /**
+     * Predicts the labels for the test set so we can evaluate the model.
+     **/
+    async function testModel() {
+        if (!model) {
+            console.error('Model not trained');
+            return;
+        }
+
+        if (isTesting) {
+            return;
+        }
+
+        const testSetImgs = testSet1Imgs;
+
+        const testData = [];
+
+        const loadImage = (img: string, path: string) => {
+            return new Promise<void>((resolve) => {
+                const image = new Image();
+                image.src = path + img;
+                image.onload = () => {
+                    const tensor = tf.browser.fromPixels(image).resizeBilinear([MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH]).toFloat().div(255);
+                    testData.push(tensor);
+
+                    // Update the testing progress
+                    testingProgress += 5 / testSetImgs.length;
+
+                    resolve();
+                }
+            });
+        }
+
+        const loadAllImages = async () => {
+            const promises = [];
+
+            for (const img of testSetImgs) {
+                promises.push(loadImage(img, '/img/traininator datasets/test set/'));
+            }
+
+            await Promise.all(promises);
+
+            console.log('Test data loaded: ', testData);
+        }
+
+        await loadAllImages();
+
+        if (!mobilenet) {
+            console.error('MobileNet model not loaded');
+            return;
+        }
+
+        if (mobilenet instanceof Promise) {
+            mobilenet = await mobilenet;
+        }
+
+        // Predict the features for all images
+        const features: tf.Tensor[] = [];
+        for (let i = 0; i < testData.length; i++) {
+            testingStep = 'Predicting image ' + (i + 1) + '/' + testData.length;
+            const img = testData[i];
+            const feature = mobilenet.predict(img.expandDims(0));
+            features.push(feature);
+            
+            // Update the testing progress
+            testingProgress = Math.round((i + 1) / testData.length * 5) + 5;
+        }
+
+        testingStep = 'Finalizing predictions...';
+
+        console.log('Features extracted');
+
+        predictions = [];        
+        
+        for(let i = 0; i < features.length; i++) {
+            const feature = features[i];
+            const prediction = model.predict(feature) as tf.Tensor;
+            const predictionData = prediction.dataSync();
+            const predictedLabel = predictionData.indexOf(Math.max(...predictionData));
+            console.log('Predicted label: ', predictedLabel, ' Prediction: ', predictionData);
+            predictions.push(predictedLabel);
+            testingProgress = Math.round((i + 1) / features.length * 90) + 10;
+        }
+
+        console.log('Predictions: ', predictions);
+
+        isTesting = false;
+
+        setTimeout(() => {
+            step = 5;
+        }, 1500);
+    }
+
     $: {
         if (step == 2) {
             trainModel();
+        }
+    }
+
+    $: {
+        if (step == 4) {
+            testModel();
         }
     }
 </script>
@@ -528,6 +631,8 @@
                 <div id="modelMatrixOverlay">
                     Test model to see results!
                 </div>
+
+                <button id="trainButton" on:click={() => {step = 4;}}>Test Model</button>
             </div>
             <div id="right">
                 <div class="header">Testing Model</div>
@@ -549,7 +654,7 @@
         <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
         <div class="header">Testing Model</div>
 
-        <TraininatorProgressBar trainingProgress={testingProgress} trainingStep="Classifying test images..." />
+        <TraininatorProgressBar trainingProgress={testingProgress} trainingStep={testingStep} />
     {/if}
 
 </Tablet>
@@ -819,6 +924,6 @@
         padding: 3vh 2vh;
         position: relative;
         z-index: 1;
-        top: -15vh;
+        margin-top: -15vh;
     }
 </style>
