@@ -120,7 +120,7 @@
     let isTraining = false;
     
     let testingProgress = 0;
-    let testingStep = 'Loading Training Data...';
+    let testingStep = 'Loading Testing Data...';
     let isTesting = false;
 
     let model: tf.Sequential | null = null;
