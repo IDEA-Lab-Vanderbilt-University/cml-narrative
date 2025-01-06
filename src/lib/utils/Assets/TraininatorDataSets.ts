@@ -110,7 +110,34 @@ export let trainingSetImgs = [
     'pexels-yaroslav-shuraev-8087566.jpg',
 ];
 
-export let trainingSet2Imgs = [
+export let trainingSet1NoFaceImgs = [
+    '1000_F_209374794_3NJxCae4izy2jiQd26ADWjLd8qwQGQG9.jpg',
+    'Gray squirrel (Terry W. Johnson).jpg',
+    'Modern_British_LED_Traffic_Light.jpg',
+    'alex-preusser-0Qchak3o2a4-unsplash.jpg',
+    'alvan-nee-8g0D8ZfFXyA-unsplash.jpg',
+    'arnaud-mariat-45Z6hW1dQMI-unsplash.jpg',
+    'brendan-church-pKeF6Tt3c08-unsplash.jpg',
+    'craftsman-exterior.jpg',
+    'daniel-gomez-CZS1R57uBEc-unsplash.jpg',
+    'david-clode-AF0CrhiVCMM-unsplash.jpg',
+    'ian-talmacs-1Xf8rhaLh5I-unsplash.jpg',
+    'jk-sloan-co1wmDhPjKg-unsplash.jpg',
+    'john-matychuk-dJdcb11aboQ-unsplash.jpg',
+    'johnson-johnson-U6Q6zVDgmSs-unsplash.jpg',
+    'modern house plan - carbondale__05776.original.jpg',
+    'nathan-walker-Sv4btqhcYqw-unsplash.jpg',
+    'niko-photos-tGTVxeOr_Rs-unsplash.jpg',
+    'redd-francisco-sejLyCD2UQE-unsplash.jpg',
+    'sardar-faizan-oZNe32A88O0-unsplash.jpg',
+    'scott-webb-1ddol8rgUH8-unsplash.jpg',
+    'tom-dils-_9zEZ7QBPiY-unsplash.jpg',
+    'trnava-university-WGG4eD0rQmo-unsplash.jpg',
+    'waldemar-tLj3fcfUgec-unsplash.jpg',
+    'yosuke-ota-1JloC88VbQY-unsplash.jpg'
+];
+
+export let trainingSet2FaceImgs = [
     'Picture1.jpg',
     'Picture10.jpg',
     'Picture11.jpg',

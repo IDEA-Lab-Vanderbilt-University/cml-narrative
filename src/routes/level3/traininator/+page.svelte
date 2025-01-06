@@ -7,7 +7,7 @@
     import { onMount, onDestroy } from 'svelte';
     import * as tf from '@tensorflow/tfjs';
 	import TraininatorProgressBar from '$lib/components/activities/traininator/TraininatorProgressBar.svelte';
-    import { trainingSetImgs, trainingSet2Imgs, testSet1Imgs } from '$lib/utils/Assets/TraininatorDataSets';
+    import { trainingSetImgs, trainingSet1NoFaceImgs, trainingSet2FaceImgs, testSet1Imgs } from '$lib/utils/Assets/TraininatorDataSets';
 	import TraininatorCard from '$lib/components/activities/traininator/TraininatorCard.svelte';
 	import { classes } from '../../traininator/stores';
 
@@ -162,7 +162,7 @@
                     trainingLabels.push(label);
 
                     // Update the training progress
-                    trainingProgress += 5 / (trainingSetImgs.length + trainingSet2Imgs.length);
+                    trainingProgress += 5 / (trainingSetImgs.length + trainingSet1NoFaceImgs.length);
 
                     resolve();
                 }
@@ -176,8 +176,8 @@
                 promises.push(loadImage(img, 1, '/img/traininator datasets/training set 1/'));
             }
 
-            for (const img of trainingSet2Imgs) {
-                promises.push(loadImage(img, 0, '/img/traininator datasets/training set 2/'));
+            for (const img of trainingSet1NoFaceImgs) {
+                promises.push(loadImage(img, 0, '/img/traininator datasets/training set 1 no face/'));
             }
 
             await Promise.all(promises);
@@ -369,7 +369,7 @@
                 <div class="header">Categories</div>
                 <ul id="categories">
                     <li><a href="#face"><span>Face</span> ({trainingSetImgs.length})</a></li>
-                    <li><a href="#noFace"><span>No Face</span> ({trainingSet2Imgs.length})</a></li>
+                    <li><a href="#noFace"><span>No Face</span> ({trainingSet1NoFaceImgs.length})</a></li>
                 </ul>
                 <div class="header">Model Booster (x2)</div>
                 <ul id="boosters">
@@ -410,11 +410,11 @@
                     <div class="trainingSet">
                         <a id="noFace" />
                         <div class="trainingSetHeader">
-                            <h2>No Face ({trainingSet2Imgs.length}):</h2>
+                            <h2>No Face ({trainingSet1NoFaceImgs.length}):</h2>
                         </div>
                         <div class="trainingSetImages">
-                            {#each trainingSet2Imgs as img}
-                                <img src={'/img/traininator datasets/training set 2/' + img} alt={img} class="trainingImg" />
+                            {#each trainingSet1NoFaceImgs as img}
+                                <img src={'/img/traininator datasets/training set 1 no face/' + img} alt={img} class="trainingImg" />
                             {/each}
                         </div>
                     </div>
