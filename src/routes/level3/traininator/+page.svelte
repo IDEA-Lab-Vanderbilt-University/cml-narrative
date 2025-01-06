@@ -181,13 +181,118 @@
             }
 
             await Promise.all(promises);
-
-            console.log('Training data loaded: ', trainingData);
-            console.log('Training labels loaded: ', trainingLabels);
         }
 
         await loadAllImages();
         
+        if (booster != 'none'){
+            trainingStep = 'Model Booster!';
+            
+            const createBoostedImage = (img: string, label: number, path: string) => new Promise<void>((resolve) =>{
+                const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+                const ctx = canvas.getContext('2d');
+
+                if (!ctx) {
+                    console.error('Canvas context not available');
+                    return;
+                }
+
+                const image = new Image();
+                image.src = path + img;
+                image.onload = () => {
+                    // Set the canvas size to the image size
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+
+                    // Draw the image on the canvas
+                    ctx.drawImage(image, 0, 0);
+
+                    // Get the image data
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const data = imageData.data;
+                    
+                    // Create a new image data object
+                    const newImageData = ctx.createImageData(imageData);
+
+                    // Apply the booster
+                    switch(booster) {
+                        case 'rotate':
+                            const angleMax = 25; // Maximum rotation angle in degrees
+
+                            // Random rotation angle between -angleMax and +angleMax
+                            const angle = ((Math.random() + 0.25) * 1.8 * angleMax) - angleMax;
+
+                            // Scale depends on the angle: the more the angle, the smaller the scale range
+                            const scaleBase = 1.1; // Base scale to ensure it overflows slightly
+                            const scaleFactor = Math.max(1.65, Math.abs(angle) / angleMax * 2.5); // Adjust scale based on angle
+                            const scale = scaleBase + Math.random() * (scaleFactor - scaleBase);
+
+                            // Rotate the image
+                            ctx.translate(canvas.width / 2, canvas.height / 2);
+                            ctx.rotate(angle * Math.PI / 180);
+                            ctx.scale(scale, scale);
+                            ctx.drawImage(image, -canvas.width / 2, -canvas.height / 2);
+                            ctx.setTransform(1, 0, 0, 1, 0, 0);
+
+                            break;
+                        case 'flip':
+                            // Flip the image horizontally
+                            for (let i = 0; i < data.length; i += 4) {
+                                const x = i / 4 % canvas.width;
+                                const y = Math.floor(i / 4 / canvas.width);
+
+                                const flippedX = canvas.width - x - 1;
+                                const index = (flippedX + y * canvas.width) * 4;
+
+                                newImageData.data[index] = data[i];
+                                newImageData.data[index + 1] = data[i + 1];
+                                newImageData.data[index + 2] = data[i + 2];
+                                newImageData.data[index + 3] = data[i + 3];
+                            }
+
+                            break;
+                        case 'adjust':
+                            // Adjust the hue and saturation
+                            const hue = Math.round((Math.random() * 20 + 10) * Math.sign(Math.random() - 0.5));
+                            const saturation = Math.round(Math.random() * 2 + 1);
+
+                            for (let i = 0; i < data.length; i += 4) {
+                                const hsl = rgbToHsl(data[i], data[i + 1], data[i + 2]);
+                                const rgb = hslToRgb(hsl[0] + hue, hsl[1] * saturation, hsl[2]);
+
+                                newImageData.data[i] = rgb[0];
+                                newImageData.data[i + 1] = rgb[1];
+                                newImageData.data[i + 2] = rgb[2];
+                                newImageData.data[i + 3] = data[i + 3];
+                            }
+                        default:
+                            break;
+                    }
+
+                    // Update the canvas with the new image data
+                    ctx.putImageData(newImageData, 0, 0);
+                    
+                    // Convert the canvas to a tensor
+                    const tensor = tf.browser.fromPixels(canvas).resizeBilinear([MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH]).toFloat().div(255);
+                    trainingData.push(tensor);
+                    trainingLabels.push(label);
+
+                    resolve();
+                }
+            });
+
+            for(const img of trainingSetImgs) {
+                await createBoostedImage(img, 0, '/img/traininator datasets/training set 1/');
+            }
+
+            for(const img of trainingSet1NoFaceImgs) {
+                await createBoostedImage(img, 1, '/img/traininator datasets/training set 1 no face/');
+            }
+        }
+
+        console.log('Training data loaded: ', trainingData);
+        console.log('Training labels loaded: ', trainingLabels);
+
         if (!mobilenet) {
             console.error('MobileNet model not loaded');
             return;
@@ -239,6 +344,66 @@
         });
 
         isTraining = false;
+    }
+
+    const rgbToHsl = (r: number, g: number, b: number) => {
+        r /= 255;
+        g /= 255;
+        b /= 255;
+
+        const max = Math.max(r, g, b);
+        const min = Math.min(r, g, b);
+        let h = (max + min) / 2;
+        let s = h;
+        let l = h;
+
+        if (max == min) {
+            h = s = 0;
+        } else {
+            const d = max - min;
+            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+
+            switch (max) {
+                case r:
+                    h = (g - b) / d + (g < b ? 6 : 0);
+                    break;
+                case g:
+                    h = (b - r) / d + 2;
+                    break;
+                case b:
+                    h = (r - g) / d + 4;
+                    break;
+            }
+
+            h /= 6;
+        }
+
+        return [h, s, l];
+    }
+
+    const hslToRgb = (h: number, s: number, l: number) => {
+        let r, g, b;
+
+        if (s == 0) {
+            r = g = b = l;
+        } else {
+            const hue2rgb = (p: number, q: number, t: number) => {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+                return p;
+            }
+
+            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+            const p = 2 * l - q;
+            r = hue2rgb(p, q, h + 1 / 3);
+            g = hue2rgb(p, q, h);
+            b = hue2rgb(p, q, h - 1 / 3);
+        }
+
+        return [r * 255, g * 255, b * 255];
     }
 
     let predictions: number[] = [];
@@ -511,6 +676,7 @@
         <TraininatorCard prediction={predictions[activeTestImg]} image={'/img/traininator datasets/test set/' + testSet1Imgs[activeTestImg]} classes={CLASS_NAMES} choice={nextTestImage} />
     {/if}
 
+    <canvas id="canvas" style="display: none;"></canvas>
 </Tablet>
 
 <style>
