@@ -417,6 +417,18 @@
                                 <img src={'/img/traininator datasets/training set 1 no face/' + img} alt={img} class="trainingImg" />
                             {/each}
                         </div>
+                        {#if booster != 'none'}
+                            <div class="boosterImages">
+                                {#each trainingSet1NoFaceImgs as img}
+                                    <div class="imgContainer">
+                                        <img src={'/img/traininator datasets/training set 1 no face/' + img} alt={img} class="trainingImg" style={getBoosterStyle(booster, img)} />
+                                    </div>
+                                {/each}
+                            </div>
+                            <div class="boosterOverlay">
+                                +{trainingSet1NoFaceImgs.length} Boosted Images!
+                            </div>
+                        {/if}
                     </div>
                 </div>
             </div>
