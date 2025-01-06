@@ -523,6 +523,22 @@
             testModel();
         }
     }
+
+    let testAccuracy = 0;
+    let truePositives = 0;
+    let trueNegatives = 0;
+    let falsePositives = 0;
+    let falseNegatives = 0;
+
+    $: {
+        if (step == 6) {
+            testAccuracy = testLabels.filter((label, i) => label === predictions[i]).length / testLabels.length * 100;
+            truePositives = testLabels.filter((label, i) => label === 0 && predictions[i] === 0).length;
+            trueNegatives = testLabels.filter((label, i) => label === 1 && predictions[i] === 1).length;
+            falsePositives = testLabels.filter((label, i) => label === 1 && predictions[i] === 0).length;
+            falseNegatives = testLabels.filter((label, i) => label === 0 && predictions[i] === 1).length;
+        }
+    }
 </script>
 
 <Tablet showMeter={false}>
@@ -622,22 +638,24 @@
                     <thead>
                         <tr>
                             <th></th>
-                            <th colspan="2">Model Says...</th>
+                            <th colspan="3">Model Says...</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td></td>
-                            <td>Face</td>
-                            <td>No Face</td>
+                            <td class="modelMaxtrixLabel"></td>
+                            <td class="modelMaxtrixLabel"></td>
+                            <td class="modelMaxtrixLabel">Face</td>
+                            <td class="modelMaxtrixLabel">No Face</td>
                         </tr>
                         <tr>
-                            <td>Face</td>
+                            <td rowspan="2"  class="modelMaxtrixLabel">Image Type</td>
+                            <td class="modelMaxtrixLabel">Face</td>
                             <td><span>-</span></td>
                             <td><span>-</span></td>
                         </tr>
                         <tr>
-                            <td>No Face</td>
+                            <td class="modelMaxtrixLabel">No Face</td>
                             <td><span>-</span></td>
                             <td><span>-</span></td>
                         </tr>
@@ -674,6 +692,74 @@
         <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
 
         <TraininatorCard prediction={predictions[activeTestImg]} image={'/img/traininator datasets/test set/' + testSet1Imgs[activeTestImg]} classes={CLASS_NAMES} choice={nextTestImage} />
+    {:else if step == 6}
+        <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
+        
+        <div id="traininatorbody">
+            <div id="left">
+                <div id="left">
+                    <div class="header">Model Performance</div>
+                    <div id="modelPerformance">
+                        Should be correct <br/>
+                        <span id="testgoal">90%</span> <br/>
+                        of the time <br/>
+                        (or better!)<br/>
+                        <br/>
+                        Model Accuracy: <br/>
+                        <span id="testAccuracy">{testAccuracy.toFixed(2)}%</span>
+                    </div>
+
+                    <div class="header">Model Matrix:</div>
+                    <table id="modelMatrix">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th colspan="3">Model Says...</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="modelMaxtrixLabel"></td>
+                                <td class="modelMaxtrixLabel"></td>
+                                <td class="modelMaxtrixLabel">Face</td>
+                                <td class="modelMaxtrixLabel">No Face</td>
+                            </tr>
+                            <tr>
+                                <td rowspan="2"  class="modelMaxtrixLabel">Image Type</td>
+                                <td class="modelMaxtrixLabel">Face</td>
+                                <td class="correct">✓ {truePositives}</td>
+                                <td class="incorrect">✗ {falseNegatives}</td>
+                            </tr>
+                            <tr>
+                                <td class="modelMaxtrixLabel">No Face</td>
+                                <td class="incorrect">✗ {falsePositives}</td>
+                                <td class="correct">✓ {trueNegatives}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div id="right">
+                <div class="header">Test Set 1 Results:</div>
+                <div id="trainingSets">
+                    <div class="trainingSet">
+                        <div class="trainingSetHeader">
+                            <h2>Test Set 1 ({testSet1Imgs.length}):</h2>
+                        </div>
+                        <div class="trainingSetImages">
+                            {#each testSet1Imgs as img, i}
+                                <div class="imgContainer">
+                                    <img src={'/img/traininator datasets/test set/' + img} alt={img} class="trainingImg" />
+                                    <div class="boosterOverlay {predictions[i] == testLabels[i] ? 'correct' : 'incorrect'}"> 
+                                        {predictions[i] == testLabels[i] ? '✓' : '✗'} {CLASS_NAMES[testLabels[i]]}
+                                    </div>
+                                </div>
+                            {/each}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {/if}
 
     <canvas id="canvas" style="display: none;"></canvas>
@@ -925,11 +1011,7 @@
         padding: 1vh 1vw;
     }
 
-    #modelMatrix tbody tr:first-child td {
-        border: none;
-    }
-
-    #modelMatrix tbody tr td:first-child {
+    #modelMatrix tbody tr td.modelMaxtrixLabel {
         border: none;
     }
 
@@ -945,5 +1027,13 @@
         position: relative;
         z-index: 1;
         margin-top: -15vh;
+    }
+
+    .correct {
+        background-color: #00ff009a;
+    }
+
+    .incorrect {
+        background-color: #ff00009a;
     }
 </style>
