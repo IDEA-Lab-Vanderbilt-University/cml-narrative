@@ -173,11 +173,11 @@
             const promises = [];
 
             for (const img of trainingSetImgs) {
-                promises.push(loadImage(img, 1, '/img/traininator datasets/training set 1/'));
+                promises.push(loadImage(img, 0, '/img/traininator datasets/training set 1/'));
             }
 
             for (const img of trainingSet1NoFaceImgs) {
-                promises.push(loadImage(img, 0, '/img/traininator datasets/training set 1 no face/'));
+                promises.push(loadImage(img, 1, '/img/traininator datasets/training set 1 no face/'));
             }
 
             await Promise.all(promises);
@@ -217,7 +217,7 @@
         trainingStep = 'Training Model...';
 
         // Train the model
-        const epochs = 10;
+        const epochs = 7;
         await model.fit(xs, ys, {
             epochs,
             callbacks: {
