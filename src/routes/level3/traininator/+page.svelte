@@ -542,9 +542,9 @@
 </script>
 
 <Tablet showMeter={false}>
-    {#if step == 1}
+    <div id='header'><div class={step < 3? "activestep" : ""}>Training</div><div class={step >= 3? "activestep" : ""}>Testing</div></div>
 
-        <div id='header'><div class="activestep">Training</div><div>Testing</div></div>
+    {#if step == 1}
         <div id="traininatorbody">
             <div id="left">
                 <div class="header">Categories</div>
@@ -616,13 +616,9 @@
         </div>
 
     {:else if step == 2}
-        <div id='header'><div class="activestep">Training</div><div>Testing</div></div>
-
         <div class="header">Training Model</div>
-        
         <TraininatorProgressBar trainingProgress={trainingProgress} trainingStep={trainingStep} />
     {:else if step == 3}
-        <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
         <div id="traininatorbody">
             <div id="left">
                 <div class="header">Model Performance</div>
@@ -684,17 +680,11 @@
             </div>
         </div>
     {:else if step == 4}
-        <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
         <div class="header">Testing Model</div>
-
         <TraininatorProgressBar trainingProgress={testingProgress} trainingStep={testingStep} />
     {:else if step == 5}
-        <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
-
         <TraininatorCard prediction={predictions[activeTestImg]} image={'/img/traininator datasets/test set/' + testSet1Imgs[activeTestImg]} classes={CLASS_NAMES} choice={nextTestImage} />
     {:else if step == 6}
-        <div id='header'><div>Training</div><div class="activestep">Testing</div></div>
-        
         <div id="traininatorbody">
             <div id="left">
                 <div id="left">
