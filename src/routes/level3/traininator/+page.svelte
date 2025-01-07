@@ -328,7 +328,7 @@
             callbacks: {
                 onEpochEnd: async (epoch: number, logs: any) => {
                     trainingProgress = Math.round((epoch + 1) / 10 * 90) + 10;
-                    trainingStep = 'Training Model... (' + (epoch + 1) + '/' + epochs + ')';
+                    trainingStep = 'Training Model...';
 
                     console.log('Epoch: ', epoch, ' Loss: ', logs.loss, ' Accuracy: ', logs.acc);
 
@@ -549,8 +549,8 @@
             <div id="left">
                 <div class="header">Categories</div>
                 <ul id="categories">
-                    <li><a href="#face"><span>Face</span> ({trainingSetImgs.length})</a></li>
-                    <li><a href="#noFace"><span>No Face</span> ({trainingSet1NoFaceImgs.length})</a></li>
+                    <li><a href="#face"><span>Face</span> {trainingSetImgs.length}</a></li>
+                    <li><a href="#noFace"><span>No Face</span> {trainingSet1NoFaceImgs.length}</a></li>
                 </ul>
                 <div class="header">Model Booster (x2)</div>
                 <ul id="boosters">
@@ -568,7 +568,7 @@
                     <div class="trainingSet">
                         <a id="face" />
                         <div class="trainingSetHeader">
-                            <h2>Face ({trainingSetImgs.length}):</h2>
+                            <h2>Face ({trainingSetImgs.length})</h2>
                         </div>
                         <div class="trainingSetImages">
                             {#each trainingSetImgs as img}
@@ -591,7 +591,7 @@
                     <div class="trainingSet">
                         <a id="noFace" />
                         <div class="trainingSetHeader">
-                            <h2>No Face ({trainingSet1NoFaceImgs.length}):</h2>
+                            <h2>No Face ({trainingSet1NoFaceImgs.length})</h2>
                         </div>
                         <div class="trainingSetImages">
                             {#each trainingSet1NoFaceImgs as img}
@@ -649,7 +649,7 @@
                             <td class="modelMaxtrixLabel">No Face</td>
                         </tr>
                         <tr>
-                            <td rowspan="2"  class="modelMaxtrixLabel">Image Type</td>
+                            <td rowspan="2"  class="modelMaxtrixLabel">You said...</td>
                             <td class="modelMaxtrixLabel">Face</td>
                             <td><span>-</span></td>
                             <td><span>-</span></td>
@@ -725,7 +725,7 @@
                                 <td class="modelMaxtrixLabel">No Face</td>
                             </tr>
                             <tr>
-                                <td rowspan="2"  class="modelMaxtrixLabel">Image Type</td>
+                                <td rowspan="2"  class="modelMaxtrixLabel">You said...</td>
                                 <td class="modelMaxtrixLabel">Face</td>
                                 <td class="correct">✓ {truePositives}</td>
                                 <td class="incorrect">✗ {falseNegatives}</td>
@@ -774,7 +774,7 @@
         width: 100%;
         align-content: center;
         gap: 2vw;
-        width: 80vw;
+        width: 95vw;
         margin: 0 auto;
         height: 60vh;
     }
@@ -1003,12 +1003,12 @@
         border-collapse: collapse;
         color: #eee;
         text-align: center;
-        font-size: 2.35vh
+        font-size: 2.2vh
     }
 
     #modelMatrix tbody tr td {
         border: 1px solid #eee;
-        padding: 1vh 1vw;
+        padding: 0.75vh 0.75vw;
     }
 
     #modelMatrix tbody tr td.modelMaxtrixLabel {
@@ -1035,5 +1035,14 @@
 
     .incorrect {
         background-color: #ff00009a;
+    }
+
+    #categories a {
+        padding: 0.5vh;
+        border-radius: 10px;
+    }
+
+    #categories a:hover {
+        background-color: #f0f0f044;
     }
 </style>
