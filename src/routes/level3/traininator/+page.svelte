@@ -11,6 +11,7 @@
 	import TraininatorCard from '$lib/components/activities/traininator/TraininatorCard.svelte';
 	import { classes } from '../../traininator/stores';
 	import TraininatorImageSet from '$lib/components/activities/traininator/TraininatorImageSet.svelte';
+	import { cleanUpMobileNet, loadMobileNetFeatureModel, testModel, trainModel } from '$lib/utils/traininator/TraininatorUtils';
 
     let step = 1;
 
@@ -27,45 +28,6 @@
         }
     }
 
-    let mobilenet: tf.GraphModel | Promise<tf.GraphModel> | null = null;
-    const MOBILE_NET_INPUT_HEIGHT = 224;
-    const MOBILE_NET_INPUT_WIDTH = 224;
-
-    /**
-     * Loads the MobileNet model and warms it up so ready for use.
-     **/
-    async function loadMobileNetFeatureModel() {
-        if (mobilenet) {
-            return;
-        }
-
-        if (!tf) {
-            console.error('TensorFlow.js not loaded');
-            return;
-        }
-
-        const URL = 
-            'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1';
-        
-        mobilenet = tf.loadGraphModel(URL, {fromTFHub: true});
-
-        mobilenet = await mobilenet;
-        
-        if (!mobilenet) {
-            console.error('Failed to load MobileNet model');
-            return;
-        }
-
-        // Warm up the model by passing zeros through it once.
-        tf.tidy(function () {
-            if (!mobilenet || mobilenet instanceof Promise) {
-                return;
-            }
-
-            let answer = mobilenet.predict(tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3]));
-            console.log(answer.shape);
-        });
-    }
 
     onMount(async () => {
         console.log('Component mounted');
@@ -73,15 +35,7 @@
     });
 
     onDestroy(() => {
-        if (mobilenet) {
-            if (mobilenet instanceof Promise) {
-                mobilenet.then((model) => {
-                    model.dispose();
-                });
-            } else {
-                mobilenet.dispose();
-            }
-        }
+        cleanUpMobileNet();
 
         if (model) {
             model.dispose();
@@ -96,383 +50,9 @@
     let testingStep = 'Loading Testing Data...';
     let isTesting = false;
 
-    let model: tf.Sequential | null = null;
     const CLASS_NAMES = ['Face', 'No Face'];
 
-    async function trainModel() {
-        if (isTraining) {
-            return;
-        }
-
-        isTraining = true;
-
-        model = tf.sequential();
-        model.add(tf.layers.dense({inputShape: [1024], units: 128, activation: 'relu'}));
-        model.add(tf.layers.dense({units: CLASS_NAMES.length, activation: 'softmax'}));
-
-
-        model.compile({
-            optimizer: 'adam',
-            loss: (CLASS_NAMES.length === 2) ? 'binaryCrossentropy': 'categoricalCrossentropy',
-            metrics: ['accuracy']
-        });
-        
-        console.log('Model created: ', );
-        model.summary();
-        console.log('Training model...');
-
-
-        const trainingData: tf.Tensor[] = [];
-        const trainingLabels: number[] = [];
-
-        const loadImage = (img: string, label: number, path: string) => {
-            return new Promise<void>((resolve) => {
-                const image = new Image();
-                image.src = path + img;
-                image.onload = () => {
-                    const tensor = tf.browser.fromPixels(image).resizeBilinear([MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH]).toFloat().div(255);
-                    trainingData.push(tensor);
-                    trainingLabels.push(label);
-
-                    // Update the training progress
-                    trainingProgress += 5 / (trainingSetImgs.length + trainingSet1NoFaceImgs.length);
-
-                    resolve();
-                }
-            });
-        }
-
-        const loadAllImages = async () => {
-            const promises = [];
-
-            for (const img of trainingSetImgs) {
-                promises.push(loadImage(img, 0, '/img/traininator datasets/training set 1/'));
-            }
-
-            for (const img of trainingSet1NoFaceImgs) {
-                promises.push(loadImage(img, 1, '/img/traininator datasets/training set 1 no face/'));
-            }
-
-            await Promise.all(promises);
-        }
-
-        await loadAllImages();
-        
-        if (booster != 'none'){
-            trainingStep = 'Model Booster!';
-            
-            const createBoostedImage = (img: string, label: number, path: string) => new Promise<void>((resolve) =>{
-                const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-                const ctx = canvas.getContext('2d');
-
-                if (!ctx) {
-                    console.error('Canvas context not available');
-                    return;
-                }
-
-                const image = new Image();
-                image.src = path + img;
-                image.onload = () => {
-                    // Set the canvas size to the image size
-                    canvas.width = image.width;
-                    canvas.height = image.height;
-
-                    // Draw the image on the canvas
-                    ctx.drawImage(image, 0, 0);
-
-                    // Get the image data
-                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const data = imageData.data;
-                    
-                    // Create a new image data object
-                    const newImageData = ctx.createImageData(imageData);
-
-                    // Apply the booster
-                    switch(booster) {
-                        case 'rotate':
-                            const angleMax = 25; // Maximum rotation angle in degrees
-
-                            // Random rotation angle between -angleMax and +angleMax
-                            const angle = ((Math.random() + 0.25) * 1.8 * angleMax) - angleMax;
-
-                            // Scale depends on the angle: the more the angle, the smaller the scale range
-                            const scaleBase = 1.1; // Base scale to ensure it overflows slightly
-                            const scaleFactor = Math.max(1.65, Math.abs(angle) / angleMax * 2.5); // Adjust scale based on angle
-                            const scale = scaleBase + Math.random() * (scaleFactor - scaleBase);
-
-                            // Rotate the image
-                            ctx.translate(canvas.width / 2, canvas.height / 2);
-                            ctx.rotate(angle * Math.PI / 180);
-                            ctx.scale(scale, scale);
-                            ctx.drawImage(image, -canvas.width / 2, -canvas.height / 2);
-                            ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-                            break;
-                        case 'flip':
-                            // Flip the image horizontally
-                            for (let i = 0; i < data.length; i += 4) {
-                                const x = i / 4 % canvas.width;
-                                const y = Math.floor(i / 4 / canvas.width);
-
-                                const flippedX = canvas.width - x - 1;
-                                const index = (flippedX + y * canvas.width) * 4;
-
-                                newImageData.data[index] = data[i];
-                                newImageData.data[index + 1] = data[i + 1];
-                                newImageData.data[index + 2] = data[i + 2];
-                                newImageData.data[index + 3] = data[i + 3];
-                            }
-
-                            break;
-                        case 'adjust':
-                            // Adjust the hue and saturation
-                            const hue = Math.round((Math.random() * 20 + 10) * Math.sign(Math.random() - 0.5));
-                            const saturation = Math.round(Math.random() * 2 + 1);
-
-                            for (let i = 0; i < data.length; i += 4) {
-                                const hsl = rgbToHsl(data[i], data[i + 1], data[i + 2]);
-                                const rgb = hslToRgb(hsl[0] + hue, hsl[1] * saturation, hsl[2]);
-
-                                newImageData.data[i] = rgb[0];
-                                newImageData.data[i + 1] = rgb[1];
-                                newImageData.data[i + 2] = rgb[2];
-                                newImageData.data[i + 3] = data[i + 3];
-                            }
-                        default:
-                            break;
-                    }
-
-                    // Update the canvas with the new image data
-                    ctx.putImageData(newImageData, 0, 0);
-                    
-                    // Convert the canvas to a tensor
-                    const tensor = tf.browser.fromPixels(canvas).resizeBilinear([MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH]).toFloat().div(255);
-                    trainingData.push(tensor);
-                    trainingLabels.push(label);
-
-                    resolve();
-                }
-            });
-
-            for(const img of trainingSetImgs) {
-                await createBoostedImage(img, 0, '/img/traininator datasets/training set 1/');
-            }
-
-            for(const img of trainingSet1NoFaceImgs) {
-                await createBoostedImage(img, 1, '/img/traininator datasets/training set 1 no face/');
-            }
-        }
-
-        console.log('Training data loaded: ', trainingData);
-        console.log('Training labels loaded: ', trainingLabels);
-
-        if (!mobilenet) {
-            console.error('MobileNet model not loaded');
-            return;
-        }
-
-        if (mobilenet instanceof Promise) {
-            mobilenet = await mobilenet;
-        }
-
-        // Predict the features for all images
-        const features: tf.Tensor[] = [];
-        for (let i = 0; i < trainingData.length; i++) {
-            const img = trainingData[i];
-            const feature = mobilenet.predict(img.expandDims(0));
-            features.push(feature);
-            
-            // Update the training progress
-            trainingProgress = Math.round((i + 1) / trainingData.length * 5) + 5;
-        }
-
-        console.log('Features extracted');
-
-        // Convert the features to tensors
-        const xs = tf.concat(features);
-        const ys = tf.oneHot(tf.tensor1d(trainingLabels, 'int32'), CLASS_NAMES.length);
-
-        trainingStep = 'Training Model...';
-
-        // Train the model
-        const epochs = 7;
-        await model.fit(xs, ys, {
-            epochs,
-            callbacks: {
-                onEpochEnd: async (epoch: number, logs: any) => {
-                    trainingProgress = Math.round((epoch + 1) / 10 * 90) + 10;
-                    trainingStep = 'Training Model...';
-
-                    console.log('Epoch: ', epoch, ' Loss: ', logs.loss, ' Accuracy: ', logs.acc);
-
-                    if (epoch === epochs - 1) {
-                        trainingProgress = 100;
-                        trainingStep = 'Training Complete!';
-                        setTimeout(() => {
-                            step = 3;
-                        }, 1000);
-                    }
-                }
-            }
-        });
-
-        isTraining = false;
-    }
-
-    const rgbToHsl = (r: number, g: number, b: number) => {
-        r /= 255;
-        g /= 255;
-        b /= 255;
-
-        const max = Math.max(r, g, b);
-        const min = Math.min(r, g, b);
-        let h = (max + min) / 2;
-        let s = h;
-        let l = h;
-
-        if (max == min) {
-            h = s = 0;
-        } else {
-            const d = max - min;
-            s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-
-            switch (max) {
-                case r:
-                    h = (g - b) / d + (g < b ? 6 : 0);
-                    break;
-                case g:
-                    h = (b - r) / d + 2;
-                    break;
-                case b:
-                    h = (r - g) / d + 4;
-                    break;
-            }
-
-            h /= 6;
-        }
-
-        return [h, s, l];
-    }
-
-    const hslToRgb = (h: number, s: number, l: number) => {
-        let r, g, b;
-
-        if (s == 0) {
-            r = g = b = l;
-        } else {
-            const hue2rgb = (p: number, q: number, t: number) => {
-                if (t < 0) t += 1;
-                if (t > 1) t -= 1;
-                if (t < 1 / 6) return p + (q - p) * 6 * t;
-                if (t < 1 / 2) return q;
-                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-                return p;
-            }
-
-            const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-            const p = 2 * l - q;
-            r = hue2rgb(p, q, h + 1 / 3);
-            g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1 / 3);
-        }
-
-        return [r * 255, g * 255, b * 255];
-    }
-
     let predictions: number[] = [];
-
-    /**
-     * Predicts the labels for the test set so we can evaluate the model.
-     **/
-    async function testModel() {
-        if (!model) {
-            console.error('Model not trained');
-            return;
-        }
-
-        if (isTesting) {
-            return;
-        }
-
-        const testSetImgs = testSet1Imgs;
-
-        const testData: tf.Tensor[] = [];
-
-        const loadImage = (img: string, path: string) => {
-            return new Promise<void>((resolve) => {
-                const image = new Image();
-                image.src = path + img;
-                image.onload = () => {
-                    const tensor = tf.browser.fromPixels(image).resizeBilinear([MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH]).toFloat().div(255);
-                    testData.push(tensor);
-
-                    // Update the testing progress
-                    testingProgress += 5 / testSetImgs.length;
-
-                    resolve();
-                }
-            });
-        }
-
-        const loadAllImages = async () => {
-            const promises = [];
-
-            for (const img of testSetImgs) {
-                promises.push(loadImage(img, '/img/traininator datasets/test set/'));
-            }
-
-            await Promise.all(promises);
-
-            console.log('Test data loaded: ', testData);
-        }
-
-        await loadAllImages();
-
-        if (!mobilenet) {
-            console.error('MobileNet model not loaded');
-            return;
-        }
-
-        if (mobilenet instanceof Promise) {
-            mobilenet = await mobilenet;
-        }
-
-        // Predict the features for all images
-        const features: tf.Tensor[] = [];
-        for (let i = 0; i < testData.length; i++) {
-            testingStep = 'Predicting image ' + (i + 1) + '/' + testData.length;
-            const img = testData[i];
-            const feature = mobilenet.predict(img.expandDims(0));
-            features.push(feature);
-            
-            // Update the testing progress
-            testingProgress = Math.round((i + 1) / testData.length * 5) + 5;
-        }
-
-        testingStep = 'Finalizing predictions...';
-
-        console.log('Features extracted');
-
-        predictions = [];        
-        
-        for(let i = 0; i < features.length; i++) {
-            const feature = features[i];
-            const prediction = model.predict(feature) as tf.Tensor;
-            const predictionData = prediction.dataSync();
-            const predictedLabel = predictionData.indexOf(Math.max(...predictionData));
-            console.log('Predicted label: ', predictedLabel, ' Prediction: ', predictionData);
-            predictions.push(predictedLabel);
-            testingProgress = Math.round((i + 1) / features.length * 90) + 10;
-        }
-
-        console.log('Predictions: ', predictions);
-
-        isTesting = false;
-
-        setTimeout(() => {
-            step = 5;
-        }, 1500);
-    }
 
     let activeTestImg = 0;
     let testLabels: number[] = [];
@@ -485,15 +65,77 @@
         }
     }
 
+    let model: tf.Sequential;
+
     $: {
-        if (step == 2) {
-            trainModel();
-        }
+        if (step == 2 && !isTraining) {
+            isTraining = true;
+
+            trainModel(
+                [
+                    trainingSetImgs.map((img) => '/img/traininator datasets/training set 1/' + img),
+                    trainingSet1NoFaceImgs.map((img) => '/img/traininator datasets/training set 1 no face/' + img),
+                ],
+                booster,
+                (progress) => {
+                    if (progress > trainingProgress) {
+                        trainingProgress = progress;
+                    }
+                },
+                (step) => {
+                    trainingStep = step;
+                }
+            ).then((mdl) => {
+                trainingProgress = 100;
+                trainingStep = 'Training Complete!';
+
+                isTraining = false;
+
+                if(!mdl) {
+                    console.log('Error training model');
+                    step = 1;
+                    return;
+                }
+
+                model = mdl;
+                setTimeout(() => {
+                    step = 3;
+                }, 1000);
+            });
+        }        
     }
 
     $: {
-        if (step == 4) {
-            testModel();
+        if (step == 4 && !isTesting) {
+            isTesting = true;
+
+            testModel(model, testSet1Imgs, CLASS_NAMES, '/img/traininator datasets/test set/', 
+                (progress) => {
+                    if (progress > testingProgress) {
+                        testingProgress = progress;
+                    }
+                },
+                (step) => {
+                    testingStep = step;
+                }
+            ).then((preds) => {
+                isTesting = false;
+
+                testingProgress = 100;
+                testingStep = 'Testing Complete!';
+
+                if(!preds) {
+                    console.log('Error testing model');
+                    step = 3;
+                    return;
+                }
+
+                predictions = preds;
+
+                setTimeout(() => {
+                    step = 5;
+                }, 1000);
+            });
         }
     }
 
