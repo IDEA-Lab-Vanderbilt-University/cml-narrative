@@ -10,10 +10,9 @@
     import { trainingSetImgs, trainingSet1NoFaceImgs, trainingSet2FaceImgs, testSet1Imgs } from '$lib/utils/Assets/TraininatorDataSets';
 	import TraininatorCard from '$lib/components/activities/traininator/TraininatorCard.svelte';
 	import { classes } from '../../traininator/stores';
+	import TraininatorImageSet from '$lib/components/activities/traininator/TraininatorImageSet.svelte';
 
     let step = 1;
-
-    
 
     const startTraining = () => {
         step = 2;
@@ -25,32 +24,6 @@
         const target = event.target as HTMLInputElement;
         if (target) {
             booster = target.value || 'none';
-        }
-    }
-
-    const getBoosterStyle = (booster: string, img: string) => {
-        switch (booster) {
-            case 'rotate':
-                const angleMax = 25; // Maximum rotation angle in degrees
-
-                // Random rotation angle between -angleMax and +angleMax
-                const angle = ((Math.random() + 0.25) * 1.8 * angleMax) - angleMax;
-
-                // Scale depends on the angle: the more the angle, the smaller the scale range
-                const scaleBase = 1.1; // Base scale to ensure it overflows slightly
-                const scaleFactor = Math.max(1.65, Math.abs(angle) / angleMax * 2.5); // Adjust scale based on angle
-                const scale = scaleBase + Math.random() * (scaleFactor - scaleBase);
-
-                // Create a CSS transform string
-                const transform = `transform: scale(${scale}) rotate(${angle}deg)`;
-
-                return transform;
-            case 'flip':
-                return 'transform: scaleX(-1);';
-            case 'adjust':
-                return 'filter: hue-rotate(' + Math.round((Math.random() * 20 + 10) * Math.sign(Math.random() - 0.5) ) + 'deg) saturate(' + Math.round(Math.random() * 2 + 1) + ');';
-            default:
-                return '';
         }
     }
 
@@ -565,52 +538,8 @@
             <div id="right">
                 <div class="header">Training Data</div>
                 <div id="trainingSets">
-                    <div class="trainingSet">
-                        <a id="face" />
-                        <div class="trainingSetHeader">
-                            <h2>Face ({trainingSetImgs.length})</h2>
-                        </div>
-                        <div class="trainingSetImages">
-                            {#each trainingSetImgs as img}
-                                <img src={'/img/traininator datasets/training set 1/' + img} alt={img} class="trainingImg" />
-                            {/each}
-                        </div>
-                        {#if booster != 'none'}
-                            <div class="boosterImages">
-                                {#each trainingSetImgs as img}
-                                    <div class="imgContainer">
-                                        <img src={'/img/traininator datasets/training set 1/' + img} alt={img} class="trainingImg" style={getBoosterStyle(booster, img)} />
-                                    </div>
-                                {/each}
-                            </div>
-                            <div class="boosterOverlay">
-                                +{trainingSetImgs.length} Boosted Images!
-                            </div>
-                        {/if}
-                    </div>
-                    <div class="trainingSet">
-                        <a id="noFace" />
-                        <div class="trainingSetHeader">
-                            <h2>No Face ({trainingSet1NoFaceImgs.length})</h2>
-                        </div>
-                        <div class="trainingSetImages">
-                            {#each trainingSet1NoFaceImgs as img}
-                                <img src={'/img/traininator datasets/training set 1 no face/' + img} alt={img} class="trainingImg" />
-                            {/each}
-                        </div>
-                        {#if booster != 'none'}
-                            <div class="boosterImages">
-                                {#each trainingSet1NoFaceImgs as img}
-                                    <div class="imgContainer">
-                                        <img src={'/img/traininator datasets/training set 1 no face/' + img} alt={img} class="trainingImg" style={getBoosterStyle(booster, img)} />
-                                    </div>
-                                {/each}
-                            </div>
-                            <div class="boosterOverlay">
-                                +{trainingSet1NoFaceImgs.length} Boosted Images!
-                            </div>
-                        {/if}
-                    </div>
+                    <TraininatorImageSet className="Face" imgs={trainingSetImgs} prefix={'/img/traininator datasets/training set 1/'} booster={booster} />
+                    <TraininatorImageSet className="No Face" imgs={trainingSet1NoFaceImgs} prefix={'/img/traininator datasets/training set 1 no face/'} booster={booster} />
                 </div>
             </div>
         </div>
@@ -666,16 +595,7 @@
             <div id="right">
                 <div class="header">Testing Model</div>
                 <div id="trainingSets">
-                    <div class="trainingSet">
-                        <div class="trainingSetHeader">
-                            <h2>Test Set 1 ({testSet1Imgs.length}):</h2>
-                        </div>
-                        <div class="trainingSetImages">
-                            {#each testSet1Imgs as img}
-                                <img src={'/img/traininator datasets/test set/' + img} alt={img} class="trainingImg" />
-                            {/each}
-                        </div>
-                    </div>
+                    <TraininatorImageSet className="Test Set 1" imgs={testSet1Imgs} prefix={'/img/traininator datasets/test set/'} booster={'none'} />
                 </div>
             </div>
         </div>
@@ -733,19 +653,9 @@
                 <div class="header">Test Set 1 Results:</div>
                 <div id="trainingSets">
                     <div class="trainingSet">
-                        <div class="trainingSetHeader">
-                            <h2>Test Set 1 ({testSet1Imgs.length}):</h2>
-                        </div>
-                        <div class="trainingSetImages">
-                            {#each testSet1Imgs as img, i}
-                                <div class="imgContainer">
-                                    <img src={'/img/traininator datasets/test set/' + img} alt={img} class="trainingImg" />
-                                    <div class="boosterOverlay {predictions[i] == testLabels[i] ? 'correct' : 'incorrect'}"> 
-                                        {predictions[i] == testLabels[i] ? '✓' : '✗'} {CLASS_NAMES[testLabels[i]]}
-                                    </div>
-                                </div>
-                            {/each}
-                        </div>
+                        <TraininatorImageSet className="Test Set 1" imgs={testSet1Imgs} prefix={'/img/traininator datasets/test set/'} booster={'none'} 
+                            labels={testLabels.map((label, i) => (label === predictions[i] ? '✓ ': '✗ ') + CLASS_NAMES[predictions[i]])} 
+                            labelClassess={testLabels.map((label, i) => label === predictions[i] ? 'correct' : 'incorrect')} />
                     </div>
                 </div>
             </div>
@@ -769,77 +679,6 @@
         height: 60vh;
     }
 
-    .trainingSetImages {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .boosterImages {
-        display: flex;
-        flex-wrap: nowrap;
-        overflow: hidden;
-        width: 100%;
-        max-width: 55vw;
-    }
-
-    .boosterImages .imgContainer {
-        width: 7.5vw;
-        min-width: 7.5vw;
-        height: 7.5vw;
-        min-height: 7.5vw;
-        aspect-ratio: 1/1;
-        object-fit: cover;
-        object-position: center;
-        border-radius: 5px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        overflow: hidden;
-        position: relative;
-        background-color: #f0f0f01d;
-        margin: 0.25vw;
-    }
-
-    .boosterImages .imgContainer img {
-        width: 7.5vw;
-        min-width: 7.5vw;
-        height: 7.5vw;
-        min-height: 7.5vw;
-        transform-origin: center center;
-        margin: 0;
-    }
-
-    .boosterOverlay {
-        background-color: #555555a9;
-        color: #eee;
-        font-size: 1.5rem;
-        width: 75%;
-        margin: 1vh auto;
-        text-align: center;
-        border-radius: 10px;
-        padding: 1vh 0;
-        position: relative;
-        z-index: 1;
-        top: -12vh;
-    }
-
-    .trainingSet {
-        display: flex;
-        flex-wrap: wrap;
-    }
-
-    .trainingImg {
-        width: 7.5vw;
-        height: 7.5vw;
-        aspect-ratio: 1/1;
-        margin: 0.25vw;
-        object-fit: cover;
-        object-position: center;
-        border-radius: 5px;
-    }
-
     #trainingSets {
         overflow-y: scroll;
         height: 50vh;
@@ -858,12 +697,6 @@
         text-align: center;
         border-bottom: #eee 0.5vh solid;
         margin-bottom: 1vh;
-    }
-
-    .trainingSetHeader {
-        color: #eee;
-        font-size: 2rem;
-        width: 100%;
     }
 
     #categories {
