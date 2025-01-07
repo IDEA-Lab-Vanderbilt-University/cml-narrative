@@ -13,6 +13,7 @@
 	import TraininatorImageSet from '$lib/components/activities/traininator/TraininatorImageSet.svelte';
 	import { cleanUpMobileNet, loadMobileNetFeatureModel, testModel, trainModel } from '$lib/utils/traininator/TraininatorUtils';
 	import TraininatorBoostersList from '$lib/components/activities/traininator/TraininatorBoostersList.svelte';
+	import TraininatorModelMatrix from '$lib/components/activities/traininator/TraininatorModelMatrix.svelte';
 
     let step = 1;
 
@@ -197,36 +198,10 @@
                 </div>
 
                 <div class="header">Model Matrix:</div>
-                <table id="modelMatrix">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th colspan="3">Model Says...</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td class="modelMaxtrixLabel"></td>
-                            <td class="modelMaxtrixLabel"></td>
-                            <td class="modelMaxtrixLabel">Face</td>
-                            <td class="modelMaxtrixLabel">No Face</td>
-                        </tr>
-                        <tr>
-                            <td rowspan="2"  class="modelMaxtrixLabel">You said...</td>
-                            <td class="modelMaxtrixLabel">Face</td>
-                            <td><span>-</span></td>
-                            <td><span>-</span></td>
-                        </tr>
-                        <tr>
-                            <td class="modelMaxtrixLabel">No Face</td>
-                            <td><span>-</span></td>
-                            <td><span>-</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div id="modelMatrixOverlay">
-                    Test model to see results!
-                </div>
+                <TraininatorModelMatrix classes={CLASS_NAMES} modelMatrix={[
+                    ['-', '-'],
+                    ['-', '-']
+                ]} />
 
                 <button id="trainButton" on:click={() => {step = 4;}}>Test Model</button>
             </div>
@@ -258,33 +233,16 @@
                     </div>
 
                     <div class="header">Model Matrix:</div>
-                    <table id="modelMatrix">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th colspan="3">Model Says...</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td class="modelMaxtrixLabel"></td>
-                                <td class="modelMaxtrixLabel"></td>
-                                <td class="modelMaxtrixLabel">Face</td>
-                                <td class="modelMaxtrixLabel">No Face</td>
-                            </tr>
-                            <tr>
-                                <td rowspan="2"  class="modelMaxtrixLabel">You said...</td>
-                                <td class="modelMaxtrixLabel">Face</td>
-                                <td class="correct">✓ {truePositives}</td>
-                                <td class="incorrect">✗ {falseNegatives}</td>
-                            </tr>
-                            <tr>
-                                <td class="modelMaxtrixLabel">No Face</td>
-                                <td class="incorrect">✗ {falsePositives}</td>
-                                <td class="correct">✓ {trueNegatives}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <TraininatorModelMatrix classes={CLASS_NAMES} modelMatrix={[
+                        ["✓ " + truePositives, "✗ " + falseNegatives],
+                        ["✗ " + falsePositives, "✓ " + trueNegatives]
+                    ]}
+                    cellClasses={
+                        [
+                            ["correct", "incorrect"],
+                            ["incorrect", "correct"]
+                        ]
+                    } />
                 </div>
             </div>
             <div id="right">
@@ -418,38 +376,6 @@
         color: #fefefe;
         border-radius: 10px;
         padding: 0.5vh 0.5vw;
-    }
-
-    #modelMatrix {
-        width: 100%;
-        margin: 1vh auto;
-        border-collapse: collapse;
-        color: #eee;
-        text-align: center;
-        font-size: 2.2vh
-    }
-
-    #modelMatrix tbody tr td {
-        border: 1px solid #eee;
-        padding: 0.75vh 0.75vw;
-    }
-
-    #modelMatrix tbody tr td.modelMaxtrixLabel {
-        border: none;
-    }
-
-    #modelMatrixOverlay {
-        background-color: #99bacfcc;
-        color: #eee;
-        font-size: 2.5vh;
-        width: 75%;
-        margin: 1vh auto;
-        text-align: center;
-        border-radius: 10px;
-        padding: 3vh 2vh;
-        position: relative;
-        z-index: 1;
-        margin-top: -15vh;
     }
 
     .correct {

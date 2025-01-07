@@ -300,7 +300,8 @@ async function trainModel(trainingSets: string[][], booster: string, onProgress:
     const features: tf.Tensor[] = [];
     for (let i = 0; i < trainingData.length; i++) {
         const img = trainingData[i];
-        const feature = mobilenet.predict(img.expandDims(0));
+        const expanded = img.expandDims(0);
+        const feature = mobilenet.predict(expanded);
         features.push(feature);
         
         // Update the training progress
@@ -390,14 +391,13 @@ export async function testModel(model: tf.Sequential, testSetImgs: string[], CLA
     // Predict the features for all images
     const features: tf.Tensor[] = [];
     for (let i = 0; i < testData.length; i++) {
-        testingStep = 'Predicting image ' + (i + 1) + '/' + testData.length;
+        onStep('Predicting image ' + (i + 1) + '/' + testData.length);
         const img = testData[i];
         const feature = mobilenet.predict(img.expandDims(0));
         features.push(feature);
         
         // Update the testing progress
-        testingProgress = Math.round((i + 1) / testData.length * 5) + 5;
-        onProgress(testingProgress);
+        onProgress(Math.round((i + 1) / testData.length * 5) + 5);
     }
 
     onStep('Finalizing predictions...');
@@ -413,8 +413,7 @@ export async function testModel(model: tf.Sequential, testSetImgs: string[], CLA
         const predictedLabel = predictionData.indexOf(Math.max(...predictionData));
         console.log('Predicted label: ', predictedLabel, ' Prediction: ', predictionData);
         predictions.push(predictedLabel);
-        testingProgress = Math.round((i + 1) / features.length * 90) + 10;
-        onProgress(testingProgress);
+        onProgress(Math.round((i + 1) / features.length * 90) + 10);
     }
 
     console.log('Predictions: ', predictions);
