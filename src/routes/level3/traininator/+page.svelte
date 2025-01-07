@@ -12,6 +12,7 @@
 	import { classes } from '../../traininator/stores';
 	import TraininatorImageSet from '$lib/components/activities/traininator/TraininatorImageSet.svelte';
 	import { cleanUpMobileNet, loadMobileNetFeatureModel, testModel, trainModel } from '$lib/utils/traininator/TraininatorUtils';
+	import TraininatorBoostersList from '$lib/components/activities/traininator/TraininatorBoostersList.svelte';
 
     let step = 1;
 
@@ -168,12 +169,7 @@
                     <li><a href="#noFace"><span>No Face</span> {trainingSet1NoFaceImgs.length}</a></li>
                 </ul>
                 <div class="header">Model Booster (x2)</div>
-                <ul id="boosters">
-                    <li><input type="radio" id="none" name="booster" value="none" checked on:change={updateBooster}><label for="none">None</label></li>
-                    <li><input type="radio" id="rotate" name="booster" value="rotate" on:change={updateBooster}><label for="rotate">Rotate</label></li>
-                    <li><input type="radio" id="flip" name="booster" value="flip" on:change={updateBooster}><label for="flip">Reflect</label></li>
-                    <li><input type="radio" id="adjust" name="booster" value="adjust" on:change={updateBooster}><label for="adjust">Recolor</label></li>
-                </ul>
+                <TraininatorBoostersList onSelect={updateBooster} />
 
                 <button id="trainButton" on:click={startTraining}>Train Model</button>
             </div>
@@ -358,44 +354,6 @@
 
     #categories li span {
         text-justify: none;
-    }
-
-    #boosters {
-        list-style-type: none;
-        padding: 0;
-    }
-
-    #boosters input[type="radio"] {
-        display: none;
-    }
-
-    #boosters input[type="radio"] + label {
-        color: #eee;
-        cursor: pointer;
-        font-size: 1.5rem;
-        width: 100%;
-        margin: 1vh auto;
-        text-align: center;
-        background-color: #f0f0f01d;
-        border-radius: 10px;
-        transition: 0.3s;
-        display: block;
-        user-select: none;
-    }
-
-    #boosters input[type="radio"]:hover + label {
-        background-color: #f0f0f0d1;
-        color: #000;
-    }
-
-    #boosters input[type="radio"]:active + label {
-        background-color: #f0f0f0;
-        color: #000;
-    }
-
-    #boosters input[type="radio"]:checked + label {
-        background-color: #50107a;
-        color: #eee;
     }
 
     #trainButton {
