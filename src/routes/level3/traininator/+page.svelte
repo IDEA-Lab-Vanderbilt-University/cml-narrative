@@ -269,7 +269,7 @@
         margin: 10px;
         width: 100%;
         align-content: center;
-        gap: 2vw;
+        gap: 1vw;
         width: 95vw;
         margin: 0 auto;
         height: 60vh;
@@ -288,7 +288,7 @@
 
     .header {
         color: #eee;
-        font-size: 3vh;
+        font-size: 2.5vh;
         width: 100%;
         text-align: center;
         border-bottom: #eee 0.5vh solid;
@@ -341,20 +341,20 @@
     #header {
         display: flex;
         justify-content: space-between;
-        padding: 10px;
-        margin: 10px;
+        padding: 1vh;
+        margin: 1vh;
         width: 100%;
         padding-left: 20vw;
         padding-right: 20vw;
     }
 
     #header div {
-        font-size: 1.5rem;
-        font-weight: bold;
+        font-size: 1rem;
+        text-transform: uppercase;
         background-color: #f0f0f01d;
         color: #000;
         border-radius: 10px;
-        padding: 1vh 5vw;
+        padding: 0.5vh 4vw;
     }
 
     #header div.activestep {
@@ -364,10 +364,11 @@
 
     #modelPerformance {
         color: #eee;
-        font-size: 1.25rem;
+        font-size: 1.2rem;
         width: 100%;
         text-align: center;
-        margin: 1vh auto;
+        margin: 0vh auto;
+        margin-bottom: 1vh;
     }
 
     #modelPerformance span {
@@ -375,7 +376,7 @@
         background-color: #ffb814e4;
         color: #fefefe;
         border-radius: 10px;
-        padding: 0.5vh 0.5vw;
+        padding: 0.4vh 0.4vw;
     }
 
     .correct {
