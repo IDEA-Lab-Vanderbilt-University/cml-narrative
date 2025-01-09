@@ -111,7 +111,7 @@
         if (step == 4 && !isTesting) {
             isTesting = true;
 
-            testModel(model, testSet1Imgs, CLASS_NAMES, '/img/traininator datasets/test set/', 
+            testModel(model, testSet1Imgs, '/img/traininator datasets/test set/', 
                 (progress) => {
                     if (progress > testingProgress) {
                         testingProgress = progress;
