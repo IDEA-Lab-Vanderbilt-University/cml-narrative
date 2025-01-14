@@ -4,6 +4,8 @@ let mobilenet: tf.GraphModel | Promise<tf.GraphModel> | null = null;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const MOBILE_NET_INPUT_WIDTH = 224;
 
+export type Booster = 'none' | 'rotate' | 'flip' | 'adjust';
+    
 /**
  * Loads the MobileNet model and warms it up so ready for use.
  **/
@@ -115,7 +117,7 @@ export function hslToRgb(h: number, s: number, l: number) {
 }
 
 export 
-async function trainModel(trainingSets: string[][], booster: string, onProgress: (progress: number) => void, onStep: (step: string) => void, epochs: number = 7) {
+async function trainModel(trainingSets: string[][], booster: Booster, onProgress: (progress: number) => void, onStep: (step: string) => void, epochs: number = 7) {
 
     onProgress(0);
     onStep('Loading training data...');
