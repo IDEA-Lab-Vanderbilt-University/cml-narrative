@@ -177,7 +177,7 @@
             <div id="right">
                 <div class="header">Training Data</div>
                 <div id="trainingSets">
-                    <TraininatorImageSet className="Face" imgs={trainingSetImgs} prefix={'/img/traininator datasets/training set 1/'} booster={booster} />
+                    <TraininatorImageSet className="Face" imgs={trainingSetImgs} prefix={'/img/traininator datasets/training set 1/'} booster={booster} allowAdd={true} />
                     <TraininatorImageSet className="No Face" imgs={trainingSet1NoFaceImgs} prefix={'/img/traininator datasets/training set 1 no face/'} booster={booster} />
                 </div>
             </div>
@@ -227,7 +227,6 @@
                         <span id="testgoal">90%</span> <br/>
                         of the time <br/>
                         (or better!)<br/>
-                        <br/>
                         Model Accuracy: <br/>
                         <span id="testAccuracy">{testAccuracy.toFixed(2)}%</span>
                     </div>

@@ -5,6 +5,8 @@
     export let prefix: string;
     export let labels: string[] = [];
     export let labelClassess: string[] = [];
+    export let allowAdd: boolean = false;
+    export let onAdd: () => void = () => {};
     
     const getBoosterStyle = (booster: string, img: string) => {
         switch (booster) {
@@ -36,7 +38,11 @@
 <div class="trainingSet">
     <a id={className} />
     <div class="trainingSetHeader">
-        <h2>{className} ({imgs.length})</h2>
+        <h2>{className} ({imgs.length})
+            {#if allowAdd}
+                <button class="addbtn" on:click={onAdd}>+</button>
+            {/if}
+        </h2>
     </div>
     <div class="trainingSetImages">
         {#each imgs as img, i}
@@ -49,6 +55,11 @@
                 {/if}
             </div>
         {/each}
+        {#if allowAdd}
+        <div class="imgContainer">
+            <button class="addbtn" on:click={onAdd}>+</button>
+        </div>
+    {/if}
     </div>
     {#if booster != 'none'}
         <div class="boosterImages">
@@ -163,6 +174,35 @@
 
     .incorrect {
         background-color: #ff00009a;
+    }
+
+    .addbtn {
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-left: 1vw;
+    }
+
+    h2 .addbtn {
+        width: 3vw;
+        height: 3vw;
+        font-size: 1.5rem;
+        line-height: 3vw;
+    }
+
+    .imgContainer .addbtn {
+        width: 7.5vw;
+        min-width: 7.5vw;
+        height: 7.5vw;
+        min-height: 7.5vw;
+        transform-origin: center center;
+        margin: 0;
+        padding: 0;
+        font-size: 4vw;
+        line-height: 7.5vw;
+        margin: 0.25vw;
     }
 
 </style>
