@@ -1,12 +1,14 @@
 <script lang="ts">
-    export let onSelect: (event: Event & { currentTarget: EventTarget & HTMLInputElement }) => void;
+	import type { Booster } from "$lib/utils/traininator/TraininatorUtils";
+
+    export let onSelect: (booster: Booster) => void;
 </script>
 
 <ul id="boosters">
-    <li><input type="radio" id="none" name="booster" value="none" checked on:change={onSelect}><label for="none">None</label></li>
-    <li><input type="radio" id="rotate" name="booster" value="rotate" on:change={onSelect}><label for="rotate">Rotate</label></li>
-    <li><input type="radio" id="flip" name="booster" value="flip" on:change={onSelect}><label for="flip">Reflect</label></li>
-    <li><input type="radio" id="adjust" name="booster" value="adjust" on:change={onSelect}><label for="adjust">Recolor</label></li>
+    <li><input type="radio" id="none" name="booster" value="none" checked on:change={onSelect.bind(null, 'none')}><label for="none">None</label></li>
+    <li><input type="radio" id="rotate" name="booster" value="rotate" on:change={onSelect.bind(null, 'rotate')}><label for="rotate">Rotate</label></li>
+    <li><input type="radio" id="flip" name="booster" value="flip" on:change={onSelect.bind(null, 'flip')}><label for="flip">Reflect</label></li>
+    <li><input type="radio" id="adjust" name="booster" value="adjust" on:change={onSelect.bind(null, 'adjust')}><label for="adjust">Recolor</label></li>
 </ul>
 
 <style>

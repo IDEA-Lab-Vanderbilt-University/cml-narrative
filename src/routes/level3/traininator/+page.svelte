@@ -11,25 +11,22 @@
 	import TraininatorCard from '$lib/components/activities/traininator/TraininatorCard.svelte';
 	import { classes } from '../../traininator/stores';
 	import TraininatorImageSet from '$lib/components/activities/traininator/TraininatorImageSet.svelte';
-	import { cleanUpMobileNet, loadMobileNetFeatureModel, testModel, trainModel } from '$lib/utils/traininator/TraininatorUtils';
+	import { cleanUpMobileNet, loadMobileNetFeatureModel, testModel, trainModel, type Booster } from '$lib/utils/traininator/TraininatorUtils';
 	import TraininatorBoostersList from '$lib/components/activities/traininator/TraininatorBoostersList.svelte';
 	import TraininatorModelMatrix from '$lib/components/activities/traininator/TraininatorModelMatrix.svelte';
 
+    // Current step in the training/testing process
     let step = 1;
+    // Should we show the add images dialog?
+    let showAddDialog = false;
+    // Have we added the second training set?
+    let set2Added = false;
 
     const startTraining = () => {
         step = 2;
     }
 
-    let booster = 'none';
-
-    const updateBooster = (event: Event & { currentTarget: EventTarget & HTMLInputElement }) => {
-        const target = event.target as HTMLInputElement;
-        if (target) {
-            booster = target.value || 'none';
-        }
-    }
-
+    let booster: Booster = 'none';
 
     onMount(async () => {
         console.log('Component mounted');
@@ -170,14 +167,14 @@
                     <li><a href="#noFace"><span>No Face</span> {trainingSet1NoFaceImgs.length}</a></li>
                 </ul>
                 <div class="header">Model Booster (x2)</div>
-                <TraininatorBoostersList onSelect={updateBooster} />
+                <TraininatorBoostersList onSelect={(b) => {booster = b;}} />
 
                 <button id="trainButton" on:click={startTraining}>Train Model</button>
             </div>
             <div id="right">
                 <div class="header">Training Data</div>
                 <div id="trainingSets">
-                    <TraininatorImageSet className="Face" imgs={trainingSetImgs} prefix={'/img/traininator datasets/training set 1/'} booster={booster} allowAdd={true} />
+                    <TraininatorImageSet className="Face" imgs={trainingSetImgs} prefix={'/img/traininator datasets/training set 1/'} booster={booster} allowAdd={!set2Added} onAdd={() => { showAddDialog = true}} />
                     <TraininatorImageSet className="No Face" imgs={trainingSet1NoFaceImgs} prefix={'/img/traininator datasets/training set 1 no face/'} booster={booster} />
                 </div>
             </div>
@@ -253,6 +250,18 @@
                             labelClassess={testLabels.map((label, i) => label === predictions[i] ? 'correct' : 'incorrect')} />
                     </div>
                 </div>
+            </div>
+        </div>
+    {/if}
+
+    {#if showAddDialog} 
+        <div id="addDialog">
+            <div id="addDialogInner">
+                <div class="header">Add Training Set 2</div>
+                <div id="trainingSets">
+                    <TraininatorImageSet className="Face" imgs={trainingSet2FaceImgs} prefix={'/img/traininator datasets/training set 2/'} booster={booster} />
+                </div>
+                <button id="trainButton" on:click={() => {showAddDialog = false; set2Added = true;}}>Add Training Set 2</button>
             </div>
         </div>
     {/if}
@@ -393,5 +402,31 @@
 
     #categories a:hover {
         background-color: #f0f0f044;
+    }
+
+    #addDialog {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: #000000a9;
+        z-index: 100;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        backdrop-filter: blur(5px);
+    }
+
+    #addDialog #addDialogInner {
+        background-color: #6c6c6c;
+        color: #000;
+        border-radius: 10px;
+        padding: 2vh;
+        width: 80vw;
+        height: 60vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 </style>
