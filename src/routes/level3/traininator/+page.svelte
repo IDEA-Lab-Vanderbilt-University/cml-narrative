@@ -224,8 +224,7 @@
                         <span id="testgoal">90%</span> <br/>
                         of the time <br/>
                         (or better!)<br/>
-                        Model Accuracy: <br/>
-                        <span id="testAccuracy">{testAccuracy.toFixed(2)}%</span>
+                        Model Accuracy: <span id="testAccuracy" style="background-color: {testAccuracy >= 90? '#00ff00': '#ff0000'}">{testAccuracy.toFixed(2)}%</span> {#if testAccuracy >= 90}😊{:else}😞{/if}
                     </div>
 
                     <div class="header">Model Matrix:</div>
