@@ -214,7 +214,7 @@
         <div class="header">Testing Model</div>
         <TraininatorProgressBar trainingProgress={testingProgress} trainingStep={testingStep} />
     {:else if step == 5}
-        <TraininatorCard prediction={predictions[activeTestImg]} image={'/img/traininator datasets/test set/' + testSet1Imgs[activeTestImg]} classes={CLASS_NAMES} choice={nextTestImage} />
+        <TraininatorCard prediction={predictions[activeTestImg]} image={testSet1Imgs[activeTestImg]} classes={CLASS_NAMES} choice={nextTestImage} />
     {:else if step == 6}
         <div id="traininatorbody">
             <div id="left">

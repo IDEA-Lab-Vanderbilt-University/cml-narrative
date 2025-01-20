@@ -352,10 +352,10 @@ export async function testModel(model: tf.Sequential, testSetImgs: string[], onP
     let testingProgress = 0;
     onStep('Loading test data...');
 
-    const loadImage = (img: string, path: string) => {
+    const loadImage = (img: string) => {
         return new Promise<void>((resolve) => {
             const image = new Image();
-            image.src = path + img;
+            image.src = img;
             image.onload = () => {
                 const tensor = tf.browser.fromPixels(image).resizeBilinear([MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH]).toFloat().div(255);
                 testData.push(tensor);
@@ -373,7 +373,7 @@ export async function testModel(model: tf.Sequential, testSetImgs: string[], onP
         const promises = [];
 
         for (const img of testSetImgs) {
-            promises.push(loadImage(img, prefix));
+            promises.push(loadImage(img));
         }
 
         await Promise.all(promises);
