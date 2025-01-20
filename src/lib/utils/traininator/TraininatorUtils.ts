@@ -53,6 +53,8 @@ export function cleanUpMobileNet() {
         } else {
             mobilenet.dispose();
         }
+
+        mobilenet = null;
     }
 }
 
@@ -339,7 +341,7 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
 /**
  * Predicts the labels for the test set so we can evaluate the model.
  **/
-export async function testModel(model: tf.Sequential, testSetImgs: string[], prefix: string, onProgress: (progress: number) => void, onStep: (step: string) => void) {
+export async function testModel(model: tf.Sequential, testSetImgs: string[], onProgress: (progress: number) => void, onStep: (step: string) => void) {
     if (!model) {
         console.error('Model not trained');
         return;
