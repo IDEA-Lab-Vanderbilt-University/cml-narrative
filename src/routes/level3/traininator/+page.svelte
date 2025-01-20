@@ -156,7 +156,7 @@
     }
 </script>
 
-<Tablet showMeter={false}>
+<Tablet showMeter={false} showBottomButtons={false}>
     <div id='header'><div class={step < 3? "activestep" : ""}>Training</div><div class={step >= 3? "activestep" : ""}>Testing</div></div>
 
     {#if step == 1}
@@ -243,12 +243,15 @@
             </div>
             <div id="right">
                 <div class="header">Test Set 1 Results:</div>
-                <div id="trainingSets">
+                <div id="testingSetsPost">
                     <div class="trainingSet">
                         <TraininatorImageSet className="Test Set 1" imgs={testSet1Imgs} booster={'none'} 
                             labels={testLabels.map((label, i) => (label === predictions[i] ? '✓ ': '✗ ') + CLASS_NAMES[predictions[i]])} 
                             labelClassess={testLabels.map((label, i) => label === predictions[i] ? 'correct' : 'incorrect')} />
                     </div>
+                </div>
+                <div>
+                    <button id="trainButton" on:click={() => {}}>Use This Model</button>           
                 </div>
             </div>
         </div>
@@ -280,10 +283,16 @@
         gap: 1vw;
         width: 95vw;
         margin: 0 auto;
-        height: 60vh;
+        height: 80vh;
     }
 
     #trainingSets {
+        overflow-y: scroll;
+        height: 60vh;
+        scrollbar-color: white transparent;
+    }
+
+    #testingSetsPost {
         overflow-y: scroll;
         height: 50vh;
         scrollbar-color: white transparent;
