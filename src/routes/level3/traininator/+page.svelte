@@ -72,8 +72,8 @@
 
             trainModel(
                 [
-                    trainingSetImgs.map((img) => '/img/traininator datasets/training set 1/' + img),
-                    trainingSet1NoFaceImgs.map((img) => '/img/traininator datasets/training set 1 no face/' + img),
+                    trainingSetImgs,
+                    trainingSet1NoFaceImgs,
                 ],
                 booster,
                 (progress) => {
@@ -108,7 +108,8 @@
         if (step == 4 && !isTesting) {
             isTesting = true;
 
-            testModel(model, testSet1Imgs, '/img/traininator datasets/test set/', 
+            // Run the model on the test set
+            testModel(model, testSet1Imgs,
                 (progress) => {
                     if (progress > testingProgress) {
                         testingProgress = progress;
@@ -155,7 +156,7 @@
     }
 </script>
 
-<Tablet showMeter={false}>
+<Tablet showMeter={false} showBottomButtons={false}>
     <div id='header'><div class={step < 3? "activestep" : ""}>Training</div><div class={step >= 3? "activestep" : ""}>Testing</div></div>
 
     {#if step == 1}
@@ -174,8 +175,8 @@
             <div id="right">
                 <div class="header">Training Data</div>
                 <div id="trainingSets">
-                    <TraininatorImageSet className="Face" imgs={trainingSetImgs} prefix={'/img/traininator datasets/training set 1/'} booster={booster} allowAdd={!set2Added} onAdd={() => { showAddDialog = true}} />
-                    <TraininatorImageSet className="No Face" imgs={trainingSet1NoFaceImgs} prefix={'/img/traininator datasets/training set 1 no face/'} booster={booster} />
+                    <TraininatorImageSet className="Face" imgs={trainingSetImgs} booster={booster} allowAdd={!set2Added} onAdd={() => { showAddDialog = true}} />
+                    <TraininatorImageSet className="No Face" imgs={trainingSet1NoFaceImgs} booster={booster} />
                 </div>
             </div>
         </div>
@@ -205,7 +206,7 @@
             <div id="right">
                 <div class="header">Testing Model</div>
                 <div id="trainingSets">
-                    <TraininatorImageSet className="Test Set 1" imgs={testSet1Imgs} prefix={'/img/traininator datasets/test set/'} booster={'none'} />
+                    <TraininatorImageSet className="Test Set 1" imgs={testSet1Imgs} booster={'none'} />
                 </div>
             </div>
         </div>
@@ -213,7 +214,7 @@
         <div class="header">Testing Model</div>
         <TraininatorProgressBar trainingProgress={testingProgress} trainingStep={testingStep} />
     {:else if step == 5}
-        <TraininatorCard prediction={predictions[activeTestImg]} image={'/img/traininator datasets/test set/' + testSet1Imgs[activeTestImg]} classes={CLASS_NAMES} choice={nextTestImage} />
+        <TraininatorCard prediction={predictions[activeTestImg]} image={testSet1Imgs[activeTestImg]} classes={CLASS_NAMES} choice={nextTestImage} />
     {:else if step == 6}
         <div id="traininatorbody">
             <div id="left">
@@ -242,12 +243,15 @@
             </div>
             <div id="right">
                 <div class="header">Test Set 1 Results:</div>
-                <div id="trainingSets">
+                <div id="testingSetsPost">
                     <div class="trainingSet">
-                        <TraininatorImageSet className="Test Set 1" imgs={testSet1Imgs} prefix={'/img/traininator datasets/test set/'} booster={'none'} 
+                        <TraininatorImageSet className="Test Set 1" imgs={testSet1Imgs} booster={'none'} 
                             labels={testLabels.map((label, i) => (label === predictions[i] ? '✓ ': '✗ ') + CLASS_NAMES[predictions[i]])} 
                             labelClassess={testLabels.map((label, i) => label === predictions[i] ? 'correct' : 'incorrect')} />
                     </div>
+                </div>
+                <div>
+                    <button id="trainButton" on:click={() => {}}>Use This Model</button>           
                 </div>
             </div>
         </div>
@@ -256,11 +260,11 @@
     {#if showAddDialog} 
         <div id="addDialog">
             <div id="addDialogInner">
-                <div class="header">Add Training Set 2</div>
+                <div class="header">Add Training Set Images...</div>
                 <div id="trainingSets">
-                    <TraininatorImageSet className="Face" imgs={trainingSet2FaceImgs} prefix={'/img/traininator datasets/training set 2/'} booster={booster} />
+                    <TraininatorImageSet className="Face" imgs={trainingSet2FaceImgs} booster={booster} />
                 </div>
-                <button id="trainButton" on:click={() => {showAddDialog = false; set2Added = true;}}>Add Training Set 2</button>
+                <button id="trainButton" on:click={() => {showAddDialog = false; set2Added = true;}}>Upload</button>
             </div>
         </div>
     {/if}
@@ -279,10 +283,16 @@
         gap: 1vw;
         width: 95vw;
         margin: 0 auto;
-        height: 60vh;
+        height: 80vh;
     }
 
     #trainingSets {
+        overflow-y: scroll;
+        height: 60vh;
+        scrollbar-color: white transparent;
+    }
+
+    #testingSetsPost {
         overflow-y: scroll;
         height: 50vh;
         scrollbar-color: white transparent;

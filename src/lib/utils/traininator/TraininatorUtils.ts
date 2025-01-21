@@ -53,6 +53,8 @@ export function cleanUpMobileNet() {
         } else {
             mobilenet.dispose();
         }
+
+        mobilenet = null;
     }
 }
 
@@ -339,7 +341,7 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
 /**
  * Predicts the labels for the test set so we can evaluate the model.
  **/
-export async function testModel(model: tf.Sequential, testSetImgs: string[], prefix: string, onProgress: (progress: number) => void, onStep: (step: string) => void) {
+export async function testModel(model: tf.Sequential, testSetImgs: string[], onProgress: (progress: number) => void, onStep: (step: string) => void) {
     if (!model) {
         console.error('Model not trained');
         return;
@@ -350,10 +352,10 @@ export async function testModel(model: tf.Sequential, testSetImgs: string[], pre
     let testingProgress = 0;
     onStep('Loading test data...');
 
-    const loadImage = (img: string, path: string) => {
+    const loadImage = (img: string) => {
         return new Promise<void>((resolve) => {
             const image = new Image();
-            image.src = path + img;
+            image.src = img;
             image.onload = () => {
                 const tensor = tf.browser.fromPixels(image).resizeBilinear([MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH]).toFloat().div(255);
                 testData.push(tensor);
@@ -371,7 +373,7 @@ export async function testModel(model: tf.Sequential, testSetImgs: string[], pre
         const promises = [];
 
         for (const img of testSetImgs) {
-            promises.push(loadImage(img, prefix));
+            promises.push(loadImage(img));
         }
 
         await Promise.all(promises);

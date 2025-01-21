@@ -2,7 +2,6 @@
     export let className: string;
     export let imgs: string[];
     export let booster: string;
-    export let prefix: string;
     export let labels: string[] = [];
     export let labelClassess: string[] = [];
     export let allowAdd: boolean = false;
@@ -47,7 +46,7 @@
     <div class="trainingSetImages">
         {#each imgs as img, i}
             <div class="imgContainer">
-                <img src={prefix + img} alt={img} class="trainingImg" />
+                <img src={img} alt={img} class="trainingImg" />
                 {#if labels.length > 0}
                     <div class="boosterOverlay {labelClassess[i]}"> 
                         {labels[i]}
@@ -65,7 +64,7 @@
         <div class="boosterImages">
             {#each imgs as img}
                 <div class="imgContainer">
-                    <img src={prefix + img} alt={img} class="trainingImg" style={getBoosterStyle(booster, img)} />
+                    <img src={img} alt={img} class="trainingImg" style={getBoosterStyle(booster, img)} />
                 </div>
             {/each}
         </div>
