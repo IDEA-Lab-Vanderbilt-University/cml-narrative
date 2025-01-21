@@ -1,49 +1,535 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
+	import type { UserProgress } from '$lib/types/UserData.js';
+	import DataService from '$lib/utils/DataService/index.js';
+	import { userDataStore } from '$lib/utils/stores/store.js';
+	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import type { PageData } from './$types';
+	import { onMount, onDestroy } from 'svelte';
+	import * as tf from '@tensorflow/tfjs';
 
 	import Welcome from '$lib/components/sequences/traininator/Welcome.svelte';
 	import ModelName from '$lib/components/sequences/traininator/ModelName.svelte';
 	import AddClasses from '$lib/components/sequences/traininator/AddClasses.svelte';
-
-	// import { modelName, classes, classNames, model } from './stores';
+	import TraininatorProgressBar from '$lib/components/activities/traininator/TraininatorProgressBar.svelte';
+	import {
+		trainingSetImgs,
+		trainingSet1NoFaceImgs,
+		trainingSet2FaceImgs,
+		testSet1Imgs
+	} from '$lib/utils/Assets/TraininatorDataSets';
+	import TraininatorCard from '$lib/components/activities/traininator/TraininatorCard.svelte';
+	// import { classes } from '../../traininator/stores';
+	import TraininatorImageSet from '$lib/components/activities/traininator/TraininatorImageSet.svelte';
+	import {
+		cleanUpMobileNet,
+		loadMobileNetFeatureModel,
+		testModel,
+		trainModel,
+		type Booster
+	} from '$lib/utils/traininator/TraininatorUtils';
+	import TraininatorBoostersList from '$lib/components/activities/traininator/TraininatorBoostersList.svelte';
+	import TraininatorModelMatrix from '$lib/components/activities/traininator/TraininatorModelMatrix.svelte';
 
 	export let data: PageData;
 
-	let page: number;
+	let files: FileList;
+
+	// Current step in the training/testing process
+	let step = 1;
 	$: {
-		page = data.page;
+		step = data.page;
 	}
+	// Should we show the add images dialog?
+	let showAddDialog = false;
 
-	let videoElement: HTMLVideoElement;
-	let videoStream: MediaStream;
+	const startTraining = () => {
+		step = 5;
+	};
 
-	async function startCamera() {
-		try {
-			videoStream = await navigator.mediaDevices.getUserMedia({ video: true });
-			videoElement.srcObject = videoStream;
-			await videoElement.play();
-		} catch (error) {
-			console.error('Error accessing camera: ', error);
+	let booster: Booster = 'none';
+
+	onMount(async () => {
+		console.log('Component mounted');
+		await loadMobileNetFeatureModel();
+	});
+
+	onDestroy(() => {
+		cleanUpMobileNet();
+
+		if (model) {
+			model.dispose();
+		}
+	});
+
+	let modelName: string = '';
+	let classes: string[] = ['a', 'b'];
+	let selectedClass = '';
+	let classImgs: { [key: string]: string[] } = { a: [], b: [] };
+
+	let trainingProgress = 0;
+	let trainingStep = 'Loading Training Data...';
+	let isTraining = false;
+
+	let testingProgress = 0;
+	let testingStep = 'Loading Testing Data...';
+	let isTesting = false;
+
+	// const CLASS_NAMES = ['Face', 'No Face'];
+
+	let predictions: number[] = [];
+
+	let activeTestImg = 0;
+	let testLabels: number[] = [];
+
+	const nextTestImage = (choice: number) => {
+		testLabels.push(choice);
+		activeTestImg++;
+		if (activeTestImg >= testSet1Imgs.length) {
+			step = 9;
+		}
+	};
+
+	let model: tf.Sequential;
+
+	$: {
+		if (step == 5 && !isTraining) {
+			isTraining = true;
+
+			trainModel(
+				[
+					trainingSetImgs.map((img) => '/img/traininator datasets/training set 1/' + img),
+					trainingSet1NoFaceImgs.map(
+						(img) => '/img/traininator datasets/training set 1 no face/' + img
+					)
+				],
+				booster,
+				(progress) => {
+					if (progress > trainingProgress) {
+						trainingProgress = progress;
+					}
+				},
+				(step) => {
+					trainingStep = step;
+				}
+			).then((mdl) => {
+				trainingProgress = 100;
+				trainingStep = 'Training Complete!';
+
+				isTraining = false;
+
+				if (!mdl) {
+					console.log('Error training model');
+					step = 4;
+					return;
+				}
+
+				model = mdl;
+				setTimeout(() => {
+					step = 6;
+				}, 1000);
+			});
 		}
 	}
 
-	let modelName: string;
-	let classes: string[];
+	$: {
+		if (step == 7 && !isTesting) {
+			isTesting = true;
 
-	// onMount(() => startCamera());
+			testModel(
+				model,
+				testSet1Imgs,
+				'/img/traininator datasets/test set/',
+				(progress) => {
+					if (progress > testingProgress) {
+						testingProgress = progress;
+					}
+				},
+				(step) => {
+					testingStep = step;
+				}
+			).then((preds) => {
+				isTesting = false;
+
+				testingProgress = 100;
+				testingStep = 'Testing Complete!';
+
+				if (!preds) {
+					console.log('Error testing model');
+					step = 6;
+					return;
+				}
+
+				predictions = preds;
+
+				setTimeout(() => {
+					step = 8;
+				}, 1000);
+			});
+		}
+	}
+
+	let testAccuracy = 0;
+	let truePositives = 0;
+	let trueNegatives = 0;
+	let falsePositives = 0;
+	let falseNegatives = 0;
+
+	$: {
+		if (step == 9) {
+			testAccuracy =
+				(testLabels.filter((label, i) => label === predictions[i]).length / testLabels.length) *
+				100;
+			truePositives = testLabels.filter((label, i) => label === 0 && predictions[i] === 0).length;
+			trueNegatives = testLabels.filter((label, i) => label === 1 && predictions[i] === 1).length;
+			falsePositives = testLabels.filter((label, i) => label === 1 && predictions[i] === 0).length;
+			falseNegatives = testLabels.filter((label, i) => label === 0 && predictions[i] === 1).length;
+		}
+	}
 </script>
 
-<div class="flex h-full w-full flex-col items-center justify-center">
-	<!-- <video bind:this={videoElement} class="rounded-xl" autoplay>
-            <track kind="captions" />
-        </video> -->
+<!-- <Tablet showMeter={false}> -->
+{#if step >= 4}
+	<div id="header">
+		<div class={step < 6 ? 'activestep' : ''}>Training</div>
+		<div class={step >= 6 ? 'activestep' : ''}>Testing</div>
+	</div>
+{/if}
 
-	{#if page === 1}
-		<Welcome />
-	{:else if page === 2}
-		<ModelName bind:modelName />
-	{:else if page === 3}
-		<AddClasses bind:classes />
-	{/if}
-</div>
+{#if step == 1}
+	<Welcome />
+{:else if step == 2}
+	<ModelName bind:modelName />
+{:else if step == 3}
+	<AddClasses bind:classes bind:classImgs />
+{:else if step == 4}
+	<div id="traininatorbody">
+		<div id="left">
+			<div class="header">Categories</div>
+			<ul id="categories">
+				{#each classes as cls}
+					<li><a href="#{cls}"><span>{cls}</span> {classImgs[cls]?.length}</a></li>
+				{/each}
+			</ul>
+			<div class="header">Model Booster (x2)</div>
+			<TraininatorBoostersList
+				onSelect={(b) => {
+					booster = b;
+				}} />
+
+			<button id="trainButton" on:click={startTraining}>Train Model</button>
+		</div>
+		<div id="right">
+			<div class="header">Training Data</div>
+			<div id="trainingSets">
+				{#each classes as cls}
+					<TraininatorImageSet
+						className={cls}
+						bind:imgs={classImgs[cls]}
+						prefix={''}
+						{booster}
+						allowAdd={true}
+						onAdd={() => {
+							selectedClass = cls;
+							showAddDialog = true;
+						}} />
+				{/each}
+			</div>
+		</div>
+	</div>
+{:else if step == 5}
+	<div class="header">Training Model</div>
+	<TraininatorProgressBar {trainingProgress} {trainingStep} />
+{:else if step == 6}
+	<div id="traininatorbody">
+		<div id="left">
+			<div class="header">Model Performance</div>
+			<div id="modelPerformance">
+				Should be correct <br />
+				<span id="testgoal">90%</span> <br />
+				of the time <br />
+				(or better!)
+			</div>
+
+			<div class="header">Model Matrix:</div>
+			<TraininatorModelMatrix
+				{classes}
+				modelMatrix={[
+					['-', '-'],
+					['-', '-']
+				]} />
+
+			<button
+				id="trainButton"
+				on:click={() => {
+					step = 7;
+				}}>Test Model</button>
+		</div>
+		<div id="right">
+			<div class="header">Testing Model</div>
+			<div id="trainingSets">
+				<TraininatorImageSet
+					className="Test Set 1"
+					imgs={testSet1Imgs}
+					prefix={'/img/traininator datasets/test set/'}
+					booster={'none'} />
+			</div>
+		</div>
+	</div>
+{:else if step == 7}
+	<div class="header">Testing Model</div>
+	<TraininatorProgressBar trainingProgress={testingProgress} trainingStep={testingStep} />
+{:else if step == 8}
+	<TraininatorCard
+		prediction={predictions[activeTestImg]}
+		image={'/img/traininator datasets/test set/' + testSet1Imgs[activeTestImg]}
+		{classes}
+		choice={nextTestImage} />
+{:else if step == 9}
+	<div id="traininatorbody">
+		<div id="left">
+			<div id="left">
+				<div class="header">Model Performance</div>
+				<div id="modelPerformance">
+					Should be correct <br />
+					<span id="testgoal">90%</span> <br />
+					of the time <br />
+					(or better!)<br />
+					Model Accuracy:
+					<span
+						id="testAccuracy"
+						style="background-color: {testAccuracy >= 90 ? '#00ff00' : '#ff0000'}"
+						>{testAccuracy.toFixed(2)}%</span>
+					{#if testAccuracy >= 90}😊{:else}😞{/if}
+				</div>
+
+				<div class="header">Model Matrix:</div>
+				<TraininatorModelMatrix
+					{classes}
+					modelMatrix={[
+						['✓ ' + truePositives, '✗ ' + falseNegatives],
+						['✗ ' + falsePositives, '✓ ' + trueNegatives]
+					]}
+					cellClasses={[
+						['correct', 'incorrect'],
+						['incorrect', 'correct']
+					]} />
+			</div>
+		</div>
+		<div id="right">
+			<div class="header">Test Set 1 Results:</div>
+			<div id="trainingSets">
+				<div class="trainingSet">
+					<TraininatorImageSet
+						className="Test Set 1"
+						imgs={testSet1Imgs}
+						prefix={'/img/traininator datasets/test set/'}
+						booster={'none'}
+						labels={testLabels.map(
+							(label, i) => (label === predictions[i] ? '✓ ' : '✗ ') + classes[predictions[i]]
+						)}
+						labelClassess={testLabels.map((label, i) =>
+							label === predictions[i] ? 'correct' : 'incorrect'
+						)} />
+				</div>
+			</div>
+		</div>
+	</div>
+{/if}
+
+{#if showAddDialog}
+	<div id="addDialog">
+		<div id="addDialogInner">
+			<div class="header">Add Images</div>
+			<input
+				accept="image/png, image/jpeg, image/jpg"
+				multiple
+				bind:files
+				id="trainImgs"
+				name="trainImgs"
+				type="file" />
+			<button
+				id="trainButton"
+				on:click={() => {
+					for (const file of files) {
+						const reader = new FileReader();
+						reader.onload = (e) => {
+							classImgs[selectedClass] = [...classImgs[selectedClass], e.target.result];
+						};
+						reader.readAsDataURL(file);
+					}
+					showAddDialog = false;
+				}}>Add</button>
+		</div>
+	</div>
+{/if}
+
+<canvas id="canvas" style="display: none;"></canvas>
+
+<!-- </Tablet> -->
+
+<style>
+	#traininatorbody {
+		display: flex;
+		justify-content: space-between;
+		padding: 10px;
+		margin: 10px;
+		width: 100%;
+		align-content: center;
+		gap: 1vw;
+		width: 95vw;
+		margin: 0 auto;
+		height: 60vh;
+	}
+
+	#trainingSets {
+		overflow-y: scroll;
+		height: 50vh;
+		scrollbar-color: white transparent;
+	}
+
+	#left {
+		width: 20vw;
+		min-width: 20vw;
+	}
+
+	#right {
+		width: 80vw;
+	}
+
+	.header {
+		color: #eee;
+		font-size: 2.5vh;
+		width: 100%;
+		text-align: center;
+		border-bottom: #eee 0.5vh solid;
+		margin-bottom: 1vh;
+	}
+
+	#categories {
+		list-style-type: none;
+		padding: 0;
+	}
+
+	#categories li {
+		color: #eee;
+		cursor: pointer;
+		font-size: 1.5rem;
+		width: 80%;
+		margin: 1vh auto;
+		text-align: justify;
+		text-align-last: justify;
+	}
+
+	#categories li span {
+		text-justify: none;
+	}
+
+	#trainButton {
+		background: radial-gradient(farthest-corner at bottom right, #49c5ff 75%, #fff 100%);
+		background-color: #49c5ff;
+		color: #111;
+		border: none;
+		border: 2px solid #289dd3;
+		height: 7vh;
+		border-radius: 3.5vh;
+		padding: 1vh 2vw;
+		font-size: 1.5rem;
+		cursor: pointer;
+		transition: 0.3s;
+		display: block;
+		margin: 5vh auto;
+	}
+
+	#trainButton:hover {
+		transform: scale(1.05);
+	}
+
+	#trainButton:active {
+		transform: scale(0.95);
+	}
+
+	#header {
+		display: flex;
+		justify-content: space-between;
+		padding: 1vh;
+		margin: 1vh;
+		width: 100%;
+		padding-left: 20vw;
+		padding-right: 20vw;
+	}
+
+	#header div {
+		font-size: 1rem;
+		text-transform: uppercase;
+		background-color: #f0f0f01d;
+		color: #000;
+		border-radius: 10px;
+		padding: 0.5vh 4vw;
+	}
+
+	#header div.activestep {
+		background-color: #f0f0f0;
+		color: #000;
+	}
+
+	#modelPerformance {
+		color: #eee;
+		font-size: 1.2rem;
+		width: 100%;
+		text-align: center;
+		margin: 0vh auto;
+		margin-bottom: 1vh;
+	}
+
+	#modelPerformance span {
+		font-size: 1.5rem;
+		background-color: #ffb814e4;
+		color: #fefefe;
+		border-radius: 10px;
+		padding: 0.4vh 0.4vw;
+	}
+
+	.correct {
+		background-color: #00ff009a;
+	}
+
+	.incorrect {
+		background-color: #ff00009a;
+	}
+
+	#categories a {
+		padding: 0.5vh;
+		border-radius: 10px;
+	}
+
+	#categories a:hover {
+		background-color: #f0f0f044;
+	}
+
+	#addDialog {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		background-color: #000000a9;
+		z-index: 100;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		backdrop-filter: blur(5px);
+	}
+
+	#addDialog #addDialogInner {
+		background-color: #6c6c6c;
+		color: #000;
+		border-radius: 10px;
+		padding: 2vh;
+		width: 80vw;
+		height: 60vh;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+	}
+</style>

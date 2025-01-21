@@ -13,14 +13,14 @@
     </thead>
     <tbody>
         <tr>
-            <td class="modelMaxtrixLabel"></td>
-            <td class="modelMaxtrixLabel"></td>
+            <td class="modelMaxtrixPlaceholder"></td>
+            <td class="modelMaxtrixPlaceholder"></td>
             {#each classes as className}
                 <td class="modelMaxtrixLabel">{className}</td>
             {/each}
         </tr>
         <tr>
-            <td rowspan={classes.length}  class="modelMaxtrixLabel">You said...</td>
+            <td rowspan={classes.length}  class="modelMaxtrixPlaceholder">You said...</td>
             <td class="modelMaxtrixLabel">{classes[0]}</td>
             {#each modelMatrix[0] as cell, j}
                 {#if cellClasses.length > 0}
@@ -68,6 +68,10 @@
     }
 
     #modelMatrix tbody tr td.modelMaxtrixLabel {
+        border: 1px solid #eee;
+    }
+
+    #modelMatrix tbody tr td.modelMaxtrixPlaceholder {
         border: none;
     }
 
