@@ -280,11 +280,12 @@
         <div id="botBuddyDialog">
             <div id="botBuddyDialogInner">
                 <div class="header">Bot Buddy Says...</div>
-                <img src="/img/characters/bot-buddy/bot-buddy-point.png" alt="Bot Buddy" />
                 <div id="botBuddyDialogText">
-                    <p>Don't forget to add the second training set!</p>
-                    <button id="trainButton" on:click={() => {showBotBuddyDialog = false;}}>Got it!</button>
+                    <img src="/img/characters/bot-buddy/bot-buddy-point.png" alt="Bot Buddy" />
+                    <p>Don't forget to add more images to the training set!</p>
+                    <p>Click the green + button to add more images!</p>
                 </div>
+                <button id="trainButton" on:click={() => {showBotBuddyDialog = false;}}>Got it!</button>
             </div>
         </div>
     {/if}
@@ -363,7 +364,8 @@
         cursor: pointer;
         transition: 0.3s;
         display: block;
-        margin: 5vh auto;
+        margin: 1vh auto;  
+        line-height: 3.5vh;
     }
 
     #trainButton:hover {
@@ -446,7 +448,22 @@
         backdrop-filter: blur(5px);
     }
 
-    #addDialog #addDialogInner {
+    #botBuddyDialog img {
+        width: 15vw;
+    }
+
+    #botBuddyDialogText {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        color: #eee;
+        font-size: 2.5vh;
+    }
+
+    #addDialog #addDialogInner, #botBuddyDialog #botBuddyDialogInner {
         background-color: #6c6c6c;
         color: #000;
         border-radius: 10px;
