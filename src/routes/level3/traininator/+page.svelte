@@ -9,7 +9,6 @@
 	import TraininatorProgressBar from '$lib/components/activities/traininator/TraininatorProgressBar.svelte';
     import { trainingSetImgs, trainingSet1NoFaceImgs, trainingSet2FaceImgs, testSet1Imgs } from '$lib/utils/Assets/TraininatorDataSets';
 	import TraininatorCard from '$lib/components/activities/traininator/TraininatorCard.svelte';
-	import { classes } from '../../traininator/stores';
 	import TraininatorImageSet from '$lib/components/activities/traininator/TraininatorImageSet.svelte';
 	import { cleanUpMobileNet, loadMobileNetFeatureModel, testModel, trainModel, type Booster } from '$lib/utils/traininator/TraininatorUtils';
 	import TraininatorBoostersList from '$lib/components/activities/traininator/TraininatorBoostersList.svelte';
@@ -24,6 +23,13 @@
     // Before the second training set is added, Bot Buddy will remind the user to add it
     let showBotBuddyDialog = false;
 
+    const CLASS_NAMES = ['Face', 'No Face'];
+
+    let trainingSets: Record<string, string[]> = {
+        'Face': [...trainingSetImgs],
+        'No Face': [...trainingSet1NoFaceImgs]
+    };
+
     const startTraining = () => {
         if(!set2Added) {
             showBotBuddyDialog = true;
@@ -33,9 +39,15 @@
         step = 2;
     }
 
-    let booster: Booster = 'none';
+    let model: tf.Sequential;
 
     onMount(async () => {
+        // Reset training data
+        trainingSets = {
+            'Face': [...trainingSetImgs],
+            'No Face': [...trainingSet1NoFaceImgs]
+        };
+
         console.log('Component mounted');
         await loadMobileNetFeatureModel();
     });
@@ -51,15 +63,13 @@
     let trainingProgress = 0;
     let trainingStep = 'Loading Training Data...';
     let isTraining = false;
+    let booster: Booster = 'none';
     
     let testingProgress = 0;
     let testingStep = 'Loading Testing Data...';
     let isTesting = false;
 
-    const CLASS_NAMES = ['Face', 'No Face'];
-
     let predictions: number[] = [];
-
     let activeTestImg = 0;
     let testLabels: number[] = [];
 
@@ -71,7 +81,15 @@
         }
     }
 
-    let model: tf.Sequential;
+    const fakeUpload = () => {
+        trainingSets = {
+            ...trainingSets,
+            'Face': [...trainingSets['Face'], ...trainingSet2FaceImgs]
+        };
+
+        showAddDialog = false; 
+        set2Added = true;
+    }
 
     $: {
         if (step == 2 && !isTraining) {
@@ -79,8 +97,8 @@
 
             trainModel(
                 [
-                    trainingSetImgs,
-                    trainingSet1NoFaceImgs,
+                    trainingSets['Face'],
+                    trainingSets['No Face'],
                 ],
                 booster,
                 (progress) => {
@@ -171,8 +189,9 @@
             <div id="left">
                 <div class="header">Categories</div>
                 <ul id="categories">
-                    <li><a href="#face"><span>Face</span> {trainingSetImgs.length}</a></li>
-                    <li><a href="#noFace"><span>No Face</span> {trainingSet1NoFaceImgs.length}</a></li>
+                    {#each CLASS_NAMES as className}
+                        <li><a href={'#' + className}><span>{className}</span> {trainingSets[className].length}</a></li>
+                    {/each}
                 </ul>
                 <div class="header">Model Booster (x2)</div>
                 <TraininatorBoostersList onSelect={(b) => {booster = b;}} />
@@ -182,8 +201,8 @@
             <div id="right">
                 <div class="header">Training Data</div>
                 <div id="trainingSets">
-                    <TraininatorImageSet className="Face" imgs={trainingSetImgs} booster={booster} allowAdd={!set2Added} onAdd={() => { showAddDialog = true}} />
-                    <TraininatorImageSet className="No Face" imgs={trainingSet1NoFaceImgs} booster={booster} />
+                    <TraininatorImageSet className="Face" imgs={trainingSets['Face']} booster={booster} allowAdd={!set2Added} onAdd={() => { showAddDialog = true}} />
+                    <TraininatorImageSet className="No Face" imgs={trainingSets['No Face']} booster={booster} />
                 </div>
             </div>
         </div>
@@ -271,7 +290,7 @@
                 <div id="trainingSets">
                     <TraininatorImageSet className="Face" imgs={trainingSet2FaceImgs} booster={booster} />
                 </div>
-                <button id="trainButton" on:click={() => {showAddDialog = false; set2Added = true;}}>Upload</button>
+                <button id="trainButton" on:click={fakeUpload}>Upload</button>
             </div>
         </div>
     {/if}
