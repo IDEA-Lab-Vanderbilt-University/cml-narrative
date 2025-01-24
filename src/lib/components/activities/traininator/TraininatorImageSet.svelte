@@ -182,6 +182,17 @@
         border-radius: 5px;
         cursor: pointer;
         margin-left: 1vw;
+        transition: 0.3s;
+    }
+
+    .addbtn:hover {
+        background-color: #5abb5d;
+        transform: scale(1.05);
+    }
+
+    .addbtn:active {
+        background-color: #3e8e41;
+        transform: scale(0.95);
     }
 
     h2 .addbtn {
