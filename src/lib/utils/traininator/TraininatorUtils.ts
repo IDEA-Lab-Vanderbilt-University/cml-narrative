@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs';
 
-let mobilenet: tf.GraphModel | Promise<tf.GraphModel> | null = null;
+let mobilenet: tf.GraphModel | Promise<tf.GraphModel | undefined> | null = null;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const MOBILE_NET_INPUT_WIDTH = 224;
 
@@ -24,21 +24,25 @@ export async function loadMobileNetFeatureModel() {
     
     mobilenet = tf.loadGraphModel(URL, {fromTFHub: true});
 
-    mobilenet = await mobilenet;
+    const loadedModel = await mobilenet;
     
-    if (!mobilenet) {
+    if (!loadedModel) {
         console.error('Failed to load MobileNet model');
         return;
     }
 
     // Warm up the model by passing zeros through it once.
     tf.tidy(function () {
-        if (!mobilenet || mobilenet instanceof Promise) {
+        if (!loadedModel) {
             return;
         }
 
-        let answer = mobilenet.predict(tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3]));
-        console.log(answer.shape);
+        let answer = loadedModel.predict(tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3]));
+
+        if (answer instanceof tf.Tensor) {
+            console.log(answer.shape);
+            answer.dispose();
+        }
     });
 
     return mobilenet;
@@ -48,7 +52,9 @@ export function cleanUpMobileNet() {
     if (mobilenet) {
         if (mobilenet instanceof Promise) {
             mobilenet.then((model) => {
-                model.dispose();
+                if(model){
+                    model.dispose();
+                }
             });
         } else {
             mobilenet.dispose();
@@ -270,7 +276,7 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
                 trainingLabels.push(label);
 
                 // Update the training progress
-                trainingProgress += 5 / (trainingSetImgsCount + (booster != 'none' ? trainingSetImgsCount : 0));
+                trainingProgress += 5 / trainingSetImgsCount;
                 onProgress(trainingProgress);
 
                 resolve();
@@ -293,7 +299,12 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
     }
 
     if (mobilenet instanceof Promise) {
-        mobilenet = await mobilenet;
+        mobilenet = await mobilenet ?? null;
+    }
+
+    if (!mobilenet) {
+        console.error('MobileNet model not loaded');
+        return;
     }
     
     console.log('MobileNet model loaded', mobilenet);
@@ -306,10 +317,16 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
         const img = trainingData[i];
         const expanded = img.expandDims(0);
         const feature = mobilenet.predict(expanded);
-        features.push(feature);
-        
-        // Update the training progress
-        onProgress(Math.round((i + 1) / trainingData.length * 5) + 5);
+
+        if(feature instanceof tf.Tensor) {
+            features.push(feature);
+            
+            // Update the training progress
+            onProgress(Math.round((i + 1) / trainingData.length * 5) + 5);
+        } else {
+            console.error('Feature extraction failed');
+            return;
+        }
     }
 
     console.log('Features extracted');
@@ -389,7 +406,12 @@ export async function testModel(model: tf.Sequential, testSetImgs: string[], onP
     }
 
     if (mobilenet instanceof Promise) {
-        mobilenet = await mobilenet;
+        mobilenet = await mobilenet ?? null;
+    }
+
+    if (!mobilenet) {
+        console.error('MobileNet model not loaded');
+        return;
     }
 
     // Predict the features for all images
@@ -398,10 +420,16 @@ export async function testModel(model: tf.Sequential, testSetImgs: string[], onP
         onStep('Predicting image ' + (i + 1) + '/' + testData.length);
         const img = testData[i];
         const feature = mobilenet.predict(img.expandDims(0));
-        features.push(feature);
-        
-        // Update the testing progress
-        onProgress(Math.round((i + 1) / testData.length * 5) + 5);
+
+        if(feature instanceof tf.Tensor) {
+            features.push(feature);
+            
+            // Update the testing progress
+            onProgress(Math.round((i + 1) / testData.length * 5) + 5);
+        } else {
+            console.error('Feature extraction failed');
+            return;
+        }
     }
 
     onStep('Finalizing predictions...');
