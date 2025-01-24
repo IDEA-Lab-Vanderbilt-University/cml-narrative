@@ -277,7 +277,9 @@
                     </div>
                 </div>
                 <div>
-                    <button id="trainButton" on:click={() => {}}>Use This Model</button>           
+                    <button id="trainButton" on:click={() => {goto('/level3/outro?page=1')}}
+                        disabled={testAccuracy < 90}
+                        >Use This Model</button>           
                 </div>
             </div>
         </div>
@@ -387,12 +389,19 @@
         line-height: 3.5vh;
     }
 
-    #trainButton:hover {
+    #trainButton:hover:not(:disabled) {
         transform: scale(1.05);
     }
 
-    #trainButton:active {
+    #trainButton:active:not(:disabled) {
         transform: scale(0.95);
+    }
+
+    #trainButton:disabled {
+        background: radial-gradient(farthest-corner at bottom right, #999 75%, #fff 100%);
+        background-color: #999;
+        color: #666;
+        border-color: #666;
     }
 
     #header {
