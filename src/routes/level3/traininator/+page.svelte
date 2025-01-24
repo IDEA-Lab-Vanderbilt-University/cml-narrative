@@ -21,8 +21,15 @@
     let showAddDialog = false;
     // Have we added the second training set?
     let set2Added = false;
+    // Before the second training set is added, Bot Buddy will remind the user to add it
+    let showBotBuddyDialog = false;
 
     const startTraining = () => {
+        if(!set2Added) {
+            showBotBuddyDialog = true;
+            return;
+        }
+
         step = 2;
     }
 
@@ -269,6 +276,18 @@
         </div>
     {/if}
 
+    {#if showBotBuddyDialog}
+        <div id="botBuddyDialog">
+            <div id="botBuddyDialogInner">
+                <div class="header">Bot Buddy Says...</div>
+                <img src="/img/characters/bot-buddy/bot-buddy-point.png" alt="Bot Buddy" />
+                <div id="botBuddyDialogText">
+                    <p>Don't forget to add the second training set!</p>
+                    <button id="trainButton" on:click={() => {showBotBuddyDialog = false;}}>Got it!</button>
+                </div>
+            </div>
+        </div>
+    {/if}
     <canvas id="canvas" style="display: none;"></canvas>
 </Tablet>
 
@@ -413,7 +432,7 @@
         background-color: #f0f0f044;
     }
 
-    #addDialog {
+    #addDialog, #botBuddyDialog {
         position: fixed;
         top: 0;
         left: 0;
