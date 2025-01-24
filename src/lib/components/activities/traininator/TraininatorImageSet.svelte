@@ -5,7 +5,11 @@
     export let labels: string[] = [];
     export let labelClassess: string[] = [];
     export let allowAdd: boolean = false;
+    export let allowRemove: boolean = false;
+    export let allowRelabel: boolean = false;
     export let onAdd: () => void = () => {};
+    export let onRemove: (i: number) => void = () => {};
+    export let onRelabel: (i: number) => void = () => {};
     
     const getBoosterStyle = (booster: string, img: string) => {
         switch (booster) {
@@ -36,6 +40,7 @@
 
 <div class="trainingSet">
     <a id={className} />
+
     <div class="trainingSetHeader">
         <h2>{className} ({imgs.length})
             {#if allowAdd}
@@ -43,6 +48,7 @@
             {/if}
         </h2>
     </div>
+    
     <div class="trainingSetImages">
         {#each imgs as img, i}
             <div class="imgContainer">
@@ -52,6 +58,14 @@
                         {labels[i]}
                     </div>
                 {/if}
+                {#if allowRemove}
+                    <button class="removeBtn" on:click={() => onRemove(i)}>
+                        <img src="/img/svg/trash.svg" alt="Remove" />
+                    </button>
+                {/if}
+                {#if allowRelabel}
+                    <button class="relabelBtn" on:click={() => onRelabel(i)}>R</button>
+                {/if}
             </div>
         {/each}
         {#if allowAdd}
@@ -60,6 +74,7 @@
         </div>
     {/if}
     </div>
+
     {#if booster != 'none'}
         <div class="boosterImages">
             {#each imgs as img}
@@ -85,6 +100,8 @@
 
     .imgContainer {
         align-content: center; 
+        max-height: 8vw;
+        overflow: hidden;
     }
 
     .boosterImages {
@@ -215,4 +232,28 @@
         margin: 0.25vw;
     }
 
+    .removeBtn {
+        background-color: #f44336;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        position: relative;
+        top: -7.5vw;
+        left: 6vw;
+        height: 1.5vw;
+        width: 1.5vw;
+        padding: 0;
+    }
+
+    .removeBtn img {
+        width: 1vw;
+        height: 1vw;
+        margin: 0 auto;
+        display: block;
+        color: white;  
+        position: relative;
+        left: 0.05vw;
+        filter: invert(1);
+    }
 </style>
