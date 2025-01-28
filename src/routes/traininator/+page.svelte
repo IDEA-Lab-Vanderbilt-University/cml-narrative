@@ -335,7 +335,9 @@
 {#if showAddDialog}
 	<div id="addDialog">
 		<div id="addDialogInner">
-			<div class="header">Add Images for {classes[selectedClassIndex]}</div>
+			<div class="header">
+				Add Images for {selectedClassIndex != -1 ? classes[selectedClassIndex] : 'testing'}
+			</div>
 			<Dropzone
 				accept={['image/*']}
 				on:dropaccepted={(e) => {
