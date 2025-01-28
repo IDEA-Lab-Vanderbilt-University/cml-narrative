@@ -264,7 +264,7 @@
                     content?.dispatchEvent(event);
                 }
             }}
-            />
+            pulse={lineNumber == 15 ? 'pulse' : ''} />
         {/if}
         {#if lineNumber == 3}
             <img src="/img/characters/bot-buddy/bot-buddy-protest-screen.png" id="bbscreen"/>
@@ -331,7 +331,7 @@
     justify-content: space-between;
     align-items: end;
     position: absolute;
-    bottom: 10vh;
+    bottom: 15vh;
     width: 100%;
 }
 
