@@ -176,6 +176,8 @@ const script: Script = {
             avatars: ['/img/characters/bot-buddy/bot-buddy-point.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S15.mp3',
+            pos: 'center',
+            size: 'full',
         },
         {
             id: 16,
