@@ -69,6 +69,7 @@
     let testingStep = 'Loading Testing Data...';
     let isTesting = false;
 
+    let toLabel: Record<number, string>[] = [];
     let predictions: number[] = [];
     let activeTestImg = 0;
     let testLabels: number[] = [];
@@ -158,6 +159,7 @@
                 predictions = preds;
 
                 setTimeout(() => {
+
                     step = 5;
                 }, 1000);
             });
