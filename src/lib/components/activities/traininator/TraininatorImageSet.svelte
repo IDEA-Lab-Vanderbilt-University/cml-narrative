@@ -77,7 +77,7 @@
     {/if}
     </div>
 
-    {#if booster != 'none'}
+    {#if booster != 'none' && imgs.length > 0}
         <div class="boosterImages">
             {#each imgs as img}
                 <div class="imgContainer">
