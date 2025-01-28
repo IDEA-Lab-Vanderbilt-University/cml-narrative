@@ -1,23 +1,13 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import type { UserProgress } from '$lib/types/UserData.js';
-	import DataService from '$lib/utils/DataService/index.js';
-	import { userDataStore } from '$lib/utils/stores/store.js';
-	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import type { PageData } from './$types';
 	import { onMount, onDestroy } from 'svelte';
 	import * as tf from '@tensorflow/tfjs';
+	import Dropzone from 'svelte-file-dropzone';
 
 	import Welcome from '$lib/components/sequences/traininator/Welcome.svelte';
 	import ModelName from '$lib/components/sequences/traininator/ModelName.svelte';
 	import AddClasses from '$lib/components/sequences/traininator/AddClasses.svelte';
 	import TraininatorProgressBar from '$lib/components/activities/traininator/TraininatorProgressBar.svelte';
-	import {
-		trainingSetImgs,
-		trainingSet1NoFaceImgs,
-		trainingSet2FaceImgs,
-		testSet1Imgs
-	} from '$lib/utils/Assets/TraininatorDataSets';
 	import TraininatorCard from '$lib/components/activities/traininator/TraininatorCard.svelte';
 	// import { classes } from '../../traininator/stores';
 	import TraininatorImageSet from '$lib/components/activities/traininator/TraininatorImageSet.svelte';
@@ -31,15 +21,13 @@
 	import TraininatorBoostersList from '$lib/components/activities/traininator/TraininatorBoostersList.svelte';
 	import TraininatorModelMatrix from '$lib/components/activities/traininator/TraininatorModelMatrix.svelte';
 
-	export let data: PageData;
-
-	let files: FileList;
+	// export let data: PageData;
 
 	// Current step in the training/testing process
 	let step = 1;
-	$: {
-		step = data.page;
-	}
+	// $: {
+	// 	step = data.page;
+	// }
 	// Should we show the add images dialog?
 	let showAddDialog = false;
 
@@ -63,9 +51,10 @@
 	});
 
 	let modelName: string = '';
-	let classes: string[] = ['a', 'b'];
-	let selectedClass = '';
-	let classImgs: { [key: string]: string[] } = { a: [], b: [] };
+	let classes: string[] = [];
+	let selectedClassIndex = 0;
+	let trainingSets: string[][] = [];
+	let testSets: string[] = [];
 
 	let trainingProgress = 0;
 	let trainingStep = 'Loading Training Data...';
@@ -85,7 +74,7 @@
 	const nextTestImage = (choice: number) => {
 		testLabels.push(choice);
 		activeTestImg++;
-		if (activeTestImg >= testSet1Imgs.length) {
+		if (activeTestImg >= testSets.length) {
 			step = 9;
 		}
 	};
@@ -97,12 +86,7 @@
 			isTraining = true;
 
 			trainModel(
-				[
-					trainingSetImgs.map((img) => '/img/traininator datasets/training set 1/' + img),
-					trainingSet1NoFaceImgs.map(
-						(img) => '/img/traininator datasets/training set 1 no face/' + img
-					)
-				],
+				trainingSets,
 				booster,
 				(progress) => {
 					if (progress > trainingProgress) {
@@ -138,8 +122,7 @@
 
 			testModel(
 				model,
-				testSet1Imgs,
-				'/img/traininator datasets/test set/',
+				testSets,
 				(progress) => {
 					if (progress > testingProgress) {
 						testingProgress = progress;
@@ -170,20 +153,26 @@
 	}
 
 	let testAccuracy = 0;
-	let truePositives = 0;
-	let trueNegatives = 0;
-	let falsePositives = 0;
-	let falseNegatives = 0;
+	let testModelMatrix: number[][] = [];
+	let testModelMatrixCellClasses: string[][] = [];
 
 	$: {
 		if (step == 9) {
 			testAccuracy =
 				(testLabels.filter((label, i) => label === predictions[i]).length / testLabels.length) *
 				100;
-			truePositives = testLabels.filter((label, i) => label === 0 && predictions[i] === 0).length;
-			trueNegatives = testLabels.filter((label, i) => label === 1 && predictions[i] === 1).length;
-			falsePositives = testLabels.filter((label, i) => label === 1 && predictions[i] === 0).length;
-			falseNegatives = testLabels.filter((label, i) => label === 0 && predictions[i] === 1).length;
+
+			testModelMatrix = Array(classes.length).fill(Array(classes.length).fill(0));
+			for (let i = 0; i < testLabels.length; i++) {
+				testModelMatrix[testLabels[i]][predictions[i]]++;
+			}
+
+			testModelMatrixCellClasses = Array(classes.length).fill(
+				Array(classes.length).fill('incorrect')
+			);
+			for (let i = 0; i < classes.length; i++) {
+				testModelMatrixCellClasses[i][i] = 'correct';
+			}
 		}
 	}
 </script>
@@ -197,18 +186,18 @@
 {/if}
 
 {#if step == 1}
-	<Welcome />
+	<Welcome bind:step />
 {:else if step == 2}
-	<ModelName bind:modelName />
+	<ModelName bind:step bind:modelName />
 {:else if step == 3}
-	<AddClasses bind:classes bind:classImgs />
+	<AddClasses bind:step bind:classes bind:trainingSets />
 {:else if step == 4}
 	<div id="traininatorbody">
 		<div id="left">
 			<div class="header">Categories</div>
 			<ul id="categories">
-				{#each classes as cls}
-					<li><a href="#{cls}"><span>{cls}</span> {classImgs[cls]?.length}</a></li>
+				{#each classes as cls, i}
+					<li><a href="#{cls}"><span>{cls}</span> {trainingSets[i]?.length}</a></li>
 				{/each}
 			</ul>
 			<div class="header">Model Booster (x2)</div>
@@ -222,16 +211,19 @@
 		<div id="right">
 			<div class="header">Training Data</div>
 			<div id="trainingSets">
-				{#each classes as cls}
+				{#each classes as cls, i}
 					<TraininatorImageSet
 						className={cls}
-						bind:imgs={classImgs[cls]}
-						prefix={''}
+						bind:imgs={trainingSets[i]}
 						{booster}
 						allowAdd={true}
+						allowRemove={true}
 						onAdd={() => {
-							selectedClass = cls;
+							selectedClassIndex = i;
 							showAddDialog = true;
+						}}
+						onRemove={(j) => {
+							trainingSets[i] = trainingSets[i].filter((_, k) => k !== j);
 						}} />
 				{/each}
 			</div>
@@ -254,10 +246,7 @@
 			<div class="header">Model Matrix:</div>
 			<TraininatorModelMatrix
 				{classes}
-				modelMatrix={[
-					['-', '-'],
-					['-', '-']
-				]} />
+				modelMatrix={Array(classes.length).fill(Array(classes.length).fill('-'))} />
 
 			<button
 				id="trainButton"
@@ -269,10 +258,18 @@
 			<div class="header">Testing Model</div>
 			<div id="trainingSets">
 				<TraininatorImageSet
-					className="Test Set 1"
-					imgs={testSet1Imgs}
-					prefix={'/img/traininator datasets/test set/'}
-					booster={'none'} />
+					className="Test Set"
+					bind:imgs={testSets}
+					allowAdd={true}
+					allowRemove={true}
+					booster={'none'}
+					onAdd={() => {
+						selectedClassIndex = -1;
+						showAddDialog = true;
+					}}
+					onRemove={(j) => {
+						testSets = testSets.filter((_, k) => k !== j);
+					}} />
 			</div>
 		</div>
 	</div>
@@ -282,7 +279,7 @@
 {:else if step == 8}
 	<TraininatorCard
 		prediction={predictions[activeTestImg]}
-		image={'/img/traininator datasets/test set/' + testSet1Imgs[activeTestImg]}
+		image={testSets[activeTestImg]}
 		{classes}
 		choice={nextTestImage} />
 {:else if step == 9}
@@ -303,27 +300,25 @@
 					{#if testAccuracy >= 90}😊{:else}😞{/if}
 				</div>
 
+				<!-- TODO: add slider popup to change threshold -->
+				<!-- once & irreversible -->
+				<!-- easier to do / not as good --- harder to do / does a good job -->
+				<!--  -->
+
 				<div class="header">Model Matrix:</div>
 				<TraininatorModelMatrix
 					{classes}
-					modelMatrix={[
-						['✓ ' + truePositives, '✗ ' + falseNegatives],
-						['✗ ' + falsePositives, '✓ ' + trueNegatives]
-					]}
-					cellClasses={[
-						['correct', 'incorrect'],
-						['incorrect', 'correct']
-					]} />
+					modelMatrix={testModelMatrix.map((r) => r.map(String))}
+					cellClasses={testModelMatrixCellClasses} />
 			</div>
 		</div>
 		<div id="right">
-			<div class="header">Test Set 1 Results:</div>
+			<div class="header">Test Set Results:</div>
 			<div id="trainingSets">
 				<div class="trainingSet">
 					<TraininatorImageSet
-						className="Test Set 1"
-						imgs={testSet1Imgs}
-						prefix={'/img/traininator datasets/test set/'}
+						className="Test Set"
+						imgs={testSets}
 						booster={'none'}
 						labels={testLabels.map(
 							(label, i) => (label === predictions[i] ? '✓ ' : '✗ ') + classes[predictions[i]]
@@ -340,26 +335,27 @@
 {#if showAddDialog}
 	<div id="addDialog">
 		<div id="addDialogInner">
-			<div class="header">Add Images</div>
-			<input
-				accept="image/png, image/jpeg, image/jpg"
-				multiple
-				bind:files
-				id="trainImgs"
-				name="trainImgs"
-				type="file" />
-			<button
-				id="trainButton"
-				on:click={() => {
-					for (const file of files) {
+			<div class="header">Add Images for {classes[selectedClassIndex]}</div>
+			<Dropzone
+				accept={['image/*']}
+				on:dropaccepted={(e) => {
+					let acceptedFiles = e.detail.acceptedFiles;
+					for (const file of acceptedFiles) {
 						const reader = new FileReader();
 						reader.onload = (e) => {
-							classImgs[selectedClass] = [...classImgs[selectedClass], e.target.result];
+							if (selectedClassIndex === -1) {
+								testSets = [...testSets, e.target.result];
+							} else {
+								trainingSets[selectedClassIndex] = [
+									...trainingSets[selectedClassIndex],
+									e.target.result
+								];
+							}
 						};
 						reader.readAsDataURL(file);
 					}
 					showAddDialog = false;
-				}}>Add</button>
+				}} />
 		</div>
 	</div>
 {/if}
@@ -526,8 +522,8 @@
 		color: #000;
 		border-radius: 10px;
 		padding: 2vh;
-		width: 80vw;
-		height: 60vh;
+		width: 60vw;
+		height: 40vh;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;

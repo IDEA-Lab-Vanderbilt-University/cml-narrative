@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
+	export let step: number;
 	export let classes: string[] = [];
-	export let classImgs: { [key: string]: string[] } = {};
+	export let trainingSets: string[][] = [];
 
 	let className = '';
 	const addClass = () => {
@@ -51,10 +52,9 @@
 
 	<button
 		on:click={() => {
-			classes.forEach((cls) => {
-				classImgs[cls] = [];
-			});
-			goto('/traininator?page=4');
+			trainingSets = Array(classes.length).fill([]);
+			// goto('/traininator?page=4');
+			step++;
 		}}
 		class="my-5 mt-10 flex items-center justify-center gap-5 rounded-full border-2 border-white bg-blue-400 bg-opacity-75 px-4 py-3 align-middle shadow-md">
 		<p class="mx-5 text-xl font-bold text-gray-800">Next</p>
