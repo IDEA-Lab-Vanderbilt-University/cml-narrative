@@ -64,7 +64,9 @@
                     </button>
                 {/if}
                 {#if allowRelabel}
-                    <button class="relabelBtn" on:click={() => onRelabel(i)}>R</button>
+                    <button class="relabelBtn" on:click={() => onRelabel(i)}>
+                        <img src="/img/svg/reload.svg" alt="Relabel" />
+                    </button>
                 {/if}
             </div>
         {/each}
@@ -232,21 +234,31 @@
         margin: 0.25vw;
     }
 
-    .removeBtn {
-        background-color: #f44336;
+    .removeBtn, .relabelBtn {
         color: white;
         border: none;
         border-radius: 5px;
         cursor: pointer;
         position: relative;
-        top: -7.5vw;
-        left: 6vw;
         height: 1.5vw;
         width: 1.5vw;
         padding: 0;
+        transition: 0.2s;
     }
 
-    .removeBtn img {
+    .removeBtn {
+        background-color: #f44336;
+        top: -7.5vw;
+        left: 6vw;
+    }
+
+    .relabelBtn {
+        background-color: #ff9800;
+        top: -2vw;
+        left: 3.25vw;
+    }
+
+    .removeBtn img, .relabelBtn img {
         width: 1vw;
         height: 1vw;
         margin: 0 auto;
@@ -255,5 +267,9 @@
         position: relative;
         left: 0.05vw;
         filter: invert(1);
+    }
+
+    .removeBtn:hover, .relabelBtn:hover {
+        transform: scale(1.05);
     }
 </style>
