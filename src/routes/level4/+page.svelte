@@ -9,7 +9,7 @@
 	import DataService from '$lib/utils/DataService/index.js';
 	import { userDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
-	import script from '$lib/scripts/level2/index.js';
+	import script from '$lib/scripts/level4/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
 	import IncomingMessageModal from '$lib/components/modals/IncomingMessageModal.svelte';

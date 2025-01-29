@@ -264,7 +264,7 @@
                     content?.dispatchEvent(event);
                 }
             }}
-            pulse={lineNumber == 15 ? 'pulse' : ''} />
+            pulse={lineNumber == 15 ? true : undefined} />
         {/if}
         {#if lineNumber == 3}
             <img src="/img/characters/bot-buddy/bot-buddy-protest-screen.png" id="bbscreen"/>
