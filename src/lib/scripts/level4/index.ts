@@ -29,7 +29,14 @@ userDataStore.subscribe((value) => {
 
 const script: Script = {
 	lines: [
-
+		{
+			id: 1,
+			speakers: ['Bot Buddy'],
+			dialog: 'Now that our megajoules meter is full, its time to leave 2075 and go back to Mission Control! I bet the team has lots of questions for us!',
+			avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+			background: '/img/backgrounds/level1/1.png',
+			pos: 'left',
+		}
     ],
 };
 
