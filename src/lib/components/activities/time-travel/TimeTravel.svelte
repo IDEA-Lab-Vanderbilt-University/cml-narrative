@@ -8,13 +8,22 @@
 
 	let warpEffect: WarpSpeed | null = null;
 
+	export let destinationPage: string;
+	export let direction: 'forward' | 'backward' = 'forward';
+
 	onMount(() => {
 		energyText?.style.setProperty('text-shadow', `0 0 10px rgba(255, 255, 0, 1)`);
 	});
 
+	let presentDate = new Date();
 	let destDate = new Date();
-	destDate.setFullYear(2075);
 
+	if (direction === 'forward') {
+		destDate.setFullYear(2075);
+	} else {
+		presentDate.setFullYear(2075);
+	}
+	
 	let destTimeRow: TimeRow | void;
 	let presTimeRow: TimeRow | void;
 	let launchButton: HTMLButtonElement | void;
@@ -22,7 +31,6 @@
 
 	const MAX_ENERGY = 100;
 	let energy = MAX_ENERGY;
-	let presentDate = new Date();
 	let startTime = presentDate.getTime();
 
 	const timeTravel = () => {
@@ -42,10 +50,10 @@
 		});
 		
 		let timeTravelInterval = setInterval(() => {
-			let remainingTime = Math.max(destDate.getTime() - presentDate.getTime(), 1);
+			let remainingTime = Math.max(Math.abs(destDate.getTime() - presentDate.getTime()), 1);
 			
 			let speed = Math.ceil(Math.max(remainingTime / 40, 200000000));
-			energy = MAX_ENERGY - Math.round(MAX_ENERGY * (1 - (remainingTime / (destDate.getTime() - startTime))));
+			energy = MAX_ENERGY - Math.round(MAX_ENERGY * (1 - (remainingTime / (Math.abs(destDate.getTime() - startTime)))));
 			
 			if (warpEffect) {
 				let warpFactor = Math.sin(energy * Math.PI / MAX_ENERGY);
@@ -58,14 +66,17 @@
 			energyText?.style.setProperty('color', `rgb(${energyColor}, ${energyColor}, 0)`);
 			energyText?.style.setProperty('text-shadow', `0 0 rgba(${energyColor}, ${energyColor}, 0, 1)`);
 
-			presentDate.setTime(presentDate.getTime() + speed);
-			
+			if(direction === 'forward') {
+				presentDate.setTime(presentDate.getTime() + speed);
+			} else {
+				presentDate.setTime(presentDate.getTime() - speed);
+			}
+
 			// Prevent the present date from going past the destination date
-			if (presentDate.getTime() > destDate.getTime()) {
+			if(direction === 'forward' && presentDate.getTime() > destDate.getTime()) {
 				presentDate.setTime(destDate.getTime());
 				energy = 0;
 				clearInterval(timeTravelInterval);
-
 
 				if(warpEffect) {
 					warpEffect.SPEED = 0;
@@ -76,7 +87,23 @@
 				setTimeout(() => {
 					warpEffect?.destroy();
 					warpEffect = null;
-					goto('/level1?page=1');
+					goto(destinationPage);
+				}, 1500);
+			} else if(direction === 'backward' && presentDate.getTime() < destDate.getTime()) {
+				presentDate.setTime(destDate.getTime());
+				energy = 0;
+				clearInterval(timeTravelInterval);
+
+				if(warpEffect) {
+					warpEffect.SPEED = 0;
+					warpEffect.DENSITY = 0;
+					warpEffect.STAR_COLOR = `rgba(255, 255, 255, 0)`;
+				}
+
+				setTimeout(() => {
+					warpEffect?.destroy();
+					warpEffect = null;
+					goto(destinationPage);
 				}, 1500);
 			}
 
@@ -88,7 +115,7 @@
 </script>
 
 <div in:fade={{duration: 500}} out:fade={{duration: 500}}>
-	<Tablet showMeter={false}>
+	<Tablet showMeter={false} showBottomButtons={false}>
 		<div id="timeTravelStuff">
 			<TimeRow date={presentDate} bind:this={presTimeRow} />
 			<span class="grid place-items-center text-white timelabel">PRESENT TIME</span>	

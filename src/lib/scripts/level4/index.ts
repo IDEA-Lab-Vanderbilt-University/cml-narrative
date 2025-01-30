@@ -36,7 +36,14 @@ const script: Script = {
 			avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
 			background: '/img/backgrounds/level1/1.png',
 			pos: 'left',
-		}
+		},
+		{
+			id: 2,
+			speakers: ['Bot Buddy'],
+			dialog: 'Let’s go back to Mission Control!',
+			avatars: [],
+			background: '',
+		},
     ],
 };
 

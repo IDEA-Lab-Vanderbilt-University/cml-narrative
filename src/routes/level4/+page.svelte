@@ -13,6 +13,7 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
 	import IncomingMessageModal from '$lib/components/modals/IncomingMessageModal.svelte';
+	import TimeTravel from '$lib/components/activities/time-travel/TimeTravel.svelte';
 
 	export let data;
 
@@ -85,6 +86,7 @@
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
+        {#if lineNumber < 2 || lineNumber > 3}
         <TabletButton on:click={() => { 
             const event  = new CustomEvent('showTablet', {
                 bubbles: true
@@ -93,6 +95,11 @@
             content?.dispatchEvent(event);
         }}
         />
+        {/if}
+
+        {#if lineNumber == 2}
+            <TimeTravel destinationPage="/level4?page=3" direction='backward' />
+        {/if}
     </div>
 </Scene>
 
