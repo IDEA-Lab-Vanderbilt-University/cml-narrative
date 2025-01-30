@@ -65,13 +65,13 @@
                 // Next level
                 goto('/level5?page=1');
 			} else {
-				goto(`/level4?page=${line.id + 1}`);
+                if(line.id > 2 || line.id == 1) {
+    				goto(`/level4?page=${line.id + 1}`);
+                }
 			}
 		} else if (direction == NavigationDirection.backward) {
-			if(line.id > 1) {
+			if(line.id > 3) {
 				goto(`/level4?page=${line.id - 1}`);
-			} else {
-				goto('/level4?page=1');
 			}
 		}
 	};
@@ -82,11 +82,13 @@
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
+        {#if lineNumber != 2}
+            <DialogBox {line} on:dialogEvent={handleDialogEvent} />
+        {/if}
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
-        {#if lineNumber < 2 || lineNumber > 3}
+        {#if lineNumber < 2 || lineNumber > 2}
         <TabletButton on:click={() => { 
             const event  = new CustomEvent('showTablet', {
                 bubbles: true

@@ -44,6 +44,41 @@ const script: Script = {
 			avatars: [],
 			background: '',
 		},
+		{
+			id: 3,
+			speakers: ['Captain Storm'],
+			dialog: 'Welcome back,  Agent! We are excited to see you!',
+			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
+			background: '/img/backgrounds/Spark_Lab.jpg',
+		},
+		{
+			id: 4,
+			speakers: ['Captain Storm'],
+			dialog: 'You have shared so much with us in your travel log! We can’t wait to apply what you have learned to the design of our technology here!',
+			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
+			background: '/img/backgrounds/Spark_Lab.jpg',
+		},
+		{
+			id: 5,
+			speakers: ['Captain Storm'],
+			dialog: 'Now, we are going to talk about robots!',
+			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
+			background: '/img/backgrounds/Spark_Lab.jpg',
+		},
+		{
+			id: 6,
+			speakers: ['Captain Storm'],
+			dialog: 'Based on what you just learned in your time travel, you are going to help us design an AI robot prototype!',
+			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
+			background: '/img/backgrounds/Spark_Lab.jpg',
+		},
+		{
+			id: 7,
+			speakers: ['Captain Storm'],
+			dialog: 'Agent, on your SPOT tablet, open file named  “Robot Prototype.”',
+			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
+			background: '/img/backgrounds/Spark_Lab.jpg',
+		}
     ],
 };
 
