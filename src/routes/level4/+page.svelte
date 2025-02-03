@@ -90,12 +90,18 @@
 	<div slot="content" class="h-full w-full" bind:this={content}>
         {#if lineNumber < 2 || lineNumber > 2}
         <TabletButton on:click={() => { 
+            if(lineNumber == 7) {
+                handleNavigation(NavigationDirection.forward);
+                return;
+            }
+
             const event  = new CustomEvent('showTablet', {
                 bubbles: true
             });
             
             content?.dispatchEvent(event);
         }}
+        pulse={lineNumber == 7}
         />
         {/if}
 
