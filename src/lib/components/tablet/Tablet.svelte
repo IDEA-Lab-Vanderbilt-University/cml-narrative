@@ -67,7 +67,7 @@
 	<div class="flex h-full w-full flex-col rounded-lg">
 		<div class="tabletHeader flex h-fit w-full justify-between p-4 font-mokoto">
 			<div class="flex items-center space-x-3 align-middle">
-				<p class="text-5xl font-bold text-white">S.P.O.T</p>
+				<p class="text-5xl font-bold text-white">S.P.O.T.</p>
 				<img src="/img/logos/SPOT-dots.svg" class="h-full w-24" alt="" />
 			</div>
 			<p class="text-xl font-bold text-white">Solving Problems of Tomorrow</p>

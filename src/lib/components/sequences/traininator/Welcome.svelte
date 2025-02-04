@@ -7,7 +7,7 @@
 <div class="my-5 flex h-1/3 w-full flex-col items-center justify-end">
 	<h1 class="my-2 text-center text-5xl font-bold tracking-wider text-white">Welcome to the</h1>
 	<h1 class="my-2 text-center text-5xl font-bold tracking-wider text-white">
-		S.P.O.T Traininator!
+		S.P.O.T. Traininator!
 	</h1>
 </div>
 <div class="my-5 flex h-2/3 w-full flex-col items-center justify-start">

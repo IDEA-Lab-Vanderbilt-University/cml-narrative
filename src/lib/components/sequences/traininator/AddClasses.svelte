@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-
 	export let step: number;
 	export let classes: string[] = [];
 	export let trainingSets: string[][] = [];

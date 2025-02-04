@@ -1,6 +1,5 @@
 <script lang="ts">
-	import type { PageData } from './$types';
-	import { onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy, getContext } from 'svelte';
 	import * as tf from '@tensorflow/tfjs';
 	import Dropzone from 'svelte-file-dropzone';
 
@@ -9,7 +8,7 @@
 	import AddClasses from '$lib/components/sequences/traininator/AddClasses.svelte';
 	import TraininatorProgressBar from '$lib/components/activities/traininator/TraininatorProgressBar.svelte';
 	import TraininatorCard from '$lib/components/activities/traininator/TraininatorCard.svelte';
-	// import { classes } from '../../traininator/stores';
+	import ThresholdSlider from '$lib/components/activities/traininator/ThresholdSlider.svelte';
 	import TraininatorImageSet from '$lib/components/activities/traininator/TraininatorImageSet.svelte';
 	import {
 		cleanUpMobileNet,
@@ -60,6 +59,8 @@
 	let trainingStep = 'Loading Training Data...';
 	let isTraining = false;
 
+	let showSetThresholdModal = true;
+	let targetAccuracy = 90;
 	let testingProgress = 0;
 	let testingStep = 'Loading Testing Data...';
 	let isTesting = false;
@@ -162,14 +163,22 @@
 				(testLabels.filter((label, i) => label === predictions[i]).length / testLabels.length) *
 				100;
 
-			testModelMatrix = Array(classes.length).fill(Array(classes.length).fill(0));
+			// Create matrix with independent rows
+			testModelMatrix = Array(classes.length)
+				.fill(null)
+				.map(() => Array(classes.length).fill(0));
+
+			// Populate confusion matrix
 			for (let i = 0; i < testLabels.length; i++) {
 				testModelMatrix[testLabels[i]][predictions[i]]++;
 			}
 
-			testModelMatrixCellClasses = Array(classes.length).fill(
-				Array(classes.length).fill('incorrect')
-			);
+			// Create cell classes matrix with independent rows
+			testModelMatrixCellClasses = Array(classes.length)
+				.fill(null)
+				.map(() => Array(classes.length).fill('incorrect'));
+
+			// Mark diagonal as correct
 			for (let i = 0; i < classes.length; i++) {
 				testModelMatrixCellClasses[i][i] = 'correct';
 			}
@@ -238,7 +247,7 @@
 			<div class="header">Model Performance</div>
 			<div id="modelPerformance">
 				Should be correct <br />
-				<span id="testgoal">90%</span> <br />
+				<span id="testgoal">{targetAccuracy}%</span> <br />
 				of the time <br />
 				(or better!)
 			</div>
@@ -289,21 +298,16 @@
 				<div class="header">Model Performance</div>
 				<div id="modelPerformance">
 					Should be correct <br />
-					<span id="testgoal">90%</span> <br />
+					<span id="testgoal">{targetAccuracy}%</span> <br />
 					of the time <br />
 					(or better!)<br />
 					Model Accuracy:
 					<span
 						id="testAccuracy"
-						style="background-color: {testAccuracy >= 90 ? '#00ff00' : '#ff0000'}"
+						style="background-color: {testAccuracy >= targetAccuracy ? '#00ff00' : '#ff0000'}"
 						>{testAccuracy.toFixed(2)}%</span>
-					{#if testAccuracy >= 90}😊{:else}😞{/if}
+					{#if testAccuracy >= targetAccuracy}😊{:else}😞{/if}
 				</div>
-
-				<!-- TODO: add slider popup to change threshold -->
-				<!-- once & irreversible -->
-				<!-- easier to do / not as good --- harder to do / does a good job -->
-				<!--  -->
 
 				<div class="header">Model Matrix:</div>
 				<TraininatorModelMatrix
@@ -358,6 +362,20 @@
 					}
 					showAddDialog = false;
 				}} />
+		</div>
+	</div>
+{/if}
+
+{#if step == 6 && showSetThresholdModal}
+	<div id="addDialog">
+		<div id="addDialogInner">
+			<div class="header">Set How Accurate Your Model Should Be</div>
+			<ThresholdSlider bind:threshold={targetAccuracy} minThreshold={50} />
+			<button
+				id="trainButton"
+				on:click={() => {
+					showSetThresholdModal = false;
+				}}>Confirm</button>
 		</div>
 	</div>
 {/if}
@@ -525,7 +543,7 @@
 		border-radius: 10px;
 		padding: 2vh;
 		width: 60vw;
-		height: 40vh;
+		height: 45vh;
 		display: flex;
 		flex-direction: column;
 		justify-content: space-between;
