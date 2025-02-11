@@ -155,7 +155,7 @@
 				</div>
 				<div class="robostepsouter">
 					<div class="robosteps">
-						<div class="robostep selectedstep" on:click={() => goto('/level4?page=10')}>
+						<div class="robostep nextstep" on:click={() => goto('/level4?page=10')}>
 							<img src="/img/icons/robodesign.png"/>
 							<p>Design</p>
 						</div>
@@ -278,22 +278,27 @@
 		user-select: none;
 	}
 
-	.robostep.selectedstep {
+	.robostep.donestep {
+		background-color: rgb(4, 159, 4);
+	}
+
+	.robostep.nextstep {
 		background-color: rgb(4, 159, 4);
 		cursor: pointer;
 		transition: all 0.3s;
+		animation: infinite 2.5s linear alternate pulse;
 	}
 
-	.robostep.selectedstep:hover {
+	.robostep.nextstep:hover {
 		background-color: rgb(3, 103, 3);
 		transform: scale(1.05);
 	}
 
-	.robostep.selectedstep:active {
+	.robostep.nextstep:active {
 		transform: scale(0.95);
 	}
 
-	.robostep.selectedstep p {
+	.robostep.nextstep p, .robostep.donestep p {
 		color: white;
 	}
 
