@@ -16,6 +16,9 @@
 	import TimeTravel from '$lib/components/activities/time-travel/TimeTravel.svelte';
 	import TabletMenu from '$lib/components/tablet/TabletMenu.svelte';
 	import { Assets } from '$lib/utils/Assets';
+	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
+	import ImageResponse from '$lib/components/activities/free-response/ImageResponse.svelte';
+	import ImageResponseModal from '$lib/components/activities/free-response/ImageResponseModal.svelte';
 
 	export let data;
 
@@ -187,6 +190,38 @@
 					</button>
 				</div>
 			</Tablet>
+		{/if}
+
+		{#if lineNumber == 11}
+			<TextResponseModal id="robotdesign1" title="For the future, I will design an AI robot with special abilities to help others. It will be able to ______"  prompt="" placeholder="" 
+			onSuccess={() => goto('/level4?page=12')} />
+		{/if}
+
+		{#if lineNumber == 12}
+			<TextResponseModal id="robotdesign2" title="My robot would help the following people: _________"  prompt="" placeholder=""
+			onSuccess={() => goto('/level4?page=13')} />
+		{/if}
+
+		{#if lineNumber == 13}
+			<TextResponseModal id="robotdesign3" title="My robot is important and should be designed because _______"  prompt="" placeholder=""
+			onSuccess={() => goto('/level4?page=14')} />
+		{/if}
+
+		{#if lineNumber == 14}
+			<TextResponseModal id="robotdesign4" title="When designing my robot, I will minimize bias by ___________"  prompt="" placeholder=""
+			onSuccess={() => goto('/level4?page=15')} />
+		{/if}
+
+		{#if lineNumber == 15}
+			<TextResponseModal id="robotdesign5" title="My robot will be named _________"  prompt="" placeholder=""
+			onSuccess={() => goto('/level4?page=16')} />
+		{/if}
+
+		{#if lineNumber == 16}
+			
+			<ImageResponseModal 
+				prompt={"Draw a picture of your robot"} 
+			/>
 		{/if}
     </div>
 </Scene>

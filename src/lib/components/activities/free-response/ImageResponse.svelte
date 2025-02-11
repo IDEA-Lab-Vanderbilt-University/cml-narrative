@@ -6,8 +6,7 @@
 	// @ts-ignore
 	const { open } = getContext('simple-modal');
 
-	export let promptedTechnology: string;
-
+	export let prompt: string;
 
 	let dispatch = createEventDispatcher();
 
@@ -45,7 +44,7 @@
 
 {#if responseTypeState == ResponseType.undefined}
 	<div class="flex h-full w-full flex-col items-center justify-center text-white">
-		<h3 class="text-4xl">Draw a picture of what you think {promptedTechnology} is.</h3>
+		<h3 class="text-4xl">{prompt}</h3>
 		<p class="mt-2 text-2xl">(You can draw on a piece of paper and take a picture too)</p>
 		<div class="mt-7 flex space-x-4">
 				<div class="flex flex-col items-center">

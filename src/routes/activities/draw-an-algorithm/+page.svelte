@@ -8,6 +8,7 @@
 	import { goto } from '$app/navigation';
 	import type { UserProgress } from '$lib/types/UserData';
 	import { userDataStore } from '$lib/utils/stores/store';
+	import ImageResponseModal from '$lib/components/activities/free-response/ImageResponseModal.svelte';
 
 	let message = '';
 	let isSuccess = false;
@@ -76,12 +77,12 @@
 	};
 </script>
 
-<Tablet showMeter={false}>
-	{#if showFeedbackModal}
-		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
-	{/if}
-	<ImageResponse
-		promptedTechnology="an Algorithm"
-		on:imageSubmitted={handleImageSubmission}
-		on:submitClicked={onSubmit} />
-</Tablet>
+<ImageResponseModal
+	promptedTechnology="an Algorithm"
+	message={message} 
+	isSuccess={isSuccess} 
+	showFeedbackModal={showFeedbackModal} 
+	handleImageSubmission={handleImageSubmission} 
+	onSubmit={onSubmit} 
+	onFeedbackClose={onFeedbackClose}
+/>
