@@ -10,6 +10,10 @@
 	font-family: 'Mokoto';
 	src: url('/font/MokotoGlitch.ttf');
 }
+@font-face {
+	font-family: 'Gemunu Libre';
+	src: url('/font/GemunuLibre.ttf');
+}
 
 .grid-background {
 	background-size: 50px 40px;

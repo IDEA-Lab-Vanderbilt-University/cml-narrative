@@ -84,13 +84,13 @@
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-        {#if ![2, 8, 9].includes(lineNumber)}
+        {#if lineNumber != 2 && lineNumber < 8}
             <DialogBox {line} on:dialogEvent={handleDialogEvent} />
         {/if}
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
-        {#if ![2, 8, 9].includes(lineNumber)}
+        {#if lineNumber != 2 && lineNumber < 8}
 			<TabletButton on:click={() => { 
 				if(lineNumber == 7) {
 					handleNavigation(NavigationDirection.forward);
@@ -152,7 +152,7 @@
 				</div>
 				<div class="robostepsouter">
 					<div class="robosteps">
-						<div class="robostep selectedstep">
+						<div class="robostep selectedstep" on:click={() => goto('/level4?page=10')}>
 							<img src="/img/icons/robodesign.png"/>
 							<p>Design</p>
 						</div>
@@ -173,6 +173,18 @@
 							<p>Showcase</p>
 						</div>
 					</div>
+				</div>
+			</Tablet>
+		{/if}
+
+		{#if lineNumber == 10}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostepintro">
+					<h2><img src="/img/icons/robodesign.png"/> Design</h2>
+					<p>Your mission is to design an AI robot that can <strong>help your community.</strong></p>
+					<p>Consider your interests and what your community might need, and describe this AI robot idea to our SPOT design engineers.</p>
+					<button class="nextBtn" on:click={() => goto('/level4?page=11')}><img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
+					</button>
 				</div>
 			</Tablet>
 		{/if}
@@ -249,4 +261,55 @@
 	.robostep.selectedstep p {
 		color: white;
 	}
+
+	.robostepintro {
+		width: 80%;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: space-evenly;
+		height: 75vh;
+	}
+
+	.robostepintro h2 {
+		font-size: 6vh;
+		text-align: center;
+		color: white;
+		margin-top: 2vh;
+	}
+
+	.robostepintro p {
+		font-size: 4vh;
+		text-align: left;
+		color: white;
+		width: 70%;
+		margin: 0 auto;
+		font-family: 'Gemunu Libre';
+	}
+
+	.robostepintro img {
+		height: 12vh;
+		display: inline;
+		position: relative;
+		left: -6vh;
+		margin-right: -6vh;
+		top: -2vh;
+	}
+
+
+    #nextbutton {
+        height: 10vh;
+        transition: transform 0.2s;
+		width: 30vh;
+	}
+
+    #nextbutton:hover {
+        transform: scale(1.1);
+    }
+
+    #nextbutton:active {
+        transform: scale(0.9);
+    }
+
 </style>
