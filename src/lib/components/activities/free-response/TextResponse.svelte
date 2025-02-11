@@ -36,6 +36,7 @@
 		recognition = new SpeechRecognition();
 		recognition.lang = 'en-US';
 		recognition.continuous = true;
+		recognition.interimResults = true;
 		recognition.start();
 
 		let finalTranscript = response;
