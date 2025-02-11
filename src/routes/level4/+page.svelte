@@ -14,6 +14,8 @@
 	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
 	import IncomingMessageModal from '$lib/components/modals/IncomingMessageModal.svelte';
 	import TimeTravel from '$lib/components/activities/time-travel/TimeTravel.svelte';
+	import TabletMenu from '$lib/components/tablet/TabletMenu.svelte';
+	import { Assets } from '$lib/utils/Assets';
 
 	export let data;
 
@@ -82,32 +84,66 @@
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-        {#if lineNumber != 2}
+        {#if ![2, 8].includes(lineNumber)}
             <DialogBox {line} on:dialogEvent={handleDialogEvent} />
         {/if}
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
-        {#if lineNumber < 2 || lineNumber > 2}
-        <TabletButton on:click={() => { 
-            if(lineNumber == 7) {
-                handleNavigation(NavigationDirection.forward);
-                return;
-            }
+        {#if ![2, 8].includes(lineNumber)}
+			<TabletButton on:click={() => { 
+				if(lineNumber == 7) {
+					handleNavigation(NavigationDirection.forward);
+					return;
+				}
 
-            const event  = new CustomEvent('showTablet', {
-                bubbles: true
-            });
-            
-            content?.dispatchEvent(event);
-        }}
-        pulse={lineNumber == 7}
-        />
+				const event  = new CustomEvent('showTablet', {
+					bubbles: true
+				});
+				
+				content?.dispatchEvent(event);
+			}}
+			pulse={lineNumber == 7}
+			/>
         {/if}
 
         {#if lineNumber == 2}
             <TimeTravel destinationPage="/level4?page=3" direction='backward' />
         {/if}
+
+		{#if lineNumber == 8}
+		<Tablet showMeter={false} showBottomButtons={false}>
+			<TabletMenu apps={[
+				{
+					title: "Travel Logs",
+					img: Assets.Tablet.travelLogIcon,
+					color: "rgb(85,205,110)"
+				},
+				{
+					title: "Profiles",
+					img: Assets.Tablet.profileIcon,
+					color: "rgb(185,90,210)"
+				},
+				{
+					title: "Badges",
+					img: Assets.Tablet.badgesIcon,
+					color: "rgb(0,175,210)"
+				},
+				{
+					title: "Robot Prototype",
+					img: Assets.Tablet.robotPrototypeIcon,
+					color: "rgb(200, 80, 50)"
+				}
+			]}
+
+			onSelect={(selection) => {
+				if(selection == "Robot Prototype") {
+					goto('/level4?page=9');
+				}
+			}}
+			/>
+		</Tablet>
+		{/if}
     </div>
 </Scene>
 
