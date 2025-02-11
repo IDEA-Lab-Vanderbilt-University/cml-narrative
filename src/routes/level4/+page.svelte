@@ -84,13 +84,13 @@
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-        {#if ![2, 8].includes(lineNumber)}
+        {#if ![2, 8, 9].includes(lineNumber)}
             <DialogBox {line} on:dialogEvent={handleDialogEvent} />
         {/if}
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
-        {#if ![2, 8].includes(lineNumber)}
+        {#if ![2, 8, 9].includes(lineNumber)}
 			<TabletButton on:click={() => { 
 				if(lineNumber == 7) {
 					handleNavigation(NavigationDirection.forward);
@@ -144,9 +144,109 @@
 			/>
 		</Tablet>
 		{/if}
+
+		{#if lineNumber == 9}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostepsouter">
+					<h2>Your Prototype</h2>
+				</div>
+				<div class="robostepsouter">
+					<div class="robosteps">
+						<div class="robostep selectedstep">
+							<img src="/img/icons/robodesign.png"/>
+							<p>Design</p>
+						</div>
+						<div class="robostep">
+							<img src="/img/icons/roboplan.png"/>
+							<p>Plan</p>
+						</div>
+						<div class="robostep">
+							<img src="/img/icons/robotrain.png"/>
+							<p>Test & Train</p>
+						</div>
+						<div class="robostep">
+							<img src="/img/icons/roboprogram.png"/>
+							<p>Program</p>
+						</div>
+						<div class="robostep">
+							<img src="/img/icons/roboshowcase.png"/>
+							<p>Showcase</p>
+						</div>
+					</div>
+				</div>
+			</Tablet>
+		{/if}
     </div>
 </Scene>
 
 <style>
-    
+	.robostepsouter {
+		background: linear-gradient(90deg, rgb(137, 200, 225), rgb(100, 159, 200));
+		width: 80%;
+		margin: 0 auto;
+		margin-bottom: 1vh;
+		border-radius: 5vh;
+		padding: 1.5vh;
+	}
+
+	.robostepsouter h2 {
+		text-align: center;
+		font-size: 6vh;
+		color: black;
+		font-weight: bold;
+	}
+
+    .robosteps {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-around;
+		align-items: center;
+		height: 65vh;
+		background-color: white;
+		border-radius: 5vh;
+	}
+
+	.robostep {
+		background-color: peachpuff;
+		border-radius: 4vh;
+		height: 9vh;
+		width: 50%;
+	}
+
+	.robostep img {
+		height: 11vh;
+		position: relative;
+		top: -1vh;
+		left: -1vh;
+		clear: none;
+		float: left;
+	}
+
+	.robostep p {
+		line-height: 9vh;
+		position: relative;
+		left: 2vh;
+		font-size: 5vh;
+		text-shadow: 0 0 1vh rgba(0, 0, 0, 0.4);
+		user-select: none;
+	}
+
+	.robostep.selectedstep {
+		background-color: rgb(4, 159, 4);
+		cursor: pointer;
+		transition: all 0.3s;
+	}
+
+	.robostep.selectedstep:hover {
+		background-color: rgb(3, 103, 3);
+		transform: scale(1.05);
+	}
+
+	.robostep.selectedstep:active {
+		transform: scale(0.95);
+	}
+
+	.robostep.selectedstep p {
+		color: white;
+	}
 </style>
