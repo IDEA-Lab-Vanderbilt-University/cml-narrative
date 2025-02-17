@@ -19,4 +19,5 @@ export const Tablet = {
 	profileIcon: '/img/tablet/profileicon.png',
 	badgesIcon: '/img/tablet/awardicon.svg',
     travelLogIcon: '/img/tablet/locationicon.svg',
+	robotPrototypeIcon: '/img/svg/tools.svg',
 };
