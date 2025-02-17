@@ -9,7 +9,7 @@
 	let isSuccess = false;
 	let showFeedbackModal = false;
 
-    export let onSuccess: () => void;
+    export let onSuccess: (result: string) => void;
     export let id: string;
 
     export let promptedTechnology: string | undefined = undefined;
@@ -19,7 +19,7 @@
 
 	function onFeedbackClose() {
 		if (isSuccess) {
-			onSuccess();
+			onSuccess(response);
 		}
 		showFeedbackModal = false;
 	}

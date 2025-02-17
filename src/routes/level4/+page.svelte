@@ -84,6 +84,11 @@
 
     let content: HTMLDivElement | null;
 
+	let robotAbilities = '_____';
+	let robotHelp = '_____';
+	let robotImportance = '_____';
+	let robotBias = '_____';
+	let robotName = '_____';
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -164,30 +169,49 @@
 				</div>
 			</Tablet>
 		{/if}
-
 		{#if lineNumber == 11}
-			<TextResponseModal id="robotdesign1" title="For the future, I will design an AI robot with special abilities to help others. It will be able to ______"  prompt="" placeholder="" 
-			onSuccess={() => goto('/level4?page=12')} />
+			<TextResponseModal 
+				id="robotdesign1" 
+				title="For the future, I will design an AI robot with special abilities to help others. It will be able to ______"  
+				prompt="" 
+				placeholder=""
+				onSuccess={(response) => { robotAbilities = response; goto('/level4?page=12'); }} />
 		{/if}
 
 		{#if lineNumber == 12}
-			<TextResponseModal id="robotdesign2" title="My robot would help the following people: _________"  prompt="" placeholder=""
-			onSuccess={() => goto('/level4?page=13')} />
+			<TextResponseModal 
+				id="robotdesign2" 
+				title="My robot would help the following people: _________"  
+				prompt="" 
+				placeholder=""
+				onSuccess={(response) => { robotHelp = response; goto('/level4?page=13'); }} />
 		{/if}
 
 		{#if lineNumber == 13}
-			<TextResponseModal id="robotdesign3" title="My robot is important and should be designed because _______"  prompt="" placeholder=""
-			onSuccess={() => goto('/level4?page=14')} />
+			<TextResponseModal 
+				id="robotdesign3" 
+				title="My robot is important and should be designed because _______"  
+				prompt="" 
+				placeholder=""
+				onSuccess={(response) => { robotImportance = response; goto('/level4?page=14'); }} />
 		{/if}
 
 		{#if lineNumber == 14}
-			<TextResponseModal id="robotdesign4" title="When designing my robot, I will minimize bias by ___________"  prompt="" placeholder=""
-			onSuccess={() => goto('/level4?page=15')} />
+			<TextResponseModal 
+				id="robotdesign4" 
+				title="When designing my robot, I will minimize bias by ___________"  
+				prompt="" 
+				placeholder=""
+				onSuccess={(response) => { robotBias = response; goto('/level4?page=15'); }} />
 		{/if}
 
 		{#if lineNumber == 15}
-			<TextResponseModal id="robotdesign5" title="My robot will be named _________"  prompt="" placeholder=""
-			onSuccess={() => goto('/level4?page=16')} />
+			<TextResponseModal 
+				id="robotdesign5" 
+				title="My robot will be named _________"  
+				prompt="" 
+				placeholder=""
+				onSuccess={(response) => { robotName = response; goto('/level4?page=16'); }} />
 		{/if}
 
 		{#if lineNumber == 16}
@@ -196,11 +220,27 @@
 				prompt={"Draw a picture of your robot"} 
 			/>
 		{/if}
+
+		{#if lineNumber == 17}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostepsummary">
+					<p>
+						For the future, I will design an AI robot with special abilities. It will be able to {robotAbilities}! 
+						My robot would help the following people: {robotHelp}.
+						My robot is important and should be designed because {robotImportance}.
+						When designing my robot, I will minimize bias by {robotBias}. 
+					</p>
+					<p>
+						My robot will be named {robotName}.
+					</p>
+				</div>
+			</Tablet>
+		{/if}
     </div>
 </Scene>
 
 <style>
-	.robostepintro {
+	.robostepintro, .robostepsummary {
 		width: 80%;
 		margin: 0 auto;
 		display: flex;
@@ -223,6 +263,13 @@
 		color: white;
 		width: 70%;
 		margin: 0 auto;
+		font-family: 'Gemunu Libre';
+	}
+
+	.robostepsummary p {
+		font-size: 3vh;
+		text-align: left;
+		color: white;
 		font-family: 'Gemunu Libre';
 	}
 
