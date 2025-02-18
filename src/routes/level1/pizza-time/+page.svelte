@@ -40,7 +40,7 @@
 			level: 0,
 			levelLabel: 'level-one',
 			subLevel: 1,
-			subLevelLabel: '/level1/pizza-time?page=1',
+			last_visited: '/level1/pizza-time?page=1',
 			lastUpdated: new Date()
 		};
 	}

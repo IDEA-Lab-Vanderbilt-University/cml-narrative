@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import type { HarmfulHelpfulItem } from '$lib/types/DragDropItem';
-	import type { UserProgress } from '$lib/types/UserData';
+	import type { StudentProgress } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import { dragItemsStore, harmfulHelpfulStore, userDataStore } from '$lib/utils/stores/store';
@@ -18,7 +18,7 @@
 			level: 0,
 			levelLabel: 'level-zero',
 			subLevel: 1,
-			subLevelLabel: '/training?page=5',
+			last_visited: '/training?page=5',
 			lastUpdated: new Date()
 		};
 	};

@@ -17,8 +17,8 @@
 
 	import DataService from '$lib/utils/DataService';
 	import { goto } from '$app/navigation';
-	import type { UserProgress } from '$lib/types/UserData';
-	import { userDataStore } from '$lib/utils/stores/store';
+	import type { StudentProgress } from '$lib/types/UserData';
+	import type { studentDataStore } from '$lib/utils/stores/store';
 	import ImageResponseModal from '$lib/components/activities/free-response/ImageResponseModal.svelte';
 
 	let message = '';
@@ -39,7 +39,7 @@
 			level: 0,
 			levelLabel: 'level-zero',
 			subLevel: 1,
-			subLevelLabel: '/training?page=14',
+			last_visited: '/training?page=14',
 			lastUpdated: new Date()
 		};
 	};

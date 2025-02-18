@@ -27,7 +27,7 @@
             level: 0,
             levelLabel: '',
             subLevel: 0,
-            subLevelLabel: '',
+            last_visited: '',
             lastUpdated: undefined
         }
     };
@@ -57,7 +57,7 @@
 			level: 0,
 			levelLabel: 'level-one',
 			subLevel: 0,
-			subLevelLabel: '/level1?page=1',
+			last_visited: '/level1?page=1',
 			lastUpdated: new Date()
 		};
 	}

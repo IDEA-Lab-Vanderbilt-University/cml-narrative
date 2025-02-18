@@ -131,7 +131,7 @@
 			level: 0,
 			levelLabel: 'level-zero',
 			subLevel: 1,
-			subLevelLabel: '/introduction/welcome?page=1',
+			last_visited: '/introduction/welcome?page=1',
 			lastUpdated: new Date()
 		};
 	};

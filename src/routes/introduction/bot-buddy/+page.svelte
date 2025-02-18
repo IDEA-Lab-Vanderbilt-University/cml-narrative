@@ -46,7 +46,7 @@
 			level: 0,
 			levelLabel: 'level-zero',
 			subLevel: 1,
-			subLevelLabel: '/training?page=1',
+			last_visited: '/training?page=1',
 			lastUpdated: new Date()
 		};
 	}

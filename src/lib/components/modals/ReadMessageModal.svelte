@@ -22,7 +22,7 @@
             level: 0,
             levelLabel: '',
             subLevel: 0,
-            subLevelLabel: '',
+            last_visited: '',
             lastUpdated: undefined
         }
     };

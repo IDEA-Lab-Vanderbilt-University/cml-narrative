@@ -14,9 +14,9 @@
 	import SurveyOption from '$lib/components/activities/survey/SurveyOption.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
-	import type { UserProgress } from '$lib/types/UserData';
+	import type { StudentProgress } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
-	import { userDataStore } from '$lib/utils/stores/store';
+	import type { studentDataStore } from '$lib/utils/stores/store';
 
 	/**
 	 * Track the current question that is displaying
@@ -135,7 +135,7 @@
 			level: 0,
 			levelLabel: 'level-zero',
 			subLevel: 1,
-			subLevelLabel: '/training?page=13',
+			last_visited: '/training?page=13',
 			lastUpdated: new Date()
 		};
 	};

@@ -10,7 +10,7 @@
  
 --->
 <script lang="ts">
-	import type { UserData } from '$lib/types/UserData';
+	import type { Student } from '$lib/types/UserData';
 	import { onMount } from 'svelte';
 
 	export let profileData: UserData;

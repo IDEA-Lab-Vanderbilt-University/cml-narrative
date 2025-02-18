@@ -12,8 +12,8 @@
 
 import type { Script } from '$lib/types/Script';
 
-import type { UserData } from '$lib/types/UserData';
-import { userDataStore } from '$lib/utils/stores/store';
+import type { Student } from '$lib/types/UserData';
+import type { studentDataStore } from '$lib/utils/stores/store';
 
 let agent: UserData = {
 	name: {
@@ -30,7 +30,7 @@ let agent: UserData = {
 		level: 0,
 		levelLabel: '',
 		subLevel: 0,
-		subLevelLabel: '',
+		last_visited: '',
 		lastUpdated: undefined
 	}
 };

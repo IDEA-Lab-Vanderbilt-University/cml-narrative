@@ -1,8 +1,8 @@
 <script lang="ts">
 	import Tablet from "../tablet/Tablet.svelte";
 
-    import type { UserData } from '$lib/types/UserData';
-    import { userDataStore } from '$lib/utils/stores/store';
+    import type { Student } from '$lib/types/UserData';
+    import type { studentDataStore } from '$lib/utils/stores/store';
 	import Badge from "../Badge.svelte";
     import { Confetti } from "svelte-confetti";
 	import MegaJoulesMeter from "../tablet/MegaJoulesMeter.svelte";
@@ -24,7 +24,7 @@
             level: 0,
             levelLabel: '',
             subLevel: 0,
-            subLevelLabel: '',
+            last_visited: '',
             lastUpdated: undefined
         }
     };

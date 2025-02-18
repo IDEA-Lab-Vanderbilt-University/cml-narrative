@@ -10,7 +10,7 @@
  
 --->
 <script lang="ts">
-	import type { UserData } from '$lib/types/UserData';
+	import type { Student } from '$lib/types/UserData';
 
 	export let profileData: UserData;
 </script>
