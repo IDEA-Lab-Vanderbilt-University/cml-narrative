@@ -52,7 +52,7 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = ():UserProgress => {
+	const getUpdatedProgress = (): StudentProgress => {
 		return {
 			level: 0,
 			levelLabel: 'level-one',
@@ -62,7 +62,7 @@
 		};
 	}
 
-	const updateLocalProgress = (progress: UserProgress) => {
+	const updateLocalProgress = (progress: StudentProgress) => {
 		userDataStore.update((data) => {
 			data.progress = progress;
 			return data;

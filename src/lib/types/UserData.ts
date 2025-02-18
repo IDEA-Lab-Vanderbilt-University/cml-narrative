@@ -10,32 +10,30 @@
  
 */
 
-export interface UserData {
-	name: {
-		first: string;
-		last: string;
+export interface Student {
+	id?: string;
+	teacher_id: string;
+	first_name: string;
+	last_name: string;
+	age?: number;
+	interests?: string[];
+	avatar?: string;
+	agent_name?: string;
+	updated_at?: {
+		secs_since_epoch: number;
+		nanos_since_epoch: number;
+	},
+	progress?: StudentProgress;
+}
+
+export interface StudentProgress {
+	id?: string;
+	student_id?: string;
+	last_visited?: string;
+	badge_count?: number;
+	megajoules?: number;
+	updated_at?: {
+		secs_since_epoch: number;
+		nanos_since_epoch: number;
 	};
-	age: number;
-	interests: string[];
-	avatarImg?: string;
-	agentName: string;
-	email: string;
-	password: string;
-	progress: UserProgress;
-}
-
-export interface UserProgress {
-	level: number;
-	levelLabel: string;
-	subLevel: number;
-	subLevelLabel: string;
-	lastUpdated: Date | undefined;
-}
-
-export interface StudentData {
-	id?: number;
-	firstName: string;
-	lastName: string;
-	email: string;
-	password: string;
 }

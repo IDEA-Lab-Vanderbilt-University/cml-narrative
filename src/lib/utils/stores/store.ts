@@ -10,11 +10,10 @@
  
 */
 
-import type { StudentData, UserData } from '$lib/types/UserData';
+import type { Student, StudentProgress } from '$lib/types/UserData';
 import { writable } from 'svelte/store';
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
-import type { Student } from '$lib/types/teacher-view/Student';
 import { defaultSettings, type Settings } from '$lib/types/Settings';
 import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes';
 
@@ -34,48 +33,19 @@ import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatyp
  * cookies, which is probably something we will do in the future.
  */
 
-let defaultUserData: UserData = {
-	name: {
-		first: '',
-		last: ''
-	},
-	age: 0,
-	interests: [],
-	avatarImg: '',
-	agentName: '',
-	email: '',
-	password: '',
-	progress: {
-		level: 0,
-		levelLabel: '',
-		subLevel: 0,
-		subLevelLabel: '',
-		lastUpdated: undefined
-	}
-};
-
-let defaultStudentData: StudentData = {
-	firstName: '',
-	lastName: '',
-	id: 0,
-	email: '',
-	password: ''
-};
-
-export const userDataStore = persist(
-	writable<UserData>(defaultUserData),
-	createLocalStorage(),
-	'userData'
-);
-
 export const settingsStore = persist(
 	writable<Settings>(defaultSettings),
 	createLocalStorage(),
 	'settings'
 );
 
-export const studentDataStore = writable<StudentData>(defaultStudentData);
-export const temporaryUserData = writable<UserData>(defaultUserData);
+export const studentDataStore = writable<Student>({
+	teacher_id: '',
+	first_name: '',
+	last_name: '',
+});
+
+export const studentProgressStore = writable<StudentProgress>({});
 
 export const pizzaConfigStore = writable<PizzaConfig | undefined>(undefined);
 
@@ -86,12 +56,6 @@ export const tabletPowerNavigation = writable({
 } as { href: string | undefined });
 
 export const accessTokenStore = writable('');
-
-/**
- * Defines the store for the Megajoules meter. A number 0-14 should be passed.
- * This store allows this information to be accessed throughout the application.
- */
-export const megaJoulesMeter = writable(0);
 
 export const drawResponse = writable();
 

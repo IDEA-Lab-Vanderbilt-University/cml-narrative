@@ -353,6 +353,7 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
         }
     });
 
+    console.log(model.summary());
     return model;
 }
 /**

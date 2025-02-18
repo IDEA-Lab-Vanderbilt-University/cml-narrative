@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte';
-	import type { Student } from '$lib/types/teacher-view/Student';
+	import type { Student } from '$lib/types/UserData';
 	import UploadCsvModal from '$lib/components/teacher-view/modals/UploadCSVModal.svelte';
 	import StudentInfoModal from '$lib/components/teacher-view/modals/StudentInfoModal.svelte';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
@@ -189,7 +189,7 @@
 					<input
 						type="checkbox"
 						class="checkbox-primary checkbox"
-						on:change={(e) => toggleAllSelections(e.target.checked)}
+						on:change={(e) => toggleAllSelections(e.target instanceof HTMLInputElement && e.target.checked)} 
 						checked={$studentClassStore.length > 0 &&
 							selectedStudents.length === $studentClassStore.length} />
 				</th>

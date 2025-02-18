@@ -11,7 +11,7 @@
 --->
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { megaJoulesMeter, tabletPowerNavigation } from '$lib/utils/stores/store';
+	import { studentProgressStore, tabletPowerNavigation } from '$lib/utils/stores/store';
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import MegaJoulesMeter from './MegaJoulesMeter.svelte';
@@ -79,7 +79,7 @@
 						<slot />
 					</div>
 					<div class="absolute inset-0 z-10 ml-auto flex  h-fit w-1/6 items-start justify-end p-2 {showMeter? '' : 'hidden'}">
-						<MegaJoulesMeter amount={$megaJoulesMeter} />
+						<MegaJoulesMeter amount={$studentProgressStore.megajoules} />
 					</div>
 				</div>
 			</div>

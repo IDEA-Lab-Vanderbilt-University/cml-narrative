@@ -10,7 +10,6 @@
  
 */
 
-import type { StudentAuthData } from '$lib/types/StudentData';
 import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 import { RequestFactory } from '../network/RequestFactory';
 import { get } from 'svelte/store';
@@ -18,48 +17,13 @@ import {
 	accessTokenStore,
 	studentClassStore,
 	studentDataStore,
-	userDataStore
 } from '../stores/store';
-import type { StudentData, UserData, UserProgress } from '$lib/types/UserData';
-import type { Student } from '$lib/types/teacher-view/Student';
+import type { Student, StudentProgress } from '$lib/types/UserData';
 
 /**
  * Handles and contains all of the authentication logic
  */
 const Auth = {
-	/**
-	 * TODO: Implement signup
-	 * @param username
-	 * @param email
-	 * @param password
-	 * @returns
-	 */
-
-	signUp: async (profileData: UserData) => {
-		return new Promise(async (resolve, reject) => {
-			let token: string = '';
-
-			accessTokenStore.subscribe((value) => {
-				token = value;
-			});
-
-			console.log('token: ', token);
-			console.log('profileData: ', profileData);
-
-			let agentResponse = await fetch(`${PUBLIC_BACKEND_API_URL}/api/addAgent`, {
-				method: 'POST',
-				body: JSON.stringify(getAgentBody(profileData)),
-				headers: {
-					'Content-Type': 'application/json',
-					'x-access-token': token
-				}
-			});
-
-			let agentResult = await agentResponse.json();
-			console.log('agentResult: ', agentResult);
-			resolve(agentResult);
-		});
-	},
 	/**
 	 * Sign in a user with a credential
 	 *
@@ -67,54 +31,70 @@ const Auth = {
 	 * "sign"the user in. To do this, we will create a user store and set the appropriate data. We can also look into
 	 * persisting this store and having it be saved as a cookie.
 	 *
-	 * @param credential StudentAuthData credential to sign in with
-	 * @returns promise wheter or not the user has been signed in or not
+	 * @param credential UUID of the user
+	 * @returns Promise<Student> the student object
 	 */
-	signIn: async (credential: UserData) => {
-		return new Promise<UserData>(async (resolve, reject) => {
-			console.log('Attempting to sign in user with data: ', credential);
+	signIn: async (id: string) => {
+		return new Promise<Student>(async (resolve, reject) => {
+			console.log('Attempting to sign in user with data: ', id);
 
 			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/auth/signin`, 'POST', {
-					email: credential.email,
-					password: credential.password
-				});
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students/${id}`, 'GET');
 
 				if (res) {
-					let user: UserData = {
-						name: {
-							first: res.firstName,
-							last: res.lastName
-						},
-						age: 0,
-						interests: [],
-						agentName: '',
-						email: res.email,
-						password: 'password',
-						progress: res.progress
-					};
-
-					if (res.agent) {
-						user.agentName = res.agent.agentName;
-						user.age = res.agent.age;
-						user.interests = res.agent.interests;
-					}
-
-					console.log('after sign in : ', user);
-					accessTokenStore.set(res.accessToken);
-					console.log('access token: ', res.accessToken);
-					resolve(user);
+					resolve(res);
+					console.log('after sign in : ', res);
+					accessTokenStore.set(res.id);
+					resolve(res);
 				} else {
 					reject(res);
 				}
 			} catch (error) {
 				reject(error);
 			}
-
-			// throw new Error("Could not validate ID. Please make sure you are scanning your AGENT ID badge provided by Mission Control");
 		});
-	}
+	},
 };
+
+const Student = {
+	
+}
+
+const StudentProgress = {
+	getProgress: async (progress_id: string) => {
+		return new Promise<StudentProgress>(async (resolve, reject) => {
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/progress/${progress_id}`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+
+	createProgress: async (progress: StudentProgress) => {
+		return new Promise<StudentProgress>(async (resolve, reject) => {
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/progress`, 'POST', progress);
+				console.log('createProgress res: ', res);
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+
+	updateProgress: async (progress: StudentProgress) => {
+		return new Promise<void>(async (resolve, reject) => {
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/progress/${progress.id}`, 'PUT', progress);
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+}
 
 const Data = {
 	/**
@@ -295,65 +275,6 @@ const Data = {
 			}
 		});
 	},
-	getUserProgress: async () => {
-		return new Promise<UserProgress>(async (resolve, reject) => {
-			let token;
-			accessTokenStore.subscribe((value) => {
-				token = value;
-			});
-
-			try {
-				let requestOptions: RequestInit = {};
-				if (token) {
-					var headers = new Headers();
-					headers.append('x-access-token', token);
-					requestOptions = {
-						method: 'GET',
-						headers: headers,
-						redirect: 'follow'
-					};
-				}
-				let res = await fetch(`${PUBLIC_BACKEND_API_URL}/api/users/progress`, requestOptions);
-				resolve(res.json());
-				console.log();
-				// resolve(progress);
-			} catch (err) {
-				console.error('error getting user progress: ', err);
-			}
-		});
-	},
-	updateUserProgress: async (progress: UserProgress) => {
-		return new Promise<void>(async (resolve, reject) => {
-			let token;
-			accessTokenStore.subscribe((value) => {
-				token = value;
-			});
-
-			const { lastUpdated, ...newProgress } = progress;
-			try {
-				let requestOptions: RequestInit = {};
-				if (token) {
-					console.log('token exists.');
-					requestOptions = {
-						method: 'PUT',
-						headers: {
-							'Content-Type': 'application/json',
-							'x-access-token': token
-						},
-						body: JSON.stringify(newProgress)
-					};
-				}
-				console.log('put-body: ', requestOptions.body);
-				let res = await fetch(`${PUBLIC_BACKEND_API_URL}/api/users/progress`, requestOptions);
-				let data = await res.json();
-				console.log('data: ', data);
-				resolve(data);
-			} catch (err) {
-				console.error('error updating user progress: ', err);
-				reject(err);
-			}
-		});
-	},
 	fetchTeacherID: async () => {
 		return new Promise<string>(async (resolve, reject) => {
 			try {
@@ -431,7 +352,9 @@ const Data = {
  */
 const DataService = {
 	Auth,
-	Data
+	Data,
+	Student,
+	StudentProgress
 };
 
 export default DataService;

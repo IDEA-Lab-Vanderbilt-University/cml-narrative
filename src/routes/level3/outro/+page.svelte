@@ -5,7 +5,7 @@
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
-	import type { UserProgress } from '$lib/types/UserData.js';
+	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
 	import { userDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
@@ -36,17 +36,18 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = ():UserProgress => {
+	const getUpdatedProgress = (): StudentProgress => {
 		return {
-			level: 0,
-			levelLabel: 'level-one',
-			subLevel: 0,
-			subLevelLabel: '/level1?page=1',
-			lastUpdated: new Date()
+			id: null,
+			badge_count: 3,
+			megajoules: 10,
+			student_id: null,
+			last_visited: '/level3/outro?page=' + line.id,
+			updated_at: new Date(),
 		};
 	}
 
-	const updateLocalProgress = (progress: UserProgress) => {
+	const updateLocalProgress = (progress: StudentProgress) => {
 		userDataStore.update((data) => {
 			data.progress = progress;
 			return data;

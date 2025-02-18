@@ -9,7 +9,7 @@
 	import script from '$lib/scripts/level1/pizza-time/index.js';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
-	import type { UserProgress } from '$lib/types/UserData.js';
+	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
 	import { pizzaConfigStore, userDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
@@ -35,7 +35,7 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = ():UserProgress => {
+	const getUpdatedProgress = (): StudentProgress => {
 		return {
 			level: 0,
 			levelLabel: 'level-one',
@@ -45,7 +45,7 @@
 		};
 	}
 
-	const updateLocalProgress = (progress: UserProgress) => {
+	const updateLocalProgress = (progress: StudentProgress) => {
 		userDataStore.update((data) => {
 			data.progress = progress;
 			return data;
