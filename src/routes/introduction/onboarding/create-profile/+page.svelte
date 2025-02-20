@@ -22,7 +22,7 @@
 	import DataService from '$lib/utils/DataService';
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageData } from './$types';
-	import {  userDataStore } from '$lib/utils/stores/store';
+	import {  studentDataStore } from '$lib/utils/stores/store';
 	import ProfilesApp from '$lib/components/tablet/profiles/ProfilesApp.svelte';
 
 	export let data: PageData;
@@ -45,7 +45,7 @@
 
 	let profileData: UserData;
 
-	userDataStore.subscribe((value) => {
+	studentDataStore.subscribe((value) => {
 		profileData = value;
 	});
 
@@ -66,7 +66,7 @@
 
 	onMount(() => {
 		mounted = true;
-		profileData = $userDataStore;
+		profileData = $studentDataStore;
 
 		console.log('pd: ', profileData);
 	});
@@ -137,7 +137,7 @@
 	};
 
 	const updateLocalProgress = (progress: StudentProgress) => {
-		userDataStore.update((data) => {
+		studentDataStore.update((data) => {
 			data.progress = progress;
 			return data;
 		});

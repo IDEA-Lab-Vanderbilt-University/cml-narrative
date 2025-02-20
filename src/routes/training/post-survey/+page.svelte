@@ -16,7 +16,7 @@
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import type { StudentProgress } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
-	import type { studentDataStore } from '$lib/utils/stores/store';
+	import { studentDataStore } from '$lib/utils/stores/store';
 
 	/**
 	 * Track the current question that is displaying
@@ -141,7 +141,7 @@
 	};
 
 	const updateLocalProgress = (progress: StudentProgress) => {
-		userDataStore.update((data) => {
+		studentDataStore.update((data) => {
 			data.progress = progress;
 			return data;
 		});

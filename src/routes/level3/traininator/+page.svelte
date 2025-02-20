@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { userDataStore } from '$lib/utils/stores/store.js';
+	import { studentDataStore } from '$lib/utils/stores/store.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
     import { onMount, onDestroy } from 'svelte';
     import * as tf from '@tensorflow/tfjs';

@@ -12,7 +12,7 @@
 <script lang="ts">
 	import { tourManager } from '$lib/components/tour/TourManager';
 
-	import { userDataStore, tabletPowerNavigation } from '$lib/utils/stores/store';
+	import { studentDataStore, tabletPowerNavigation } from '$lib/utils/stores/store';
 	import { onDestroy, onMount } from 'svelte';
 
 	let tour = {
@@ -24,7 +24,7 @@
 
 	let agentName: string;
 
-	userDataStore.subscribe((value) => {
+	studentDataStore.subscribe((value) => {
 		agentName = value.agentName;
 	});
 

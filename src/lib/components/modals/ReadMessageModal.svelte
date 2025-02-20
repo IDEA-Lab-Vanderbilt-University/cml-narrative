@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { UserData } from "$lib/types/UserData";
-	import { userDataStore } from "$lib/utils/stores/store";
+	import { studentDataStore } from "$lib/utils/stores/store";
 	import Tablet from "../tablet/Tablet.svelte";
 
     export let from = 'Captain Storm';
     export let onNext: () => void;
     export let ps: string[] = [];
     
-    let agent: UserData = {
+    let agent: Student = {
         name: {
             first: '',
             last: ''
@@ -27,7 +27,7 @@
         }
     };
 
-    userDataStore.subscribe((value) => {
+    studentDataStore.subscribe((value) => {
         agent = value;
     });
 

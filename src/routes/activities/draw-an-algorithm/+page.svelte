@@ -7,7 +7,7 @@
 	import DataService from '$lib/utils/DataService';
 	import { goto } from '$app/navigation';
 	import type { StudentProgress } from '$lib/types/UserData';
-	import type { studentDataStore } from '$lib/utils/stores/store';
+	import { studentDataStore } from '$lib/utils/stores/store';
 	import ImageResponseModal from '$lib/components/activities/free-response/ImageResponseModal.svelte';
 
 	let message = '';
@@ -34,7 +34,7 @@
 	};
 
 	const updateLocalProgress = (progress: StudentProgress) => {
-		userDataStore.update((data) => {
+		studentDataStore.update((data) => {
 			data.progress = progress;
 			return data;
 		});

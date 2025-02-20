@@ -2,14 +2,14 @@
 	import Tablet from "../tablet/Tablet.svelte";
 
     import type { Student } from '$lib/types/UserData';
-    import type { studentDataStore } from '$lib/utils/stores/store';
+    import { studentDataStore } from '$lib/utils/stores/store';
 	import Badge from "../Badge.svelte";
     import { Confetti } from "svelte-confetti";
 	import MegaJoulesMeter from "../tablet/MegaJoulesMeter.svelte";
 
     export let handleClick: () => void;
 
-    let agent: UserData = {
+    let agent: Student = {
         name: {
             first: '',
             last: ''
@@ -29,8 +29,8 @@
         }
     };
 
-    userDataStore.subscribe((value) => {
-        agent = value as UserData;
+    studentDataStore.subscribe((value) => {
+        agent = value as Student;
     });
 
     export let amount: number;

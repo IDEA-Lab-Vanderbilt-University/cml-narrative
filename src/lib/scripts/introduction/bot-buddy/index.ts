@@ -12,9 +12,9 @@
 
 import type { Script, Line } from '$lib/types/Script';
 import type { Student } from '$lib/types/UserData';
-import type { studentDataStore } from '$lib/utils/stores/store';
+import { studentDataStore } from '$lib/utils/stores/store';
 
-let agent: UserData = {
+let agent: Student = {
 	name: {
 		first: '',
 		last: ''
@@ -34,8 +34,8 @@ let agent: UserData = {
 	}
 };
 
-userDataStore.subscribe((value) => {
-	agent = value as UserData;
+studentDataStore.subscribe((value) => {
+	agent = value as Student;
 });
 
 const script: Script = {

@@ -18,7 +18,7 @@
 	import type { Line } from '$lib/types/Script';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { userDataStore } from '$lib/utils/stores/store.js';
+	import { studentDataStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
 	import { fade } from 'svelte/transition';
@@ -52,7 +52,7 @@
 	}
 
 	const updateLocalProgress = (progress: StudentProgress) => {
-		userDataStore.update((data) => {
+		studentDataStore.update((data) => {
 			data.progress = progress;
 			return data;
 		})

@@ -7,7 +7,7 @@
 	import type { Line } from '$lib/types/Script';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { userDataStore } from '$lib/utils/stores/store.js';
+	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level4/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -41,19 +41,17 @@
 
 	const getUpdatedProgress = (): StudentProgress => {
 		return {
-			level: 0,
-			levelLabel: 'level-one',
-			subLevel: 0,
-			last_visited: '/level1?page=1',
-			lastUpdated: new Date()
+			last_visited: '/level4?page=' + (line.id + 1),
+			megajoules: lineNumber > 7 ? 0 : 100,
 		};
 	}
 
 	const updateLocalProgress = (progress: StudentProgress) => {
-		userDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		})
+		studentProgressStore.update((p) => {
+			p.last_visited = progress.last_visited;
+			p.megajoules = progress.megajoules;
+			return p;
+		});
 	}
 
 	/**

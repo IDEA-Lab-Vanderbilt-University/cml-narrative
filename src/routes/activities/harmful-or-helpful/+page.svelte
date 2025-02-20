@@ -4,7 +4,7 @@
 	import type { StudentProgress } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
-	import { dragItemsStore, harmfulHelpfulStore, userDataStore } from '$lib/utils/stores/store';
+	import { dragItemsStore, harmfulHelpfulStore, studentDataStore } from '$lib/utils/stores/store';
 	import HarmfulHelpfulDnd from '../harmful-or-helpful-dnd/+page.svelte';
 	import HarmfulHelpfulReasoning from '../harmful-or-helpful-reasoning/+page.svelte';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -33,7 +33,7 @@
 	};
 
 	const updateLocalProgress = (progress: StudentProgress) => {
-		userDataStore.update((data) => {
+		studentDataStore.update((data) => {
 			data.progress = progress;
 			return data;
 		});
