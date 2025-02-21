@@ -1,13 +1,5 @@
 
 import type { Script } from '$lib/types/Script';
-import type { Student } from '$lib/types/UserData';
-import { studentDataStore } from '$lib/utils/stores/store';
-
-let agent: Student = {};
-
-studentDataStore.subscribe((value) => {
-	agent = value as Student;
-});
 
 const script: Script = {
 	lines: [

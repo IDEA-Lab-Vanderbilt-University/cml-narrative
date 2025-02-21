@@ -1,32 +1,4 @@
 import type { Script } from '$lib/types/Script';
-import type { Student } from '$lib/types/UserData';
-import { studentDataStore } from '$lib/utils/stores/store';
-
-let agent: Student = {
-	name: {
-		first: '',
-		last: ''
-	},
-	age: 0,
-	interests: [],
-	avatarImg: '',
-	agentName: '',
-	email: '',
-	password: '',
-	progress: {
-		level: 0,
-		levelLabel: '',
-		subLevel: 0,
-		last_visited: '',
-		lastUpdated: undefined
-	}
-};
-
-studentDataStore.subscribe((value) => {
-	agent = value as Student;
-});
-
-
 
 const script: Script = {
 	lines: [

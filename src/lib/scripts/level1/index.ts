@@ -2,31 +2,11 @@ import type { Script } from '$lib/types/Script';
 import type { Student } from '$lib/types/UserData';
 import { studentDataStore } from '$lib/utils/stores/store';
 
-let agent: Student = {
-	name: {
-		first: '',
-		last: ''
-	},
-	age: 0,
-	interests: [],
-	avatarImg: '',
-	agentName: '',
-	email: '',
-	password: '',
-	progress: {
-		level: 0,
-		levelLabel: '',
-		subLevel: 0,
-		last_visited: '',
-		lastUpdated: undefined
-	}
-};
+let agent: Student = {};
 
 studentDataStore.subscribe((value) => {
 	agent = value as Student;
 });
-
-
 
 const script: Script = {
 	lines: [
@@ -155,7 +135,7 @@ const script: Script = {
             id: 13,
             speakers: ['Bot Buddy'],
             dialog:
-                'Sorry, Agent ' + agent.agentName + ', I almost blew our cover back there.',
+                'Sorry, Agent ' + agent.agent_name + ', I almost blew our cover back there.',
             avatars: ['/img/characters/bot-buddy/bot-buddy-ohno.png'],
             background: '/img/backgrounds/level1/16596.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s14.wav',

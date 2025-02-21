@@ -14,25 +14,7 @@ import type { Script, Line } from '$lib/types/Script';
 import type { Student } from '$lib/types/UserData';
 import { studentDataStore } from '$lib/utils/stores/store';
 
-let agent: Student = {
-	name: {
-		first: '',
-		last: ''
-	},
-	age: 0,
-	interests: [],
-	avatarImg: '',
-	agentName: '',
-	email: '',
-	password: '',
-	progress: {
-		level: 0,
-		levelLabel: '',
-		subLevel: 0,
-		last_visited: '',
-		lastUpdated: undefined
-	}
-};
+let agent: Student = {};
 
 studentDataStore.subscribe((value) => {
 	agent = value as Student;
@@ -84,7 +66,7 @@ const script: Script = {
 		{
 			id: 5,
 			speakers: ['Agent Fern'],
-			dialog: `Great to see you, Captain Storm! Welcome, Agent ${agent.agentName}! I can't wait to tell you about Bot Buddy!`,
+			dialog: `Great to see you, Captain Storm! Welcome, Agent ${agent.agent_name}! I can't wait to tell you about Bot Buddy!`,
 			avatars: ['/img/characters/agent-fern/fern_wave_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_fern/agent_fern_l0s52.wav',
@@ -141,7 +123,7 @@ const script: Script = {
 		{
 			id: 11,
 			speakers: ['Agent Gear'],
-			dialog: `Agent ${agent.agentName}, this is Bot Buddy! Your new helpful robot will accompany you on your mission to the future.`,
+			dialog: `Agent ${agent.agent_name}, this is Bot Buddy! Your new helpful robot will accompany you on your mission to the future.`,
 			avatars: ['/img/characters/agent-gear/vanilla_gesture_2_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_gear/agent_gear_l0s58.wav',
@@ -213,7 +195,7 @@ const script: Script = {
 		{
 			id: 19,
 			speakers: ['Captain Storm'],
-			dialog: `Agent ${agent.agentName}, Mission Control needs you to complete some training before going on the mission.`,
+			dialog: `Agent ${agent.agent_name}, Mission Control needs you to complete some training before going on the mission.`,
 			avatars: ['/img/characters/captain-storm/storm_gesture_4_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s66.wav',

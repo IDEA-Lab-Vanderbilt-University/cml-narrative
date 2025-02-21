@@ -15,25 +15,7 @@ import type { Script } from '$lib/types/Script';
 import type { Student } from '$lib/types/UserData';
 import { studentDataStore } from '$lib/utils/stores/store';
 
-let agent: Student = {
-	name: {
-		first: '',
-		last: ''
-	},
-	age: 0,
-	interests: [],
-	avatarImg: '',
-	agentName: '',
-	email: '',
-	password: '',
-	progress: {
-		level: 0,
-		levelLabel: '',
-		subLevel: 0,
-		last_visited: '',
-		lastUpdated: undefined
-	}
-};
+let agent: Student = {};
 
 studentDataStore.subscribe((value) => {
 	agent = value as Student;
@@ -130,7 +112,7 @@ const script: Script = {
 		{
 			id: 12,
 			speakers: ['Captain Storm'],
-			dialog: `Interesting thoughts, Agent ${agent.agentName}!`,
+			dialog: `Interesting thoughts, Agent ${agent.agent_name}!`,
 			avatars: ['/img/characters/captain-storm/storm_thumbs_up.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s88.wav',
@@ -172,7 +154,7 @@ const script: Script = {
 		{
 			id: 16,
 			speakers: ['Agent Spark', 'Captain Storm'],
-			dialog: `WAHOOO! Yay, ${agent.agentName}!`,
+			dialog: `WAHOOO! Yay, ${agent.agent_name}!`,
 			avatars: [
 				'/img/characters/agent-spark/spark_gesture_2_inverted.png',
 				'/img/characters/captain-storm/storm_dance.png'

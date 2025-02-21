@@ -12,28 +12,9 @@
 
 import type { Script } from '$lib/types/Script';
 import type { Student } from '$lib/types/UserData';
-import { Assets } from '$lib/utils/Assets';
 import { studentDataStore } from '$lib/utils/stores/store';
 
-let agent: Student = {
-	name: {
-		first: '',
-		last: ''
-	},
-	age: 0,
-	interests: [],
-	avatarImg: '',
-	agentName: '',
-	email: '',
-	password: '',
-	progress: {
-		level: 0,
-		levelLabel: '',
-		subLevel: 0,
-		last_visited: '',
-		lastUpdated: undefined
-	}
-};
+let agent: Student = {};
 
 studentDataStore.subscribe((value) => {
 	agent = value as Student;
@@ -54,7 +35,7 @@ const script: Script = {
 		{
 			id: 1,
 			speakers: ['Captain Storm'],
-			dialog: `Agent ${agent.agentName}! It's time to send you and Bot Buddy to the future! I'll be here at Mission Control, but we will stay in contact through the Travel Log in your SPOT Tablet.`,
+			dialog: `Agent ${agent.agent_name}! It's time to send you and Bot Buddy to the future! I'll be here at Mission Control, but we will stay in contact through the Travel Log in your SPOT Tablet.`,
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab_time_machine.png',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s107.wav',

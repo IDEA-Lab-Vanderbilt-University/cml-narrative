@@ -92,7 +92,6 @@ const script: Script = {
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s45.wav'
 		}
-	],
-	length: 9
+	]
 };
 export default script;
