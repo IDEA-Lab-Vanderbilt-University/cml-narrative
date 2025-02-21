@@ -1,6 +1,8 @@
 import type { Script } from "$lib/types/Script";
-import { error } from "@sveltejs/kit";
+import { error, redirect } from "@sveltejs/kit";
 import type { PageLoad } from "../../routes/$types";
+import { accessTokenStore } from "./stores/store";
+import { get } from "svelte/store";
 
 /**
  * Creates a page load function that is used to determine the current page of the script, or 404 error if the page is out of bounds.
@@ -10,6 +12,13 @@ import type { PageLoad } from "../../routes/$types";
  */
 export function createPageLoad(script: Script | null = null): PageLoad {
 	return ({ params, url }) => {
+		// Require login to view the page 
+		// Get accessTokenStore value
+		if (!get(accessTokenStore)) {
+			// Redirect to login page
+			throw redirect(302, '/');
+		}
+
 		/**
 		 * Page number of the current route.
 		 *
