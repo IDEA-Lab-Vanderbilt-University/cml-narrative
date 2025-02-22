@@ -58,30 +58,24 @@
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
-		if (direction == NavigationDirection.forward) {
-			if (line.id == 3) {
-				goto('/introduction/invitation');
-				studentProgressStore.update((data) => {
-					data.last_visited = '/introduction/invitation';
-					return data;
-				});
-			} else if (line.id == 18) {
-				goto('/introduction/onboarding');
-				studentProgressStore.update((data) => {
-					data.last_visited = '/introduction/onboarding';
-					return data;
-				});
+		let target = '';
+
+		if (direction === NavigationDirection.forward) {
+			if (line.id === 3) {
+				target = '/introduction/invitation';
+			} else if (line.id === 18) {
+				target = '/introduction/onboarding';
 			} else {
-				goto(`/introduction?page=${line.id + 1}`);
-				studentProgressStore.update((data) => {
-					data.last_visited = `/introduction?page=${line.id + 1}`;
-					return data;
-				});
+				target = `/introduction?page=${line.id + 1}`;
 			}
-		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/introduction?page=${line.id - 1}`);
+		} else if (direction === NavigationDirection.backward && line.id > 1) {
+			target = `/introduction?page=${line.id - 1}`;
+		}
+
+		if (target) {
+			goto(target);
 			studentProgressStore.update((data) => {
-				data.last_visited = `/introduction?page=${line.id + 1}`;
+				data.last_visited = target;
 				return data;
 			});
 		}
