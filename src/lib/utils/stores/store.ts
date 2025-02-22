@@ -11,11 +11,12 @@
 */
 
 import type { Student, StudentProgress } from '$lib/types/UserData';
-import { writable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
 import { defaultSettings, type Settings } from '$lib/types/Settings';
 import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes';
+import DataService from '../DataService';
 
 /**
  * A note on what this file does:
@@ -126,3 +127,19 @@ export const dragItemsStore = writable<DragStackItem[]>(deafaultDragItems);
 export const harmfulHelpfulStore = writable<HarmfulHelpfulItem[]>([]);
 export const studentClassStore = writable<Student[]>([]);
 export const sessionTeacherID = writable('');
+
+// When the studentProgressStore is updated, update the studentDataStore
+studentProgressStore.subscribe((value) => {
+	if (!value) return;
+
+	// Check for login
+	if (!accessTokenStore) return;
+	if (!get(accessTokenStore)) return;
+
+	studentDataStore.update((student) => {
+		return { ...student, progress: value };
+	});
+
+	// Also send the progress to the server
+	DataService.StudentProgress.updateProgress(value);
+});

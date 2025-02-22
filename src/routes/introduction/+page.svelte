@@ -17,6 +17,8 @@
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
+	import type { Student, StudentProgress } from '$lib/types/UserData.js';
+	import { studentProgressStore } from '$lib/utils/stores/store.js';
 
 	export let data;
 
@@ -59,13 +61,29 @@
 		if (direction == NavigationDirection.forward) {
 			if (line.id == 3) {
 				goto('/introduction/invitation');
+				studentProgressStore.update((data) => {
+					data.last_visited = '/introduction/invitation';
+					return data;
+				});
 			} else if (line.id == 18) {
 				goto('/introduction/onboarding');
+				studentProgressStore.update((data) => {
+					data.last_visited = '/introduction/onboarding';
+					return data;
+				});
 			} else {
 				goto(`/introduction?page=${line.id + 1}`);
+				studentProgressStore.update((data) => {
+					data.last_visited = `/introduction?page=${line.id + 1}`;
+					return data;
+				});
 			}
 		} else if (direction == NavigationDirection.backward && line.id > 1) {
 			goto(`/introduction?page=${line.id - 1}`);
+			studentProgressStore.update((data) => {
+				data.last_visited = `/introduction?page=${line.id + 1}`;
+				return data;
+			});
 		}
 	};
 
