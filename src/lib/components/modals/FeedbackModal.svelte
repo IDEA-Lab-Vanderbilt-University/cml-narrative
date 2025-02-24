@@ -43,7 +43,7 @@
 <div
 	id="popup-modal"
 	tabindex="-1"
-	class="absolute left-1/2 top-1/2 flex h-full -translate-x-1/2 -translate-y-1/2 transform items-center justify-center"
+	class="absolute left-1/2 top-1/2 flex h-full -translate-x-1/2 -translate-y-1/2 transform items-center justify-center z-50"
 	in:fly|global|global={{ y: 200, duration: 1000 }}
 	out:fly|global|global={{ y: 200, duration: 1000 }}>
 	<div class="relative max-h-full w-full max-w-md p-4">

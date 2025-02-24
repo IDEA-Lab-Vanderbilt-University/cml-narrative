@@ -25,7 +25,7 @@
 	let agentName: string;
 
 	studentDataStore.subscribe((value) => {
-		agentName = value.agentName;
+		agentName = value.agent_name ?? '';
 	});
 
 	onMount(() => {

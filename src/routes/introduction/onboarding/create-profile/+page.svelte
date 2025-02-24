@@ -36,6 +36,10 @@
 
 	studentDataStore.subscribe((value) => {
 		profileData = value;
+
+		if(profileData.interests == undefined || profileData.interests.length == 0) {
+			profileData.interests = ['','',''];
+		}
 	});
 
 	let mounted = false;
@@ -55,9 +59,6 @@
 
 	onMount(() => {
 		mounted = true;
-		profileData = $studentDataStore;
-
-		console.log('pd: ', profileData);
 	});
 	onDestroy(() => {
 		mounted = false;
@@ -126,7 +127,7 @@
 	const handleSubmit = async () => {
 		try {
 			console.log('profileData before signup: ', profileData);
-			
+
 			await DataService.Student.updateStudent(profileData);
 
 			message = 'Agent created successfully!';

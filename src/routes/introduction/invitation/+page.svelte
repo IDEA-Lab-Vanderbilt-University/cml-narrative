@@ -10,7 +10,9 @@
  
 --->
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Scene from '$lib/components/scene/Scene.svelte';
+	import { studentProgressStore } from '$lib/utils/stores/store';
 	import { fade, fly } from 'svelte/transition';
 </script>
 
@@ -26,9 +28,16 @@
 			<h2 class="border-y-2 border-dashed border-yellow-500 py-7">
 				Are you ready to help us travel to the future?
 			</h2>
-			<a href="/introduction?page=4" id="readyBtn" class="rounded-md bg-yellow-500 px-4 py-2 text-black shadow-lg">
+			<button id="readyBtn" class="rounded-md bg-yellow-500 px-4 py-2 text-black shadow-lg"
+				on:click={() => {
+					goto('/introduction?page=4');
+					studentProgressStore.update((data) => {
+						data.last_visited = '/introduction?page=4';
+						return data;
+					});
+				}}>
 				I am ready!
-			</a>
+			</button>
 		</div>
 	</div>
 </Scene>

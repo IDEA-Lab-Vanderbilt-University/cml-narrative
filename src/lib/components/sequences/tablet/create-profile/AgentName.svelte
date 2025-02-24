@@ -14,7 +14,7 @@
 
 	import type { Student } from '$lib/types/UserData';
 
-	export let profileData: UserData;
+	export let profileData: Student;
 
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	const dispatch = createEventDispatcher();
@@ -99,7 +99,7 @@
 				placeholder={getRandomAgentName()}
 				class="input-bordered input h-full w-full font-mono"
 				style="padding: 2vh 2vw; font-size: 4vh"
-				bind:value={profileData.agentName} />
+				bind:value={profileData.agent_name} />
 		</div>
 	</div>
 	<button

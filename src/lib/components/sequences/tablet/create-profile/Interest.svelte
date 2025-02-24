@@ -13,7 +13,7 @@
 	import type { Student } from '$lib/types/UserData';
 	import { onMount } from 'svelte';
 
-	export let profileData: UserData;
+	export let profileData: Student;
 	export let prompt: string;
 	export let index: number;
 

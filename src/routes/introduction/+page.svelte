@@ -95,7 +95,13 @@
 			{/if}
 		</div>
 		{#if line.id == 18}
-			<TabletButton pulse on:click={() => {goto("/introduction/onboarding")}} />
+			<TabletButton pulse on:click={() => {
+				studentProgressStore.update((data) => {
+					data.last_visited = '/introduction/onboarding';
+					return data;
+				});
+				goto("/introduction/onboarding");
+			}} />
 		{/if}
 	</div>
 </Scene>
