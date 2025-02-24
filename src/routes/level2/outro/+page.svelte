@@ -5,9 +5,9 @@
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
-	import type { UserData, UserProgress } from '$lib/types/UserData.js';
+	import type { Student, StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { studentDataStore } from '$lib/utils/stores/store.js';
+	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level2/outro/index.js';
 	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
@@ -32,42 +32,31 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-one',
-			subLevel: 0,
-			last_visited: '/level1?page=1',
-			lastUpdated: new Date()
-		};
-	}
-
-	const updateLocalProgress = (progress: StudentProgress) => {
-		studentDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		})
-	}
-
 	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
+		let target = '';
+
 		if (direction == NavigationDirection.forward) {
-			if (lineNumber >= script.lines.length) {
-				let progress = getUpdatedProgress();
-				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress)
-				
+			if (lineNumber >= script.lines.length) {				
                 // Next level
-                goto('/level3?page=1');
+				target = '/level3?page=1';
 			} else {
-				goto(`/level2/outro?page=${line.id + 1}`);
+				target = `/level2/outro?page=${line.id + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/level2/outro?page=${line.id - 1}`);
+			target = `/level2/outro?page=${line.id - 1}`;
+		}
+
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			goto(target);
 		}
 	};
 

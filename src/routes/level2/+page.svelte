@@ -7,7 +7,7 @@
 	import type { Line } from '$lib/types/Script';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { studentDataStore } from '$lib/utils/stores/store.js';
+	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level2/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -29,44 +29,26 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-one',
-			subLevel: 0,
-			last_visited: '/level1?page=1',
-			lastUpdated: new Date()
-		};
-	}
-
-	const updateLocalProgress = (progress: StudentProgress) => {
-		studentDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		})
-	}
-
 	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
+		let target = '';
+
 		if (direction == NavigationDirection.forward) {
-			if (line.id == script.lines.length) {
-				let progress = getUpdatedProgress();
-				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress);
-				
+			if (line.id == script.lines.length) {				
                 // Next level
-                goto('/level2/car-training?page=1');
+				target = '/level2/car-training?page=1';
 			} else {
 
 				if (line.id >= 29 && line.id <= 34) {
 					// GPS navigation screens
 					return;
 				}
-				goto(`/level2?page=${line.id + 1}`);
+
+				target = `/level2?page=${line.id + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward) {
 			if(line.id > 1) {
@@ -75,10 +57,19 @@
 					goto(`/level2?page=29`);
 					return;
 				}
-				goto(`/level2?page=${line.id - 1}`);
+				target = `/level2?page=${line.id - 1}`;
 			} else {
-				goto('/level1/outro?page=14');
+				target = '/level1/outro?page=14';
 			}
+		}
+
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			
+			goto(target);
 		}
 	};
 

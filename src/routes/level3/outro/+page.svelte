@@ -7,7 +7,7 @@
 	import type { Line } from '$lib/types/Script';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { studentDataStore } from '$lib/utils/stores/store.js';
+	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level3/outro/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -36,47 +36,35 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			id: null,
-			badge_count: 3,
-			megajoules: 10,
-			student_id: null,
-			last_visited: '/level3/outro?page=' + line.id,
-			updated_at: new Date(),
-		};
-	}
-
-	const updateLocalProgress = (progress: StudentProgress) => {
-		studentDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		})
-	}
-
 	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
+		let target = '';
+
 		if (direction == NavigationDirection.forward) {
 			if (line.id == script.lines.length) {
-				let progress = getUpdatedProgress();
-				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress);
-				
                 // Next level
-                goto('/level4?page=1');
+				target = '/level4?page=1';
 			} else {
-				goto(`/level3/outro?page=${line.id + 1}`);
+				target = `/level3/outro?page=${line.id + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward) {
 			if(line.id > 1) {
-				goto(`/level3/outro?page=${line.id - 1}`);
+				target = `/level3/outro?page=${line.id - 1}`;
 			} else {
-				goto('/level3/outro?page=1');
+				target = '/level3?page=1';
 			}
+		}
+
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			goto(target);
 		}
 	};
 

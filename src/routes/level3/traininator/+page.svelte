@@ -2,7 +2,7 @@
 	import { goto } from '$app/navigation';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { studentDataStore } from '$lib/utils/stores/store.js';
+	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
     import { onMount, onDestroy } from 'svelte';
     import * as tf from '@tensorflow/tfjs';
@@ -279,7 +279,13 @@
                     </div>
                 </div>
                 <div>
-                    <button id="trainButton" on:click={() => {goto('/level3/outro?page=1')}}
+                    <button id="trainButton" on:click={() => {
+                            studentProgressStore.update((data) => {
+                                data.last_visited = '/level3/outro?page=1';
+                                return data;
+                            });
+                            goto('/level3/outro?page=1');
+                        }}
                         disabled={testAccuracy < 90}
                         >Use This Model</button>           
                 </div>

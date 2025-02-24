@@ -7,30 +7,12 @@
 	import script from '$lib/scripts/level2/car-training/index.js';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
-	import type { UserData, UserProgress } from '$lib/types/UserData.js';
+	import type { Student, StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { studentDataStore } from '$lib/utils/stores/store.js';
+	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
-    let agent: Student = {
-        name: {
-            first: '',
-            last: ''
-        },
-        age: 0,
-        interests: [],
-        avatarImg: '',
-        agentName: '',
-        email: '',
-        password: '',
-        progress: {
-            level: 0,
-            levelLabel: '',
-            subLevel: 0,
-            last_visited: '',
-            lastUpdated: undefined
-        }
-    };
+    let agent: Student = {};
 
     studentDataStore.subscribe((value) => {
         agent = value;
@@ -52,42 +34,31 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-one',
-			subLevel: 0,
-			last_visited: '/level1?page=1',
-			lastUpdated: new Date()
-		};
-	}
-
-	const updateLocalProgress = (progress: StudentProgress) => {
-		studentDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		})
-	}
-
 	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
+		let target = '';
+
 		if (direction == NavigationDirection.forward) {
 			if (lineNumber >= script.lines.length) {
-				let progress = getUpdatedProgress();
-				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress)
-				
                 // Next level
-                goto('/level2/outro?page=1');
+				target = '/level2/outro?page=1';
 			} else {
-				goto(`/level2/car-training?page=${line.id + 1}`);
+				target = `/level2/car-training?page=${line.id + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/level2/car-training?page=${line.id - 1}`);
+			target = `/level2/car-training?page=${line.id - 1}`;
+		}
+
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			goto(target);
 		}
 	};
 
@@ -805,8 +776,8 @@
 						<div id="scanface{i}" style="background: url('/img/misc/testfaces.png'); width: 10vw; height: 8vw; background-position: 0 -{i * 8}vw; background-size: 10vw 32vw;"
 						draggable="true"
 						on:dragstart={(e) => {
-							if (e.dataTransfer) {
-								e.dataTransfer.setData('text/plain', e?.target?.id);
+							if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+								e.dataTransfer.setData('text/plain', e.target.id);
 								e.dataTransfer.effectAllowed = 'move';
 							}
 						}}
@@ -818,8 +789,8 @@
 						<div id="scanface{i}" style="background: url('/img/misc/testnofaces.png'); width: 10vw; height: 8vw; background-position: 0 -{i * 8}vw; background-size: 10vw 32vw;"
 						draggable="true"
 						on:dragstart={(e) => {
-							if (e.dataTransfer) {
-								e.dataTransfer.setData('text/plain', e?.target?.id);
+							if (e.dataTransfer && e.target && e.target instanceof HTMLElement) {
+								e.dataTransfer.setData('text/plain', e.target.id);
 								e.dataTransfer.effectAllowed = 'move';
 							}
 						}}
@@ -838,14 +809,27 @@
 					return;
 				}
 
-				document.getElementById(data).style.background = 'none';
+				let face = document.getElementById(data);
+				
+				if (!face) {
+					return;
+				}
+
+				face.style.background = 'none';
+
+				let scanPrompt = document.getElementById("scanprompt");
+
+				if(!scanPrompt || !(scanPrompt instanceof HTMLImageElement)) {
+					return;
+				}
+
 				if(line.id == 16){
-					document.getElementById("scanprompt").src = "/img/misc/facedetected.png";
+					scanPrompt.src = "/img/misc/facedetected.png";
 				} else {
-					document.getElementById("scanprompt").src = "/img/misc/scanfailed.png";
+					scanPrompt.src = "/img/misc/scanfailed.png";
 				}
 				setTimeout(() => {
-					document.getElementById("scanprompt").src = "/img/misc/scanprompt.png";
+					scanPrompt.src = "/img/misc/scanprompt.png";
 				}, 1500);
 
 				facesScanned++;

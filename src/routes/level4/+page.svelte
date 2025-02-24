@@ -39,44 +39,34 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			last_visited: '/level4?page=' + (line.id + 1),
-			megajoules: lineNumber > 7 ? 0 : 100,
-		};
-	}
-
-	const updateLocalProgress = (progress: StudentProgress) => {
-		studentProgressStore.update((p) => {
-			p.last_visited = progress.last_visited;
-			p.megajoules = progress.megajoules;
-			return p;
-		});
-	}
-
 	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
+		let target = '';
 		if (direction == NavigationDirection.forward) {
 			if (line.id == script.lines.length) {
-				let progress = getUpdatedProgress();
-				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress);
-				
                 // Next level
-                goto('/level5?page=1');
+				target = '/level5?page=1';
 			} else {
                 if(line.id > 2 || line.id == 1) {
-    				goto(`/level4?page=${line.id + 1}`);
-                }
+					target = `/level4?page=${line.id + 1}`;
+				}
 			}
 		} else if (direction == NavigationDirection.backward) {
 			if(line.id > 3) {
-				goto(`/level4?page=${line.id - 1}`);
+				target = `/level4?page=${line.id - 1}`;
 			}
+		}
+
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			goto(target);
 		}
 	};
 
@@ -159,7 +149,7 @@
 		{#if lineNumber == 10}
 			<Tablet showMeter={false} showBottomButtons={false}>
 				<div class="robostepintro">
-					<h2><img src="/img/icons/robodesign.png"/> Design</h2>
+					<h2><img src="/img/icons/robodesign.png" alt="Design"/> Design</h2>
 					<p>Your mission is to design an AI robot that can <strong>help your community.</strong></p>
 					<p>Consider your interests and what your community might need, and describe this AI robot idea to our SPOT design engineers.</p>
 					<button class="nextBtn" on:click={() => goto('/level4?page=11')}><img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
