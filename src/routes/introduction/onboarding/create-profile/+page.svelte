@@ -1,14 +1,3 @@
-<!--
- /src/routes/introduction/onboarding/create-profile/+page.svelte
- +page.svelte
- cml-narrative
- 
- Created by Ian Thompson on January 9th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import Age from '$lib/components/sequences/tablet/create-profile/Age.svelte';
@@ -18,11 +7,11 @@
 	import Name from '$lib/components/sequences/tablet/create-profile/Name.svelte';
 	import ClickToViewProfileBanner from '$lib/components/tablet/ClickToViewProfileBanner.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
-	import type { UserData, UserProgress } from '$lib/types/UserData';
+	import type { Student } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
 	import { onDestroy, onMount } from 'svelte';
 	import type { PageData } from './$types';
-	import {  studentDataStore } from '$lib/utils/stores/store';
+	import {  studentDataStore, studentProgressStore } from '$lib/utils/stores/store';
 	import ProfilesApp from '$lib/components/tablet/profiles/ProfilesApp.svelte';
 
 	export let data: PageData;
@@ -43,7 +32,7 @@
 
 	const numberOfPageSequences = 6;
 
-	let profileData: UserData;
+	let profileData: Student;
 
 	studentDataStore.subscribe((value) => {
 		profileData = value;
@@ -76,13 +65,13 @@
 
 	const validateData = () => {
 		console.log(profileData)
-		if (page === 1 && (profileData.name.first === '' || profileData.name.last == '')) {
+		if (page === 1 && ((profileData.first_name ?? '') === '' || (profileData.last_name ?? '') === '')) {
 			return false;
-		} else if (page === 2 && profileData.age <= 0) {
+		} else if (page === 2 && (profileData.age ?? -1) <= 0) {
 			return false;
-		} else if (page > 2 && page < 6 && profileData.interests.length < page-2) {
+		} else if (page > 2 && page < 6 && (profileData.interests ?? []).length < page-2) {
 			return false;
-		}  else if (page == 6 && profileData.agentName == '') {
+		}  else if (page == 6 && (profileData.agent_name ?? '') === '') {
 			return false;
 		}
 		return true;
@@ -101,7 +90,7 @@
 		} else if (direction == NavigationDirection.forward && page < numberOfPageSequences) {
 			console.log("page: ",page)
 			console.log("validate data: ", validateData())
-			console.log("length:", profileData.interests.length)
+			console.log("length:", (profileData.interests ?? []).length)
 			if(validateData()) {
 				goto(baseNavigationURL + (page + 1));
 			} else {
@@ -126,23 +115,6 @@
 		}
 	};
 
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-zero',
-			subLevel: 1,
-			last_visited: '/introduction/welcome?page=1',
-			lastUpdated: new Date()
-		};
-	};
-
-	const updateLocalProgress = (progress: StudentProgress) => {
-		studentDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		});
-	};
-
 	const validateAgentName = () => {
 		if(validateData()) {
 			handleSubmit();
@@ -153,16 +125,12 @@
 
 	const handleSubmit = async () => {
 		try {
-			// await DataService.Data.setProfileData(profileData);
 			console.log('profileData before signup: ', profileData);
-			await DataService.Auth.signUp(profileData);
+			
+			await DataService.Student.updateStudent(profileData);
 
 			message = 'Agent created successfully!';
 			isSuccess = true;
-
-			let progress = getUpdatedProgress();
-			await DataService.Data.updateUserProgress(progress);
-			updateLocalProgress(progress);
 
 			console.log('profileData after signup: ', profileData);
 		} catch (error) {
@@ -175,6 +143,10 @@
 
 	async function onFeedbackClose() {
 		if (isSuccess) {
+			studentProgressStore.update((data) => {
+				data.last_visited = '/introduction/onboarding/create-profile/confirmation';
+				return data;
+			});
 			goto('/introduction/onboarding/create-profile/confirmation');
 		}
 		showFeedbackModal = false;

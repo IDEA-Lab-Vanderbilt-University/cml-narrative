@@ -5,16 +5,11 @@
 	import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes.js';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
-	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import script from '$lib/scripts/level1/pizza-time/index.js';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
-	import type { StudentProgress } from '$lib/types/UserData.js';
-	import DataService from '$lib/utils/DataService/index.js';
-	import { pizzaConfigStore, studentDataStore } from '$lib/utils/stores/store.js';
+	import { pizzaConfigStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
-
-	import { fade } from 'svelte/transition';
 
 	export let data;
 
@@ -35,39 +30,20 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-one',
-			subLevel: 1,
-			last_visited: '/level1/pizza-time?page=1',
-			lastUpdated: new Date()
-		};
-	}
-
-	const updateLocalProgress = (progress: StudentProgress) => {
-		studentDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		})
-	}
-
 	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
+		let target = '';
+
 		if (direction == NavigationDirection.forward) {
 			if (line.id >= script.lines.length) {
-				let progress = getUpdatedProgress();
-				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress);
-
 				pizzaConfigStore.set(pizza);
 				
                 // Next level
-				goto('/level1/pizza-algorithm?page=1');
+				target = '/level1/pizza-algorithm?page=1';
 			} else {
 				goto(`/level1/pizza-time?page=${line.id + 1}`);
 			}
@@ -75,6 +51,15 @@
 			goto(`/level1/pizza-time?page=${line.id - 1}`);
 		} else if (direction == NavigationDirection.backward && line.id == 1) {
 			goto(`/level1?page=14`);
+		}
+
+		// Only update the last visited at the end of the sequence (so if they didn't save their pizza they go back to the start)
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			goto(target);
 		}
 	};
 

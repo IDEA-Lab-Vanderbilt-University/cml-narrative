@@ -19,6 +19,7 @@
 	import type { Line } from '$lib/types/Script';
 	import { Assets } from '$lib/utils/Assets';
 	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
+	import { studentProgressStore } from '$lib/utils/stores/store.js';
 
 	export let data;
 
@@ -120,14 +121,24 @@
 	const handleNavigation = (direction: NavigationDirection) => {
 		// tourManager.reset()
 
+		let target = '';
+
 		if (direction == NavigationDirection.forward) {
 			if (line.id == 9) {
-				goto('/introduction/bot-buddy?page=1');
+				target = '/introduction/bot-buddy?page=1';
 			} else {
-				goto(`/introduction/onboarding/tablet-tutorial?page=${line.id + 1}`);
+				target = `/introduction/onboarding/tablet-tutorial?page=${line.id + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/introduction/onboarding/tablet-tutorial?page=${line.id - 1}`);
+			target = `/introduction/onboarding/tablet-tutorial?page=${line.id - 1}`;
+		}
+
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			goto(target);
 		}
 	};
 

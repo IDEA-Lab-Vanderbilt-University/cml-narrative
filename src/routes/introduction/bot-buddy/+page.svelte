@@ -1,14 +1,3 @@
-<!--
- /src/routes/introduction/onboarding/bot-buddy/+page.svelte
- +page.svelte
- cml-narrative
- 
- Created by Ian Thompson on January 14th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
@@ -18,7 +7,7 @@
 	import type { Line } from '$lib/types/Script';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { studentDataStore } from '$lib/utils/stores/store.js';
+	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
 	import { fade } from 'svelte/transition';
@@ -41,40 +30,30 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-zero',
-			subLevel: 1,
-			last_visited: '/training?page=1',
-			lastUpdated: new Date()
-		};
-	}
-
-	const updateLocalProgress = (progress: StudentProgress) => {
-		studentDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		})
-	}
-
 	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
+		let target = '';
+
 		if (direction == NavigationDirection.forward) {
 			if (line.id == 23) {
-				let progress = getUpdatedProgress();
-				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress)
-				goto('/training?page=1');
+				target = '/training?page=1';
 			} else {
-				goto(`/introduction/bot-buddy?page=${line.id + 1}`);
+				target = `/introduction/bot-buddy?page=${line.id + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/introduction/bot-buddy?page=${line.id - 1}`);
+			target = `/introduction/bot-buddy?page=${line.id - 1}`;
+		}
+
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			goto(target);
 		}
 	};
 

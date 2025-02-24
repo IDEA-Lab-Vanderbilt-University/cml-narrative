@@ -57,7 +57,19 @@ const Auth = {
 };
 
 const Student = {
-	
+	updateStudent: async (student: Student) => {
+		return new Promise<void>(async (resolve, reject) => {
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students/${student.id}`, 'PUT', student);
+
+				studentDataStore.set(student);
+
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	}
 }
 
 const StudentProgress = {

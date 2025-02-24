@@ -1,23 +1,10 @@
-<!--
- /src/routes/introduction/+page.svelte
- +page.svelte
- cml-narrative
- 
- Created by Ian Thompson on January 7th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { play } from '$lib/components/audio/AudioPlayer.svelte';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
-	import type { Student, StudentProgress } from '$lib/types/UserData.js';
 	import { studentProgressStore } from '$lib/utils/stores/store.js';
 
 	export let data;
@@ -39,8 +26,6 @@
 	 * https://stackoverflow.com/questions/74221733/sveltekit-call-load-function-in-page-server-when-params-change
 	 */
 	$: line = data.line;
-
-	console.log('DATA: ', data);
 
 	/**
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
@@ -73,11 +58,11 @@
 		}
 
 		if (target) {
-			goto(target);
 			studentProgressStore.update((data) => {
 				data.last_visited = target;
 				return data;
 			});
+			goto(target);
 		}
 	};
 
