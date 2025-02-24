@@ -8,7 +8,7 @@
         import type { Line } from '$lib/types/Script';
         import type { StudentProgress } from '$lib/types/UserData.js';
         import DataService from '$lib/utils/DataService/index.js';
-        import { studentDataStore } from '$lib/utils/stores/store.js';
+        import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
         import { createEventDispatcher, onMount } from 'svelte';
         import Sortable from 'sortablejs';
         import { fade } from 'svelte/transition';
@@ -30,23 +30,6 @@
 
             handleNavigation(state);
         };
-
-        const getUpdatedProgress = (): StudentProgress => {
-            return {
-                level: 0,
-                levelLabel: 'level-one',
-                subLevel: 0,
-                last_visited: '/level1?page=1',
-                lastUpdated: new Date()
-            };
-        }
-
-        const updateLocalProgress = (progress: StudentProgress) => {
-            studentDataStore.update((data) => {
-                data.progress = progress;
-                return data;
-            })
-        }
 
         /**
          * Determine the state of the DialogEvent that was emitted. Then, we will navigate
@@ -471,7 +454,16 @@
 
                     {#if lineNumber == 6}
                         <div id="navButtons">
-                            <button id="nextButton" on:click={() => goto('/level1/outro?page=1')}>
+                            <button id="nextButton" on:click={() => 
+                                {
+                                    studentProgressStore.update((data) => {
+                                        data.last_visited = '/level1/outro?page=1';
+                                        return data;
+                                    });
+                                    
+                                    goto('/level1/outro?page=1');
+                                }
+                            }>
                                 <img src="/img/misc/pizzanext.png" alt="Send" />
                             </button>
                         </div>

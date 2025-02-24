@@ -14,30 +14,12 @@
 	import { script } from '$lib/scripts/level1/outro/index.js';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
-	import type { UserData, UserProgress } from '$lib/types/UserData.js';
+	import type { Student, StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { pizzaConfigStore, studentDataStore } from '$lib/utils/stores/store.js';
+	import { pizzaConfigStore, studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
-    let agent: Student = {
-        name: {
-            first: '',
-            last: ''
-        },
-        age: 0,
-        interests: [],
-        avatarImg: '',
-        agentName: '',
-        email: '',
-        password: '',
-        progress: {
-            level: 0,
-            levelLabel: '',
-            subLevel: 0,
-            last_visited: '',
-            lastUpdated: undefined
-        }
-    };
+    let agent: Student = {};
 
     studentDataStore.subscribe((value) => {
         agent = value;
@@ -73,43 +55,31 @@
 		handleNavigation(state);
 	};
 
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-one',
-			subLevel: 0,
-			last_visited: '/level1?page=1',
-			lastUpdated: new Date()
-		};
-	}
-
-	const updateLocalProgress = (progress: StudentProgress) => {
-		studentDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		})
-	}
-
 	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
+        let target = '';
 		if (direction == NavigationDirection.forward) {
 			if (lineNumber >= script.lines.length) {
-				let progress = getUpdatedProgress();
-				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress)
-				
-                // Next level
-                goto('/level2?page=1');
+				// Next level
+                target = '/level2?page=1';
 			} else {
-				goto(`/level1/outro?page=${line.id + 1}`);
+                target = `/level1/outro?page=${line.id + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward && line.id > 1 && lineNumber < 6) {
-			goto(`/level1/outro?page=${line.id - 1}`);
+            target = `/level1/outro?page=${line.id - 1}`;
 		}
+
+        if (target) {
+            studentProgressStore.update((data) => {
+                data.last_visited = target;
+                return data;
+            });
+            goto(target);
+        }
 	};
 
 	let content: HTMLElement | void;

@@ -5,6 +5,7 @@
 	import { goto } from '$app/navigation';
 	import WarpSpeed from '$lib/components/effects/warpspeed';
 	import { fade } from 'svelte/transition';
+	import { studentProgressStore } from '$lib/utils/stores/store';
 
 	let warpEffect: WarpSpeed | null = null;
 
@@ -32,6 +33,18 @@
 	const MAX_ENERGY = 100;
 	let energy = MAX_ENERGY;
 	let startTime = presentDate.getTime();
+
+	const gotoDestinationPage = () => {
+		studentProgressStore.update((data) => {
+			data.last_visited = destinationPage;
+
+			// Time travel always consumes all energy
+			data.megajoules = 0;
+			return data;
+		});
+
+		goto(destinationPage);
+	}
 
 	const timeTravel = () => {
 		console.log('Time Traveling...');
@@ -87,7 +100,7 @@
 				setTimeout(() => {
 					warpEffect?.destroy();
 					warpEffect = null;
-					goto(destinationPage);
+					gotoDestinationPage();
 				}, 1500);
 			} else if(direction === 'backward' && presentDate.getTime() < destDate.getTime()) {
 				presentDate.setTime(destDate.getTime());
@@ -103,7 +116,7 @@
 				setTimeout(() => {
 					warpEffect?.destroy();
 					warpEffect = null;
-					goto(destinationPage);
+					gotoDestinationPage();
 				}, 1500);
 			}
 
