@@ -34,6 +34,8 @@ import DataService from '../DataService';
  * cookies, which is probably something we will do in the future.
  */
 
+export let debugMode = false;
+
 export const settingsStore = persist(
 	writable<Settings>(defaultSettings),
 	createLocalStorage(),
@@ -56,7 +58,7 @@ export const tabletPowerNavigation = writable({
 	href: undefined,
 } as { href: string | undefined });
 
-export const accessTokenStore = writable('');
+export const accessTokenStore = writable(debugMode? 'DEBUG-STUDENT' : '');
 
 export const drawResponse = writable();
 
@@ -133,7 +135,7 @@ studentProgressStore.subscribe((value) => {
 	if (!value) return;
 
 	// Check for login
-	if (!accessTokenStore) return;
+	if (!accessTokenStore || debugMode) return;
 	if (!get(accessTokenStore)) return;
 
 	studentDataStore.update((student) => {
