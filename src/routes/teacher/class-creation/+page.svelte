@@ -255,6 +255,14 @@
 					on:click={fetchStudents}>
 					Refresh
 				</button>
+
+				<button
+					class="rounded-full bg-yellow-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-yellow-600"
+					on:click={() => {
+						goto('/teacher/student-submissions');
+					}}>
+					Student Submissions
+				</button>
 			{/if}
 		</div>
 

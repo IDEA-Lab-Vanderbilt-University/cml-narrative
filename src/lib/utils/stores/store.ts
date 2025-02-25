@@ -15,6 +15,7 @@ import { writable } from 'svelte/store';
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
 import type { Student } from '$lib/types/teacher-view/Student';
+import type { TravelLog, TravelLogWithStudent } from '$lib/types/teacher-view/TravelLog';
 import { defaultSettings, type Settings } from '$lib/types/Settings';
 import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes';
 
@@ -162,3 +163,4 @@ export const dragItemsStore = writable<DragStackItem[]>(deafaultDragItems);
 export const harmfulHelpfulStore = writable<HarmfulHelpfulItem[]>([]);
 export const studentClassStore = writable<Student[]>([]);
 export const sessionTeacherID = writable('');
+export const pendingTravelLogStore = writable<TravelLogWithStudent[]>([]);
