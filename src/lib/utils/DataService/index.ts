@@ -15,6 +15,7 @@ import { RequestFactory } from '../network/RequestFactory';
 import { get } from 'svelte/store';
 import {
 	accessTokenStore,
+	debugMode,
 	studentClassStore,
 	studentDataStore,
 } from '../stores/store';
@@ -38,6 +39,26 @@ const Auth = {
 		return new Promise<Student>(async (resolve, reject) => {
 			console.log('Attempting to sign in user with data: ', id);
 
+			if(debugMode){
+				resolve({
+					id: 'DEBUG-STUDENT',
+					teacher_id: 'DEBUG-TEACHER',
+					first_name: 'Debug',
+					last_name: 'Student',
+					agent_name: 'Debug Student',
+					age: 1,
+					interests: ['Debugging', 'Debugging', 'Debugging'],
+					progress: {
+						id: 'DEBUG-PROGRESS',
+						badge_count: 0,
+						megajoules: 0,
+						last_visited: '/entry',
+						student_id: 'DEBUG-STUDENT',
+					}
+				});
+				return;
+			}
+
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students/${id}`, 'GET');
 
@@ -59,6 +80,11 @@ const Auth = {
 const Student = {
 	updateStudent: async (student: Student) => {
 		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				resolve();
+				return;
+			}
+
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students/${student.id}`, 'PUT', student);
 
@@ -75,6 +101,17 @@ const Student = {
 const StudentProgress = {
 	getProgress: async (progress_id: string) => {
 		return new Promise<StudentProgress>(async (resolve, reject) => {
+			if(debugMode){
+				resolve({
+					id: 'DEBUG-PROGRESS',
+					badge_count: 0,
+					megajoules: 0,
+					last_visited: '/entry',
+					student_id: 'DEBUG-STUDENT',
+				});
+				return;
+			}
+
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/progress/${progress_id}`, 'GET');
 				resolve(res);
@@ -86,6 +123,11 @@ const StudentProgress = {
 
 	createProgress: async (progress: StudentProgress) => {
 		return new Promise<StudentProgress>(async (resolve, reject) => {
+			if (debugMode) {
+				resolve(progress);
+				return;
+			}
+
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/progress`, 'POST', progress);
 				console.log('createProgress res: ', res);
@@ -98,6 +140,11 @@ const StudentProgress = {
 
 	updateProgress: async (progress: StudentProgress) => {
 		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				resolve();
+				return;
+			}
+
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/progress/${progress.id}`, 'PUT', progress);
 				resolve();
@@ -117,6 +164,11 @@ const Data = {
 	submitPostSurvey: async (surveyResponse: {}) => {
 		return new Promise<void>(async (resolve, reject) => {
 			console.log('attempting to submit post survey with data: ', surveyResponse);
+
+			if(debugMode){
+				resolve();
+				return;
+			}
 
 			let token;
 			accessTokenStore.subscribe((value) => {
@@ -139,6 +191,11 @@ const Data = {
 	},
 	submitFreeResponse: async (id: string, data: any) => {
 		return new Promise<void>(async (resolve, reject) => {
+			if (debugMode) {
+				resolve();
+				return;
+			}
+
 			let token;
 			accessTokenStore.subscribe((value) => {
 				token = value;
@@ -158,6 +215,11 @@ const Data = {
 	},
 	uploadVideoToS3: async (mediaPath: string, fileName: string) => {
 		return new Promise<string>(async (resolve, reject) => {
+			if(debugMode){
+				resolve('DEBUG-URL');
+				return;
+			}
+
 			let token;
 			accessTokenStore.subscribe((value) => {
 				token = value;
@@ -190,6 +252,11 @@ const Data = {
 	},
 	uploadImageOrSvgToS3: async (mediaPath: string | HTMLOrSVGElement, type: string) => {
 		return new Promise<string>(async (resolve, reject) => {
+			if(debugMode){
+				resolve('DEBUG-URL');
+				return;
+			}
+
 			let fileName = generateImageOrSvgFileName(type);
 
 			let token;
@@ -252,6 +319,11 @@ const Data = {
 	},
 	uploadResponseImages: async (id: string, data: string | string[], type: string) => {
 		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				resolve();
+				return;
+			}
+
 			let token;
 			accessTokenStore.subscribe((value) => {
 				token = value;
@@ -270,6 +342,11 @@ const Data = {
 	},
 	submitHelpfulOrHarmfulResponse: async (data: any) => {
 		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				resolve();
+				return;
+			}
+			
 			let token;
 			accessTokenStore.subscribe((value) => {
 				token = value;
@@ -389,25 +466,6 @@ interface AgentBody {
 interface TravelLogBody {
 	data: any;
 	description: string;
-}
-
-function getUserBody(profileData: any): UserBody {
-	return {
-		name: {
-			first: profileData.firstName,
-			last: profileData.lastName
-		},
-		email: profileData.email,
-		password: profileData.password
-	};
-}
-
-function getAgentBody(profileData: any): AgentBody {
-	return {
-		age: profileData.age,
-		interests: profileData.interests,
-		agentName: profileData.agentName
-	};
 }
 
 function getTravelLogBody(data: string | string[], id: string, type: string): TravelLogBody {
