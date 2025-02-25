@@ -255,10 +255,10 @@
                     content?.dispatchEvent(event);
                 }
             }}
-            pulse={lineNumber == 15 ? 'pulse' : ''} />
+            pulse={lineNumber == 15} />
         {/if}
         {#if lineNumber == 3}
-            <img src="/img/characters/bot-buddy/bot-buddy-protest-screen.png" id="bbscreen"/>
+            <img src="/img/characters/bot-buddy/bot-buddy-protest-screen.png" id="bbscreen" alt="A protest is shown on Bot Buddy's screen." />
             <button id="bbscreenbtn" on:click={() => handleNavigation(NavigationDirection.forward)}>
                 </button>
         {/if}

@@ -1,24 +1,6 @@
-<!--
- /src/routes/activities/draw-an-algorithim/+page.svelte
- +page.svelte
- cml-narrative
- 
- Created by Ian Thompson on January 16th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script lang="ts">
-	import Tablet from '$lib/components/tablet/Tablet.svelte';
-
-	import ImageResponse from '$lib/components/activities/free-response/ImageResponse.svelte';
-	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
-
 	import DataService from '$lib/utils/DataService';
 	import { goto } from '$app/navigation';
-	import type { StudentProgress } from '$lib/types/UserData';
-	import { studentDataStore } from '$lib/utils/stores/store';
 	import ImageResponseModal from '$lib/components/activities/free-response/ImageResponseModal.svelte';
 
 	let message = '';
@@ -33,23 +15,6 @@
 			onSubmit();
 		}
 	}
-
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-zero',
-			subLevel: 1,
-			last_visited: '/training?page=14',
-			lastUpdated: new Date()
-		};
-	};
-
-	const updateLocalProgress = (progress: StudentProgress) => {
-		studentDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		});
-	};
 
 	const handleImageSubmission = async (event: CustomEvent<any>) => {
 		const images: HTMLImageElement[] | HTMLOrSVGElement = event.detail.images;
@@ -72,10 +37,8 @@
 			}
 			
 			message = `Response recorded successfully!`;
-			isSuccess = true
-			let progress = getUpdatedProgress();
-			await DataService.Data.updateUserProgress(progress);
-			updateLocalProgress(progress);
+			isSuccess = true;
+
 		} catch (error) {
 			message = `Responses submission failed!`;
 			isSuccess = false
