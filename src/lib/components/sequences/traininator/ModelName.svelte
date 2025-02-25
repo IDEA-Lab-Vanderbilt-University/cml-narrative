@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 
+	export let step: number;
 	export let modelName: string;
 </script>
 
@@ -15,7 +16,8 @@
 		bind:value={modelName} />
 	<button
 		on:click={() => {
-			goto('/traininator?page=3');
+			step++;
+			// goto('/traininator?page=3');
 		}}
 		class="my-5 mt-10 flex items-center justify-center gap-5 rounded-full border-2 border-white bg-blue-400 bg-opacity-75 px-4 py-3 align-middle shadow-md">
 		<p class="mx-5 text-xl font-bold text-gray-800">Next</p>

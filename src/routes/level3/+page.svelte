@@ -62,7 +62,7 @@
                 data.last_visited = target;
                 return data;
             });
-            
+
             goto(target);
         }
 	};
@@ -255,7 +255,7 @@
                     content?.dispatchEvent(event);
                 }
             }}
-            pulse={lineNumber == 15 ? true : undefined} />
+            pulse={lineNumber == 15 ? 'pulse' : ''} />
         {/if}
         {#if lineNumber == 3}
             <img src="/img/characters/bot-buddy/bot-buddy-protest-screen.png" id="bbscreen"/>

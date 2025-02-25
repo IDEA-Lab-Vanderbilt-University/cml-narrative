@@ -14,6 +14,7 @@ import type { Student, StudentProgress } from '$lib/types/UserData';
 import { get, writable } from 'svelte/store';
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
+import type { TravelLog, TravelLogWithStudent } from '$lib/types/teacher-view/TravelLog';
 import { defaultSettings, type Settings } from '$lib/types/Settings';
 import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes';
 import DataService from '../DataService';
@@ -145,3 +146,5 @@ studentProgressStore.subscribe((value) => {
 	// Also send the progress to the server
 	DataService.StudentProgress.updateProgress(value);
 });
+
+export const pendingTravelLogStore = writable<TravelLogWithStudent[]>([]);

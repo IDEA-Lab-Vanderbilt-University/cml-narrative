@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-
+	export let step: number;
 	export let classes: string[] = [];
+	export let trainingSets: string[][] = [];
 
 	let className = '';
 	const addClass = () => {
@@ -31,7 +31,7 @@
 		{#each classes as cls}
 			<div class="m-2 flex items-center space-x-3 rounded-xl bg-gray-100 p-3 shadow">
 				<t>{cls}</t>
-				<button class="btn btn-error btn-outline btn-xs h-1" on:click={() => deleteClass(cls)}
+				<button class="btn btn-outline btn-error btn-xs h-1" on:click={() => deleteClass(cls)}
 					>x</button>
 			</div>
 		{/each}
@@ -50,7 +50,9 @@
 
 	<button
 		on:click={() => {
-			goto('/traininator?page=4');
+			trainingSets = Array(classes.length).fill([]);
+			// goto('/traininator?page=4');
+			step++;
 		}}
 		class="my-5 mt-10 flex items-center justify-center gap-5 rounded-full border-2 border-white bg-blue-400 bg-opacity-75 px-4 py-3 align-middle shadow-md">
 		<p class="mx-5 text-xl font-bold text-gray-800">Next</p>
