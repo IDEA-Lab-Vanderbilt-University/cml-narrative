@@ -15,6 +15,7 @@
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
+	import { studentProgressStore } from '$lib/utils/stores/store.js';
 
 	export let data;
 
@@ -38,14 +39,24 @@
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
+		let target = '';
+		
 		if (direction == NavigationDirection.forward) {
 			if (line.id == 2) {
-				goto('/introduction/onboarding/tablet-tutorial?page=1');
+				target = '/introduction/onboarding/tablet-tutorial?page=1';
 			} else {
-				goto(`/introduction/welcome?page=${line.id + 1}`);
+				target = `/introduction/welcome?page=${line.id + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/introduction/welcome?page=${line.id - 1}`);
+			target = `/introduction/welcome?page=${line.id - 1}`;
+		}
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			
+			goto(target);
 		}
 	};
 </script>

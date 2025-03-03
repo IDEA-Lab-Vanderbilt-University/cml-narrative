@@ -30,21 +30,46 @@
 		line = data.line;
 		audioSrc = line.audio || '';
 
-		// switch (line.id) {
-		// 	case 1:
-		// 		tourManager.add(tourSteps[0])
-		// 		break;
-		// 	case 2:
-		// 		// tourManager.reset()
-		// 		tourManager.add(tourSteps[1])
-		// 		break;
-		// 	case 3:
-		// 		tourManager.add(tourSteps[2])
-		// 		tourManager.add(tourSteps[3])
-
-		// 	default:
-		// 		break;
-		// }
+		switch (line.id) {
+			case 1:
+				tourManager.reset();
+				tourManager.add(tourSteps[0]);
+				break;
+			case 2:
+				tourManager.reset();
+				tourManager.add(tourSteps[1]);
+				break;
+			case 3:
+				tourManager.reset();
+				tourManager.add(tourSteps[2]);
+				tourManager.add(tourSteps[3]);
+			case 4:
+				tourManager.reset();
+				tourManager.add(tourSteps[4]);
+				break;
+			case 5:
+				tourManager.reset();
+				tourManager.add(tourSteps[5]);
+				break;
+			case 6:
+				tourManager.reset();
+				tourManager.add(tourSteps[6]);
+				break;
+			case 7:
+				tourManager.reset();
+				break;
+			case 8:
+				tourManager.reset();
+				break;
+			case 9:
+				tourManager.reset();
+				tourManager.add(tourSteps[7]);
+				tourManager.add(tourSteps[8]);
+				break;
+			default:
+				tourManager.reset();
+				break;
+		}
 	}
 
 	let tourSteps: Tour[] = [
@@ -63,52 +88,52 @@
 		},
 		{
 			message: "You can see the badges you've earned",
-			bindTo: '#tablet-app-container-badges',
+			bindTo: '#main-tablet-container #tablet-app-container-badges',
 			position: 'left',
 			showTour: true
 		},
 		{
 			message:
 				'You need to earn badges to move from Special Agent in Training to Advanced Special Agent',
-			bindTo: '#tablet-app-container-badges',
+			bindTo: '#main-tablet-container #tablet-app-container-badges',
 			position: 'right',
 			showTour: true
 		},
 		{
 			message: 'The settings button lets you change the settings of the game.',
-			bindTo: '#tablet-app-container-settings',
+			bindTo: '#main-tablet-container #tablet-app-container-settings',
 			position: 'left',
 			showTour: true
 		},
 		{
 			message: 'The power button closes your tablet.',
-			bindTo: '#tablet-app-container-power',
+			bindTo: '#main-tablet-container #tablet-app-container-power',
 			position: 'right',
 			showTour: true
 		},
 		{
 			message: 'This is the megajoules meter!',
-			bindTo: '#megajoules-meter',
+			bindTo: '#main-tablet-container #megajoules-meter',
 			position: 'top',
 			showTour: true
 		},
 		{
 			message: 'Use your travel log to share information nd send updates to SPOT Mission Control',
-			bindTo: '#tablet-app-container-travel',
+			bindTo: '#main-tablet-container #tablet-app-container-travel',
 			position: 'left',
 			showTour: true
 		},
 		{
 			message: 'Complete entries within your Time Travel Log to power up. ',
-			bindTo: '#',
-			position: 'top',
+			bindTo: '#main-tablet-container #tablet-app-container-travel',
+			position: 'right',
 			showTour: true
 		},
 		{
 			message:
 				'Mission Control will send you some megajoules of power each time you make an entry in your log.',
-			bindTo: '#tablet-app-container-travel',
-			position: 'right',
+			bindTo: '#main-tablet-container #tablet-app-container-travel',
+			position: 'bottom',
 			showTour: true
 		}
 	];
@@ -125,6 +150,7 @@
 
 		if (direction == NavigationDirection.forward) {
 			if (line.id == 9) {
+				tourManager.reset();
 				target = '/introduction/bot-buddy?page=1';
 			} else {
 				target = `/introduction/onboarding/tablet-tutorial?page=${line.id + 1}`;
@@ -148,23 +174,23 @@
 		console.log(event, id);
 
 		if (event == 'mount') {
-			let tours: Tour[] = tourSteps.filter((t) => t.bindTo == id);
-			// console.log("should mount: ", tours);
+			// let tours: Tour[] = tourSteps.filter((t) => t.bindTo == id);
+			// // console.log("should mount: ", tours);
 
-			tours.forEach((tour) => {
-				console.log('adding: ', tour);
+			// tours.forEach((tour) => {
+			// 	console.log('adding: ', tour);
 
-				tourManager.add(tour);
-			});
+			// 	tourManager.add(tour);
+			// });
 		}
 
 		if (event == 'destroy') {
-			let tours: Tour[] = tourSteps.filter((t) => t.bindTo == id);
-			tours.forEach((tour) => {
-				console.log('removing: ', tour);
+			// let tours: Tour[] = tourSteps.filter((t) => t.bindTo == id);
+			// tours.forEach((tour) => {
+			// 	console.log('removing: ', tour);
 
-				tourManager.remove(tour);
-			});
+			// 	tourManager.remove(tour);
+			// });
 		}
 	};
 </script>
@@ -179,7 +205,7 @@
 				➜
 			</p>
 		</button>
-		<div class="w-full">
+		<div class="w-full" id="main-tablet-container">
 			<AudioPlayer src={audioSrc} />
 			{#if line.id == 1}
 				<Introduction on:applicationContainerEvent={handleAppContainerEvent} />
