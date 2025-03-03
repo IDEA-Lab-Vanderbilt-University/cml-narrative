@@ -68,11 +68,12 @@
 					{
 						name: 'offset',
 						options: {
-							offset: [10, 20]
+							offset: [-400, 100],
 						}
 					}
 				]
 			});
+			console.log(bindReference);
 		} else {
 			console.error('Could not find element to bind popover to!');
 		}

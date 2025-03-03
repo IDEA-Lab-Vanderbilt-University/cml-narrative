@@ -18,8 +18,8 @@
 	let tour = {
 		showTour: true,
 		message: 'Click on the power button to close your tablet',
-		bindTo: '#tablet-power-button',
-		position: 'top'
+		bindTo: '.right-size #tablet-power-button',
+		position: 'top',
 	};
 
 	let agentName: string;
