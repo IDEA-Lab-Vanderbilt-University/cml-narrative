@@ -24,6 +24,7 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
+	import { studentProgressStore } from '$lib/utils/stores/store.js';
 
 	export let data;
 
@@ -74,27 +75,36 @@
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
+		let target = '';
 		if (direction == NavigationDirection.forward) {
 			if (lineNumber == 8) {
-				goto('/activities/what-do-you-think-an-algorithm-is');
+				target = '/activities/what-do-you-think-an-algorithm-is';
 			} else if (lineNumber == 11) {
-				goto('/activities/what-do-you-think-machine-learning-is');
+				target = '/activities/what-do-you-think-an-algorithm-is';
 			} else if (lineNumber == 12) {
-				goto('/training/post-survey');
+				target = '/training/post-survey';
 			} else if (lineNumber == 16) {
-				goto('/training/outro?page=1');
+				target = '/training/outro?page=1';
 			} else {
-				goto(`/training?page=${lineNumber + 1}`);
+				target = `/training?page=${lineNumber + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward) {
 			if (lineNumber == 1) {
-				goto(`/introduction/bot-buddy?page=23`);
+				target = '/introduction/bot-buddy?page=23';
 			} else {
 				if(lineNumber == 9 || lineNumber == 12 || lineNumber == 13) {
 					return;
 				}
-				goto(`/training?page=${lineNumber - 1}`);
+				target = `/training?page=${lineNumber - 1}`;
 			}
+		}
+
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			goto(target);
 		}
 	};
 </script>

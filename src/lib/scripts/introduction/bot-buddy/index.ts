@@ -114,7 +114,7 @@ const script: Script = {
 			id: 10,
 			speakers: ['Agent Gear'],
 			dialog:
-				'I have them, Captain Storm! Sorry I was late, I wanted our new agent to have the updated model!',
+				'I have it, Captain Storm! Sorry I was late, I wanted our new agent to have the updated model!',
 			avatars: ['/img/characters/agent-gear/vanilla_strong_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_gear/agent_gear_l0s57.wav',
@@ -133,7 +133,7 @@ const script: Script = {
 			id: 12,
 			speakers: ['Bot Buddy'],
 			dialog: '$$((( ooo!>>> =+=; $^(( %&<!!',
-			avatars: ['/img/characters/bot-buddy/bot-buddy-base.png'],
+			avatars: ['/img/characters/bot-buddy/bot-buddy-smug.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/bot_buddy/bot_buddy_l0s59.wav',
 			pos: 'left'
@@ -169,7 +169,7 @@ const script: Script = {
 			id: 16,
 			speakers: ['Bot Buddy'],
 			dialog: 'Hello! I am Bot Buddy! I will be your robot assistant.',
-			avatars: ['/img/characters/bot-buddy/bot-buddy-base.png'],
+			avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/bot_buddy/bot_buddy_l0s63.wav',
 			pos: 'left'
