@@ -17,7 +17,6 @@ import {
 	accessTokenStore,
 	debugMode,
 	pendingTravelLogStore,
-	studentClassStore,
 	studentDataStore,
 } from '../stores/store';
 import type { Student, StudentProgress, TravelLog } from '$lib/types/UserData';
@@ -438,6 +437,26 @@ const TravelLog = {
 			alert('Error fetching travel logs');
 			console.log(error);
 		}
+	},
+
+	getTravelLogs: async (description: string, student_id: string = '') => {
+		return new Promise<TravelLog[]>(async (resolve, reject) => {
+			if(debugMode){
+				resolve([]);
+				return;
+			}
+
+			if (student_id === '') {
+				student_id = get(accessTokenStore);
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs?description=${description}&student_id=${student_id}`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
 	}
 };
 

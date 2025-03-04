@@ -17,7 +17,8 @@
 	import type { Student, StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
 	import { pizzaConfigStore, studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
+	import { get } from 'svelte/store';
 
     let agent: Student = {};
 
@@ -31,11 +32,29 @@
 
 	$: line = data.line;
 
-    let userPizzaConfig: PizzaConfig | undefined;
+    let userPizzaConfig = get(pizzaConfigStore);
     let userPizza: PizzaDisplay | void;
 
-    pizzaConfigStore.subscribe((value) => {
-        userPizzaConfig = value;
+    onMount(async () => {
+        if(userPizzaConfig == null) {
+            const pizzaLog = await DataService.TravelLog.getTravelLogs("pizza-time");
+
+
+
+            if(pizzaLog.length == 0) {
+                // Default pizza config to show something visually
+                userPizzaConfig = {
+                    crust: "thick",
+                    sauce: "marinara",
+                    cheese: true,
+                    veggies: [],
+                    meats: [],
+                    finishingTouches: []
+                };
+                return;
+            }
+            userPizzaConfig = JSON.parse(pizzaLog[0].data);
+        }
     });
 
     $: {
