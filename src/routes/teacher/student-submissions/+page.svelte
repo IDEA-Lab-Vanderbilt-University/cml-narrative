@@ -65,7 +65,7 @@
 		<div class="absolute bottom-5 left-4 flex flex-col items-start space-y-2">
 			<button
 				class="rounded-full bg-cyan-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-cyan-600"
-				on:click={fetchPendingTravelLogs}>
+				on:click={DataService.TravelLog.fetchPending}>
 				Refresh
 			</button>
 

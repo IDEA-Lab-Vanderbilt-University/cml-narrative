@@ -6,7 +6,7 @@
 
 	import Dropzone from 'svelte-file-dropzone';
 	import Papa from 'papaparse';
-	import type { Student } from '$lib/types/teacher-view/Student';
+	import type { Student } from '$lib/types/UserData';
 
 	let studentsFromCSV: Student[] = [];
 	let files = {

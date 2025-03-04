@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Student } from '$lib/types/teacher-view/Student';
+	import type { Student } from '$lib/types/UserData';
 
 	export let student: Student;
 </script>
