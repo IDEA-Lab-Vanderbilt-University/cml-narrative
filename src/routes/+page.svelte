@@ -4,6 +4,8 @@
 
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
+	import { debugMode } from '$lib/utils/stores/store';
+	import { goto } from '$app/navigation';
 
 	let showTablet: boolean = false;
 	let showLogIn: boolean = false;
@@ -41,6 +43,10 @@
 							class="new-agent rounded-md bg-red-500 px-3 py-2 text-3xl text-white shadow-lg"
 							on:click={() => {
 								stopAudio();
+								if(debugMode) {
+									goto('/entry');
+									return;
+								}
 								screenState = HomeScreenStates.signUp;
 							}}>Login Agent</button>
 					</div>
