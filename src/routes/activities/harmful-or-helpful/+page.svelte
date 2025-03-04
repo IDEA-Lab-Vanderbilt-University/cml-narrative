@@ -12,17 +12,7 @@
 	let message = '';
 	let isSuccess = false;
 	let showFeedbackModal = false;
-
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-zero',
-			subLevel: 1,
-			last_visited: '/training?page=5',
-			lastUpdated: new Date()
-		};
-	};
-
+	
 	const onFeedbackClose = () => {
 		showFeedbackModal = false;
 		if(!isSuccess) {
@@ -50,15 +40,14 @@
 			});
 
 			console.log('the final data ', allData);
-			await DataService.Data.submitHelpfulOrHarmfulResponse(allData);
+			await DataService.TravelLog.submitTravelLog({
+				description: 'level-zero-helpful-or-harmful',
+				data: JSON.stringify(allData),
+				status: 'completed',
+			});
 
 			message = 'Your responses were recorded successfully!';
 			isSuccess = true;
-
-			let progress = getUpdatedProgress();
-			await DataService.Data.updateUserProgress(progress);
-			updateLocalProgress(progress);
-
 		} catch (err) {
 			message = 'Your responses not recorded successfully!';
 			isSuccess = false;

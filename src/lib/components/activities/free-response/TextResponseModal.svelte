@@ -26,7 +26,11 @@
 
 	const handleSubmit = async () => {
 		try {
-			await DataService.Data.submitFreeResponse(id, response);
+			await DataService.TravelLog.submitTravelLog({
+				data: response,
+				description: id,
+				status: 'complete'
+			});
 			message = 'Response recorded successfully!';
 			isSuccess = true;
 		} catch (error) {

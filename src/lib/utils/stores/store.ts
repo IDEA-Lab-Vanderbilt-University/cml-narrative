@@ -10,14 +10,15 @@
  
 */
 
-import type { Student, StudentProgress } from '$lib/types/UserData';
+import type { Student, StudentProgress, TravelLogWithStudent } from '$lib/types/UserData';
 import { get, writable } from 'svelte/store';
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
-import type { TravelLog, TravelLogWithStudent } from '$lib/types/teacher-view/TravelLog';
 import { defaultSettings, type Settings } from '$lib/types/Settings';
 import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes';
 import DataService from '../DataService';
+import { goto } from '$app/navigation';
+import { browser } from '$app/environment';
 
 /**
  * A note on what this file does:
@@ -148,3 +149,15 @@ studentProgressStore.subscribe((value) => {
 });
 
 export const pendingTravelLogStore = writable<TravelLogWithStudent[]>([]);
+
+export const requireLogin = () => {
+	if (!accessTokenStore || debugMode || !browser) return;
+
+	if (!get(accessTokenStore)) {
+		goto('/');
+	}
+
+	if(get(accessTokenStore) === '') {
+		goto('/');
+	}
+};

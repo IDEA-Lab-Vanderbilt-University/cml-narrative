@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
 	import DataService from '$lib/utils/DataService';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 
 	// /**
 	//  * The id attribute is used for when we save data to the backend.
@@ -85,13 +85,13 @@
 
 	let canRecord = false;
 
-	$: {
+	onMount(() => {
 		if (browser) {
-			if(window.SpeechRecognition || window.webkitSpeechRecognition) {
+			if (window.SpeechRecognition || window.webkitSpeechRecognition) {
 				canRecord = true;
 			}
 		}
-	}
+	});
 
 	$: {
 		if (title == undefined && promptedTechnology != undefined) {

@@ -1,24 +1,15 @@
 <script lang="ts">
-	import type { TravelLog, TravelLogWithStudent } from '$lib/types/teacher-view/TravelLog';
+	import type { TravelLog, TravelLogWithStudent } from '$lib/types/UserData';
 	import { pendingTravelLogStore } from '$lib/utils/stores/store';
 	import PendingCodinatorModal from '$lib/components/teacher-view/modals/PendingCodinatorModal.svelte';
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 	import { RequestFactory } from '$lib/utils/network/RequestFactory';
 	import { goto } from '$app/navigation';
 	import { onMount, getContext } from 'svelte';
+	import DataService from '$lib/utils/DataService';
 
 	const { open } = getContext('simple-modal');
 
-	async function fetchPendingTravelLogs() {
-		try {
-			const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs/pending`, 'GET');
-			console.log(res);
-			pendingTravelLogStore.set(res);
-		} catch (error) {
-			alert('Error fetching travel logs');
-			console.log(error);
-		}
-	}
 
 	async function logout() {
 		try {
@@ -33,7 +24,7 @@
 
 	// Fetch pending travel logs on component mount
 	onMount(() => {
-		fetchPendingTravelLogs();
+		DataService.TravelLog.fetchPending();
 	});
 </script>
 

@@ -16,10 +16,11 @@ import { get } from 'svelte/store';
 import {
 	accessTokenStore,
 	debugMode,
+	pendingTravelLogStore,
 	studentClassStore,
 	studentDataStore,
 } from '../stores/store';
-import type { Student, StudentProgress } from '$lib/types/UserData';
+import type { Student, StudentProgress, TravelLog } from '$lib/types/UserData';
 
 /**
  * Handles and contains all of the authentication logic
@@ -182,7 +183,7 @@ const Data = {
 			};
 
 			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, 'POST', body, token);
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs`, 'POST', body, token);
 				resolve();
 			} catch (error) {
 				reject(error);
@@ -200,13 +201,13 @@ const Data = {
 			accessTokenStore.subscribe((value) => {
 				token = value;
 			});
-			console.log('TOKEN IKKADA: ', token);
+			
 			const body: TravelLogBody = {
 				description: `level-zero-what-is-${id}-free-response`,
 				data: data
 			};
 			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, 'POST', body, token);
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs`, 'POST', body, token);
 				resolve(res);
 			} catch (error) {
 				reject(error);
@@ -324,40 +325,12 @@ const Data = {
 				return;
 			}
 
-			let token;
-			accessTokenStore.subscribe((value) => {
-				token = value;
-			});
+			let token = get(accessTokenStore);
 
-			console.log('TOKEN IKKADA: ', token);
 			console.log(`Attempting to submit an response image for id ${id} with data: `, data);
 			let tlBody = getTravelLogBody(data, id, type);
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, 'POST', tlBody, token);
-				resolve();
-			} catch (error) {
-				reject(error);
-			}
-		});
-	},
-	submitHelpfulOrHarmfulResponse: async (data: any) => {
-		return new Promise<void>(async (resolve, reject) => {
-			if(debugMode){
-				resolve();
-				return;
-			}
-			
-			let token;
-			accessTokenStore.subscribe((value) => {
-				token = value;
-			});
-			console.log('TOKEN IKKADA: ', token);
-			const body: TravelLogBody = {
-				description: `level-zero-helpful-or-harmful`,
-				data: data
-			};
-			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/api/travellogs`, 'POST', body, token);
 				resolve();
 			} catch (error) {
 				reject(error);
@@ -436,6 +409,38 @@ const Data = {
 	}
 };
 
+const TravelLog = {
+	submitTravelLog: async (log: TravelLog) => {
+		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				resolve();
+				return;
+			}
+
+			let token = get(accessTokenStore);
+			log.student_id = token;
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs`, 'POST', log, token);
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+
+	fetchPending: async () => {
+		try {
+			const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs/pending`, 'GET');
+			console.log(res);
+			pendingTravelLogStore.set(res);
+		} catch (error) {
+			alert('Error fetching travel logs');
+			console.log(error);
+		}
+	}
+};
+
 /**
  * DataService is the manager for all of the communication between the frontend and the backend
  */
@@ -443,25 +448,11 @@ const DataService = {
 	Auth,
 	Data,
 	Student,
-	StudentProgress
+	StudentProgress,
+	TravelLog,
 };
 
 export default DataService;
-
-interface UserBody {
-	name: {
-		first: string;
-		last: string;
-	};
-	email: string;
-	password: string;
-}
-
-interface AgentBody {
-	age: number;
-	interests: string[];
-	agentName: string;
-}
 
 interface TravelLogBody {
 	data: any;

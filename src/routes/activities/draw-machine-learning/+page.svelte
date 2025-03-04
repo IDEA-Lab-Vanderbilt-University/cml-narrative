@@ -1,7 +1,10 @@
 <script lang="ts">
 	import DataService from '$lib/utils/DataService';
-	import { goto } from '$app/navigation';
 	import ImageResponseModal from '$lib/components/activities/free-response/ImageResponseModal.svelte';
+	import { requireLogin, studentProgressStore } from '$lib/utils/stores/store';
+	import { goto } from '$app/navigation';
+	
+	requireLogin();
 
 	let message = '';
 	let isSuccess = false;
@@ -47,6 +50,11 @@
 		showFeedbackModal = true;
 	};
 	const onSubmit = () => {
+		studentProgressStore.update((progress) => {
+			progress.last_visited = '/training?page=12';
+			return progress;
+		});
+		
 		goto('/training?page=12');
 	}
 </script>
