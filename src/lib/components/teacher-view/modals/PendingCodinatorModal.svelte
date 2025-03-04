@@ -5,6 +5,7 @@
 	import { RequestFactory } from '$lib/utils/network/RequestFactory';
 	import { pendingTravelLogStore } from '$lib/utils/stores/store';
 
+	// @ts-ignore
 	const { close } = getContext('simple-modal');
 
 	export let tl: TravelLogWithStudent;

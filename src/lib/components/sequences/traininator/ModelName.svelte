@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-
 	export let step: number;
 	export let modelName: string;
 </script>
@@ -16,6 +14,10 @@
 		bind:value={modelName} />
 	<button
 		on:click={() => {
+			if (modelName === '') {
+				alert('You need to enter a model name');
+				return;
+			}
 			step++;
 			// goto('/traininator?page=3');
 		}}

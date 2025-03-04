@@ -19,6 +19,8 @@
 	} from '$lib/utils/traininator/TraininatorUtils';
 	import TraininatorBoostersList from '$lib/components/activities/traininator/TraininatorBoostersList.svelte';
 	import TraininatorModelMatrix from '$lib/components/activities/traininator/TraininatorModelMatrix.svelte';
+	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
+    import { RequestFactory } from '$lib/utils/network/RequestFactory';
 
 	// export let data: PageData;
 
@@ -31,6 +33,12 @@
 	let showAddDialog = false;
 
 	const startTraining = () => {
+		for (let i = 0; i < trainingSets.length; i++) {
+			if (trainingSets[i].length === 0) {
+				alert('You need at least one image for each category');
+				return;
+			}
+		}
 		step = 5;
 	};
 
@@ -81,6 +89,18 @@
 	};
 
 	let model: tf.Sequential;
+
+    async function uploadModel() {
+        try {
+            const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/upload-model`, 'POST', {
+                model: model.toJSON()
+            });
+            console.log(res);
+        } catch (error) {
+            alert('Error uploading model');
+            console.log(error);
+        }
+    }
 
 	$: {
 		if (step == 5 && !isTraining) {
@@ -260,6 +280,10 @@
 			<button
 				id="trainButton"
 				on:click={() => {
+					if (testSets.length === 0) {
+						alert('You need to add images for testing');
+						return;
+					}
 					step = 7;
 				}}>Test Model</button>
 		</div>
@@ -315,6 +339,11 @@
 					modelMatrix={testModelMatrix.map((r) => r.map(String))}
 					cellClasses={testModelMatrixCellClasses} />
 			</div>
+			<button
+				id="trainButton"
+				on:click={() => {
+					step = 4;
+				}}>Re-train Model</button>
 		</div>
 		<div id="right">
 			<div class="header">Test Set Results:</div>
@@ -332,6 +361,7 @@
 						)} />
 				</div>
 			</div>
+			<button id="trainButton" on:click={() => {}}>I'm done!</button>
 		</div>
 	</div>
 {/if}
