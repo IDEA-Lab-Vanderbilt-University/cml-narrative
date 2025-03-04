@@ -1,42 +1,20 @@
 <script lang="ts">
 	import Tablet from "../tablet/Tablet.svelte";
 
-    import type { Student } from '$lib/types/UserData';
-    import { studentDataStore } from '$lib/utils/stores/store';
+    import type { Student, StudentProgress } from '$lib/types/UserData';
+    import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store';
 	import Badge from "../Badge.svelte";
     import { Confetti } from "svelte-confetti";
 	import MegaJoulesMeter from "../tablet/MegaJoulesMeter.svelte";
+	import { get } from "svelte/store";
 
     export let handleClick: () => void;
 
-    let agent: Student = {
-        name: {
-            first: '',
-            last: ''
-        },
-        age: 0,
-        interests: [],
-        avatarImg: '',
-        agentName: '',
-        email: '',
-        password: '',
-        progress: {
-            level: 0,
-            levelLabel: '',
-            subLevel: 0,
-            last_visited: '',
-            lastUpdated: undefined
-        }
-    };
-
-    studentDataStore.subscribe((value) => {
-        agent = value as Student;
-    });
+    let progress = get(studentProgressStore);
 
     export let amount: number;
 
-
-    let imageAmount = Math.floor(amount * 14 / 100);
+    let imageAmount = Math.floor((progress.megajoules ?? 0) * 14 / 100);
 </script>
 
 <Tablet showMeter={false}>

@@ -63,6 +63,23 @@
     let lineNumber = 1;
     $: lineNumber = line.id;
 
+
+	$: {
+		if(lineNumber == 8) {
+			studentProgressStore.update((data) => {
+				data.badge_count = 3;
+				return data;
+			});
+		}
+
+		if(lineNumber == 9) {
+			studentProgressStore.update((data) => {
+				data.megajoules = 20;
+				return data;
+			});
+		}
+	}
+
 </script>
 
 {#if ![3, 4, 5, 8, 9].includes(line.id)}
