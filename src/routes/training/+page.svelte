@@ -131,7 +131,7 @@
 				{/if}
 			</ProjectorView>
 		{:else if lineNumber == 15}
-			<BadgeGetModal handleClick={handleNavigation.bind(null, NavigationDirection.forward)} badgeName="Agent-In-Training" badgeImage="img/misc/badge1.png"/>
+			<BadgeGetModal handleClick={handleNavigation.bind(null, NavigationDirection.forward)} badgeName="Agent-In-Training" badgeImage="/img/misc/badge1.png"/>
 		{:else}
 			<div class="" />
 		{/if}

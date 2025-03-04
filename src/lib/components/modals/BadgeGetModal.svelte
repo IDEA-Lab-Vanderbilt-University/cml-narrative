@@ -5,32 +5,11 @@
     import { studentDataStore } from '$lib/utils/stores/store';
 	import Badge from "../Badge.svelte";
     import { Confetti } from "svelte-confetti";
+	import { get } from "svelte/store";
 
     export let handleClick: () => void;
 
-    let agent: Student = {
-        name: {
-            first: '',
-            last: ''
-        },
-        age: 0,
-        interests: [],
-        avatarImg: '',
-        agentName: '',
-        email: '',
-        password: '',
-        progress: {
-            level: 0,
-            levelLabel: '',
-            subLevel: 0,
-            last_visited: '',
-            lastUpdated: undefined
-        }
-    };
-
-    studentDataStore.subscribe((value) => {
-        agent = value as Student;
-    });
+    let agent: Student = get(studentDataStore);
 
     export let badgeName: string;
     export let badgeImage: string;
@@ -38,7 +17,7 @@
 
 <Tablet showMeter={false}>
     <div class="text-center text-white text-3xl font-mokoto p-16">
-        Congratulations, Agent {agent.agentName}! <br/>
+        Congratulations, Agent {agent.agent_name}! <br/>
         You have earned another badge!
     </div>
     <div class="flex justify-center">    
