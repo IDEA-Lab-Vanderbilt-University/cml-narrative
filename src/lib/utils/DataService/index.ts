@@ -237,7 +237,7 @@ const Data = {
 				console.log('the token', token);
 
 				let res = await RequestFactory(
-					`${PUBLIC_BACKEND_API_URL}/api/uploadContent`,
+					`${PUBLIC_BACKEND_API_URL}/file/upload`,
 					'POST',
 					formData,
 					token
@@ -279,7 +279,7 @@ const Data = {
 						formData.append('file', svgBlob, fileName);
 
 						let res = await RequestFactory(
-							`${PUBLIC_BACKEND_API_URL}/api/uploadContent`,
+							`${PUBLIC_BACKEND_API_URL}/file/upload`,
 							'POST',
 							formData,
 							token
@@ -302,7 +302,7 @@ const Data = {
 					formData.append('file', fileBlob, fileName); // Append the file name with extension
 
 					let res = await RequestFactory(
-						`${PUBLIC_BACKEND_API_URL}/api/uploadContent`,
+						`${PUBLIC_BACKEND_API_URL}/file/upload`,
 						'POST',
 						formData,
 						token
