@@ -73,11 +73,18 @@
     let predictions: number[] = [];
     let activeTestImg = 0;
     let testLabels: number[] = [];
+    let relabling = false;
 
     const nextTestImage = (choice: number) => {
-        testLabels.push(choice);
-        activeTestImg++;
-        if (activeTestImg >= testSet1Imgs.length) {
+        if (!relabling) {
+            testLabels.push(choice);
+            activeTestImg++;
+            if (activeTestImg >= testSet1Imgs.length) {
+                step = 6;
+            }
+        } else {
+            testLabels[activeTestImg] = choice;
+            relabling = false;
             step = 6;
         }
     }
@@ -275,7 +282,9 @@
                     <div class="trainingSet">
                         <TraininatorImageSet className="Test Set 1" imgs={testSet1Imgs} booster={'none'} 
                             labels={testLabels.map((label, i) => (label === predictions[i] ? '✓ ': '✗ ') + CLASS_NAMES[predictions[i]])} 
-                            labelClassess={testLabels.map((label, i) => label === predictions[i] ? 'correct' : 'incorrect')} />
+                            labelClassess={testLabels.map((label, i) => label === predictions[i] ? 'correct' : 'incorrect')}
+                            allowRelabel={true} onRelabel={(i) => { activeTestImg = i; relabling = true; step = 5; }}
+                        />
                     </div>
                 </div>
                 <div>
