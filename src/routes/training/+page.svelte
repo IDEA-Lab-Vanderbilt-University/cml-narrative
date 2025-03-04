@@ -80,7 +80,7 @@
 			if (lineNumber == 8) {
 				target = '/activities/what-do-you-think-an-algorithm-is';
 			} else if (lineNumber == 11) {
-				target = '/activities/what-do-you-think-an-algorithm-is';
+				target = '/activities/what-do-you-think-machine-learning-is';
 			} else if (lineNumber == 12) {
 				target = '/training/post-survey';
 			} else if (lineNumber == 16) {
