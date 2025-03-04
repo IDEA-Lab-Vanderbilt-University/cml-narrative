@@ -1,14 +1,3 @@
-<!--
- /src/routes/training/post-survey/+page.svelte
- +page.svelte
- cml-narrative
- 
- Created by Ian Thompson on July 18th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import SurveyOption from '$lib/components/activities/survey/SurveyOption.svelte';
@@ -16,7 +5,7 @@
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import type { StudentProgress } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
-	import { studentDataStore } from '$lib/utils/stores/store';
+	import { studentProgressStore } from '$lib/utils/stores/store';
 
 	/**
 	 * Track the current question that is displaying
@@ -93,14 +82,14 @@
 				console.log('User has finished survey; we can now proceed.');
 
 				try {
-					await DataService.Data.submitPostSurvey(questionsAndResponse);
+					await DataService.TravelLog.submitTravelLog({
+						description: 'level-0-post-survey',
+						data: JSON.stringify(questionsAndResponse),
+						status: 'complete'
+					});
 
 					message = "Survey responses were recorded successfully!";
 					isSuccess = true;
-
-					let progress = getUpdatedProgress();
-					await DataService.Data.updateUserProgress(progress);
-					updateLocalProgress(progress);
 
 				} catch (error) {
 					message = "Survey responses submission failed!";
@@ -130,23 +119,6 @@
 		strongDisagreeElement?.reset();
 	};
 
-	const getUpdatedProgress = (): StudentProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-zero',
-			subLevel: 1,
-			last_visited: '/training?page=13',
-			lastUpdated: new Date()
-		};
-	};
-
-	const updateLocalProgress = (progress: StudentProgress) => {
-		studentDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		});
-	};
-
 	var nextButton: HTMLButtonElement | void;
 
 	var strongAgreeElement: SurveyOption | void;
@@ -170,6 +142,10 @@
 	const onFeedbackClose = () => {
 		showFeedbackModal = false;
 		if (isSuccess) {
+			studentProgressStore.update((progress: StudentProgress) => {
+				progress.last_visited = '/training?page=14';
+				return progress;
+			});
 			goto('/training?page=14');
 		}
 	};
