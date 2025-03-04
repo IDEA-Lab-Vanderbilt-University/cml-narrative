@@ -239,7 +239,9 @@
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
+        {#if lineNumber != 17}
+            <DialogBox {line} on:dialogEvent={handleDialogEvent} />
+        {/if}
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
