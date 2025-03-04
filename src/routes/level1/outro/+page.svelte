@@ -64,6 +64,22 @@
         }
     }
 
+    $: {
+        if(lineNumber == 11){
+            studentProgressStore.update((data) => {
+                data.badge_count = 2;
+                return data;
+            });
+        }
+
+        if(lineNumber == 12){
+            studentProgressStore.update((data) => {
+                data.megajoules = 10;
+                return data;
+            });
+        }
+    }
+
 	/**
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
 	 * @param event can be destructured to obtain which way the dialog in a script should progress
