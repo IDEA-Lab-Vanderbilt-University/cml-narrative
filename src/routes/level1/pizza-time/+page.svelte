@@ -8,6 +8,7 @@
 	import script from '$lib/scripts/level1/pizza-time/index.js';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
+	import DataService from '$lib/utils/DataService/index.js';
 	import { pizzaConfigStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
@@ -42,6 +43,12 @@
 			if (line.id >= script.lines.length) {
 				pizzaConfigStore.set(pizza);
 				
+				DataService.TravelLog.submitTravelLog({
+					description: 'pizza-time',
+					data: JSON.stringify(pizza),
+					status: 'complete'
+				});
+
                 // Next level
 				target = '/level1/pizza-algorithm?page=1';
 			} else {
