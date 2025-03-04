@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import type { StudentProgress } from '$lib/types/UserData.js';
-	import DataService from '$lib/utils/DataService/index.js';
-	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
+	import { studentProgressStore } from '$lib/utils/stores/store.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
     import { onMount, onDestroy } from 'svelte';
     import * as tf from '@tensorflow/tfjs';
@@ -40,6 +38,11 @@
     }
 
     const restartTraining = () => {
+        if(model) {
+            model.dispose();
+        }
+        model = null;
+
         step = 1;
         trainingSets = {
             'Face': [...trainingSetImgs],
@@ -67,7 +70,7 @@
         fakeUpload();
     }
 
-    let model: tf.Sequential;
+    let model: tf.Sequential | null = null;
 
     onMount(async () => {
         // Reset training data
@@ -85,6 +88,7 @@
 
         if (model) {
             model.dispose();
+            model = null;
         }
     });
 
@@ -194,7 +198,6 @@
                 predictions = preds;
 
                 setTimeout(() => {
-
                     step = 5;
                 }, 1000);
             });
