@@ -39,6 +39,34 @@
         step = 2;
     }
 
+    const restartTraining = () => {
+        step = 1;
+        trainingSets = {
+            'Face': [...trainingSetImgs],
+            'No Face': [...trainingSet1NoFaceImgs]
+        };
+        showAddDialog = false;
+        set2Added = false;
+
+        trainingProgress = 0;
+        trainingStep = 'Loading Training Data...';
+        isTraining = false;
+        booster = 'none';
+        
+        testingProgress = 0;
+        testingStep = 'Loading Testing Data...';
+        isTesting = false;
+
+        toLabel = [];
+        predictions = [];
+        activeTestImg = 0;
+        testLabels = [];
+        relabling = false;
+
+        // For Level 3, resetting the model should include the extra training set
+        fakeUpload();
+    }
+
     let model: tf.Sequential;
 
     onMount(async () => {
@@ -288,6 +316,8 @@
                     </div>
                 </div>
                 <div>
+                    <button id="trainButton" on:click={() => {restartTraining()}}>Train Again</button>
+
                     <button id="trainButton" on:click={() => {
                             studentProgressStore.update((data) => {
                                 data.last_visited = '/level3/outro?page=1';
@@ -296,7 +326,7 @@
                             goto('/level3/outro?page=1');
                         }}
                         disabled={testAccuracy < 90}
-                        >Use This Model</button>           
+                        >I'm done!</button>           
                 </div>
             </div>
         </div>
