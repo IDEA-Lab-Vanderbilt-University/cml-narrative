@@ -70,3 +70,18 @@ export interface TravelLogWithStudent {
     };
     student?: Student;
 }
+
+export interface TraininatorModelMessage {
+    id?: string;
+    student_id?: string;
+    name: string;
+    metadata_json: Record<string, any>;
+    created_at?: {
+        secs_since_epoch: number;
+        nanos_since_epoch: number;
+    };
+    updated_at?: {
+        secs_since_epoch: number;
+        nanos_since_epoch: number;
+    };
+}

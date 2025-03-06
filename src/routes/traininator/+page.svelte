@@ -19,8 +19,10 @@
 	} from '$lib/utils/traininator/TraininatorUtils';
 	import TraininatorBoostersList from '$lib/components/activities/traininator/TraininatorBoostersList.svelte';
 	import TraininatorModelMatrix from '$lib/components/activities/traininator/TraininatorModelMatrix.svelte';
+	import type { TraininatorModelMessage } from '$lib/types/UserData';
+	import { studentDataStore } from '$lib/utils/stores/store';
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
-    import { RequestFactory } from '$lib/utils/network/RequestFactory';
+	import { RequestFactory } from '$lib/utils/network/RequestFactory';
 
 	// export let data: PageData;
 
@@ -90,17 +92,36 @@
 
 	let model: tf.Sequential;
 
-    async function uploadModel() {
-        try {
-            const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/upload-model`, 'POST', {
-                model: model.toJSON()
-            });
-            console.log(res);
-        } catch (error) {
-            alert('Error uploading model');
-            console.log(error);
-        }
-    }
+	async function uploadModel() {
+		try {
+			let message: TraininatorModelMessage = {
+				student_id: $studentDataStore.id,
+				// student_id: '6bd7008a-5f3d-45da-8069-54fe12457ff1',
+				name: modelName,
+				metadata_json: {
+					tfjsVersion: '4.22.0',
+					tmVersion: '2.4.7',
+					packageVersion: '0.8.5',
+					packageName: '@teachablemachine/image',
+					timeStamp: new Date().toISOString(),
+					userMetadata: {},
+					modelName: modelName,
+					labels: classes,
+					imageSize: 224
+				}
+			};
+			const res: TraininatorModelMessage = await RequestFactory(
+				`${PUBLIC_BACKEND_API_URL}/traininator-models`,
+				'POST',
+				message
+			);
+
+			model.save(`${PUBLIC_BACKEND_API_URL}/traininator-models/${res.id}/upload`);
+		} catch (error) {
+			alert('Error uploading model');
+			console.log(error);
+		}
+	}
 
 	$: {
 		if (step == 5 && !isTraining) {
@@ -361,7 +382,7 @@
 						)} />
 				</div>
 			</div>
-			<button id="trainButton" on:click={() => {}}>I'm done!</button>
+			<button id="trainButton" on:click={uploadModel}>I'm done!</button>
 		</div>
 	</div>
 {/if}
