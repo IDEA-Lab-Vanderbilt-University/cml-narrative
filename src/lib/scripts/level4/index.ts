@@ -9,6 +9,7 @@ const script: Script = {
 			dialog: 'Now that our megajoules meter is full, its time to leave 2075 and go back to Mission Control! I bet the team has lots of questions for us!',
 			avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
 			background: '/img/backgrounds/level1/1.png',
+			audio: '/audio/level4/bot_buddy/bot_buddy_l4s1.mp3',
 			pos: 'left',
 		},
 		{
@@ -24,6 +25,7 @@ const script: Script = {
 			dialog: 'Welcome back,  Agent! We are excited to see you!',
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level4/captain_storm/captain_storm_l4s3.mp3',
 		},
 		{
 			id: 4,
@@ -31,6 +33,7 @@ const script: Script = {
 			dialog: 'You have shared so much with us in your travel log! We can’t wait to apply what you have learned to the design of our technology here!',
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level4/captain_storm/captain_storm_l4s4.mp3',
 		},
 		{
 			id: 5,
@@ -38,6 +41,7 @@ const script: Script = {
 			dialog: 'Now, we are going to talk about robots!',
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level4/captain_storm/captain_storm_l4s5.mp3',
 		},
 		{
 			id: 6,
@@ -45,6 +49,7 @@ const script: Script = {
 			dialog: 'Based on what you just learned in your time travel, you are going to help us design an AI robot prototype!',
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level4/captain_storm/captain_storm_l4s6.mp3',
 		},
 		{
 			id: 7,
@@ -52,6 +57,7 @@ const script: Script = {
 			dialog: 'Agent, on your SPOT tablet, open file named  “Robot Prototype.”',
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level4/captain_storm/captain_storm_l4s7.mp3',
 		},
 		{
 			id: 8,

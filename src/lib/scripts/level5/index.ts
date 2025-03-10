@@ -13,7 +13,8 @@ const script: Script = {
             dialog: 'Welcome back Agent. Sorry I could not attend the S.P.O.T. robot showcase, but I heard all the agents did an excellent job.',
             avatars: ['/img/characters/captain-storm/storm_lol.png'],
             background: '/img/backgrounds/captain_office.jpg',
-            pos: 'left'
+            pos: 'left',
+            audio: '/audio/level5/captain_storm/captain_storm_l5s1.mp3'
         },
         {
             id: 2,
@@ -21,7 +22,8 @@ const script: Script = {
             dialog: 'Before we say goodbye, go to your tablet to complete your final travel log entry and receive your final badge promoting you to Junior Agent.',
             avatars: ['/img/characters/captain-storm/storm_thumbs_up_inverted.png'],
             background: '/img/backgrounds/captain_office.jpg',
-            pos: 'left'
+            pos: 'left',
+            audio: '/audio/level5/captain_storm/captain_storm_l5s2.mp3'
         },
         {
             id: 3,
@@ -71,7 +73,8 @@ const script: Script = {
             dialog: `It’s been an honor working with you Agent ${agent.agent_name}. You are now an official junior agent at S.P.O.T. We hope that you continue building technologies that make the world a better place. Goodbye and best of luck to you!`,
             avatars: ['/img/characters/captain-storm/clapping_storm_inverted.png', '/img/characters/agent-gear/vanil_wave.png', '/img/characters/agent-fern/fern_wave.png', '/img/characters/agent-spark/spark_wave.png'],
             background: '/img/backgrounds/Spark_Lab.jpg',
-            pos: 'left'
+            pos: 'left',
+            audio: '/audio/level5/captain_storm/captain_storm_l5s15.mp3'
         }
     ]
 };
