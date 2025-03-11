@@ -11,7 +11,11 @@ export type Booster = 'none' | 'rotate' | 'flip' | 'adjust';
  **/
 export async function loadMobileNetFeatureModel() {
     if (mobilenet) {
-        return;
+        if(mobilenet instanceof Promise) {
+            mobilenet = await mobilenet ?? null;
+        }
+
+        return mobilenet;
     }
 
     if (!tf) {
@@ -19,8 +23,7 @@ export async function loadMobileNetFeatureModel() {
         return;
     }
 
-    const URL = 
-        'https://tfhub.dev/google/tfjs-model/imagenet/mobilenet_v3_small_100_224/feature_vector/5/default/1';
+    const URL = 'https://www.kaggle.com/models/google/mobilenet-v2/TfJs/100-224-feature-vector/3';
     
     mobilenet = tf.loadGraphModel(URL, {fromTFHub: true});
 
@@ -130,10 +133,16 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
     onProgress(0);
     onStep('Loading training data...');
 
-    let model = tf.sequential();
-    model.add(tf.layers.dense({inputShape: [1024], units: 128, activation: 'relu'}));
-    model.add(tf.layers.dense({units: trainingSets.length, activation: 'softmax'}));
+    let outputdims = 1280;
 
+    let input = tf.input({shape: [outputdims]});
+    let classify = tf.layers.dense({units: 192, activation: 'relu'}).apply(input);
+    let output = tf.layers.dense({units: trainingSets.length, activation: 'softmax'}).apply(classify);
+
+    let model = tf.model({
+        inputs: input,
+        outputs: output
+    });
 
     model.compile({
         optimizer: 'adam',
