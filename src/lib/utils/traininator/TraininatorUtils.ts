@@ -143,14 +143,16 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
         return;
     }
 
-    let input = tf.input({shape: [mobileNetOutputDims]});
-    let classify = tf.layers.dense({units: 192, activation: 'relu'}).apply(input);
-    let output = tf.layers.dense({units: trainingSets.length, activation: 'softmax'}).apply(classify);
-
-    let model = tf.model({
-        inputs: input,
-        outputs: output
-    });
+    let model = tf.sequential();
+    model.add(tf.layers.dense({
+        inputShape: [mobileNetOutputDims],
+        units: 192,
+        activation: 'relu',
+    }));
+    model.add(tf.layers.dense({
+        units: trainingSets.length,
+        activation: 'softmax',
+    }));
 
     model.compile({
         optimizer: 'adam',
