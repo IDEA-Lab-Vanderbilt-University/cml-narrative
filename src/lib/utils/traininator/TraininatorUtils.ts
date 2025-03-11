@@ -3,6 +3,7 @@ import * as tf from '@tensorflow/tfjs';
 let mobilenet: tf.GraphModel | Promise<tf.GraphModel | undefined> | null = null;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const MOBILE_NET_INPUT_WIDTH = 224;
+let mobileNetOutputDims = 1280;
 
 export type Booster = 'none' | 'rotate' | 'flip' | 'adjust';
     
@@ -44,6 +45,8 @@ export async function loadMobileNetFeatureModel() {
 
         if (answer instanceof tf.Tensor) {
             console.log(answer.shape);
+            mobileNetOutputDims = answer.shape[1] ?? 1280;
+            console.log('MobileNet output dims: ', mobileNetOutputDims);
             answer.dispose();
         }
     });
@@ -133,9 +136,14 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
     onProgress(0);
     onStep('Loading training data...');
 
-    let outputdims = 1280;
+    await loadMobileNetFeatureModel();
+    
+    if (!mobilenet) {
+        console.error('MobileNet model not loaded');
+        return;
+    }
 
-    let input = tf.input({shape: [outputdims]});
+    let input = tf.input({shape: [mobileNetOutputDims]});
     let classify = tf.layers.dense({units: 192, activation: 'relu'}).apply(input);
     let output = tf.layers.dense({units: trainingSets.length, activation: 'softmax'}).apply(classify);
 
