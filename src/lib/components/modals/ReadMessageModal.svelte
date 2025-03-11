@@ -1,41 +1,19 @@
 <script lang="ts">
-	import type { UserData } from "$lib/types/UserData";
 	import { studentDataStore } from "$lib/utils/stores/store";
+	import { get } from "svelte/store";
 	import Tablet from "../tablet/Tablet.svelte";
 
     export let from = 'Captain Storm';
     export let onNext: () => void;
     export let ps: string[] = [];
     
-    let agent: Student = {
-        name: {
-            first: '',
-            last: ''
-        },
-        age: 0,
-        interests: [],
-        avatarImg: '',
-        agentName: '',
-        email: '',
-        password: '',
-        progress: {
-            level: 0,
-            levelLabel: '',
-            subLevel: 0,
-            last_visited: '',
-            lastUpdated: undefined
-        }
-    };
-
-    studentDataStore.subscribe((value) => {
-        agent = value;
-    });
+    let agent = get(studentDataStore);
 
 </script>
 
 <Tablet showMeter={false}>
     <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen2">
-        <h1 class="text-3xl w-10/12">Hello Agent {agent.agentName},</h1>
+        <h1 class="text-3xl w-10/12">Hello Agent {agent.agent_name},</h1>
         <slot></slot>
         <div class="w-10/12">
             {#if ps.length > 0}

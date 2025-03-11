@@ -101,7 +101,7 @@ const script: Script = {
                 'bias opinion 1',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S35.wav',
+            audio: '/audio/level3/computer_voice/computer_voice_L3_S37.mp3',
             pos: 'left',
         },
         {
@@ -111,7 +111,7 @@ const script: Script = {
                 'bias opinion 2',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S35.wav',
+            audio: '/audio/level3/computer_voice/computer_voice_L3_S38.mp3',
             pos: 'left',
         },
         {
@@ -121,7 +121,7 @@ const script: Script = {
                 'bias opinion 3',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S35.wav',
+            audio: '/audio/level3/computer_voice/computer_voice_L3_S39.mp3',
             pos: 'left',
         },
         {
@@ -131,7 +131,7 @@ const script: Script = {
                 'Incoming message from Mission Control!',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S33.wav',
+            audio: '/audio/level3/computer_voice/computer_voice_L3_S40.wav',
             pos: 'left',
         },
         {
@@ -150,7 +150,7 @@ const script: Script = {
                 'Badge GET!',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S40.wav',
+            audio: '/audio/level3/computer_voice/computer_voice_L3_S41.mp3',
             pos: 'left',
         },
         {

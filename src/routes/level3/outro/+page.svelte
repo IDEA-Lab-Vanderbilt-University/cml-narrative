@@ -51,6 +51,7 @@
 			} else {
 				target = `/level3/outro?page=${line.id + 1}`;
 			}
+
 		} else if (direction == NavigationDirection.backward) {
 			if(line.id > 1) {
 				target = `/level3/outro?page=${line.id - 1}`;
@@ -68,13 +69,25 @@
 		}
 	};
 
+	$: {
+		if (line.id == 18){
+			studentProgressStore.update((data) => {
+				data.megajoules = 100;
+				return data;
+			});
+		}
+	}
+
     let content: HTMLDivElement | null;
 
 </script>
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
+
+        {#if ![12, 13, 14].includes(line.id)}
+			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
+		{/if}
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
@@ -121,32 +134,31 @@
 
 		{#if line.id == 16}
 			<ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)}>
-					<div class="border-white border-2 p-4 w-7/12">
-						<p class="text-3xl">
+					<div class="border-white border-2 p-2 w-11/12">
+						<p class="text-xl">
 							Congratulations on completing the third part of your mission!
 						</p>
 
-						<p class="text-3xl">
+						<p class="text-xl">
 							Recent reports from your Bot Buddy and your Travel Log helped us learn that:
 						</p>
 
-						<p class="text-3xl">
-							Technology designers create training datasets.  BIASED TRAINING DATASETS can over or under-represent certain groups of people, like kids or groups that have been historically ignored or left out in the past
+						<p class="text-xl">
+							Technology designers create training datasets.  BIASED TRAINING DATASETS can over or under-represent certain groups of people, like kids or groups that have been historically ignored or left out in the past.
 						</p>
 
-						<p class="text-3xl">
+						<p class="text-xl">
 							Biased training datasets can prevent some groups of people from using certain technologies.  This could make life more difficult for them!
 						</p>
 
-						<p class="text-3xl">
+						<p class="text-xl">
 							Bias can be reduced when training datasets represent MORE and DIFFERENT groups of people.
 						</p>
 
-						<p class="text-3xl">
+						<p class="text-xl">
 							You have earned the Bias Buster Badge! Your megajoules meter is now full and can transport you back home.
 						</p>
-
-						<p class="text-3xl">
+						<p class="text-xl">
 							You have one more mission to complete once you get back to SPOT Mission Control.  We look forward to seeing you and safe travels!
 						</p>
 					</div>
@@ -158,7 +170,7 @@
 		{/if}
 
 		{#if line.id == 18}
-			<MegaJoulesGetModal amount={10} handleClick={() => handleNavigation(NavigationDirection.forward)} />
+			<MegaJoulesGetModal amount={80} handleClick={() => handleNavigation(NavigationDirection.forward)} />
 		{/if}
 		
     </div>
