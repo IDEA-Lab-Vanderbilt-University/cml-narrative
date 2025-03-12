@@ -8,7 +8,7 @@
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
 	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher, onMount } from 'svelte';
 	import script from '$lib/scripts/level4/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import SpotApplication from '$lib/components/sequences/tablet/tablet-tutorial/SpotApplication.svelte';
@@ -72,11 +72,44 @@
 
     let content: HTMLDivElement | null;
 
-	let robotAbilities = '_____';
+	let robotAbilities = '____';
 	let robotHelp = '_____';
 	let robotImportance = '_____';
 	let robotBias = '_____';
 	let robotName = '_____';
+
+	let doSubmit = false;
+	let imageResponseModalShowFeedbackModal = false;
+	let imageResponseModalIsSuccess = false;
+	let imageResponseModalMessage = '';
+
+	onMount(async () => {
+		// Load the travel logs for the robot design if they exist
+		let logs1 = await DataService.TravelLog.getTravelLogs('robotdesign1');
+		if(logs1.length > 0) {
+			robotAbilities = logs1[logs1.length - 1].data;
+		}
+
+		let logs2 = await DataService.TravelLog.getTravelLogs('robotdesign2');
+		if(logs2.length > 0) {
+			robotHelp = logs2[logs2.length - 1].data;
+		}
+
+		let logs3 = await DataService.TravelLog.getTravelLogs('robotdesign3');
+		if(logs3.length > 0) {
+			robotImportance = logs3[logs3.length - 1].data;
+		}
+
+		let logs4 = await DataService.TravelLog.getTravelLogs('robotdesign4');
+		if(logs4.length > 0) {
+			robotBias = logs4[logs4.length - 1].data;
+		}
+
+		let logs5 = await DataService.TravelLog.getTravelLogs('robotdesign5');
+		if(logs5.length > 0) {
+			robotName = logs5[logs5.length - 1].data;
+		}
+	});
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -206,6 +239,41 @@
 			
 			<ImageResponseModal 
 				prompt={"Draw a picture of your robot"} 
+				handleImageSubmission={async (event) => {
+					doSubmit = event.detail.doSubmit;
+					let success = await DataService.TravelLog.handleImageSubmission(event, "draw-machine-learning");
+
+					if (success) {
+						imageResponseModalMessage = 'Great job! Your image has been submitted successfully.';
+						imageResponseModalIsSuccess = true;
+					} else {
+						imageResponseModalMessage = 'There was an error submitting your image. Please try again.';
+						imageResponseModalIsSuccess = false;
+					}
+					imageResponseModalShowFeedbackModal = true;
+				}}
+				showFeedbackModal={imageResponseModalShowFeedbackModal}
+				isSuccess={imageResponseModalIsSuccess}
+				message={imageResponseModalMessage}
+				onFeedbackClose={() => {
+					imageResponseModalShowFeedbackModal = false;
+					if(doSubmit) {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=17';
+							return progress;
+						});
+						
+						goto('/level4?page=17');
+					}
+				}}
+				onSubmit={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=17';
+						return progress;
+					});
+					
+					goto('/level4?page=17');
+				}}
 			/>
 		{/if}
 
