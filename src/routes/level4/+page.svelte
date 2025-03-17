@@ -155,8 +155,22 @@
 	let example6 = '';
 	$: examplesValid = example1.trim().length > 0 && example2.trim().length > 0 && example3.trim().length > 0 && example4.trim().length > 0 && example5.trim().length > 0 && example6.trim().length > 0;
 	
+	let exampleClassCount = 2;
 	let exampleClassesValid = false;
 
+	const dragExample = (event: DragEvent) => {
+		const target = event.target as HTMLElement;
+		if (target && target.classList.contains('draggableExample')) {
+			target.classList.add('dragging');
+		}
+	};
+
+	const dragEndExample = (event: DragEvent) => {
+		const target = event.target as HTMLElement;
+		if (target && target.classList.contains('draggableExample')) {
+			target.classList.remove('dragging');
+		}
+	};
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -555,13 +569,66 @@ Next
 					<p>
 						Take your <strong>training data</strong> examples and divide them up into <strong>classes</strong> or categories. Think about the “face” and “no face” classes you encountered during your travels.
 					</p>
-					<div>
-						{example1}
-						{example2}
-						{example3}
-						{example4}
-						{example5}
-						{example6}
+					<div class="examples">
+						<div class="classColumn">
+							<div class="classColumnTitle">
+								Unsorted
+							</div>
+							<div class="draggableExample" on:drag={dragExample} on:dragend={dragEndExample} draggable="true" role="button" tabindex="-1">
+								{example1}
+							</div>
+							<div class="draggableExample" on:drag={dragExample} on:dragend={dragEndExample} draggable="true" role="button" tabindex="-1">
+								{example2}
+							</div>
+							<div class="draggableExample" on:drag={dragExample} on:dragend={dragEndExample} draggable="true" role="button" tabindex="-1">
+								{example3}
+							</div>
+							<div class="draggableExample" on:drag={dragExample} on:dragend={dragEndExample} draggable="true" role="button" tabindex="-1">
+								{example4}
+							</div>
+							<div class="draggableExample" on:drag={dragExample} on:dragend={dragEndExample} draggable="true" role="button" tabindex="-1">
+								{example5}
+							</div>
+							<div class="draggableExample" on:drag={dragExample} on:dragend={dragEndExample} draggable="true" role="button" tabindex="-1">
+								{example6}
+							</div>
+						</div>
+						<div class="classColumn">
+							<div class="classColumnTitle">
+								Class 1
+							</div>
+						</div>
+						<div class="classColumn">
+							<div class="classColumnTitle">
+								Class 2
+							</div>
+						</div>
+						{#if exampleClassCount < 4}
+							<div id="addClassColumn">
+								<button class="addClassBtn" on:click={() => {
+									// Add a new class column
+									const newClassColumn = document.createElement('div');
+									newClassColumn.classList.add('classColumn');
+									newClassColumn.innerHTML = `
+										<div class="classColumnTitle">
+											Class ${exampleClassCount + 1}
+										</div>
+									`;
+									document.querySelector('.examples')?.appendChild(newClassColumn);
+									
+									// Keep div with button at the end
+									const addClassColumn = document.getElementById('addClassColumn');
+									if (addClassColumn) {
+										addClassColumn.parentNode?.appendChild(addClassColumn);
+									}
+
+									// Increment the class count
+									exampleClassCount++;
+								}}>
+									Add Class
+								</button>
+							</div>
+						{/if}
 					</div>
 					<div>
 						<button class="nicebtn" 
@@ -698,6 +765,35 @@ Next
 		text-align: center;
 		border: 2px solid white;
 		color: black;
+		border-radius: 25px;
+	}
+
+	:global(.classColumn){
+		display: flex;
+		flex-direction: column;
+		gap: 1vh;
+		border: 2px dashed white;
+		padding: 1vh;
+		border-radius: 25px;
+	}
+
+	.draggableExample {
+		width: 25vh;
+		height: 5vh;
+		font-size: 2.5vh;
+		text-align: center;
+		border: 2px solid white;
+		color: black;
+		border-radius: 25px;
+		background-color: white;
+		user-select: none;
+	}
+
+	:global(.classColumnTitle) {
+		font-size: 3vh;
+		text-align: center;
+		color: white;
+		padding: 1vh;
 		border-radius: 25px;
 	}
 </style>
