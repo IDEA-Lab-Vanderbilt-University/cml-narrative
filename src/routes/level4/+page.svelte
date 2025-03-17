@@ -124,6 +124,15 @@
 			}
 		}
 	});
+
+	let examplesValid = false;
+	let example1 = '';
+	let example2 = '';
+	let example3 = '';
+	let example4 = '';
+	let example5 = '';
+	let example6 = '';
+	$: examplesValid = example1 && example2 && example3 && example4 && example5 && example6;
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -404,6 +413,102 @@ My robot will be named ${robotName}.`,
 				}}
 			/>
 		{/if}
+		{#if lineNumber == 21}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary">
+					<p>
+						Congratulations, your prototype idea has been approved!
+					</p>
+					<p>
+						It's time to decide on the data you will use to train your AI robot.
+					</p>
+					<button class="nicebtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=22';
+							return progress;
+						});
+						
+						goto('/level4?page=22');
+					}}>
+Next
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+
+		{#if lineNumber == 22}
+			<RobotStepsModal currentStep={1} onStepClick={() => 
+			{
+				studentProgressStore.update((progress) => {
+					progress.last_visited = '/level4?page=23';
+					return progress;
+				});
+				goto('/level4?page=23');
+			}} />
+		{/if}
+
+		{#if lineNumber == 23}
+			<Tablet showMeter={false} showBottomButtons={false}>
+
+				<div class="robostepintro">
+					<h2><img src="/img/icons/roboplan.png" alt="Plan"/> Plan</h2>
+					<p>In your design notes, you said your robot prototype will be able to {robotAbilities}.</p>
+					<p>Does this help to solve a problem in your community?</p>
+
+					<div>
+						<button class="nicebtn" on:click={() => {
+							studentProgressStore.update((progress) => {
+								progress.last_visited = '/level4?page=24';
+								return progress;
+							});
+							
+							goto('/level4?page=24');
+						}}>
+							Yes
+						</button>
+					</div>
+
+				</div>
+			</Tablet>
+		{/if}
+
+		{#if lineNumber == 24}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary">
+					<p>
+						It's time to decide on the data you will use to train your AI robot.
+					</p>
+					<p>
+						Give at least 6 examples of the images you will be using as training data for your robot:
+					</p>
+
+					<div class="examples">
+						<div class="examplescolumn">
+							<input type="text" placeholder="" id="example1" name="example1" class="codeinput text-3xl text-center" bind:value={example1} />
+							<input type="text" placeholder="" id="example2" name="example2" class="codeinput text-3xl text-center" bind:value={example2} />
+							<input type="text" placeholder="" id="example3" name="example3" class="codeinput text-3xl text-center" bind:value={example3} />
+						</div>
+						<div class="examplescolumn">
+							<input type="text" placeholder="" id="example4" name="example4" class="codeinput text-3xl text-center" bind:value={example4} />
+							<input type="text" placeholder="" id="example5" name="example5" class="codeinput text-3xl text-center" bind:value={example5} />
+							<input type="text" placeholder="" id="example6" name="example6" class="codeinput text-3xl text-center" bind:value={example6} />
+						</div>
+					</div>
+					<button class="nicebtn" 
+						disabled={!examplesValid}
+						on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=25';
+							return progress;
+						});
+						
+						goto('/level4?page=25');
+					}}>
+						Submit
+					</button>
+				</div>
+			</Tablet>
+		{/if}
 			
     </div>
 </Scene>
@@ -478,7 +583,7 @@ My robot will be named ${robotName}.`,
 		width: 100%;
 	}
 
-	.robostepsummarybuttons button, .robostependsummary button {
+	.robostepsummarybuttons button, .robostependsummary button, .nicebtn {
 		background: radial-gradient(farthest-corner at bottom right, #49c5ff 75%, #fff 100%);
 		background-color: #49c5ff;
 		color: #111;
@@ -492,13 +597,37 @@ My robot will be named ${robotName}.`,
 		transition: 0.3s;
 		display: block;
 	}
-
-	.robostepsummarybuttons button:hover, .robostependsummary button:hover {
+	.robostepsummarybuttons button:not(:disabled):hover, .robostependsummary button:not(:disabled):hover, .nicebtn:not(:disabled):hover {
 		transform: scale(1.05);
 	}
 
-	.robostepsummarybuttons button:active, .robostependsummary button:active {
+	.robostepsummarybuttons button:not(:disabled):active, .robostependsummary button:not(:disabled):active, .nicebtn:not(:disabled):active {
 		transform: scale(0.95);
 	}
+	
+	.robostepsummarybuttons button:disabled, .robostependsummary button:disabled, .nicebtn:disabled {
+		filter: grayscale(1);
+		cursor: not-allowed;
+	}
 
+	.examples {
+		display: flex;
+		gap: 5vh;
+	}
+
+	.examplescolumn {
+		display: flex;
+		flex-direction: column;
+		gap: 2vh;
+	}
+
+	.examples input {
+		width: 40vh;
+		height: 7vh;
+		font-size: 3vh;
+		text-align: center;
+		border: 2px solid white;
+		color: black;
+		border-radius: 25px;
+	}
 </style>
