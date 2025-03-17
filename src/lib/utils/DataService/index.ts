@@ -19,7 +19,7 @@ import {
 	pendingTravelLogStore,
 	studentDataStore,
 } from '../stores/store';
-import type { Student, StudentProgress, TravelLog } from '$lib/types/UserData';
+import { type Teacher, type Student, type StudentProgress, type TravelLog } from '$lib/types/UserData';
 
 /**
  * Handles and contains all of the authentication logic
@@ -408,6 +408,34 @@ const Data = {
 	}
 };
 
+const Teacher = {
+	getTeacher: async (id: string) => {
+		return new Promise<Teacher>(async (resolve, reject) => {
+			if(debugMode){
+				resolve({
+					id: 'DEBUG-TEACHER',
+					first_name: 'Debug',
+					last_name: 'Teacher',
+					agent_name: 'Debug Teacher',
+					email: 'debug@teacher.edu',
+					updated_at: {
+						secs_since_epoch: 0,
+						nanos_since_epoch: 0
+					}
+				});
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/teachers/${id}`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	}
+};
+
 const TravelLog = {
 	submitTravelLog: async (log: TravelLog) => {
 		return new Promise<void>(async (resolve, reject) => {
@@ -541,6 +569,7 @@ const DataService = {
 	Data,
 	Student,
 	StudentProgress,
+	Teacher,
 	TravelLog,
 };
 

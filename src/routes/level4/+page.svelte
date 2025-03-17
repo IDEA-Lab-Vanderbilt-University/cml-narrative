@@ -20,6 +20,7 @@
 	import ImageResponse from '$lib/components/activities/free-response/ImageResponse.svelte';
 	import ImageResponseModal from '$lib/components/activities/free-response/ImageResponseModal.svelte';
 	import RobotStepsModal from '$lib/components/modals/RobotStepsModal.svelte';
+	import { get } from 'svelte/store';
 
 	export let data;
 
@@ -83,6 +84,8 @@
 	let imageResponseModalIsSuccess = false;
 	let imageResponseModalMessage = '';
 
+	let teacherAgent = 'Gear';
+
 	onMount(async () => {
 		// Load the travel logs for the robot design if they exist
 		let logs1 = await DataService.TravelLog.getTravelLogs('robotdesign1');
@@ -109,6 +112,16 @@
 		if(logs5.length > 0) {
 			robotName = logs5[logs5.length - 1].data;
 		}
+
+		const student = get(studentDataStore);
+		if(student && student.teacher_id) {
+			const teacher = await DataService.Teacher.getTeacher(student.teacher_id);
+
+			if(teacher && teacher.agent_name) {
+				teacherAgent = teacher.agent_name;
+			}
+		}
+		
 	});
 </script>
 
@@ -308,6 +321,20 @@
 						Submit
 					</button>
 
+				</div>
+			</Tablet>
+		{/if}
+
+		{#if lineNumber == 18}
+			<Tablet showMeter={false} showBottomButtons={false}>
+
+				<div class="robostependsummary">
+					<p>
+						Great job! Agent {teacherAgent} is reviewing your robot design...
+					</p>
+					<p>
+						Meanwhile, start drawing a design for your robot!
+					</p>
 				</div>
 			</Tablet>
 		{/if}
