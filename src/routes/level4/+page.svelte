@@ -158,6 +158,33 @@
 	let exampleClassCount = 2;
 	let exampleClassesValid = false;
 
+	const validateExampleClasses = () => {
+		exampleClassesValid = true;
+
+		// Examples must all be out of the initial "Unsorted" class
+		const unsortedClass = document.getElementById('classColumn0');
+		if (unsortedClass) {
+			const examples = unsortedClass.querySelectorAll('.draggableExample');
+			if (examples.length > 0) {
+				exampleClassesValid = false;
+				return false;
+			}
+		}
+
+		// Check if examples are not all in the same class
+		const classColumns = document.querySelectorAll('.classColumn');
+		for (let i = 0; i < classColumns.length; i++) {
+			const classColumn = classColumns[i];
+			const examples = classColumn.querySelectorAll('.draggableExample');
+			if (examples.length > 5) {
+				exampleClassesValid = false;
+				return false;
+			}
+		}
+
+		return exampleClassesValid;
+	};
+
 	const dragExample = (event: DragEvent) => {
 		const target = event.target as HTMLElement;
 		if (target && target.classList.contains('draggableExample')) {
@@ -182,6 +209,7 @@
 				draggedElement.classList.remove('dragging');
 			}
 		}
+		validateExampleClasses();
 	};
 
 
@@ -584,7 +612,7 @@ Next
 						Take your <strong>training data</strong> examples and divide them up into <strong>classes</strong> or categories. Think about the “face” and “no face” classes you encountered during your travels.
 					</p>
 					<div class="examples">
-						<div class="classColumn">
+						<div class="classColumn" id="classColumn0" on:dragover={(e) => e.preventDefault()} on:drop={dropExample}>
 							<div class="classColumnTitle">
 								Unsorted
 							</div>
@@ -607,12 +635,12 @@ Next
 								{example6}
 							</div>
 						</div>
-						<div class="classColumn" on:dragover={(e) => e.preventDefault()} on:drop={dropExample}>
+						<div class="classColumn" id="classColumn1" on:dragover={(e) => e.preventDefault()} on:drop={dropExample}>
 							<div class="classColumnTitle">
 								Class 1
 							</div>
 						</div>
-						<div class="classColumn" on:dragover={(e) => e.preventDefault()} on:drop={dropExample}>
+						<div class="classColumn" id="classColumn2" on:dragover={(e) => e.preventDefault()} on:drop={dropExample}>
 							<div class="classColumnTitle">
 								Class 2
 							</div>
@@ -624,7 +652,7 @@ Next
 									const newClassColumn = document.createElement('div');
 									newClassColumn.classList.add('classColumn');
 									newClassColumn.innerHTML = `
-										<div class="classColumnTitle">
+										<div class="classColumnTitle" id="classColumn${exampleClassCount + 1}">
 											Class ${exampleClassCount + 1}
 										</div>
 									`;
