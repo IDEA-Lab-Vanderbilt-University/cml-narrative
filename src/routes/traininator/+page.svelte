@@ -15,6 +15,7 @@
 		loadMobileNetFeatureModel,
 		testModel,
 		trainModel,
+		saveModel,
 		type Booster
 	} from '$lib/utils/traininator/TraininatorUtils';
 	import TraininatorBoostersList from '$lib/components/activities/traininator/TraininatorBoostersList.svelte';
@@ -95,8 +96,8 @@
 	async function uploadModel() {
 		try {
 			let message: TraininatorModelMessage = {
-				student_id: $studentDataStore.id,
-				// student_id: '6bd7008a-5f3d-45da-8069-54fe12457ff1',
+				// student_id: $studentDataStore.id,
+				student_id: 'b8cb7aec-1829-4cfc-b18e-0b7e6e1077d4',
 				name: modelName,
 				metadata_json: {
 					tfjsVersion: '4.22.0',
@@ -116,7 +117,8 @@
 				message
 			);
 
-			model.save(`${PUBLIC_BACKEND_API_URL}/traininator-models/${res.id}/upload`);
+			// model.save(`${PUBLIC_BACKEND_API_URL}/traininator-models/${res.id}/upload`);
+			saveModel(model, `${PUBLIC_BACKEND_API_URL}/traininator-models/${res.id}/upload`);
 		} catch (error) {
 			alert('Error uploading model');
 			console.log(error);
