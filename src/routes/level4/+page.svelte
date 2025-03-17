@@ -123,6 +123,27 @@
 				teacherAgent = teacher.agent_name;
 			}
 		}
+
+		// Load the travel logs for the training data examples if they exist
+		let logs6 = await DataService.TravelLog.getTravelLogs('trainingdataexamples');
+		if(logs6.length > 0) {
+			try{
+				let examples = JSON.parse(logs6[logs6.length - 1].data).response;
+
+				if (!Array.isArray(examples) || examples.length < 6) {
+					throw new Error('Invalid training data examples format');
+				}
+
+				example1 = examples[0];
+				example2 = examples[1];
+				example3 = examples[2];
+				example4 = examples[3];
+				example5 = examples[4];
+				example6 = examples[5];
+			} catch (error) {
+				console.error('Error parsing training data examples:', error);
+			}
+		}
 	});
 
 	let examplesValid = false;
@@ -132,7 +153,10 @@
 	let example4 = '';
 	let example5 = '';
 	let example6 = '';
-	$: examplesValid = example1 && example2 && example3 && example4 && example5 && example6;
+	$: examplesValid = example1.trim().length > 0 && example2.trim().length > 0 && example3.trim().length > 0 && example4.trim().length > 0 && example5.trim().length > 0 && example6.trim().length > 0;
+	
+	let exampleClassesValid = false;
+
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -496,7 +520,23 @@ Next
 					</div>
 					<button class="nicebtn" 
 						disabled={!examplesValid}
-						on:click={() => {
+						on:click={async () => {
+						// Submit the training data examples
+						await DataService.TravelLog.submitTravelLog({
+							data: JSON.stringify({ 
+								response: [
+									example1,
+									example2,
+									example3,
+									example4,
+									example5,
+									example6
+								]
+							}),
+							description: 'trainingdataexamples',
+							status: 'completed'
+						});
+						
 						studentProgressStore.update((progress) => {
 							progress.last_visited = '/level4?page=25';
 							return progress;
@@ -509,7 +549,37 @@ Next
 				</div>
 			</Tablet>
 		{/if}
-			
+		{#if lineNumber == 25}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary">
+					<p>
+						Take your <strong>training data</strong> examples and divide them up into <strong>classes</strong> or categories. Think about the “face” and “no face” classes you encountered during your travels.
+					</p>
+					<div>
+						{example1}
+						{example2}
+						{example3}
+						{example4}
+						{example5}
+						{example6}
+					</div>
+					<div>
+						<button class="nicebtn" 
+							disabled={!exampleClassesValid}
+							on:click={() => {
+							studentProgressStore.update((progress) => {
+								progress.last_visited = '/level4?page=26';
+								return progress;
+							});
+							
+							goto('/level4?page=26');
+						}}>
+							Submit
+						</button>
+					</div>
+				</div>
+			</Tablet>
+		{/if}
     </div>
 </Scene>
 
