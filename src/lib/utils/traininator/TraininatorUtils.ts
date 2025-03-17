@@ -24,7 +24,7 @@ export async function loadMobileNetFeatureModel() {
         return;
     }
 
-    const URL = 'https://www.kaggle.com/models/google/mobilenet-v2/TfJs/100-224-feature-vector/3';
+    const URL = 'https://storage.googleapis.com/teachable-machine-models/mobilenet_v2_weights_tf_dim_ordering_tf_kernels_0.35_224_no_top/model.json';
     
     let mobilenet_dl = tf.loadLayersModel(URL);
 
@@ -160,15 +160,9 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
     }
 
     let model = tf.sequential();
-    model.add(tf.layers.dense({
-        inputShape: [mobileNetOutputDims],
-        units: 192,
-        activation: 'relu',
-    }));
-    model.add(tf.layers.dense({
-        units: trainingSets.length,
-        activation: 'softmax',
-    }));
+    model.add(tf.layers.dense({inputShape: [1280], units: 128, activation: 'relu'}));
+    model.add(tf.layers.dense({units: trainingSets.length, activation: 'softmax'}));
+
 
     model.compile({
         optimizer: 'adam',
