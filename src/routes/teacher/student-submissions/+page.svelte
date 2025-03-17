@@ -8,6 +8,7 @@
 	import { onMount, getContext } from 'svelte';
 	import DataService from '$lib/utils/DataService';
 
+	// @ts-ignore
 	const { open } = getContext('simple-modal');
 
 

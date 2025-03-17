@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
-	import type { TravelLogWithStudent } from '$lib/types/teacher-view/TravelLog';
+	import type { TravelLogWithStudent } from '$lib/types/UserData';
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 	import { RequestFactory } from '$lib/utils/network/RequestFactory';
 	import { pendingTravelLogStore } from '$lib/utils/stores/store';
 
+	// @ts-ignore
 	const { close } = getContext('simple-modal');
 
 	export let tl: TravelLogWithStudent;

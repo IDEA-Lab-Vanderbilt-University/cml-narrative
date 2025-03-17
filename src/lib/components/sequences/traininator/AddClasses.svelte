@@ -18,7 +18,9 @@
 	};
 
 	const deleteClass = (name: string) => {
-		classes = classes.filter((cls) => cls !== name);
+		if (confirm('Are you sure you want to delete this category?')) {
+			classes = classes.filter((cls) => cls !== name);
+		}
 	};
 </script>
 
@@ -50,6 +52,10 @@
 
 	<button
 		on:click={() => {
+			if (classes.length < 2) {
+				alert('You need to add at least 2 categories');
+				return;
+			}
 			trainingSets = Array(classes.length).fill([]);
 			// goto('/traininator?page=4');
 			step++;

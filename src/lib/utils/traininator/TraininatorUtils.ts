@@ -1,6 +1,6 @@
 import * as tf from '@tensorflow/tfjs';
 
-let mobilenet: tf.GraphModel | Promise<tf.GraphModel | undefined> | null = null;
+let mobilenet: tf.LayersModel | Promise<tf.LayersModel | undefined> | null = null;
 const MOBILE_NET_INPUT_HEIGHT = 224;
 const MOBILE_NET_INPUT_WIDTH = 224;
 let mobileNetOutputDims = 1280;
@@ -26,22 +26,28 @@ export async function loadMobileNetFeatureModel() {
 
     const URL = 'https://www.kaggle.com/models/google/mobilenet-v2/TfJs/100-224-feature-vector/3';
     
-    mobilenet = tf.loadGraphModel(URL, {fromTFHub: true});
+    let mobilenet_dl = tf.loadLayersModel(URL);
 
-    const loadedModel = await mobilenet;
+    const loadedModel = await mobilenet_dl;
     
     if (!loadedModel) {
         console.error('Failed to load MobileNet model');
         return;
     }
 
+    const layer = loadedModel.getLayer('out_relu');
+    const truncatedModel = tf.model({ inputs: loadedModel.inputs, outputs: layer.output });
+    const model = tf.sequential();
+    model.add(truncatedModel);
+    model.add(tf.layers.globalAveragePooling2d({})); // go from shape [7, 7, 1280] to [1280]
+
     // Warm up the model by passing zeros through it once.
     tf.tidy(function () {
-        if (!loadedModel) {
+        if (!model) {
             return;
         }
 
-        let answer = loadedModel.predict(tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3]));
+        let answer = model.predict(tf.zeros([1, MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH, 3]));
 
         if (answer instanceof tf.Tensor) {
             console.log(answer.shape);
@@ -51,7 +57,17 @@ export async function loadMobileNetFeatureModel() {
         }
     });
 
-    return mobilenet;
+    mobilenet = model;
+    return model;
+}
+
+export function saveModel(model: tf.LayersModel, url: string) {
+    const jointModel = new tf.Sequential();
+    if (mobilenet instanceof tf.LayersModel) {
+        jointModel.add(mobilenet);
+        jointModel.add(model);
+        jointModel.save(url);
+    }
 }
 
 export function cleanUpMobileNet() {
