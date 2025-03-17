@@ -328,7 +328,7 @@
 		{#if lineNumber == 18}
 			<Tablet showMeter={false} showBottomButtons={false}>
 
-				<div class="robostependsummary">
+				<div class="robostependsummary centervert">
 					<p>
 						Great job! Agent {teacherAgent} is reviewing your robot design...
 					</p>
@@ -432,5 +432,12 @@
 
 	.robostepsummarybuttons button:active {
 		transform: scale(0.95);
+	}
+
+	.centervert {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
 	}
 </style>
