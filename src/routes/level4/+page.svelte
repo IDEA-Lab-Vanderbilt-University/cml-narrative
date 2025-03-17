@@ -21,6 +21,7 @@
 	import ImageResponseModal from '$lib/components/activities/free-response/ImageResponseModal.svelte';
 	import RobotStepsModal from '$lib/components/modals/RobotStepsModal.svelte';
 	import { get } from 'svelte/store';
+	import WaitForTeacherModal from '$lib/components/modals/WaitForTeacherModal.svelte';
 
 	export let data;
 
@@ -83,8 +84,6 @@
 	let imageResponseModalShowFeedbackModal = false;
 	let imageResponseModalIsSuccess = false;
 	let imageResponseModalMessage = '';
-
-	let teacherAgent = 'Gear';
 
 	onMount(async () => {
 		// Load the travel logs for the robot design if they exist
@@ -317,7 +316,22 @@
 					<button class="nextBtn" on:click={() => goto('/level4?page=11')}>
 						Edit
 					</button>
-					<button class="nextBtn" on:click={() => goto('/level4?page=18')}>
+					<button class="nextBtn" on:click={() => {
+						// Submit the robot design
+						DataService.TravelLog.submitTravelLog({
+							data: 
+`For the future, I will design an AI robot with special abilities. It will be able to ${robotAbilities}! 
+My robot would help the following people: ${robotHelp}.
+My robot is important and should be designed because ${robotImportance}.
+When designing my robot, I will minimize bias by ${robotBias}. 
+
+My robot will be named ${robotName}.`,
+							description: 'robotdesignFinal',
+							status: 'pending'
+						});
+
+						goto('/level4?page=18');
+					}}>
 						Submit
 					</button>
 
@@ -326,17 +340,25 @@
 		{/if}
 
 		{#if lineNumber == 18}
-			<Tablet showMeter={false} showBottomButtons={false}>
+			<WaitForTeacherModal
+				onSuccess={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=19';
+						return progress;
+					});
+					
+					goto('/level4?page=19');
+				}}
 
-				<div class="robostependsummary centervert">
-					<p>
-						Great job! Agent {teacherAgent} is reviewing your robot design...
-					</p>
-					<p>
-						Meanwhile, start drawing a design for your robot!
-					</p>
-				</div>
-			</Tablet>
+				onRejected={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=11';
+						return progress;
+					});
+
+					goto('/level4?page=11');
+				}}
+			/>
 		{/if}
     </div>
 </Scene>
@@ -434,10 +456,4 @@
 		transform: scale(0.95);
 	}
 
-	.centervert {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		height: 100%;
-	}
 </style>
