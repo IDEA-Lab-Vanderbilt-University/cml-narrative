@@ -196,7 +196,9 @@
 				title="For the future, I will design an AI robot with special abilities to help others. It will be able to ______"  
 				prompt="" 
 				placeholder=""
-				onSuccess={(response) => { robotAbilities = response; goto('/level4?page=12'); }} />
+				onSuccess={(response) => { robotAbilities = response; goto('/level4?page=12'); }} 
+				prefill={robotAbilities}
+				/>
 		{/if}
 
 		{#if lineNumber == 12}
@@ -205,7 +207,9 @@
 				title="My robot would help the following people: _________"  
 				prompt="" 
 				placeholder=""
-				onSuccess={(response) => { robotHelp = response; goto('/level4?page=13'); }} />
+				onSuccess={(response) => { robotHelp = response; goto('/level4?page=13'); }} 
+				prefill={robotHelp}
+				/>
 		{/if}
 
 		{#if lineNumber == 13}
@@ -214,7 +218,9 @@
 				title="My robot is important and should be designed because _______"  
 				prompt="" 
 				placeholder=""
-				onSuccess={(response) => { robotImportance = response; goto('/level4?page=14'); }} />
+				onSuccess={(response) => { robotImportance = response; goto('/level4?page=14'); }}
+				prefill={robotImportance}
+				/>
 		{/if}
 
 		{#if lineNumber == 14}
@@ -223,7 +229,9 @@
 				title="When designing my robot, I will minimize bias by ___________"  
 				prompt="" 
 				placeholder=""
-				onSuccess={(response) => { robotBias = response; goto('/level4?page=15'); }} />
+				onSuccess={(response) => { robotBias = response; goto('/level4?page=15'); }} 
+				prefill={robotBias}
+				/>
 		{/if}
 
 		{#if lineNumber == 15}
@@ -232,7 +240,9 @@
 				title="My robot will be named _________"  
 				prompt="" 
 				placeholder=""
-				onSuccess={(response) => { robotName = response; goto('/level4?page=16'); }} />
+				onSuccess={(response) => { robotName = response; goto('/level4?page=16'); }}
+				prefill={robotName}
+				/>
 		{/if}
 
 		{#if lineNumber == 16}
@@ -279,7 +289,7 @@
 
 		{#if lineNumber == 17}
 			<Tablet showMeter={false} showBottomButtons={false}>
-				<div class="robostepsummary">
+				<div class="robostependsummary">
 					<p>
 						For the future, I will design an AI robot with special abilities. It will be able to {robotAbilities}! 
 						My robot would help the following people: {robotHelp}.
@@ -290,13 +300,22 @@
 						My robot will be named {robotName}.
 					</p>
 				</div>
+				<div class="robostepsummarybuttons">
+					<button class="nextBtn" on:click={() => goto('/level4?page=11')}>
+						Edit
+					</button>
+					<button class="nextBtn" on:click={() => goto('/level4?page=18')}>
+						Submit
+					</button>
+
+				</div>
 			</Tablet>
 		{/if}
     </div>
 </Scene>
 
 <style>
-	.robostepintro, .robostepsummary {
+	.robostepintro, .robostependsummary {
 		width: 80%;
 		margin: 0 auto;
 		display: flex;
@@ -304,6 +323,12 @@
 		align-items: center;
 		justify-content: space-evenly;
 		height: 75vh;
+	}
+
+	.robostependsummary {
+		height: auto;
+		padding: 5vh 0;
+		gap: 5vh;
 	}
 
 	.robostepintro h2 {
@@ -322,7 +347,7 @@
 		font-family: 'Gemunu Libre';
 	}
 
-	.robostepsummary p {
+	.robostependsummary p {
 		font-size: 3vh;
 		text-align: left;
 		color: white;
@@ -353,4 +378,32 @@
         transform: scale(0.9);
     }
 
+	.robostepsummarybuttons {
+		display: flex;
+		justify-content: space-evenly;
+		width: 100%;
+	}
+
+	.robostepsummarybuttons button {
+		background: radial-gradient(farthest-corner at bottom right, #49c5ff 75%, #fff 100%);
+		background-color: #49c5ff;
+		color: #111;
+		border: none;
+		border: 2px solid #289dd3;
+		height: 7vh;
+		border-radius: 3.5vh;
+		padding: 1vh 2vw;
+		font-size: 1.5rem;
+		cursor: pointer;
+		transition: 0.3s;
+		display: block;
+	}
+
+	.robostepsummarybuttons button:hover {
+		transform: scale(1.05);
+	}
+
+	.robostepsummarybuttons button:active {
+		transform: scale(0.95);
+	}
 </style>

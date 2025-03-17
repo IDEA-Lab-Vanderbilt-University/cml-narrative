@@ -16,6 +16,9 @@
     export let title: string | undefined = undefined;
     export let prompt: string | undefined = undefined;
     export let placeholder: string | undefined = undefined;
+	export let prefill: string | undefined = undefined;
+
+	$: response = prefill || '';
 
 	function onFeedbackClose() {
 		if (isSuccess) {
