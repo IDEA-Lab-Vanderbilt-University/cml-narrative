@@ -52,12 +52,27 @@
 	}
 
 	let submissionType = 'text';
-
+	let submissionData = '';
 	onMount(() => {
 		if (tl.data) {
-			// Check if the data is a URL
-			if (tl.data.startsWith('http://') || tl.data.startsWith('https://') || tl.data.startsWith('data:image/')) {
-				submissionType = 'image';
+			// Check if the data is a JSON object
+			if (tl.data.startsWith('{') && tl.data.endsWith('}')) {
+				try {
+					const dataObj = JSON.parse(tl.data);
+					if (dataObj.response && (dataObj.response.startsWith('data:image/') || dataObj.response.startsWith('http'))) {
+						// Response is an image
+						submissionType = 'image';
+						submissionData = dataObj.response;
+					} else {
+						submissionType = 'text';
+						submissionData = dataObj.response || '';
+					}
+				} catch (error) {
+					console.error('Error parsing JSON:', error);
+					submissionType = 'text';
+				}
+			} else {
+				submissionType = 'text';
 			}
 		}
 	});
@@ -67,13 +82,13 @@
 	{#if submissionType === 'text'}
 		<div class="col-span-4 flex h-full flex-col items-center justify-center">
 			<h1 class="font-cantora text-2xl font-bold">Student Submission ({tl.description})</h1>
-			<p class="text-md mt-2 w-3/4 text-center">{tl.data}</p>
+			<p class="text-md mt-2 w-3/4 text-center">{submissionData}</p>
 		</div>
 	{:else if submissionType === 'image'}
 		<div class="col-span-4 flex h-full flex-col items-center justify-center">
 			<h1 class="font-cantora text-2xl font-bold">Student Submission ({tl.description})</h1>
 			<img
-				src={tl.data}
+				src={submissionData}
 				alt="Codinator Submission"
 				class="h-full w-full object-contain" />
 		</div>

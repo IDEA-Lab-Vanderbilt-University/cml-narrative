@@ -22,6 +22,8 @@
 	import RobotStepsModal from '$lib/components/modals/RobotStepsModal.svelte';
 	import { get } from 'svelte/store';
 	import WaitForTeacherModal from '$lib/components/modals/WaitForTeacherModal.svelte';
+	import { stringify } from 'postcss';
+	import SecretCodeModal from '$lib/components/modals/SecretCodeModal.svelte';
 
 	export let data;
 
@@ -79,6 +81,8 @@
 	let robotImportance = '_____';
 	let robotBias = '_____';
 	let robotName = '_____';
+	let rejectionComment = '';
+	let teacherAgent = '';
 
 	let doSubmit = false;
 	let imageResponseModalShowFeedbackModal = false;
@@ -110,17 +114,15 @@
 		let logs5 = await DataService.TravelLog.getTravelLogs('robotdesign5');
 		if(logs5.length > 0) {
 			robotName = logs5[logs5.length - 1].data;
-		}
-
-		const student = get(studentDataStore);
+		}	
+		
+		let student = get(studentDataStore);
 		if(student && student.teacher_id) {
 			const teacher = await DataService.Teacher.getTeacher(student.teacher_id);
-
 			if(teacher && teacher.agent_name) {
 				teacherAgent = teacher.agent_name;
 			}
 		}
-		
 	});
 </script>
 
@@ -319,13 +321,15 @@
 					<button class="nextBtn" on:click={() => {
 						// Submit the robot design
 						DataService.TravelLog.submitTravelLog({
-							data: 
+							data: JSON.stringify({ 
+							response:
 `For the future, I will design an AI robot with special abilities. It will be able to ${robotAbilities}! 
 My robot would help the following people: ${robotHelp}.
 My robot is important and should be designed because ${robotImportance}.
 When designing my robot, I will minimize bias by ${robotBias}. 
 
 My robot will be named ${robotName}.`,
+							}),
 							description: 'robotdesignFinal',
 							status: 'pending'
 						});
@@ -341,25 +345,66 @@ My robot will be named ${robotName}.`,
 
 		{#if lineNumber == 18}
 			<WaitForTeacherModal
+				description="robotdesignFinal"
 				onSuccess={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=20';
+						return progress;
+					});
+					
+					goto('/level4?page=20');
+				}}
+
+				onRejected={(reason) => {
 					studentProgressStore.update((progress) => {
 						progress.last_visited = '/level4?page=19';
 						return progress;
 					});
-					
+
+					rejectionComment = reason;
+
 					goto('/level4?page=19');
-				}}
-
-				onRejected={() => {
-					studentProgressStore.update((progress) => {
-						progress.last_visited = '/level4?page=11';
-						return progress;
-					});
-
-					goto('/level4?page=11');
 				}}
 			/>
 		{/if}
+		{#if lineNumber == 19}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary">
+					<p>
+						Oh no! Your robot design needs more work!
+					</p>
+					<p>
+						Agent {teacherAgent} said: {rejectionComment}
+					</p>
+					<p>
+						Keep this in mind as you work on your next robot design!
+					</p>
+					<button class="nextBtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=11';
+							return progress;
+						});
+
+						goto('/level4?page=11');
+					}}>
+						Edit
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 20}
+			<SecretCodeModal
+				onSuccess={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=21';
+						return progress;
+					});
+					
+					goto('/level4?page=21');
+				}}
+			/>
+		{/if}
+			
     </div>
 </Scene>
 
@@ -433,7 +478,7 @@ My robot will be named ${robotName}.`,
 		width: 100%;
 	}
 
-	.robostepsummarybuttons button {
+	.robostepsummarybuttons button, .robostependsummary button {
 		background: radial-gradient(farthest-corner at bottom right, #49c5ff 75%, #fff 100%);
 		background-color: #49c5ff;
 		color: #111;
@@ -448,11 +493,11 @@ My robot will be named ${robotName}.`,
 		display: block;
 	}
 
-	.robostepsummarybuttons button:hover {
+	.robostepsummarybuttons button:hover, .robostependsummary button:hover {
 		transform: scale(1.05);
 	}
 
-	.robostepsummarybuttons button:active {
+	.robostepsummarybuttons button:active, .robostependsummary button:active {
 		transform: scale(0.95);
 	}
 
