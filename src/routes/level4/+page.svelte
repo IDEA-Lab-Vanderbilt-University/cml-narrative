@@ -171,6 +171,20 @@
 			target.classList.remove('dragging');
 		}
 	};
+
+	const dropExample = (event: DragEvent) => {
+		event.preventDefault();
+		const target = event.target as HTMLElement;
+		if (target && target.classList.contains('classColumn')) {
+			const draggedElement = document.querySelector('.dragging') as HTMLElement;
+			if (draggedElement) {
+				target.appendChild(draggedElement);
+				draggedElement.classList.remove('dragging');
+			}
+		}
+	};
+
+
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -593,12 +607,12 @@ Next
 								{example6}
 							</div>
 						</div>
-						<div class="classColumn">
+						<div class="classColumn" on:dragover={(e) => e.preventDefault()} on:drop={dropExample}>
 							<div class="classColumnTitle">
 								Class 1
 							</div>
 						</div>
-						<div class="classColumn">
+						<div class="classColumn" on:dragover={(e) => e.preventDefault()} on:drop={dropExample}>
 							<div class="classColumnTitle">
 								Class 2
 							</div>
@@ -614,6 +628,8 @@ Next
 											Class ${exampleClassCount + 1}
 										</div>
 									`;
+									newClassColumn.ondragover = (e) => e.preventDefault();
+									newClassColumn.ondrop = dropExample;
 									document.querySelector('.examples')?.appendChild(newClassColumn);
 									
 									// Keep div with button at the end
@@ -775,6 +791,7 @@ Next
 		border: 2px dashed white;
 		padding: 1vh;
 		border-radius: 25px;
+		min-height: 45vh;
 	}
 
 	.draggableExample {
@@ -795,5 +812,6 @@ Next
 		color: white;
 		padding: 1vh;
 		border-radius: 25px;
+		user-select: none;
 	}
 </style>
