@@ -144,6 +144,22 @@
 				console.error('Error parsing training data examples:', error);
 			}
 		}
+
+		let logs7 = await DataService.TravelLog.getTravelLogs('trainingdataexampleclasses');
+		if(logs7.length > 0) {
+			try{
+				let classes = JSON.parse(logs7[logs7.length - 1].data).response;
+
+				if (!Array.isArray(classes) || classes.length < 2) {
+					throw new Error('Invalid training data example classes format');
+				}
+
+				exampleClasses = classes;
+				
+			} catch (error) {
+				console.error('Error parsing training data example classes:', error);
+			}
+		}
 	});
 
 	let examplesValid = false;
@@ -157,6 +173,24 @@
 	
 	let exampleClassCount = 2;
 	let exampleClassesValid = false;
+
+	let exampleClasses = [];
+	let exampleClassNamesValid = false;
+
+	const validateExampleClassNames = () => {
+		exampleClassNamesValid = true;
+
+		const classNameInputs = document.querySelectorAll('.classnameinput');
+		for (let i = 0; i < classNameInputs.length; i++) {
+			const classNameInput = classNameInputs[i] as HTMLInputElement;
+			if (classNameInput.value.trim() === '') {
+				exampleClassNamesValid = false;
+				break;
+			}
+		}
+
+		return exampleClassNamesValid;
+	};
 
 	const validateExampleClasses = () => {
 		exampleClassesValid = true;
@@ -612,7 +646,7 @@ Next
 						Take your <strong>training data</strong> examples and divide them up into <strong>classes</strong> or categories. Think about the “face” and “no face” classes you encountered during your travels.
 					</p>
 					<div class="examples">
-						<div class="classColumn" id="classColumn0" on:dragover={(e) => e.preventDefault()} on:drop={dropExample}>
+						<div class="classColumn" id="classColumn0" on:dragover={(e) => e.preventDefault()} on:drop={dropExample} role="button" tabindex="-1">
 							<div class="classColumnTitle">
 								Unsorted
 							</div>
@@ -635,12 +669,12 @@ Next
 								{example6}
 							</div>
 						</div>
-						<div class="classColumn" id="classColumn1" on:dragover={(e) => e.preventDefault()} on:drop={dropExample}>
+						<div class="classColumn" id="classColumn1" on:dragover={(e) => e.preventDefault()} on:drop={dropExample} role="button" tabindex="-1">
 							<div class="classColumnTitle">
 								Class 1
 							</div>
 						</div>
-						<div class="classColumn" id="classColumn2" on:dragover={(e) => e.preventDefault()} on:drop={dropExample}>
+						<div class="classColumn" id="classColumn2" on:dragover={(e) => e.preventDefault()} on:drop={dropExample} role="button" tabindex="-1">
 							<div class="classColumnTitle">
 								Class 2
 							</div>
@@ -677,7 +711,30 @@ Next
 					<div>
 						<button class="nicebtn" 
 							disabled={!exampleClassesValid}
-							on:click={() => {
+							on:click={async () => {
+
+							// Submit the training data classes
+							const classes = [];
+							const classColumns = document.querySelectorAll('.classColumn');
+
+							for (let i = 0; i < classColumns.length; i++) {
+								const classColumn = classColumns[i];
+								const examples = classColumn.querySelectorAll('.draggableExample');
+								
+								if(examples.length > 0) {
+									const exampleTexts = Array.from(examples).map((example) => example.textContent);
+									classes.push(exampleTexts);
+								}
+							}
+
+							await DataService.TravelLog.submitTravelLog({
+								data: JSON.stringify({ 
+									response: classes
+								}),
+								description: 'trainingdataexampleclasses',
+								status: 'completed'
+							});
+
 							studentProgressStore.update((progress) => {
 								progress.last_visited = '/level4?page=26';
 								return progress;
@@ -688,6 +745,39 @@ Next
 							Submit
 						</button>
 					</div>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 26}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary">
+					<p>
+						Name the classes for the training data examples you suggested:
+					</p>
+
+					<div>
+						<div class="namingClasses">
+							{#each exampleClasses as exampleClass, index}
+								<div class="namingClass">
+									Class {index + 1} contains:
+									{#each exampleClass as example}
+											{example}
+									{/each}
+									<br/>
+									What should we call it? <input type="text" placeholder="Name for Class {index + 1}" id="exampleClassName{index}" name="exampleClassName{index}" class="classnameinput" on:keyup={validateExampleClassNames} />
+								</div>
+							{/each}
+						</div>
+					</div>
+
+					<div>
+						<button class="nicebtn" 
+							disabled={!exampleClassNamesValid}
+							on:click={async () => {
+							// Submit the training data classes
+						}}>
+							Submit
+					</button>
 				</div>
 			</Tablet>
 		{/if}
@@ -841,5 +931,26 @@ Next
 		padding: 1vh;
 		border-radius: 25px;
 		user-select: none;
+	}
+
+	.namingClasses {
+		display: flex;
+		flex-direction: column;
+		gap: 5vh;
+	}
+
+	.namingClass {
+		color: white;
+		font-size: 3vh;
+	}
+
+	.classnameinput {
+		width: 40vh;
+		height: 5vh;
+		font-size: 3vh;
+		text-align: center;
+		border: 2px solid white;
+		color: black;
+		border-radius: 25px;
 	}
 </style>
