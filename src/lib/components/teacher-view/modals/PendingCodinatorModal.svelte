@@ -66,12 +66,12 @@
 <div class="grid grid-cols-5 items-center justify-center">
 	{#if submissionType === 'text'}
 		<div class="col-span-4 flex h-full flex-col items-center justify-center">
-			<h1 class="font-cantora text-2xl font-bold">Codinator Submission</h1>
+			<h1 class="font-cantora text-2xl font-bold">Student Submission ({tl.description})</h1>
 			<p class="text-md mt-2 w-3/4 text-center">{tl.data}</p>
 		</div>
 	{:else if submissionType === 'image'}
 		<div class="col-span-4 flex h-full flex-col items-center justify-center">
-			<h1 class="font-cantora text-2xl font-bold">Codinator Submission</h1>
+			<h1 class="font-cantora text-2xl font-bold">Student Submission ({tl.description})</h1>
 			<img
 				src={tl.data}
 				alt="Codinator Submission"
