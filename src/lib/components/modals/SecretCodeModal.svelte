@@ -39,9 +39,9 @@
         <p class="text-3xl w-full text-center">Your secret code is: {secretCode}</p>
         <p class="text-3xl w-full text-center">Input code below to confirm:</p>
         <div class="flex flex-row items-center justify-center space-x-4">
-            <input type="text" placeholder="" length="1" id="input1" name="input1" class="codeinput text-3xl text-center" on:change={checkCode} />
-            <input type="text" placeholder="" length="1" id="input2" name="input2" class="codeinput text-3xl text-center" on:change={checkCode} />
-            <input type="text" placeholder="" length="1" id="input3" name="input3" class="codeinput text-3xl text-center" on:change={checkCode} />
+            <input type="text" placeholder="" length="1" id="input1" name="input1" class="codeinput text-3xl text-center" on:change={checkCode} on:keyup={() => {if (input1.value.length === 1) {document.getElementById('input2').focus()}}} />
+            <input type="text" placeholder="" length="1" id="input2" name="input2" class="codeinput text-3xl text-center" on:change={checkCode} on:keyup={() => {if (input2.value.length === 1) {document.getElementById('input3').focus()}}} />
+            <input type="text" placeholder="" length="1" id="input3" name="input3" class="codeinput text-3xl text-center" on:change={checkCode} on:keyup={checkCode} />
         </div>
     </div>
 </Tablet>

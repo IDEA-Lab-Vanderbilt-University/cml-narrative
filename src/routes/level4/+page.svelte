@@ -469,6 +469,8 @@ My robot will be named ${robotName}.`,
 		{#if lineNumber == 18}
 			<WaitForTeacherModal
 				description="robotdesignFinal"
+				task="robot design" 
+				sponge="Meanwhile, start drawing a design for your robot!"
 				onSuccess={() => {
 					studentProgressStore.update((progress) => {
 						progress.last_visited = '/level4?page=20';
@@ -735,6 +737,9 @@ Next
 								status: 'completed'
 							});
 
+							// Update the example classes
+							exampleClasses = classes.map((exampleClass) => Array.from(exampleClass));
+
 							studentProgressStore.update((progress) => {
 								progress.last_visited = '/level4?page=26';
 								return progress;
@@ -760,8 +765,8 @@ Next
 							{#each exampleClasses as exampleClass, index}
 								<div class="namingClass">
 									Class {index + 1} contains:
-									{#each exampleClass as example}
-											{example}
+									{#each exampleClass as example, index}
+											{example}{#if index < exampleClass.length - 1}, {/if}&nbsp;
 									{/each}
 									<br/>
 									What should we call it? <input type="text" placeholder="Name for Class {index + 1}" id="exampleClassName{index}" name="exampleClassName{index}" class="classnameinput" on:keyup={validateExampleClassNames} />
@@ -774,13 +779,161 @@ Next
 						<button class="nicebtn" 
 							disabled={!exampleClassNamesValid}
 							on:click={async () => {
-							// Submit the training data classes
+							// Submit the training data class names and contents
+							const classes = [];
+							let teacherVersion = "";
+
+							for (let i = 0; i < exampleClasses.length; i++) {
+								const classNameInput = document.getElementById(`exampleClassName${i}`);
+								if (!classNameInput || !(classNameInput instanceof HTMLInputElement)) {
+									continue;
+								}
+
+								const className = classNameInput.value.trim();
+								const examples = exampleClasses[i];
+
+								if (className && examples.length > 0) {
+									classes.push({ name: className, examples });
+									teacherVersion += `Class ${className} contains: ${examples.join(', ')}\n`;
+								}
+							}
+							
+							await DataService.TravelLog.submitTravelLog({
+								data: JSON.stringify({ 
+									response: classes
+								}),
+								description: 'trainingdataexampleclassnames',
+								status: 'completed'
+							});
+
+							// Submit the teacher version of the training data
+							await DataService.TravelLog.submitTravelLog({
+								data: JSON.stringify({ 
+									response: teacherVersion
+								}),
+								description: 'trainingdatafinal',
+								status: 'pending'
+							});
+
+							studentProgressStore.update((progress) => {
+								progress.last_visited = '/level4?page=27';
+								return progress;
+							});
+
+							goto('/level4?page=27');
 						}}>
 							Submit
 					</button>
 				</div>
 			</Tablet>
 		{/if}
+		{#if lineNumber == 27}
+			<WaitForTeacherModal description="trainingdatafinal" task="work" sponge="Meanwhile, you can start finding training data!" 
+				onSuccess={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=29';
+						return progress;
+					});
+					goto('/level4?page=29');
+				}} onRejected={(reason) => {
+					rejectionComment = reason;
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=24';
+						return progress;
+					});
+					goto('/level4?page=28');
+				}} 
+			/>
+		{/if}
+		{#if lineNumber == 28}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary">
+					<p>
+						Oh no! Your training data plan needs more work!
+					</p>
+					<p>
+						Agent {teacherAgent} said: {rejectionComment}
+					</p>
+					<p>
+						Keep this in mind as you work on your new plan!
+					</p>
+					<button class="nextBtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=24';
+							return progress;
+						});
+						
+						goto('/level4?page=24');
+					}}>
+						Edit
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 29}
+			<SecretCodeModal onSuccess={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=30';
+						return progress;
+					});
+					
+					goto('/level4?page=30');
+				}}
+			/>
+		{/if}
+		{#if lineNumber == 30}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary">
+					<p>
+						Congratulations, your training data classes have been approved!
+					</p>
+					<p>
+						You may now proceed to TRAIN and TEST your AI robot.
+					</p>
+					<button class="nicebtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=31';
+							return progress;
+						});
+						
+						goto('/level4?page=31');
+					}}>
+						Next
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 31}
+			<RobotStepsModal currentStep={2} onStepClick={() =>
+			{
+				studentProgressStore.update((progress) => {
+					progress.last_visited = '/level4?page=32';
+					return progress;
+				});
+				goto('/level4?page=32');
+			}} />
+		{/if}
+		{#if lineNumber == 32}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostepintro">
+					<h2><img src="/img/icons/robotrain.png" alt="Train"/> Train &amp; Test</h2>
+					<p>
+						You are about to enter the Traininator, where you will input data to train your robot to identify different classes.
+					</p>
+					<button class="nicebtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=33';
+							return progress;
+						});
+						
+						goto('/level4?page=33');
+					}}>
+						Next
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+						
     </div>
 </Scene>
 
@@ -936,7 +1089,7 @@ Next
 	.namingClasses {
 		display: flex;
 		flex-direction: column;
-		gap: 5vh;
+		gap: 3vh;
 	}
 
 	.namingClass {

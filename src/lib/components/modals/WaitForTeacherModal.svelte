@@ -18,6 +18,8 @@
     export let onRejected: (reason: string) => void;
 
     let checkInterval: NodeJS.Timeout;
+    export let task: string;
+    export let sponge: string;
 
 	onMount(async () => {
 		const student = get(studentDataStore);
@@ -69,10 +71,10 @@
 <Tablet showMeter={false} showBottomButtons={false}>
     <div class="robostependsummary centervert">
         <p>
-            Great job! Agent {teacherAgent} is reviewing your robot design...
+            Great job! Agent {teacherAgent} is reviewing your {task}...
         </p>
         <p>
-            Meanwhile, start drawing a design for your robot!
+            {sponge}
         </p>
     </div>
 </Tablet>
