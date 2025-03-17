@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 	import type { TravelLogWithStudent } from '$lib/types/UserData';
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 	import { RequestFactory } from '$lib/utils/network/RequestFactory';
@@ -50,13 +50,34 @@
 			console.log(error);
 		}
 	}
+
+	let submissionType = 'text';
+
+	onMount(() => {
+		if (tl.data) {
+			// Check if the data is a URL
+			if (tl.data.startsWith('http://') || tl.data.startsWith('https://') || tl.data.startsWith('data:image/')) {
+				submissionType = 'image';
+			}
+		}
+	});
 </script>
 
 <div class="grid grid-cols-5 items-center justify-center">
-	<img
-		src="https://images.unsplash.com/photo-1543946602-a0fce8117697?q=80&w=1000"
-		alt="Codinator Submission"
-		class="col-span-4 h-full w-full object-contain" />
+	{#if submissionType === 'text'}
+		<div class="col-span-4 flex h-full flex-col items-center justify-center">
+			<h1 class="font-cantora text-2xl font-bold">Codinator Submission</h1>
+			<p class="text-md mt-2 w-3/4 text-center">{tl.data}</p>
+		</div>
+	{:else if submissionType === 'image'}
+		<div class="col-span-4 flex h-full flex-col items-center justify-center">
+			<h1 class="font-cantora text-2xl font-bold">Codinator Submission</h1>
+			<img
+				src={tl.data}
+				alt="Codinator Submission"
+				class="h-full w-full object-contain" />
+		</div>
+	{/if}
 
 	<div class="col-span-1 flex h-full flex-row items-center justify-center text-center">
 		<div class="flex flex-col justify-center gap-10">
