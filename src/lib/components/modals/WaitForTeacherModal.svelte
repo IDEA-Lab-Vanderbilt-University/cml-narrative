@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { onMount } from "svelte";
+	import { onDestroy, onMount } from "svelte";
 
 
 	import Tablet from "../tablet/Tablet.svelte";
@@ -19,7 +19,9 @@
 
     let checkInterval: NodeJS.Timeout;
     export let task: string;
-    export let sponge: string;
+    export let sponge: string = '';
+    export let spongeButtonText: string = '';
+    export let onSpongeButtonClicked: () => void = () => {};
 
 	onMount(async () => {
 		const student = get(studentDataStore);
@@ -67,6 +69,13 @@
         }, 2000); // Check every 2 seconds
 	});
 
+    // Cleanup the interval when the component is destroyed
+    onDestroy(() => {
+        if (checkInterval) {
+            clearInterval(checkInterval);
+        }
+    });
+
 </script>
 <Tablet showMeter={false} showBottomButtons={false}>
     <div class="robostependsummary centervert">
@@ -74,8 +83,15 @@
             Great job! Agent {teacherAgent} is reviewing your {task}...
         </p>
         <p>
-            {sponge}
+            {#if sponge}
+                {sponge}
+            {/if}
         </p>
+        {#if spongeButtonText}
+            <button on:click={onSpongeButtonClicked} class="nicebtn">
+                {spongeButtonText}
+            </button>
+        {/if}
     </div>
 </Tablet>
 
@@ -100,4 +116,33 @@
 		justify-content: center;
 		height: 100%;
 	}
+
+    .robostepsummarybuttons button, .robostependsummary button, .nicebtn {
+		background: radial-gradient(farthest-corner at bottom right, #49c5ff 75%, #fff 100%);
+		background-color: #49c5ff;
+		color: #111;
+		border: none;
+		border: 2px solid #289dd3;
+		height: 7vh;
+		border-radius: 3.5vh;
+		padding: 1vh 2vw;
+		font-size: 1.5rem;
+		cursor: pointer;
+		transition: 0.3s;
+		display: block;
+	}
+    
+    .nicebtn:not(:disabled):hover {
+		transform: scale(1.05);
+	}
+
+    .nicebtn:not(:disabled):active {
+		transform: scale(0.95);
+	}
+	
+    .nicebtn:disabled {
+		filter: grayscale(1);
+		cursor: not-allowed;
+	}
+
 </style>

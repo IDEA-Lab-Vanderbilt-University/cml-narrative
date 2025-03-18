@@ -76,11 +76,11 @@
 
     let content: HTMLDivElement | null;
 
-	let robotAbilities = '____';
-	let robotHelp = '_____';
-	let robotImportance = '_____';
-	let robotBias = '_____';
-	let robotName = '_____';
+	let robotAbilities = '';
+	let robotHelp = '';
+	let robotImportance = '';
+	let robotBias = '';
+	let robotName = '';
 	let rejectionComment = '';
 	let teacherAgent = '';
 
@@ -246,7 +246,6 @@
 		validateExampleClasses();
 	};
 
-
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -377,7 +376,7 @@
 				title="My robot will be named _________"  
 				prompt="" 
 				placeholder=""
-				onSuccess={(response) => { robotName = response; goto('/level4?page=16'); }}
+				onSuccess={(response) => { robotName = response; goto('/level4?page=17'); }}
 				prefill={robotName}
 				/>
 		{/if}
@@ -410,7 +409,7 @@
 							return progress;
 						});
 						
-						goto('/level4?page=17');
+						goto('/level4?page=18');
 					}
 				}}
 				onSubmit={() => {
@@ -419,7 +418,7 @@
 						return progress;
 					});
 					
-					goto('/level4?page=17');
+					goto('/level4?page=18');
 				}}
 			/>
 		{/if}
@@ -471,6 +470,15 @@ My robot will be named ${robotName}.`,
 				description="robotdesignFinal"
 				task="robot design" 
 				sponge="Meanwhile, start drawing a design for your robot!"
+				spongeButtonText="Draw my robot"
+				onSpongeButtonClicked={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=16';
+						return progress;
+					});
+					
+					goto('/level4?page=16');
+				}}
 				onSuccess={() => {
 					studentProgressStore.update((progress) => {
 						progress.last_visited = '/level4?page=20';
@@ -502,7 +510,7 @@ My robot will be named ${robotName}.`,
 						Agent {teacherAgent} said: {rejectionComment}
 					</p>
 					<p>
-						Keep this in mind as you work on your next robot design!
+						Keep this in mind as you work on your new robot design!
 					</p>
 					<button class="nextBtn" on:click={() => {
 						studentProgressStore.update((progress) => {
@@ -559,7 +567,9 @@ Next
 					progress.last_visited = '/level4?page=23';
 					return progress;
 				});
-				goto('/level4?page=23');
+
+				// Skip the "does this help your community" question
+				goto('/level4?page=24');
 			}} />
 		{/if}
 
@@ -862,7 +872,13 @@ Next
 							progress.last_visited = '/level4?page=24';
 							return progress;
 						});
-						
+
+						// Reset the training data classes, but not the examples
+						exampleClassCount = 2;
+						exampleClasses = [];
+						exampleClassNamesValid = false;
+						exampleClassesValid = false;
+
 						goto('/level4?page=24');
 					}}>
 						Edit
