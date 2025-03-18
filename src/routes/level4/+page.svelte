@@ -1013,6 +1013,63 @@ Next
 			{/if}
 		</Tablet>
 		{/if}
+		{#if lineNumber == 34}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary">
+					<p>
+						Congratulations, your Machine Learning Model is ready to use!
+					</p>
+					<p>
+						You may now proceed to PROGRAM your AI robot.
+					</p>
+					<button class="nicebtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=35';
+							return progress;
+						});
+						
+						goto('/level4?page=35');
+					}}>
+						Next
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 35}
+			<RobotStepsModal currentStep={3} onStepClick={() =>
+			{
+				studentProgressStore.update((progress) => {
+					progress.last_visited = '/level4?page=36';
+					return progress;
+				});
+				goto('/level4?page=36');
+			}} />
+		{/if}
+		{#if lineNumber == 36}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostepintro">
+					<h2><img src="/img/icons/roboprogram.png" alt="Program"/> Program</h2>
+					<p>
+						You are about to enter the Codinator, where you will create instructions for your AI robot to achieve its goal.
+					</p>
+					<button class="nicebtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=37';
+							return progress;
+						});
+						
+						goto('/level4?page=37');
+					}}>
+						Next
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 37}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				
+			</Tablet>
+		{/if}
     </div>
 </Scene>
 
