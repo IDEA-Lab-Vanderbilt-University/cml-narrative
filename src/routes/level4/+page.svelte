@@ -258,6 +258,17 @@
 		}
 	}
 
+	$: {
+		if(lineNumber == 20 && !drawingSubmitted) {
+			// Send back to the drawing page
+			studentProgressStore.update((progress) => {
+				progress.last_visited = '/level4?page=16';
+				return progress;
+			});
+			goto('/level4?page=16');
+		}
+	}
+
 </script>
 
 <Scene background={line.background} audio={line.audio}>
