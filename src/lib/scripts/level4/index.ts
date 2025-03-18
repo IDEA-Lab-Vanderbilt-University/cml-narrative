@@ -360,6 +360,14 @@ const script: Script = {
 			avatars: [],
 			background: '',
 		},
+		{
+			id: 51,
+			speakers: ['Captain Storm'],
+			dialog: 'Our engineers have told me you have built an impressive robot prototype. Your Senior Agent will now give you instructions for how to participate in the SPOT robot showcase. Good luck Agent!',
+			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			audio: '/audio/level4/captain_storm/captain_storm_l4s61.mp3',
+		},
 
     ],
 };

@@ -179,6 +179,24 @@
 			}
 		}
 
+		let logs9 = await DataService.TravelLog.getTravelLogs('robotdesignmodify');
+		if(logs9.length > 0) {
+			try{
+				let modify = JSON.parse(logs9[logs9.length - 1].data).response;
+
+				if (!Object.keys(modify).length || !modify.Modify || !modify['Not Modify']) {
+					throw new Error('Invalid design modify format');
+				}
+
+				modifyClasses = modify;
+
+				console.log('Modify classes:', modifyClasses);
+				
+			} catch (error) {
+				console.error('Error parsing design modify:', error);
+			}
+		}
+
 		logsLoaded = true;
 	});
 
@@ -291,6 +309,58 @@
 			goto('/level4?page=16');
 		}
 	}
+
+	let modifyClasses: Record<string, string[]> = {
+		'Modify': ["Training Data Classes","Training Data Set","Purpose of your AI Robot", "AI Algorithm"],
+		'Not Modify': []
+	};
+
+	$: {
+		if(lineNumber == 47 && modifyClasses['Not Modify'].includes('Training Data Classes')) {
+			// Skip to next page
+			studentProgressStore.update((progress) => {
+				progress.last_visited = '/level4?page=48';
+				return progress;
+			});
+			goto('/level4?page=48');
+		}
+	}
+
+	$: {
+		if(lineNumber == 48 && modifyClasses['Not Modify'].includes('Training Data Set')) {
+			// Skip to next page
+			studentProgressStore.update((progress) => {
+				progress.last_visited = '/level4?page=49';
+				return progress;
+			});
+			goto('/level4?page=49');
+		}
+	}
+
+	$: {
+		if(lineNumber == 49 && modifyClasses['Not Modify'].includes('AI Algorithm')) {
+			// Skip to next page
+			studentProgressStore.update((progress) => {
+				progress.last_visited = '/level4?page=50';
+				return progress;
+			});
+			goto('/level4?page=50');
+		}
+	}
+
+	$: {
+		if(lineNumber == 50 && modifyClasses['Not Modify'].includes('Purpose of your AI Robot')) {
+			// Skip to next page
+			studentProgressStore.update((progress) => {
+				progress.last_visited = '/level4?page=51';
+				return progress;
+			});
+			goto('/level4?page=51');
+		}
+	}
+
+
+
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -1292,8 +1362,10 @@ Next
 								response: classes
 							}),
 							description: 'robotdesignmodify',
-							status: 'pending'
+							status: 'complete'
 						});
+
+						modifyClasses = classes;
 
 						studentProgressStore.update((progress) => {
 							progress.last_visited = '/level4?page=47';
@@ -1306,6 +1378,109 @@ Next
 					</button>
 				</div>
 			</Tablet>
+		{/if}
+		{#if lineNumber == 47}
+			<TextResponseModal
+				id="robotdesignmodifytrainingclasses"
+				title="Why and how would you modify your training data classes?"
+				prompt=""
+				placeholder=""
+				onSuccess={(response) => {
+					// Submit the response
+					DataService.TravelLog.submitTravelLog({
+						data: JSON.stringify({ 
+							response: response
+						}),
+						description: 'robotdesignmodifytrainingclasses',
+						status: 'complete'
+					});
+
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=48';
+						return progress;
+					});
+					
+					goto('/level4?page=48');
+				}}
+			/>
+		{/if}
+		{#if lineNumber == 48}
+			<TextResponseModal
+				id="robotdesignmodifytrainingdata"
+				title="Why and how would you modify your training data set?"
+				prompt=""
+				placeholder=""
+				onSuccess={(response) => {
+					// Submit the response
+					DataService.TravelLog.submitTravelLog({
+						data: JSON.stringify({ 
+							response: response
+						}),
+						description: 'robotdesignmodifytrainingdata',
+						status: 'complete'
+					});
+
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=49';
+						return progress;
+					});
+					
+					goto('/level4?page=49');
+				}}
+			/>
+		{/if}
+		{#if lineNumber == 49}
+			<TextResponseModal
+				id="robotdesignmodifyalgorithm"
+				title="Why and how would you modify your AI algorithm?"
+				prompt=""
+				placeholder=""
+				onSuccess={(response) => {
+					// Submit the response
+					DataService.TravelLog.submitTravelLog({
+						data: JSON.stringify({ 
+							response: response
+						}),
+						description: 'robotdesignmodifyalgorithm',
+						status: 'complete'
+					});
+
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=50';
+						return progress;
+					});
+					
+					goto('/level4?page=50');
+				}}
+			/>	
+		{/if}
+		{#if lineNumber == 50}
+			<TextResponseModal
+				id="robotdesignmodifypurpose"
+				title="Why and how would you modify the purpose of your AI robot?"
+				prompt=""
+				placeholder=""
+				onSuccess={(response) => {
+					// Submit the response
+					DataService.TravelLog.submitTravelLog({
+						data: JSON.stringify({ 
+							response: response
+						}),
+						description: 'robotdesignmodifypurpose',
+						status: 'complete'
+					});
+
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=51';
+						return progress;
+					});
+					
+					goto('/level4?page=51');
+				}}
+			/>
+		{/if}
+		{#if lineNumber == 51}
+			<DialogBox line={line} />
 		{/if}
 
     </div>
