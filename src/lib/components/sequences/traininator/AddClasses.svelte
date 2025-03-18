@@ -3,6 +3,8 @@
 	export let classes: string[] = [];
 	export let trainingSets: string[][] = [];
 
+	console.log('Classes:', classes);
+
 	let className = '';
 	const addClass = () => {
 		if (className === '') {

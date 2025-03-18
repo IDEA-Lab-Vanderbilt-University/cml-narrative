@@ -24,6 +24,7 @@
 	import WaitForTeacherModal from '$lib/components/modals/WaitForTeacherModal.svelte';
 	import { stringify } from 'postcss';
 	import SecretCodeModal from '$lib/components/modals/SecretCodeModal.svelte';
+	import TraininatorMain from '$lib/components/activities/traininator/TraininatorMain.svelte';
 
 	export let data;
 
@@ -154,13 +155,34 @@
 					throw new Error('Invalid training data example classes format');
 				}
 
+				console.log('Example classes:', classes);
 				exampleClasses = classes;
 				
 			} catch (error) {
 				console.error('Error parsing training data example classes:', error);
 			}
 		}
+
+		let logs8 = await DataService.TravelLog.getTravelLogs('trainingdataexampleclassnames');
+		if(logs8.length > 0) {
+			try{
+				let classNames = JSON.parse(logs8[logs8.length - 1].data).response;
+
+				if (!Array.isArray(classNames) || classNames.length < 2) {
+					throw new Error('Invalid training data example class names format');
+				}
+
+				classNamesFromTravelLog = classNames.map((name) => name.name);
+				console.log('Example class names:', classNamesFromTravelLog);
+			} catch (error) {
+				console.error('Error parsing training data example class names:', error);
+			}
+		}
+
+		logsLoaded = true;
 	});
+
+	let logsLoaded = false;
 
 	let examplesValid = false;
 	let example1 = '';
@@ -176,6 +198,7 @@
 
 	let exampleClasses = [];
 	let exampleClassNamesValid = false;
+	let classNamesFromTravelLog: string[] = [];
 
 	const validateExampleClassNames = () => {
 		exampleClassNamesValid = true;
@@ -973,7 +996,23 @@ Next
 				</div>
 			</Tablet>
 		{/if}
-						
+		{#if lineNumber == 33}
+		<Tablet showMeter={false} showBottomButtons={false}>
+		{#if logsLoaded}
+				<TraininatorMain onComplete={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=34';
+						return progress;
+					});
+					goto('/level4?page=34');
+				}}
+				
+				prefillModelName={robotName}
+				prefillClassNames={classNamesFromTravelLog}
+				/>
+			{/if}
+		</Tablet>
+		{/if}
     </div>
 </Scene>
 
