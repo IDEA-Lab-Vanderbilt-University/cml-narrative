@@ -1067,7 +1067,17 @@ Next
 		{/if}
 		{#if lineNumber == 37}
 			<Tablet showMeter={false} showBottomButtons={false}>
-				
+				<iframe src="https://playground.raise.mit.edu/main/" id="codinatorIframe" frameborder="0"></iframe>
+				<button class="nicebtn" id="codinatorSubmit" on:click={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=38';
+						return progress;
+					});
+					
+					goto('/level4?page=38');
+				}}>
+					Submit
+				</button>
 			</Tablet>
 		{/if}
     </div>
@@ -1241,5 +1251,17 @@ Next
 		border: 2px solid white;
 		color: black;
 		border-radius: 25px;
+	}
+
+	#codinatorIframe {
+		width: 100%;
+		height: 75vh;
+		border: none;
+	}
+
+	#codinatorSubmit {
+		position: absolute;
+		bottom: 2vh;
+		right: 2vh;
 	}
 </style>
