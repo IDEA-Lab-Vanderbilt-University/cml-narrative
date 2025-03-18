@@ -9,7 +9,7 @@
 
     onMount(() => {
         // Randomly generate a 3-letter code with three different letters
-        let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let letters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
 
         secretCode = Array.from({ length: 3 }, () => {
             const randomIndex = Math.floor(Math.random() * letters.length);
