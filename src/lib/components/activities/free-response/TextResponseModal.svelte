@@ -45,7 +45,7 @@
 	};
 </script>
 
-<Tablet showMeter={false}>
+<Tablet showMeter={false} showBottomButtons={false}>
 	{#if showFeedbackModal}
 		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
 	{/if}

@@ -311,6 +311,56 @@ const script: Script = {
 			avatars: [],
 			background: '',
 		},
+		{
+			id: 44,
+			speakers: ['SPOT Tablet'],
+			dialog: 'CODEINATOR',
+			avatars: [],
+			background: '',
+		},
+		{
+			id: 45,
+			speakers: ['SPOT Tablet'],
+			dialog: 'CODEINATOR',
+			avatars: [],
+			background: '',
+		},
+		{
+			id: 46,
+			speakers: ['SPOT Tablet'],
+			dialog: 'CODEINATOR',
+			avatars: [],
+			background: '',
+		},
+		{
+			id: 47,
+			speakers: ['SPOT Tablet'],
+			dialog: 'CODEINATOR',
+			avatars: [],
+			background: '',
+		},
+		{
+			id: 48,
+			speakers: ['SPOT Tablet'],
+			dialog: 'CODEINATOR',
+			avatars: [],
+			background: '',
+		},
+		{
+			id: 49,
+			speakers: ['SPOT Tablet'],
+			dialog: 'CODEINATOR',
+			avatars: [],
+			background: '',
+		},
+		{
+			id: 50,
+			speakers: ['SPOT Tablet'],
+			dialog: 'CODEINATOR',
+			avatars: [],
+			background: '',
+		},
+
     ],
 };
 

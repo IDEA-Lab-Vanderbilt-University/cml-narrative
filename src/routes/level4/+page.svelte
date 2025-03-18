@@ -291,7 +291,6 @@
 			goto('/level4?page=16');
 		}
 	}
-
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -1069,6 +1068,15 @@ Next
 			<Tablet showMeter={false} showBottomButtons={false}>
 				<iframe src="https://playground.raise.mit.edu/main/" id="codinatorIframe" frameborder="0"></iframe>
 				<button class="nicebtn" id="codinatorSubmit" on:click={() => {
+					// Submit the robot code
+					DataService.TravelLog.submitTravelLog({
+						data: JSON.stringify({ 
+							response: "robot code"
+						}),
+						description: 'robotcode',
+						status: 'pending'
+					});
+
 					studentProgressStore.update((progress) => {
 						progress.last_visited = '/level4?page=38';
 						return progress;
@@ -1080,6 +1088,226 @@ Next
 				</button>
 			</Tablet>
 		{/if}
+		{#if lineNumber == 38}
+			<WaitForTeacherModal description="robotcode" task="robot code"
+				onSuccess={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=40';
+						return progress;
+					});
+					
+					goto('/level4?page=40');
+				}} onRejected={(reason) => {
+					rejectionComment = reason;
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=39';
+						return progress;
+					});
+					goto('/level4?page=39');
+				}}
+			/>
+		{/if}
+		{#if lineNumber == 39}
+			<Tablet showMeter={false} showBottomButtons={false}>
+
+				<div class="robostependsummary">
+					<p>
+						Oh no! Your robot code needs more work!
+					</p>
+					<p>
+						Agent {teacherAgent} said: {rejectionComment}
+					</p>
+					<p>
+						Keep this in mind as you work on your new robot code!
+					</p>
+					<button class="nextBtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=37';
+							return progress;
+						});
+
+						goto('/level4?page=37');
+					}}>
+						Edit
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 40}
+			<SecretCodeModal onSuccess={() => {
+				studentProgressStore.update((progress) => {
+					progress.last_visited = '/level4?page=41';
+					return progress;
+				});
+				
+				goto('/level4?page=41');
+			}}
+			/>
+		{/if}
+		{#if lineNumber == 41}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary">
+					<p>
+						Congratulations, your algorithm has been approved!
+					</p>
+					<button class="nicebtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=42';
+							return progress;
+						});
+						
+						goto('/level4?page=42');
+					}}>
+						Next
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 42}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary">
+					<p>
+						Now, TEST your prototype with another agent.
+					</p>
+					<p>
+						Hit Next when complete
+					</p>
+					<button class="nicebtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=43';
+							return progress;
+						});
+						
+						goto('/level4?page=43');
+					}}>
+						Next
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 43}
+			<TextResponseModal 
+				id="robottestfeedback" 
+				title="What suggestions did the other agent give you about your  AI robot prototype?"  
+				prompt="" 
+				placeholder=""
+				onSuccess={(response) => { 
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=44';
+						return progress;
+					});
+					
+					goto('/level4?page=44');
+				}}
+			/>
+		{/if}
+		{#if lineNumber == 44}
+			<TextResponseModal
+				id="robottestbias"
+				title="In your design notes, you said you will minimize bias by {robotBias}."
+				prompt="Tell our SPOT engineers how you minimized bias in the design of your AI robot prototype."
+				placeholder=""
+				onSuccess={(response) => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=45';
+						return progress;
+					});
+					
+					goto('/level4?page=45');
+				}}
+			/>
+		{/if}
+		{#if lineNumber == 45}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary">
+					<p>
+						Now that you know what works or doesn't work about your robot, let our SPOT designers know how to make it even better!
+					</p>
+					<button class="nicebtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=46';
+							return progress;
+						});
+						
+						goto('/level4?page=46');
+					}}>
+						Next
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 46}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary" on:load={validateExampleClasses}>
+					<p>
+						Drag and drop these items on the left into the “modify” or “not modify” bin to inform our engineers of what part of your design you would modify
+					</p>
+					<div class="examples">
+						<div class="classColumn" id="classColumn0" on:dragover={(e) => e.preventDefault()} on:drop={dropExample} role="button" tabindex="-1">
+							<div class="classColumnTitle">
+								Unsorted
+							</div>
+							<div class="draggableExample" on:drag={dragExample} on:dragend={dragEndExample} draggable="true" role="button" tabindex="-1">
+								Training Data Classes 
+							</div>
+							<div class="draggableExample" on:drag={dragExample} on:dragend={dragEndExample} draggable="true" role="button" tabindex="-1">
+								Training Data Set 
+							</div>
+							<div class="draggableExample" on:drag={dragExample} on:dragend={dragEndExample} draggable="true" role="button" tabindex="-1">
+								AI Algorithm
+							</div>
+							<div class="draggableExample" on:drag={dragExample} on:dragend={dragEndExample} draggable="true" role="button" tabindex="-1">
+								Purpose of your AI Robot
+							</div>
+						</div>
+						<div class="classColumn" id="classColumn1" on:dragover={(e) => e.preventDefault()} on:drop={dropExample} role="button" tabindex="-1">
+							<div class="classColumnTitle">
+								Modify
+							</div>
+						</div>
+						<div class="classColumn" id="classColumn2" on:dragover={(e) => e.preventDefault()} on:drop={dropExample} role="button" tabindex="-1">
+							<div class="classColumnTitle">
+								Not Modify
+							</div>
+						</div>
+					</div>
+					<button class="nicebtn" 
+						disabled={!exampleClassesValid}
+						on:click={async () => {
+
+						// Submit the training data classes
+						const classes = {};
+						const classColumns = document.querySelectorAll('.classColumn');
+						for (let i = 0; i < classColumns.length; i++) {
+							const classColumn = classColumns[i];
+							const examples = classColumn.querySelectorAll('.draggableExample');
+							
+							if(examples.length > 0) {
+								const exampleTexts = Array.from(examples).map((example) => example.textContent);
+								classes[classColumn.querySelector('.classColumnTitle').textContent] = exampleTexts;
+							}
+						}
+						await DataService.TravelLog.submitTravelLog({
+							data: JSON.stringify({ 
+								response: classes
+							}),
+							description: 'robotdesignmodify',
+							status: 'pending'
+						});
+
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=47';
+							return progress;
+						});
+						
+						goto('/level4?page=47');
+					}}>
+						Next
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+
     </div>
 </Scene>
 
@@ -1214,7 +1442,8 @@ Next
 	.draggableExample {
 		width: 25vh;
 		height: 5vh;
-		font-size: 2.5vh;
+		font-size: 2.25vh;
+		line-height: 4.5vh;
 		text-align: center;
 		border: 2px solid white;
 		color: black;
