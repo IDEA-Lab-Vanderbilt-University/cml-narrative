@@ -414,8 +414,8 @@
 {/if}
 
 {#if showAddDialog}
-	<div id="addDialog">
-		<div id="addDialogInner">
+	<div id="addDialog" on:click={() => (showAddDialog = false)}>
+		<div id="addDialogInner" on:click={(e) => e.stopPropagation()}>
 			<div class="header">
 				Add Images for {selectedClassIndex != -1 ? classes[selectedClassIndex] : 'testing'}
 			</div>
@@ -439,6 +439,11 @@
 					}
 					showAddDialog = false;
 				}} />
+                <button
+                    id="cancelButton"
+                    on:click={() => {
+                        showAddDialog = false;
+                    }}>Cancel</button>
 		</div>
 	</div>
 {/if}
@@ -606,12 +611,12 @@
 		left: 0;
 		width: 100vw;
 		height: 100vh;
+		backdrop-filter: blur(5px);
 		background-color: #000000a9;
 		z-index: 100;
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		backdrop-filter: blur(5px);
 	}
 
 	#addDialog #addDialogInner {
@@ -625,4 +630,32 @@
 		flex-direction: column;
 		justify-content: space-between;
 	}
+
+    #cancelButton {
+        background: radial-gradient(farthest-corner at bottom right, #ff4949 75%, #fff 100%);
+        background-color: #ff4949;
+        color: #111;
+        border: none;
+        border: 2px solid #d33d3d;
+        height: 3vh;
+        line-height: 2.5vh;
+        border-radius: 3.5vh;
+        padding: 0 2vw;
+        font-size: 1.25rem;
+        cursor: pointer;
+        transition: 0.3s;
+        display: block;
+        margin: 1vh auto;
+        transition: all 0.2s ease-in-out;
+    }
+
+    #cancelButton:hover {
+        transform: scale(1.05);
+    }
+
+    #cancelButton:active {
+        transform: scale(0.95);
+    }
+
+
 </style>
