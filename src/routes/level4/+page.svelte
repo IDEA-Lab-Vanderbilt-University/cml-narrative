@@ -246,6 +246,18 @@
 		validateExampleClasses();
 	};
 
+	let drawingSubmitted = false;
+	$: {
+		if(lineNumber == 18) {
+			// Check if drawing was already submitted
+			DataService.TravelLog.getTravelLogs('draw-my-robot').then((travelLogs) => {
+				if (travelLogs.length > 0) {
+					drawingSubmitted = true;
+				}
+			});
+		}
+	}
+
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -387,7 +399,7 @@
 				prompt={"Draw a picture of your robot"} 
 				handleImageSubmission={async (event) => {
 					doSubmit = event.detail.doSubmit;
-					let success = await DataService.TravelLog.handleImageSubmission(event, "draw-machine-learning");
+					let success = await DataService.TravelLog.handleImageSubmission(event, "draw-my-robot");
 
 					if (success) {
 						imageResponseModalMessage = 'Great job! Your image has been submitted successfully.';
@@ -404,6 +416,7 @@
 				onFeedbackClose={() => {
 					imageResponseModalShowFeedbackModal = false;
 					if(doSubmit) {
+						drawingSubmitted = true;
 						studentProgressStore.update((progress) => {
 							progress.last_visited = '/level4?page=17';
 							return progress;
@@ -469,8 +482,8 @@ My robot will be named ${robotName}.`,
 			<WaitForTeacherModal
 				description="robotdesignFinal"
 				task="robot design" 
-				sponge="Meanwhile, start drawing a design for your robot!"
-				spongeButtonText="Draw my robot"
+				sponge={drawingSubmitted? "" : "Meanwhile, start drawing a design for your robot!" }
+				spongeButtonText={drawingSubmitted? "" : "Draw my robot"}
 				onSpongeButtonClicked={() => {
 					studentProgressStore.update((progress) => {
 						progress.last_visited = '/level4?page=16';
