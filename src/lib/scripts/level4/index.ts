@@ -368,8 +368,14 @@ const script: Script = {
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level4/captain_storm/captain_storm_l4s61.mp3',
 		},
-
-    ],
+		{
+			id: 52,
+			speakers: ['Spot Computer'],
+			dialog: 'ROBOT SHOWCASE',
+			avatars: [],
+			background: '',
+		},
+	],
 };
 
 export default script;

@@ -61,7 +61,7 @@
 				}
 			}
 		} else if (direction == NavigationDirection.backward) {
-			if(line.id > 3) {
+			if(line.id > 3 && line.id < 8) {
 				target = `/level4?page=${line.id - 1}`;
 			}
 		}
@@ -198,6 +198,20 @@
 		}
 
 		logsLoaded = true;
+
+		if(lineNumber == 51 || lineNumber == 52){
+			// Create a robotshowcase travel log if it doesn't exist
+			let logs = await DataService.TravelLog.getTravelLogs('robotshowcase');
+			if(logs.length == 0) {
+				await DataService.TravelLog.submitTravelLog({
+					data: JSON.stringify({ 
+						response: 'robotshowcase'
+					}),
+					description: 'robotshowcase',
+					status: 'pending'
+				});
+			}
+		}
 	});
 
 	let logsLoaded = false;
@@ -365,7 +379,7 @@
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-        {#if lineNumber != 2 && lineNumber < 8}
+        {#if (lineNumber != 2 && lineNumber < 8) || lineNumber == 51}
             <DialogBox {line} on:dialogEvent={handleDialogEvent} />
         {/if}
 	</div>
@@ -1480,9 +1494,33 @@ Next
 			/>
 		{/if}
 		{#if lineNumber == 51}
-			<DialogBox line={line} />
+			<TabletButton on:click={() => { 
+				const event  = new CustomEvent('showTablet', {
+					bubbles: true
+				});
+				
+				content?.dispatchEvent(event);
+			}} />
 		{/if}
-
+		{#if lineNumber == 52}
+			<WaitForTeacherModal description="robotshowcase" task="robot demonstration"
+				onSuccess={() => {
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level5?page=1';
+						return progress;
+					});
+					
+					goto('/level5?page=1');
+				}} onRejected={(reason) => {
+					rejectionComment = reason;
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4?page=52';
+						return progress;
+					});
+					goto('/level4?page=52');
+				}}
+			/>
+		{/if}
     </div>
 </Scene>
 
