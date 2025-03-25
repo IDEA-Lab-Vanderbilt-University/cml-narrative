@@ -63,12 +63,26 @@ const script: Script = {
         {
             id: 8,
             speakers: ['SPOT Tablet'],
-            dialog: 'BADGE GET',
+            dialog: 'Question',
             avatars: [],
             background: '',
         },
         {
             id: 9,
+            speakers: ['SPOT Tablet'],
+            dialog: 'Question',
+            avatars: [],
+            background: '',
+        },
+        {
+            id: 10,
+            speakers: ['SPOT Tablet'],
+            dialog: 'BADGE GET',
+            avatars: [],
+            background: '',
+        },
+        {
+            id: 11,
             speakers: ['Captain Storm'],
             dialog: `It’s been an honor working with you Agent ${agent.agent_name}. You are now an official junior agent at S.P.O.T. We hope that you continue building technologies that make the world a better place. Goodbye and best of luck to you!`,
             avatars: ['/img/characters/captain-storm/clapping_storm_inverted.png', '/img/characters/agent-gear/vanil_wave.png', '/img/characters/agent-fern/fern_wave.png', '/img/characters/agent-spark/spark_wave.png'],

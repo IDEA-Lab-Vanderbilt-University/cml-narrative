@@ -6,6 +6,7 @@
 	import type { StudentProgress } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
 	import { studentProgressStore } from '$lib/utils/stores/store';
+	import { Questions } from '$lib/components/activities/survey/SurveyQuestions';
 
 	/**
 	 * Track the current question that is displaying
@@ -30,41 +31,12 @@
 	 * The user's response is directly saved into this object, which, theoretically, we can then stringify
 	 * and post to the database whenever we are ready.
 	 */
-	let questionsAndResponse = [
-		{
-			question: 'I would like to use coding to make something new:',
+	let questionsAndResponse = Questions.map((question) => {
+		return {
+			question: question,
 			response: null
-		},
-		{
-			question: 'I am good at building code:',
-			response: null
-		},
-		{
-			question: 'I am good at fixing code:',
-			response: null
-		},
-		{
-			question: 'I believe I can be successful in coding:',
-			response: null
-		},
-		{
-			question: 'Kids like me can help in community activities and decision making:',
-			response: null
-		},
-		{
-			question:
-				'My opinion is important because it could someday make a difference in my community:',
-			response: null
-		},
-		{
-			question: 'It is important to me that I actively participate in local kids issues:',
-			response: null
-		},
-		{
-			question: 'Most community leaders would listen to me:',
-			response: null
-		}
-	];
+		};
+	});
 
 	/**
 	 * Gets the next question from the questionsAndResponse object array
