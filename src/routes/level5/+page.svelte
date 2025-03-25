@@ -22,6 +22,7 @@
 	import { Questions } from '$lib/components/activities/survey/SurveyQuestions.js';
 	import SurveyOption from '$lib/components/activities/survey/SurveyOption.svelte';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
+	import Confetti from 'svelte-confetti';
 
 	export let data;
 
@@ -52,7 +53,8 @@
 		if (direction == NavigationDirection.forward) {
 			if (line.id == script.lines.length) {
                 // Next level
-				target = '/level5/page=1';
+				//target = '/level5/page=1';
+                confetti += 1;
 			} else {
 				target = `/level5?page=${line.id + 1}`;
 			}
@@ -146,6 +148,8 @@
 				}
 
 		showFeedbackModal = true;
+        nextButton.disabled = true;
+
 			} else {
 				// Advance to the next question
 				questionIndex += 1;
@@ -187,12 +191,14 @@
 		questionsAndResponse[questionIndex].response = response;
 	};
 
-	// Disable the next button until a response is selected
+	// Disable the next button until a response is selected or there are no more questions
 	$: {
 		if (nextButton != undefined) {
-			nextButton.disabled = questionsAndResponse[questionIndex].response == null;
+			nextButton.disabled = questionIndex >= questionsAndResponse.length || questionsAndResponse[questionIndex].response == null;
 		}
 	}
+
+    let confetti = 0;
 </script>
 
 
@@ -328,7 +334,8 @@
                         <button
                             class="next-button rounded-xl bg-blue-300 px-4 py-2 text-3xl font-bold text-black"
                             on:click={getNextQuestion}
-                            bind:this={nextButton}>Next</button>
+                            bind:this={nextButton}    
+                        >Next</button>
                     </div>
                 </div>
             </Tablet>
@@ -342,6 +349,14 @@
                     handleNavigation(NavigationDirection.forward);
                 }}            
             />
+        {/if}
+
+        {#if lineNumber == 11}
+        <div id="confettiholder">
+            {#key confetti}
+                <Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+            {/key}
+        </div>
         {/if}
     </div>
 </Scene>
@@ -396,4 +411,10 @@
 	.next-button:disabled:hover {
 		transform: none;
 	}
+
+    #confettiholder {
+        transform: translateX(50vw);
+        position: absolute;
+        top: 0;
+    }
 </style>

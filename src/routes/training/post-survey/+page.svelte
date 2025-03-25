@@ -125,7 +125,7 @@
 	// Disable the next button until a response is selected
 	$: {
 		if (nextButton != undefined) {
-			nextButton.disabled = questionsAndResponse[questionIndex].response == null;
+			nextButton.disabled = questionIndex >= questionsAndResponse.length || questionsAndResponse[questionIndex].response == null;
 		}
 	}
 </script>

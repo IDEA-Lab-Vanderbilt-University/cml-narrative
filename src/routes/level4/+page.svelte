@@ -202,6 +202,13 @@
 		if(lineNumber == 51 || lineNumber == 52){
 			// Create a robotshowcase travel log if it doesn't exist
 			let logs = await DataService.TravelLog.getTravelLogs('robotshowcase');
+
+			// Create a new travel log if there are no existing pending logs
+			logs = logs.filter((log) => {
+				return log.status == 'pending';
+			});
+
+
 			if(logs.length == 0) {
 				await DataService.TravelLog.submitTravelLog({
 					data: JSON.stringify({ 
