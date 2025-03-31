@@ -953,6 +953,8 @@ Next
 								status: 'completed'
 							});
 
+							classNamesFromTravelLog = classes.map((classItem) => classItem.name);
+
 							// Submit the teacher version of the training data
 							await DataService.TravelLog.submitTravelLog({
 								data: JSON.stringify({ 
@@ -1329,7 +1331,7 @@ Next
 		{/if}
 		{#if lineNumber == 46}
 			<Tablet showMeter={false} showBottomButtons={false}>
-				<div class="robostependsummary" on:load={validateExampleClasses}>
+				<div class="robostependsummary" on:visibilitychange={validateExampleClasses}>
 					<p>
 						Drag and drop these items on the left into the “modify” or “not modify” bin to inform our engineers of what part of your design you would modify
 					</p>
