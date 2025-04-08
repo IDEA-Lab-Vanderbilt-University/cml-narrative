@@ -4,7 +4,7 @@
 
 
 <div
-	class="hud-red-blue-border bg-opacity-85 flex w-3/5 items-center justify-center space-x-5 rounded-md bg-slate-700 py-5 px-3 text-2xl text-white">
+	class="hud-red-blue-border bg-opacity-85 flex items-center justify-center space-x-5 rounded-md bg-slate-700 py-3 px-3 text-2xl text-white">
 	<!-- <img src="/img/characters/agent-spark/spark_gesture.png" alt="" class="h-24 -scale-x-1"> -->
 	<p>
 		Need ideas? Check out the SPOT agent's profiles and see words that describe them! <a

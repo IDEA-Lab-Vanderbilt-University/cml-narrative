@@ -13,14 +13,11 @@
 	import type { PageData } from './$types';
 	import {  studentDataStore, studentProgressStore } from '$lib/utils/stores/store';
 	import ProfilesApp from '$lib/components/tablet/profiles/ProfilesApp.svelte';
+	import { get } from 'svelte/store';
 
-	export let data: PageData;
 
-	/**
-	 * Current page number which represents the position in the create-profile sequence. This
-	 * will get set from the response from +page.ts as a querystring
-	 */
-	let page: number;
+	const startPage: number = 3;
+	let page: number = startPage;
 	let message = '';
 	let isSuccess = false;
 	let showFeedbackModal = false;
@@ -32,7 +29,13 @@
 
 	const numberOfPageSequences = 6;
 
-	let profileData: Student;
+	let profileData: Student = get(studentDataStore);
+
+	// Set the default values for the profile data
+	if(profileData.interests == undefined || profileData.interests.length == 0) {
+		profileData.interests = ['','',''];
+	}
+
 
 	studentDataStore.subscribe((value) => {
 		profileData = value;
@@ -43,19 +46,6 @@
 	});
 
 	let mounted = false;
-	$: page;
-
-	$: {
-		/**
-		 * page is reactive and dependent on what is being returned from the "server." Here,
-		 * we are telling Svelte to keep its eye on when the page value changes so we can
-		 * react to it.
-		 */
-		page = data.page;
-
-		// Any time profile data is changed, the store is immediatly updated
-		// agentData.set(profileData);
-	}
 
 	onMount(() => {
 		mounted = true;
@@ -65,7 +55,8 @@
 	});
 
 	const validateData = () => {
-		console.log(profileData)
+		console.log(profileData);
+
 		if (page === 1 && ((profileData.first_name ?? '') === '' || (profileData.last_name ?? '') === '')) {
 			return false;
 		} else if (page === 2 && (profileData.age ?? -1) <= 0) {
@@ -86,14 +77,15 @@
 		// Set the agentData store, which will allow us to access this profile data across the application
 		// agentData.set(profileData);
 
-		if (direction == NavigationDirection.backward && page > 1) {
-			goto(baseNavigationURL + (page - 1));
+		if (direction == NavigationDirection.backward && page > startPage) {
+			page--;
 		} else if (direction == NavigationDirection.forward && page < numberOfPageSequences) {
 			console.log("page: ",page)
 			console.log("validate data: ", validateData())
 			console.log("length:", (profileData.interests ?? []).length)
+
 			if(validateData()) {
-				goto(baseNavigationURL + (page + 1));
+				page++;
 			} else {
 				switch (page) {
 					case 1:

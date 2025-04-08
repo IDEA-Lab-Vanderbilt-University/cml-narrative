@@ -19,21 +19,6 @@
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	const dispatch = createEventDispatcher();
 
-	let tour = {
-		showTour: true,
-		message: 'S.P.O.T agents usually choose a name about what inspires them. What inspires you?',
-		bindTo: '#submit-button',
-		position: 'bottom'
-	};
-
-	onMount(() => {
-		tourManager.add(tour);
-	});
-
-	onDestroy(() => {
-		tourManager.remove(tour);
-	});
-
 	const handleSubmit = () => {
 		dispatch('submitClicked');
 	};
@@ -105,5 +90,10 @@
 	<button
 		id="submit-button"
 		class="bg-lapiz-blue rounded-md px-7 py-3 text-3xl text-white shadow hover:shadow-lg"
-		on:click={handleSubmit}>SUBMIT</button>
+		on:click={handleSubmit}>
+		SUBMIT
+	</button>
+	<div class="hud-red-blue-border text-white">
+		S.P.O.T agents usually choose a name about what inspires them. What inspires you?
+	</div>
 </div>
