@@ -173,7 +173,9 @@
 					type="number"
 					placeholder="Age"
 					class="input input-bordered w-1/6"
-					bind:value={newStudent.age} />
+					bind:value={newStudent.age} 
+					min="1"
+					max="100" />
 				<div class="ml-auto">
 					<button class="btn btn-primary" on:click={addStudentManually}>Add student</button>
 				</div>
