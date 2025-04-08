@@ -14,10 +14,7 @@ export function createPageLoad(script: Script | null = null): PageLoad {
 	return ({ params, url }) => {
 		// Require login to view the page 
 		// Get accessTokenStore value
-		if (!get(accessTokenStore)) {
-			// Redirect to login page
-			throw redirect(302, '/');
-		}
+		redirectIfNotLoggedIn();
 
 		/**
 		 * Page number of the current route.
@@ -50,4 +47,11 @@ export function createPageLoad(script: Script | null = null): PageLoad {
 
 		throw error(404, 'Not found');
 	};
+}
+
+export function redirectIfNotLoggedIn() {
+	if (!get(accessTokenStore)) {
+		// Redirect to login page
+		throw redirect(302, '/');
+	}
 }
