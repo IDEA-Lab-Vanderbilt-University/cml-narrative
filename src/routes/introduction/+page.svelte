@@ -53,7 +53,7 @@
 			} else {
 				target = `/introduction?page=${line.id + 1}`;
 			}
-		} else if (direction === NavigationDirection.backward && line.id > 1) {
+		} else if (direction === NavigationDirection.backward && line.id > 1 && line.id != 4) {
 			target = `/introduction?page=${line.id - 1}`;
 		}
 
