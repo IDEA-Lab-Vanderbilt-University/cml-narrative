@@ -3,9 +3,10 @@
 export let name: string = 'Badge';
 export let image: string = 'img/misc/badge1.png';
 
+export let onClick: () => void = () => {};
 </script>
 
-<div id="badgebg" style="background-image: url({image})" class="flex items-center justify-center">
+<div id="badgebg" style="background-image: url({image})" class="flex items-center justify-center" on:mousedown={onClick}>
     <div id="badgename" class="text-white font-mokoto">
         {name}
     </div>

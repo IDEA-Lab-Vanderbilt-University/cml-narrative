@@ -13,6 +13,8 @@
 
     export let badgeName: string;
     export let badgeImage: string;
+
+    let confetti = 0;
 </script>
 
 <Tablet showMeter={false}>
@@ -21,10 +23,12 @@
         You have earned another badge!
     </div>
     <div class="flex justify-center">    
-        <Badge name={badgeName} image={badgeImage} />
+        <Badge name={badgeName} image={badgeImage} onClick={() => { confetti++;}} />
     </div>
     <div class="flex justify-center">    
-        <Confetti x={[-2, 2]} y={[-0.5, 1.0]} amount={100} />
+        {#key confetti}        
+            <Confetti x={[-2, 2]} y={[-0.5, 1.0]} amount={100} />
+        {/key}
     </div>
     <div class="flex justify-center">
         <button class="btn btn-primary" on:click={handleClick}>
