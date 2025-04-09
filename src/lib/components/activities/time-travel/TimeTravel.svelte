@@ -65,7 +65,7 @@
 		let timeTravelInterval = setInterval(() => {
 			let remainingTime = Math.max(Math.abs(destDate.getTime() - presentDate.getTime()), 1);
 			
-			let speed = Math.ceil(Math.max(remainingTime / 40, 200000000));
+			let speed = Math.ceil(Math.max(remainingTime / 25, 300000000));
 			energy = MAX_ENERGY - Math.round(MAX_ENERGY * (1 - (remainingTime / (Math.abs(destDate.getTime() - startTime)))));
 			
 			if (warpEffect) {
