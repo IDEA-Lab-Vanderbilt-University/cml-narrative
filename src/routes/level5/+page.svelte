@@ -319,11 +319,11 @@
                 {/if}
                 <div
                     on:submit|preventDefault
-                    class="ml-auto mr-auto flex h-full w-1/2 flex-col  items-center justify-center space-y-6  text-white">
-                    <div class="hud-red-blue-border w-full">
-                        <p class="text-center text-3xl text-white">{questionsAndResponse[questionIndex].question}</p>
+                    class="ml-auto mr-auto flex h-full w-1/2 flex-col  items-center justify-center space-y-6  text-white" id="bod">
+                    <div class="hud-red-blue-border w-full" id="question-box">
+                        <p class="text-center text-3xl text-white" id="question">{questionsAndResponse[questionIndex].question}</p>
                     </div>
-                    <div class="hud-red-blue-border flex w-3/4 flex-col space-y-4 p-4 text-3xl">
+                    <div class="hud-red-blue-border flex w-3/4 flex-col space-y-4 p-4 text-3xl" id="options">
                         <SurveyOption emoji="😃" response="Strongly Agree" on:click={() => handleSelection('Strongly Agree')} bind:this={strongAgreeElement} />
                         <SurveyOption emoji="🙂" response="Agree" on:click={() => handleSelection('Agree')} bind:this={agreeElement} />
                         <SurveyOption emoji="😐" response="Neutral" on:click={() => handleSelection('Neutral')} bind:this={neutralElement} />
@@ -391,8 +391,17 @@
 		cursor: not-allowed;
 	}
 
+    #confettiholder {
+        transform: translateX(50vw);
+        position: absolute;
+        top: 0;
+    }
+
+
 	.next-button {
 		transition: all 0.2s ease-in-out;
+		position: fixed;
+		bottom: 20px;
 	}
 
 	.next-button:hover {
@@ -412,9 +421,25 @@
 		transform: none;
 	}
 
-    #confettiholder {
-        transform: translateX(50vw);
-        position: absolute;
-        top: 0;
-    }
+	@media (max-width: 800px) {
+		#options {
+			width: 100%;
+			font-size: 1.5rem;
+			margin: 0;
+		}
+
+		#question {
+			font-size: 1.5rem;
+			width: 100%;
+		}
+
+		#question-box {
+			width: 100%;
+			font-size: 1.5rem;
+		}
+
+		#bod {
+			width: 100%;
+		}
+	}
 </style>
