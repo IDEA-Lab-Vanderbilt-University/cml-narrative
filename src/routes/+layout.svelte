@@ -80,5 +80,19 @@
 			width: 100vw;
 		}
 	}
+
+
+	@media (max-width: 640px) {
+		.right-size {
+			display: none;
+		}
+	
+		#too-small {
+			vertical-align: middle;
+			display: table-cell;
+			text-align: center;
+			width: 100vw;
+		}
+	}
 	
 </style>
