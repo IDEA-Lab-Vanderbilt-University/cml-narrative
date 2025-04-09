@@ -24,7 +24,7 @@
 </script>
 
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 	export let src: string;
 	let hasPlayerMounted = false;
@@ -33,6 +33,12 @@
 
 	$: {
 		if (hasPlayerMounted && (settings.audioEnabled ?? defaultSettings.audioEnabled)) {
+			player.pause();
+			
+			// Reset the audio element to the beginning
+			player.currentTime = 0;
+
+			// Set the new source and play
 			player.src = src;
 			player.play();
 		}
@@ -54,6 +60,15 @@
 	export function playAll() {
 		players.forEach((p) => p.play());
 	}
+
+	onDestroy(() => {
+		players.forEach((p) => {
+			if (p) {
+				p.pause();
+				p.src = '';
+			}
+		});
+	});
 </script>
 
 <audio bind:this={player} {src}>
