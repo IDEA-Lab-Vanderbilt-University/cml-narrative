@@ -373,7 +373,7 @@ const script: Script = {
         {
             id: 41,
             speakers: ['Bot Buddy', ''],
-            dialog: 'Great to meet you, STEEL! We would like to learn about your self-driving cars and how they work.',
+            dialog: 'Great to meet you, STEEL! We would like to learn more about your self-driving cars and how they work.',
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/steel/steel_stand.png'],
             background: '/img/backgrounds/level2/showroom.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s41.wav',
