@@ -29,7 +29,7 @@ const script: Script = {
 			dialog: "It's time for your SPOT Agent Training!",
 			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/agent_spark_and_computer/computer_l0_s72_and_agent_spark.wav',
+			audio: '/audio/level0/agent_spark/agent_spark_l0s71.wav',
 			pos: 'left'
 		},
 		{
@@ -66,7 +66,7 @@ const script: Script = {
 			avatars: ['/img/characters/agent-spark/spark_gesture_inverted.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			// audio: '/audio/level0/agent_spark/agent_spark_l0s80.wav'
-			audio: '/audio/level0/agent_spark_and_computer/computer_l0_s80_and_agent_spark.wav',
+			audio: '/audio/level0/agent_spark/agent_spark_l0s80.wav',
 			pos: 'left'
 			// audio: [
 			// 	'/audio/level0/computer/computer_l0_s74.wav',
