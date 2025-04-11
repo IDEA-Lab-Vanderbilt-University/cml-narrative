@@ -301,7 +301,7 @@ const script: Script = {
         {
             id: 33,
             speakers: ['Fire Station'],
-            dialog: 'We are busy getting a cat out of a tree. Try again later!',
+            dialog: 'We are busy getting a cat out of a tree. Come back later!',
             avatars: ['/img/misc/map-icons/firestationavatar.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/computer_voice/Computervoice_l2s33.wav',
