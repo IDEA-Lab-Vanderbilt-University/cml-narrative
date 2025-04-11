@@ -17,7 +17,7 @@ const script: Script = {
             id: 2,
             speakers: ['Computer Voice'],
             dialog:
-                'Detecting problems with self-driving cars near the school!',
+                'BEEP BEEP Detecting problems with technology ahead! Detecting problems with technology ahead!',
             avatars: ['/img/characters/bot-buddy/bot-buddy-warning.png'],
             background: '/img/backgrounds/level1/2.png',
 			audio: '/audio/level1/bot_buddy/bot_buddy_l1s45.wav',

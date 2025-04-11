@@ -120,7 +120,7 @@
 
 		{#if line.id == 2}
 		<div id="spinring">
-			{line.dialog}
+			Detecting problems with self-driving cars near the school!
 		</div>
 		{/if}
 
