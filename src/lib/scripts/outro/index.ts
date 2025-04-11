@@ -35,7 +35,7 @@ const script: Script = {
 		{
 			id: 1,
 			speakers: ['Captain Storm'],
-			dialog: `Agent ${agent.agent_name}! It's time to send you and Bot Buddy into the future! I'll be here at Mission Control, but we will stay in contact through the Travel Log in your SPOT Tablet.`,
+			dialog: `Agent ${agent.agent_name}! It's time to send you and Bot Buddy into the future! I'll be here at Mission Control, but we will stay in touch through the Travel Log in your SPOT Tablet.`,
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab_time_machine.png',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s107.wav',
