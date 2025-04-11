@@ -18,7 +18,7 @@ const script: Script = {
             dialog: 'Your Bot Buddy’s system has informed us that you have completed your second mission. Mission Control needs to know a few more things. We have included our questions in this message.',
             avatars: ['/img/characters/captain-storm/storm_yeah.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/Computer_voice_L2S34.wav',
+            audio: '/audio/level2/computer_voice/Computervoice_l2s66.wav',
         },
         {
             id: 3,
@@ -66,7 +66,7 @@ const script: Script = {
             dialog: 'Badge GET!',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/Computer_voice_L2S40.wav',
+            audio: '/audio/level2/computer_voice/Computervoice_l2s72.wav',
         },
         {
             id: 9,
@@ -74,7 +74,7 @@ const script: Script = {
             dialog: 'Megajoules GET!',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/Computer_voice_L2S41.wav',
+            audio: '/audio/level1/computer_voice/Computer_voice_L1S42.wav',
         },
     ]
 };

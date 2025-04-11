@@ -82,7 +82,7 @@
 
 </script>
 
-{#if ![3, 4, 5, 8, 9].includes(line.id)}
+{#if ![3, 4, 5].includes(line.id)}
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
@@ -128,6 +128,13 @@ included our questions in this message.
                     </div>
             </ReadMessageModal>
         {/if}
+		{#if lineNumber == 8}
+			<BadgeGetModal badgeName="Machine Learning Master"  badgeImage="/img/misc/badge3.png" handleClick={() => handleNavigation(NavigationDirection.forward)} />
+		{/if}
+		
+		{#if lineNumber == 9}
+			<MegaJoulesGetModal amount={10} handleClick={() => handleNavigation(NavigationDirection.forward)} />
+		{/if}
     </div>
 </Scene>
 {/if}
@@ -142,12 +149,4 @@ included our questions in this message.
 
 {#if line.id == 5}
     <TextResponseModal id="carTestTrainDifference" title={"Why should the training and test data sets be different?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
-{/if}
-
-{#if lineNumber == 8}
-    <BadgeGetModal badgeName="Machine Learning Master"  badgeImage="/img/misc/badge3.png" handleClick={() => handleNavigation(NavigationDirection.forward)} />
-{/if}
-
-{#if lineNumber == 9}
-    <MegaJoulesGetModal amount={10} handleClick={() => handleNavigation(NavigationDirection.forward)} />
 {/if}
