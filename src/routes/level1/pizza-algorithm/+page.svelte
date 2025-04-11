@@ -67,13 +67,13 @@
 
         // Used to provide a nice set of colors to be randomly assigned to the algorithm steps
         let algorithmStepStyles = [
-            "filter: drop-shadow(0 0 0.75rem black) hue-rotate(0deg);",
-            "filter: drop-shadow(0 0 0.75rem black) hue-rotate(45deg);",
-            "filter: drop-shadow(0 0 0.75rem black) hue-rotate(90deg);",
-            "filter: drop-shadow(0 0 0.75rem black) hue-rotate(135deg);",
-            "filter: drop-shadow(0 0 0.75rem black) hue-rotate(180deg);",
-            "filter: drop-shadow(0 0 0.75rem black) hue-rotate(225deg);",
-            "filter: drop-shadow(0 0 0.75rem black) hue-rotate(270deg);"
+            "hue-rotate-0",
+            "hue-rotate-45",
+            "hue-rotate-90",
+            "hue-rotate-135",
+            "hue-rotate-180",
+            "hue-rotate-225",
+            "hue-rotate-270"
         ];
 
         // Shuffle the algorithm styles
@@ -101,10 +101,7 @@
         $: if (algo1) {
             let sortable = new Sortable(algo1, {
                 animation: 150,
-                ghostClass: 'bg-jet',
-                onEnd: (event) => {
-                    
-                }
+                forceFallback: true,
             });
         }
 
@@ -309,11 +306,11 @@
             }
         };
 
-        const getStepStyle = (step: string) => {
+        const getStepClass = (step: string) => {
             let index = algorithmSteps.indexOf(step);
 
             if (index == -1) {
-                return 'filter: drop-shadow(0 0 0.75rem black) hue-rotate(' + Math.floor(Math.random() * 360) + 'deg);';
+                return 'hue-rotate-random-' + Math.floor(Math.random() * 360);
             }
 
             return algorithmStepStyles[index];
@@ -330,7 +327,7 @@
             {#if lineNumber == 1 || lineNumber == 2 || lineNumber == 3}
                 <ul id="algo1" bind:this={algo1}>
                     {#each algorithmRandomIndices as i, index}
-                        <li class="step" style={getStepStyle(algorithmSteps[i])}>
+                        <li class="step {getStepClass(algorithmSteps[i])}">
                             <p>{algorithmSteps[i]}</p>
                         </li>
                     {/each}
@@ -480,6 +477,33 @@
     </Scene>
 
     <style>
+        .hue-rotate-0 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(0deg);
+        }
+        .hue-rotate-45 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(45deg);
+        }
+        .hue-rotate-90 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(90deg);
+        }
+        .hue-rotate-135 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(135deg);
+        }
+        .hue-rotate-180 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(180deg);
+        }
+        .hue-rotate-225 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(225deg);
+        }
+        .hue-rotate-270 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(270deg);
+        }
+        .hue-rotate-random-0 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(0deg);
+        }
+        [class^="hue-rotate-random-"] {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(var(--random-hue));
+        }
 
         #content {
             display: flex;
