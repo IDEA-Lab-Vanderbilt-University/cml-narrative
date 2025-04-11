@@ -11,6 +11,7 @@
 
 	export let destinationPage: string;
 	export let direction: 'forward' | 'backward' = 'forward';
+	export let audio = '/audio/timetravelforward.mp3';
 
 	onMount(() => {
 		energyText?.style.setProperty('text-shadow', `0 0 10px rgba(255, 255, 0, 1)`);
@@ -49,6 +50,8 @@
 	const timeTravel = () => {
 		console.log('Time Traveling...');
 
+		audioplayer?.play();
+
 		if (launchButton) {
 			launchButton.disabled = true;
 		}
@@ -65,7 +68,7 @@
 		let timeTravelInterval = setInterval(() => {
 			let remainingTime = Math.max(Math.abs(destDate.getTime() - presentDate.getTime()), 1);
 			
-			let speed = Math.ceil(Math.max(remainingTime / 25, 300000000));
+			let speed = Math.ceil(Math.max(remainingTime / 10, 250000000));
 			energy = MAX_ENERGY - Math.round(MAX_ENERGY * (1 - (remainingTime / (Math.abs(destDate.getTime() - startTime)))));
 			
 			if (warpEffect) {
@@ -125,9 +128,12 @@
 			}
 		}, 100);
 	}
+
+	let audioplayer: HTMLAudioElement | void;
 </script>
 
 <div in:fade={{duration: 500}} out:fade={{duration: 500}}>
+	<audio src={audio} bind:this={audioplayer}/>
 	<Tablet showMeter={false} showBottomButtons={false}>
 		<div id="timeTravelStuff">
 			<TimeRow date={presentDate} bind:this={presTimeRow} />
