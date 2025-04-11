@@ -194,10 +194,10 @@ const script: Script = {
 			id: 18,
 			speakers: ['Agent Spark'],
 			dialog:
-				"Open your SPOT tablet. You will use this to keep track of your mission to the future and communicate to mission control Let's get yours set up!",
+				"Open your SPOT tablet. You will use this to keep track of your mission to the future and communicate to mission control. Let's get yours set up!",
 			avatars: ['/img/characters/agent-spark/spark_talking.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s22.wav',
+			audio: '/audio/level0/agent_spark/agent_spark_l0s22.mp3',
 			pos: 'left'
 		}
 	]
