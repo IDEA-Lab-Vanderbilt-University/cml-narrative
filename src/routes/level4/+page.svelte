@@ -380,8 +380,6 @@
 		}
 	}
 
-
-
 </script>
 
 <Scene background={line.background} audio={line.audio}>
@@ -1159,7 +1157,7 @@ Next
 		{/if}
 		{#if lineNumber == 37}
 			<Tablet showMeter={false} showBottomButtons={false}>
-				<iframe src="https://playground.raise.mit.edu/main/" id="codinatorIframe" frameborder="0"></iframe>
+				<iframe src="https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/" id="codinatorIframe" frameborder="0"></iframe>
 				<button class="nicebtn" id="codinatorSubmit" on:click={() => {
 					// Submit the robot code
 					DataService.TravelLog.submitTravelLog({
