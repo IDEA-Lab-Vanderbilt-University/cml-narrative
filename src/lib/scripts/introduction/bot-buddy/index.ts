@@ -50,7 +50,7 @@ const script: Script = {
 			dialog: 'Bot Buddy!!!',
 			avatars: ['/img/characters/agent-fern/fern_point.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_fern/agent_fern_l0s50.wav',
+			audio: '/audio/level0/agent_fern/agent_fern_l0s50.mp3',
 			pos: 'right',
 			mirror: true
 		},
@@ -69,7 +69,7 @@ const script: Script = {
 			dialog: `Great to see you, Captain Storm! Welcome, Agent ${agent.agent_name}! I can't wait to tell you about Bot Buddy!`,
 			avatars: ['/img/characters/agent-fern/fern_wave_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_fern/agent_fern_l0s52.wav',
+			audio: '/audio/level0/agent_fern/agent_fern_l0s52.mp3',
 			pos: 'left'
 		},
 		{
@@ -79,7 +79,7 @@ const script: Script = {
 				'Your Bot Buddy will be your companion during this mission. The Bot Buddy can provide clues and receive directions from Mission Control.',
 			avatars: ['/img/characters/agent-fern/fern_talking.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_fern/agent_fern_l0s53.wav',
+			audio: '/audio/level0/agent_fern/agent_fern_l0s53.mp3',
 			pos: 'right'
 		},
 		{
@@ -88,7 +88,7 @@ const script: Script = {
 			dialog: 'It will be super useful in your mission to the future!',
 			avatars: ['/img/characters/agent-fern/fern_bro.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_fern/agent_fern_l0s54.wav',
+			audio: '/audio/level0/agent_fern/agent_fern_l0s54.mp3',
 			pos: 'right',
 			mirror: true
 		},
@@ -107,7 +107,7 @@ const script: Script = {
 			dialog: "I don't know!!",
 			avatars: ['/img/characters/agent-fern/fern_oh_no.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_fern/agent_fern_l0s56.wav',
+			audio: '/audio/level0/agent_fern/agent_fern_l0s56.mp3',
 			pos: 'right'
 		},
 		{
