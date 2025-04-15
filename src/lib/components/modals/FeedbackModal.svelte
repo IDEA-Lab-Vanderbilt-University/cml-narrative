@@ -17,7 +17,7 @@
 	}
 
 	onMount(() => {
-		setTimeout(close, 3000);
+		setTimeout(close, 2000);
 	});
 </script>
 
