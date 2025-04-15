@@ -2,7 +2,7 @@
 	import { Assets } from "$lib/utils/Assets";
 	import SpotApplication from "../sequences/tablet/tablet-tutorial/SpotApplication.svelte";
 
-    export let onSelect: (selection: null | string ) => void = () => {};
+    export let onSelect: (selection: null | "profile" | "travelLog" | "badges" ) => void = () => {};
 
     let handleAppContainerEvent = (e: CustomEvent<{ event: string; id: string }>) => {
         console.log(e.detail);
@@ -26,6 +26,19 @@
         }
     ];
 
+    const select = (app: string) => {
+        if (app === "Travel Logs") {
+            onSelect("travelLog");
+        } else if (app === "Profiles") {
+            onSelect("profile");
+        } else if (app === "Badges") {
+            onSelect("badges");
+        } else {
+            onSelect(null);
+        }
+    };
+    
+
 </script>
 
 
@@ -36,11 +49,7 @@
             color={app.color}
             title={app.title}
             img={app.img}
-            on:click={
-                () => {
-                    onSelect(app.title);
-                }
-            }
+            on:click={() => select(app.title)}
             on:applicationContainerEvent={handleAppContainerEvent} />
     {/each}
 </div>

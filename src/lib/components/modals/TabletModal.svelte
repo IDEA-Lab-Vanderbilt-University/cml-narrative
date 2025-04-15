@@ -18,15 +18,17 @@
             tabletDiv?.classList.remove("lg:block");
             tabletDiv?.classList.remove("right-size");
             tabletModalActive.set(false);
+            appMode = null;
         } else {
             tabletDiv?.classList.remove("hidden");
             tabletDiv?.classList.add("lg:block");
             tabletDiv?.classList.add("right-size");
             tabletModalActive.set(true);
+            appMode = null;
         }
     }
 
-    let appMode = null as null | "profile" | "travelLog" | "badges";
+    let appMode: null | "profile" | "travelLog" | "badges" = null;
     
 </script>
 
@@ -42,6 +44,10 @@
     showBottomButtons={true} 
     showMeter={true}>
         {#if appMode === "profile"}
+            <ProfilesApp handleClick={() => appMode = null} />
+        {:else if appMode === "travelLog"}
+            <ProfilesApp handleClick={() => appMode = null} />
+        {:else if appMode === "badges"}
             <ProfilesApp handleClick={() => appMode = null} />
         {:else}
             <TabletMenu onSelect={(selection) => appMode = selection} />
