@@ -1159,14 +1159,18 @@ Next
 			<Tablet showMeter={false} showBottomButtons={false}>
 				<iframe src="https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id={get(accessTokenStore)}" id="codinatorIframe" frameborder="0" title="The Codinator"></iframe>
 				<button class="nicebtn" id="codinatorSubmit" on:click={() => {
-					// Submit the robot code
-					DataService.TravelLog.submitTravelLog({
-						data: JSON.stringify({ 
-							response: "robot code"
-						}),
-						description: 'robotcode',
-						status: 'pending'
-					});
+					// Submit the robot code by passing a postMessage to the iframe
+					const codinatorIframe = document.getElementById('codinatorIframe');
+					if (codinatorIframe && codinatorIframe instanceof HTMLIFrameElement) {
+						// Send a submitTravelLog message to the iframe to submit the code (data is description, status)
+						codinatorIframe.contentWindow?.postMessage({
+							type: 'submitTravelLog',
+							data: {
+								description: 'robotcode',
+								status: 'pending'
+							}
+						}, '*');
+					}
 
 					studentProgressStore.update((progress) => {
 						progress.last_visited = '/level4?page=38';
