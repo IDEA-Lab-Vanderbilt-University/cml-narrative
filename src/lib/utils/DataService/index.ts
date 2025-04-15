@@ -467,7 +467,7 @@ const TravelLog = {
 		}
 	},
 
-	getTravelLogs: async (description: string, student_id: string = '') => {
+	getTravelLogs: async (description: string = '', student_id: string = '') => {
 		return new Promise<TravelLog[]>(async (resolve, reject) => {
 			if(debugMode){
 				resolve([]);

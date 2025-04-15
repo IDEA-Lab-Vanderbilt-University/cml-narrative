@@ -7,6 +7,7 @@
 	import { tabletModalActive } from "$lib/utils/stores/store";
 	import TabletMenu from "../tablet/TabletMenu.svelte";
 	import BadgesApp from "../tablet/badges/BadgesApp.svelte";
+	import TravelLogsApp from "../tablet/travel-logs/TravelLogsApp.svelte";
 
     export let hidden = true;
 
@@ -47,7 +48,7 @@
         {#if appMode === "profile"}
             <ProfilesApp handleClick={() => appMode = null} />
         {:else if appMode === "travelLog"}
-            <ProfilesApp handleClick={() => appMode = null} />
+            <TravelLogsApp handleClick={() => appMode = null} />
         {:else if appMode === "badges"}
             <BadgesApp handleClick={() => appMode = null} />
         {:else}
