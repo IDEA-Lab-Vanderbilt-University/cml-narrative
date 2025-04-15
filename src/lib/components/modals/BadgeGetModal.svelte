@@ -2,11 +2,12 @@
 	import Tablet from "../tablet/Tablet.svelte";
 
     import type { Student } from '$lib/types/UserData';
-    import { studentDataStore } from '$lib/utils/stores/store';
+    import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store';
 	import Badge from "../Badge.svelte";
     import { Confetti } from "svelte-confetti";
 	import { get } from "svelte/store";
 	import type { BadgeType } from "$lib/utils/Assets/Badges";
+	import { onMount } from "svelte";
 
     export let handleClick: () => void;
 
@@ -22,6 +23,15 @@
     }
 
     let confetti = 0;
+
+    onMount(() => {
+        if(badge && badge.count) {
+            studentProgressStore.update((data) => {
+                data.badge_count = badge.count;
+                return data;
+            });
+        }
+    });
 </script>
 
 <Tablet showMeter={false}>
@@ -30,7 +40,7 @@
         You have earned another badge!
     </div>
     <div class="flex justify-center">    
-        <Badge name={badgeName} image={badgeImage} onClick={() => { confetti++;}} />
+        <Badge name={badgeName ?? ''} image={badgeImage ?? ''} onClick={() => { confetti++;}} />
     </div>
     <div class="flex justify-center">    
         {#key confetti}        

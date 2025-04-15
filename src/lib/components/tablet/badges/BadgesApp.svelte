@@ -56,7 +56,7 @@
 
 <div class="h-full">
 	<div class="h-3/4 w-full flex flex-col items-center justify-center">
-        {#if (studentProgress.badge_count ?? 0) < index}
+        {#if (studentProgress.badge_count ?? 0) <= index}
             <div class="text-center text-white text-3xl font-mokoto p-16">
                 You have not earned this badge yet!
             </div>
