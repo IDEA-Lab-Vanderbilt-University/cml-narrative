@@ -160,7 +160,7 @@ const script: Script = {
                 'MegaJoules GET!',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S42.wav',
+            audio: '/audio/computer_voice/computervoice_megajoules.mp3',
             pos: 'left',
         },
     ]
