@@ -119,8 +119,10 @@
 </div>
 
 <style>
-	#navbuttons button {
+	button {
 		width: 200px;
-		font-size: 1.5rem;
+		font-size: 1.25rem;
+		height: 2rem;
+		min-height: fit-content;
 	}
 </style>

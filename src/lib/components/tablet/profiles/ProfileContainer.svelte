@@ -13,8 +13,8 @@
 	export let profile: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[]};
 </script>
 
-<div class="flex h-full w-full flex-col px-6 py-2">
-	<h3 class="text-center font-mono  text-white" style="font-size: 6vh;">{profile.name}</h3>
+<div class="flex h-full w-full flex-col px-4 py-3">
+	<h3 class="text-center font-mono  text-white" style="font-size: 5vh;">{profile.name}</h3>
 	<div class="flex h-full items-center space-x-3">
 		<div class="w-1/3 space-y-10">
 			<div class="flex flex-col text-center ">
