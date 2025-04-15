@@ -25,6 +25,7 @@
 	import { stringify } from 'postcss';
 	import SecretCodeModal from '$lib/components/modals/SecretCodeModal.svelte';
 	import TraininatorMain from '$lib/components/activities/traininator/TraininatorMain.svelte';
+	import { browser } from '$app/environment';
 
 	export let data;
 
@@ -1157,7 +1158,8 @@ Next
 		{/if}
 		{#if lineNumber == 37}
 			<Tablet showMeter={false} showBottomButtons={false}>
-				<iframe src="https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id={get(accessTokenStore)}" id="codinatorIframe" frameborder="0" title="The Codinator"></iframe>
+				<iframe src="https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id={get(accessTokenStore)}&host={browser? window.location.origin : ''}"
+					id="codinatorIframe" frameborder="0" title="The Codinator"></iframe>
 				<button class="nicebtn" id="codinatorSubmit" on:click={() => {
 					// Submit the robot code by passing a postMessage to the iframe
 					const codinatorIframe = document.getElementById('codinatorIframe');
