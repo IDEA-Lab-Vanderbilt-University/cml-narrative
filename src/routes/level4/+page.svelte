@@ -1164,6 +1164,24 @@ Next
 					// Submit the robot code by passing a postMessage to the iframe
 					const codinatorIframe = document.getElementById('codinatorIframe');
 					if (codinatorIframe && codinatorIframe instanceof HTMLIFrameElement) {
+						// Wait for the iframe to respond with travelLogSubmitted
+						let waitForResponse = (event) => {
+							if (event.data.type === 'travelLogSubmitted') {
+								// The travel log has been submitted successfully
+								studentProgressStore.update((progress) => {
+									progress.last_visited = '/level4?page=38';
+									return progress;
+								});
+								
+								window.removeEventListener('message', waitForResponse);
+
+								// Go to the next page
+								goto('/level4?page=38');
+							}
+						};
+
+						window.addEventListener('message', waitForResponse);
+						
 						// Send a submitTravelLog message to the iframe to submit the code (data is description, status)
 						codinatorIframe.contentWindow?.postMessage({
 							type: 'submitTravelLog',
@@ -1174,12 +1192,6 @@ Next
 						}, '*');
 					}
 
-					studentProgressStore.update((progress) => {
-						progress.last_visited = '/level4?page=38';
-						return progress;
-					});
-					
-					goto('/level4?page=38');
 				}}>
 					Submit
 				</button>
