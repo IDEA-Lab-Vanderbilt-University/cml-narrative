@@ -91,3 +91,23 @@
 		</div>
 	</div>
 </div>
+<div
+	id="backdrop"></div>
+
+<style>
+	#backdrop{
+		background-color: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(5px);
+		width: 100vw;
+		height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 10;
+	}
+
+	#popup-modal {
+		z-index: 20;
+	}
+
+</style>
