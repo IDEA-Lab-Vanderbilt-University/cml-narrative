@@ -27,6 +27,11 @@
 	onMount(() => {
 		DataService.TravelLog.fetchPending();
 	});
+
+	// Check for new travel logs every so often
+	const interval = setInterval(() => {
+		DataService.TravelLog.fetchPending();
+	}, 60000);
 </script>
 
 <svelte:head>
