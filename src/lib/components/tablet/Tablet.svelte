@@ -118,9 +118,10 @@
 		display: flex;
 		justify-content: flex-end;
 		justify-items: center;
-		position:sticky;
+		position:absolute;
 		bottom: 0;
-		width: 100%;
+		right: 0;
+		width: fit-content;
 		padding: 1vh;
 	}
 
