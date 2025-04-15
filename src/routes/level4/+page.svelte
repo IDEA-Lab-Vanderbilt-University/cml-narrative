@@ -7,7 +7,7 @@
 	import type { Line } from '$lib/types/Script';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
+	import { accessTokenStore, studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import script from '$lib/scripts/level4/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -1157,7 +1157,7 @@ Next
 		{/if}
 		{#if lineNumber == 37}
 			<Tablet showMeter={false} showBottomButtons={false}>
-				<iframe src="https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/" id="codinatorIframe" frameborder="0"></iframe>
+				<iframe src="https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id={get(accessTokenStore)}" id="codinatorIframe" frameborder="0" title="The Codinator"></iframe>
 				<button class="nicebtn" id="codinatorSubmit" on:click={() => {
 					// Submit the robot code
 					DataService.TravelLog.submitTravelLog({
