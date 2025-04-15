@@ -3,7 +3,7 @@
 	import { tourManager } from './TourManager';
 </script>
 
-<div class="" style="position: absolute; z-index: 1000;">
+<div class="" style="position: absolute; z-index: 1000; left: -9999px;">
 	{#each $tourManager as popover}
 		<div class="" id="temp-pop-container">
 			<Popover popoverData={popover} />

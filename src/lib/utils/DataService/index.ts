@@ -467,7 +467,7 @@ const TravelLog = {
 		}
 	},
 
-	getTravelLogs: async (description: string = '', student_id: string = '') => {
+	getTravelLogs: async (description: string | null = null, student_id: string = '') => {
 		return new Promise<TravelLog[]>(async (resolve, reject) => {
 			if(debugMode){
 				resolve([]);
@@ -479,7 +479,13 @@ const TravelLog = {
 			}
 
 			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs?description=${description}&student_id=${student_id}`, 'GET');
+				let url = `${PUBLIC_BACKEND_API_URL}/travel-logs?student_id=${student_id}`;
+
+				if (description) {
+					url += `&description=${description}`;
+				}
+
+				let res = await RequestFactory(url, 'GET');
 				resolve(res);
 			} catch (error) {
 				reject(error);

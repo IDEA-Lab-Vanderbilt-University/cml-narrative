@@ -56,8 +56,7 @@
     
 	onMount(async () => {
         try {
-            logs = await DataService.TravelLog.getTravelLogs('travel-logs', get(accessTokenStore));
-            console.log("Travel logs:", logs);
+            logs = await DataService.TravelLog.getTravelLogs(null, get(accessTokenStore));
         } catch (error) {
             console.error("Error fetching travel logs:", error);
         }
@@ -76,7 +75,10 @@
 </script>
 
 <div class="h-full">
-	<div class="h-3/4 w-full flex flex-col items-center justify-center font-mokoto text-2xl text-white">
+	<div class="h-3/4 w-full flex flex-col items-center justify-center font-mokoto text-xl text-white">
+        <h1 class="text-center text-2xl font-bold">
+            {logs[index].description}
+        </h1>
         {logs[index].data}
 	</div>
 	<div class="flex w-full flex-col items-center justify-center space-y-2">
