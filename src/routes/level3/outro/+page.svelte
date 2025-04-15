@@ -17,6 +17,7 @@
 	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
 	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
 	import MegaJoulesGetModal from '$lib/components/modals/MegaJoulesGetModal.svelte';
+	import { BadgesByName } from '$lib/utils/Assets/Badges.js';
 
 	export let data;
 
@@ -166,7 +167,7 @@
 		{/if}
 
 		{#if line.id == 17}
-			<BadgeGetModal badgeName={"Bias Buster"} badgeImage={"/img/misc/badge3.png"} handleClick={() => handleNavigation(NavigationDirection.forward)} />
+			<BadgeGetModal badge={BadgesByName['Bias Buster']} handleClick={() => handleNavigation(NavigationDirection.forward)} />
 		{/if}
 
 		{#if line.id == 18}

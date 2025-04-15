@@ -15,6 +15,7 @@
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import type { Student, StudentProgress } from '$lib/types/UserData.js';
+	import { BadgesByName } from '$lib/utils/Assets/Badges.js';
 	import DataService from '$lib/utils/DataService/index.js';
 	import { pizzaConfigStore, studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher, onMount } from 'svelte';
@@ -191,7 +192,7 @@ megajoules! I sent them right to your SPOT Tablet.
         {/if}
 
         {#if lineNumber == 11}
-            <BadgeGetModal badgeName="Algorithm All Stars"  badgeImage="/img/misc/badge2.png" handleClick={() => handleNavigation(NavigationDirection.forward)} />
+            <BadgeGetModal badge={BadgesByName['Algorithm All Stars']} handleClick={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
 
         {#if lineNumber == 12}

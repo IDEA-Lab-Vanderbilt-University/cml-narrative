@@ -6,13 +6,20 @@
 	import Badge from "../Badge.svelte";
     import { Confetti } from "svelte-confetti";
 	import { get } from "svelte/store";
+	import type { BadgeType } from "$lib/utils/Assets/Badges";
 
     export let handleClick: () => void;
 
     let agent: Student = get(studentDataStore);
 
-    export let badgeName: string;
-    export let badgeImage: string;
+    export let badgeName: string | null = null;
+    export let badgeImage: string | null = null;
+    export let badge: BadgeType | null = null;
+
+    if (badge) {
+        badgeName = badge.name;
+        badgeImage = badge.image;
+    }
 
     let confetti = 0;
 </script>

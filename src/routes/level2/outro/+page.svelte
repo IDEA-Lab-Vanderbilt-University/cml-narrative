@@ -15,6 +15,7 @@
 	import MegaJoulesGetModal from '$lib/components/modals/MegaJoulesGetModal.svelte';
 	import IncomingMessageModal from '$lib/components/modals/IncomingMessageModal.svelte';
 	import ReadMessageModal from '$lib/components/modals/ReadMessageModal.svelte';
+	import { BadgesByName } from '$lib/utils/Assets/Badges.js';
 
 	export let data;
 
@@ -129,7 +130,7 @@ included our questions in this message.
             </ReadMessageModal>
         {/if}
 		{#if lineNumber == 8}
-			<BadgeGetModal badgeName="Machine Learning Master"  badgeImage="/img/misc/badge3.png" handleClick={() => handleNavigation(NavigationDirection.forward)} />
+			<BadgeGetModal badge={BadgesByName['Machine Learning Master']} handleClick={() => handleNavigation(NavigationDirection.forward)} />
 		{/if}
 		
 		{#if lineNumber == 9}

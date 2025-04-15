@@ -23,6 +23,7 @@
 	import SurveyOption from '$lib/components/activities/survey/SurveyOption.svelte';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import Confetti from 'svelte-confetti';
+	import { BadgesByName } from '$lib/utils/Assets/Badges.js';
 
 	export let data;
 
@@ -343,8 +344,7 @@
 
         {#if lineNumber == 10}
             <BadgeGetModal 
-                badgeImage="/img/misc/badge5.png" 
-                badgeName="Junior Agent"
+                badge={BadgesByName['Junior Agent']}
                 handleClick={() => {
                     handleNavigation(NavigationDirection.forward);
                 }}            
