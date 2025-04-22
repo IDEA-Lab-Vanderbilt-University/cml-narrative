@@ -20,6 +20,8 @@
 	import { onMount } from 'svelte';
 	import '../app.css';
 	import Modal from 'svelte-simple-modal';
+	import { browser } from '@tensorflow/tfjs';
+	import { page } from '$app/stores';
 
 	let tabletModal: TabletModal | void;
 	let main: HTMLDivElement | void;
@@ -40,6 +42,29 @@
 				main?.classList.add('lg:block');
 				main?.classList.remove('hidden');
 			}
+		});
+		
+		if(browser) {
+			history.pushState(null, '', window.location.href);
+		}
+
+
+		window.addEventListener('popstate', (e) => {
+			if(browser) {
+				history.pushState(null, '', $page.url.href);
+				console.log('popstate event received at ' + $page.url.href);
+			
+				// When the back button is pressed, we want to hide the tablet modal or do nothing
+				if (tabletModal) {
+					tabletModal.hidden = true;
+					main?.classList.add('lg:block');
+					main?.classList.remove('hidden');
+				}
+
+				e.preventDefault();
+				e.stopPropagation();
+			}
+			return false;
 		});
 	});
 </script>
