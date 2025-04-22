@@ -12,8 +12,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { studentProgressStore, tabletPowerNavigation } from '$lib/utils/stores/store';
-	import { onMount } from 'svelte';
-	import { fade, fly } from 'svelte/transition';
 	import MegaJoulesMeter from './MegaJoulesMeter.svelte';
 	import SettingsModal from '../modals/SettingsModal.svelte';
 
@@ -29,23 +27,26 @@
 	 */
 	export let powerDown: string | Function | void = undefined;
 
-	$: {
-		if ($tabletPowerNavigation != undefined && $tabletPowerNavigation.href != undefined) {
-			powerDown = $tabletPowerNavigation.href;
-		} 
-	}
-
 	/**
 	 * First, we will check to see powerdown is enabled. If it is, then we will use the href provided in the store
 	 * to navigate the user to the proper location.
 	 */
 	const handlePowerDown = () => {
+		let powerDownAction = powerDown;
+		if ($tabletPowerNavigation != undefined && $tabletPowerNavigation.href != undefined) {
+			if (typeof $tabletPowerNavigation.href === 'string') {
+				powerDownAction = $tabletPowerNavigation.href;
+			} else if (typeof $tabletPowerNavigation.href === 'function') {
+				powerDownAction = $tabletPowerNavigation.href;
+			}
+		}
+
 		console.log('powerdown');
 
-		if (powerDown != undefined && typeof powerDown === 'string') {
-			goto(powerDown);
-		} else if (powerDown != undefined && typeof powerDown === 'function') {
-			powerDown();
+		if (powerDownAction != undefined && typeof powerDownAction === 'string') {
+			goto(powerDownAction);
+		} else if (powerDown != undefined && typeof powerDownAction === 'function') {
+			powerDownAction();
 		} else {
 			console.warn('Navigation not permitted at this time!');
 		}

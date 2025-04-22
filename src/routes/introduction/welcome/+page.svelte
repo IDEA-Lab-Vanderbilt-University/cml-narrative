@@ -15,7 +15,8 @@
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
-	import { studentProgressStore } from '$lib/utils/stores/store.js';
+	import { studentProgressStore, tabletPowerNavigation } from '$lib/utils/stores/store.js';
+	import { onMount } from 'svelte';
 
 	export let data;
 
@@ -59,6 +60,11 @@
 			goto(target);
 		}
 	};
+
+	onMount(() => {
+		// Clear the tablet power navigation in case confirmation page didn't reset it, prevents softlock
+		tabletPowerNavigation.set({href: undefined});
+	});
 </script>
 
 <svelte:window/>
