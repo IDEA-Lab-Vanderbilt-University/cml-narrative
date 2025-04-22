@@ -135,32 +135,21 @@
 
 		{#if line.id == 16}
 			<ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)}>
-					<div class="border-white border-2 p-2 w-11/12">
-						<p class="text-xl">
-							Congratulations on completing the third part of your mission!
-						</p>
+					<div class="border-white border-2 p-2 w-10/12">
+						<p class="text-2xl">
+							Great job finishing Part 3 of your mission! Thanks to your Bot Buddy and Travel Log, we learned something important:
+<ul class="text-2xl">
+    <li>Technology creators build training datasets. Biased training datasets can include too much or too little information about certain groups—like kids or people who’ve been left out in the past.</li>
+    <li>When that happens, some people might not be able to use certain technologies. That can make things harder for them.</li>
+    <li>We can reduce bias by making sure training datasets include more types of people from different groups.</li>
+</ul>
 
-						<p class="text-xl">
-							Recent reports from your Bot Buddy and your Travel Log helped us learn that:
-						</p>
-
-						<p class="text-xl">
-							Technology designers create training datasets.  BIASED TRAINING DATASETS can over or under-represent certain groups of people, like kids or groups that have been historically ignored or left out in the past.
-						</p>
-
-						<p class="text-xl">
-							Biased training datasets can prevent some groups of people from using certain technologies.  This could make life more difficult for them!
-						</p>
-
-						<p class="text-xl">
-							Bias can be reduced when training datasets represent MORE and DIFFERENT groups of people.
-						</p>
-
-						<p class="text-xl">
-							You have earned the Bias Buster Badge! Your megajoules meter is now full and can transport you back home.
-						</p>
-						<p class="text-xl">
-							You have one more mission to complete once you get back to SPOT Mission Control.  We look forward to seeing you and safe travels!
+<p class="text-2xl">
+You’ve earned the Bias Buster Badge! Your megajoules meter is full and ready to bring you home. 
+</p>
+<p class="text-2xl">
+Once you're back at SPOT Mission Control, one last mission awaits. Safe travels—we can’t wait to see you!
+	
 						</p>
 					</div>
 			</ReadMessageModal>
