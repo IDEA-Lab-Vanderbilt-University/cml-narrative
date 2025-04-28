@@ -174,7 +174,10 @@
 		{/if}
 
 		{#if line.id == 36}
-		<button id="elevatorbtn" on:click={() => { goto('/level2?page=37') }}></button>
+		<button id="elevatorbtn" on:click={() => { goto('/level2?page=37') }}>
+			<img src="/img/misc/elevatorbutton.png" alt="Go Up!" />
+			<div id="elevatorbtnglow"></div>
+		</button>
 		{/if}
 
 		{#if line.id == 47}
@@ -405,11 +408,33 @@
 
 	#elevatorbtn {
 		position: absolute;
-		width: 10vw;
-		height: 10vh;
-		left: calc(50% - 10vw);
+		left: calc(50% - 10vh);
 		top: calc(50% + 1vh);
+		height: 8vh;
 		z-index: 100;
+	}
+
+	#elevatorbtn img {
+		width: 100%;
+		height: 100%;
+	}
+
+	#elevatorbtnglow {
+		position: absolute;
+		top: -1vh;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: radial-gradient(circle, rgba(100, 255, 100, 0.8) 0%, rgba(100, 255, 100, 0) 50%);
+		background-size: cover;
+		background-position: center;
+		animation: elevatorbtn 1s linear infinite;
+	}
+
+	@keyframes elevatorbtn {
+		0% { transform: scale(1); }
+		50% { transform: scale(1.2); }
+		100% { transform: scale(1); }
 	}
 
 	@keyframes spin {
