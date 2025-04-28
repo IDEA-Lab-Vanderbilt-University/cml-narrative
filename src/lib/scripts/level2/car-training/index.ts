@@ -138,7 +138,7 @@ const script: Script = {
             dialog: 'Now, let\'s test our face scan algorithm to see if can detect objects that are not human faces. Drag one of the test images onto the scanner to test',
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
-            audio: '/audio/level2/dash/Dash_l2s63.wav',
+            audio: '/audio/level2/dash/Dash - nonhuman test.mp3',
         },
         {
             id: 18,
