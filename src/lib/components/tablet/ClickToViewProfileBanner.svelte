@@ -11,9 +11,28 @@
 			href="#"
 			on:click={handleClick}
 			class="rounded-lg bg-gradient-to-b from-red-400 to-red-600 px-3 text-black shadow-xl"
-			>Profiles</a>
+			id="view-profiles">
+			Profiles
+		</a>
 	</p>
 </div>
 
 <style>
+	#view-profiles {
+		animation: glowpulse 2.5s infinite;
+	}
+
+	@keyframes glowpulse {
+		0% {
+			box-shadow: 0 0 5px #ff0000;
+		}
+
+		50% {
+			box-shadow: 0 0 15px #ff0000;
+		}
+
+		100% {
+			box-shadow: 0 0 5px #ff0000;
+		}
+	}
 </style>
