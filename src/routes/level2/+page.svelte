@@ -410,7 +410,7 @@
 		position: absolute;
 		left: calc(50% - 10vh);
 		top: calc(50% + 1vh);
-		height: 8vh;
+		height: calc(max(8vh, 4vw));
 		z-index: 100;
 	}
 
