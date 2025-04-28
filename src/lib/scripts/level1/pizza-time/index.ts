@@ -9,7 +9,7 @@ const script: Script = {
                 'Welcome to our pizza place! I\'m Chef Bot and I will help you make an algorithm for your pizza!',
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: 'MISSING?',
+            audio: '/audio/level1/chef_bot/Chef Bot - welcome.mp3',
             pos: 'left'
         },
         {
