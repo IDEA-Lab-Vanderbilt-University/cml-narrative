@@ -257,7 +257,7 @@ const script: Script = {
             id: 28,
             speakers: ['Bot Buddy'],
             dialog: 'Agent, tap on my belly screen to access the GPS.',
-            avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
+            avatars: [''],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s28.mp3',
             pos: 'center',

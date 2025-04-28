@@ -124,6 +124,13 @@
 		</div>
 		{/if}
 
+        {#if line.id == 28}
+            <img src="/img/characters/bot-buddy/bot-buddy-transparent-screen.png" id="bbscreen" alt="A map is shown on Bot Buddy's screen." />
+            <button id="bbscreenbtn" on:click={() => handleNavigation(NavigationDirection.forward)}>
+				<img src="/img/misc/map.svg" alt="A map is shown on Bot Buddy's screen." />
+			</button>
+        {/if}
+
 		{#if line.id == 17 || line.id == 20}
 		<div id="carscanner">
 			<img src="/img/misc/scanprompt.png" alt={line.dialog}>
@@ -209,6 +216,28 @@
 		position: absolute;
 		left: calc(50% - 22.5vh);
 		top: calc(50% - 22.5vh);
+	}
+
+	#bbscreen {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		height: 100%;
+		width: auto;
+		object-fit: cover;
+		transform: translateX(-50%);
+		z-index: 2;
+		pointer-events: none;
+	}
+
+	#bbscreenbtn {
+		position: absolute;
+		top: 40%;
+		left: calc(50% - 15vh);
+		height: 30%;
+		width: 30vh;
+		background: none;
+		border: none;
 	}
 
 	#carscanner {
