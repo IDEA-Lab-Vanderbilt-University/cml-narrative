@@ -32,6 +32,40 @@
         let gender = libmoji.genders[libmoji.randInt(libmoji.genders.length)];
         let style = libmoji.styles[libmoji.randInt(libmoji.styles.length)];
         let traits = libmoji.randTraits(libmoji.getTraits(gender[0],style[0]));
+        
+        const bannedSkinTones = [
+            12434877, // Grayscale
+            3776963, // Blue
+            898981, // Cyan
+            7292807, // Purple
+            1271190, // Blue
+            1416510, // Green
+            14363906, // Red
+            12881912, // Purple
+            9545463, // Blue
+        ];
+
+        // If the skin tone is in the banned list, get a new one
+        for(let i = 0; i < traits.length; i++) {
+            if(traits[i][0] === 'skin_tone') {
+                let skinTone = traits[i][1];
+                if(bannedSkinTones.includes(skinTone)) {
+                    
+                    console.log('Banned skin tone:', skinTone);
+                    
+                    // Get a new skin tone from a few allowed options
+                    const options = [
+                        9655597,
+                        16764057,
+                        11897407,
+                        16691590,
+                    ];
+
+                    traits[i][1] = options[libmoji.randInt(options.length)];
+                }
+            }
+        }
+
         let outfit = libmoji.randOutfit(libmoji.getOutfits(libmoji.randBrand(libmoji.getBrands(gender[0]))));
 
         let testUrl = libmoji.buildPreviewUrl(pose,3,gender[1],style[1],0,traits,outfit);
