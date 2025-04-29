@@ -43,6 +43,7 @@
             14363906, // Red
             12881912, // Purple
             9545463, // Blue
+            16240700, // Lemon
         ];
 
         // If the skin tone is in the banned list, get a new one
@@ -80,9 +81,28 @@
             }
 
             if(traits[i][0] === 'beard') {
-                // With some chance, remove the beard
-                if(Math.random() < 0.75) {
-                    traits[i][1] = ''; // Remove beard
+                // Remove the beard
+                traits[i][1] = ''; // Remove beard
+            }
+
+            if(gender[1] == 1){
+                if(traits[i][0] === 'blush_tone') {
+                    // Remove the blush
+                    traits[i][1] = ''; // Remove blush
+                }
+                if(traits[i][0] === 'lipstick_tone') {
+                    // Remove the lipstick
+                    traits[i][1] = ''; // Remove lipstick
+                }
+                if(traits[i][0] === 'eyeshadow_tone') {
+                    // Remove the eyeshadow
+                    traits[i][1] = ''; // Remove eyeshadow
+                }
+                if(traits[i][0] === 'hair_treatment_tone') {
+                    // With some chance, remove the hair treatment
+                    if(Math.random() < 0.75) {
+                        traits[i][1] = ''; // Remove hair treatment
+                    }
                 }
             }
         }
@@ -94,6 +114,10 @@
     };
 
     let options = [0, 1 ,2, 3, 4, 5, 6, 7, 8].map(() => randomMoji());
+
+    const regenOptions = () => {
+        options = [0, 1 ,2, 3, 4, 5, 6, 7, 8].map(() => randomMoji());
+    };
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-5 font-mono" style="transform: translateY(-10%)">
@@ -110,6 +134,13 @@
             {/each}
 		</div>
 	</div>
+    <div class="flex w-full justify-center">
+        <button
+            class="bg-lapiz-blue rounded-md px-7 py-3 text-3xl text-white shadow hover:shadow-lg"
+            on:click={regenOptions}>
+            New Faces
+        </button>
+    </div>
 	<button
 		id="submit-button"
 		class="bg-lapiz-blue rounded-md px-7 py-3 text-3xl text-white shadow hover:shadow-lg"
