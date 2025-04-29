@@ -10,11 +10,10 @@
 	import type { Student } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
 	import { onDestroy, onMount } from 'svelte';
-	import type { PageData } from './$types';
 	import {  studentDataStore, studentProgressStore } from '$lib/utils/stores/store';
 	import ProfilesApp from '$lib/components/tablet/profiles/ProfilesApp.svelte';
 	import { get } from 'svelte/store';
-
+	import AvatarCreator from '$lib/components/sequences/tablet/create-profile/AvatarCreator.svelte';
 
 	const startPage: number = 3;
 	let page: number = startPage;
@@ -22,12 +21,7 @@
 	let isSuccess = false;
 	let showFeedbackModal = false;
 
-	/**
-	 * Base URL for which we will use for navigation within the create-profile sequence
-	 */
-	let baseNavigationURL = '/introduction/onboarding/create-profile?page=';
-
-	const numberOfPageSequences = 6;
+	const numberOfPageSequences = 7;
 
 	let profileData: Student = get(studentDataStore);
 
@@ -110,7 +104,7 @@
 
 	const validateAgentName = () => {
 		if(validateData()) {
-			handleSubmit();
+			page++;
 		} else {
 			alert("Please fill in an Agent Name before moving to the next page")
 		}
@@ -181,6 +175,8 @@
 					<ChooseAnAvatar bind:profileData /> -->
 				{:else if page == 6}
 					<AgentName bind:profileData on:submitClicked={validateAgentName} />
+				{:else if page == 7}
+					<AvatarCreator bind:profileData on:submitClicked={handleSubmit} />
 				{/if}
 			</div>
 			<button
