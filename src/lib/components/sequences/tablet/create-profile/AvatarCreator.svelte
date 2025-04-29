@@ -64,11 +64,31 @@
                     traits[i][1] = options[libmoji.randInt(options.length)];
                 }
             }
+
+            if(traits[i][0] === 'glasses') {
+                // With some chance, remove the glasses
+                if(Math.random() < 0.75) {
+                    traits[i][1] = ''; // Remove glasses
+                }
+            }
+
+            if(traits[i][0] === 'hat') {
+                // With some chance, remove the hat
+                if(Math.random() < 0.75) {
+                    traits[i][1] = ''; // Remove hat
+                }
+            }
+
+            if(traits[i][0] === 'beard') {
+                // With some chance, remove the beard
+                if(Math.random() < 0.75) {
+                    traits[i][1] = ''; // Remove beard
+                }
+            }
         }
 
-        let outfit = libmoji.randOutfit(libmoji.getOutfits(libmoji.randBrand(libmoji.getBrands(gender[0]))));
 
-        let testUrl = libmoji.buildPreviewUrl(pose,3,gender[1],style[1],0,traits,outfit);
+        let testUrl = libmoji.buildPreviewUrl(pose,3,gender[1],style[1],0,traits,[]);
 
         return testUrl;
     };
