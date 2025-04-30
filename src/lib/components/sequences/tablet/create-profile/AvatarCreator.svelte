@@ -146,10 +146,9 @@
         return testUrl;
     };
 
-    let options = [0, 1 ,2, 3, 4, 5, 6, 7, 8].map(() => randomMoji());
-
+    let options = [0, 1 ,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(() => randomMoji());
     const regenOptions = () => {
-        options = [0, 1 ,2, 3, 4, 5, 6, 7, 8].map(() => randomMoji());
+        options = [0, 1 ,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(() => randomMoji());
     };
 </script>
 
@@ -158,7 +157,7 @@
 	<div class="flex w-full justify-center space-x-7">
 		<div class="moji-container">
 			{#each options as moji}
-                <button class="moji h-32 w-32 rounded-full border-4 shadow-lg hover:cursor-pointer hover:shadow-xl {
+                <button class="moji rounded-full border-4 shadow-lg hover:cursor-pointer hover:shadow-xl {
                     profileData.avatar == moji ? 'border-4 border-lapiz-blue bg-white' : 'border-gray-500 bg-transparent'
                 }"
                  on:click={() => { profileData.avatar = moji; }} 
@@ -169,19 +168,19 @@
 	</div>
     <div class="flex w-full justify-center">
         <button
-            class="bg-lapiz-blue rounded-md px-7 py-3 text-3xl text-white shadow hover:shadow-lg"
+            class="bg-lapiz-blue rounded-md px-3 py-3 text-2xl text-white shadow hover:shadow-lg"
             on:click={regenOptions}>
             New Faces
         </button>
     </div>
 	<button
 		id="submit-button"
-		class="bg-lapiz-blue rounded-md px-7 py-3 text-3xl text-white shadow hover:shadow-lg"
+		class="bg-lapiz-blue rounded-md px-7 py-3 text-2xl text-white shadow hover:shadow-lg"
         disabled={!profileData.avatar}
 		on:click={handleSubmit}>
 		SUBMIT
 	</button>
-	<div class="hud-red-blue-border text-white">
+	<div class="hud-red-blue-border text-white" id="bottom-text">
 		S.P.O.T agents pick a profile picture that represents them. What picture would you like to use?
 	</div>
 </div>
@@ -191,7 +190,9 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 1rem;
+        gap: 1vh;
+        flex-wrap: wrap;
+        width: 90vw;
     }
 
     .moji {
@@ -199,6 +200,8 @@
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
+        width:  calc(min(10vh, 10vw));
+        height: calc(min(10vh, 10vw));
     }
 
     .moji:hover {
@@ -211,5 +214,20 @@
     #submit-button:disabled {
         background-color: gray;
         cursor: not-allowed;
+    }
+
+    #bottom-text {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1rem;
+        text-align: center;
+        font-size: 2vh;
+        z-index: 1;
+    }
+
+    button {
+        z-index: 2;
     }
 </style>
