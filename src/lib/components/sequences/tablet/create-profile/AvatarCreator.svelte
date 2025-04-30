@@ -35,6 +35,7 @@
         
         const bannedSkinTones = [
             12434877, // Grayscale
+            13151395, // Grayscale
             3776963, // Blue
             898981, // Cyan
             7292807, // Purple
@@ -75,16 +76,48 @@
 
             if(traits[i][0] === 'hat') {
                 // With some chance, remove the hat
-                if(Math.random() < 0.75) {
+                if(Math.random() < 0.9) {
                     traits[i][1] = ''; // Remove hat
                 }
             }
 
+            // Remove the beard
             if(traits[i][0] === 'beard') {
-                // Remove the beard
                 traits[i][1] = ''; // Remove beard
             }
 
+            // Remove the face lines
+            if(traits[i][0] === 'face_lines') {
+                traits[i][1] = ''; // Remove face lines
+            }
+
+            // Remove hair treatment
+            if(traits[i][0] === 'hair_treatment_tone'){
+                // With some chance, remove it
+                if(Math.random() < 0.5) {
+                    traits[i][1] = ''; // Remove hair treatment
+                }
+            }
+
+            // Remove hair if the avatar is balding (technically possible for a child but comes up too often)
+            if(traits[i][0] === 'hair') {
+                const bannedHairStyles = [
+                    1725, // Balding
+                ];
+                
+                if(bannedHairStyles.includes(traits[i][1])) {
+                    console.log('Banned hair style:', traits[i][1]);
+                    // Get a new hair style from a few allowed options
+                    const options = [
+                        1318,
+                        1336,
+                        1697
+                    ];
+                    traits[i][1] = options[libmoji.randInt(options.length)];
+                }
+            }
+
+            // Remove the blush, lipstick, etc on male avatars to try to make them look more masculine
             if(gender[1] == 1){
                 if(traits[i][0] === 'blush_tone') {
                     // Remove the blush
