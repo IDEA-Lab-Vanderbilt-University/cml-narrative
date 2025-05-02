@@ -68,17 +68,13 @@
             }
 
             if(traits[i][0] === 'glasses') {
-                // With some chance, remove the glasses
-                if(Math.random() < 0.75) {
-                    traits[i][1] = ''; // Remove glasses
-                }
+                const agentGlasses = [2437, 2460, 2452];
+                const randomGlasses = agentGlasses[libmoji.randInt(agentGlasses.length)];
+                traits[i][1] = randomGlasses; // Set the glasses to one of the agent's glasses
             }
 
             if(traits[i][0] === 'hat') {
-                // With some chance, remove the hat
-                if(Math.random() < 0.9) {
-                    traits[i][1] = ''; // Remove hat
-                }
+                traits[i][1] = ''; // Remove hat
             }
 
             // Remove the beard
@@ -117,27 +113,26 @@
                 }
             }
 
-            // Remove the blush, lipstick, etc on male avatars to try to make them look more masculine
-            if(gender[1] == 1){
-                if(traits[i][0] === 'blush_tone') {
-                    // Remove the blush
-                    traits[i][1] = ''; // Remove blush
-                }
-                if(traits[i][0] === 'lipstick_tone') {
-                    // Remove the lipstick
-                    traits[i][1] = ''; // Remove lipstick
-                }
-                if(traits[i][0] === 'eyeshadow_tone') {
-                    // Remove the eyeshadow
-                    traits[i][1] = ''; // Remove eyeshadow
-                }
-                if(traits[i][0] === 'hair_treatment_tone') {
-                    // With some chance, remove the hair treatment
-                    if(Math.random() < 0.75) {
-                        traits[i][1] = ''; // Remove hair treatment
-                    }
+            if(traits[i][0] === 'blush_tone') {
+                // Remove the blush
+                traits[i][1] = ''; // Remove blush
+            }
+            if(traits[i][0] === 'lipstick_tone') {
+                // Remove the lipstick
+                traits[i][1] = ''; // Remove lipstick
+            }
+            if(traits[i][0] === 'eyeshadow_tone') {
+                // Remove the eyeshadow
+                traits[i][1] = ''; // Remove eyeshadow
+            }
+            if(traits[i][0] === 'hair_treatment_tone') {
+                // With some chance, remove the hair treatment
+                if(Math.random() < 0.75) {
+                    traits[i][1] = ''; // Remove hair treatment
                 }
             }
+            
+
         }
 
 
