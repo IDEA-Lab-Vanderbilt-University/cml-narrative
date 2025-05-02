@@ -24,7 +24,14 @@
 		dispatch('submitClicked');
 	};
     
+    const skinTones = [
+        9655597,
+        11897407,
+        16764057,
+        16691590,
+    ];
 
+    let selectedSkinTone = skinTones[0];
 
     // Test the library
     const randomMoji = () => {
@@ -50,7 +57,7 @@
         // If the skin tone is in the banned list, get a new one
         for(let i = 0; i < traits.length; i++) {
             if(traits[i][0] === 'skin_tone') {
-                let skinTone = traits[i][1];
+                let skinTone = selectedSkinTone || traits[i][1];
                 if(bannedSkinTones.includes(skinTone)) {
                     
                     console.log('Banned skin tone:', skinTone);
@@ -63,8 +70,9 @@
                         16691590,
                     ];
 
-                    traits[i][1] = options[libmoji.randInt(options.length)];
+                    skinTone = options[libmoji.randInt(options.length)];
                 }
+                traits[i][1] = skinTone; // Set the skin tone to one of the allowed options
             }
 
             if(traits[i][0] === 'glasses') {
@@ -131,6 +139,10 @@
                     traits[i][1] = ''; // Remove hair treatment
                 }
             }
+            if(traits[i][0] === 'brow_tone') {
+                // Remove the eyebrow color
+                traits[i][1] = ''; // Remove eyebrow color
+            }
             
 
         }
@@ -141,9 +153,9 @@
         return testUrl;
     };
 
-    let options = [0, 1 ,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(() => randomMoji());
+    let options = [0, 1 ,2, 3, 4, 5, 6, 7, 8].map(() => randomMoji());
     const regenOptions = () => {
-        options = [0, 1 ,2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15].map(() => randomMoji());
+        options = [0, 1 ,2, 3, 4, 5, 6, 7, 8].map(() => randomMoji());
     };
 </script>
 
