@@ -1,4 +1,5 @@
 import * as tf from '@tensorflow/tfjs';
+import { applyRotation, applyFlip, applyAdjust } from './TraininatorImageUtils';
 
 let mobilenet: tf.LayersModel | Promise<tf.LayersModel | undefined> | null = null;
 const MOBILE_NET_INPUT_HEIGHT = 224;
@@ -6,7 +7,7 @@ const MOBILE_NET_INPUT_WIDTH = 224;
 let mobileNetOutputDims = 1280;
 
 export type Booster = 'none' | 'rotate' | 'flip' | 'adjust';
-    
+
 /**
  * Loads the MobileNet model and warms it up so ready for use.
  **/
@@ -144,55 +145,6 @@ export function hslToRgb(h: number, s: number, l: number) {
     }
 
     return [r * 255, g * 255, b * 255];
-}
-
-function applyRotation(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, image: HTMLImageElement) {
-    const angleMax = 25; // Maximum rotation angle in degrees
-
-    // Random rotation angle between -angleMax and +angleMax
-    const angle = ((Math.random() + 0.25) * 1.8 * angleMax) - angleMax;
-
-    // Scale depends on the angle: the more the angle, the smaller the scale range
-    const scaleBase = 1.1; // Base scale to ensure it overflows slightly
-    const scaleFactor = Math.max(1.65, Math.abs(angle) / angleMax * 2.5); // Adjust scale based on angle
-    const scale = scaleBase + Math.random() * (scaleFactor - scaleBase);
-
-    // Rotate the image
-    ctx.translate(canvas.width / 2, canvas.height / 2);
-    ctx.rotate(angle * Math.PI / 180);
-    ctx.scale(scale, scale);
-    ctx.drawImage(image, -canvas.width / 2, -canvas.height / 2);
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-}
-
-function applyFlip(data: Uint8ClampedArray, newImageData: ImageData, canvas: HTMLCanvasElement) {
-    for (let i = 0; i < data.length; i += 4) {
-        const x = i / 4 % canvas.width;
-        const y = Math.floor(i / 4 / canvas.width);
-
-        const flippedX = canvas.width - x - 1;
-        const index = (flippedX + y * canvas.width) * 4;
-
-        newImageData.data[index] = data[i];
-        newImageData.data[index + 1] = data[i + 1];
-        newImageData.data[index + 2] = data[i + 2];
-        newImageData.data[index + 3] = data[i + 3];
-    }
-}
-
-function applyAdjust(data: Uint8ClampedArray, newImageData: ImageData) {
-    const hue = Math.round((Math.random() * 20 + 10) * Math.sign(Math.random() - 0.5));
-    const saturation = Math.round(Math.random() * 2 + 1);
-
-    for (let i = 0; i < data.length; i += 4) {
-        const hsl = rgbToHsl(data[i], data[i + 1], data[i + 2]);
-        const rgb = hslToRgb(hsl[0] + hue, hsl[1] * saturation, hsl[2]);
-
-        newImageData.data[i] = rgb[0];
-        newImageData.data[i + 1] = rgb[1];
-        newImageData.data[i + 2] = rgb[2];
-        newImageData.data[i + 3] = data[i + 3];
-    }
 }
 
 const createBoostedImage = (img: string, label: number, booster: Booster) => new Promise<tf.Tensor>((resolve) => {
