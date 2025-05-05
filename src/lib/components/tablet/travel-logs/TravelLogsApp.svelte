@@ -118,5 +118,6 @@
 		max-width: 70%;
 		max-height: 60%;
 		object-fit: cover;
+		background-color: white;
 	}
 </style>
