@@ -146,6 +146,105 @@ export function hslToRgb(h: number, s: number, l: number) {
     return [r * 255, g * 255, b * 255];
 }
 
+function applyRotation(ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement, image: HTMLImageElement) {
+    const angleMax = 25; // Maximum rotation angle in degrees
+
+    // Random rotation angle between -angleMax and +angleMax
+    const angle = ((Math.random() + 0.25) * 1.8 * angleMax) - angleMax;
+
+    // Scale depends on the angle: the more the angle, the smaller the scale range
+    const scaleBase = 1.1; // Base scale to ensure it overflows slightly
+    const scaleFactor = Math.max(1.65, Math.abs(angle) / angleMax * 2.5); // Adjust scale based on angle
+    const scale = scaleBase + Math.random() * (scaleFactor - scaleBase);
+
+    // Rotate the image
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(angle * Math.PI / 180);
+    ctx.scale(scale, scale);
+    ctx.drawImage(image, -canvas.width / 2, -canvas.height / 2);
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+}
+
+function applyFlip(data: Uint8ClampedArray, newImageData: ImageData, canvas: HTMLCanvasElement) {
+    for (let i = 0; i < data.length; i += 4) {
+        const x = i / 4 % canvas.width;
+        const y = Math.floor(i / 4 / canvas.width);
+
+        const flippedX = canvas.width - x - 1;
+        const index = (flippedX + y * canvas.width) * 4;
+
+        newImageData.data[index] = data[i];
+        newImageData.data[index + 1] = data[i + 1];
+        newImageData.data[index + 2] = data[i + 2];
+        newImageData.data[index + 3] = data[i + 3];
+    }
+}
+
+function applyAdjust(data: Uint8ClampedArray, newImageData: ImageData) {
+    const hue = Math.round((Math.random() * 20 + 10) * Math.sign(Math.random() - 0.5));
+    const saturation = Math.round(Math.random() * 2 + 1);
+
+    for (let i = 0; i < data.length; i += 4) {
+        const hsl = rgbToHsl(data[i], data[i + 1], data[i + 2]);
+        const rgb = hslToRgb(hsl[0] + hue, hsl[1] * saturation, hsl[2]);
+
+        newImageData.data[i] = rgb[0];
+        newImageData.data[i + 1] = rgb[1];
+        newImageData.data[i + 2] = rgb[2];
+        newImageData.data[i + 3] = data[i + 3];
+    }
+}
+
+const createBoostedImage = (img: string, label: number, booster: Booster) => new Promise<tf.Tensor>((resolve) => {
+    const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+        console.error('Canvas context not available');
+        return;
+    }
+
+    const image = new Image();
+    image.src = img;
+    image.onload = () => {
+        // Set the canvas size to the image size
+        canvas.width = image.width;
+        canvas.height = image.height;
+
+        // Draw the image on the canvas
+        ctx.drawImage(image, 0, 0);
+
+        // Get the image data
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const data = imageData.data;
+
+        // Create a new image data object
+        const newImageData = ctx.createImageData(imageData);
+
+        // Apply the booster
+        switch (booster) {
+            case 'rotate':
+                applyRotation(ctx, canvas, image);
+                break;
+            case 'flip':
+                applyFlip(data, newImageData, canvas);
+                break;
+            case 'adjust':
+                applyAdjust(data, newImageData);
+                break;
+            default:
+                break;
+        }
+
+        // Update the canvas with the new image data
+        ctx.putImageData(newImageData, 0, 0);
+
+        // Convert the canvas to a tensor
+        const tensor = tf.browser.fromPixels(canvas).resizeBilinear([MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH]).toFloat().div(255);
+        resolve(tensor);
+    };
+});
+
 export 
 async function trainModel(trainingSets: string[][], booster: Booster, onProgress: (progress: number) => void, onStep: (step: string) => void, epochs: number = 7) {
 
@@ -188,11 +287,6 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
                 const tensor = tf.browser.fromPixels(image).resizeBilinear([MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH]).toFloat().div(255);
                 trainingData.push(tensor);
                 trainingLabels.push(label);
-
-                // Update the training progress
-                trainingProgress += 5 / (trainingSetImgsCount + (booster != 'none' ? trainingSetImgsCount : 0));
-                onProgress(trainingProgress);
-
                 resolve();
             }
         });
@@ -211,112 +305,35 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
     }
 
     await loadAllImages();
+
+    onProgress(5);
+    onStep('Training data loaded!');
     
     if (booster != 'none'){
         onStep('Model Booster!');
 
-        const createBoostedImage = (img: string, label: number) => new Promise<void>((resolve) =>{
-            const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-            const ctx = canvas.getContext('2d');
+        const boostPromises: Promise<tf.Tensor>[] = [];
+        const boostLabels: number[] = [];
 
-            if (!ctx) {
-                console.error('Canvas context not available');
-                return;
-            }
-
-            const image = new Image();
-            image.src = img;
-            image.onload = () => {
-                // Set the canvas size to the image size
-                canvas.width = image.width;
-                canvas.height = image.height;
-
-                // Draw the image on the canvas
-                ctx.drawImage(image, 0, 0);
-
-                // Get the image data
-                const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                const data = imageData.data;
-                
-                // Create a new image data object
-                const newImageData = ctx.createImageData(imageData);
-
-                // Apply the booster
-                switch(booster) {
-                    case 'rotate':
-                        const angleMax = 25; // Maximum rotation angle in degrees
-
-                        // Random rotation angle between -angleMax and +angleMax
-                        const angle = ((Math.random() + 0.25) * 1.8 * angleMax) - angleMax;
-
-                        // Scale depends on the angle: the more the angle, the smaller the scale range
-                        const scaleBase = 1.1; // Base scale to ensure it overflows slightly
-                        const scaleFactor = Math.max(1.65, Math.abs(angle) / angleMax * 2.5); // Adjust scale based on angle
-                        const scale = scaleBase + Math.random() * (scaleFactor - scaleBase);
-
-                        // Rotate the image
-                        ctx.translate(canvas.width / 2, canvas.height / 2);
-                        ctx.rotate(angle * Math.PI / 180);
-                        ctx.scale(scale, scale);
-                        ctx.drawImage(image, -canvas.width / 2, -canvas.height / 2);
-                        ctx.setTransform(1, 0, 0, 1, 0, 0);
-
-                        break;
-                    case 'flip':
-                        // Flip the image horizontally
-                        for (let i = 0; i < data.length; i += 4) {
-                            const x = i / 4 % canvas.width;
-                            const y = Math.floor(i / 4 / canvas.width);
-
-                            const flippedX = canvas.width - x - 1;
-                            const index = (flippedX + y * canvas.width) * 4;
-
-                            newImageData.data[index] = data[i];
-                            newImageData.data[index + 1] = data[i + 1];
-                            newImageData.data[index + 2] = data[i + 2];
-                            newImageData.data[index + 3] = data[i + 3];
-                        }
-
-                        break;
-                    case 'adjust':
-                        // Adjust the hue and saturation
-                        const hue = Math.round((Math.random() * 20 + 10) * Math.sign(Math.random() - 0.5));
-                        const saturation = Math.round(Math.random() * 2 + 1);
-
-                        for (let i = 0; i < data.length; i += 4) {
-                            const hsl = rgbToHsl(data[i], data[i + 1], data[i + 2]);
-                            const rgb = hslToRgb(hsl[0] + hue, hsl[1] * saturation, hsl[2]);
-
-                            newImageData.data[i] = rgb[0];
-                            newImageData.data[i + 1] = rgb[1];
-                            newImageData.data[i + 2] = rgb[2];
-                            newImageData.data[i + 3] = data[i + 3];
-                        }
-                    default:
-                        break;
-                }
-
-                // Update the canvas with the new image data
-                ctx.putImageData(newImageData, 0, 0);
-                
-                // Convert the canvas to a tensor
-                const tensor = tf.browser.fromPixels(canvas).resizeBilinear([MOBILE_NET_INPUT_HEIGHT, MOBILE_NET_INPUT_WIDTH]).toFloat().div(255);
-                trainingData.push(tensor);
-                trainingLabels.push(label);
-
-                // Update the training progress
-                trainingProgress += 5 / trainingSetImgsCount;
-                onProgress(trainingProgress);
-
-                resolve();
-            }
-        });
-
-        for(const set of trainingSets) {
-            for(const img of set) {
-                await createBoostedImage(img, trainingSets.indexOf(set));
+        // Create promises for all boosted images
+        for (const set of trainingSets) {
+            const label = trainingSets.indexOf(set);
+            for (const img of set) {
+                const boostPromise = createBoostedImage(img, label, booster);
+                boostPromises.push(boostPromise);
+                boostLabels.push(label);
             }
         }
+
+        // Wait for all image boosting promises to resolve concurrently
+        const boostedTensors = await Promise.all(boostPromises);
+
+        // Add the generated tensors and labels to the main arrays
+        trainingData.push(...boostedTensors);
+        trainingLabels.push(...boostLabels);
+
+        // Ensure progress is accurately set after completion
+        onProgress(10);
     }
 
     console.log('Training data loaded: ', trainingData);
@@ -346,6 +363,7 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
         const img = trainingData[i];
         const expanded = img.expandDims(0);
         const feature = mobilenet.predict(expanded);
+        expanded.dispose();
 
         if(feature instanceof tf.Tensor) {
             features.push(feature);
@@ -371,20 +389,29 @@ async function trainModel(trainingSets: string[][], booster: Booster, onProgress
         epochs,
         callbacks: {
             onEpochEnd: async (epoch: number, logs: any) => {
-                onProgress(Math.round((epoch + 1) / 10 * 90) + 10);
+                onProgress(Math.round((epoch + 1) / epochs * 90) + 10);
                 console.log('Epoch: ', epoch, ' Loss: ', logs.loss, ' Accuracy: ', logs.acc);
-
-                if (epoch === epochs - 1) {
-                    onProgress(100);
-                    onStep('Training Complete!');
-                }
             }
         }
     });
 
+    onProgress(100);
+    onStep('Model trained!');
+
+    // Dispose of the tensors to free up memory
+    xs.dispose();
+    ys.dispose();
+    for (const feature of features) {
+        feature.dispose();
+    }
+    for (const img of trainingData) {
+        img.dispose();
+    }
+
     console.log(model.summary());
     return model;
 }
+
 /**
  * Predicts the labels for the test set so we can evaluate the model.
  **/
@@ -471,11 +498,20 @@ export async function testModel(model: tf.Sequential, testSetImgs: string[], onP
     for(let i = 0; i < features.length; i++) {
         const feature = features[i];
         const prediction = model.predict(feature) as tf.Tensor;
-        const predictionData = prediction.dataSync();
+        const predictionData = await prediction.data();
         const predictedLabel = predictionData.indexOf(Math.max(...predictionData));
         console.log('Predicted label: ', predictedLabel, ' Prediction: ', predictionData);
         predictions.push(predictedLabel);
         onProgress(Math.round((i + 1) / features.length * 90) + 10);
+    }
+
+    // Dispose of the tensors to free up memory
+    for (const feature of features) {
+        feature.dispose();
+    }
+
+    for (const tensor of testData) {
+        tensor.dispose();
     }
 
     console.log('Predictions: ', predictions);
