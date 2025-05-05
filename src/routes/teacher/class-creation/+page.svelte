@@ -175,7 +175,18 @@
 					class="input input-bordered w-1/6"
 					bind:value={newStudent.age} 
 					min="1"
-					max="100" />
+					max="100" 
+					on:keypress={
+						(e) => {
+							// Allow only numbers and control keys (also prevent spaces)
+							if (e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
+								if (isNaN(Number(e.key)) || e.key === ' ') {
+									// Prevent default action if the key is not a number
+									e.preventDefault();
+								}
+							}
+						}
+					} />
 				<div class="ml-auto">
 					<button class="btn btn-primary" on:click={addStudentManually}>Add student</button>
 				</div>
