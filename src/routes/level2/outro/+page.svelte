@@ -72,7 +72,9 @@
 				return data;
 			});
 		}
-
+	}
+	
+	$: {
 		if(lineNumber == 9) {
 			studentProgressStore.update((data) => {
 				data.megajoules = 20;
