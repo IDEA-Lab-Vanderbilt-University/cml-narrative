@@ -67,6 +67,8 @@
 	let trainingSets: string[][] = [];
 	let testSets: string[] = [];
 
+    let toLabel: Record<number, string>[] = [];
+    let relabling = false;
 	let trainingProgress = 0;
 	let trainingStep = 'Loading Training Data...';
 	let isTraining = false;
@@ -87,9 +89,15 @@
 	let testLabels: number[] = [];
 
 	const nextTestImage = (choice: number) => {
-		testLabels.push(choice);
-		activeTestImg++;
-		if (activeTestImg >= testSets.length) {
+		if (!relabling) {
+			testLabels.push(choice);
+			activeTestImg++;
+			if (activeTestImg >= testSets.length) {
+				step = 9;
+			}
+		} else {
+			testLabels[activeTestImg] = choice;
+			relabling = false;
 			step = 9;
 		}
 	};
@@ -244,13 +252,42 @@
             modelName = prefillModelName;
             step = 2;
         }
+	}
 
+	$: {
         if (prefillClassNames.length > 0 && classes.length === 0) {
             classes = prefillClassNames;
             trainingSets = Array(classes.length).fill([]);
         }
-
     }
+
+	
+    const restartTraining = () => {
+        if(model) {
+            model.dispose();
+			model = undefined;
+        }
+
+        step = 4;
+
+        showAddDialog = false;
+        trainingProgress = 0;
+        trainingStep = 'Loading Training Data...';
+        isTraining = false;
+        booster = 'none';
+        
+        testingProgress = 0;
+        testingStep = 'Loading Testing Data...';
+        isTesting = false;
+
+        toLabel = [];
+        predictions = [];
+        activeTestImg = 0;
+        testLabels = [];
+        relabling = false;
+    }
+
+
 </script>
 
 <!-- <Tablet showMeter={false}> -->
@@ -349,7 +386,8 @@
 					}}
 					onRemove={(j) => {
 						testSets = testSets.filter((_, k) => k !== j);
-					}} />
+					}} 
+				/>
 			</div>
 		</div>
 	</div>
@@ -389,7 +427,7 @@
 			<button
 				id="trainButton"
 				on:click={() => {
-					step = 4;
+					restartTraining();
 				}}>Re-train Model</button>
 		</div>
 		<div id="right">
@@ -405,17 +443,26 @@
 						)}
 						labelClassess={testLabels.map((label, i) =>
 							label === predictions[i] ? 'correct' : 'incorrect'
-						)} />
+						)} 
+						allowRelabel={true}
+						allowAdd={false}
+						allowRemove={false}
+						onRelabel={(i) => { activeTestImg = i; relabling = true; step = 8; }}
+					/>
 				</div>
 			</div>
-			<button id="trainButton" on:click={uploadModel}>I'm done!</button>
+			{#if testAccuracy >= targetAccuracy}
+				<button id="trainButton" on:click={uploadModel}>I'm done!</button>
+			{/if}
 		</div>
 	</div>
 {/if}
 
 {#if showAddDialog}
-	<div id="addDialog" on:click={() => (showAddDialog = false)}>
-		<div id="addDialogInner" on:click={(e) => e.stopPropagation()}>
+	<!-- svelte-ignore a11y-click-events-have-key-events -->
+	<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+	<div id="addDialog" on:click={() => (showAddDialog = false)} role="dialog">
+		<div id="addDialogInner" on:click={(e) => e.stopPropagation()} role="dialog">
 			<div class="header">
 				Add Images for {selectedClassIndex != -1 ? classes[selectedClassIndex] : 'testing'}
 			</div>
@@ -427,12 +474,16 @@
 						const reader = new FileReader();
 						reader.onload = (e) => {
 							if (selectedClassIndex === -1) {
-								testSets = [...testSets, e.target.result];
+								if (e.target && e.target.result) {
+									testSets = [...testSets, e.target.result];
+								}
 							} else {
-								trainingSets[selectedClassIndex] = [
-									...trainingSets[selectedClassIndex],
-									e.target.result
-								];
+								if (e.target && e.target.result) {
+									trainingSets[selectedClassIndex] = [
+										...trainingSets[selectedClassIndex],
+										e.target.result
+									];
+								}
 							}
 						};
 						reader.readAsDataURL(file);

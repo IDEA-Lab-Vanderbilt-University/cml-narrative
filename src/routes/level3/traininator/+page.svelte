@@ -102,10 +102,10 @@
     let isTesting = false;
 
     let toLabel: Record<number, string>[] = [];
+    let relabling = false;
     let predictions: number[] = [];
     let activeTestImg = 0;
     let testLabels: number[] = [];
-    let relabling = false;
 
     const nextTestImage = (choice: number) => {
         if (!relabling) {
