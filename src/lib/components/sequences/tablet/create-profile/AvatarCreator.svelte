@@ -25,54 +25,53 @@
 	};
     
     const skinTones = [
-        9655597,
-        11897407,
-        16764057,
+        15257000,
         16691590,
+        12684916,
+        9657655,
+        6963494
     ];
 
-    let selectedSkinTone = skinTones[0];
+    const hairColors = [
+        15714429,
+        5587258,
+        8672042,
+        13666386,
+        2039326
+    ];
+
+    const hairStyles = [
+        1301,
+        1303,
+        1307,
+        1315,
+        1709,
+        1705,
+        1696,
+        1685,
+        1682,
+        1335,
+        1337,
+        1692
+    ];
+
+    // Selected options to filter, if null, all options are available
+    let selectedSkinTone: number | null = null;
+    let selectedHairColor: number | null = null;
+    let selectedHairStyle: number | null = null;
 
     // Test the library
-    const randomMoji = () => {
+    const randomMoji = ({ hairStyle }: { hairStyle?: number }) => {
         let pose = libmoji.poses[1];
         let gender = libmoji.genders[libmoji.randInt(libmoji.genders.length)];
         let style = libmoji.styles[libmoji.randInt(libmoji.styles.length)];
         let traits = libmoji.randTraits(libmoji.getTraits(gender[0],style[0]));
-        
-        const bannedSkinTones = [
-            12434877, // Grayscale
-            13151395, // Grayscale
-            3776963, // Blue
-            898981, // Cyan
-            7292807, // Purple
-            1271190, // Blue
-            1416510, // Green
-            14363906, // Red
-            12881912, // Purple
-            9545463, // Blue
-            16240700, // Lemon
-        ];
 
-        // If the skin tone is in the banned list, get a new one
+        // Filter the traits based on selected options
         for(let i = 0; i < traits.length; i++) {
             if(traits[i][0] === 'skin_tone') {
-                let skinTone = selectedSkinTone || traits[i][1];
-                if(bannedSkinTones.includes(skinTone)) {
-                    
-                    console.log('Banned skin tone:', skinTone);
-                    
-                    // Get a new skin tone from a few allowed options
-                    const options = [
-                        9655597,
-                        16764057,
-                        11897407,
-                        16691590,
-                    ];
-
-                    skinTone = options[libmoji.randInt(options.length)];
-                }
-                traits[i][1] = skinTone; // Set the skin tone to one of the allowed options
+                // Set the skin tone to one of the allowed options
+                traits[i][1] = selectedSkinTone !== null ? selectedSkinTone : skinTones[libmoji.randInt(skinTones.length)];
             }
 
             if(traits[i][0] === 'glasses') {
@@ -103,24 +102,13 @@
                 }
             }
 
-            // Remove hair if the avatar is balding (technically possible for a child but comes up too often)
             if(traits[i][0] === 'hair') {
-                const bannedHairStyles = [
-                    1725, // Balding
-                ];
-                
-                if(bannedHairStyles.includes(traits[i][1])) {
-                    console.log('Banned hair style:', traits[i][1]);
-                    // Get a new hair style from a few allowed options
-                    const options = [
-                        1318,
-                        1336,
-                        1697
-                    ];
-                    traits[i][1] = options[libmoji.randInt(options.length)];
-                }
+                // Get hair from list
+                const randomHair = hairStyle ?? hairStyles[libmoji.randInt(hairStyles.length)];
+                traits[i][1] = selectedHairStyle ?? randomHair; // Set the hair to one of the agent's hair
             }
 
+            // Makeup remover
             if(traits[i][0] === 'blush_tone') {
                 // Remove the blush
                 traits[i][1] = ''; // Remove blush
@@ -133,37 +121,40 @@
                 // Remove the eyeshadow
                 traits[i][1] = ''; // Remove eyeshadow
             }
+            
             if(traits[i][0] === 'hair_treatment_tone') {
-                // With some chance, remove the hair treatment
-                if(Math.random() < 0.75) {
-                    traits[i][1] = ''; // Remove hair treatment
-                }
+                traits[i][1] = ''; // Remove hair treatment
             }
+
             if(traits[i][0] === 'brow_tone') {
                 // Remove the eyebrow color
                 traits[i][1] = ''; // Remove eyebrow color
             }
             
+            if(traits[i][0] === 'hair_tone') {
+                // Set the hair color to one of the allowed options
+                traits[i][1] = selectedHairColor ?? hairColors[libmoji.randInt(hairColors.length)];
+            }
 
         }
 
 
-        let testUrl = libmoji.buildPreviewUrl(pose,3,gender[1],style[1],0,traits,[]);
+        let testUrl = libmoji.buildPreviewUrl("head",3,gender[1],style[1],0,traits,[]);
 
         return testUrl;
     };
 
-    let options = [0, 1 ,2, 3, 4, 5, 6, 7, 8].map(() => randomMoji());
+    let options = hairStyles.map((i) => randomMoji({hairStyle: i}));
     const regenOptions = () => {
-        options = [0, 1 ,2, 3, 4, 5, 6, 7, 8].map(() => randomMoji());
+        options = hairStyles.map((i) => randomMoji({hairStyle: i}));
     };
 </script>
 
-<div class="flex h-full w-full flex-col items-center justify-center space-y-5 font-mono" style="transform: translateY(-10%)">
-	<h1 class="text-white" style="font-size:6vh">Choose your Picture</h1>
-	<div class="flex w-full justify-center space-x-7">
-		<div class="moji-container">
-			{#each options as moji}
+<div class="flex h-full w-full flex-col items-center justify-center space-y-2 font-mono">
+	<h1 class="text-white" style="font-size:4vh">Choose your Picture</h1>
+	<div class="flex w-full justify-center space-x-2">
+		<div class="moji-container moji-cols">
+			{#each options as moji, i}
                 <button class="moji rounded-full border-4 shadow-lg hover:cursor-pointer hover:shadow-xl {
                     profileData.avatar == moji ? 'border-4 border-lapiz-blue bg-white' : 'border-gray-500 bg-transparent'
                 }"
@@ -173,23 +164,51 @@
             {/each}
 		</div>
 	</div>
-    <div class="flex w-full justify-center">
+    <div class="text-center">
+        <h2 class="text-white" style="font-size:3vh">Skin Tone</h2>
+        <div class="flex w-full justify-center space-x-7">
+            <div class="moji-container">
+                {#each skinTones as skinTone}
+                    <button class="moji-small rounded-full border-4 shadow-lg hover:cursor-pointer hover:shadow-xl"
+                        style="background-color: rgba({libmoji.getColorFromCode(skinTone).r}, {libmoji.getColorFromCode(skinTone).g}, {libmoji.getColorFromCode(skinTone).b}, 1);" 
+                        on:click={() => { selectedSkinTone = skinTone; regenOptions(); }}
+                    />
+                {/each}
+            </div>
+        </div>
+    </div>
+    <div class="text-center">
+        <h2 class="text-white" style="font-size:3vh">Hair Color</h2>
+        <div class="flex w-full justify-center space-x-7">
+            <div class="moji-container">
+                {#each hairColors as hairColor}
+                    <button class="moji-small rounded-full border-4 shadow-lg hover:cursor-pointer hover:shadow-xl"
+                        style="background-color: rgba({libmoji.getColorFromCode(hairColor).r}, {libmoji.getColorFromCode(hairColor).g}, {libmoji.getColorFromCode(hairColor).b}, 1);" 
+                        on:click={() => { selectedHairColor = hairColor; regenOptions(); }}
+                    />
+                {/each}
+            </div>
+        </div>
+    </div>
+    <!-- <div class="flex w-full justify-center">
         <button
-            class="bg-lapiz-blue rounded-md px-3 py-3 text-2xl text-white shadow hover:shadow-lg"
+            class="bg-lapiz-blue rounded-md px-2 py-2 text-xl text-white shadow hover:shadow-lg"
             on:click={regenOptions}>
             New Faces
         </button>
+    </div> -->
+    <div>
+        <button
+            id="submit-button"
+            class="bg-lapiz-blue rounded-md px-7 py-3 m-2 text-2xl text-white shadow hover:shadow-lg"
+            disabled={!profileData.avatar}
+            on:click={handleSubmit}>
+            SUBMIT
+        </button>
     </div>
-	<button
-		id="submit-button"
-		class="bg-lapiz-blue rounded-md px-7 py-3 text-2xl text-white shadow hover:shadow-lg"
-        disabled={!profileData.avatar}
-		on:click={handleSubmit}>
-		SUBMIT
-	</button>
-	<div class="hud-red-blue-border text-white" id="bottom-text">
+	<!-- <div class="hud-red-blue-border text-white" id="bottom-text">
 		S.P.O.T agents pick a profile picture that represents them. What picture would you like to use?
-	</div>
+	</div> -->
 </div>
 
 <style>
@@ -197,24 +216,43 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        gap: 1vh;
+        gap: 2vh;
         flex-wrap: wrap;
         width: 90vw;
     }
 
-    .moji {
+    .moji-container.moji-cols {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(15vh, 1fr));
+        grid-auto-rows: minmax(15vh, auto);
+        align-items: center;
+        align-content: center;
+        justify-self: center;
+        justify-items: center;
+        width: 80vw;
+    }
+
+    .moji, .moji-small {
         transition: all 0.2s ease-in-out;
         background-size: contain;
         background-repeat: no-repeat;
         background-position: center;
-        width:  calc(min(10vh, 10vw));
-        height: calc(min(10vh, 10vw));
     }
 
-    .moji:hover {
+    .moji {
+        width:  calc(min(15vh, 15vw));
+        height: calc(min(15vh, 15vw));
+    }
+
+    .moji-small {
+        width: calc(min(5vh, 5vw));
+        height: calc(min(5vh, 5vw));
+    }
+
+    .moji:hover, .moji-small:hover {
         transform: scale(1.1);
     }
-    .moji:active {
+    .moji:active, .moji-small:active {
         transform: scale(0.9);
     }
 
