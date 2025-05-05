@@ -155,7 +155,6 @@
 				trainingProgress = 100;
 				trainingStep = 'Training Complete!';
 
-				isTraining = false;
 
 				if (!mdl) {
 					console.log('Error training model');
@@ -166,7 +165,8 @@
 				model = mdl;
 				setTimeout(() => {
 					step = 6;
-				}, 1000);
+					isTraining = false;
+			}, 1000);
 			});
 		}
 	}
@@ -187,7 +187,6 @@
 					testingStep = step;
 				}
 			).then((preds) => {
-				isTesting = false;
 
 				testingProgress = 100;
 				testingStep = 'Testing Complete!';
@@ -202,7 +201,8 @@
 
 				setTimeout(() => {
 					step = 8;
-				}, 1000);
+					isTesting = false;
+			}, 1000);
 			});
 		}
 	}
