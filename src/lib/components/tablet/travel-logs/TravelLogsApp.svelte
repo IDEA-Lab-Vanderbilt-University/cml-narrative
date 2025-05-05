@@ -56,7 +56,11 @@
     
 	onMount(async () => {
         try {
-            logs = await DataService.TravelLog.getTravelLogs(null, get(accessTokenStore));
+            let allLogs = await DataService.TravelLog.getTravelLogs(null, get(accessTokenStore));
+
+			// Filter logs to ones we can display
+			logs = allLogs.filter(log => log.status === "complete").filter(log => 
+				!["level-0-post-survey"].includes(log.description)); // TODO: find all the logs we want to filter out
         } catch (error) {
             console.error("Error fetching travel logs:", error);
         }
@@ -77,9 +81,13 @@
 <div class="h-full">
 	<div class="h-3/4 w-full flex flex-col items-center justify-center font-mokoto text-xl text-white">
         <h1 class="text-center text-2xl font-bold">
-            {logs[index].description}
+				{logs[index].description}
         </h1>
-        {logs[index].data}
+		{#if logs[index].data.startsWith("data:image")}
+			<img src={logs[index].data} alt="Travel Log" id="travelLogImage" />
+		{:else}
+			<p>{logs[index].data}</p>
+		{/if}
 	</div>
 	<div class="flex w-full flex-col items-center justify-center space-y-2">
 		<div class="flex items-center justify-center space-x-6" id="navbuttons">
@@ -104,5 +112,11 @@
 		font-size: 1.25rem;
 		height: 2rem;
 		min-height: fit-content;
+	}
+
+	#travelLogImage {
+		max-width: 70%;
+		max-height: 60%;
+		object-fit: cover;
 	}
 </style>
