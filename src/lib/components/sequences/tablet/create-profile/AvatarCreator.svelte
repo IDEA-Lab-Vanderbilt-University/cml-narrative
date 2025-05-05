@@ -169,9 +169,17 @@
         <div class="flex w-full justify-center space-x-7">
             <div class="moji-container">
                 {#each skinTones as skinTone}
-                    <button class="moji-small rounded-full border-4 shadow-lg hover:cursor-pointer hover:shadow-xl"
+                    <button class="moji-small rounded-full border-4 shadow-lg hover:cursor-pointer hover:shadow-xl {selectedSkinTone == skinTone ? 'border-4 border-sky-300 bg-white' : 'border-gray-300 bg-transparent'}"
                         style="background-color: rgba({libmoji.getColorFromCode(skinTone).r}, {libmoji.getColorFromCode(skinTone).g}, {libmoji.getColorFromCode(skinTone).b}, 1);" 
-                        on:click={() => { selectedSkinTone = skinTone; regenOptions(); }}
+                        on:click={() => { 
+                            if(selectedSkinTone == skinTone) {
+                                selectedSkinTone = null;
+                            } else {
+                                selectedSkinTone = skinTone;                                
+                            }
+
+                            regenOptions(); 
+                        }}
                     />
                 {/each}
             </div>
@@ -182,9 +190,18 @@
         <div class="flex w-full justify-center space-x-7">
             <div class="moji-container">
                 {#each hairColors as hairColor}
-                    <button class="moji-small rounded-full border-4 shadow-lg hover:cursor-pointer hover:shadow-xl"
+                    <button class="moji-small rounded-full border-4 shadow-lg hover:cursor-pointer hover:shadow-xl {selectedHairColor == hairColor ? 'border-4 border-sky-300 bg-white' : 'border-gray-300 bg-transparent'}"
                         style="background-color: rgba({libmoji.getColorFromCode(hairColor).r}, {libmoji.getColorFromCode(hairColor).g}, {libmoji.getColorFromCode(hairColor).b}, 1);" 
-                        on:click={() => { selectedHairColor = hairColor; regenOptions(); }}
+                        on:click={() => { 
+                            if(selectedHairColor == hairColor) {
+                                selectedHairColor = null;
+                            } else {
+                                selectedHairColor = hairColor;                                
+                            }
+                            
+                            regenOptions(); 
+                            
+                            }}
                     />
                 {/each}
             </div>
