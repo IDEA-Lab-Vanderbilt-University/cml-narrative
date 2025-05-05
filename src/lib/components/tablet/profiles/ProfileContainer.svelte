@@ -22,8 +22,10 @@
 				<p class="text-white text-3xl">{profile.rank}</p>
 			</div>
 			<div class="flex flex-col text-center">
-				<p class="font-mono text-xl text-white">Favorite Badge</p>
-				<p class="text-white text-3xl">{profile.favoriteBadge}</p>
+				{#if profile.favoriteBadge}
+					<p class="font-mono text-xl text-white">Favorite Badge</p>
+					<p class="text-white text-3xl">{profile.favoriteBadge}</p>
+				{/if}
 			</div>
 		</div>
 		<div class="flex h-full w-1/3 items-center justify-center px-24">

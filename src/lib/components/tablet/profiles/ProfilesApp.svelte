@@ -13,13 +13,18 @@
 	import { goto } from '$app/navigation';
 	import ProfileContainer from '$lib/components/tablet/profiles/ProfileContainer.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
+	import type { Student } from '$lib/types/UserData';
 	import { Assets } from '$lib/utils/Assets';
+	import { studentDataStore } from '$lib/utils/stores/store';
 	import { onMount } from 'svelte';
+	import { get } from 'svelte/store';
 
 	/**
 	 * Represents which profile to view in the container
 	 */
 	let index = 0;
+
+	let studentAgent: Student = get(studentDataStore);
 
 	let profileExamples: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[]}[] = [
 		{
@@ -57,6 +62,13 @@
 				'Play volleyball',
 				'Build robots'
 			]
+		},
+		{
+			name: "Agent " + studentAgent.agent_name,
+			rank: (studentAgent.progress?.badge_count ?? 0) > 4 ? "Junior Agent" : "Agent in Training",
+			favoriteBadge: '',
+			img: studentAgent.avatar ?? '',
+			interests: studentAgent.interests ?? ['','','']
 		}
 	];
 
