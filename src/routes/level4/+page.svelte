@@ -1154,7 +1154,7 @@ Next
 		{#if lineNumber == 37}
 			<Tablet showMeter={false} showBottomButtons={false}>
 				<iframe src="https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id={get(accessTokenStore)}&host={browser? window.location.origin : ''}"
-					id="codinatorIframe" frameborder="0" title="The Codinator"></iframe>
+					id="codinatorIframe" frameborder="0" title="The Codinator"  allow="camera; microphone" ></iframe>
 				<button class="nicebtn" id="codinatorSubmit" on:click={() => {
 					// Submit the robot code by passing a postMessage to the iframe
 					const codinatorIframe = document.getElementById('codinatorIframe');
