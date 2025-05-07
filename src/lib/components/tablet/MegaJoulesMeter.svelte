@@ -32,7 +32,7 @@
 </script>
 
 <div class="w-full" id="megajoules-meter">
-	<img src={`/img/tablet/meter/meter-${amount}.svg`} alt="{amount} Megajoules" />
+	<img src={`/img/tablet/meter/meter-${Math.floor(amount / 100 * 14)}.svg`} alt="{amount} Megajoules" />
 </div>
 
 <style>
