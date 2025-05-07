@@ -14,6 +14,7 @@
 	import { studentProgressStore, tabletPowerNavigation } from '$lib/utils/stores/store';
 	import MegaJoulesMeter from './MegaJoulesMeter.svelte';
 	import SettingsModal from '../modals/SettingsModal.svelte';
+	import { get } from 'svelte/store';
 
 	/**
 	 * Tracks if powerdown button is enabled. This is determined by a store
@@ -26,6 +27,28 @@
 	 * If a function is provided, then we will call that function instead.
 	 */
 	export let powerDown: string | Function | void = undefined;
+
+	let storedPowerDown = get(tabletPowerNavigation);
+
+	tabletPowerNavigation.subscribe((value) => {
+		storedPowerDown = value;
+
+		if (storedPowerDown != undefined && storedPowerDown.href != undefined) {
+			if (typeof storedPowerDown.href === 'string') {
+				powerDown = storedPowerDown.href;
+			} else {
+				powerDown = undefined;
+			}
+		} else {
+			powerDown = undefined;
+		}
+	});
+
+	if (storedPowerDown != undefined && storedPowerDown.href != undefined) {
+		if (typeof storedPowerDown.href === 'string') {
+			powerDown = storedPowerDown.href;
+		}
+	}
 
 	/**
 	 * First, we will check to see powerdown is enabled. If it is, then we will use the href provided in the store

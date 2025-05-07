@@ -63,14 +63,17 @@
 				'Build robots'
 			]
 		},
-		{
+	];
+
+	if (studentAgent.agent_name && studentAgent.agent_name != '') {
+		profileExamples.push({
 			name: "Agent " + studentAgent.agent_name,
 			rank: (studentAgent.progress?.badge_count ?? 0) > 4 ? "Junior Agent" : "Agent in Training",
 			favoriteBadge: '',
 			img: studentAgent.avatar ?? '',
 			interests: studentAgent.interests ?? ['','','']
-		}
-	];
+		});
+	}
 
 	let nextButton: HTMLButtonElement | void;
 	let previousButton: HTMLButtonElement | void;
