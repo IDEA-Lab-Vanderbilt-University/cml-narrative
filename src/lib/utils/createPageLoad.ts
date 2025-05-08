@@ -4,6 +4,7 @@ import type { PageLoad } from "../../routes/$types";
 import { accessTokenStore } from "./stores/store";
 import { get } from "svelte/store";
 import { browser } from "$app/environment";
+import { goto } from "$app/navigation";
 
 /**
  * Creates a page load function that is used to determine the current page of the script, or 404 error if the page is out of bounds.
@@ -53,6 +54,6 @@ export function createPageLoad(script: Script | null = null): PageLoad {
 export function redirectIfNotLoggedIn() {
 	if (browser && !get(accessTokenStore)) {
 		// Redirect to login page
-		throw redirect(302, '/');
+		goto('/');
 	}
 }
