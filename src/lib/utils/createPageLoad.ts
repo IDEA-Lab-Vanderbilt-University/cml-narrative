@@ -51,7 +51,7 @@ export function createPageLoad(script: Script | null = null): PageLoad {
 }
 
 export function redirectIfNotLoggedIn() {
-	if (browser && !get(accessTokenStore)) {
+	if (!get(accessTokenStore)) {
 		// Redirect to login page
 		throw redirect(302, '/');
 	}
