@@ -54,6 +54,6 @@ export function createPageLoad(script: Script | null = null): PageLoad {
 export function redirectIfNotLoggedIn() {
 	if (browser && !get(accessTokenStore)) {
 		// Redirect to login page
-		goto('/');
+		goto('/', { replaceState: true });
 	}
 }
