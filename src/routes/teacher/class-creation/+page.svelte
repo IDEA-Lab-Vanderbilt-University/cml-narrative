@@ -147,12 +147,10 @@
 		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
 	{/if}
 
-	<div class="my-5 flex w-full items-center justify-center">
+	<div class="my-5 flex w-full items-center justify-center flex-col gap-5">
 		<h1 class="text-4xl font-bold text-white">Your Students</h1>
-	</div>
 
 	{#if showManual}
-		<div class="mt-8 flex flex-col items-center justify-center space-y-4">
 			<div class="flex w-3/4 space-x-2 rounded bg-gray-100 p-3 shadow">
 				<!-- <input
 						type="text"
@@ -191,25 +189,25 @@
 					<button class="btn btn-primary" on:click={addStudentManually}>Add student</button>
 				</div>
 			</div>
-		</div>
 	{/if}
 
-	<div class="mt-8 flex items-center justify-center">
-		<table class="w-3/4 space-y-4 rounded bg-blue-50 shadow">
-			<tr class="text-left">
-				<!-- <th class="px-5 py-5">ID</th> -->
-				<th class="w-1/12 px-5">
-					<input
-						type="checkbox"
-						class="checkbox-primary checkbox"
-						on:change={(e) => toggleAllSelections(e.target instanceof HTMLInputElement && e.target.checked)} 
-						checked={$studentClassStore.length > 0 &&
-							selectedStudents.length === $studentClassStore.length} />
-				</th>
-				<th class="w-2/6 px-5 py-5">Name</th>
-				<th class="w-2/6 py-5">Updated At</th>
-			</tr>
-
+		<table class="w-3/4 space-y-4 rounded bg-blue-50 shadow" style="max-height: {showManual ? '50vh' : '60vh'}; overflow-y: scroll; display: block;">
+			<thead class="text-left">
+				<tr class="text-left">
+					<!-- <th class="px-5 py-5">ID</th> -->
+					<th class="w-1/12 px-5">
+						<input
+							type="checkbox"
+							class="checkbox-primary checkbox"
+							on:change={(e) => toggleAllSelections(e.target instanceof HTMLInputElement && e.target.checked)} 
+							checked={$studentClassStore.length > 0 &&
+								selectedStudents.length === $studentClassStore.length} />
+					</th>
+					<th class="w-2/6 px-5 py-5">Name</th>
+					<th class="w-2/6 py-5">Updated At</th>
+				</tr>
+			</thead>
+			<tbody>
 			{#each $studentClassStore as student}
 				<tr
 					class="cursor-pointer py-4 text-lg hover:bg-blue-100 hover:shadow-inner"
@@ -235,9 +233,10 @@
 							: 'NULL'}</td>
 				</tr>
 			{/each}
+			</tbody>
 		</table>
 
-		<div class="absolute bottom-5 left-4 flex flex-col items-start space-y-2">
+		<div class="fixed bottom-5 left-4 flex flex-col items-start space-y-2">
 			{#if selectedStudents.length > 0}
 				<button
 					class="rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-blue-600"
@@ -288,3 +287,9 @@
 		</div>
 	</div>
 </div>
+
+<style>
+	
+
+
+</style>
