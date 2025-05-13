@@ -122,6 +122,53 @@
 	function onFeedbackClose() {
 		showFeedbackModal = false;
 	}
+	
+	let showHidden = false;
+
+	const downloadSelectedStudents = async () => {
+		// Fetch students' travel logs
+		const travelLogs = selectedStudents.map((student) => {
+			return DataService.TravelLog.getTravelLogs(null, student.id);
+		});
+		
+		// Wait for all travel logs to be fetched
+		const logs = await Promise.all(travelLogs);
+		console.log('Travel logs: ', logs);
+
+		// Create a CSV file from each student's travel logs
+		for (let i = 0; i < logs.length; i++) {
+			const student = selectedStudents[i];
+			const travelLog = logs[i].map((log) => {
+				return [
+					student.agent_name,
+					log.description,
+					log.status,
+					'"' + log.data.replaceAll('"', '""') + '"',
+					log.updated_at ? new Date(log.updated_at.secs_since_epoch * 1000).toLocaleString() : 'NULL'
+				];
+			});
+
+			if(travelLog.length === 0) {
+				console.warn(`No travel logs found for ${student.first_name} ${student.last_name}, skipping...`);
+				continue;
+			}
+
+			// Convert travel log to CSV format
+			const csvContent = 'data:text/csv;charset=utf-8,' 
+				+ '"Agent Name,Description,Status,Data,Updated At"\n'
+				+ travelLog.map(e => e.join(",")).join("\n");
+
+			// Create a link element to download the CSV file
+			const encodedUri = encodeURI(csvContent);
+			const link = document.createElement("a");
+			link.setAttribute("href", encodedUri);
+			link.setAttribute("download", `agent_${student.agent_name}_travel_log.csv`);
+			document.body.appendChild(link); // Required for FF
+
+			// Download the CSV file
+			link.click();
+		}
+	};
 
 	onMount(() => {
 		DataService.Data.fetchTeacherID()
@@ -135,6 +182,21 @@
 				alert('You are not logged in!');
 				goto('/teacher');
 			});
+
+		
+		
+		// Keyboard event listener for toggling hidden elements with shift
+		document.addEventListener('keydown', (event) => {
+			if (event.shiftKey) {
+				showHidden = true;
+			}
+		});
+
+		document.addEventListener('keyup', (event) => {
+			if (!event.shiftKey) {
+				showHidden = false;
+			}
+		});
 	});
 </script>
 
@@ -243,6 +305,14 @@
 					on:click={generateSelectedAgentIDs}>
 					Get QR Codes
 				</button>
+
+				{#if showHidden}
+					<button
+						class="rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-blue-600"
+						on:click={downloadSelectedStudents}>
+						Download Data
+					</button>
+				{/if}
 
 				<button
 					class="rounded-full bg-red-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-red-600"
