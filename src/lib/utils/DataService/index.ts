@@ -421,7 +421,8 @@ const Teacher = {
 					updated_at: {
 						secs_since_epoch: 0,
 						nanos_since_epoch: 0
-					}
+					},
+					school: 'Debug Academy'
 				});
 				return;
 			}
