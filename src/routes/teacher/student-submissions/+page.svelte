@@ -7,6 +7,7 @@
 	import { goto } from '$app/navigation';
 	import { onMount, getContext } from 'svelte';
 	import DataService from '$lib/utils/DataService';
+	import { browser } from '$app/environment';
 
 	// @ts-ignore
 	const { open } = getContext('simple-modal');
@@ -30,8 +31,8 @@
 
 	// Check for new travel logs every so often
 	const interval = setInterval(() => {
-		DataService.TravelLog.fetchPending();
-	}, 60000);
+		if(browser) DataService.TravelLog.fetchPending();
+	}, 10000);
 </script>
 
 <svelte:head>
@@ -50,7 +51,7 @@
 				<th class="w-1/2 py-5">Updated At</th>
 			</tr>
 
-			{#each $pendingTravelLogStore as tl}
+			{#each $pendingTravelLogStore as tl, _ (tl.id)}
 				<tr
 					class="cursor-pointer py-4 text-lg hover:bg-blue-100 hover:shadow-inner"
 					on:click={() => {
