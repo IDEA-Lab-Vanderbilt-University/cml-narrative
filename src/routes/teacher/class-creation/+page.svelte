@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getContext, onMount } from 'svelte';
-	import type { Student } from '$lib/types/UserData';
+	import type { Student, Teacher } from '$lib/types/UserData';
 	import UploadCsvModal from '$lib/components/teacher-view/modals/UploadCSVModal.svelte';
 	import StudentInfoModal from '$lib/components/teacher-view/modals/StudentInfoModal.svelte';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
@@ -25,6 +25,8 @@
 		last_name: ''
 		// age: 0
 	};
+
+	var teacher: Teacher;
 
 	var showManual = false;
 
@@ -162,7 +164,7 @@
 			const encodedUri = encodeURI(csvContent);
 			const link = document.createElement("a");
 			link.setAttribute("href", encodedUri);
-			link.setAttribute("download", `agent_${student.agent_name}_travel_log.csv`);
+			link.setAttribute("download", `${teacher.school}_${teacher.last_name}_${student.agent_name}_travel_log.csv`);
 			document.body.appendChild(link); // Required for FF
 
 			// Download the CSV file
@@ -172,8 +174,9 @@
 
 	onMount(() => {
 		DataService.Data.fetchTeacherID()
-			.then((res) => {
+			.then(async (res) => {
 				$sessionTeacherID = res;
+				teacher = await DataService.Teacher.getTeacher($sessionTeacherID);
 				console.log('Teacher ID: ', $sessionTeacherID);
 				newStudent.teacher_id = $sessionTeacherID;
 				fetchStudents();
