@@ -142,11 +142,11 @@
 			const student = selectedStudents[i];
 			const travelLog = logs[i].map((log) => {
 				return [
-					student.agent_name,
+					student.id,
 					log.description,
 					log.status,
 					'"' + log.data.replaceAll('"', '""') + '"',
-					log.updated_at ? new Date(log.updated_at.secs_since_epoch * 1000).toLocaleString() : 'NULL'
+					'"' + (log.updated_at ? new Date(log.updated_at.secs_since_epoch * 1000).toLocaleString() : 'NULL') + '"'
 				];
 			});
 
@@ -157,7 +157,7 @@
 
 			// Convert travel log to CSV format
 			const csvContent = 'data:text/csv;charset=utf-8,' 
-				+ '"Agent Name,Description,Status,Data,Updated At"\n'
+				+ 'ID, Description, Status, Data, Updated At\n'
 				+ travelLog.map(e => e.join(",")).join("\n");
 
 			// Create a link element to download the CSV file
