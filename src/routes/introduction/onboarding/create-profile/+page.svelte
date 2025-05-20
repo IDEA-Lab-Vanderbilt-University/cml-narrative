@@ -131,10 +131,10 @@
 	async function onFeedbackClose() {
 		if (isSuccess) {
 			studentProgressStore.update((data) => {
-				data.last_visited = '/introduction/onboarding/create-profile/confirmation';
+				data.last_visited = '/introduction/welcome?page=1';
 				return data;
 			});
-			goto('/introduction/onboarding/create-profile/confirmation');
+			goto('/introduction/welcome?page=1');
 		}
 		showFeedbackModal = false;
 	}
