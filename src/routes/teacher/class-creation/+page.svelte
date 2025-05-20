@@ -12,6 +12,7 @@
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 	import { RequestFactory } from '$lib/utils/network/RequestFactory';
 	import ManualStudentEntry from '$lib/components/teacher-view/ManualStudentEntry.svelte';
+	import StudentEditModal from '$lib/components/teacher-view/modals/StudentEditModal.svelte';
 
 	// @ts-ignore
 	const { open } = getContext('simple-modal');
@@ -30,6 +31,8 @@
 	var teacher: Teacher;
 
 	var showManual = false;
+
+	let editingStudent: Student | null = null;
 
 	async function logout() {
 		try {
@@ -125,6 +128,21 @@
 	function onFeedbackClose() {
 		showFeedbackModal = false;
 	}
+
+	function openStudentEditModal(student: Student) {
+		editingStudent = student;
+	}
+
+	function handleEditSave(updatedStudent: Student) {
+		// Update the student in the store
+		$studentClassStore = $studentClassStore.map(s => s.id === updatedStudent.id ? updatedStudent : s);
+		DataService.Student.updateStudent(updatedStudent); // Persist change
+		editingStudent = null;
+	}
+
+	function handleEditCancel() {
+		editingStudent = null;
+	}
 	
 	let showHidden = false;
 
@@ -214,6 +232,19 @@
 		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
 	{/if}
 
+	{#if editingStudent}
+		<div class="modal-overlay">
+			<div class="modal-debug-container">
+				<h2 style="color:black;">DEBUG: Modal should be below</h2>
+				<StudentEditModal
+					student={editingStudent}
+					onSave={handleEditSave}
+					onCancel={handleEditCancel}
+				/>
+			</div>
+		</div>
+	{/if}
+
 	<div class="my-5 flex w-full items-center justify-center flex-col gap-5">
 		<h1 class="text-4xl font-bold text-white">Your Students</h1>
 
@@ -277,6 +308,7 @@
 									class="btn btn-secondary"
 									on:click={(e) => {
 										e.stopPropagation();
+										openStudentEditModal(student);
 									}}>
 									Edit
 								</button>
@@ -347,5 +379,26 @@
 </div>
 
 <style>
-	
+	.modal-overlay {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		z-index: 9999;
+		background: rgba(0,0,0,0.3); /* optional: dim background */
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.modal-debug-container {
+		background: white;
+		border: 2px solid red;
+		padding: 2rem;
+		border-radius: 1rem;
+		min-width: 300px;
+		min-height: 200px;
+		box-shadow: 0 0 20px rgba(0,0,0,0.2);
+		z-index: 10000;
+	}
 </style>

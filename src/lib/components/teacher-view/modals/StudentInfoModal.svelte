@@ -52,7 +52,7 @@
 		</tr>
 		<tr>
 			<th>Updated At:</th>
-			<td>{new Date(student.progress.updated_at.secs_since_epoch * 1000).toLocaleString()}</td>
+			<td>{student.progress.updated_at ? new Date(student.progress.updated_at.secs_since_epoch * 1000).toLocaleString() : 'Never'}</td>
 		</tr>
 	{:else}
 		<tr>
