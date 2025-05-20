@@ -43,7 +43,7 @@
 		let target = '';
 		
 		if (direction == NavigationDirection.forward) {
-			if (line.id == 2) {
+			if (line.id == 1) {
 				target = '/introduction/onboarding/tablet-tutorial?page=1';
 			} else {
 				target = `/introduction/welcome?page=${line.id + 1}`;

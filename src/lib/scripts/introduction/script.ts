@@ -67,26 +67,6 @@ const script: Script = {
 			id: 6,
 			speakers: ['Captain Storm'],
 			dialog:
-				'Your mission is to travel to the future and spot any problems with technology. Then you will try and solve those problems.',
-			avatars: ['/img/characters/captain-storm/gesture_2_storm.png'],
-			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s10.wav',
-			pos: 'right'
-		},
-		{
-			id: 7,
-			speakers: ['Captain Storm'],
-			dialog:
-				'You will bring back information that will help you design technologies that are good for your community.',
-			avatars: ['/img/characters/captain-storm/storm_gesture_4.png'],
-			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s11.wav',
-			pos: 'right'
-		},
-		{
-			id: 8,
-			speakers: ['Captain Storm'],
-			dialog:
 				'So glad you are now a part of our team! Now our agents will get you started and set up in the SPOT system.',
 			avatars: ['/img/characters/captain-storm/storm_thumbs_up.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
@@ -94,7 +74,7 @@ const script: Script = {
 			pos: 'right'
 		},
 		{
-			id: 9,
+			id: 7,
 			speakers: ['Agent Fern', 'Captain Storm'],
 			dialog: 'Agent Fern is our brilliant physicist who developed a way to time travel!',
 			avatars: [
@@ -106,7 +86,7 @@ const script: Script = {
 			pos: 'normal'
 		},
 		{
-			id: 10,
+			id: 8,
 			speakers: ['Agent Gear', 'Captain Storm'],
 			dialog: 'Agent Gear is our engineer who designed and built our robots at SPOT agency!',
 			avatars: [
@@ -118,7 +98,7 @@ const script: Script = {
 			pos: 'normal'
 		},
 		{
-			id: 11,
+			id: 9,
 			speakers: ['Agent Spark', 'Captain Storm'],
 			dialog: 'Agent Spark is our software developer. She writes the code for all our SPOT tech!',
 			avatars: [
@@ -130,7 +110,7 @@ const script: Script = {
 			pos: 'normal'
 		},
 		{
-			id: 12,
+			id: 10,
 			speakers: ['Agent Spark'],
 			dialog: 'Hello! Great to meet you Agent...',
 			avatars: ['/img/characters/agent-spark/spark_wave.png'],
@@ -139,7 +119,7 @@ const script: Script = {
 			pos: 'right'
 		},
 		{
-			id: 13,
+			id: 11,
 			speakers: ['Agent Spark'],
 			dialog: "Oohh! you don't have a secret agent name yet! That's so important!",
 			avatars: ['/img/characters/agent-spark/spark_surprised.png'],
@@ -148,7 +128,7 @@ const script: Script = {
 			pos: 'right'
 		},
 		{
-			id: 14,
+			id: 12,
 			speakers: ['Agent Spark'],
 			dialog:
 				'Your agent name should be something that inspires you! Mine is Agent Spark because I love electronic gadgets. ',
@@ -158,7 +138,7 @@ const script: Script = {
 			pos: 'left'
 		},
 		{
-			id: 15,
+			id: 13,
 			speakers: ['Agent Fern', 'Agent Spark'],
 			dialog: 'In addition to physics, Agent Fern loves plants and all things that grow in nature.',
 			avatars: [
@@ -170,7 +150,7 @@ const script: Script = {
 			pos: 'normal'
 		},
 		{
-			id: 16,
+			id: 14,
 			speakers: ['Agent Gear', 'Agent Spark'],
 			dialog: 'Agent Gear is inspired by motorcycles!',
 			avatars: [
@@ -182,7 +162,7 @@ const script: Script = {
 			pos: 'normal'
 		},
 		{
-			id: 17,
+			id: 15,
 			speakers: ['Agent Spark'],
 			dialog: "What inspires you? I'm sure you will choose a great secret agent name!",
 			avatars: ['/img/characters/agent-spark/spark_aww.png'],
@@ -191,7 +171,7 @@ const script: Script = {
 			pos: 'left'
 		},
 		{
-			id: 18,
+			id: 16,
 			speakers: ['Agent Spark'],
 			dialog:
 				"Open your SPOT tablet. You will use this to keep track of your mission to the future and communicate to mission control. Let's get yours set up!",

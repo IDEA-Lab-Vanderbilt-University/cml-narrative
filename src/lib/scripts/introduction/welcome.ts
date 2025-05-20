@@ -25,15 +25,6 @@ const script: Script = {
 		{
 			id: 1,
 			speakers: ['Agent Spark'],
-			dialog: `Agent ${agent.agent_name}, I love it!`,
-			avatars: ['/img/characters/agent-spark/spark_clapping_inverted.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s35.wav',
-			pos: 'left'
-		},
-		{
-			id: 2,
-			speakers: ['Agent Spark'],
 			dialog: `Now, let's take a look at all the features on your SPOT tablet.`,
 			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
