@@ -131,10 +131,10 @@
 	async function onFeedbackClose() {
 		if (isSuccess) {
 			studentProgressStore.update((data) => {
-				data.last_visited = '/introduction/welcome?page=1';
+				data.last_visited = '/introduction/bot-buddy?page=1';
 				return data;
 			});
-			goto('/introduction/welcome?page=1');
+			goto('/introduction/bot-buddy?page=1');
 		}
 		showFeedbackModal = false;
 	}
