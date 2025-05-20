@@ -56,10 +56,6 @@ export const pizzaConfigStore = writable<PizzaConfig | undefined>(undefined);
 
 export const tabletModalActive = writable(false);
 
-export const tabletPowerNavigation = writable({
-	href: undefined,
-} as { href: string | undefined });
-
 export const accessTokenStore = writable(debugMode? 'DEBUG-STUDENT' : '');
 
 export const drawResponse = writable();

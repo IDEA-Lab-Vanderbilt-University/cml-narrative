@@ -11,10 +11,9 @@
 --->
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { studentProgressStore, tabletPowerNavigation } from '$lib/utils/stores/store';
+	import { studentProgressStore } from '$lib/utils/stores/store';
 	import MegaJoulesMeter from './MegaJoulesMeter.svelte';
 	import SettingsModal from '../modals/SettingsModal.svelte';
-	import { get } from 'svelte/store';
 
 	/**
 	 * Tracks if powerdown button is enabled. This is determined by a store
@@ -28,42 +27,13 @@
 	 */
 	export let powerDown: string | Function | void = undefined;
 
-	let storedPowerDown = get(tabletPowerNavigation);
-
-	tabletPowerNavigation.subscribe((value) => {
-		storedPowerDown = value;
-
-		if (storedPowerDown != undefined && storedPowerDown.href != undefined) {
-			if (typeof storedPowerDown.href === 'string') {
-				powerDown = storedPowerDown.href;
-			} else {
-				powerDown = undefined;
-			}
-		} else {
-			powerDown = undefined;
-		}
-	});
-
-	if (storedPowerDown != undefined && storedPowerDown.href != undefined) {
-		if (typeof storedPowerDown.href === 'string') {
-			powerDown = storedPowerDown.href;
-		}
-	}
-
 	/**
 	 * First, we will check to see powerdown is enabled. If it is, then we will use the href provided in the store
 	 * to navigate the user to the proper location.
 	 */
 	const handlePowerDown = () => {
 		let powerDownAction = powerDown;
-		if ($tabletPowerNavigation != undefined && $tabletPowerNavigation.href != undefined) {
-			if (typeof $tabletPowerNavigation.href === 'string') {
-				powerDownAction = $tabletPowerNavigation.href;
-			} else if (typeof $tabletPowerNavigation.href === 'function') {
-				powerDownAction = $tabletPowerNavigation.href;
-			}
-		}
-
+		
 		console.log('powerdown');
 
 		if (powerDownAction != undefined && typeof powerDownAction === 'string') {
