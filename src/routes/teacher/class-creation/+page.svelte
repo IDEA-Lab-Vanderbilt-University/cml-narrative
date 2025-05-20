@@ -137,6 +137,9 @@
 		const logs = await Promise.all(travelLogs);
 		console.log('Travel logs: ', logs);
 
+		let csvContent = 'data:text/csv;charset=utf-8,' 
+				+ 'ID, Description, Status, Data, Updated At\n';
+
 		// Create a CSV file from each student's travel logs
 		for (let i = 0; i < logs.length; i++) {
 			const student = selectedStudents[i];
@@ -156,20 +159,18 @@
 			}
 
 			// Convert travel log to CSV format
-			const csvContent = 'data:text/csv;charset=utf-8,' 
-				+ 'ID, Description, Status, Data, Updated At\n'
-				+ travelLog.map(e => e.join(",")).join("\n");
-
-			// Create a link element to download the CSV file
-			const encodedUri = encodeURI(csvContent);
-			const link = document.createElement("a");
-			link.setAttribute("href", encodedUri);
-			link.setAttribute("download", `${teacher.school}_${teacher.last_name}_${student.agent_name}_travel_log.csv`);
-			document.body.appendChild(link); // Required for FF
-
-			// Download the CSV file
-			link.click();
+			csvContent += travelLog.map(e => e.join(",")).join("\n");
 		}
+
+		// Create a link element to download the CSV file
+		const encodedUri = encodeURI(csvContent);
+		const link = document.createElement("a");
+		link.setAttribute("href", encodedUri);
+		link.setAttribute("download", `${teacher.school}_${teacher.last_name}_SPOT_logs_${new Date().toISOString().slice(0, 10)}.csv`);
+		document.body.appendChild(link); // Required for FF
+
+		// Download the CSV file
+		link.click();
 	};
 
 	onMount(() => {
