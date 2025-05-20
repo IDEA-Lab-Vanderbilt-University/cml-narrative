@@ -22,11 +22,11 @@
 
 	const onSubmit = () => {
 		studentProgressStore.update((progress: StudentProgress) => {
-			progress.last_visited = '/training?page=9';
+			progress.last_visited = '/introduction/training?page=9';
 			return progress;
 		});
 
-		goto('/training?page=9');
+		goto('/introduction/training?page=9');
 	};
 </script>
 

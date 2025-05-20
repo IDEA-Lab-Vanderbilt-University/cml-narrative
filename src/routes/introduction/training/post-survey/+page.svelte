@@ -115,10 +115,10 @@
 		showFeedbackModal = false;
 		if (isSuccess) {
 			studentProgressStore.update((progress: StudentProgress) => {
-				progress.last_visited = '/training?page=14';
+				progress.last_visited = '/introduction/training?page=14';
 				return progress;
 			});
-			goto('/training?page=14');
+			goto('/introduction/training?page=14');
 		}
 	};
 

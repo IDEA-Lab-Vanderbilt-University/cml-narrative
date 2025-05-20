@@ -9,7 +9,7 @@
  https://idealab.sites.clemson.edu
  
 */
-import script from '$lib/scripts/training';
+import script from '$lib/scripts/introduction/training/';
 import { createPageLoad } from '$lib/utils/createPageLoad';
 
 export const load = createPageLoad(script);

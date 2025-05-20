@@ -83,11 +83,11 @@
 			} else if (lineNumber == 11) {
 				target = '/activities/what-do-you-think-machine-learning-is';
 			} else if (lineNumber == 12) {
-				target = '/training/post-survey';
+				target = '/introduction/training/post-survey';
 			} else if (lineNumber == 16) {
-				target = '/training/outro?page=1';
+				target = '/introduction/training/outro?page=1';
 			} else {
-				target = `/training?page=${lineNumber + 1}`;
+				target = `/introduction/training?page=${lineNumber + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward) {
 			if (lineNumber == 1) {
@@ -96,7 +96,7 @@
 				if(lineNumber == 9 || lineNumber == 12 || lineNumber == 13) {
 					return;
 				}
-				target = `/training?page=${lineNumber - 1}`;
+				target = `/introduction/training?page=${lineNumber - 1}`;
 			}
 		}
 
@@ -113,7 +113,7 @@
 <Scene background="/img/backgrounds/Spark_Lab.jpg" darken={shouldDarken} audio={line.audio}>
 	<div class={`h-full w-full ${shouldDarken ? 'brightness-40' : ''}`} slot="content">
 		{#if lineNumber == 12}
-			<TabletButton pulse on:click={() => {goto("/training/post-survey")}} />
+			<TabletButton pulse on:click={() => {goto("/introduction/training/post-survey")}} />
 		{/if}
 		{#if lineNumber < 12}
 			<ProjectorView>

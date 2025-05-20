@@ -16,9 +16,9 @@
 	const onFeedbackClose = () => {
 		showFeedbackModal = false;
 		if(!isSuccess) {
-			goto("/training?page=1");
+			goto("/introduction/training?page=1");
 		} else {
-			goto('/training?page=5');
+			goto('/introduction/training?page=5');
 		}
 	};
 

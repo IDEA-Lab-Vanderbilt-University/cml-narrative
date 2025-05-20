@@ -57,15 +57,15 @@
 		if (direction == NavigationDirection.forward) {
 			if (line.id == 2) {
 				// alert('End of training!');
-				goto('/time-travel')
+				goto('/introduction/time-travel')
 			} else {
-				goto(`/training/outro?page=${line.id + 1}`);
+				goto(`/introduction/training/outro?page=${line.id + 1}`);
 			}
 		} else if (direction == NavigationDirection.backward) {
 			if(line.id > 1) {
-				goto(`/training/outro?page=${line.id - 1}`);
+				goto(`/introduction/training/outro?page=${line.id - 1}`);
 			} else {
-				goto('/training?page=16');
+				goto('/introduction/training?page=16');
 			}
 		} 
 	};

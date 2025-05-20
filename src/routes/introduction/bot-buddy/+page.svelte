@@ -5,8 +5,6 @@
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
-	import type { StudentProgress } from '$lib/types/UserData.js';
-	import DataService from '$lib/utils/DataService/index.js';
 	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
@@ -40,7 +38,7 @@
 
 		if (direction == NavigationDirection.forward) {
 			if (line.id == 23) {
-				target = '/training?page=1';
+				target = '/introduction/training?page=1';
 			} else {
 				target = `/introduction/bot-buddy?page=${line.id + 1}`;
 			}
