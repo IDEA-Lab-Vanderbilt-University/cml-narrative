@@ -11,6 +11,7 @@
 
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 	import { RequestFactory } from '$lib/utils/network/RequestFactory';
+	import ManualStudentEntry from '$lib/components/teacher-view/ManualStudentEntry.svelte';
 
 	// @ts-ignore
 	const { open } = getContext('simple-modal');
@@ -22,8 +23,8 @@
 	var newStudent: Student = {
 		teacher_id: $sessionTeacherID, // TODO: read from session
 		first_name: '',
-		last_name: ''
-		// age: 0
+		last_name: '',
+		age: undefined,
 	};
 
 	var teacher: Teacher;
@@ -101,8 +102,8 @@
 		newStudent = {
 			teacher_id: $sessionTeacherID, // TODO: read from session
 			first_name: '',
-			last_name: ''
-			// age: 0,
+			last_name: '',
+			age: undefined,
 		};
 	};
 
@@ -216,49 +217,12 @@
 	<div class="my-5 flex w-full items-center justify-center flex-col gap-5">
 		<h1 class="text-4xl font-bold text-white">Your Students</h1>
 
-	{#if showManual}
-			<div class="flex w-3/4 space-x-2 rounded bg-gray-100 p-3 shadow">
-				<!-- <input
-						type="text"
-						placeholder="ID"
-						class="input input-bordered w-full max-w-xs"
-						bind:value={manualForm.id} /> -->
-				<input
-					type="text"
-					placeholder="First name"
-					class="input input-bordered w-1/3"
-					bind:value={newStudent.first_name} />
-				<input
-					type="text"
-					placeholder="Last name"
-					class="input input-bordered w-1/3"
-					bind:value={newStudent.last_name} />
-				<input
-					type="number"
-					placeholder="Age"
-					class="input input-bordered w-1/6"
-					bind:value={newStudent.age} 
-					min="1"
-					max="100" 
-					on:keypress={
-						(e) => {
-							// Allow only numbers and control keys (also prevent spaces)
-							if (e.key !== 'Backspace' && e.key !== 'Delete' && e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') {
-								if (isNaN(Number(e.key)) || e.key === ' ') {
-									// Prevent default action if the key is not a number
-									e.preventDefault();
-								}
-							}
-						}
-					} />
-				<div class="ml-auto">
-					<button class="btn btn-primary" on:click={addStudentManually}>Add student</button>
-				</div>
-			</div>
-	{/if}
+		{#if showManual}
+			<ManualStudentEntry {newStudent} onAdd={addStudentManually} />
+		{/if}
 
-		<table class="w-3/4 space-y-4 rounded bg-blue-50 shadow" style="max-height: {showManual ? '50vh' : '60vh'}; overflow-y: scroll; display: block;">
-			<thead class="text-left">
+		<table class="w-3/4 rounded bg-blue-50 shadow" style="max-height: {showManual ? '50vh' : '60vh'}; overflow-y: scroll; display: block;">
+			<thead class="text-left table">
 				<tr class="text-left">
 					<!-- <th class="px-5 py-5">ID</th> -->
 					<th class="w-1/12 px-5">
@@ -271,17 +235,20 @@
 					</th>
 					<th class="w-2/6 px-5 py-5">Name</th>
 					<th class="w-2/6 py-5">Updated At</th>
+					<th class="">
+						
+					</th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="w-full table">
 			{#each $studentClassStore as student}
 				<tr
-					class="cursor-pointer py-4 text-lg hover:bg-blue-100 hover:shadow-inner"
+					class="w-full cursor-pointer text-lg hover:bg-blue-100 hover:shadow-inner"
 					on:click={() => {
 						console.log(student);
 						openStudentInfoModal(student);
 					}}>
-					<td class="flex w-1/12 items-center px-5 py-2 text-left">
+					<td class="w-1/12 items-center px-5 table-cell text-left">
 						<input
 							type="checkbox"
 							class="checkbox-primary checkbox"
@@ -297,6 +264,23 @@
 						>{student.updated_at
 							? new Date(student.updated_at.secs_since_epoch * 1000).toLocaleString()
 							: 'NULL'}</td>
+							<td>
+								<button
+									class="btn btn-primary"
+									on:click={(e) => {
+										e.stopPropagation();
+										openStudentInfoModal(student);
+									}}>
+									View
+								</button>
+								<button
+									class="btn btn-secondary"
+									on:click={(e) => {
+										e.stopPropagation();
+									}}>
+									Edit
+								</button>
+							</td>
 				</tr>
 			{/each}
 			</tbody>
@@ -364,6 +348,4 @@
 
 <style>
 	
-
-
 </style>
