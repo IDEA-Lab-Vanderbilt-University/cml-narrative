@@ -84,7 +84,7 @@
 				target = '/activities/what-do-you-think-machine-learning-is';
 			} else if (lineNumber == 12) {
 				target = '/introduction/training/post-survey';
-			} else if (lineNumber == 16) {
+			} else if (lineNumber == 15) {
 				target = '/introduction/training/outro?page=1';
 			} else {
 				target = `/introduction/training?page=${lineNumber + 1}`;
