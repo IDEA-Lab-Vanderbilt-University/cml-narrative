@@ -48,7 +48,7 @@
 		if (direction === NavigationDirection.forward) {
 			if (line.id === 3) {
 				target = '/introduction/invitation';
-			} else if (line.id === 16) {
+			} else if (line.id === 15) {
 				target = '/introduction/onboarding';
 			} else {
 				target = `/introduction?page=${line.id + 1}`;
@@ -84,17 +84,17 @@
 	</div>
 	<div slot="content" class="h-full w-full">
 		<div class="absolute left-60 top-60 mx-4 my-4 w-fit">
-			{#if line.id == 12}
+			{#if line.id == 11}
 				<img src="/img/character-clouds/level-0-spark.png" alt="" />
 			{/if}
-			{#if line.id == 13}
+			{#if line.id == 12}
 				<img src="/img/character-clouds/level-0-fern.png" alt="" />
 			{/if}
-			{#if line.id == 14}
+			{#if line.id == 13}
 				<img src="/img/character-clouds/level-0-gear.png" alt="" />
 			{/if}
 		</div>
-		{#if line.id == 16}
+		{#if line.id == 15}
 			<TabletButton pulse on:click={() => {
 				studentProgressStore.update((data) => {
 					data.last_visited = '/introduction/onboarding';
