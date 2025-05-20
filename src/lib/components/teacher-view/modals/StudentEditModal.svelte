@@ -46,7 +46,24 @@
 			</tr>
 			<tr>
 				<th>Age:</th>
-				<td><input type="number" min="0" bind:value={age} /></td>
+				<td><input type="number" bind:value={age}
+                    min="1"
+                    max="100"
+                    on:keypress={
+                    (e) => {
+                        if (
+                        e.key !== 'Backspace' &&
+                        e.key !== 'Delete' &&
+                        e.key !== 'ArrowLeft' &&
+                        e.key !== 'ArrowRight'
+                        ) {
+                        if (isNaN(Number(e.key)) || e.key === ' ') {
+                            e.preventDefault();
+                        }
+                        }
+                    }
+                    }/>
+                </td>
 			</tr>
 		</table>
 			<div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">
