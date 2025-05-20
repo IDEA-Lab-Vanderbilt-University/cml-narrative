@@ -47,11 +47,11 @@
 	 */
 	$: line = data.line;
 	$: lineNumber = data.lineNumber;
-	
-	let shouldDarken: boolean = lineNumber > 4 && lineNumber < 7;
+
+	let shouldDarken: boolean = lineNumber > 2 && lineNumber < 5;
 
 	$: {
-		if (lineNumber > 4 && lineNumber < 7) {
+		if (lineNumber > 2 && lineNumber < 5) {
 			shouldDarken = true;
 		} else {
 			shouldDarken = false;
@@ -78,13 +78,13 @@
 	const handleNavigation = (direction: NavigationDirection) => {
 		let target = '';
 		if (direction == NavigationDirection.forward) {
-			if (lineNumber == 8) {
+			if (lineNumber == 6) {
 				target = '/activities/what-do-you-think-an-algorithm-is';
-			} else if (lineNumber == 11) {
+			} else if (lineNumber == 8) {
 				target = '/activities/what-do-you-think-machine-learning-is';
-			} else if (lineNumber == 12) {
+			} else if (lineNumber == 9) {
 				target = '/introduction/training/post-survey';
-			} else if (lineNumber == 15) {
+			} else if (lineNumber == 12) {
 				target = '/introduction/training/outro?page=1';
 			} else {
 				target = `/introduction/training?page=${lineNumber + 1}`;
@@ -93,7 +93,7 @@
 			if (lineNumber == 1) {
 				target = '/introduction/bot-buddy?page=23';
 			} else {
-				if(lineNumber == 9 || lineNumber == 12 || lineNumber == 13) {
+				if(lineNumber == 7 || lineNumber == 10 || lineNumber == 11) {
 					return;
 				}
 				target = `/introduction/training?page=${lineNumber - 1}`;
@@ -112,33 +112,31 @@
 
 <Scene background="/img/backgrounds/Spark_Lab.jpg" darken={shouldDarken} audio={line.audio}>
 	<div class={`h-full w-full ${shouldDarken ? 'brightness-40' : ''}`} slot="content">
-		{#if lineNumber == 12}
+		{#if lineNumber == 9}
 			<TabletButton pulse on:click={() => {goto("/introduction/training/post-survey")}} />
 		{/if}
-		{#if lineNumber < 12}
+		{#if lineNumber < 9}
 			<ProjectorView>
-				{#if lineNumber == 1 || lineNumber == 2}
+				{#if lineNumber == 1}
 					<Technology />
-				{:else if lineNumber == 3}
-					<Training2 />
-				{:else if lineNumber >= 4 && lineNumber <= 9}
+				{:else if lineNumber >= 2 && lineNumber <= 7}
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Algorithms</p>
 					</TrainingText>
-				{:else if lineNumber == 10 || lineNumber == 11}
+				{:else if lineNumber == 8}
 					<TrainingText>
 						<p class="text-center text-5xl font-bold">Machine Learning</p>
 					</TrainingText>
 				{/if}
 			</ProjectorView>
-		{:else if lineNumber == 15}
+		{:else if lineNumber == 12}
 			<BadgeGetModal handleClick={handleNavigation.bind(null, NavigationDirection.forward)} badge={BadgesByName['Agent-In-Training']} />
 		{:else}
 			<div class="" />
 		{/if}
 	</div>
 	<div class="w-full" slot="dialog">
-		{#if lineNumber != 15}
+		{#if lineNumber != 13}
 			<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 		{/if}
 	</div>

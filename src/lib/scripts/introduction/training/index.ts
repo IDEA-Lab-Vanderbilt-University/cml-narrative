@@ -33,23 +33,6 @@ const script: Script = {
 			pos: 'left'
 		},
 		{
-			id: 2,
-			speakers: ['Agent Spark'],
-			dialog: 'We will start by talking about technology!',
-			avatars: ['/img/characters/agent-spark/spark_talking.png'],
-			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s72.wav',
-			pos: 'left'
-		},
-		{
-			id: 3,
-			speakers: [''],
-			dialog: '',
-			avatars: [],
-			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/computer/computer_l0_s73.wav'
-		},
-		{
 			id: 6,
 			speakers: ['Agent Spark'],
 			dialog: 'Ever heard of Algorithms?',
@@ -107,19 +90,6 @@ const script: Script = {
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s88.wav',
 			pos: 'right'
-		},
-		{
-			id: 13,
-			speakers: ['Agent Spark'],
-			dialog: 'The phrase "machine learning" has become popular today. Take a minute to reflect on what you think "machine learning" means.',
-			avatars: ['/img/characters/agent-spark/spark_talking.png'],
-			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/agent_spark_and_computer/computer_l0_s90_and_agent_spark.wav',
-			pos: 'left'
-			// audio: [
-			// 	'/audio/level0/computer/computer_l0_s90.wav',
-			// 	'/audio/level0/agent_spark/agent_spark_l0s89.wav',
-			// ]
 		},
 		{
 			id: 14,
