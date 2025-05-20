@@ -5,14 +5,12 @@
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
-	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
-	import { createEventDispatcher } from 'svelte';
+	import { studentProgressStore } from '$lib/utils/stores/store.js';
+	import script from '$lib/scripts/introduction/bot-buddy';
 
 	import { fade } from 'svelte/transition';
 
 	export let data;
-
-	const dispatch = createEventDispatcher();
 
 	let line: Line;
 
@@ -37,7 +35,7 @@
 		let target = '';
 
 		if (direction == NavigationDirection.forward) {
-			if (line.id == 23) {
+			if (line.id == script.lines.length) {
 				target = '/introduction/training?page=1';
 			} else {
 				target = `/introduction/bot-buddy?page=${line.id + 1}`;
@@ -63,7 +61,7 @@
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
 	<div slot="content" class="h-full w-full"  bind:this={content}>
-		{#if line.id == 15}
+		{#if line.id == 8}
 			<div class="h-full w-full">
 				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade|global />
 			</div>
