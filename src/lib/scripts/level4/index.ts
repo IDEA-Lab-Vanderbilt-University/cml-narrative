@@ -375,6 +375,13 @@ const script: Script = {
 			avatars: [],
 			background: '',
 		},
+		{
+			id: 53,
+			speakers: ['Spot Computer'],
+			dialog: 'ROBOT SHOWCASE',
+			avatars: [],
+			background: '',
+		},
 	],
 };
 

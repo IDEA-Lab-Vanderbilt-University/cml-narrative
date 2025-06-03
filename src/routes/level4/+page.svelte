@@ -1550,6 +1550,52 @@ Next
 			}} />
 		{/if}
 		{#if lineNumber == 52}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostependsummary" style="padding: 1vh;">
+					<p>
+						You are now ready to demonstrate your AI robot! Hit Next when you are finished showing off your robot.
+					</p>
+					<iframe src="https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id={get(accessTokenStore)}&host={browser? window.location.origin : ''}"
+					id="codinatorIframe" frameborder="0" title="The Codinator"  allow="camera; microphone; bluetooth" style="height: 65vh;" ></iframe>
+					<button class="nicebtn" id="codinatorSubmit" on:click={() => {
+						// Submit the robot code by passing a postMessage to the iframe
+						const codinatorIframe = document.getElementById('codinatorIframe');
+						if (codinatorIframe && codinatorIframe instanceof HTMLIFrameElement) {
+							// Wait for the iframe to respond with travelLogSubmitted
+							let waitForResponse = (event) => {
+								if (event.data.type === 'travelLogSubmitted') {
+									// The travel log has been submitted successfully
+									studentProgressStore.update((progress) => {
+										progress.last_visited = '/level4?page=53';
+										return progress;
+									});
+									
+									window.removeEventListener('message', waitForResponse);
+
+									// Go to the next page
+									goto('/level4?page=53');
+								}
+							};
+
+							window.addEventListener('message', waitForResponse);
+
+							// Send a submitTravelLog message to the iframe to submit the code (data is description, status)
+							codinatorIframe.contentWindow?.postMessage({
+								type: 'submitTravelLog',
+								data: {
+									description: 'robotcodetested',
+									status: 'complete'
+								}
+							}, '*');
+						}
+
+					}}>
+						Next
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 53}
 			<WaitForTeacherModal description="robotshowcase" task="robot demonstration"
 				onSuccess={() => {
 					studentProgressStore.update((progress) => {
@@ -1561,10 +1607,10 @@ Next
 				}} onRejected={(reason) => {
 					rejectionComment = reason;
 					studentProgressStore.update((progress) => {
-						progress.last_visited = '/level4?page=52';
+						progress.last_visited = '/level4?page=53';
 						return progress;
 					});
-					goto('/level4?page=52');
+					goto('/level4?page=53');
 				}}
 			/>
 		{/if}
