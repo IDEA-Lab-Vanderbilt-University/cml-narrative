@@ -87,12 +87,17 @@
 	 *
 	 */
 	 const handleKeydownEvent = (event: KeyboardEvent) => {
+		// Do not allow navigation if the dialogue is still typing or if the tablet modal is up
+		if (navigationLocked) return;
+
 		switch (event.key) {
 			case 'ArrowRight':
 			case ' ':
+				event.preventDefault(); // Prevent default spacebar scrolling behavior
 				forward();
 				break;
 			case 'ArrowLeft':
+				event.preventDefault();
 				back();
 			default:
 				break;
@@ -100,7 +105,7 @@
 	};
 </script>
 
-<svelte:window on:keydown|preventDefault={handleKeydownEvent} />
+<svelte:window on:keydown={handleKeydownEvent} />
 			
 <div class="z-60 w-full absolute inset-0 z-30 mt-auto flex h-fit items-end pb-2 brightness-100">
 	<div class="flex w-full flex-col px-4">
