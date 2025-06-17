@@ -188,6 +188,8 @@
 							bind:profileData 
 							{...currentStep.props || {}}
 							on:submitClicked={handleSubmit} 
+                            showCancelButton=true
+                            on:cancel={handleCancel}
 						/>
 					{:else}
 						<svelte:component 
@@ -216,10 +218,10 @@
 			{/if}
 
 			<!-- Cancel Button -->
-			{#if showCancelButton}
+			{#if showCancelButton && currentStep?.id !== 7}
 				<div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
 					<button 
-						class="btn-secondary btn"
+						class="bg-red-500 rounded-md px-2 py-2 m-2 text-xl text-white shadow hover:shadow-lg"
 						on:click={handleCancel}
 					>
 						Cancel

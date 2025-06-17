@@ -16,6 +16,8 @@
 
 	export let profileData: Student;
 
+    export let showCancelButton: boolean = false;
+
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
@@ -233,7 +235,16 @@
             New Faces
         </button>
     </div> -->
-    <div>
+    <div class="flex w-full justify-center space-x-4 mt-4">
+        {#if showCancelButton}
+            <button
+                class="bg-red-500 rounded-md px-2 py-2 m-2 text-xl text-white shadow hover:shadow-lg"
+                on:click={() => {
+                    dispatch('cancel');
+                }}>
+                Cancel
+            </button>
+        {/if}
         <button
             id="submit-button"
             class="bg-lapiz-blue rounded-md px-7 py-3 m-2 text-2xl text-white shadow hover:shadow-lg"
