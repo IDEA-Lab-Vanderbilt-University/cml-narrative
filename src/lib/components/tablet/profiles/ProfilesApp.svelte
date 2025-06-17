@@ -27,10 +27,7 @@
 	let index = 0;
 	let isEditingProfile = false;
 
-	let studentAgent: Student = get(studentDataStore);
-
-	// Create a copy of the student data for editing
-	let editableProfileData: Student = { ...studentAgent };
+	let profileData: Student = get(studentDataStore);
 
 	let profileExamples: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[], canEdit: boolean}[] = [
 		{
@@ -75,13 +72,13 @@
 		},
 	];
 
-	if (studentAgent.agent_name && studentAgent.agent_name != '') {
+	if (profileData.agent_name && profileData.agent_name != '') {
 		profileExamples.push({
-			name: "Agent " + studentAgent.agent_name,
-			rank: (studentAgent.progress?.badge_count ?? 0) > 4 ? "Junior Agent" : "Agent in Training",
+			name: "Agent " + profileData.agent_name,
+			rank: (profileData.progress?.badge_count ?? 0) > 4 ? "Junior Agent" : "Agent in Training",
 			favoriteBadge: '',
-			img: studentAgent.avatar ?? '',
-			interests: studentAgent.interests ?? ['','',''],
+			img: profileData.avatar ?? '',
+			interests: profileData.interests ?? ['','',''],
 			canEdit: true
 		});
 	}
@@ -104,12 +101,6 @@
 		// Only allow editing if it's the student's profile (the last one in the array)
 		const currentProfile = profileExamples[index];
 		if (currentProfile.canEdit) {
-			// Initialize editable data with current student data
-			editableProfileData = { ...studentAgent };
-			// Ensure interests array is properly initialized
-			if (!editableProfileData.interests || editableProfileData.interests.length === 0) {
-				editableProfileData.interests = ['', '', ''];
-			}
 			isEditingProfile = true;
 		}
 	};
@@ -132,7 +123,7 @@
 			studentDataStore.set(submittedData);
 			
 			// Update the local student agent reference
-			studentAgent = submittedData;
+			profileData = submittedData;
 			
 			// Update the profile examples array
 			const studentProfileIndex = profileExamples.findIndex(p => p.canEdit);
@@ -198,7 +189,7 @@
 			</div>
 			<div class="flex-1">
 				<ProfileEditor 
-					bind:profileData={editableProfileData}
+					bind:profileData
 					startPage={3}
 					showProfileBanner={false}
 					enableProfileViewing={false}
