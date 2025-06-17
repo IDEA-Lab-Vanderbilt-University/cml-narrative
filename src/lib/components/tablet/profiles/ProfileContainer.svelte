@@ -10,7 +10,9 @@
  
 --->
 <script lang="ts">
-	export let profile: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[]};
+	export let profile: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[], canEdit: boolean};
+
+	export let onEdit: () => void;
 </script>
 
 <div class="flex h-full w-full flex-col px-4 py-3">
@@ -28,11 +30,17 @@
 				{/if}
 			</div>
 		</div>
-		<div class="flex h-full w-1/3 items-center justify-center px-24">
+		<div class="flex flex-col gap-5 h-full w-1/3 items-center justify-center px-24">
 			<!-- TODO: Make this look more like the specifications -->
 			<div
 				class="flex w-full items-center justify-center rounded-full border-4 border-blue-300 bg-white p-9 shadow-lg shadow-blue-200" id="profilepiccontainer" style="background: url('{profile.img}') white bottom center no-repeat;">
 			</div>
+
+		{#if profile.canEdit}
+			<div class="flex justify-center">
+				<button class="btn-primary btn" on:click={onEdit}>Edit Profile</button>
+			</div>
+		{/if}
 		</div>
 		<div class="flex h-full w-1/3 flex-col space-y-6">
 			{#each profile.interests as interest}

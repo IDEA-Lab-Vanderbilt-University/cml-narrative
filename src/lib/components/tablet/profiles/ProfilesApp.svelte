@@ -26,13 +26,14 @@
 
 	let studentAgent: Student = get(studentDataStore);
 
-	let profileExamples: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[]}[] = [
+	let profileExamples: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[], canEdit: boolean}[] = [
 		{
 			name: 'Agent Gear',
 			rank: 'Senior Agent',
 			favoriteBadge: 'Robot Wrangler',
 			img: Assets.Characters.AgentGear.talking,
-			interests: ['Ride motorcycles', 'Eat empanadas', 'Watch race car tournaments']
+			interests: ['Ride motorcycles', 'Eat empanadas', 'Watch race car tournaments'],
+			canEdit: false
 		},
 		{
 			name: 'Agent Spark',
@@ -43,14 +44,16 @@
 				'Build computers and learn how they work',
 				'Read sci-fi books',
 				'Play video games'
-			]
+			],
+			canEdit: false
 		},
 		{
 			name: 'Agent Fern',
 			rank: 'Senior Agent',
 			favoriteBadge: 'Algorithm Ace',
 			img: Assets.Characters.AgentFern.smile,
-			interests: ['Water my plants', 'Travel to new places', 'Play piano']
+			interests: ['Water my plants', 'Travel to new places', 'Play piano'],
+			canEdit: false
 		},
 		{
 			name: 'Captain Storm',
@@ -61,7 +64,8 @@
 				"Watch thunderstorms (when it's safe of course!)",
 				'Play volleyball',
 				'Build robots'
-			]
+			],
+			canEdit: false
 		},
 	];
 
@@ -71,7 +75,8 @@
 			rank: (studentAgent.progress?.badge_count ?? 0) > 4 ? "Junior Agent" : "Agent in Training",
 			favoriteBadge: '',
 			img: studentAgent.avatar ?? '',
-			interests: studentAgent.interests ?? ['','','']
+			interests: studentAgent.interests ?? ['','',''],
+			canEdit: true
 		});
 	}
 
@@ -114,7 +119,7 @@
 
 <div class="h-full">
 	<div class="h-5/6">
-		<ProfileContainer profile={profileExamples[index]} />
+		<ProfileContainer profile={profileExamples[index]} onEdit={() => { console.log('Edit profile:', profileExamples[index]); }} />
 	</div>
 	<div class="flex w-full flex-col items-center justify-center space-y-2">
 		<div class="flex items-center justify-center space-x-6" id="navbuttons">
