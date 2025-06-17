@@ -114,7 +114,7 @@
 
 <div
 	class="flex h-full w-full flex-col items-center justify-center rounded-md bg-gray-900 bg-opacity-50 p-5 font-mono text-white bg-blend-darken">
-	<h1 class="text-4xl font-bold">{title}</h1>
+	<h1 class="font-bold {(title?.length ?? 0) < 100 ? 'text-4xl' : 'text-2xl'}">{title}</h1>
 	<p class="mt-4 text-xl italic">
 		{prompt}
 	</p>
