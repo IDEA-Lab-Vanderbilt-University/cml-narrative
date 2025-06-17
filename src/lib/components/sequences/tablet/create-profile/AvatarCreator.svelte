@@ -10,14 +10,14 @@
  
 --->
 <script lang="ts">
-	import { tourManager } from '$lib/components/tour/TourManager';
     import libmoji from '$lib/utils/libmoji';
 
 	import type { Student } from '$lib/types/UserData';
 
 	export let profileData: Student;
 
-	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { createEventDispatcher } from 'svelte';
+
 	const dispatch = createEventDispatcher();
 
 	const handleSubmit = () => {
@@ -145,8 +145,27 @@
     };
 
     let options = hairStyles.map((i) => randomMoji({hairStyle: i}));
+
+    if(profileData.avatar && profileData.avatar.length > 0) {
+        // If the profile already has an avatar, use it as the first option
+        options[0] = profileData.avatar;   
+        
+        setTimeout(() => {
+            // Click the first option to select the existing avatar
+            const firstOption = document.querySelector('.moji-container .moji');
+            if(firstOption && firstOption instanceof HTMLButtonElement) {
+                firstOption.click();
+            }
+        }, 100);
+    }
+
     const regenOptions = () => {
         options = hairStyles.map((i) => randomMoji({hairStyle: i}));
+
+        if(profileData.avatar && profileData.avatar.length > 0) {
+            // If the profile already has an avatar, use it as the first option
+            options[0] = profileData.avatar;        
+        }
     };
 </script>
 
