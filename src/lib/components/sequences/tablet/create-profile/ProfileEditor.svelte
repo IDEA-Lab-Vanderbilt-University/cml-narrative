@@ -21,6 +21,7 @@
 	export let showProfileBanner: boolean = true;
 	export let enableProfileViewing: boolean = true;
 	export let showNavigation: boolean = true;
+	export let showCancelButton: boolean = false;
 
 	const steps: ProfileStep[] = [
 		{
@@ -137,6 +138,13 @@
 	};
 
 	/**
+	 * Handle cancel action
+	 */
+	const handleCancel = () => {
+		dispatch('cancel');
+	};
+
+	/**
 	 * Handle profile banner click
 	 */
 	const handleProfileBannerClick = () => {
@@ -204,6 +212,18 @@
 			{#if showProfileBanner && currentStep?.showProfileBanner && enableProfileViewing}
 				<div class="absolute inset-0 z-10 mb-4 mt-auto flex h-fit items-end justify-center shadow-md" style="z-index: 1;">
 					<ClickToViewProfileBanner handleClick={handleProfileBannerClick} />
+				</div>
+			{/if}
+
+			<!-- Cancel Button -->
+			{#if showCancelButton}
+				<div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
+					<button 
+						class="btn-secondary btn"
+						on:click={handleCancel}
+					>
+						Cancel
+					</button>
 				</div>
 			{/if}
 		</div>

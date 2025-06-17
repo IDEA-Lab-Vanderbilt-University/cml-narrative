@@ -44,6 +44,13 @@
 			console.log('profileData before signup: ', submittedData);
 
 			await DataService.Student.updateStudent(submittedData);
+			
+			// Also send a travel log entry for the profile update
+			await DataService.TravelLog.submitTravelLog({
+				data: JSON.stringify(submittedData),
+				description: 'profile_updated',
+				status: 'complete'
+			});
 
 			message = 'Agent created successfully!';
 			isSuccess = true;
