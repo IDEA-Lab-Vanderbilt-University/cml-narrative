@@ -11,7 +11,6 @@
 */
 
 import { writable } from 'svelte/store';
-import remove from 'lodash/remove';
 
 /**
  * This creates a custom Svelte store. Here, we have access to typical Svelte store functions, but we can

@@ -11,10 +11,9 @@
 --->
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { megaJoulesMeter, tabletPowerNavigation } from '$lib/utils/stores/store';
-	import { onMount } from 'svelte';
-	import { fade, fly } from 'svelte/transition';
+	import { studentProgressStore } from '$lib/utils/stores/store';
 	import MegaJoulesMeter from './MegaJoulesMeter.svelte';
+	import SettingsModal from '../modals/SettingsModal.svelte';
 
 	/**
 	 * Tracks if powerdown button is enabled. This is determined by a store
@@ -23,33 +22,46 @@
 	 * If the store has a href, then we can assume that the powerdown button should
 	 * be enabled. Then, we will adjust the css properties of the powerdown button to enable user
 	 * interaction.
+	 * 
+	 * If a function is provided, then we will call that function instead.
 	 */
-	let isPowerDownEnabled: boolean = false;
-
-	$: {
-		isPowerDownEnabled = $tabletPowerNavigation.href;
-	}
+	export let powerDown: string | Function | void = undefined;
 
 	/**
 	 * First, we will check to see powerdown is enabled. If it is, then we will use the href provided in the store
 	 * to navigate the user to the proper location.
 	 */
 	const handlePowerDown = () => {
+		let powerDownAction = powerDown;
+		
 		console.log('powerdown');
 
-		if (isPowerDownEnabled) {
-			goto($tabletPowerNavigation.href);
+		if (powerDownAction != undefined && typeof powerDownAction === 'string') {
+			goto(powerDownAction);
+		} else if (powerDown != undefined && typeof powerDownAction === 'function') {
+			powerDownAction();
 		} else {
 			console.warn('Navigation not permitted at this time!');
 		}
 	};
+
+	let tabletSettings: SettingsModal | void;
+
+	const showSettings = () => {
+		tabletSettings?.show();
+	};
+
+	export let showMeter: boolean = true;
+	export let showBottomButtons: boolean = true;
 </script>
 
-<div class="h-screen w-screen bg-dark-navy p-7 ">
-	<div class=" flex h-full w-full flex-col rounded-lg">
-		<div class="flex h-fit w-full justify-between p-4 font-mokoto">
+<SettingsModal bind:this={tabletSettings}/>
+
+<div class="h-full w-full bg-dark-navy p-7 z-50 absolute">
+	<div class="flex h-full w-full flex-col rounded-lg">
+		<div class="tabletHeader flex h-fit w-full justify-between p-4 font-mokoto">
 			<div class="flex items-center space-x-3 align-middle">
-				<p class="text-5xl font-bold text-white">S.P.O.T</p>
+				<p class="text-5xl font-bold text-white">S.P.O.T.</p>
 				<img src="/img/logos/SPOT-dots.svg" class="h-full w-24" alt="" />
 			</div>
 			<p class="text-xl font-bold text-white">Solving Problems of Tomorrow</p>
@@ -60,20 +72,72 @@
 					<div class="grid-background h-full w-full">
 						<slot />
 					</div>
-					<div class="absolute inset-0 z-10 ml-auto flex  h-fit w-1/6 items-start justify-end p-2">
-						<MegaJoulesMeter amount={$megaJoulesMeter} />
+					<div class="absolute inset-0 z-10 ml-auto flex  h-fit w-1/6 items-start justify-end p-2 {showMeter? '' : 'hidden'}">
+						<MegaJoulesMeter amount={$studentProgressStore.megajoules} />
 					</div>
 				</div>
 			</div>
 		</div>
-		<div id="tablet-actions" class="flex h-fit justify-end space-x-5 pt-3 text-center text-white">
-			<img id="tablet-settings" src="/img/svg/gear.svg" alt="" class="h-20 w-20" />
+		<div id="tablet-actions" class="flex h-fit justify-end space-x-5 pt-3 text-center text-white" style="{showBottomButtons? "": "display: none !important;"}">
+			<button id="tablet-settings-button" on:click={showSettings}>
+				<img id="tablet-settings" src="/img/svg/gear.svg" alt="" class="h-20 w-20" />
+			</button>
 			<button
 				id="tablet-power-button"
-				class={`${!isPowerDownEnabled ? 'cursor-not-allowed opacity-60' : ''} h-20 w-20`}
+				class={`${(powerDown == undefined) ? 'cursor-not-allowed powerDown-disabled' : ''} h-20 w-20`}
 				on:click={handlePowerDown}>
 				<img src="/img/svg/power-button.svg" alt="" />
 			</button>
 		</div>
 	</div>
 </div>
+
+
+<style>
+	.tabletHeader {
+		user-select: none;
+	}
+
+	.hidden {
+		display: none;
+	}
+
+	.powerDown-disabled {
+		filter: saturate(50%) brightness(30%);
+		cursor: not-allowed;
+	}
+
+	#tablet-actions {
+		height: 8vh;
+		display: flex;
+		justify-content: flex-end;
+		justify-items: center;
+		position:absolute;
+		bottom: 0;
+		right: 0;
+		width: fit-content;
+		padding: 1vh;
+	}
+
+	#tablet-actions img {
+		pointer-events: none;
+		height: 7.5vh;
+	}
+
+	#tablet-actions button {
+		transition: all 0.3s;
+		align-self: center;
+	}
+
+	#tablet-actions button:hover {
+		transform: scale(1.05);
+	}
+
+	#tablet-actions button:active {
+		transform: scale(0.95);
+	}
+
+	.grid-background {
+		overflow: hidden;
+	}
+</style>

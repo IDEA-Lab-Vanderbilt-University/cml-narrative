@@ -10,14 +10,15 @@
  
 --->
 <script lang="ts">
-	import type { UserData } from '$lib/types/UserData';
+	import type { Student } from '$lib/types/UserData';
 	import { onMount } from 'svelte';
 
-	export let profileData: UserData;
+	export let profileData: Student;
 	export let prompt: string;
 	export let index: number;
 
 	let randomPlaceholder = '';
+	
 	const getRandomInterest = () => {
 		let interests: string[] = ['play basketball', 'play football', 'dance', 'go outside', 'draw'];
 
@@ -25,6 +26,7 @@
 
 		return interests[random];
 	};
+
 	onMount(() => {
 		randomPlaceholder = getRandomInterest();
 	});

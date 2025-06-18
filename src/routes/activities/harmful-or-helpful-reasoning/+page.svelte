@@ -3,9 +3,13 @@
 	import DNDResponse from '$lib/components/activities/drag-and-drop/DNDResponse.svelte';
 	import { onMount } from 'svelte';
 	import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
-	import { dragItemsStore, harmfulHelpfulStore } from '$lib/utils/stores/store';
+	import { accessTokenStore, dragItemsStore, harmfulHelpfulStore, requireLogin } from '$lib/utils/stores/store';
+	import { goto } from '$app/navigation';
+	import { get } from 'svelte/store';
 	let currentDragObject: DragStackItem;
 
+	requireLogin();
+	
 	onMount(() => {
 		dragItemsStore.subscribe((value) => {
 			currentDragObject = value[0];

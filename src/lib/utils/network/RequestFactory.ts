@@ -11,47 +11,19 @@
 */
 
 /**
- * Create a network POST request
+ * Create a network request
  * @param url url of server you are attempting to request
+ * @param method HTTP method to use for request
  * @param body data to send to server
  * @param accessToken optional accessToken for requests that require an access token
  * @returns promise with JSON object
  */
-// export const RequestFactory = async (url: string, body: any, accessToken?: string) => {
-// 	return new Promise<any>(async (resolve, reject) => {
-// 		// Initialize headers
-// 		var headers = new Headers();
-// 		headers.append('Content-Type', 'application/json');
-
-// 		// If the optional accessToken param is passed, then we want to append
-// 		// the access token to the headers of our request
-// 		if (accessToken) {
-// 			headers.append('x-access-token', accessToken);
-// 		}
-
-// 		// Initialize request options for a POST request
-// 		var requestOptions: RequestInit = {
-// 			method: 'POST',
-// 			headers: headers,
-// 			body: JSON.stringify(body),
-// 			redirect: 'follow'
-// 		};
-
-// 		// Execute the POST request
-// 		try {
-// 			let response = await fetch(url, requestOptions);
-// 			let result = await response.json();
-
-// 			// console.log("result: ", response.text);
-
-// 			resolve(result);
-// 		} catch (error) {
-// 			reject(error);
-// 		}
-// 	});
-// };
-
-export const RequestFactory = async (url: string, body: FormData | any, accessToken?: string) => {
+export const RequestFactory = async (
+	url: string, 
+	method: string, 
+	body?: FormData | any, 
+	accessToken?: string
+) => {
 	return new Promise<any>(async (resolve, reject) => {
 		// Initialize headers
 		var headers = new Headers();
@@ -64,27 +36,31 @@ export const RequestFactory = async (url: string, body: FormData | any, accessTo
 
 		// Initialize request options for a POST request
 		var requestOptions: RequestInit = {
-			method: 'POST',
+			method: method,
+			credentials: 'include',
 			headers: headers,
 			redirect: 'follow'
 		};
 
 		// Set the request body based on the type of body parameter
-		if (body instanceof FormData) {
-			requestOptions.body = body;
-		} else {
-			headers.append('Content-Type', 'application/json');
-			requestOptions.body = JSON.stringify(body);
+		if (body){
+			if (body instanceof FormData) {
+				requestOptions.body = body;
+			} else {
+				headers.append('Content-Type', 'application/json');
+				requestOptions.body = JSON.stringify(body);
+			}
 		}
 
-		// Execute the POST request
+		// Execute request
 		try {
 			console.log(url);
 			console.log('requestOptions: ', requestOptions);
 			let response = await fetch(url, requestOptions);
+			if (!response.ok) {
+				throw new Error('Error fetching data from server: ' + response.statusText);
+			}
 			let result = await response.json();
-
-			// console.log("result: ", response.text);
 
 			resolve(result);
 		} catch (error) {

@@ -45,7 +45,7 @@
 	{:else}
 		<div class="flex h-full w-full flex-col items-center justify-center text-white">
 			<h3 class="text-4xl">
-				Write or explain how a {currentDragObject.title} is {currentDragObject.type} according to you?
+				Write or explain how {currentDragObject.title} {currentDragObject.plural? "are" : "is"} {currentDragObject.type} according to you?
 			</h3>
 			<p class="mt-2 text-2xl">(You can record yourself explaining too)</p>
 			<div class="mt-7 flex space-x-4">

@@ -10,18 +10,10 @@
  
 --->
 <script lang="ts">
-	import { tourManager, type Tour } from '$lib/components/tour/TourManager';
 	import { Assets } from '$lib/utils/Assets';
 	import { onDestroy, onMount, createEventDispatcher } from 'svelte';
 
-	let dispatch = createEventDispatcher<{ event: string; id: string }>();
-
-	// let tour: Tour = {
-	// showTour: true,
-	// message: "This is your SPOT tablet! You will use it for your mission to the future. It can do several different things.",
-	// bindTo: "#profile-element-tablet-intro",
-	// position: "top"
-	// }
+	let dispatch = createEventDispatcher();
 
 	onMount(() => {
 		dispatch('applicationContainerEvent', {

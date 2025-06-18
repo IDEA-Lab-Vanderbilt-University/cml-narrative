@@ -1,23 +1,12 @@
-<!--
- /src/routes/introduction/onboarding/bot-buddy/+page.svelte
- +page.svelte
- cml-narrative
- 
- Created by Ian Thompson on January 14th 2023
- icthomp@g.clemson.edu
- 
- https://idealab.sites.clemson.edu
- 
---->
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import DialogBox from '$lib/components/dialog/DialogBox.svelte';
 	import Scene from '$lib/components/scene/Scene.svelte';
+	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
-	import type { UserProgress } from '$lib/types/UserData.js';
-	import DataService from '$lib/utils/DataService/index.js';
-	import { userDataStore } from '$lib/utils/stores/store.js';
+	import { studentProgressStore } from '$lib/utils/stores/store.js';
+	import script from '$lib/scripts/introduction/bot-buddy';
 
 	import { fade } from 'svelte/transition';
 
@@ -38,85 +27,51 @@
 	};
 
 	/**
-	 * Check the keycode that has been emitted from a Keydown Event on the Window to determine how we should navigate the user
-	 * through the scene.
-	 *
-	 * Event keys were found by using the following site below:
-	 *
-	 * https://www.toptal.com/developers/keycode
-	 *
-	 * @param event Keyboard Event emitted from  the Window
-	 *
-	 */
-	const handleKeydownEvent = (event: KeyboardEvent) => {
-		switch (event.key) {
-			case 'ArrowRight':
-			case ' ':
-				handleNavigation(NavigationDirection.forward);
-				break;
-			case 'ArrowLeft':
-				handleNavigation(NavigationDirection.backward);
-			default:
-				break;
-		}
-	};
-
-	const getUpdatedProgress = ():UserProgress => {
-		return {
-			level: 0,
-			levelLabel: 'level-zero',
-			subLevel: 1,
-			subLevelLabel: '/training?page=1',
-			lastUpdated: new Date()
-		};
-	}
-
-	const updateLocalProgress = (progress: UserProgress) => {
-		userDataStore.update((data) => {
-			data.progress = progress;
-			return data;
-		})
-	}
-
-	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
+		let target = '';
+
 		if (direction == NavigationDirection.forward) {
-			if (line.id == 23) {
-				let progress = getUpdatedProgress();
-				await DataService.Data.updateUserProgress(progress);
-				updateLocalProgress(progress)
-				goto('/training?page=1');
+			if (line.id == script.lines.length) {
+				target = '/introduction/training?page=1';
 			} else {
-				goto(`/introduction/bot-buddy?page=${line.id + 1}`);
+				target = `/introduction/bot-buddy?page=${line.id + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/introduction/bot-buddy?page=${line.id - 1}`);
+			target = `/introduction/bot-buddy?page=${line.id - 1}`;
+		}
+
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			goto(target);
 		}
 	};
-</script>
 
-<svelte:window on:keydown={handleKeydownEvent} />
+	let content: HTMLElement | void;
+</script>
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
 		<DialogBox {line} on:dialogEvent={handleDialogEvent} />
 	</div>
-	<div slot="content" class="h-full w-full">
-		{#if line.id == 15}
+	<div slot="content" class="h-full w-full"  bind:this={content}>
+		{#if line.id == 8}
 			<div class="h-full w-full">
-				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade />
+				<img src="/img/svg/explosion.svg" alt="" class="h-full w-full" in:fade|global />
 			</div>
-		<!-- {:else if line.id == 23}
-			<div class="flex h-full w-full">
-				<img
-					src="/img/characters/agent-groups/spot_agents_2.png"
-					alt=""
-					style="position: absolute; bottom: 25%; left: 5%;" />
-			</div> -->
 		{/if}
+		<TabletButton on:click={() => { 
+			const event  = new CustomEvent('showTablet', {
+				bubbles: true
+			});
+			
+			content?.dispatchEvent(event);
+		}} />
 	</div>
 </Scene>

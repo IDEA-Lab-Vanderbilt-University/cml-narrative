@@ -17,14 +17,14 @@
 	}
 
 	onMount(() => {
-		setTimeout(close, 3000);
+		setTimeout(close, 2000);
 	});
 </script>
 
 <!-- <div
 	class="flex h-full items-center justify-center"
-	in:fly={{ y: 200, duration: 1000 }}
-	out:fly={{ y: 200, duration: 1000 }}>
+	in:fly|global={{ y: 200, duration: 1000 }}
+	out:fly|global={{ y: 200, duration: 1000 }}>
 	<div
 		class="flex w-fit flex-col items-center justify-center space-y-12 rounded-lg bg-blue-700 px-12 py-6 text-white shadow-2xl drop-shadow-2xl">
         <button class="absolute top-0 right-0 mx-4 my-0 text-2xl" on:click={close}>×</button>
@@ -43,15 +43,14 @@
 <div
 	id="popup-modal"
 	tabindex="-1"
-	class="flex h-full items-center justify-center"
-	in:fly={{ y: 200, duration: 1000 }}
-	out:fly={{ y: 200, duration: 1000 }}>
-	>
+	class="absolute left-1/2 top-1/2 flex h-full -translate-x-1/2 -translate-y-1/2 transform items-center justify-center z-50"
+	in:fly|global|global={{ y: 200, duration: 1000 }}
+	out:fly|global|global={{ y: 200, duration: 1000 }}>
 	<div class="relative max-h-full w-full max-w-md p-4">
 		<div class="relative rounded-lg bg-blue-800 shadow">
-			<button
+			<!-- <button
 				type="button"
-				class="items-center absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 justify-center rounded-lg bg-transparent text-sm text-gray-400"
+				class="absolute end-2.5 top-3 ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400"
 				on:click={close}>
 				<svg
 					class="h-3 w-3"
@@ -66,7 +65,7 @@
 						stroke-width="2"
 						d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
 				</svg>
-			</button>
+			</button> -->
 			<div class="p-4 text-center md:p-5">
 				{#if isSuccess}
 					<svg
@@ -92,3 +91,23 @@
 		</div>
 	</div>
 </div>
+<div
+	id="backdrop"></div>
+
+<style>
+	#backdrop{
+		background-color: rgba(0, 0, 0, 0.5);
+		backdrop-filter: blur(5px);
+		width: 100vw;
+		height: 100vh;
+		position: fixed;
+		top: 0;
+		left: 0;
+		z-index: 10;
+	}
+
+	#popup-modal {
+		z-index: 20;
+	}
+
+</style>

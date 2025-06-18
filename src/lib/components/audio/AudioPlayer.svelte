@@ -1,23 +1,30 @@
 <script context="module" lang="ts">
+	import { defaultSettings, type Settings } from "$lib/types/Settings";
+	import { settingsStore } from "$lib/utils/stores/store";
+
 	const players = new Set<HTMLAudioElement>();
 
-	export function stopAll() {
-		players.forEach((p) => p.pause());
-	}
+	let settings: Settings = defaultSettings;
+	
+	settingsStore.subscribe(value => {
+		settings = value;
+	});
 
 	export const play = (currentPlayer: HTMLAudioElement) => {
-		players.forEach((p) => {
-			if (p == currentPlayer) {
-				p.play();
-			} else {
-				p.pause();
-			}
-		});
+		if(settings.audioEnabled ?? defaultSettings.audioEnabled) {
+			players.forEach((p) => {
+				if (p == currentPlayer) {
+					p.play();
+				} else {
+					p.pause();
+				}
+			});
+		}
 	};
 </script>
 
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 
 	export let src: string;
 	let hasPlayerMounted = false;
@@ -25,7 +32,13 @@
 	const dispatch = createEventDispatcher();
 
 	$: {
-		if (hasPlayerMounted) {
+		if (hasPlayerMounted && (settings.audioEnabled ?? defaultSettings.audioEnabled)) {
+			player.pause();
+			
+			// Reset the audio element to the beginning
+			player.currentTime = 0;
+
+			// Set the new source and play
 			player.src = src;
 			player.play();
 		}
@@ -35,11 +48,26 @@
 
 	onMount(() => {
 		hasPlayerMounted = true;
-
-		players.add(player);
-		console.log('mounting plater');
-		play(player);
+		players.add(player);		
 		dispatch('playerMounted', player);
+	});
+
+	
+	export function stopAll() {
+		players.forEach((p) => p.pause());
+	}
+
+	export function playAll() {
+		players.forEach((p) => p.play());
+	}
+
+	onDestroy(() => {
+		players.forEach((p) => {
+			if (p) {
+				p.pause();
+				p.src = '';
+			}
+		});
 	});
 </script>
 

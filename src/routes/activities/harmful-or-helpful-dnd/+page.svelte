@@ -1,8 +1,11 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import type { DragDropItem, DragStackItem } from '$lib/types/DragDropItem';
-	import { dragItemsStore } from '$lib/utils/stores/store';
+	import { accessTokenStore, dragItemsStore, requireLogin } from '$lib/utils/stores/store';
 	import { onMount } from 'svelte';
+	
+	requireLogin();
 
 	let helpfulElement: HTMLParagraphElement;
 	let harmfulElement: HTMLParagraphElement;
@@ -102,3 +105,17 @@
 		{/if}
 	</div>
 </Tablet>
+
+
+<style>
+	#helpful-bank p {
+		user-select: none;
+	}
+	
+	#harmful-bank p {
+		user-select: none;
+	}
+
+	
+
+</style>

@@ -6,7 +6,7 @@
 
 	import Dropzone from 'svelte-file-dropzone';
 	import Papa from 'papaparse';
-	import type { Student } from '$lib/types/teacher-view/Student';
+	import type { Student } from '$lib/types/UserData';
 
 	let studentsFromCSV: Student[] = [];
 	let files = {
@@ -25,9 +25,9 @@
 	const getSampleCSV = () => {
 		// Define data
 		const data = [
-			['id', 'firstName', 'lastName', 'email'],
-			[1, 'John', 'Doe', 'johndoe@gmail.com'],
-			[2, 'Jane', 'Doe', 'janedoe@gmail.com']
+			['first_name', 'last_name', 'age'],
+			['John', 'Doe', 9],
+			['Jane', 'Doe', 10]
 		];
 
 		// Convert Array to CSV Data
@@ -78,10 +78,10 @@
 
 				result.data.forEach((student) => {
 					studentsFromCSV.push({
-						id: student.id,
-						firstName: student.firstName,
-						lastName: student.lastName,
-						email: student.email
+						teacher_id: '00000000-0000-0000-0000-000000000001', // TODO: read from session
+						first_name: student.first_name,
+						last_name: student.last_name,
+						age: student.age
 					});
 				});
 

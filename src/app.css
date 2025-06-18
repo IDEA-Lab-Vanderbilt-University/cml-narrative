@@ -10,6 +10,10 @@
 	font-family: 'Mokoto';
 	src: url('/font/MokotoGlitch.ttf');
 }
+@font-face {
+	font-family: 'Gemunu Libre';
+	src: url('/font/GemunuLibre.ttf');
+}
 
 .grid-background {
 	background-size: 50px 40px;
@@ -34,4 +38,16 @@
 	border-image: url('/img/misc/rounded-profile-banner.png');
 	border-image-slice: 10;
 	@apply rounded-full;
+}
+
+html {
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+
+body {
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
 }

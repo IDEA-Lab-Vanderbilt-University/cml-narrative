@@ -15,7 +15,7 @@ const generatePDFDocument = async (students: Student[]) => {
 
 	return await new Promise(async (resolve, reject) => {
 		let x = 10;
-		let y = 10;
+		let y = 0;
 
 		let index = 0;
 
@@ -29,26 +29,38 @@ const generatePDFDocument = async (students: Student[]) => {
 
 			doc
 				.setFontSize(20)
-				.text('WELCOME TO SPOT, AGENT!', x + 50, y + 10, {
+				.addImage('/img/logos/SPOT-black.png', 'PNG', x + 0, y + 10, 80, 17.5)
+				.addImage(img, 'PNG', x, y + 25, 50, 50, 'qr' + index, 'NONE')
+				.setFontSize(18)
+				.text(
+					'Welcome to SPOT, Agent!',
+					x + 135,
+					y + 20,
+					{
+						maxWidth: 140,
+						align: 'center'
+					}
+				)
+				.text(student.first_name + ' ' + student.last_name, x + 135, y + 35, {
+					maxWidth: 140,
 					align: 'center'
 				})
-				.addImage(img, 'PNG', x, y + 10, 50, 50)
-				.setFontSize(18)
-				.text(student.firstName + ' ' + student.lastName, x + 50, y + 20)
 				.setFontSize(12)
 				.text(
 					[
-						'You havee been seelected to become a new agent with the Solving Problems of Tomorrow Agency!',
-						'Use this credential to log into the SPOT Mainframe'
+						'You have been selected to become a new agent with SPOT,',
+						'the Solving Problems of Tomorrow Agency!',
+						'Use this credential to log into the SPOT Mainframe!'
 					],
-					x + 50,
-					y + 30,
+					x + 135,
+					y + 45,
 					{
-						maxWidth: 140
+						maxWidth: 140,
+						align: 'center'
 					}
 				);
 
-			y += 60;
+			y += 70;
 			index += 1;
 		});
 

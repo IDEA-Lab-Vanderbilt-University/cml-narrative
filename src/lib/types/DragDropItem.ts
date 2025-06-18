@@ -29,6 +29,7 @@ export interface DragStackItem {
 	img: string;
 	type: 'harmful' | 'helpful' | undefined;
 	reasoning: Reasoning | undefined;
+	plural: boolean;
 }
 
 export interface Reasoning {

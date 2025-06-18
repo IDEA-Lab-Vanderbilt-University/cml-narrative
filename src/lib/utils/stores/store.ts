@@ -10,11 +10,15 @@
  
 */
 
-import type { StudentData, UserData } from '$lib/types/UserData';
-import { writable } from 'svelte/store';
+import type { Student, StudentProgress, TravelLogWithStudent } from '$lib/types/UserData';
+import { get, writable } from 'svelte/store';
 import { persist, createLocalStorage } from '@macfja/svelte-persistent-store';
 import type { DragStackItem, HarmfulHelpfulItem } from '$lib/types/DragDropItem';
-import type { Student } from '$lib/types/teacher-view/Student';
+import { defaultSettings, type Settings } from '$lib/types/Settings';
+import type { PizzaConfig } from '$lib/components/activities/pizza-time/pizzatypes';
+import DataService from '../DataService';
+import { goto } from '$app/navigation';
+import { browser } from '$app/environment';
 
 /**
  * A note on what this file does:
@@ -32,61 +36,27 @@ import type { Student } from '$lib/types/teacher-view/Student';
  * cookies, which is probably something we will do in the future.
  */
 
-// export const agentData = writable({});
+export let debugMode = false;
 
-// let defaultStudentData: StudentAuthData = {
-// 	id: 0,
-// 	firstName: '',
-// 	lastName: '',
-// 	email: '',
-// 	password: ''
-// };
-
-let defaultUserData: UserData = {
-	name: {
-		first: '',
-		last: ''
-	},
-	age: 0,
-	interests: [],
-	avatarImg: '',
-	agentName: '',
-	email: '',
-	password: '',
-	progress: {
-		level: 0,
-		levelLabel: '',
-		subLevel: 0,
-		subLevelLabel: '',
-		lastUpdated: undefined
-	}
-};
-
-let defaultStudentData: StudentData = {
-	firstName: '',
-	lastName: '',
-	id: 0,
-	email: '',
-	password: ''
-};
-
-export const userDataStore = persist(
-	writable<UserData>(defaultUserData),
+export const settingsStore = persist(
+	writable<Settings>(defaultSettings),
 	createLocalStorage(),
-	'userData'
+	'settings'
 );
-export const studentDataStore = writable<StudentData>(defaultStudentData);
-export const temporaryUserData = writable<UserData>(defaultUserData);
 
-export const tabletPowerNavigation = writable({});
+export const studentDataStore = writable<Student>({
+	teacher_id: '',
+	first_name: '',
+	last_name: '',
+});
 
-export const accessTokenStore = writable('');
+export const studentProgressStore = writable<StudentProgress>({});
 
-/**
- * Defines the store for the Megajoules meter. A number 0-14 should be passed.
- * This store allows this information to be accessed throughout the application.
- */
-export const megaJoulesMeter = writable(0);
+export const pizzaConfigStore = writable<PizzaConfig | undefined>(undefined);
+
+export const tabletModalActive = writable(false);
+
+export const accessTokenStore = writable(debugMode? 'DEBUG-STUDENT' : '');
 
 export const drawResponse = writable();
 
@@ -98,55 +68,92 @@ let deafaultDragItems: DragStackItem[] = [
 		el: null,
 		img: '/img/new-icons/google.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: false
 	},
 	{
 		id: 2,
 		itemId: '',
-		title: 'Self Driving Car',
+		title: 'Self Driving Cars',
 		el: null,
 		img: '/img/new-icons/self-driving-car.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: true
 	},
 	{
 		id: 3,
 		itemId: 'smart-phone',
-		title: 'Smart Phone',
+		title: 'Smart Phones',
 		el: null,
 		img: '/img/new-icons/smart-phone.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: true
 	},
 	{
 		id: 4,
 		itemId: 'computer',
-		title: 'Computer',
+		title: 'Computers',
 		el: null,
 		img: '/img/new-icons/computer.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: true
 	},
 	{
 		id: 5,
 		itemId: 'smart-watch',
-		title: 'Smart Watch',
+		title: 'Smart Watches',
 		el: null,
 		img: '/img/new-icons/smartwatch.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: true
 	},
 	{
 		id: 6,
 		itemId: 'tablet',
-		title: 'Tablet',
+		title: 'Tablets',
 		el: null,
 		img: '/img/new-icons/tablet.png',
 		type: undefined,
-		reasoning: undefined
+		reasoning: undefined,
+		plural: true
 	}
 ];
 
 export const dragItemsStore = writable<DragStackItem[]>(deafaultDragItems);
 export const harmfulHelpfulStore = writable<HarmfulHelpfulItem[]>([]);
 export const studentClassStore = writable<Student[]>([]);
+export const sessionTeacherID = writable('');
+
+// When the studentProgressStore is updated, update the studentDataStore
+studentProgressStore.subscribe((value) => {
+	if (!value) return;
+
+	// Check for login
+	if (!accessTokenStore || debugMode) return;
+	if (!get(accessTokenStore)) return;
+
+	studentDataStore.update((student) => {
+		return { ...student, progress: value };
+	});
+
+	// Also send the progress to the server
+	DataService.StudentProgress.updateProgress(value);
+});
+
+export const pendingTravelLogStore = writable<TravelLogWithStudent[]>([]);
+
+export const requireLogin = () => {
+	if (!accessTokenStore || debugMode || !browser) return;
+
+	if (!get(accessTokenStore)) {
+		goto('/');
+	}
+
+	if(get(accessTokenStore) === '') {
+		goto('/');
+	}
+};

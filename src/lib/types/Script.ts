@@ -15,10 +15,6 @@ export interface Script {
 	 * An array of all dialog
 	 */
 	lines: Line[];
-	/**
-	 * How long the current script segment is
-	 */
-	length: number;
 }
 
 /**
@@ -56,5 +52,18 @@ export interface Line {
 	 */
 	audio?: string;
 
-	pos?: 'left' | 'right' | 'normal';
+	/**
+	 * Position of the speaker's avatar
+	 */
+	pos?: 'left' | 'right' | 'normal' | 'center';
+
+	/**
+	 * Size of the speaker's avatar (note: 'full' works best with 'center' pos)
+	 */
+	size?: 'normal' | 'full';
+
+	/**
+	 * Should the avatar be mirrored?
+	 */	
+	mirror?: boolean;
 }

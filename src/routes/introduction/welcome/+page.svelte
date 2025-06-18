@@ -15,6 +15,7 @@
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
+	import { studentProgressStore } from '$lib/utils/stores/store.js';
 
 	export let data;
 
@@ -33,48 +34,34 @@
 	};
 
 	/**
-	 * Check the keycode that has been emitted from a Keydown Event on the Window to determine how we should navigate the user
-	 * through the scene.
-	 *
-	 * Event keys were found by using the following site below:
-	 *
-	 * https://www.toptal.com/developers/keycode
-	 *
-	 * @param event Keyboard Event emitted from  the Window
-	 *
-	 */
-	const handleKeydownEvent = (event: KeyboardEvent) => {
-		switch (event.key) {
-			case 'ArrowRight':
-			case ' ':
-				handleNavigation(NavigationDirection.forward);
-				break;
-			case 'ArrowLeft':
-				handleNavigation(NavigationDirection.backward);
-			default:
-				break;
-		}
-	};
-
-	/**
 	 * Determine the state of the DialogEvent that was emitted. Then, we will navigate
 	 * the user to the appropriate url with appropriate querystring which represents
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = (direction: NavigationDirection) => {
+		let target = '';
+		
 		if (direction == NavigationDirection.forward) {
-			if (line.id == 2) {
-				goto('/introduction/onboarding/tablet-tutorial?page=1');
+			if (line.id == 1) {
+				target = '/introduction/onboarding/tablet-tutorial?page=1';
 			} else {
-				goto(`/introduction/welcome?page=${line.id + 1}`);
+				target = `/introduction/welcome?page=${line.id + 1}`;
 			}
 		} else if (direction == NavigationDirection.backward && line.id > 1) {
-			goto(`/introduction/welcome?page=${line.id - 1}`);
+			target = `/introduction/welcome?page=${line.id - 1}`;
+		}
+		if (target) {
+			studentProgressStore.update((data) => {
+				data.last_visited = target;
+				return data;
+			});
+			
+			goto(target);
 		}
 	};
 </script>
 
-<svelte:window on:keydown={handleKeydownEvent} />
+<svelte:window/>
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">

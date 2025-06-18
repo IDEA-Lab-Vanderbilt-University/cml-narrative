@@ -10,9 +10,9 @@
  
 --->
 <script lang="ts">
-	import type { UserData } from '$lib/types/UserData';
+	import type { Student } from '$lib/types/UserData';
 
-	export let profileData: UserData;
+	export let profileData: Student;
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-10">
@@ -23,14 +23,14 @@
 				type="text"
 				placeholder="First name"
 				class="input-bordered input h-full w-full font-mono text-4xl"
-				bind:value={profileData.name.first} />
+				bind:value={profileData.first_name} />
 		</div>
 		<div class="form-control h-24 w-full max-w-xs">
 			<input
 				type="text"
-				placeholder="Lastname"
+				placeholder="Last name"
 				class="input-bordered input h-full w-full font-mono text-4xl"
-				bind:value={profileData.name.last} />
+				bind:value={profileData.last_name} />
 		</div>
 	</div>
 </div>

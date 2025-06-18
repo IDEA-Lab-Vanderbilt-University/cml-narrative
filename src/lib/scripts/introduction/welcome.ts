@@ -11,30 +11,12 @@
 */
 
 import type { Script, Line } from '$lib/types/Script';
-import type { UserData } from '$lib/types/UserData';
-import { userDataStore } from '$lib/utils/stores/store';
+import type { Student } from '$lib/types/UserData';
+import { studentDataStore } from '$lib/utils/stores/store';
 
-let agent: UserData = {
-	name: {
-		first: '',
-		last: ''
-	},
-	age: 0,
-	interests: [],
-	avatarImg: '',
-	agentName: '',
-	email: '',
-	password: '',
-	progress: {
-		level: 0,
-		levelLabel: '',
-		subLevel: 0,
-		subLevelLabel: '',
-		lastUpdated: undefined
-	}
-};
+let agent: Student = {};
 
-userDataStore.subscribe((value) => {
+studentDataStore.subscribe((value) => {
 	agent = value;
 });
 
@@ -43,22 +25,12 @@ const script: Script = {
 		{
 			id: 1,
 			speakers: ['Agent Spark'],
-			dialog: `Agent ${agent.agentName}, I love it!`,
-			avatars: ['/img/characters/agent-spark/spark_clapping_inverted.png'],
-			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s35.wav',
-			pos: 'left'
-		},
-		{
-			id: 2,
-			speakers: ['Agent Spark'],
 			dialog: `Now, let's take a look at all the features on your SPOT tablet.`,
 			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_spark/agent_spark_l0s34.wav',
 			pos: 'left'
 		}
-	],
-	length: 2
+	]
 };
 export default script;
