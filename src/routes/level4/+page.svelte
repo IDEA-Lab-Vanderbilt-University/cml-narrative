@@ -1415,7 +1415,11 @@ Next
 							
 							if(examples.length > 0) {
 								const exampleTexts = Array.from(examples).map((example) => example.textContent);
-								classes[classColumn.querySelector('.classColumnTitle').textContent] = exampleTexts;
+								const col = classColumn?.querySelector('.classColumnTitle')?.textContent;
+
+								if(col) {
+									classes[col] = exampleTexts;
+								}
 							}
 						}
 						await DataService.TravelLog.submitTravelLog({
@@ -1583,8 +1587,8 @@ Next
 							codinatorIframe.contentWindow?.postMessage({
 								type: 'submitTravelLog',
 								data: {
-									description: 'robotcodetested',
-									status: 'complete'
+									description: 'robotshowcase',
+									status: 'pending'
 								}
 							}, '*');
 						}
@@ -1610,7 +1614,7 @@ Next
 						progress.last_visited = '/level4?page=53';
 						return progress;
 					});
-					goto('/level4?page=53');
+					goto('/level4?page=52');
 				}}
 			/>
 		{/if}
