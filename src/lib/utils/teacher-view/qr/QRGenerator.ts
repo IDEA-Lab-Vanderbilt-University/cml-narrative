@@ -29,30 +29,30 @@ const generatePDFDocument = async (students: Student[]) => {
 
 			doc
 				.setFontSize(20)
-				.addImage('/img/logos/SPOT-black.png', 'PNG', x + 0, y + 10, 80, 17.5)
+				.addImage('/img/logos/SPOT-black.png', 'PNG', x, y + 10, 80 * 0.9, 17.5 * 0.9)
 				.addImage(img, 'PNG', x, y + 25, 50, 50, 'qr' + index, 'NONE')
 				.setFontSize(18)
 				.text(
 					'Welcome to SPOT, Agent!',
-					x + 135,
+					x + 130,
 					y + 20,
 					{
 						maxWidth: 140,
 						align: 'center'
 					}
 				)
-				.text(student.first_name + ' ' + student.last_name, x + 135, y + 35, {
+				.text(student.first_name + ' ' + student.last_name, x + 130, y + 35, {
 					maxWidth: 140,
 					align: 'center'
 				})
-				.setFontSize(12)
+				.setFontSize(11)
 				.text(
 					[
-						'You have been selected to become a new agent with SPOT,',
-						'the Solving Problems of Tomorrow Agency!',
+						'You have been selected to become a new agent with',
+						'the Solving Problems Of Tomorrow Agency!',
 						'Use this credential to log into the SPOT Mainframe!'
 					],
-					x + 135,
+					x + 130,
 					y + 45,
 					{
 						maxWidth: 140,
