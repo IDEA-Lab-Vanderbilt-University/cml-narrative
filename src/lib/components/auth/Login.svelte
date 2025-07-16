@@ -145,7 +145,7 @@ async function onFileChange(event: Event) {
 	   <FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
    {/if}
    <div id="reader">
-	   <video bind:this={qrVideo} style="width: 100%; height: auto;"><track kind="captions" /></video>
+	   <video bind:this={qrVideo} style="width: 100%; height: auto;" class="mt-3 mb-3"><track kind="captions" /></video>
 	   <p class="text-center text-lg font-bold">Scan your QR Code</p>
 	   <p class="text-center text-sm">Make sure the QR code is well-lit and clear.</p>
 	   <div class="flex flex-col items-center mt-4">
