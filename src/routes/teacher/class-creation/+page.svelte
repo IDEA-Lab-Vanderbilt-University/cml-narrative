@@ -121,8 +121,18 @@
 	};
 
 	const onParse = async (csv: Student[]): Promise<void> => {
-		await DataService.Data.registerAllStudents(csv);
-		$studentClassStore = [...$studentClassStore, ...csv];
+		let responses = await DataService.Data.registerAllStudents(csv);
+
+		if (responses === false) {
+			message = 'Error uploading CSV file';
+			isSuccess = false;
+			showFeedbackModal = true;
+			return;
+		}
+
+		console.log('CSV upload responses: ', responses);
+		
+		$studentClassStore = [...$studentClassStore, ...responses];
 	};
 
 	function onFeedbackClose() {

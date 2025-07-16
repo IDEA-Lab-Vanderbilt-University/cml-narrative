@@ -7,6 +7,8 @@
 	import Dropzone from 'svelte-file-dropzone';
 	import Papa from 'papaparse';
 	import type { Student } from '$lib/types/UserData';
+	import { sessionTeacherID } from '$lib/utils/stores/store';
+	import { get } from 'svelte/store';
 
 	let studentsFromCSV: Student[] = [];
 	let files = {
@@ -78,7 +80,7 @@
 
 				result.data.forEach((student) => {
 					studentsFromCSV.push({
-						teacher_id: '00000000-0000-0000-0000-000000000001', // TODO: read from session
+						teacher_id: get(sessionTeacherID),
 						first_name: student.first_name,
 						last_name: student.last_name,
 						age: student.age

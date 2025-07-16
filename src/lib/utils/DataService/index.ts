@@ -381,7 +381,7 @@ const Data = {
 		});
 	},
 	registerAllStudents: async (students: Student[]) => {
-		return new Promise<boolean>(async (resolve, reject) => {
+		return new Promise<Array<any> | boolean>(async (resolve, reject) => {
 			try {
 				// let students: Student[] = [];
 				// studentClassStore.subscribe((data) => {
@@ -399,7 +399,7 @@ const Data = {
 						}
 					})
 				);
-				resolve(true);
+				resolve(responses);
 			} catch (error) {
 				reject(false);
 				throw new Error('Error singing up student');
