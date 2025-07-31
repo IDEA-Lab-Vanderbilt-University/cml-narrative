@@ -143,13 +143,13 @@ included our questions in this message.
 {/if}
 
 {#if line.id == 3}
-    <TextResponseModal id="carTrainingSet" title={"What did you find out about training data sets?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+    <TextResponseModal id="carTrainingSet" title={"What did you find out about training data sets?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
 {/if}
 
 {#if line.id == 4}
-    <TextResponseModal id="carTestSet" title={"What did you find out about test data sets?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+    <TextResponseModal id="carTestSet" title={"What did you find out about test data sets?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
 {/if}
 
 {#if line.id == 5}
-    <TextResponseModal id="carTestTrainDifference" title={"Why should the training and test data sets be different?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+    <TextResponseModal id="carTestTrainDifference" title={"Why should the training and test data sets be different?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
 {/if}

@@ -26,7 +26,7 @@ const script: Script = {
             dialog: 'Car opinion 1',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/Computer_voice_L2S35.wav',
+            audio: '/audio/level2/computer_voice/L2-S71.mp3',
         },
         {
             id: 4,
@@ -34,7 +34,7 @@ const script: Script = {
             dialog: 'Car opinion 2',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/Computer_voice_L2S36.wav',
+            audio: '/audio/level2/computer_voice/L2-S72.mp3',
         },
         {
             id: 5,
@@ -42,7 +42,7 @@ const script: Script = {
             dialog: 'Car opinion 3',
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/Computer_voice_L2S37.wav',
+            audio: '/audio/level2/computer_voice/L2-S73.mp3',
         },
         {
             id: 6,
