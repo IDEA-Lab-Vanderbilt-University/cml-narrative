@@ -38,6 +38,7 @@ const script: Script = {
             dialog: 'Mission Control needs to know a few more things before you get your final badge.',
             avatars: [],
             background: '',
+            audio: '/audio/level5/L5-S4.mp3'
         },
         {
             id: 5,

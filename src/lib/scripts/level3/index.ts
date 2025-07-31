@@ -165,7 +165,7 @@ const script: Script = {
             dialog: 'What groups of people are represented in the dataset? What groups of people are not represented in the dataset?',
             avatars: [''],
             background: '/img/backgrounds/level2/factory2.png',
-            audio: '',
+            audio: '/audio/level3/computer_voice/computer_L3_S17.mp3',
         },
         {
             id: 18,
