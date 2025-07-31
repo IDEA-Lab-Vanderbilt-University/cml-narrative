@@ -6,7 +6,8 @@
 	import type { StudentProgress } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
 	import { studentProgressStore } from '$lib/utils/stores/store';
-	import { Questions } from '$lib/components/activities/survey/SurveyQuestions';
+	import { Questions, QuestionsAudio } from '$lib/components/activities/survey/SurveyQuestions';
+	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
 
 	/**
 	 * Track the current question that is displaying
@@ -128,9 +129,13 @@
 			nextButton.disabled = questionIndex >= questionsAndResponse.length || questionsAndResponse[questionIndex].response == null;
 		}
 	}
+
+	let audioPlayer: AudioPlayer | void;
+
 </script>
 
 <Tablet showBottomButtons={false} showMeter={false} >
+	<AudioPlayer src={QuestionsAudio[questionIndex]} bind:this={audioPlayer} />
 	{#if showFeedbackModal}
 		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
 	{/if}
