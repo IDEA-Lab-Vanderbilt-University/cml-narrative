@@ -302,6 +302,15 @@
             if (correct) {
                 goto('/level1/pizza-algorithm?page=6');
             } else {
+
+                setTimeout(async () => {
+                    await DataService.TravelLog.submitTravelLog({
+                        description: 'pizza-algorithm-parsons-incorrect',
+                        data: 'Incorrect Parsons problem solution submitted',
+                        status: 'completed',
+                    });
+                }, 0);
+                
                 goto('/level1/pizza-algorithm?page=5');
             }
         };
@@ -375,6 +384,13 @@
                             if (correct) {
                                 goto('/level1/pizza-algorithm?page=3');
                             } else {
+                                setTimeout(async () => {
+                                    await DataService.TravelLog.submitTravelLog({
+                                        description: 'pizza-algorithm-incorrect',
+                                        data: 'Incorrect algorithm steps submitted',
+                                        status: 'completed',
+                                    });
+                                }, 0);
                                 goto(`/level1/pizza-algorithm?page=2`);
                             }
                         }}>
