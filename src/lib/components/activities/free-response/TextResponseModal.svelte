@@ -3,6 +3,7 @@
 	import TextResponse from '$lib/components/activities/free-response/TextResponse.svelte';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import DataService from '$lib/utils/DataService';
+	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
 
 	let response: string = '';
 	let message = '';
@@ -17,6 +18,7 @@
     export let prompt: string | undefined = undefined;
     export let placeholder: string | undefined = undefined;
 	export let prefill: string | undefined = undefined;
+	export let audio: string | undefined = undefined;
 
 	$: response = prefill || '';
 
@@ -46,6 +48,9 @@
 </script>
 
 <Tablet showMeter={false} showBottomButtons={false}>
+	{#if audio}
+		<AudioPlayer src={audio} />
+	{/if}
 	{#if showFeedbackModal}
 		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
 	{/if}

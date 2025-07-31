@@ -203,15 +203,15 @@ megajoules! I sent them right to your SPOT Tablet.
 {/if}
 
 {#if lineNumber == 6}
-    <TextResponseModal id="botBuddyPizza" title={"How was Bot Buddy's pizza algorithm different from yours?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+    <TextResponseModal id="botBuddyPizza" title={"How was Bot Buddy's pizza algorithm different from yours?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
 {/if}
 
 {#if lineNumber == 7}
-    <TextResponseModal id="botBuddyPizzaOpinion" title={"How do you think your opinions affected your pizza algorithm?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+    <TextResponseModal id="botBuddyPizzaOpinion" title={"How do you think your opinions affected your pizza algorithm?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
 {/if}
 
 {#if lineNumber == 8}
-    <TextResponseModal id="wrongPizzaOpinion" title={"If you got Bot Buddy's pizza by accident, how would you feel?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+    <TextResponseModal id="wrongPizzaOpinion" title={"If you got Bot Buddy's pizza by accident, how would you feel?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
 {/if}
 <style>
     .pizzabox {
