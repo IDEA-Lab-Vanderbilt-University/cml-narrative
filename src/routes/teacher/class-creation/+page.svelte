@@ -211,6 +211,35 @@
 		link.click();
 	};
 
+	function renameClass(oldClassName: string) {
+		const newName = prompt('Enter a new name for the class:', oldClassName);
+		if (!newName || newName.trim() === '') {
+			alert('Class name cannot be empty');
+			return;
+		}
+
+		if (classes.includes(newName)) {
+			alert('Class name already exists');
+			return;
+		}
+
+		if (oldClassName === newName) {
+			alert('Class name is the same, no changes made');
+			return;
+		}
+
+		// Update the class name for each student
+		let studentsToUpdate = $studentClassStore.filter(student => student.class_name === oldClassName);
+		studentsToUpdate.forEach(student => {
+			student.class_name = newName;
+			DataService.Student.updateStudent(student); // Persist change
+		});
+		$studentClassStore = $studentClassStore.map(s => s.class_name === oldClassName ? { ...s, class_name: newName } : s);
+		classes = classes.map(c => c === oldClassName ? newName : c);
+		selectedClass = newName; // Update selected class if it was the renamed one
+
+	}
+
 	onMount(() => {
 		DataService.Data.fetchTeacherID()
 			.then(async (res) => {
@@ -305,7 +334,7 @@
 		<div class="flex w-3/4 items-center justify-between">
 			<div class="flex items-center gap-2 w-full">
 				<!-- Tabs replacing the select dropdown -->
-				<div class="tabs tabs-boxed overflow-x-auto no-scrollbar w-full">
+				<div class="tabs tabs-boxed overflow-x-auto no-scrollbar w-full whitespace-nowrap">
 					<button
 						class="tab whitespace-nowrap text-sm md:text-base {selectedClass === '' || selectedClass === null ? 'tab-active' : ''}"
 						on:click={() => (selectedClass = '')}
@@ -315,14 +344,21 @@
 						All Classes
 					</button>
 					{#each classes as c}
-						<button
-							class="tab whitespace-nowrap text-sm md:text-base {selectedClass === c ? 'tab-active' : ''}"
-							on:click={() => (selectedClass = c)}
-							aria-selected={selectedClass === c}
-							role="tab"
-							>
-							{c}
-						</button>
+							<button
+								class="tab whitespace-nowrap text-sm md:text-base {selectedClass === c ? 'tab-active' : ''}"
+								on:click={() => (selectedClass = c)}
+								aria-selected={selectedClass === c}
+								role="tab"
+								>
+								{c}
+								<button
+									class="btn btn-ghost btn-xs"
+									on:click={(e) => { e.stopPropagation(); renameClass(c); }}
+									aria-label={`Rename class ${c}`}
+								>
+									✏️
+								</button>
+							</button>
 					{/each}
 				</div>
 			</div>
@@ -495,4 +531,6 @@
 
 	.no-scrollbar::-webkit-scrollbar { display: none; }
 	.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+	.tabs.tabs-boxed { white-space: nowrap; }
+	.tabs.tabs-boxed > div.inline-flex { display: inline-flex; }
 </style>
