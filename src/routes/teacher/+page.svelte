@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
+	import DataService from '$lib/utils/DataService';
 	import { RequestFactory } from '$lib/utils/network/RequestFactory';
 
 	let showSignUp = false;
@@ -116,4 +117,12 @@
 			<p class="text-l font-bold text-gray-800">New Teacher Sign Up</p>
 		</button>
 	{/if}
+
+	<button
+		on:click={() => {
+			goto('/teacher/forgot-password');
+		}}
+		class="mt-5 flex h-8 items-center justify-center gap-5 rounded-full bg-blue-400 bg-opacity-75 px-4 py-3 align-middle shadow-md">
+		<p class="text-l font-bold text-gray-800">Forgot Password</p>
+	</button>
 </div>
