@@ -34,6 +34,10 @@
 
 	let editingStudent: Student | null = null;
 
+	let classes: string[] = [];
+	let selectedClass: string | null = null;
+	let isAdmin = false;
+
 	async function logout() {
 		try {
 			const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/logout`, 'POST');
@@ -209,6 +213,29 @@
 				teacher = await DataService.Teacher.getTeacher($sessionTeacherID);
 				console.log('Teacher ID: ', $sessionTeacherID);
 				newStudent.teacher_id = $sessionTeacherID;
+
+				DataService.Data.fetchIsTeacherAdmin()
+					.then((result) => {
+						isAdmin = result;
+						if (isAdmin) {
+							console.log('Teacher is admin');
+						} else {
+							console.log('Teacher is not admin');
+						}
+					})
+					.catch((err) => {
+						console.error('Error checking if teacher is admin: ', err);
+					});
+
+				DataService.Teacher.getClasses($sessionTeacherID)
+					.then((c) => {
+						classes = c.filter((className) => className !== ''); // Filter out empty class names
+						console.log('Classes: ', classes);
+					})
+					.catch((err) => {
+						console.error('Error fetching classes: ', err);
+					});
+					
 				fetchStudents();
 			})
 			.catch((err) => {
@@ -230,6 +257,13 @@
 				showHidden = false;
 			}
 		});
+	});
+
+	let studentsFiltered = [];
+
+	// Filter students based on selected class
+	$: studentsFiltered = $studentClassStore.filter(student => {
+		return !selectedClass || (student.class_name ?? '') === selectedClass;
 	});
 </script>
 
@@ -259,8 +293,49 @@
 		<h1 class="text-4xl font-bold text-white">Your Students</h1>
 
 		{#if showManual}
-			<ManualStudentEntry {newStudent} onAdd={addStudentManually} />
+			<ManualStudentEntry {newStudent} onAdd={addStudentManually} classes={classes} />
 		{/if}
+
+		<div class="flex w-3/4 items-center justify-between">
+			<div class="flex items-center gap-2 w-full">
+				<!-- Tabs replacing the select dropdown -->
+				<div class="tabs tabs-boxed overflow-x-auto no-scrollbar w-full">
+					<button
+						class="tab whitespace-nowrap text-sm md:text-base {selectedClass === '' || selectedClass === null ? 'tab-active' : ''}"
+						on:click={() => (selectedClass = '')}
+						aria-selected={selectedClass === '' || selectedClass === null}
+						role="tab"
+						>
+						All Classes
+					</button>
+					{#each classes as c}
+						<button
+							class="tab whitespace-nowrap text-sm md:text-base {selectedClass === c ? 'tab-active' : ''}"
+							on:click={() => (selectedClass = c)}
+							aria-selected={selectedClass === c}
+							role="tab"
+							>
+							{c}
+						</button>
+					{/each}
+				</div>
+			</div>
+
+			<button
+				class="btn btn-secondary ml-4 flex-shrink-0"
+				on:click={() => {
+					const name = prompt('Enter a new class name:');
+					if (!name) return;
+					const trimmed = name.trim();
+					if (!trimmed) return;
+					if (!classes.includes(trimmed)) {
+						classes = [...classes, trimmed];
+					}
+					selectedClass = trimmed;
+				}}>
+				Add Class
+			</button>
+		</div>
 
 		<table class="w-3/4 rounded bg-blue-50 shadow" style="max-height: {showManual ? '50vh' : '60vh'}; overflow-y: scroll; display: block;">
 			<thead class="text-left table">
@@ -282,7 +357,7 @@
 				</tr>
 			</thead>
 			<tbody class="w-full table">
-			{#each $studentClassStore as student}
+			{#each studentsFiltered as student}
 				<tr
 					class="w-full cursor-pointer text-lg hover:bg-blue-100 hover:shadow-inner"
 					on:click={() => {
@@ -411,4 +486,7 @@
 		box-shadow: 0 0 20px rgba(0,0,0,0.2);
 		z-index: 10000;
 	}
+
+	.no-scrollbar::-webkit-scrollbar { display: none; }
+	.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 </style>

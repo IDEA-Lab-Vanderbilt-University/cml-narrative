@@ -346,6 +346,16 @@ const Data = {
 			}
 		});
 	},
+	fetchIsTeacherAdmin: async () => {
+		return new Promise<boolean>(async (resolve, reject) => {
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/is-admin`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
 	fetchStudents: async (teacher_id: string, include_progress: boolean = false) => {
 		return new Promise<Student[]>(async (resolve, reject) => {
 			try {
@@ -434,6 +444,22 @@ const Teacher = {
 				reject(error);
 			}
 		});
+	},
+
+	getClasses: async (teacher_id: string) => {
+		return new Promise<any[]>(async (resolve, reject) => {
+			if(debugMode){
+				resolve([]);
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/teachers/${teacher_id}/classes`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
 	}
 };
 
@@ -441,6 +467,7 @@ const TravelLog = {
 	submitTravelLog: async (log: TravelLog) => {
 		return new Promise<void>(async (resolve, reject) => {
 			if(debugMode){
+				console.log('Mocking travel log submission:', log);
 				resolve();
 				return;
 			}
