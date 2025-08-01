@@ -99,6 +99,11 @@
 
 	const showAddManually = () => {
 		showManual = !showManual;
+		// If opening the manual entry and a class is selected, default it on the new student
+		if (showManual && selectedClass && selectedClass !== '') {
+			// @ts-ignore - in case Student type doesn't include class_name yet
+			newStudent = { ...newStudent, class_name: selectedClass } as any;
+		}
 	};
 
 	const addStudentManually = async () => {
@@ -284,6 +289,7 @@
 					student={editingStudent}
 					onSave={handleEditSave}
 					onCancel={handleEditCancel}
+					{classes}
 				/>
 			</div>
 		</div>
@@ -293,7 +299,7 @@
 		<h1 class="text-4xl font-bold text-white">Your Students</h1>
 
 		{#if showManual}
-			<ManualStudentEntry {newStudent} onAdd={addStudentManually} classes={classes} />
+			<ManualStudentEntry {newStudent} onAdd={addStudentManually} classes={classes} selectedClass={selectedClass} />
 		{/if}
 
 		<div class="flex w-3/4 items-center justify-between">

@@ -4,6 +4,7 @@
   export let newStudent: Student;
   export let onAdd: () => void;
   export let classes: string[] = [];
+  export let selectedClass: string | null = null;
 
     function handleInput(e: Event, field: keyof Student) {
         const rawValue = (e.target as HTMLInputElement).value;
@@ -70,9 +71,9 @@
     class="select select-bordered w-1/4"
     bind:value={newStudent.class_name}
     on:change={(e) => handleInput(e, 'class_name')}>
-    <option value="" selected>No class</option>
+    <option value="" selected={selectedClass === null}>No class</option>
     {#each classes as c}
-      <option value={c}>{c}</option>
+      <option value={c} selected={selectedClass === c}>{c}</option>
     {/each}
   </select>
   <div class="ml-auto">

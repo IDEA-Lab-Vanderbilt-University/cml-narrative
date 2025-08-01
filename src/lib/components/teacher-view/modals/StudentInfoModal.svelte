@@ -36,6 +36,10 @@
 				? new Date(student.updated_at.secs_since_epoch * 1000).toLocaleString()
 				: 'NULL'}</td>
 	</tr>
+	<tr>
+		<th>Class Name:</th>
+		<td>{student.class_name || 'Not specified'}</td>
+	</tr>
 
 	{#if student.progress}
 		<tr>
