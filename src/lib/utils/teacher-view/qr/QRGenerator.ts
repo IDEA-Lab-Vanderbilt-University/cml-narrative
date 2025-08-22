@@ -69,6 +69,10 @@ const generatePDFDocument = async (students: Student[]) => {
 };
 
 const generateQRCode = async (student: Student) => {
-	let dataString: string = await QRCode.toDataURL(JSON.stringify(student));
+	let student_lite = {
+		id: student.id,
+	};
+	
+	let dataString: string = await QRCode.toDataURL(JSON.stringify(student_lite));
 	return dataString;
 };
