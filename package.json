@@ -32,7 +32,8 @@
 		"svelte-file-dropzone": "2.0.9",
 		"svelte-preprocess-react": "0.17.1",
 		"svelte-simple-modal": "^1.6.2",
-		"vite": "4.5.5"
+		"vite": "4.5.5",
+		"xlsx-to-js": "^1.0.4"
 	},
 	"devDependencies": {
 		"@sveltejs/adapter-node": "1.3",

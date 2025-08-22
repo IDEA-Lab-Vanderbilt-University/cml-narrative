@@ -6,6 +6,8 @@
 
 	import Dropzone from 'svelte-file-dropzone';
 	import Papa from 'papaparse';
+	import { XlsxParser } from "xlsx-to-js";
+
 	import type { Student } from '$lib/types/UserData';
 	import { sessionTeacherID } from '$lib/utils/stores/store';
 	import { get } from 'svelte/store';
@@ -66,9 +68,40 @@
 		close();
 	};
 
-	const parse = () => {
+	const parse = async () => {
 		var file = files.accepted[0];
 
+		// Use XlsxParser for XLSX files
+		if (file.name.endsWith('.xlsx')) {
+			let parser = new XlsxParser();
+			let workbook = await parser.readFile(file, { dense: true, styles: false, drawings: false, skipHiddenRows: true });
+
+			console.log('workbook: ', workbook);
+			let data = workbook.workSheets[0].data.map((row) => {
+				return {
+					first_name: row[0].value,
+					last_name: row[1].value,
+					age: row[2].value
+				};
+			});
+
+			console.log('data: ', data);
+
+			data = data.filter((row) => row.first_name && row.last_name && row.age && !isNaN(row.age));
+			data.forEach((student) => {
+				studentsFromCSV.push({
+					teacher_id: get(sessionTeacherID),
+					first_name: student.first_name,
+					last_name: student.last_name,
+					age: student.age
+				});
+			});
+			console.log('studentsFromCSV: ', studentsFromCSV);
+			_onParse();
+			return;
+		}
+
+		// Use PapaParse for CSV files
 		Papa.parse(file, {
 			header: true,
 			dynamicTyping: true,
