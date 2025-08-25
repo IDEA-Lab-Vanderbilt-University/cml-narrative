@@ -91,7 +91,7 @@
 			}
 		} else if (direction == NavigationDirection.backward) {
 			if (lineNumber == 1) {
-				target = '/introduction/bot-buddy?page=23';
+				target = '/introduction/bot-buddy?page=15';
 			} else {
 				if(lineNumber == 7 || lineNumber == 10 || lineNumber == 11) {
 					return;
