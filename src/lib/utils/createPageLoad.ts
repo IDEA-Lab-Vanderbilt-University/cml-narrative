@@ -27,7 +27,7 @@ export function createPageLoad(script: Script | null = null): PageLoad {
 		 * The XXXX should be a number. We use this to determine what line of the script should be
 		 * returned to the user.
 		 */
-		const page = Number.parseInt(url.searchParams.get('page') ?? '0');
+		let page = Number.parseInt(url.searchParams.get('page') ?? '0');
 
 		if (script == null) {
 			// Only check to determine if the page is greater than one. 
@@ -35,6 +35,11 @@ export function createPageLoad(script: Script | null = null): PageLoad {
 				return { page };
 			}
 		} else {
+			// To improve flexibility when the pages change, if the page number exceeds the script length, clamp it
+			if(page > script.lines.length) {
+				page = script.lines.length;
+			}
+
 			// Check to determine if the page is greater than one and less than the amount of lines in
 			// the given script segment. If the request goes out of bounds, a 404 occurs
 			if (page >= 1 && page <= script.lines.length) {
