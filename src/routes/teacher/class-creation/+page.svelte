@@ -130,6 +130,10 @@
 	};
 
 	const onParse = async (csv: Student[]): Promise<void> => {
+		if(selectedClass != null) {
+			csv = csv.map(student => ({ ...student, class_name: selectedClass }));
+		}
+
 		let responses = await DataService.Data.registerAllStudents(csv);
 
 		if (responses === false) {
