@@ -61,6 +61,11 @@
 
 	function toggleAllSelections(isSelected: boolean) {
 		selectedStudents = isSelected ? [...$studentClassStore] : [];
+
+		if(selectedClass != null) {
+			selectedStudents = selectedStudents.filter(student => (student.class_name ?? '') === selectedClass);
+		}
+
 		console.log(selectedStudents);
 	}
 
@@ -341,7 +346,7 @@
 				<div class="tabs tabs-boxed overflow-x-auto no-scrollbar w-full whitespace-nowrap">
 					<button
 						class="tab whitespace-nowrap text-sm md:text-base {selectedClass === '' || selectedClass === null ? 'tab-active' : ''}"
-						on:click={() => (selectedClass = '')}
+						on:click={() => (selectedClass = '', selectedStudents = selectedStudents.filter(student => (student.class_name ?? '') === selectedClass))}
 						aria-selected={selectedClass === '' || selectedClass === null}
 						role="tab"
 						>
@@ -350,7 +355,7 @@
 					{#each classes as c}
 							<button
 								class="tab whitespace-nowrap text-sm md:text-base {selectedClass === c ? 'tab-active' : ''}"
-								on:click={() => (selectedClass = c)}
+								on:click={() => (selectedClass = c, selectedStudents = selectedStudents.filter(student => (student.class_name ?? '') === selectedClass))}
 								aria-selected={selectedClass === c}
 								role="tab"
 								>
