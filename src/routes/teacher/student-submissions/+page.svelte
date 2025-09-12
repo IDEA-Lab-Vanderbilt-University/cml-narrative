@@ -5,7 +5,7 @@
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 	import { RequestFactory } from '$lib/utils/network/RequestFactory';
 	import { goto } from '$app/navigation';
-	import { onMount, getContext } from 'svelte';
+	import { onMount, getContext, onDestroy } from 'svelte';
 	import DataService from '$lib/utils/DataService';
 	import { browser } from '$app/environment';
 
@@ -33,6 +33,12 @@
 	const interval = setInterval(() => {
 		if(browser) DataService.TravelLog.fetchPending();
 	}, 10000);
+
+	onDestroy(() => {
+		if(browser && interval) {
+			clearInterval(interval);
+		}
+	});
 </script>
 
 <svelte:head>
