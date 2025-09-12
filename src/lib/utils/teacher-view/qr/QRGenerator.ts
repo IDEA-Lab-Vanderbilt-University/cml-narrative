@@ -60,7 +60,7 @@ const generatePDFDocument = async (students: Student[]) => {
 					}
 				);
 
-			y += 70;
+			y += 65;
 			index += 1;
 		});
 
