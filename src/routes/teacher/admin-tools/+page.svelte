@@ -158,8 +158,36 @@ $: filteredStudents = students.filter(s =>
       />
       <ul class="student-list">
         {#each filteredStudents as student}
-          <li>
+          <li class="flex items-center gap-2">
             {student.first_name} {student.last_name}
+            <button class="btn btn-xs btn-warning" on:click={async () => {
+              try {
+                // Impersonate student by signing in as them
+                const serverUser = await DataService.Auth.signIn(student.id);
+                // Set studentDataStore if available (import if not)
+                try {
+                  const { studentDataStore, studentProgressStore } = await import('$lib/utils/stores/store');
+                  const progress = serverUser.progress;
+                  studentDataStore.set(serverUser);
+
+                  if (progress) {
+                    studentProgressStore.set(progress);
+                  }
+
+                  console.log('Impersonated student:', serverUser);
+                  console.log('Student progress:', progress);
+
+                  const dest = progress?.last_visited || '/entry';
+                  goto(dest);
+                } catch (e) {
+                    console.warn('Could not set studentDataStore or studentProgressStore:', e);
+                }
+              } catch (e) {
+                alert('Error impersonating student.');
+              }
+            }}>
+              Impersonate
+            </button>
           </li>
         {/each}
       </ul>
