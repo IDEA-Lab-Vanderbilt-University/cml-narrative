@@ -626,10 +626,44 @@ const TravelLog = {
 	},
 };
 
+const Admin = {
+	getAllTeachers: async () => {
+		return new Promise<Teacher[]>(async (resolve, reject) => {
+			if(debugMode){
+				resolve([]);
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/teachers`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	getStudentsForTeacherClass: async (teacher_id: string, class_id: string) => {
+		return new Promise<Student[]>(async (resolve, reject) => {
+			if(debugMode){
+				resolve([]);
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/teachers/${teacher_id}/classes/${class_id}/students`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	}
+};
+
 /**
  * DataService is the manager for all of the communication between the frontend and the backend
  */
 const DataService = {
+	Admin,
 	Auth,
 	Data,
 	Student,
