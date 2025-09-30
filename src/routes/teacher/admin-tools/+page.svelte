@@ -107,9 +107,19 @@ $: filteredStudents = students.filter(s =>
     />
     <ul class="teacher-list">
       {#each filteredTeachers as teacher}
-        <li>
+        <li class="flex items-center gap-2">
           <button class="btn btn-link" on:click={() => selectTeacher(teacher)}>
             {teacher.first_name} {teacher.last_name} ({teacher.email})
+          </button>
+          <button class="btn btn-xs btn-warning" on:click={async () => {
+            try {
+              const res = await DataService.Admin.impersonateTeacher(teacher.id);              
+              goto('/teacher/class-creation');
+            } catch (e) {
+              alert('Error impersonating teacher.');
+            }
+          }}>
+            Impersonate
           </button>
         </li>
       {/each}

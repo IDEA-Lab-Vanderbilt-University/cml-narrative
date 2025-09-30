@@ -656,7 +656,22 @@ const Admin = {
 				reject(error);
 			}
 		});
-	}
+	},
+	impersonateTeacher: async (teacher_id: string) => {
+		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				resolve();
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/impersonate/${teacher_id}`, 'POST');
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
 };
 
 /**
