@@ -2,6 +2,8 @@
 import { onMount } from 'svelte';
 import type { Teacher, Student } from '$lib/types/UserData';
 import DataService from '$lib/utils/DataService';
+import { goto } from '$app/navigation';
+import { sessionTeacherID } from '$lib/utils/stores/store';
 
 let teachers: Teacher[] = [];
 let teacherSearch = '';
@@ -21,9 +23,42 @@ function ensureAllStudentsClass(classList: string[]): string[] {
 let students: Student[] = [];
 let studentSearch = '';
 
+
+let isAdmin = false;
+let teacher: Teacher | null = null;
+
 // Fetch all teachers on mount
 onMount(async () => {
-  teachers = await DataService.Admin.getAllTeachers();
+
+    DataService.Data.fetchTeacherID()
+        .then(async (res) => {
+            $sessionTeacherID = res;
+            teacher = await DataService.Teacher.getTeacher($sessionTeacherID);
+            console.log('Teacher ID: ', $sessionTeacherID);
+
+            DataService.Data.fetchIsTeacherAdmin()
+                .then((result) => {
+                    isAdmin = result;
+                    if (isAdmin) {
+                        console.log('Teacher is admin');
+                    } else {
+                        console.log('Teacher is not admin');
+                        alert('You do not have admin access!');
+                        goto('/teacher');
+                    }
+                })
+                .catch((err) => {
+                    console.error('Error checking if teacher is admin: ', err);
+                    alert('You do not have admin access!');
+                    goto('/teacher');
+                });                
+        })
+        .catch((err) => {
+            alert('You are not logged in!');
+            goto('/teacher');
+        });
+
+    teachers = await DataService.Admin.getAllTeachers();
 });
 
 // When a teacher is selected, fetch their classes
