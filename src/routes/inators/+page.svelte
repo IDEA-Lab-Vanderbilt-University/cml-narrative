@@ -33,6 +33,6 @@
         </div>
         <img id="spotdots" src="/img/logos/SPOT-dots.svg" alt="" class="mt-8 h-24" in:fade|global={{ delay: 2000 }} />
     {:else if screenState == HomeScreenStates.signUp}
-        <Login on:back={() => (screenState = HomeScreenStates.home)} redirectOverride="/traininator" />
+        <Login on:back={() => (screenState = HomeScreenStates.home)} redirectOverride="/inators/menu" />
     {/if} 
 </div>
