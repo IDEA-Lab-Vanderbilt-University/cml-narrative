@@ -8,8 +8,10 @@
 
 	import QrScanner from "qr-scanner";
 
+	export let redirectOverride: string | null = null;
+
 	let qrScanner: QrScanner | null = null;
-	let qrVideo: HTMLVideoElement = null;
+	let qrVideo: HTMLVideoElement | null = null;
 	let message = '';
 	let isSuccess = false;
 	let showFeedbackModal = false;
@@ -17,37 +19,37 @@
 		last_visited: '/entry',
 	};
 
-let fileInput: HTMLInputElement | null = null;
+	let fileInput: HTMLInputElement | null = null;
 
-async function onFileChange(event: Event) {
-	const input = event.target as HTMLInputElement;
-	if (input && input.files && input.files[0]) {
-		const file = input.files[0];
-		try {
-			const result = await QrScanner.scanImage(file, { returnDetailedScanResult: true });
-			// result is either a string or a ScanResult object
-			if (typeof result === 'string') {
-				onScanSuccess(result, result);
-			} else if (result && typeof result === 'object' && 'data' in result) {
-				onScanSuccess(result.data, result);
-			} else {
+	async function onFileChange(event: Event) {
+		const input = event.target as HTMLInputElement;
+		if (input && input.files && input.files[0]) {
+			const file = input.files[0];
+			try {
+				const result = await QrScanner.scanImage(file, { returnDetailedScanResult: true });
+				// result is either a string or a ScanResult object
+				if (typeof result === 'string') {
+					onScanSuccess(result, result);
+				} else if (result && typeof result === 'object' && 'data' in result) {
+					onScanSuccess(result.data, result);
+				} else {
+					message = 'No QR code found.';
+					isSuccess = false;
+					showFeedbackModal = true;
+				}
+			} catch (error) {
 				message = 'No QR code found.';
 				isSuccess = false;
 				showFeedbackModal = true;
+				console.log(error || 'No QR code found.');
 			}
-		} catch (error) {
-			message = 'No QR code found.';
-			isSuccess = false;
-			showFeedbackModal = true;
-			console.log(error || 'No QR code found.');
 		}
 	}
-}
 
 	onMount(async () => {
 		try{
 			qrScanner = new QrScanner(
-				qrVideo,
+				qrVideo as HTMLVideoElement,
 				(result: QrScanner.ScanResult) => {
 					onScanSuccess(result.data, result.data);
 				},
@@ -98,31 +100,32 @@ async function onFileChange(event: Event) {
 			console.log(user);
 			studentDataStore.set(serverUser);
 
-			// Create progress if it doesn't exist
-			if (!serverUser.progress) {
-				let defaultProgress = {
-					student_id: user.id,
-					badge_count: 0,
-					megajoules: 0,
-					updated_at: {
-						secs_since_epoch: new Date().getTime() / 1000,
-						nanos_since_epoch: 0	
-					},
-					last_visited: '/entry'
-				};
+			if (!redirectOverride) {
+				// Create progress if it doesn't exist
+				if (!serverUser.progress) {
+					let defaultProgress = {
+						student_id: user.id,
+						badge_count: 0,
+						megajoules: 0,
+						updated_at: {
+							secs_since_epoch: new Date().getTime() / 1000,
+							nanos_since_epoch: 0	
+						},
+						last_visited: '/entry'
+					};
 
-				serverUser.progress = await DataService.StudentProgress.createProgress(defaultProgress);
+					serverUser.progress = await DataService.StudentProgress.createProgress(defaultProgress);
 
-				// Update user
-				studentDataStore.update((data) => {
-					data.progress = serverUser.progress;
-					return data;
-				});
+					// Update user
+					studentDataStore.update((data) => {
+						data.progress = serverUser.progress;
+						return data;
+					});
+				}
+
+				tempProgress = serverUser.progress;
+				studentProgressStore.set(serverUser.progress);
 			}
-
-			tempProgress = serverUser.progress;
-			studentProgressStore.set(serverUser.progress);
-
 		} catch (err) {
 			message = 'Login Failed!';
 			isSuccess = false;
@@ -134,7 +137,11 @@ async function onFileChange(event: Event) {
 
 	async function onFeedbackClose() {
 		if (isSuccess) {
-			await goto(tempProgress.last_visited || '/entry');
+			if (redirectOverride) {
+				await goto(redirectOverride);
+			} else {
+				await goto(tempProgress.last_visited || '/entry');
+			}
 		}
 		showFeedbackModal = false;
 	}
