@@ -515,6 +515,40 @@ const TravelLog = {
 		});
 	},
 
+	createPendingTravelLog: async (log: TravelLog) => {
+		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				console.log('Mocking pending travel log creation:', log);
+				resolve();
+				return;
+			}
+
+			let token = get(accessTokenStore);
+			log.student_id = token;
+			log.status = 'pending';
+
+			// Fetch existing pending travel logs
+			const existingLogs = await DataService.TravelLog.getTravelLogs(log.description, token);
+			
+			// Modify existing logs with the same description to 'invalid'
+			console.log(`Found ${existingLogs.length} existing logs with the same description`);
+			for (let existingLog of existingLogs) {
+				if (existingLog.status === 'pending' && existingLog.description === log.description) {
+					console.log(`Modifying pending log ${existingLog.id} to 'invalid'`);
+					existingLog.status = 'invalid';
+					await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs/${existingLog.id}`, 'PUT', existingLog, token);
+				}
+			}
+			
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs`, 'POST', log, token);
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+
 	fetchPending: async () => {
 		try {
 			const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs/pending`, 'GET');

@@ -206,7 +206,7 @@
 
 
 			if(logs.length == 0) {
-				await DataService.TravelLog.submitTravelLog({
+				await DataService.TravelLog.createPendingTravelLog({
 					data: JSON.stringify({ 
 						response: 'robotshowcase'
 					}),
@@ -573,7 +573,7 @@
 					</button>
 					<button class="nextBtn" on:click={() => {
 						// Submit the robot design
-						DataService.TravelLog.submitTravelLog({
+						DataService.TravelLog.createPendingTravelLog({
 							data: JSON.stringify({ 
 							response:
 `For the future, I will design an AI robot with special abilities. It will be able to ${robotAbilities}! 
@@ -950,7 +950,7 @@ Next
 							classNamesFromTravelLog = classes.map((classItem) => classItem.name);
 
 							// Submit the teacher version of the training data
-							await DataService.TravelLog.submitTravelLog({
+							await DataService.TravelLog.createPendingTravelLog({
 								data: JSON.stringify({ 
 									response: teacherVersion
 								}),
