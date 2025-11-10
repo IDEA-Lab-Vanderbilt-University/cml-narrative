@@ -206,7 +206,7 @@
 			}
 
 			// Convert travel log to CSV format
-			csvContent += travelLog.map(e => e.join(",")).join("\n");
+			csvContent += travelLog.map(e => e.join(",")).join("\n") + '\n';
 		}
 
 		// Create a link element to download the CSV file
