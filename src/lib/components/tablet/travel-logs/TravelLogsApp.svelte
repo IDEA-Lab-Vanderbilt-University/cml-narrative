@@ -3,10 +3,8 @@
 	import PizzaDisplay from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { StudentProgress, TravelLog } from '$lib/types/UserData';
-	import { Assets } from '$lib/utils/Assets';
 	import DataService from '$lib/utils/DataService';
 	import { accessTokenStore, studentProgressStore } from '$lib/utils/stores/store';
-	import { data } from '@tensorflow/tfjs';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
@@ -130,6 +128,8 @@
 			<PizzaDisplay pizzaData={JSON.parse(logs[index].data)} />
 		{:else if logs[index].data.startsWith("data:image")}
 			<img src={logs[index].data} alt="Travel Log" id="travelLogImage" />
+		{:else if logs[index].data.startsWith("{\"response\":\"data:image") }
+			<img src={JSON.parse(logs[index].data)["response"]} alt="Travel Log" id="travelLogImage" />
 		{:else}
 			<p>{logs[index].data}</p>
 		{/if}
