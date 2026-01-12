@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { exp } from "@tensorflow/tfjs";
 	import type { Crust, FinishingTouch, MeatTopping, PizzaConfig, Sauce, VeggieTopping } from "./pizzatypes";
 
     export let crust: Crust = 'thick';
@@ -8,6 +9,7 @@
     export let veggies: VeggieTopping[] = [];
     export let finishingTouches: FinishingTouch[] = [];
     export let size: number | string = "50vh";
+    export let pizzaData: PizzaConfig | null = null;
 
     /**
      * Take a PizzaConfig object and set the component's properties to match it
@@ -19,6 +21,10 @@
         meats = config.meats;
         veggies = config.veggies;
         finishingTouches = config.finishingTouches;
+    }
+
+    $: if (pizzaData) {
+        setPizzaConfig(pizzaData);
     }
 </script>
 

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import PizzaDisplay from '$lib/components/activities/pizza-time/PizzaDisplay.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { StudentProgress, TravelLog } from '$lib/types/UserData';
 	import { Assets } from '$lib/utils/Assets';
@@ -53,6 +54,44 @@
 			}
         }
     };
+
+	const travelLogsTitles = {
+		"algorithm": "What is an Algorithm?",
+		"machineLearning": "What is Machine Learning?",
+		"draw-an-algorithm": "Draw an Algorithm",
+		"draw-machine-learning": "Draw Machine Learning",
+		"pizza-time": "Your Pizza",
+		"botBuddyPizza": "Bot Buddy Pizza",
+		"botBuddyPizzaOpinion": "Bot Buddy Pizza Opinion",
+		"wrongPizzaOpinion": "Wrong Pizza Opinion",
+		"carTrainingSet": "Car Training Set",
+		"carTestSet": "Car Test Set",
+		"carTestTrainDifference": "Car Test Train Difference",
+		"biasGroups": "Bias Groups",
+		"biasEffects": "Bias Effects",
+		"biasMitigation": "Bias Mitigation",
+		"robotdesign1": "Robot Design 1",
+		"robotdesign2": "Robot Design 2",
+		"robotdesign3": "Robot Design 3",
+		"robotdesign4": "Robot Design 4",
+		"robotdesign5": "Robot Design 5",
+		"draw-my-robot": "Draw My Robot",
+		"robottestfeedback": "Robot Test Feedback",
+		"robottestbias": "Robot Test Bias",
+		"robotdesignmodifytrainingclasses": "Robot Design Modify Training Classes",
+		"robotdesignmodifytrainingdata": "Robot Design Modify Training Data",
+		"robotdesignmodifyalgorithm": "Robot Design Modify Algorithm",
+		"robotdesignmodifypurpose": "Robot Design Modify Purpose",
+		"machineLearningPost": "Machine Learning Post",
+		"algorithmsPost": "What is an Algorithm Post",
+		"draw-an-algorithm-Post": "Draw an Algorithm Post",
+		//"level-5-post-survey": "Level 5 Post Survey",
+		"draw-machine-learning-Post": "Draw Machine Learning Post",
+		"codinatorimage": "Codinator Image",
+		"robotdesignmodify": "Robot Design Modify",
+		"robotcodetested": "Robot Code Tested",
+		// "profile_updated": "Profile Updated"
+	}
     
 	onMount(async () => {
         try {
@@ -60,7 +99,10 @@
 
 			// Filter logs to ones we can display
 			logs = allLogs.filter(log => log.status === "complete").filter(log => 
-				!["level-0-post-survey"].includes(log.description)); // TODO: find all the logs we want to filter out
+				travelLogsTitles.hasOwnProperty(log.description)
+			);
+
+			// console.log("Fetched travel logs: ", Array.from(new Set(logs.map(log => log.description))).join(", "));
         } catch (error) {
             console.error("Error fetching travel logs:", error);
         }
@@ -81,9 +123,12 @@
 <div class="h-full">
 	<div class="h-3/4 w-full flex flex-col items-center justify-center font-mokoto text-xl text-white">
         <h1 class="text-center text-2xl font-bold">
-				{logs[index].description}
+				{travelLogsTitles.hasOwnProperty(logs[index].description) ? travelLogsTitles[logs[index].description] : logs[index].description}
         </h1>
-		{#if logs[index].data.startsWith("data:image")}
+		{#if logs[index].description === "pizza-time"}
+			<p class="mb-4">Here is the pizza you designed earlier!</p>
+			<PizzaDisplay pizzaData={JSON.parse(logs[index].data)} />
+		{:else if logs[index].data.startsWith("data:image")}
 			<img src={logs[index].data} alt="Travel Log" id="travelLogImage" />
 		{:else}
 			<p>{logs[index].data}</p>
