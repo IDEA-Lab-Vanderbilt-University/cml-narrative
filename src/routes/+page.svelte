@@ -52,6 +52,18 @@
 					</div>
 				</div>
 				<img id="spotdots" src="/img/logos/SPOT-dots.svg" alt="" class="mt-8 h-24" in:fade|global={{ delay: 2000 }} />
+				<div class="mt-10 space-x-3" in:fade|global={{ delay: 1500 }}>
+					<div id="button-container" class="mt-10 space-x-3" in:fade|global={{ delay: 1500 }}>
+						<button
+							id="senior-agent"
+							class="senior-agent rounded-md bg-blue-500 px-2 py-1 text-xl text-white shadow-lg"
+							on:click={() => {
+								stopAudio();
+								goto('/teacher');
+								return;
+							}}>Login Senior Agent</button>
+					</div>
+				</div>
 			{:else if screenState == HomeScreenStates.signUp}
 				<Login on:back={() => (screenState = HomeScreenStates.home)} />
 			{/if} 
@@ -60,21 +72,6 @@
 </div>
 
 <style>
-	#welcome {
-		box-shadow: 0 0 6px rgba(163, 212, 163, 0.613);
-		transition: all 0.2s ease-in-out;
-	}
-
-	#welcome:hover {
-		box-shadow: 0 0 9px rgb(180, 234, 180);
-		transform: scale(1.05);
-	}
-
-	#welcome:active {
-		box-shadow: 0 0 12px rgb(101, 242, 101);
-		transform: scale(1.1);
-	}
-
 	#new-agent {
 		box-shadow: 0 0 6px rgb(212, 163, 163);
 		transition: all 0.2s ease-in-out;
@@ -88,6 +85,14 @@
 	#new-agent:active {
 		box-shadow: 0 0 12px rgb(241, 103, 103);
 		transform: scale(1.1);
+	}
+
+	#senior-agent {
+		box-shadow: 0 0 6px rgb(163, 191, 212);
+		transition: all 0.2s ease-in-out;
+		position: absolute;
+		bottom: 2vh;
+		right: 2vh;
 	}
 
 	#toptext, #spotdots {
