@@ -2,6 +2,7 @@
     export let prediction: number;
     export let classes: string[];
     export let image: string;
+    export let buttonTextOverrides: string[] = [];
 
     export let choice = (i: number) => {
         console.log(`You chose ${classes[i]}`);
@@ -12,14 +13,17 @@
 <div class="card">
     <img class="card-img-top" src={image} alt="Image for prediction" />
     <div class="card-body">
-        Your model says this is a <span class="card-predicted">{classes[prediction]}</span>
+        What category does this image belong to?
     </div>
     <div class="card-options">
-        <button class="btn btn-primary" on:click={choice.bind(null, prediction)}>✓ Correct!</button>
         {#each classes as c, i}
-            {#if i !== prediction}
-                <button class="btn btn-danger" on:click={choice.bind(null, i)}>✗ It's a {c}</button>
-            {/if}
+            <button class="btn" on:click={choice.bind(null, i)}>
+                {#if buttonTextOverrides.length > i}
+                    {buttonTextOverrides[i]}
+                {:else}
+                    It's a {c}
+                {/if}
+            </button>
         {/each}
     </div>
 </div>
