@@ -73,14 +73,14 @@
 	];
 
 	if (profileData.agent_name && profileData.agent_name != '') {
-		profileExamples.push({
+		profileExamples = [{
 			name: "Agent " + profileData.agent_name,
 			rank: (profileData.progress?.badge_count ?? 0) > 4 ? "Junior Agent" : "Agent in Training",
 			favoriteBadge: '',
 			img: profileData.avatar ?? '',
 			interests: profileData.interests ?? ['','',''],
 			canEdit: true
-		});
+		}, ...profileExamples];
 	}
 
 	let nextButton: HTMLButtonElement | void;
