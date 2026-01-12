@@ -68,6 +68,6 @@
 	</div>
 {:else if responseTypeState == ResponseType.draw}
 	<div class="mt-auto h-full w-full  items-center justify-center">
-		<DrawingArea onSubmit={handleDrawingSubmit} />
+		<DrawingArea onSubmit={handleDrawingSubmit} onBack={() => (responseTypeState = ResponseType.undefined)} />
 	</div>
 {/if}
