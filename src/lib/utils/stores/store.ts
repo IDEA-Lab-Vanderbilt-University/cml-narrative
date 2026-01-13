@@ -37,6 +37,7 @@ import { browser } from '$app/environment';
  */
 
 export let debugMode = false;
+export let showLanguageChoice = false;
 
 export const settingsStore = persist(
 	writable<Settings>(defaultSettings),

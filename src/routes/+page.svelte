@@ -4,8 +4,9 @@
 
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import { debugMode } from '$lib/utils/stores/store';
+	import { debugMode, showLanguageChoice } from '$lib/utils/stores/store';
 	import { goto } from '$app/navigation';
+	import LanguageMenu from '$lib/components/LanguageMenu.svelte';
 
 	let showTablet: boolean = false;
 	let showLogIn: boolean = false;
@@ -67,6 +68,11 @@
 			{:else if screenState == HomeScreenStates.signUp}
 				<Login on:back={() => (screenState = HomeScreenStates.home)} />
 			{/if} 
+			{#if showLanguageChoice}
+			<div class="absolute bottom-4 left-4" >
+				<LanguageMenu />
+			</div>
+			{/if}
 		</div>
 	</div>
 </div>
