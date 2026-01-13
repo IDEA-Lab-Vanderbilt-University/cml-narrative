@@ -47,12 +47,14 @@
 
 <div class="flex justify-center" id="tablet-menu">
     {#each apps as app}
+    <div>
         <SpotApplication
             color={app.color}
             title={app.title}
             img={app.img}
             on:click={() => select(app.title)}
             on:applicationContainerEvent={handleAppContainerEvent} />
+    </div>
     {/each}
 </div>
 
