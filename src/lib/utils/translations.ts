@@ -8,20 +8,42 @@ export const translations = {
 		tablet: {
 			travelLogs: 'Travel Logs',
 			profiles: 'Profiles',
-			badges: 'Badges'
+			badges: 'Badges',
+			previous: 'Previous',
+			next: 'Next',
+			goBack: 'Go back',
+			notEarnedYet: 'You have not earned this badge yet!',
+			editProfile: 'Edit Profile',
+			editYourProfile: 'Edit Your Profile',
+			spotRank: 'SPOT Rank',
+			favoriteBadge: 'Favorite Badge',
+			iLikeTo: 'I like to:',
+			hereIsPizza: 'Here is the pizza you designed earlier!',
+			noTravelLogsAvailable: 'No travel logs available.'
 		}
 	},
 	es: {
 		tablet: {
 			travelLogs: 'Registros de Viaje',
 			profiles: 'Perfiles',
-			badges: 'Insignias'
+			badges: 'Insignias',
+			previous: 'Anterior',
+			next: 'Siguiente',
+			goBack: 'Volver',
+			notEarnedYet: '¡Aún no has ganado esta insignia!',
+			editProfile: 'Editar Perfil',
+			editYourProfile: 'Edita tu Perfil',
+			spotRank: 'Rango SPOT',
+			favoriteBadge: 'Insignia Favorita',
+			iLikeTo: 'Me gusta:',
+			hereIsPizza: '¡Aquí está la pizza que diseñaste anteriormente!',
+			noTravelLogsAvailable: 'No hay registros de viaje disponibles.'
 		}
 	}
 } as const;
 
 export type Language = keyof typeof translations;
-export type TranslationKey = 'tablet.travelLogs' | 'tablet.profiles' | 'tablet.badges';
+export type TranslationKey = 'tablet.travelLogs' | 'tablet.profiles' | 'tablet.badges' | 'tablet.previous' | 'tablet.next' | 'tablet.goBack' | 'tablet.notEarnedYet' | 'tablet.editProfile' | 'tablet.editYourProfile' | 'tablet.spotRank' | 'tablet.favoriteBadge' | 'tablet.iLikeTo' | 'tablet.hereIsPizza' | 'tablet.noTravelLogsAvailable';
 
 /**
  * Get a translated string by key

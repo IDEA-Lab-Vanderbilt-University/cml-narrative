@@ -5,6 +5,7 @@
 	import type { StudentProgress, TravelLog } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
 	import { accessTokenStore, studentProgressStore } from '$lib/utils/stores/store';
+	import { t } from '$lib/utils/stores/languageStore';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
@@ -124,7 +125,7 @@
 				{travelLogsTitles.hasOwnProperty(logs[index].description) ? travelLogsTitles[logs[index].description] : logs[index].description}
         </h1>
 		{#if logs[index].description === "pizza-time"}
-			<p class="mb-4">Here is the pizza you designed earlier!</p>
+			<p class="mb-4">{$t('tablet.hereIsPizza')}</p>
 			<PizzaDisplay pizzaData={JSON.parse(logs[index].data)} />
 		{:else if logs[index].data.startsWith("data:image")}
 			<img src={logs[index].data} alt="Travel Log" id="travelLogImage" />
@@ -141,13 +142,13 @@
 				class="btn-primary btn"
 				id="previous"
 				on:click={() => handleNavigation(NavigationDirection.backward)}
-				bind:this={previousButton} >Previous</button>
+				bind:this={previousButton}>{$t('tablet.previous')}</button>
 			<button class="btn-primary btn" disabled on:click={() => handleNavigation(NavigationDirection.forward)}
 				id="next" bind:this={nextButton}>
-				Next
+				{$t('tablet.next')}
 			</button>
 		</div>
-		<button on:click={handleClick} class="btn-secondary btn">Go back</button>
+		<button on:click={handleClick} class="btn-secondary btn">{$t('tablet.goBack')}</button>
 	</div>
 </div>
 

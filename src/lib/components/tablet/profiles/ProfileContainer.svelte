@@ -10,6 +10,8 @@
  
 --->
 <script lang="ts">
+	import { t } from '$lib/utils/stores/languageStore';
+
 	export let profile: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[], canEdit: boolean};
 
 	export let onEdit: () => void;
@@ -20,12 +22,12 @@
 	<div class="flex h-full items-center space-x-3">
 		<div class="w-1/3 space-y-10">
 			<div class="flex flex-col text-center ">
-				<p class="font-mono text-xl text-white">SPOT Rank</p>
+				<p class="font-mono text-xl text-white">{$t('tablet.spotRank')}</p>
 				<p class="text-white text-3xl">{profile.rank}</p>
 			</div>
 			<div class="flex flex-col text-center">
 				{#if profile.favoriteBadge}
-					<p class="font-mono text-xl text-white">Favorite Badge</p>
+					<p class="font-mono text-xl text-white">{$t('tablet.favoriteBadge')}</p>
 					<p class="text-white text-3xl">{profile.favoriteBadge}</p>
 				{/if}
 			</div>
@@ -38,7 +40,7 @@
 
 		{#if profile.canEdit}
 			<div class="flex justify-center">
-				<button class="btn-primary btn" on:click={onEdit}>Edit Profile</button>
+				<button class="btn-primary btn" on:click={onEdit}>{$t('tablet.editProfile')}</button>
 			</div>
 		{/if}
 		</div>
