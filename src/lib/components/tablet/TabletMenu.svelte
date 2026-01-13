@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Assets } from "$lib/utils/Assets";
 	import SpotApplication from "../sequences/tablet/tablet-tutorial/SpotApplication.svelte";
+    import { t } from "$lib/utils/stores/languageStore";
 
     export let onSelect: (selection: null | "profile" | "travelLog" | "badges" | "Robot Prototype" ) => void = () => {};
 
@@ -8,33 +9,37 @@
         console.log(e.detail);
     };
 
-    export let apps = [
+    type AppItem = { id: "travelLog" | "profile" | "badges"; title: string; img: string; color: string };
+    let apps: AppItem[] = [];
+
+    $: apps = [
         {
-            title: "Travel Logs",
+            id: "travelLog",
+            title: $t("tablet.travelLogs"),
             img: Assets.Tablet.travelLogIcon,
             color: "rgb(85,205,110)"
         },
         {
-            title: "Profiles",
+            id: "profile",
+            title: $t("tablet.profiles"),
             img: Assets.Tablet.profileIcon,
             color: "rgb(185,90,210)"
         },
         {
-            title: "Badges",
+            id: "badges",
+            title: $t("tablet.badges"),
             img: Assets.Tablet.badgesIcon,
             color: "rgb(0,175,210)"
         }
     ];
 
-    const select = (app: string) => {
-        if (app === "Travel Logs") {
+    const select = (appId: AppItem["id"]) => {
+        if (appId === "travelLog") {
             onSelect("travelLog");
-        } else if (app === "Profiles") {
+        } else if (appId === "profile") {
             onSelect("profile");
-        } else if (app === "Badges") {
+        } else if (appId === "badges") {
             onSelect("badges");
-        } else if (app === "Robot Prototype") {
-            onSelect("Robot Prototype");
         } else {
             onSelect(null);
         }
@@ -52,7 +57,7 @@
             color={app.color}
             title={app.title}
             img={app.img}
-            on:click={() => select(app.title)}
+            on:click={() => select(app.id)}
             on:applicationContainerEvent={handleAppContainerEvent} />
     </div>
     {/each}

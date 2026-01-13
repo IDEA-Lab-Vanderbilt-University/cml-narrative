@@ -1,8 +1,5 @@
 <script lang="ts">
-	import { settingsStore } from '$lib/utils/stores/store';
-	import { createEventDispatcher } from 'svelte';
-
-	const dispatch = createEventDispatcher();
+	import { languageStore, setLanguage } from '$lib/utils/stores/languageStore';
 
 	type Language = {
 		code: string;
@@ -23,21 +20,20 @@
         // { code: 'ru', name: 'Русский', flag: "🇷🇺" },
 	];
 
-	export let selectedLanguage: string = $settingsStore.language || 'en';
+
 	export let dropdownDirection: 'up' | 'down' = 'up';
 
 	let isOpen = false;
 
-	$: currentLanguage = languages.find(lang => lang.code === selectedLanguage) || languages[0];
+	$: currentLanguage = languages.find(lang => lang.code === $languageStore) || languages[0];
 
 	function toggleDropdown() {
 		isOpen = !isOpen;
 	}
 
 	function selectLanguage(code: string) {
-		selectedLanguage = code;
+		setLanguage(code as any);
 		isOpen = false;
-		dispatch('languageChange', { code });
 	}
 
 	function handleClickOutside(event: MouseEvent) {
@@ -61,7 +57,7 @@
 			{#each languages as language}
 				<button
 					class="dropdown-item"
-					class:selected={language.code === selectedLanguage}
+					class:selected={language.code === $languageStore}
 					on:click|stopPropagation={() => selectLanguage(language.code)}
 				>
 					<span class="flag">{language.flag}</span>
