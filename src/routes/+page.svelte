@@ -7,6 +7,7 @@
 	import { debugMode, showLanguageChoice } from '$lib/utils/stores/store';
 	import { goto } from '$app/navigation';
 	import LanguageMenu from '$lib/components/LanguageMenu.svelte';
+	import { t } from '$lib/utils/stores/languageStore';
 
 	let showTablet: boolean = false;
 	let showLogIn: boolean = false;
@@ -34,8 +35,8 @@
 			class="absolute inset-0 z-10 flex flex-col items-center justify-center px-72 py-32 align-middle">
 			{#if screenState == HomeScreenStates.home}
 				<div id="toptext" class="font-mokoto space-y-4 text-center text-white">
-					<h2 class="text-5xl" in:fade|global={{ delay: 500 }}>WELCOME TO S.P.O.T</h2>
-					<p class="text-xl" in:fade|global={{ delay: 700 }}>Solving Problems of Tomorrow</p>
+					<h2 class="text-5xl" in:fade|global={{ delay: 500 }}>{$t('home.welcomeToSpot')}</h2>
+					<p class="text-xl" in:fade|global={{ delay: 700 }}>{$t('home.solvingProblems')}</p>
 				</div>
 				<div class="mt-10 space-x-3" in:fade|global={{ delay: 1500 }}>
 					<div id="button-container" class="mt-10 space-x-3" in:fade|global={{ delay: 1500 }}>
@@ -49,7 +50,7 @@
 									return;
 								}
 								screenState = HomeScreenStates.signUp;
-							}}>Login Agent</button>
+							}}>{$t('home.loginAgent')}</button>
 					</div>
 				</div>
 				<img id="spotdots" src="/img/logos/SPOT-dots.svg" alt="" class="mt-8 h-24" in:fade|global={{ delay: 2000 }} />
@@ -62,7 +63,7 @@
 								stopAudio();
 								goto('/teacher');
 								return;
-							}}>Login Senior Agent</button>
+							}}>{$t('home.loginSeniorAgent')}</button>
 					</div>
 				</div>
 			{:else if screenState == HomeScreenStates.signUp}

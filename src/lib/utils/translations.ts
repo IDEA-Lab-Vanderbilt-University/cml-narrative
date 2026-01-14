@@ -5,6 +5,12 @@
 
 export const translations = {
 	en: {
+		home: {
+			welcomeToSpot: 'WELCOME TO S.P.O.T',
+			solvingProblems: 'Solving Problems of Tomorrow',
+			loginAgent: 'Login Agent',
+			loginSeniorAgent: 'Login Senior Agent'
+		},
 		tablet: {
 			travelLogs: 'Travel Logs',
 			profiles: 'Profiles',
@@ -23,6 +29,12 @@ export const translations = {
 		}
 	},
 	es: {
+		home: {
+			welcomeToSpot: 'BIENVENIDO A S.P.O.T',
+			solvingProblems: 'Solucionando Problemas de la Otra Trasmañana',
+			loginAgent: 'Ingresar Agente',
+			loginSeniorAgent: 'Ingresar Agente Senior'
+		},
 		tablet: {
 			travelLogs: 'Registros de Viaje',
 			profiles: 'Perfiles',
@@ -43,7 +55,7 @@ export const translations = {
 } as const;
 
 export type Language = keyof typeof translations;
-export type TranslationKey = 'tablet.travelLogs' | 'tablet.profiles' | 'tablet.badges' | 'tablet.previous' | 'tablet.next' | 'tablet.goBack' | 'tablet.notEarnedYet' | 'tablet.editProfile' | 'tablet.editYourProfile' | 'tablet.spotRank' | 'tablet.favoriteBadge' | 'tablet.iLikeTo' | 'tablet.hereIsPizza' | 'tablet.noTravelLogsAvailable';
+export type TranslationKey = 'home.welcomeToSpot' | 'home.solvingProblems' | 'home.loginAgent' | 'home.loginSeniorAgent' | 'tablet.travelLogs' | 'tablet.profiles' | 'tablet.badges' | 'tablet.previous' | 'tablet.next' | 'tablet.goBack' | 'tablet.notEarnedYet' | 'tablet.editProfile' | 'tablet.editYourProfile' | 'tablet.spotRank' | 'tablet.favoriteBadge' | 'tablet.iLikeTo' | 'tablet.hereIsPizza' | 'tablet.noTravelLogsAvailable';
 
 /**
  * Get a translated string by key
