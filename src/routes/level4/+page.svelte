@@ -411,21 +411,25 @@
 		<Tablet showMeter={false} showBottomButtons={false}>
 			<TabletMenu apps={[
 				{
+					id: "travelLog",
 					title: "Travel Logs",
 					img: Assets.Tablet.travelLogIcon,
 					color: "rgb(85,205,110)"
 				},
 				{
+					id: "profile",
 					title: "Profiles",
 					img: Assets.Tablet.profileIcon,
 					color: "rgb(185,90,210)"
 				},
 				{
+					id: "badges",
 					title: "Badges",
 					img: Assets.Tablet.badgesIcon,
 					color: "rgb(0,175,210)"
 				},
 				{
+					id: "robotprototype",
 					title: "Robot Prototype",
 					img: Assets.Tablet.robotPrototypeIcon,
 					color: "rgb(200, 80, 50)"
@@ -433,7 +437,8 @@
 			]}
 
 			onSelect={(selection) => {
-				if(selection == "Robot Prototype") {
+				console.log(selection);
+				if(selection == "robotprototype") {
 					goto('/level4?page=9');
 				}
 			}}

@@ -3,16 +3,18 @@
 	import SpotApplication from "../sequences/tablet/tablet-tutorial/SpotApplication.svelte";
     import { t } from "$lib/utils/stores/languageStore";
 
-    export let onSelect: (selection: null | "profile" | "travelLog" | "badges" | "Robot Prototype" ) => void = () => {};
+    export let onSelect: (selection: null | "profile" | "travelLog" | "badges" | "robotprototype" ) => void = () => {};
 
     let handleAppContainerEvent = (e: CustomEvent<{ event: string; id: string }>) => {
         console.log(e.detail);
     };
 
-    type AppItem = { id: "travelLog" | "profile" | "badges"; title: string; img: string; color: string };
-    let apps: AppItem[] = [];
+    type AppItem = { id: "travelLog" | "profile" | "badges" | "robotprototype"; title: string; img: string; color: string };
+    export let apps: AppItem[] = [];
 
-    $: apps = [
+    let displayApps = [...apps];
+    $: if(apps.length == 0) {
+        displayApps = [
         {
             id: "travelLog",
             title: $t("tablet.travelLogs"),
@@ -32,17 +34,10 @@
             color: "rgb(0,175,210)"
         }
     ];
+    }
 
     const select = (appId: AppItem["id"]) => {
-        if (appId === "travelLog") {
-            onSelect("travelLog");
-        } else if (appId === "profile") {
-            onSelect("profile");
-        } else if (appId === "badges") {
-            onSelect("badges");
-        } else {
-            onSelect(null);
-        }
+        onSelect(appId);
     };
     
 
@@ -51,7 +46,7 @@
 
 
 <div class="flex justify-center" id="tablet-menu">
-    {#each apps as app}
+    {#each displayApps as app}
     <div>
         <SpotApplication
             color={app.color}
