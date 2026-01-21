@@ -11,14 +11,19 @@
 */
 
 import type { Script } from '$lib/types/Script';
-
 import type { Student } from '$lib/types/UserData';
-import { studentDataStore } from '$lib/utils/stores/store';
+import { studentDataStore, settingsStore } from '$lib/utils/stores/store';
+import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
 
 let agent: Student = {};
+let currentLanguage = 'en';
 
 studentDataStore.subscribe((value) => {
 	agent = value as Student;
+});
+
+settingsStore.subscribe((value) => {
+	currentLanguage = (value.language as string) || 'en';
 });
 
 const script: Script = {
@@ -26,7 +31,7 @@ const script: Script = {
 		{
 			id: 1,
 			speakers: ['Agent Spark'],
-			dialog: "It's time for your SPOT Agent Training!",
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 1),
 			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/agent_spark/agent_spark_l0s71.wav',
@@ -35,20 +40,16 @@ const script: Script = {
 		{
 			id: 6,
 			speakers: ['Agent Spark'],
-			dialog: 'Ever heard of Algorithms?',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 6),
 			avatars: ['/img/characters/agent-spark/spark_gesture_inverted.png'],
 			background: '/img/backgrounds/captain_office.jpg',
-			// audio: '/audio/level0/agent_spark/agent_spark_l0s80.wav'
 			audio: '/audio/level0/agent_spark/agent_spark_l0s80.wav',
 			pos: 'left'
-			// audio: [
-			// 	'/audio/level0/computer/computer_l0_s74.wav',
-			// 	'/audio/level0/agent_spark/agent_spark_l0s80.wav']
 		},
 		{
 			id: 8,
 			speakers: ['Agent Spark'],
-			dialog: 'Gear, did you overload the generator again?',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 8),
 			avatars: ['/img/characters/agent-spark/spark_sad.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/agent_spark/agent_spark_l0s82.wav',
@@ -57,7 +58,7 @@ const script: Script = {
 		{
 			id: 9,
 			speakers: ['Agent Gear'],
-			dialog: "Oops, Sorry! I'm fixing it now!",
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 9),
 			avatars: ['/img/characters/agent-gear/vanilla_idea.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/agent_gear/agent_gear_l0s90.wav',
@@ -66,7 +67,7 @@ const script: Script = {
 		{
 			id: 10,
 			speakers: ['Agent Spark'],
-			dialog: 'Anyway, back to algorithms. What do you think an algorithm is?',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 10),
 			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/agent_spark/agent_spark_l0s84.wav',
@@ -75,8 +76,7 @@ const script: Script = {
 		{
 			id: 11,
 			speakers: ['Captain Storm'],
-			dialog:
-				'There is no right or wrong answer. We need to know what you know to get you and your Bot Buddy ready for your trip.',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 11),
 			avatars: ['/img/characters/captain-storm/gesture_2_storm.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s85.wav',
@@ -85,7 +85,7 @@ const script: Script = {
 		{
 			id: 12,
 			speakers: ['Captain Storm'],
-			dialog: `Interesting thoughts, Agent ${agent.agent_name}!`,
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 12, { agentName: agent.agent_name || 'Agent' }),
 			avatars: ['/img/characters/captain-storm/storm_thumbs_up.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s88.wav',
@@ -94,8 +94,7 @@ const script: Script = {
 		{
 			id: 14,
 			speakers: ['Agent Spark'],
-			dialog:
-				'Remember, there is no right or wrong answer, we just need to know what you know to get you ready for your mission!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 14),
 			avatars: ['/img/characters/agent-spark/spark_aww.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/agent_spark/agent_spark_l0s90.wav',
@@ -104,8 +103,7 @@ const script: Script = {
 		{
 			id: 15,
 			speakers: ['Agent Gear'],
-			dialog:
-				'One more thing before you go. We need to know more about what you think by answering a few questions. Open your tablet at the top of your screen and complete the survey to tell us more about you.',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 15),
 			avatars: ['/img/characters/agent-gear/vanilla_talking.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/agent_gear/agent_gear_l0s103.wav',
@@ -114,7 +112,7 @@ const script: Script = {
 		{
 			id: 16,
 			speakers: ['Agent Spark', 'Captain Storm'],
-			dialog: `WAHOOO! Yay, ${agent.agent_name}!`,
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 16, { agentName: agent.agent_name || 'Agent' }),
 			avatars: [
 				'/img/characters/agent-spark/spark_gesture_2_inverted.png',
 				'/img/characters/captain-storm/storm_dance.png'
@@ -126,8 +124,7 @@ const script: Script = {
 		{
 			id: 18,
 			speakers: ['Captain Storm'],
-			dialog:
-				'Congratulations, you have earned your Agent-in-Training badge! You are now an official SPOT Agent! Check your SPOT tablet to see your new badge!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 18),
 			avatars: ['/img/characters/captain-storm/clapping_storm_inverted.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s94.wav',
@@ -136,8 +133,7 @@ const script: Script = {
 		{
 			id: 18,
 			speakers: ['Captain Storm'],
-			dialog:
-				'Congratulations, you have earned your Agent-in-Training badge! You are now an official SPOT Agent! Check your SPOT tablet to see your new badge!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 18),
 			avatars: ['/img/characters/captain-storm/clapping_storm_inverted.png'],
 			background: '/img/backgrounds/captain_office.jpg',
 			audio: '',

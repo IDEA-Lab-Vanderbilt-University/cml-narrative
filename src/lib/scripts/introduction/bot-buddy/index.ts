@@ -12,12 +12,18 @@
 
 import type { Script, Line } from '$lib/types/Script';
 import type { Student } from '$lib/types/UserData';
-import { studentDataStore } from '$lib/utils/stores/store';
+import { studentDataStore, settingsStore } from '$lib/utils/stores/store';
+import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
 
 let agent: Student = {};
+let currentLanguage = 'en';
 
 studentDataStore.subscribe((value) => {
 	agent = value as Student;
+});
+
+settingsStore.subscribe((value) => {
+	currentLanguage = (value.language as string) || 'en';
 });
 
 const script: Script = {
@@ -25,8 +31,7 @@ const script: Script = {
 		{
 			id: 1,
 			speakers: ['Captain Storm', 'Agent Spark'],
-			dialog:
-				'Thank you Agent Spark! It looks like our new agent-in-training is ready to go into the lab!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 1),
 			avatars: [
 				'/img/characters/captain-storm/storm_thumbs_up_inverted.png',
 				'/img/characters/agent-spark/spark_gesture_1_inverted.png'
@@ -38,7 +43,7 @@ const script: Script = {
 		{
 			id: 2,
 			speakers: ['Agent Fern'],
-			dialog: `Great to see you, Captain Storm! Welcome, Agent ${agent.agent_name}! I can't wait to tell you about Bot Buddy!`,
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 2, { agentName: agent.agent_name || 'Agent' }),
 			avatars: ['/img/characters/agent-fern/fern_wave_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_fern/agent_fern_l0s52.mp3',
@@ -47,8 +52,7 @@ const script: Script = {
 		{
 			id: 3,
 			speakers: ['Agent Fern'],
-			dialog:
-				'Your Bot Buddy will be your companion during this mission. The Bot Buddy can provide clues and receive directions from Mission Control.',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 3),
 			avatars: ['/img/characters/agent-fern/fern_talking.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_fern/agent_fern_l0s53.mp3',
@@ -57,7 +61,7 @@ const script: Script = {
 		{
 			id: 4,
 			speakers: ['Captain Storm'],
-			dialog: 'Agent Fern... where is Bot Buddy?',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 4),
 			avatars: ['/img/characters/captain-storm/storm_unsure.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s55.wav',
@@ -66,7 +70,7 @@ const script: Script = {
 		{
 			id: 5,
 			speakers: ['Agent Fern'],
-			dialog: "I don't know!!",
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 5),
 			avatars: ['/img/characters/agent-fern/fern_oh_no.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_fern/agent_fern_l0s56.mp3',
@@ -75,8 +79,7 @@ const script: Script = {
 		{
 			id: 6,
 			speakers: ['Agent Gear'],
-			dialog:
-				'I have it, Captain Storm! Sorry I was late, I wanted our new agent to have the updated model!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 6),
 			avatars: ['/img/characters/agent-gear/vanilla_strong_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/agent_gear/agent_gear_l0s57.wav',
@@ -85,7 +88,7 @@ const script: Script = {
 		{
 			id: 7,
 			speakers: ['Bot Buddy'],
-			dialog: '$$((( ooo!>>> =+=; $^(( %&<!!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 7),
 			avatars: ['/img/characters/bot-buddy/bot-buddy-smug.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/bot_buddy/bot_buddy_l0s59.wav',
@@ -94,7 +97,7 @@ const script: Script = {
 		{
 			id: 8,
 			speakers: ['Captain Storm'],
-			dialog: '*CRASH* \n*BANG*',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 8),
 			avatars: ['/img/characters/captain-storm/storm_better_laugh.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/crash-bang.mp3',
@@ -103,7 +106,7 @@ const script: Script = {
 		{
 			id: 9,
 			speakers: ['Bot Buddy'],
-			dialog: 'Hello! I am Bot Buddy! I will be your robot assistant.',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 9),
 			avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/bot_buddy/bot_buddy_l0s63.wav',
@@ -112,7 +115,7 @@ const script: Script = {
 		{
 			id: 10,
 			speakers: ['Captain Storm'],
-			dialog: 'Excellent! Thank you Agent Gear and Agent Fern!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 10),
 			avatars: ['/img/characters/captain-storm/storm_2_thumbs_up.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s65.wav',
@@ -121,7 +124,7 @@ const script: Script = {
 		{
 			id: 11,
 			speakers: ['Captain Storm'],
-			dialog: `Agent ${agent.agent_name}, Mission Control needs you to complete some training before going on the mission.`,
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 11, { agentName: agent.agent_name || 'Agent' }),
 			avatars: ['/img/characters/captain-storm/storm_gesture_4_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s66.wav',
@@ -130,8 +133,7 @@ const script: Script = {
 		{
 			id: 12,
 			speakers: ['Captain Storm'],
-			dialog:
-				'This training helps us understand what you know about technology and Artificial Intelligence.',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 12),
 			avatars: ['/img/characters/captain-storm/clapping_storm.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s67.wav',
@@ -140,8 +142,7 @@ const script: Script = {
 		{
 			id: 13,
 			speakers: ['Captain Storm'],
-			dialog:
-				'Then, the Tech Team will load your Bot Buddy with additional information and knowledge to help you on your mission.',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 13),
 			avatars: ['/img/characters/captain-storm/gesture_2_storm_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s68.wav',
@@ -150,7 +151,7 @@ const script: Script = {
 		{
 			id: 14,
 			speakers: ['SPOT Agents'],
-			dialog: 'You can count on us!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 14),
 			avatars: ['/img/characters/agent-groups/spot_agents.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/spot_agents/level0_s69_you_can_count_on_us_01.wav',
@@ -159,8 +160,7 @@ const script: Script = {
 		{
 			id: 15,
 			speakers: ['Captain Storm'],
-			dialog:
-				"Thanks, team! At the end of this first training, you will receive your first badge! Let's get started!",
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 15),
 			avatars: ['/img/characters/agent-groups/spot_agents_2.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/captain_storm/captn_storm_l0s70.wav',

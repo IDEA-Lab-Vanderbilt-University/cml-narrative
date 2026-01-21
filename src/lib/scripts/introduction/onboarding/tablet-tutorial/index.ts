@@ -11,13 +11,21 @@
 */
 
 import type { Script, Line } from '$lib/types/Script';
+import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
+import { settingsStore } from '$lib/utils/stores/store';
+
+let currentLanguage = 'en';
+
+settingsStore.subscribe((value) => {
+	currentLanguage = (value.language as string) || 'en';
+});
 
 const script: Script = {
 	lines: [
 		{
 			id: 1,
 			speakers: ['Agent Spark'],
-			dialog: 'This is your SPOT tablet! Used for all official SPOT missions!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 1),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s37.wav'
@@ -25,7 +33,7 @@ const script: Script = {
 		{
 			id: 2,
 			speakers: ['Agent Spark'],
-			dialog: 'Use your Travel Log to share information and send updated to SPOT Mission Control',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 2),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s38.wav'
@@ -33,8 +41,7 @@ const script: Script = {
 		{
 			id: 3,
 			speakers: ['Agent Spark'],
-			dialog:
-				'This is the profile button. You can check and edit your profile. You can see the progress of other agents too!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 3),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s39.wav'
@@ -42,8 +49,7 @@ const script: Script = {
 		{
 			id: 4,
 			speakers: ['Agent Spark'],
-			dialog:
-				'You need to earn badges to move from "Special Agent in Training" to "Advanced Special Agent"',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 4),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s40.wav'
@@ -51,8 +57,7 @@ const script: Script = {
 		{
 			id: 5,
 			speakers: ['Agent Spark'],
-			dialog:
-				'The Settings button lets you change the color of your frame! I like mine to be yellow!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 5),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s41.wav'
@@ -60,8 +65,7 @@ const script: Script = {
 		{
 			id: 6,
 			speakers: ['Agent Spark'],
-			dialog:
-				'Your Time Travel Machine holds 100 megajoules of power, which is exactly the amount it takes to get to the year 2075!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 6),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s42.wav'
@@ -69,8 +73,7 @@ const script: Script = {
 		{
 			id: 7,
 			speakers: ['Agent Spark'],
-			dialog:
-				'To return to present dau, you will need to refuel by gaining 100 megajoules of power while you are in the future',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 7),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s43.wav'
@@ -78,8 +81,7 @@ const script: Script = {
 		{
 			id: 8,
 			speakers: ['Agent Spark'],
-			dialog:
-				'Complete entries within your Time Travel Log to power up. Mission Control will send you some megajoules of power each time you make an entry.',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 8),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s44.wav'
@@ -87,7 +89,7 @@ const script: Script = {
 		{
 			id: 9,
 			speakers: ['Agent Spark'],
-			dialog: 'Now you have all the information on how to use the SPOT tablet!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 9),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/audio/level0/computer/computer_l0_s45.wav'
