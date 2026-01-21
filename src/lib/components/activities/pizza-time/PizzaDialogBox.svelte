@@ -8,6 +8,7 @@
 	import type { Line } from '$lib/types/Script';
 	import { defaultSettings, type Settings } from '$lib/types/Settings';
 	import { settingsStore, tabletModalActive } from '$lib/utils/stores/store';
+	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import typewriter from '$lib/utils/typewriter';
 
 	import { createEventDispatcher } from 'svelte';
@@ -36,9 +37,10 @@
 				clearInterval(currentTypewriter);
 			}
 
-			if(line != undefined && line.dialog != undefined && line.dialog.length > 0) {
+			const dialogText = getLineDialog(line);
+			if(dialogText && dialogText.length > 0) {
 				isTyping = true;
-				currentTypewriter = typewriter(dialogueParagraph, line.dialog, Number.parseInt((settings.textPeriod ?? defaultSettings.textPeriod).toString()), 0, () => {
+				currentTypewriter = typewriter(dialogueParagraph, dialogText, Number.parseInt((settings.textPeriod ?? defaultSettings.textPeriod).toString()), 0, () => {
 					isTyping = false;
 				});
 			} else {
@@ -104,10 +106,10 @@
 <svelte:window on:keydown|preventDefault={handleKeydownEvent} />
 
 <div id="dialogueroot" class="bg-jet">
-	{#if line.dialog != undefined && line.dialog.length > 0}
+	{#if getLineDialog(line)}
 		<div id="textbox" class="relative flex items-center justify-center rounded p-4 text-white">
 			<p bind:this={dialogueParagraph} class="w-full h-full {settings.fontSize ?? defaultSettings.fontSize}">
-				{line.dialog}
+				{getLineDialog(line)}
 			</p>
 		</div>
 	{/if}

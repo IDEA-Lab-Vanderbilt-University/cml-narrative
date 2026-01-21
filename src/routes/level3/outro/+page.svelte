@@ -5,6 +5,7 @@
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
+	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
 	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
@@ -111,7 +112,7 @@
 			<ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)}>
 					<div class="border-white border-2 p-4 w-7/12">
 						<p class="text-3xl">
-							{line.dialog}
+							{getLineDialog(line)}
 						</p>
 					</div>
 			</ReadMessageModal>

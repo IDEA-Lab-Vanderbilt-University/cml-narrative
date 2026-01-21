@@ -1,11 +1,18 @@
 import type { Script } from '$lib/types/Script';
 import type { Student } from '$lib/types/UserData';
 import { studentDataStore } from '$lib/utils/stores/store';
+import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
+import { settingsStore } from '$lib/utils/stores/store';
 
 let agent: Student = {};
+let currentLanguage = 'en';
 
 studentDataStore.subscribe((value) => {
 	agent = value as Student;
+});
+
+settingsStore.subscribe((value) => {
+	currentLanguage = (value.language as string) || 'en';
 });
 
 const script: Script = {
@@ -13,8 +20,7 @@ const script: Script = {
 		{
 			id: 1,
 			speakers: ['Bot Buddy'],
-			dialog:
-				'Here we are in 2075! We made it!',
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 1),
 			avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
 			background: '/img/backgrounds/level1/1.png',
 			audio: '/audio/level1/bot_buddy/bot_buddy_l1s1.wav',
@@ -23,8 +29,7 @@ const script: Script = {
         {
             id: 2,
             speakers: ['Bot Buddy'],
-            dialog:
-                'All that time travel made me hungry! Let\'s see what they have to eat here. I hope in 2075 they still have pizza!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 2),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level1/1.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s2.wav',
@@ -33,8 +38,7 @@ const script: Script = {
         {
             id: 3,
             speakers: ['Bot Buddy'],
-            dialog:
-                'Mmmmmm! Pizza!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 3),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/2.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s3.wav',
@@ -43,8 +47,7 @@ const script: Script = {
         {
             id: 4,
             speakers: ['Pizza Host Bot', 'Bot Buddy'],
-            dialog:
-                'Welcome! Please have a seat and a server will be with you shortly.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 4),
             avatars: ['/img/characters/level-1/host-bot.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/Pizza_Host_Bot_L1S4.mp3',
@@ -53,8 +56,7 @@ const script: Script = {
         {
             id: 5,
             speakers: ['Bot Buddy'],
-            dialog:
-                'Wow, there are no humans working here! This is the first technology we can look into!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 5),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s5.wav',
@@ -63,8 +65,7 @@ const script: Script = {
         {
             id: 6,
             speakers: ['Bot Buddy'],
-            dialog:
-                'Delicious pizza technology...',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 6),
             avatars: ['/img/characters/bot-buddy/bot-buddy-pizza.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s6.wav',
@@ -74,8 +75,7 @@ const script: Script = {
         {
             id: 7,
             speakers: ['Bot Buddy'],
-            dialog:
-                'These robots must have been trained with an algorithm on how to make and serve pizza!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 7),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s7.wav',
@@ -84,8 +84,7 @@ const script: Script = {
         {
             id: 8,
             speakers: ['Bot Buddy'],
-            dialog:
-                'Let\'s go into the kitchen and see if we can use an algorithm to make our own pizzas.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 8),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level1/cafe.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s11.wav',
@@ -94,8 +93,7 @@ const script: Script = {
         {
             id: 9,
             speakers: ['Bot Buddy'],
-            dialog:
-                'Hello, robot from the future–I mean regular, normal pizza chef robot! Can we try making our own pizzas using an algorithm?',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 9),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/16596.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s12.wav',
@@ -104,8 +102,7 @@ const script: Script = {
         {
             id: 10,
             speakers: ['Chef Bot'],
-            dialog:
-                'Yes you can! I\'ll help you!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 10),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/16596.png',
             audio: '/audio/level1/chef_bot/Chef_Bot_L1S13.wav',
@@ -114,8 +111,7 @@ const script: Script = {
         {
             id: 11,
             speakers: ['Bot Buddy'],
-            dialog:
-                'Sorry, Agent ' + agent.agent_name + ', I almost blew our cover back there.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 11, { agentName: agent.agent_name || 'Agent' }),
             avatars: ['/img/characters/bot-buddy/bot-buddy-ohno.png'],
             background: '/img/backgrounds/level1/16596.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s14.wav',
@@ -125,8 +121,7 @@ const script: Script = {
         {
             id: 12,
             speakers: ['Bot Buddy'],
-            dialog:
-                'Now let\'s make some pizza!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 12),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/16596.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l1s15.wav',

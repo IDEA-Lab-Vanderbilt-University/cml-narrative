@@ -40,6 +40,12 @@
 	</div>
 </div> -->
 
+<svelte:document on:click={
+	(event) => {
+		close();
+	}	
+} />
+
 <div
 	id="popup-modal"
 	tabindex="-1"

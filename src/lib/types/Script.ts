@@ -34,8 +34,9 @@ export interface Line {
 
 	/**
 	 * Text the speaker is speaking
+	 * Can be a static string or a function that returns a translated string
 	 */
-	dialog: string;
+	dialog: string | (() => string);
 
 	/**
 	 * Image of the current speaker
