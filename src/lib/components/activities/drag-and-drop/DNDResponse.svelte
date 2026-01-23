@@ -1,8 +1,16 @@
 <script lang="ts">
 	import { createEventDispatcher, getContext } from 'svelte';
 	import DNDTextResponse from './DNDTextResponse.svelte';
+	import { getTranslation, type Language } from '$lib/utils/translations';
+	import { languageStore } from '$lib/utils/stores/languageStore';
 	import type { DragStackItem } from '$lib/types/DragDropItem';
 	import VideoModal from '$lib/components/modals/VideoModal.svelte';
+	
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
+
 	// @ts-ignore
 	const { open } = getContext('simple-modal');
 
@@ -41,7 +49,7 @@
 
 {#if responseTypeState == ResponseType.undefined}
 	{#if currentDragObject == undefined}
-		<h2 class="text-5xl">Loading...</h2>
+		<h2 class="text-5xl">{getTranslation(currentLanguage, 'common.activity.loading')}</h2>
 	{:else}
 		<div class="flex h-full w-full flex-col items-center justify-center text-white">
 			<h3 class="text-4xl">
@@ -70,7 +78,7 @@
 	{/if}
 {:else if responseTypeState == ResponseType.write}
 	{#if currentDragObject == undefined}
-		<h2 class="text-5xl">Loading...</h2>
+		<h2 class="text-5xl">{getTranslation(currentLanguage, 'common.activity.loading')}</h2>
 	{:else}
 		<div class="mt-auto h-full w-full  items-center justify-center">
 			<DNDTextResponse {currentDragObject} on:textDone={textSubmit} bind:response />

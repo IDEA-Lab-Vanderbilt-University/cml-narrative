@@ -1,4 +1,12 @@
 <script lang="ts">
+	import { getTranslation, type Language } from '$lib/utils/translations';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
+
 	export let step: number;
 	export let classes: string[] = [];
 	export let trainingSets: string[][] = [];
@@ -8,11 +16,11 @@
 	let className = '';
 	const addClass = () => {
 		if (className === '') {
-			alert('Please enter a class name');
+			alert(getTranslation(currentLanguage, 'common.upload.invalidClassName'));
 			return;
 		}
 		if (classes.includes(className)) {
-			alert('Class already exists');
+			alert(getTranslation(currentLanguage, 'common.upload.classExists'));
 			return;
 		}
 		classes = [...classes, className];
@@ -20,7 +28,7 @@
 	};
 
 	const deleteClass = (name: string) => {
-		if (confirm('Are you sure you want to delete this category?')) {
+		if (confirm(getTranslation(currentLanguage, 'common.upload.deleteConfirm'))) {
 			classes = classes.filter((cls) => cls !== name);
 		}
 	};
@@ -28,7 +36,7 @@
 
 <div class="justify-top my-5 flex h-2/3 w-full flex-col items-center space-y-10 overflow-y-scroll">
 	<h2 class="my-2 text-center text-5xl font-bold tracking-wider text-white">
-		What kind of things will your model recognize?
+		{getTranslation(currentLanguage, 'common.upload.whatWillModelRecognize')}
 	</h2>
 
 	<div class="items-left justify-left mt-8 flex w-1/2 flex-row flex-wrap">
@@ -45,17 +53,17 @@
 		<input
 			type="text"
 			class="input-primary mt-4 w-60 rounded-md bg-white px-4 py-3 text-center shadow-md"
-			placeholder="New Category"
+			placeholder={getTranslation(currentLanguage, 'common.upload.newCategory')}
 			bind:value={className} />
 		<div class="ml-auto">
-			<button class="btn btn-primary" on:click={addClass}>Add</button>
+			<button class="btn btn-primary" on:click={addClass}>{getTranslation(currentLanguage, 'common.upload.addCategory')}</button>
 		</div>
 	</div>
 
 	<button
 		on:click={() => {
 			if (classes.length < 2) {
-				alert('You need to add at least 2 categories');
+			alert(getTranslation(currentLanguage, 'common.upload.minimumCategories'));
 				return;
 			}
 			trainingSets = Array(classes.length).fill([]);

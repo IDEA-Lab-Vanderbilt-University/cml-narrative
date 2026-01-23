@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { onMount } from "svelte";
 	import ColorSwatch from "./ColorSwatch.svelte";
+	import { getTranslation, type Language } from '$lib/utils/translations';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
     export let onSubmit: (img: HTMLImageElement) => void;
     export let onBack: null | (() => void) = null;
@@ -197,9 +204,9 @@ onMount(() => {
 
 <canvas id="drawing-area" bind:this={canvas}></canvas>
 
-<button on:click={clearCanvas}>Clear</button> <button id="submit" on:click={submit}>Submit</button>
+<button on:click={clearCanvas}>{getTranslation(currentLanguage, 'common.close')}</button> <button id="submit" on:click={submit}>{getTranslation(currentLanguage, 'common.submit')}</button>
 {#if onBack}
-    <button id="back" on:click={onBack}>Back</button>
+    <button id="back" on:click={onBack}>{getTranslation(currentLanguage, 'common.back')}</button>
 {/if}
 
 

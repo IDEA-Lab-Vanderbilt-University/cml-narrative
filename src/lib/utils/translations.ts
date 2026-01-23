@@ -80,6 +80,37 @@ export const translations = {
 			badgeCount: 'Badge Count',
 			megaJoules: 'Mega Joules'
 		},
+		upload: {
+			uploadCsvXlsx: 'Upload CSV/XLSX of student data following the proper schema',
+			dragFilesHere: 'Drag CSV/XLSX here or click to find document',
+			noFilesUploaded: 'No Files Uploaded!',
+			upload: 'Upload',
+			getSampleCsv: 'Get Sample CSV',
+			invalidClassName: 'Please enter a class name',
+			classExists: 'Class already exists',
+			deleteConfirm: 'Are you sure you want to delete this category?',
+			minimumCategories: 'You need to add at least 2 categories',
+			addCategory: 'Add',
+			newCategory: 'New Category',
+			whatWillModelRecognize: 'What kind of things will your model recognize?',
+			firstName: 'First name',
+			lastName: 'Last name',
+			age: 'Age',
+			noClass: 'No class',
+			addStudent: 'Add student'
+		},
+		activity: {
+			clear: 'Clear',
+			loading: 'Loading...',
+			stopRecording: 'Stop Recording',
+			startRecording: 'Start Recording',
+			recording: 'Recording...',
+			pleaseProvideResponse: 'Please provide a response',
+			trainModel: 'Train Model',
+			testModel: 'Test Model',
+			retrain: 'Re-train Model',
+			iamDone: 'I\'m done!'
+		},
 		names: {
 			captainStorm: 'Captain Storm',
 			agentSpark: 'Agent Spark',
@@ -235,6 +266,37 @@ export const translations = {
 			badgeCount: 'Número de Insignias',
 			megaJoules: 'Mega Julios'
 		},
+		upload: {
+			uploadCsvXlsx: 'Cargar CSV/XLSX de datos de estudiantes siguiendo el esquema adecuado',
+			dragFilesHere: 'Arrastra CSV/XLSX aquí o haz clic para encontrar el documento',
+			noFilesUploaded: '¡No se subieron archivos!',
+			upload: 'Cargar',
+			getSampleCsv: 'Obtener CSV de muestra',
+			invalidClassName: 'Por favor ingresa un nombre de clase',
+			classExists: 'La clase ya existe',
+			deleteConfirm: '¿Estás seguro de que quieres eliminar esta categoría?',
+			minimumCategories: 'Necesitas agregar al menos 2 categorías',
+			addCategory: 'Agregar',
+			newCategory: 'Nueva Categoría',
+			whatWillModelRecognize: '¿Qué tipo de cosas reconocerá tu modelo?',
+			firstName: 'Nombre',
+			lastName: 'Apellido',
+			age: 'Edad',
+			noClass: 'Sin clase',
+			addStudent: 'Agregar estudiante'
+		},
+		activity: {
+			clear: 'Limpiar',
+			loading: 'Cargando...',
+			stopRecording: 'Detener grabación',
+			startRecording: 'Iniciar grabación',
+			recording: 'Grabando...',
+			pleaseProvideResponse: 'Por favor proporciona una respuesta',
+			trainModel: 'Entrenar modelo',
+			testModel: 'Probar modelo',
+			retrain: 'Reentrenar modelo',
+			iamDone: '¡Listo!'
+		},
 		names: {
 			captainStorm: 'Capitán Storm',
 			agentSpark: 'Agente Spark',
@@ -317,7 +379,7 @@ export const translations = {
 } as const;
 
 export type Language = keyof typeof translations;
-export type TranslationKey = 'home.welcomeToSpot' | 'home.solvingProblems' | 'home.loginAgent' | 'home.loginSeniorAgent' | 'tablet.travelLogs' | 'tablet.profiles' | 'tablet.badges' | 'tablet.previous' | 'tablet.next' | 'tablet.goBack' | 'tablet.notEarnedYet' | 'tablet.editProfile' | 'tablet.editYourProfile' | 'tablet.spotRank' | 'tablet.favoriteBadge' | 'tablet.iLikeTo' | 'tablet.hereIsPizza' | 'tablet.noTravelLogsAvailable' | 'login.scanQrCode' | 'login.ensureWellLit' | 'login.scanFromFile' | 'login.invalidQrCode' | 'login.loginSuccessful' | 'login.loginFailed' | 'entry.welcome' | 'entry.begin' | 'common.cancel' | 'common.save' | 'common.submit' | 'common.edit' | 'common.delete' | 'common.close' | 'common.open' | 'common.yes' | 'common.no' | 'common.ok' | 'common.back' | 'common.next' | 'common.previous' | 'common.done' | 'common.continue' | 'common.validation.fillRequiredFields' | 'common.validation.agentNameRequired' | 'common.validation.completeAllFields' | 'common.teacher.editStudentInfo' | 'common.teacher.studentId' | 'common.teacher.teacherId' | 'common.teacher.firstName' | 'common.teacher.lastName' | 'common.teacher.age' | 'common.teacher.className' | 'common.teacher.noClassSelected' | 'common.teacher.notSpecified' | 'common.teacher.name' | 'common.teacher.interests' | 'common.teacher.agentName' | 'common.teacher.updatedAt' | 'common.teacher.progress' | 'common.teacher.lastVisited' | 'common.teacher.badgeCount' | 'common.teacher.megaJoules' | 'introduction.profileName.heading' | 'introduction.profileName.firstName' | 'introduction.profileName.lastName' | 'introduction.profileAge.heading' | 'introduction.profileAgent.heading' | 'introduction.profileAvatar.heading' | 'introduction.profileAvatar.skinTone' | 'introduction.profileAvatar.hairColor' | 'introduction.profileAvatar.cancel' | 'introduction.profileChooseAvatar.heading' | 'introduction.trainingTechnology.heading' | 'introduction.trainingTechnology.description' | 'introduction.tabletTutorial.travelLog' | 'introduction.tabletTutorial.profile' | 'introduction.tabletTutorial.badges' | 'introduction.invitation.heading' | 'introduction.invitation.button' | 'introduction.validation.nameRequired' | 'introduction.validation.ageRequired' | 'introduction.validation.interestsRequired' | 'introduction.validation.agentNameRequired' | 'introduction.validation.avatarRequired' | 'introduction.validation.fieldsRequired' | 'introduction.profileCreation.interestPrompt1' | 'introduction.profileCreation.interestPrompt2' | 'introduction.profileCreation.interestPrompt3' | 'introduction.profileCreation.success' | 'introduction.profileCreation.error';
+export type TranslationKey = 'home.welcomeToSpot' | 'home.solvingProblems' | 'home.loginAgent' | 'home.loginSeniorAgent' | 'tablet.travelLogs' | 'tablet.profiles' | 'tablet.badges' | 'tablet.previous' | 'tablet.next' | 'tablet.goBack' | 'tablet.notEarnedYet' | 'tablet.editProfile' | 'tablet.editYourProfile' | 'tablet.spotRank' | 'tablet.favoriteBadge' | 'tablet.iLikeTo' | 'tablet.hereIsPizza' | 'tablet.noTravelLogsAvailable' | 'login.scanQrCode' | 'login.ensureWellLit' | 'login.scanFromFile' | 'login.invalidQrCode' | 'login.loginSuccessful' | 'login.loginFailed' | 'entry.welcome' | 'entry.begin' | 'common.cancel' | 'common.save' | 'common.submit' | 'common.edit' | 'common.delete' | 'common.close' | 'common.open' | 'common.yes' | 'common.no' | 'common.ok' | 'common.back' | 'common.next' | 'common.previous' | 'common.done' | 'common.continue' | 'common.validation.fillRequiredFields' | 'common.validation.agentNameRequired' | 'common.validation.completeAllFields' | 'common.teacher.editStudentInfo' | 'common.teacher.studentId' | 'common.teacher.teacherId' | 'common.teacher.firstName' | 'common.teacher.lastName' | 'common.teacher.age' | 'common.teacher.className' | 'common.teacher.noClassSelected' | 'common.teacher.notSpecified' | 'common.teacher.name' | 'common.teacher.interests' | 'common.teacher.agentName' | 'common.teacher.updatedAt' | 'common.teacher.progress' | 'common.teacher.lastVisited' | 'common.teacher.badgeCount' | 'common.teacher.megaJoules' | 'common.upload.uploadCsvXlsx' | 'common.upload.dragFilesHere' | 'common.upload.noFilesUploaded' | 'common.upload.upload' | 'common.upload.getSampleCsv' | 'common.upload.invalidClassName' | 'common.upload.classExists' | 'common.upload.deleteConfirm' | 'common.upload.minimumCategories' | 'common.upload.addCategory' | 'common.upload.newCategory' | 'common.upload.whatWillModelRecognize' | 'common.upload.firstName' | 'common.upload.lastName' | 'common.upload.age' | 'common.upload.noClass' | 'common.upload.addStudent' | 'common.activity.clear' | 'common.activity.loading' | 'common.activity.stopRecording' | 'common.activity.startRecording' | 'common.activity.recording' | 'common.activity.pleaseProvideResponse' | 'common.activity.trainModel' | 'common.activity.testModel' | 'common.activity.retrain' | 'common.activity.iamDone' | 'introduction.profileName.heading' | 'introduction.profileName.firstName' | 'introduction.profileName.lastName' | 'introduction.profileAge.heading' | 'introduction.profileAgent.heading' | 'introduction.profileAvatar.heading' | 'introduction.profileAvatar.skinTone' | 'introduction.profileAvatar.hairColor' | 'introduction.profileAvatar.cancel' | 'introduction.profileChooseAvatar.heading' | 'introduction.trainingTechnology.heading' | 'introduction.trainingTechnology.description' | 'introduction.tabletTutorial.travelLog' | 'introduction.tabletTutorial.profile' | 'introduction.tabletTutorial.badges' | 'introduction.invitation.heading' | 'introduction.invitation.button' | 'introduction.validation.nameRequired' | 'introduction.validation.ageRequired' | 'introduction.validation.interestsRequired' | 'introduction.validation.agentNameRequired' | 'introduction.validation.avatarRequired' | 'introduction.validation.fieldsRequired' | 'introduction.profileCreation.interestPrompt1' | 'introduction.profileCreation.interestPrompt2' | 'introduction.profileCreation.interestPrompt3' | 'introduction.profileCreation.success' | 'introduction.profileCreation.error';
 
 /**
  * Get a translated string by key

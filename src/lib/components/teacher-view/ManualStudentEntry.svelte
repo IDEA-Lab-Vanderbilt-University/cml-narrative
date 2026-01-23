@@ -1,5 +1,12 @@
 <script lang="ts">
   import type { Student } from '$lib/types/UserData';
+  import { getTranslation, type Language } from '$lib/utils/translations';
+  import { languageStore } from '$lib/utils/stores/languageStore';
+
+  let currentLanguage: Language = 'en';
+  languageStore.subscribe((lang: Language) => {
+    currentLanguage = lang;
+  });
 
   export let newStudent: Student;
   export let onAdd: () => void;
@@ -35,19 +42,19 @@
 <div class="flex w-3/4 space-x-2 rounded bg-gray-100 p-3 shadow">
   <input
     type="text"
-    placeholder="First name"
+    placeholder={getTranslation(currentLanguage, 'common.upload.firstName')}
     class="input input-bordered w-1/4"
     bind:value={newStudent.first_name}
     on:input={(e) => handleInput(e, 'first_name')} />
   <input
     type="text"
-    placeholder="Last name"
+    placeholder={getTranslation(currentLanguage, 'common.upload.lastName')}
     class="input input-bordered w-1/4"
     bind:value={newStudent.last_name}
     on:input={(e) => handleInput(e, 'last_name')} />
   <input
     type="number"
-    placeholder="Age"
+    placeholder={getTranslation(currentLanguage, 'common.upload.age')}
     class="input input-bordered w-1/6"
     bind:value={newStudent.age}
     min="1"
@@ -71,12 +78,12 @@
     class="select select-bordered w-1/4"
     bind:value={newStudent.class_name}
     on:change={(e) => handleInput(e, 'class_name')}>
-    <option value="" selected={selectedClass === null}>No class</option>
+    <option value="" selected={selectedClass === null}>{getTranslation(currentLanguage, 'common.upload.noClass')}</option>
     {#each classes as c}
       <option value={c} selected={selectedClass === c}>{c}</option>
     {/each}
   </select>
   <div class="ml-auto">
-    <button class="btn btn-primary" on:click={onAdd}>Add student</button>
+    <button class="btn btn-primary" on:click={onAdd}>{getTranslation(currentLanguage, 'common.upload.addStudent')}</button>
   </div>
 </div>
