@@ -39,6 +39,14 @@ export const translations = {
 			welcome: 'WELCOME {firstName} {lastName}!',
 			begin: 'Begin'
 		},
+		names: {
+			captainStorm: 'Captain Storm',
+			agentSpark: 'Agent Spark',
+			agentFern: 'Agent Fern',
+			agentGear: 'Agent Gear',
+			botBuddy: 'Bot Buddy',
+			spotAgents: 'SPOT Agents'
+		},
 		introduction: {
 			profileName: {
 				heading: 'What is your name?',
@@ -125,6 +133,14 @@ export const translations = {
 			welcome: '¡BIENVENIDO {firstName} {lastName}!',
 			begin: 'Comenzar'
 		},
+		names: {
+			captainStorm: 'Capitán Storm',
+			agentSpark: 'Agente Spark',
+			agentFern: 'Agente Fern',
+			agentGear: 'Agente Gear',
+			botBuddy: 'Bot Buddy',
+			spotAgents: 'Agentes SPOT'
+		},
 		introduction: {
 			profileName: {
 				heading: '¿Cuál es tu nombre?',
@@ -209,4 +225,17 @@ export function getTranslationWithValues(
 ): string {
 	const template = getTranslation(language, key);
 	return String(template).replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? `{${k}}`));
+}
+
+/**
+ * Get localized character name with English fallback
+ */
+export function getCharacterName(
+	language: Language,
+	key: keyof typeof translations['en']['names']
+): string {
+	const localized = (translations[language] as any)?.names?.[key];
+	if (typeof localized === 'string') return localized;
+	const fallback = translations['en']?.names?.[key];
+	return typeof fallback === 'string' ? fallback : key;
 }
