@@ -39,6 +39,47 @@ export const translations = {
 			welcome: 'WELCOME {firstName} {lastName}!',
 			begin: 'Begin'
 		},
+		common: {
+			cancel: 'Cancel',
+			save: 'Save',
+			submit: 'Submit',
+			edit: 'Edit',
+			delete: 'Delete',
+			close: 'Close',
+			open: 'Open',
+			yes: 'Yes',
+			no: 'No',
+			ok: 'OK',
+			back: 'Back',
+			next: 'Next',
+			previous: 'Previous',
+			done: 'Done',
+			continue: 'Continue'
+		},
+		validation: {
+			fillRequiredFields: 'Please fill in the required data before moving to the next page',
+			agentNameRequired: 'Please fill in an Agent Name before moving to the next page',
+			completeAllFields: 'Please complete all required fields'
+		},
+		teacher: {
+			editStudentInfo: 'Edit Student Info',
+			studentId: 'Student ID',
+			teacherId: 'Teacher ID',
+			firstName: 'First Name',
+			lastName: 'Last Name',
+			age: 'Age',
+			className: 'Class Name',
+			noClassSelected: 'No Class Selected',
+			notSpecified: 'Not specified',
+			name: 'Name',
+			interests: 'Interests',
+			agentName: 'Agent Name',
+			updatedAt: 'Updated At',
+			progress: 'Progress',
+			lastVisited: 'Last Visited',
+			badgeCount: 'Badge Count',
+			megaJoules: 'Mega Joules'
+		},
 		names: {
 			captainStorm: 'Captain Storm',
 			agentSpark: 'Agent Spark',
@@ -153,6 +194,47 @@ export const translations = {
 			welcome: '¡BIENVENIDO {firstName} {lastName}!',
 			begin: 'Comenzar'
 		},
+		common: {
+			cancel: 'Cancelar',
+			save: 'Guardar',
+			submit: 'Enviar',
+			edit: 'Editar',
+			delete: 'Eliminar',
+			close: 'Cerrar',
+			open: 'Abrir',
+			yes: 'Sí',
+			no: 'No',
+			ok: 'OK',
+			back: 'Atrás',
+			next: 'Siguiente',
+			previous: 'Anterior',
+			done: 'Hecho',
+			continue: 'Continuar'
+		},
+		validation: {
+			fillRequiredFields: 'Por favor complete los datos requeridos antes de pasar a la siguiente página',
+			agentNameRequired: 'Por favor complete un Nombre de Agente antes de pasar a la siguiente página',
+			completeAllFields: 'Por favor complete todos los campos requeridos'
+		},
+		teacher: {
+			editStudentInfo: 'Editar Información del Estudiante',
+			studentId: 'ID del Estudiante',
+			teacherId: 'ID del Maestro',
+			firstName: 'Nombre',
+			lastName: 'Apellido',
+			age: 'Edad',
+			className: 'Nombre de la Clase',
+			noClassSelected: 'Ninguna Clase Seleccionada',
+			notSpecified: 'No especificado',
+			name: 'Nombre',
+			interests: 'Intereses',
+			agentName: 'Nombre del Agente',
+			updatedAt: 'Actualizado el',
+			progress: 'Progreso',
+			lastVisited: 'Última Visita',
+			badgeCount: 'Número de Insignias',
+			megaJoules: 'Mega Julios'
+		},
 		names: {
 			captainStorm: 'Capitán Storm',
 			agentSpark: 'Agente Spark',
@@ -235,7 +317,7 @@ export const translations = {
 } as const;
 
 export type Language = keyof typeof translations;
-export type TranslationKey = 'home.welcomeToSpot' | 'home.solvingProblems' | 'home.loginAgent' | 'home.loginSeniorAgent' | 'tablet.travelLogs' | 'tablet.profiles' | 'tablet.badges' | 'tablet.previous' | 'tablet.next' | 'tablet.goBack' | 'tablet.notEarnedYet' | 'tablet.editProfile' | 'tablet.editYourProfile' | 'tablet.spotRank' | 'tablet.favoriteBadge' | 'tablet.iLikeTo' | 'tablet.hereIsPizza' | 'tablet.noTravelLogsAvailable' | 'login.scanQrCode' | 'login.ensureWellLit' | 'login.scanFromFile' | 'login.invalidQrCode' | 'login.loginSuccessful' | 'login.loginFailed' | 'entry.welcome' | 'entry.begin' | 'introduction.profileName.heading' | 'introduction.profileName.firstName' | 'introduction.profileName.lastName' | 'introduction.profileAge.heading' | 'introduction.profileAgent.heading' | 'introduction.profileAvatar.heading' | 'introduction.profileAvatar.skinTone' | 'introduction.profileAvatar.hairColor' | 'introduction.profileAvatar.cancel' | 'introduction.profileChooseAvatar.heading' | 'introduction.trainingTechnology.heading' | 'introduction.trainingTechnology.description' | 'introduction.tabletTutorial.travelLog' | 'introduction.tabletTutorial.profile' | 'introduction.tabletTutorial.badges' | 'introduction.invitation.heading' | 'introduction.invitation.button' | 'introduction.validation.nameRequired' | 'introduction.validation.ageRequired' | 'introduction.validation.interestsRequired' | 'introduction.validation.agentNameRequired' | 'introduction.validation.avatarRequired' | 'introduction.validation.fieldsRequired' | 'introduction.profileCreation.interestPrompt1' | 'introduction.profileCreation.interestPrompt2' | 'introduction.profileCreation.interestPrompt3' | 'introduction.profileCreation.success' | 'introduction.profileCreation.error';
+export type TranslationKey = 'home.welcomeToSpot' | 'home.solvingProblems' | 'home.loginAgent' | 'home.loginSeniorAgent' | 'tablet.travelLogs' | 'tablet.profiles' | 'tablet.badges' | 'tablet.previous' | 'tablet.next' | 'tablet.goBack' | 'tablet.notEarnedYet' | 'tablet.editProfile' | 'tablet.editYourProfile' | 'tablet.spotRank' | 'tablet.favoriteBadge' | 'tablet.iLikeTo' | 'tablet.hereIsPizza' | 'tablet.noTravelLogsAvailable' | 'login.scanQrCode' | 'login.ensureWellLit' | 'login.scanFromFile' | 'login.invalidQrCode' | 'login.loginSuccessful' | 'login.loginFailed' | 'entry.welcome' | 'entry.begin' | 'common.cancel' | 'common.save' | 'common.submit' | 'common.edit' | 'common.delete' | 'common.close' | 'common.open' | 'common.yes' | 'common.no' | 'common.ok' | 'common.back' | 'common.next' | 'common.previous' | 'common.done' | 'common.continue' | 'common.validation.fillRequiredFields' | 'common.validation.agentNameRequired' | 'common.validation.completeAllFields' | 'common.teacher.editStudentInfo' | 'common.teacher.studentId' | 'common.teacher.teacherId' | 'common.teacher.firstName' | 'common.teacher.lastName' | 'common.teacher.age' | 'common.teacher.className' | 'common.teacher.noClassSelected' | 'common.teacher.notSpecified' | 'common.teacher.name' | 'common.teacher.interests' | 'common.teacher.agentName' | 'common.teacher.updatedAt' | 'common.teacher.progress' | 'common.teacher.lastVisited' | 'common.teacher.badgeCount' | 'common.teacher.megaJoules' | 'introduction.profileName.heading' | 'introduction.profileName.firstName' | 'introduction.profileName.lastName' | 'introduction.profileAge.heading' | 'introduction.profileAgent.heading' | 'introduction.profileAvatar.heading' | 'introduction.profileAvatar.skinTone' | 'introduction.profileAvatar.hairColor' | 'introduction.profileAvatar.cancel' | 'introduction.profileChooseAvatar.heading' | 'introduction.trainingTechnology.heading' | 'introduction.trainingTechnology.description' | 'introduction.tabletTutorial.travelLog' | 'introduction.tabletTutorial.profile' | 'introduction.tabletTutorial.badges' | 'introduction.invitation.heading' | 'introduction.invitation.button' | 'introduction.validation.nameRequired' | 'introduction.validation.ageRequired' | 'introduction.validation.interestsRequired' | 'introduction.validation.agentNameRequired' | 'introduction.validation.avatarRequired' | 'introduction.validation.fieldsRequired' | 'introduction.profileCreation.interestPrompt1' | 'introduction.profileCreation.interestPrompt2' | 'introduction.profileCreation.interestPrompt3' | 'introduction.profileCreation.success' | 'introduction.profileCreation.error';
 
 /**
  * Get a translated string by key

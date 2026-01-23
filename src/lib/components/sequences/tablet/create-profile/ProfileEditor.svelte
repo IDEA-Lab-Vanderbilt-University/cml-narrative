@@ -122,7 +122,7 @@
 				currentPage++;
 				dispatch('stepChanged', { step: currentPage, direction });
 			} else {
-				const errorMessage = currentStep?.errorMessage || "Please fill in the required data before moving to the next page";
+				const errorMessage = currentStep?.errorMessage || getTranslation(currentLanguage, 'common.validation.fillRequiredFields');
 				alert(errorMessage);
 			}
 		}
@@ -136,7 +136,7 @@
 			currentPage++;
 			dispatch('stepChanged', { step: currentPage, direction: NavigationDirection.forward });
 		} else {
-			alert("Please fill in an Agent Name before moving to the next page");
+			alert(getTranslation(currentLanguage, 'common.validation.agentNameRequired'));
 		}
 	};
 
@@ -147,7 +147,7 @@
 		if (validateCurrentStep()) {
 			dispatch('submit', { profileData });
 		} else {
-			const errorMessage = currentStep?.errorMessage || "Please complete all required fields";
+			const errorMessage = currentStep?.errorMessage || getTranslation(currentLanguage, 'common.validation.completeAllFields');
 			alert(errorMessage);
 		}
 	};
@@ -239,7 +239,7 @@
 						class="bg-red-500 rounded-md px-2 py-2 m-2 text-xl text-white shadow hover:shadow-lg"
 						on:click={handleCancel}
 					>
-						Cancel
+						{getTranslation(currentLanguage, 'common.cancel')}
 					</button>
 				</div>
 			{/if}
