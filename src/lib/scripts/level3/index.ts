@@ -71,7 +71,7 @@ const script: Script = {
         },
         {
             id: 7,
-            speakers: ['Hyun-Joo'],
+            speakers: [getCharacterName(currentLanguage, 'hyunJoo')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 7),
             avatars: ['/img/characters/level-3/hyun-joo/hyun-joo_talking_crop.png'],
             background: '/img/backgrounds/level3/2.png',
@@ -81,7 +81,7 @@ const script: Script = {
         },
         {
             id: 8,
-            speakers: ['Thomas'],
+            speakers: [getCharacterName(currentLanguage, 'thomas')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 8),
             avatars: ['/img/characters/level-3/thomas/thomas_annoyed.png'],
             background: '/img/backgrounds/level3/2.png',
@@ -91,7 +91,7 @@ const script: Script = {
         },
         {
             id: 9,
-            speakers: ['Raj'],
+            speakers: [getCharacterName(currentLanguage, 'raj')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 9),
             avatars: ['/img/characters/level-3/raj/raj_fail-removebg-preview.png'],
             background: '/img/backgrounds/level3/2.png',
@@ -101,7 +101,7 @@ const script: Script = {
         },
         {
             id: 10,
-            speakers: ['Genevive'],
+            speakers: [getCharacterName(currentLanguage, 'genevive')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 10),
             avatars: ['/img/characters/level-3/genevive/genevive_mad-removebg-preview.png'],
             background: '/img/backgrounds/level3/2.png',
@@ -111,7 +111,7 @@ const script: Script = {
         },
         {
             id: 11,
-            speakers: ['Darnell'],
+            speakers: [getCharacterName(currentLanguage, 'darnell')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 11),
             avatars: ['/img/characters/level-3/darnell/darnell_explain-removebg-preview.png'],
             background: '/img/backgrounds/level3/2.png',

@@ -14,23 +14,24 @@ import type { Script } from '$lib/types/Script';
 import type { Student } from '$lib/types/UserData';
 import { studentDataStore, settingsStore } from '$lib/utils/stores/store';
 import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
+import { getCharacterName, type Language } from '$lib/utils/translations';
 
 let agent: Student = {};
-let currentLanguage = 'en';
+let currentLanguage: Language = 'en';
 
 studentDataStore.subscribe((value) => {
 	agent = value as Student;
 });
 
 settingsStore.subscribe((value) => {
-	currentLanguage = (value.language as string) || 'en';
+	currentLanguage = (value.language as Language) || 'en';
 });
 
 const script: Script = {
 	lines: [
 		{
 			id: 1,
-			speakers: ['Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 1),
 			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -39,7 +40,7 @@ const script: Script = {
 		},
 		{
 			id: 6,
-			speakers: ['Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 6),
 			avatars: ['/img/characters/agent-spark/spark_gesture_inverted.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -48,7 +49,7 @@ const script: Script = {
 		},
 		{
 			id: 8,
-			speakers: ['Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 8),
 			avatars: ['/img/characters/agent-spark/spark_sad.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -57,7 +58,7 @@ const script: Script = {
 		},
 		{
 			id: 9,
-			speakers: ['Agent Gear'],
+			speakers: [getCharacterName(currentLanguage, 'agentGear')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 9),
 			avatars: ['/img/characters/agent-gear/vanilla_idea.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -66,7 +67,7 @@ const script: Script = {
 		},
 		{
 			id: 10,
-			speakers: ['Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 10),
 			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -75,7 +76,7 @@ const script: Script = {
 		},
 		{
 			id: 11,
-			speakers: ['Captain Storm'],
+			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 11),
 			avatars: ['/img/characters/captain-storm/gesture_2_storm.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -84,7 +85,7 @@ const script: Script = {
 		},
 		{
 			id: 12,
-			speakers: ['Captain Storm'],
+			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 12, { agentName: agent.agent_name || 'Agent' }),
 			avatars: ['/img/characters/captain-storm/storm_thumbs_up.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -93,7 +94,7 @@ const script: Script = {
 		},
 		{
 			id: 14,
-			speakers: ['Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 14),
 			avatars: ['/img/characters/agent-spark/spark_aww.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -102,7 +103,7 @@ const script: Script = {
 		},
 		{
 			id: 15,
-			speakers: ['Agent Gear'],
+			speakers: [getCharacterName(currentLanguage, 'agentGear')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 15),
 			avatars: ['/img/characters/agent-gear/vanilla_talking.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -111,7 +112,7 @@ const script: Script = {
 		},
 		{
 			id: 16,
-			speakers: ['Agent Spark', 'Captain Storm'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark'), getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 16, { agentName: agent.agent_name || 'Agent' }),
 			avatars: [
 				'/img/characters/agent-spark/spark_gesture_2_inverted.png',
@@ -123,7 +124,7 @@ const script: Script = {
 		},
 		{
 			id: 18,
-			speakers: ['Captain Storm'],
+			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 18),
 			avatars: ['/img/characters/captain-storm/clapping_storm_inverted.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -132,7 +133,7 @@ const script: Script = {
 		},
 		{
 			id: 18,
-			speakers: ['Captain Storm'],
+			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'training', 18),
 			avatars: ['/img/characters/captain-storm/clapping_storm_inverted.png'],
 			background: '/img/backgrounds/captain_office.jpg',

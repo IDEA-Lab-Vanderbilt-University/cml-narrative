@@ -359,7 +359,7 @@ const script: Script = {
         },
         {
             id: 39,
-            speakers: ['', 'ST-EE-L'],
+            speakers: ['', getCharacterName(currentLanguage, 'stEel')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 39),
             avatars: [ '/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/steel/steel_wave.png'],
             background: '/img/backgrounds/level2/showroom.png',
@@ -368,7 +368,7 @@ const script: Script = {
         },
         {
             id: 40,
-            speakers: ['', 'ST-EE-L'],
+            speakers: ['', getCharacterName(currentLanguage, 'stEel')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 40),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/steel/steel_thumb.png'],
             background: '/img/backgrounds/level2/showroom.png',
@@ -386,7 +386,7 @@ const script: Script = {
         },
         {
             id: 42,
-            speakers: ['', 'ST-EE-L'],
+            speakers: ['', getCharacterName(currentLanguage, 'stEel')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 42),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/steel/steel_hands.png'],
             background: '/img/backgrounds/level2/showroom.png',
@@ -395,7 +395,7 @@ const script: Script = {
         },
         {
             id: 43,
-            speakers: ['', 'ST-EE-L'],
+            speakers: ['', getCharacterName(currentLanguage, 'stEel')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 43),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/steel/steel_thumb.png'],
             background: '/img/backgrounds/level2/showroom.png',

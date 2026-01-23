@@ -1,6 +1,6 @@
 import type { Script } from '$lib/types/Script';
 import { settingsStore } from '$lib/utils/stores/store';
-import { type Language } from '$lib/utils/translations';
+import { getCharacterName, type Language } from '$lib/utils/translations';
 import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
 
 let currentLanguage: Language = 'en';
@@ -12,7 +12,7 @@ const script: Script = {
 	lines: [
         {
             id: 1,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 1),
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -20,7 +20,7 @@ const script: Script = {
         },
         {
             id: 2,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 2),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -28,7 +28,7 @@ const script: Script = {
         },
         {
             id: 3,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 3),
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
             background: '/img/backgrounds/level2/car-training/2.png',
@@ -36,7 +36,7 @@ const script: Script = {
         },
         {
             id: 4,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 4),
             avatars: ['/img/characters/level-2/dash/dash-dance.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -44,7 +44,7 @@ const script: Script = {
         },
         {
             id: 5,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 5),
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -52,7 +52,7 @@ const script: Script = {
         },
         {
             id: 6,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 6),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -60,7 +60,7 @@ const script: Script = {
         },
         {
             id: 7,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 7),
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -68,7 +68,7 @@ const script: Script = {
         },
         {
             id: 8,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 8),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -76,7 +76,7 @@ const script: Script = {
         },
         {
             id: 9,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 9),
             avatars: [''],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -85,7 +85,7 @@ const script: Script = {
         },
         {
             id: 10,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 10),
             avatars: [''],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -94,7 +94,7 @@ const script: Script = {
         },
         {
             id: 11,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 11),
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
             background: '/img/backgrounds/level2/car-training/3.svg', 
@@ -102,7 +102,7 @@ const script: Script = {
         },
         {
             id: 12,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 12),
             avatars: ['/img/characters/level-2/dash/dash-dance.png'],
             background: '/img/backgrounds/level2/car-training/3.svg',
@@ -110,7 +110,7 @@ const script: Script = {
         },
         {
             id: 13,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 13),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -118,7 +118,7 @@ const script: Script = {
         },
         {
             id: 14,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 14),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -126,7 +126,7 @@ const script: Script = {
         },
         {
             id: 15,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 15),
             avatars: ['/img/characters/level-2/dash/dash-thumb-flipped.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -134,7 +134,7 @@ const script: Script = {
         },
         {
             id: 16,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 16),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -142,7 +142,7 @@ const script: Script = {
         },
         {
             id: 17,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 17),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
@@ -150,7 +150,7 @@ const script: Script = {
         },
         {
             id: 18,
-            speakers: ['Dash'],
+            speakers: [getCharacterName(currentLanguage, 'dash')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 18),
             avatars: ['/img/characters/level-2/dash/dash-thumb-flipped.png'],
             background: '/img/backgrounds/level2/car-training/1.png',

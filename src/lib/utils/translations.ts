@@ -59,7 +59,13 @@ export const translations = {
 			fireStation: 'Fire Station',
 			worldsLargestToilet: "World's Largest Toilet",
 			vroomVroomCarFactory: 'Vroom-Vroom Car Factory',
-			stEel: 'ST-EE-L'
+			stEel: 'ST-EE-L',
+			dash: 'Dash',
+			hyunJoo: 'Hyun-Joo',
+			thomas: 'Thomas',
+			raj: 'Raj',
+			genevive: 'Genevive',
+			darnell: 'Darnell'
 		},
 		introduction: {
 			profileName: {
@@ -167,7 +173,13 @@ export const translations = {
 			fireStation: 'Estación de Bomberos',
 			worldsLargestToilet: "El Baño Más Grande del Mundo",
 			vroomVroomCarFactory: 'Fábrica de Autos Vroom-Vroom',
-			stEel: 'ST-EE-L'
+			stEel: 'ST-EE-L',
+			dash: 'Dash',
+			hyunJoo: 'Hyun-Joo',
+			thomas: 'Thomas',
+			raj: 'Raj',
+			genevive: 'Genevive',
+			darnell: 'Darnell'
 		},
 		introduction: {
 			profileName: {
