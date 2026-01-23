@@ -1,12 +1,19 @@
 import type { Script } from '$lib/types/Script';
+import { settingsStore } from '$lib/utils/stores/store';
+import { getCharacterName, type Language } from '$lib/utils/translations';
+import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
+
+let currentLanguage: Language = 'en';
+settingsStore.subscribe((value) => {
+	currentLanguage = (value.language as Language) || 'en';
+});
 
 const script: Script = {
 	lines: [
 		{
 			id: 1,
-			speakers: ['Bot Buddy'],
-			dialog:
-				'Oh! It looks like we are getting an alert! Let’s see what it says!',
+			speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 1),
 			avatars: ['/img/characters/bot-buddy/bot-buddy-warning.png'],
 			background: '/img/backgrounds/level1/2.png',
 			audio: '/audio/level2/bot_buddy/Botbuddy_l2s1.wav',
@@ -15,9 +22,8 @@ const script: Script = {
 		},
         {
             id: 2,
-            speakers: ['Computer Voice'],
-            dialog:
-                'BEEP BEEP Detecting problems with technology ahead! Detecting problems with technology ahead!',
+            speakers: [getCharacterName(currentLanguage, 'computerVoice')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 2),
             avatars: ['/img/characters/bot-buddy/bot-buddy-warning.png'],
             background: '/img/backgrounds/level1/2.png',
 			audio: '/audio/level1/bot_buddy/bot_buddy_l1s45.wav',
@@ -25,9 +31,8 @@ const script: Script = {
         },
         {
             id: 3,
-            speakers: ['Bot Buddy'],
-            dialog:
-                'Let’s go see if we can find one of those cars and investigate what the problem is!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 3),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/2.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s3.wav',
@@ -35,8 +40,8 @@ const script: Script = {
         },
         {
             id: 4,
-            speakers: ['Bot Buddy'],
-            dialog: 'We found one! Oh, there are no drivers needed! How do these cars work?',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 4),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school2.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s4.wav',
@@ -44,8 +49,8 @@ const script: Script = {
         },
         {
             id: 5,
-            speakers: ['Bot Buddy'],
-            dialog: 'Amazing! In the future, they use cameras to scan people\'s faces and that allows them to get a ride.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 5),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school3.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s5.wav',
@@ -53,8 +58,8 @@ const script: Script = {
         },
         {
             id: 6,
-            speakers: ['Bot Buddy'],
-            dialog: 'It seems like kids use these self-driving cars to get to school! So cool!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 6),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school4.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s6.wav',
@@ -62,8 +67,8 @@ const script: Script = {
         },
         {
             id: 7,
-            speakers: ['Bot Buddy'],
-            dialog: 'Oh no, the self-driving car isn\'t working for that kid.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 7),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school5.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s7.wav',
@@ -71,8 +76,8 @@ const script: Script = {
         },
         {
             id: 8,
-            speakers: ['', 'Bot Buddy'],
-            dialog: 'Hello, I am Bot Buddy. What\'s your name? Why isn\'t the car working for you?',
+            speakers: ['', getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 8),
             avatars: ['/img/characters/level-2/boy/boy_sad_flipped-removebg-preview.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s8.wav',
@@ -80,8 +85,8 @@ const script: Script = {
         },
         {
             id: 9,
-            speakers: ['Kelvin', ''],
-            dialog: 'Hi, I\'m Kelvin. These self-driving cars never work for me except when I\'m with my parents. It\'s so frustrating! It only works for some of my friends.',
+            speakers: [getCharacterName(currentLanguage, 'kelvin'), ''],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 9),
             avatars: ['/img/characters/level-2/boy/boy_fist-removebg-preview.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level2/kelvin/Kelvin_l2s9.wav',
@@ -89,8 +94,8 @@ const script: Script = {
         },
         {
             id: 10,
-            speakers: ['Kelvin', ''],
-            dialog: 'Today I have soccer practice, and I\'m going to be late…AGAIN!',
+            speakers: [getCharacterName(currentLanguage, 'kelvin'), ''],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 10),
             avatars: [ '/img/characters/level-2/boy/boy_frustrated_flipped-removebg-preview.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level2/kelvin/Kelvin_l2s10.wav',
@@ -98,8 +103,8 @@ const script: Script = {
         },
         {
             id: 11,
-            speakers: ['', 'Bot Buddy'],
-            dialog: 'Don\'t worry! The SPOT team is here to help!',
+            speakers: ['', getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 11),
             avatars: ['/img/characters/level-2/boy/boy_sad_flipped-removebg-preview.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s11.wav',
@@ -107,8 +112,8 @@ const script: Script = {
         },
         {
             id: 12,
-            speakers: ['Kelvin', ''],
-            dialog: 'Umm, the what?',
+            speakers: [getCharacterName(currentLanguage, 'kelvin'), ''],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 12),
             avatars: ['/img/characters/level-2/boy/boy_hmm_flipped-removebg-preview.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level2/kelvin/Kelvin_l2s12.wav',
@@ -116,8 +121,8 @@ const script: Script = {
         },
         {
             id: 13,
-            speakers: ['', 'Bot Buddy'],
-            dialog: 'The... the.. Serving People on Transportation Team!',
+            speakers: ['', getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 13),
             avatars: ['/img/characters/level-2/boy/boy_huh.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s13.wav',
@@ -125,8 +130,8 @@ const script: Script = {
         },
         {
             id: 14,
-            speakers: ['', 'Bot Buddy'],
-            dialog: 'Yes, that is definitely who we work for! We are not secret agents or anything like that...',
+            speakers: ['', getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 14),
             avatars: ['/img/characters/level-2/boy/boy_huh.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s14.wav',
@@ -134,8 +139,8 @@ const script: Script = {
         },
         {
             id: 15,
-            speakers: ['Bot Buddy'],
-            dialog: 'Sorry, Agent. I almost blew our cover again!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 15),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s15.wav',
@@ -144,8 +149,8 @@ const script: Script = {
         },
         {
             id: 16,
-            speakers: ['', 'Bot Buddy'],
-            dialog: 'Let\'s test the self-driving car. Agent, could you try to scan your face and see if this car works for you?',
+            speakers: ['', getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 16),
             avatars: ['', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school6.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s16.wav',
@@ -153,8 +158,8 @@ const script: Script = {
         },
         {
             id: 17,
-            speakers: ['Computer Voice'],
-            dialog: 'Hold your face still for a scan...',
+            speakers: [getCharacterName(currentLanguage, 'computerVoice')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 17),
             avatars: [''],
             background: '/img/backgrounds/level2/car.png',
             audio: '/audio/level2/computer_voice/Computervoice_l2s17.wav',
@@ -162,8 +167,8 @@ const script: Script = {
         },
         {
             id: 18,
-            speakers: ['Computer Voice'],
-            dialog: 'Face Scan Failed.',
+            speakers: [getCharacterName(currentLanguage, 'computerVoice')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 18),
             avatars: [''],
             background: '/img/backgrounds/level2/car.png',
             audio: '/audio/level2/computer_voice/Computervoice_l2s18.wav',
@@ -171,8 +176,8 @@ const script: Script = {
         },
         {
             id: 19,
-            speakers: ['Bot Buddy'],
-            dialog: 'Agent, it didn\'t work. Try it again. Maybe try smiling really big this time!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 19),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s19.wav',
@@ -180,8 +185,8 @@ const script: Script = {
         },
         {
             id: 20,
-            speakers: ['Computer Voice'],
-            dialog: 'Hold your face still for a scan...',
+            speakers: [getCharacterName(currentLanguage, 'computerVoice')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 20),
             avatars: [''],
             background: '/img/backgrounds/level2/car.png',
             audio: '/audio/level2/computer_voice/Computervoice_l2s17.wav',
@@ -189,8 +194,8 @@ const script: Script = {
         },
         {
             id: 21,
-            speakers: ['Computer Voice'],
-            dialog: 'Face Scan Failed.',
+            speakers: [getCharacterName(currentLanguage, 'computerVoice')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 21),
             avatars: [''],
             background: '/img/backgrounds/level2/car.png',
             audio: '/audio/level2/computer_voice/Computervoice_l2s18.wav',
@@ -198,8 +203,8 @@ const script: Script = {
         },
         {
             id: 22,
-            speakers: ['Kelvin'],
-            dialog: 'What? It didn\'t work for you? I wonder why it doesn\'t work for some kids? We miss so many birthday parties and sometimes school!',
+            speakers: [getCharacterName(currentLanguage, 'kelvin')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 22),
             avatars: ['/img/characters/level-2/boy/boy_huh.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/kelvin/Kelvin_l2s22.wav',
@@ -208,8 +213,8 @@ const script: Script = {
         },
         {
             id: 23,
-            speakers: ['Kelvin'],
-            dialog: 'It\'s so unfair and not cool! Do you think you could do anything to help?',
+            speakers: [getCharacterName(currentLanguage, 'kelvin')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 23),
             avatars: [ '/img/characters/level-2/boy/boy_frustrated_flipped-removebg-preview.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/kelvin/Kelvin_l2s23.wav',
@@ -218,8 +223,8 @@ const script: Script = {
         },
         {
             id: 24,
-            speakers: ['', 'Bot Buddy'],
-            dialog: 'Yes, Agent- I mean my friend and I... will investigate this problem!',
+            speakers: ['', getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 24),
             avatars: ['/img/characters/level-2/boy/boy_hmm_flipped-removebg-preview.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s24.wav',
@@ -227,8 +232,8 @@ const script: Script = {
         },
         {
             id: 25,
-            speakers: ['Kelvin', ''],
-            dialog: 'That would be awesome if you could help! I have to go back inside and get an adult to make the car work, so I don\'t miss soccer practice again.',
+            speakers: [getCharacterName(currentLanguage, 'kelvin'), ''],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 25),
             avatars: ['/img/characters/level-2/boy/boy_talking_2-removebg-preview.png', '/img/characters/bot-buddy/bot-buddy-happy.png',],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/kelvin/Kelvin_l2s25.wav',
@@ -236,8 +241,8 @@ const script: Script = {
         },
         {
             id: 26,
-            speakers: ['Bot Buddy'],
-            dialog: 'Agent, this is terrible! We need to find out who makes these self-driving cars and why some kids need adults to help them catch rides!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 26),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s26.wav',
@@ -246,8 +251,8 @@ const script: Script = {
         },
         {
             id: 27,
-            speakers: ['Bot Buddy'],
-            dialog: 'The license plate on the self-driving car reads it\'s made by Vroom-Vroom car factory. Let\'s use my GPS and head over there.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 27),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s27.wav',
@@ -255,8 +260,8 @@ const script: Script = {
         },
         {
             id: 28,
-            speakers: ['Bot Buddy'],
-            dialog: 'Agent, tap on my belly screen to access the GPS.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 28),
             avatars: [''],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s28.mp3',
@@ -264,8 +269,8 @@ const script: Script = {
         },
         {
             id: 29,
-            speakers: ['Bot Buddy'],
-            dialog: 'Click on the location you want to go to.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 29),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level1/bot_buddy/bot_buddy_l2s29.wav',
@@ -273,8 +278,8 @@ const script: Script = {
         },
         {
             id: 30,
-            speakers: ['Museum of Robot History'],
-            dialog: 'We’re sorry, our robots are being oiled right now. Come back later!',
+            speakers: [getCharacterName(currentLanguage, 'museumOfRobotHistory')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 30),
             avatars: ['/img/misc/map-icons/museumavatar.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/computer_voice/Computervoice_l2s30.wav',
@@ -282,8 +287,8 @@ const script: Script = {
         },
         {
             id: 31,
-            speakers: ['Pizza Place'],
-            dialog: 'You just ate!! Come back later when you are hungry again.',
+            speakers: [getCharacterName(currentLanguage, 'pizzaPlace')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 31),
             avatars: ['/img/misc/map-icons/pizzaplaceavatar.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/computer_voice/Computervoice_l2s31.wav',
@@ -291,8 +296,8 @@ const script: Script = {
         },
         {
             id: 32,
-            speakers: ['Ice Scream Palace'],
-            dialog: 'Come back later! Our screamers are resting their voices.',
+            speakers: [getCharacterName(currentLanguage, 'iceCreamPalace')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 32),
             avatars: ['/img/misc/map-icons/icecreamavatar.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/computer_voice/Computervoice_l2s32.wav',
@@ -300,8 +305,8 @@ const script: Script = {
         },
         {
             id: 33,
-            speakers: ['Fire Station'],
-            dialog: 'We are busy getting a cat out of a tree. Come back later!',
+            speakers: [getCharacterName(currentLanguage, 'fireStation')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 33),
             avatars: ['/img/misc/map-icons/firestationavatar.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/computer_voice/Computervoice_l2s33.wav',
@@ -309,8 +314,8 @@ const script: Script = {
         },
         {
             id: 34,
-            speakers: ['World’s Largest Toilet'],
-            dialog: 'We’ve got a clog on our hands! Come back later!',
+            speakers: [getCharacterName(currentLanguage, 'worldsLargestToilet')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 34),
             avatars: ['/img/misc/map-icons/toiletavatar.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/computer_voice/Computervoice_l2s34.wav',
@@ -318,8 +323,8 @@ const script: Script = {
         },
         {
             id: 35,
-            speakers: ['Vroom-Vroom Car Factory'],
-            dialog: 'We’re open! Come on over!',
+            speakers: [getCharacterName(currentLanguage, 'vroomVroomCarFactory')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 35),
             avatars: ['/img/misc/map-icons/vroomavatar.png'],
             background: '/img/backgrounds/level2/school8.png',
             audio: '/audio/level2/computer_voice/Computervoice_l2s35.wav',
@@ -327,8 +332,8 @@ const script: Script = {
         },
         {
             id: 36,
-            speakers: ['Bot Buddy'],
-            dialog: 'Looks like the visitor elevator for the Vroom-Vroom car factory is here. Agent, press on the visitor button.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 36),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/elevators.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s36.wav',
@@ -336,8 +341,8 @@ const script: Script = {
         },
         {
             id: 37,
-            speakers: ['Bot Buddy'],
-            dialog: 'Here we are! Maybe someone can give us some information about the self-driving cars.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 37),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/showroom.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s37.wav',
@@ -345,8 +350,8 @@ const script: Script = {
         },
         {
             id: 38,
-            speakers: ['Bot Buddy', ''],
-            dialog: 'Wait what is that sound? Uh, hi, are you okay?',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy'), ''],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 38),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/misc/icecreamscream.png'],
             background: '/img/backgrounds/level2/showroom.png',
             audio: '/audio/level2/l2s38.ogg',
@@ -355,7 +360,7 @@ const script: Script = {
         {
             id: 39,
             speakers: ['', 'ST-EE-L'],
-            dialog: 'OH! I’m sorry, I didn\'t realize we had a visitor.  I was practicing my ice cream scream. I am planning to visit the Ice Scream Palace later.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 39),
             avatars: [ '/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/steel/steel_wave.png'],
             background: '/img/backgrounds/level2/showroom.png',
             audio: '/audio/level2/steel/Steel_l2s39.wav',
@@ -364,7 +369,7 @@ const script: Script = {
         {
             id: 40,
             speakers: ['', 'ST-EE-L'],
-            dialog: 'I am ST-EE-L, pronounced STEEL! How may I help you?',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 40),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/steel/steel_thumb.png'],
             background: '/img/backgrounds/level2/showroom.png',
             audio: '/audio/level2/steel/Steel_l2s40.wav',
@@ -372,8 +377,8 @@ const script: Script = {
         },
         {
             id: 41,
-            speakers: ['Bot Buddy', ''],
-            dialog: 'Great to meet you, STEEL! We would like to learn more about your self-driving cars and how they work.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy'), ''],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 41),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/steel/steel_stand.png'],
             background: '/img/backgrounds/level2/showroom.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s41.wav',
@@ -382,7 +387,7 @@ const script: Script = {
         {
             id: 42,
             speakers: ['', 'ST-EE-L'],
-            dialog: 'You’ll want to meet my friend DASH, the company’s virtual guide! Dash knows everything about our self-driving cars!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 42),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/steel/steel_hands.png'],
             background: '/img/backgrounds/level2/showroom.png',
             audio: '/audio/level2/steel/Steel_l2s42.wav',
@@ -391,7 +396,7 @@ const script: Script = {
         {
             id: 43,
             speakers: ['', 'ST-EE-L'],
-            dialog: 'I just need to share some quick files with you, and you’ll be good to go! Say hi to Dash for me!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 43),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-2/steel/steel_thumb.png'],
             background: '/img/backgrounds/level2/showroom.png',
             audio: '/audio/level2/steel/Steel_l2s43.wav',
@@ -399,8 +404,8 @@ const script: Script = {
         },
         {
             id: 44,
-            speakers: ['Bot Buddy'],
-            dialog: 'I am scanning the files and the system tells me the car’s face scanner lets someone into the car based on algorithms. The cars use algorithms, or instructions, just like the robots in the pizza place.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 44),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/showroom.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s44.wav',
@@ -409,8 +414,8 @@ const script: Script = {
         },
         {
             id: 45,
-            speakers: ['Bot Buddy'],
-            dialog: 'We need to look at the algorithm the company developed to train their cars. The algorithm might help us find out why some kids can\'t get into the self driving cars!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 45),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/factory1.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s45.wav',
@@ -419,8 +424,8 @@ const script: Script = {
         },
         {
             id: 46,
-            speakers: ['Bot Buddy'],
-            dialog: 'Agent, I have sent the car training system files to your SPOT tablet!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 46),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s46.wav',
@@ -429,8 +434,8 @@ const script: Script = {
         },
         {
             id: 47,
-            speakers: ['Bot Buddy'],
-            dialog: 'Let’s go to the car training system and see if we can find out what is going on!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'main', 47),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level2/bot_buddy/Botbuddy_l2s47.wav',

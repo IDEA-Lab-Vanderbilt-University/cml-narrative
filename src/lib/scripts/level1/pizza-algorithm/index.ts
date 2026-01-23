@@ -1,57 +1,59 @@
 import type { Script } from '$lib/types/Script';
+import { settingsStore } from '$lib/utils/stores/store';
+import { getCharacterName, type Language } from '$lib/utils/translations';
+import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
+
+let currentLanguage: Language = 'en';
+settingsStore.subscribe((value) => {
+    currentLanguage = (value.language as Language) || 'en';
+});
 
 export const script: Script = {
     lines: [
         {
             id: 1,
-            speakers: ['Chef Bot'],
-            dialog:
-                'First things first. Order is important in an algorithm. Drag and drop the instructions into the correct order.',
+            speakers: [getCharacterName(currentLanguage, 'chefBot')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 1),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
             audio: '/audio/level1/chef_bot/Chef_bot_L1S25.wav',
         },
         {
             id: 2,
-            speakers: ['Chef Bot'],
-            dialog:
-                'Oh dear! The order of the algorithm is not quite right. Let\'s try again!',
+            speakers: [getCharacterName(currentLanguage, 'chefBot')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 2),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
             audio: '/audio/level1/chef_bot/Chef_bot_L1S26.wav',
         },
         {
             id: 3,
-            speakers: ['Chef Bot'],
-            dialog:
-                'This looks good! Our robot chefs will definitely be able to make this pizza. But our robot chefs will need more specific instructions...',
+            speakers: [getCharacterName(currentLanguage, 'chefBot')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 3),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
             audio: '/audio/level1/chef_bot/Chef_bot_L1S27.wav',
         },
         {
             id: 4,
-            speakers: ['Chef Bot'],
-            dialog:
-                'If/then statements help machines make choices. Drag and drop the <condition> and [action] blocks in the correct places in the algorithm.',
+            speakers: [getCharacterName(currentLanguage, 'chefBot')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 4),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
             audio: '/audio/level1/chef_bot/Chef Bot - If Then Statements.mp3',
         },
         {
             id: 5,
-            speakers: ['Chef Bot'],
-            dialog:
-                '...running simulation... Uh-oh! Those instructions don\'t make pizzas right! Let\'s try again!',
+            speakers: [getCharacterName(currentLanguage, 'chefBot')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 5),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
             audio: '/audio/level1/chef_bot/Chef Bot - failed.mp3',
         },
         {
             id: 6,
-            speakers: ['Chef Bot'],
-            dialog:
-                'With the instructions in this algorithm we can make the pizza exactly how you want it! I\'ll get started right away! Have a seat and we will bring it out when it\'s ready.',
+            speakers: [getCharacterName(currentLanguage, 'chefBot')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 6),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
             audio: '/audio/level1/chef_bot/Chef_bot_L1S29.wav',

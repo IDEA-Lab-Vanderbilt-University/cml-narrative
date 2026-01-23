@@ -1,11 +1,19 @@
 import type { Script } from '$lib/types/Script';
+import { settingsStore } from '$lib/utils/stores/store';
+import { getCharacterName, type Language } from '$lib/utils/translations';
+import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
+
+let currentLanguage: Language = 'en';
+settingsStore.subscribe((value) => {
+	currentLanguage = (value.language as Language) || 'en';
+});
 
 const script: Script = {
 	lines: [
         {
             id: 1,
-            speakers: ['Bot Buddy'],
-            dialog: 'Finding out how the smart cars are trained and tested was super fun! I love downloading new information!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 1),
             avatars: ['/img/characters/bot-buddy/bot-buddy-stop.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S1.mp3',
@@ -14,8 +22,8 @@ const script: Script = {
         },
         {
             id: 2,
-            speakers: ['Bot Buddy'],
-            dialog: 'It looks like I’m getting a news alert! Let\'s see what it says!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 2),
             avatars: ['/img/characters/bot-buddy/bot-buddy-alarm.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S2.mp3',
@@ -24,8 +32,8 @@ const script: Script = {
         },
         {
             id: 3,
-            speakers: ['Bot Buddy'],
-            dialog: 'Isn\'t this that same kid, Kelvin, we met earlier in front of the school? Agent, push on my belly screen to activate the story.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 3),
             avatars: [''],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S3.mp3',
@@ -33,8 +41,8 @@ const script: Script = {
         },
         {
             id: 4,
-            speakers: ['Kelvin'],
-            dialog: 'Thank you all for coming out today! We kids are here to protest the problems we are having with the self-driving cars in our neighborhoods!',
+            speakers: [getCharacterName(currentLanguage, 'kelvin')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 4),
             avatars: ['/img/characters/level-2/boy/boy_talking-removebg-preview.png'],
             background: '/img/backgrounds/level3/2.png',
             audio: '/audio/level3/kelvin/kelvin_L3_S4.mp3',
@@ -43,8 +51,8 @@ const script: Script = {
         },
         {
             id: 5,
-            speakers: ['Kelvin'],
-            dialog: 'These cars aren\'t opening for us, and kids need to get to places too! Just like adults!',
+            speakers: [getCharacterName(currentLanguage, 'kelvin')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 5),
             avatars: ['/img/characters/level-2/boy/boy_talking-removebg-preview.png'],
             background: '/img/backgrounds/level3/2.png',
             audio: '/audio/level3/kelvin/kelvin_L3_S5.mp3',
@@ -53,8 +61,8 @@ const script: Script = {
         },
         {
             id: 6,
-            speakers: ['Kelvin'],
-            dialog: 'It\'s not just me! There are other kids that have had the same problems. Let\'s hear from them!',
+            speakers: [getCharacterName(currentLanguage, 'kelvin')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 6),
             avatars: ['/img/characters/level-2/boy/boy_talking-removebg-preview.png'],
             background: '/img/backgrounds/level3/2.png',
             audio: '/audio/level3/kelvin/kelvin_L3_S6.mp3',
@@ -64,7 +72,7 @@ const script: Script = {
         {
             id: 7,
             speakers: ['Hyun-Joo'],
-            dialog: ' I was late to soccer practice three times this week because the cars could not scan my face! I don\'t want to be late! What can we do to fix this?',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 7),
             avatars: ['/img/characters/level-3/hyun-joo/hyun-joo_talking_crop.png'],
             background: '/img/backgrounds/level3/2.png',
             audio: '/audio/level3/kids/hyun-joo_L3_S7.mp3',
@@ -74,7 +82,7 @@ const script: Script = {
         {
             id: 8,
             speakers: ['Thomas'],
-            dialog: 'Kids don\'t just have problems with the scanners on these cars. I can\'t even fit in the seats in the car! I\'m too short to read the map on the dashboard!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 8),
             avatars: ['/img/characters/level-3/thomas/thomas_annoyed.png'],
             background: '/img/backgrounds/level3/2.png',
             audio: '/audio/level3/kids/thomas_L3_S8.mp3',
@@ -84,7 +92,7 @@ const script: Script = {
         {
             id: 9,
             speakers: ['Raj'],
-            dialog: 'I have the same problem. The scans don\'t work on my face. I need an adult to make them work. Why aren\'t the cars designed so kids can use them easily?',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 9),
             avatars: ['/img/characters/level-3/raj/raj_fail-removebg-preview.png'],
             background: '/img/backgrounds/level3/2.png',
             audio: '/audio/level3/kids/raj_L3_S9.mp3',
@@ -94,7 +102,7 @@ const script: Script = {
         {
             id: 10,
             speakers: ['Genevive'],
-            dialog: 'My dad said this even happened to him when he was a kid! Why hasn\'t this been fixed? Kids need to get places and not be late!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 10),
             avatars: ['/img/characters/level-3/genevive/genevive_mad-removebg-preview.png'],
             background: '/img/backgrounds/level3/2.png',
             audio: '/audio/level3/kids/genevive_L3_S10.mp3',
@@ -104,7 +112,7 @@ const script: Script = {
         {
             id: 11,
             speakers: ['Darnell'],
-            dialog: 'It\'s like this everywhere! When I get to the mall, the face scanners are too high up for me to reach',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 11),
             avatars: ['/img/characters/level-3/darnell/darnell_explain-removebg-preview.png'],
             background: '/img/backgrounds/level3/2.png',
             audio: '/audio/level3/kids/darnell_L3_S11.mp3',
@@ -113,8 +121,8 @@ const script: Script = {
         },
         {
             id: 12,
-            speakers: ['Kelvin'],
-            dialog: 'Yes!!! Exactly! When will kids be more included in the design of our technologies?',
+            speakers: [getCharacterName(currentLanguage, 'kelvin')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 12),
             avatars: ['/img/characters/level-2/boy/boy_talking-removebg-preview.png'],
             background: '/img/backgrounds/level3/2.png',
             audio: '/audio/level3/kelvin/kelvin_L3_S12.mp3',
@@ -123,8 +131,8 @@ const script: Script = {
         },
         {
             id: 13,
-            speakers: ['Bot Buddy'],
-            dialog: 'Oh no! It looks like the car scanner problem is affecting even more kids than we thought!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 13),
             avatars: ['/img/characters/bot-buddy/bot-buddy-ohno.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S13.mp3',
@@ -133,8 +141,8 @@ const script: Script = {
         },
         {
             id: 14,
-            speakers: ['Bot Buddy'],
-            dialog: 'The kids talked about parents having the same issues accessing and using the self-driving cars when they were young too. So, the problem has been going on for a while',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 14),
             avatars: ['/img/characters/bot-buddy/bot-buddy-point.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S14.mp3',
@@ -143,8 +151,8 @@ const script: Script = {
         },
         {
             id: 15,
-            speakers: ['Bot Buddy'],
-            dialog: 'Like we saw before, for a machine like a self-driving car or a bot buddy like me to learn, a person needs to give us data and TRAIN us. Let’s go back to the self-driving car data set on your tablet.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 15),
             avatars: ['/img/characters/bot-buddy/bot-buddy-point.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S15.mp3',
@@ -153,32 +161,32 @@ const script: Script = {
         },
         {
             id: 16,
-            speakers: ['Bot Buddy'],
-            dialog: 'Here is part of the TRAINING dataset used to train the algorithm that lets people get rides in the cars. Let\'s take some notes in your journal about this dataset.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 16),
             avatars: ['/img/characters/bot-buddy/bot-buddy-point.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S16.mp3',
         },
         {
             id: 17,
-            speakers: ['Computer Voice'],
-            dialog: 'What groups of people are represented in the dataset? What groups of people are not represented in the dataset?',
+            speakers: [getCharacterName(currentLanguage, 'computerVoice')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 17),
             avatars: [''],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/computer_voice/computer_L3_S17.mp3',
         },
         {
             id: 18,
-            speakers: ['Bot Buddy'],
-            dialog: 'Did you notice there were more pictures of adults than kids? There are no faces of kids for the face scanner on the car to learn from!',   
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 18),
             avatars: ['/img/characters/bot-buddy/bot-buddy-point.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S18.mp3',
         },
         {
             id: 19,
-            speakers: ['Bot Buddy'],
-            dialog: 'These self-driving cars are BIASED against kids. BIAS is based on human opinions, Like when your data show that you prefer one thing over another.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 19),
             avatars: ['/img/characters/bot-buddy/bot-buddy-angry.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S19.mp3',
@@ -187,8 +195,8 @@ const script: Script = {
         },
         {
             id: 20,
-            speakers: ['Bot Buddy'],
-            dialog: 'Remember when we had different opinions when making our favorite pizzas?',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 20),
             avatars: ['/img/characters/bot-buddy/bot-buddy-jump.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S20.mp3',
@@ -197,8 +205,8 @@ const script: Script = {
         },
         {
             id: 21,
-            speakers: ['Bot Buddy'],
-            dialog: 'Data can be BIASED because one thing is not represented in the data as much as another thing. Like this data has a LOT of adults and just a few kids.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 21),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S21.mp3',
@@ -207,8 +215,8 @@ const script: Script = {
         },
         {
             id: 22,
-            speakers: ['Bot Buddy'],
-            dialog: 'The face scanners for the cars were trained with very few images of kids but lots of adults. So, the cars are not recognizing that they should open their doors to kids.',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 22),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S22.mp3',
@@ -225,8 +233,8 @@ const script: Script = {
         // },
         {
             id: 23,
-            speakers: ['Bot Buddy'],
-            dialog: 'C\'mon Agent! Let\'s teach these self-driving cars to recognize kids\' faces!',
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level3', 'main', 23),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level2/factory2.png',
             audio: '/audio/level3/bot_buddy/bot_buddy_L3_S24.mp3',

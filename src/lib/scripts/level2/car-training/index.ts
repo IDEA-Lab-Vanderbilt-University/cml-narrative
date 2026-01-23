@@ -1,11 +1,19 @@
 import type { Script } from '$lib/types/Script';
+import { settingsStore } from '$lib/utils/stores/store';
+import { type Language } from '$lib/utils/translations';
+import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
+
+let currentLanguage: Language = 'en';
+settingsStore.subscribe((value) => {
+	currentLanguage = (value.language as Language) || 'en';
+});
 
 const script: Script = {
 	lines: [
         {
             id: 1,
             speakers: ['Dash'],
-            dialog: 'Hello, I am Dash. I will be your virtual guide for this training manual to help you understand how we train our cars.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 1),
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s47.wav',
@@ -13,7 +21,7 @@ const script: Script = {
         {
             id: 2,
             speakers: ['Dash'],
-            dialog: 'First, we tell our cars what we want them to learn, like reading road signs, spotting people and animals on the road, or opening doors for people to get in. Which of these do we need to train our cars to be able to do?',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 2),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s48.wav',
@@ -21,7 +29,7 @@ const script: Script = {
         {
             id: 3,
             speakers: ['Dash'],
-            dialog: 'To drive safely, our cars need to learn how to spot people crossing the street, find stop signs, and look at traffic lights to know when to stop and go.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 3),
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
             background: '/img/backgrounds/level2/car-training/2.png',
             audio: '/audio/level2/dash/Dash_l2s49.wav',
@@ -29,7 +37,7 @@ const script: Script = {
         {
             id: 4,
             speakers: ['Dash'],
-            dialog: 'Our self-driving cars are trained to open the doors when they scan a human face. Just like these faces!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 4),
             avatars: ['/img/characters/level-2/dash/dash-dance.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s50.wav',
@@ -37,7 +45,7 @@ const script: Script = {
         {
             id: 5,
             speakers: ['Dash'],
-            dialog: 'To teach the cars what a face looks like, the company creates a file full of images with all the different kinds of faces they use to train the cars.  Now you try. Tap a few images to add the faces to the folder.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 5),
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s51.wav',
@@ -45,7 +53,7 @@ const script: Script = {
         {
             id: 6,
             speakers: ['Dash'],
-            dialog: 'The car doors should only open when the scanner detects a human face.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 6),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s52.wav',
@@ -53,7 +61,7 @@ const script: Script = {
         {
             id: 7,
             speakers: ['Dash'],
-            dialog: 'To train the cars what is not a face, the company creates a file full of images with all  different kinds of objects that are not human faces. Now you try. Tap a few images to add the objects that are not human faces to the folder.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 7),
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s53.wav',
@@ -61,7 +69,7 @@ const script: Script = {
         {
             id: 8,
             speakers: ['Dash'],
-            dialog: 'The car doors should only open when it detects a human face. Not other objects like trees.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 8),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s54.wav',
@@ -69,7 +77,7 @@ const script: Script = {
         {
             id: 9,
             speakers: ['Dash'],
-            dialog: 'We call this a TRAINING dataset because it TRAINS the cars to recognize two different classes: a human face and not a human face.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 9),
             avatars: [''],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s55.wav',
@@ -78,7 +86,7 @@ const script: Script = {
         {
             id: 10,
             speakers: ['Dash'],
-            dialog: 'With this training dataset, the cars can learn and get really good at recognizing people! This means the cars will only open the doors for humans and not other things like racoons or skunks!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 10),
             avatars: [''],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s56.wav',
@@ -87,7 +95,7 @@ const script: Script = {
         {
             id: 11,
             speakers: ['Dash'],
-            dialog: 'So, the training data becomes a set of instructions, aka an algorithm, that the cars follow. Tap on the blinking GPS  to see an algorithm our car uses.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 11),
             avatars: ['/img/characters/level-2/dash/dash-wave.png'],
             background: '/img/backgrounds/level2/car-training/3.svg', 
             audio: '/audio/level2/dash/Dash_l2s57.wav',
@@ -95,7 +103,7 @@ const script: Script = {
         {
             id: 12,
             speakers: ['Dash'],
-            dialog: 'Order is important in an algorithm. Drag and drop the blocks to complete the car’s instructions on the right.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 12),
             avatars: ['/img/characters/level-2/dash/dash-dance.png'],
             background: '/img/backgrounds/level2/car-training/3.svg',
             audio: '/audio/level2/dash/Dash_l2s58.wav',
@@ -103,7 +111,7 @@ const script: Script = {
         {
             id: 13,
             speakers: ['Dash'],
-            dialog: 'Now that we have our algorithm and training data set, let\'s test it. When we test our algorithm, we have to use a TEST DATA SET that has  different images than the training data set',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 13),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s59.wav',
@@ -111,7 +119,7 @@ const script: Script = {
         {
             id: 14,
             speakers: ['Dash'],
-            dialog: 'Testing the algorithm with the same images from the training data set is like giving the cars the answers to the test. So to test if the car’s algorithm can work outside our factory, we have to test with images that the cars were not trained with',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 14),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s60.wav',
@@ -119,7 +127,7 @@ const script: Script = {
         {
             id: 15,
             speakers: ['Dash'],
-            dialog: 'We use different faces because human faces can be different, and we want everyone to be able to use our cars! All new “face” and “no face” images are called TEST DATA.',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 15),
             avatars: ['/img/characters/level-2/dash/dash-thumb-flipped.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s61.wav',
@@ -127,7 +135,7 @@ const script: Script = {
         {
             id: 16,
             speakers: ['Dash'],
-            dialog: 'Lets test our face scan algorithm to see if it can detect a human face. Drag one of the test images onto the scanner to test',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 16),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s62.wav',
@@ -135,7 +143,7 @@ const script: Script = {
         {
             id: 17,
             speakers: ['Dash'],
-            dialog: 'Now, let\'s test our face scan algorithm to see if can detect objects that are not human faces. Drag one of the test images onto the scanner to test',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 17),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash - nonhuman test.mp3',
@@ -143,7 +151,7 @@ const script: Script = {
         {
             id: 18,
             speakers: ['Dash'],
-            dialog: 'And that’s how we train our cars here at Vroom Vroom. You did a “Dash-tastic” Job! Come back soon!',
+            dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 18),
             avatars: ['/img/characters/level-2/dash/dash-thumb-flipped.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
             audio: '/audio/level2/dash/Dash_l2s64.wav',

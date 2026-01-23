@@ -45,7 +45,21 @@ export const translations = {
 			agentFern: 'Agent Fern',
 			agentGear: 'Agent Gear',
 			botBuddy: 'Bot Buddy',
-			spotAgents: 'SPOT Agents'
+			spotAgents: 'SPOT Agents',
+			pizzaHostBot: 'Pizza Host Bot',
+			chefBot: 'Chef Bot',
+			spotTablet: 'SPOT Tablet',
+			spotComputer: 'SPOT Computer',
+			kelvin: 'Kelvin',
+			securityBot: 'Security Bot',
+			computerVoice: 'Computer Voice',
+			museumOfRobotHistory: 'Museum of Robot History',
+			pizzaPlace: 'Pizza Place',
+			iceCreamPalace: 'Ice Scream Palace',
+			fireStation: 'Fire Station',
+			worldsLargestToilet: "World's Largest Toilet",
+			vroomVroomCarFactory: 'Vroom-Vroom Car Factory',
+			stEel: 'ST-EE-L'
 		},
 		introduction: {
 			profileName: {
@@ -139,7 +153,21 @@ export const translations = {
 			agentFern: 'Agente Fern',
 			agentGear: 'Agente Gear',
 			botBuddy: 'Bot Buddy',
-			spotAgents: 'Agentes SPOT'
+			spotAgents: 'Agentes SPOT',
+			pizzaHostBot: 'Bot Anfitrión de Pizza',
+			chefBot: 'Bot Chef',
+			spotTablet: 'Tableta SPOT',
+			spotComputer: 'Computadora SPOT',
+			kelvin: 'Kelvin',
+			securityBot: 'Bot de Seguridad',
+			computerVoice: 'Voz Computarizada',
+			museumOfRobotHistory: 'Museo de la Historia del Robot',
+			pizzaPlace: 'Pizzería',
+			iceCreamPalace: 'Palacio de Helados',
+			fireStation: 'Estación de Bomberos',
+			worldsLargestToilet: "El Baño Más Grande del Mundo",
+			vroomVroomCarFactory: 'Fábrica de Autos Vroom-Vroom',
+			stEel: 'ST-EE-L'
 		},
 		introduction: {
 			profileName: {

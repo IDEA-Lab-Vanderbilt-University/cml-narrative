@@ -3,23 +3,24 @@ import type { Student } from '$lib/types/UserData';
 import { studentDataStore } from '$lib/utils/stores/store';
 import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
 import { settingsStore } from '$lib/utils/stores/store';
+import { getCharacterName, type Language } from '$lib/utils/translations';
 
 let agent: Student = {};
-let currentLanguage = 'en';
+let currentLanguage: Language = 'en';
 
 studentDataStore.subscribe((value) => {
 	agent = value as Student;
 });
 
 settingsStore.subscribe((value) => {
-	currentLanguage = (value.language as string) || 'en';
+    currentLanguage = (value.language as Language) || 'en';
 });
 
 const script: Script = {
 	lines: [
-		{
-			id: 1,
-			speakers: ['Bot Buddy'],
+        {
+            id: 1,
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 1),
 			avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
 			background: '/img/backgrounds/level1/1.png',
@@ -28,7 +29,7 @@ const script: Script = {
 		},
         {
             id: 2,
-            speakers: ['Bot Buddy'],
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 2),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level1/1.png',
@@ -37,7 +38,7 @@ const script: Script = {
         },
         {
             id: 3,
-            speakers: ['Bot Buddy'],
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 3),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/2.png',
@@ -46,7 +47,7 @@ const script: Script = {
         },
         {
             id: 4,
-            speakers: ['Pizza Host Bot', 'Bot Buddy'],
+            speakers: [getCharacterName(currentLanguage, 'pizzaHostBot'), getCharacterName(currentLanguage, 'botBuddy')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 4),
             avatars: ['/img/characters/level-1/host-bot.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
@@ -55,7 +56,7 @@ const script: Script = {
         },
         {
             id: 5,
-            speakers: ['Bot Buddy'],
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 5),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level1/cafe.png',
@@ -64,7 +65,7 @@ const script: Script = {
         },
         {
             id: 6,
-            speakers: ['Bot Buddy'],
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 6),
             avatars: ['/img/characters/bot-buddy/bot-buddy-pizza.png'],
             background: '/img/backgrounds/level1/cafe.png',
@@ -74,7 +75,7 @@ const script: Script = {
         },
         {
             id: 7,
-            speakers: ['Bot Buddy'],
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 7),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
@@ -83,7 +84,7 @@ const script: Script = {
         },
         {
             id: 8,
-            speakers: ['Bot Buddy'],
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 8),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level1/cafe.png',
@@ -92,7 +93,7 @@ const script: Script = {
         },
         {
             id: 9,
-            speakers: ['Bot Buddy'],
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 9),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/16596.png',
@@ -101,7 +102,7 @@ const script: Script = {
         },
         {
             id: 10,
-            speakers: ['Chef Bot'],
+            speakers: [getCharacterName(currentLanguage, 'chefBot')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 10),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/16596.png',
@@ -110,7 +111,7 @@ const script: Script = {
         },
         {
             id: 11,
-            speakers: ['Bot Buddy'],
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 11, { agentName: agent.agent_name || 'Agent' }),
             avatars: ['/img/characters/bot-buddy/bot-buddy-ohno.png'],
             background: '/img/backgrounds/level1/16596.png',
@@ -120,7 +121,7 @@ const script: Script = {
         },
         {
             id: 12,
-            speakers: ['Bot Buddy'],
+            speakers: [getCharacterName(currentLanguage, 'botBuddy')],
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 12),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/16596.png',

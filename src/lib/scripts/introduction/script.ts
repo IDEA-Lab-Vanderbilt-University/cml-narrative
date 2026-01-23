@@ -12,19 +12,20 @@
 
 import type { Script, Line } from '$lib/types/Script';
 import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
+import { getCharacterName, type Language } from '$lib/utils/translations';
 import { settingsStore } from '$lib/utils/stores/store';
 
-let currentLanguage = 'en';
+let currentLanguage: Language = 'en';
 
 settingsStore.subscribe((value) => {
-	currentLanguage = (value.language as string) || 'en';
+	currentLanguage = (value.language as Language) || 'en';
 });
 
 const script: Script = {
 	lines: [
 		{
 			id: 1,
-			speakers: ['Captain Storm'],
+			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 1),
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -33,7 +34,7 @@ const script: Script = {
 		},
 		{
 			id: 2,
-			speakers: ['Captain Storm'],
+			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 2),
 			avatars: ['/img/characters/captain-storm/gesture_2_storm.png'],
 			background: '/img/backgrounds/captain_office.jpg',
@@ -42,7 +43,7 @@ const script: Script = {
 		},
 		{
 			id: 3,
-			speakers: ['Captain Storm'],
+			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 3),
 			avatars: ['/img/characters/captain-storm/storm_thumbs_up.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
@@ -51,7 +52,7 @@ const script: Script = {
 		},
 		{
 			id: 4,
-			speakers: ['Agent Fern', 'Captain Storm'],
+			speakers: [getCharacterName(currentLanguage, 'agentFern'), getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 4),
 			avatars: [
 				'/img/characters/agent-fern/fern_wave_inverted.png',
@@ -63,7 +64,7 @@ const script: Script = {
 		},
 		{
 			id: 5,
-			speakers: ['Agent Gear', 'Captain Storm'],
+			speakers: [getCharacterName(currentLanguage, 'agentGear'), getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 5),
 			avatars: [
 				'/img/characters/agent-gear/vanil_wave.png',
@@ -75,7 +76,7 @@ const script: Script = {
 		},
 		{
 			id: 6,
-			speakers: ['Agent Spark', 'Captain Storm'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark'), getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 6),
 			avatars: [
 				'/img/characters/agent-spark/spark_wave.png',
@@ -87,7 +88,7 @@ const script: Script = {
 		},
 		{
 			id: 7,
-			speakers: ['Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 7),
 			avatars: ['/img/characters/agent-spark/spark_wave.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
@@ -96,7 +97,7 @@ const script: Script = {
 		},
 		{
 			id: 8,
-			speakers: ['Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 8),
 			avatars: ['/img/characters/agent-spark/spark_surprised.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
@@ -105,7 +106,7 @@ const script: Script = {
 		},
 		{
 			id: 9,
-			speakers: ['Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 9),
 			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
@@ -114,7 +115,7 @@ const script: Script = {
 		},
 		{
 			id: 10,
-			speakers: ['Agent Fern', 'Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentFern'), getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 10),
 			avatars: [
 				'/img/characters/agent-fern/fern_sweet.png',
@@ -126,7 +127,7 @@ const script: Script = {
 		},
 		{
 			id: 11,
-			speakers: ['Agent Gear', 'Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentGear'), getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 11),
 			avatars: [
 				'/img/characters/agent-gear/vanil_cute_inverted.png',
@@ -138,7 +139,7 @@ const script: Script = {
 		},
 		{
 			id: 12,
-			speakers: ['Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 12),
 			avatars: ['/img/characters/agent-spark/spark_aww.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
@@ -147,7 +148,7 @@ const script: Script = {
 		},
 		{
 			id: 13,
-			speakers: ['Agent Spark'],
+			speakers: [getCharacterName(currentLanguage, 'agentSpark')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 13),
 			avatars: ['/img/characters/agent-spark/spark_talking.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
