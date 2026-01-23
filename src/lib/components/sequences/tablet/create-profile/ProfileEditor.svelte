@@ -3,6 +3,8 @@
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Student } from '$lib/types/UserData';
 	import type { ProfileStep } from './ProfileEditorTypes';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import { getTranslation, type Language } from '$lib/utils/translations';
 	
 	// Profile editing components
 	import Name from './Name.svelte';
@@ -23,55 +25,68 @@
 	export let showNavigation: boolean = true;
 	export let showCancelButton: boolean = false;
 
-	const steps: ProfileStep[] = [
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
+
+	const getErrorMessage = (key: string): string => {
+		return getTranslation(currentLanguage, `introduction.validation.${key}` as any);
+	};
+
+	const getPrompt = (key: string): string => {
+		return getTranslation(currentLanguage, `introduction.profileCreation.${key}` as any);
+	};
+
+	$: steps = [
 		{
 			id: 1,
 			component: Name,
 			validateFn: (data) => (data.first_name ?? '') !== '' && (data.last_name ?? '') !== '',
-			errorMessage: "Please fill in your name before moving to the next page"
+			errorMessage: getErrorMessage('nameRequired')
 		},
 		{
 			id: 2,
 			component: Age,
 			validateFn: (data) => (data.age ?? -1) > 0,
-			errorMessage: "Please fill in your age before moving to the next page"
+			errorMessage: getErrorMessage('ageRequired')
 		},
 		{
 			id: 3,
 			component: Interest,
-			props: { prompt: "What do you like to do?", index: 0 },
+			props: { prompt: getPrompt('interestPrompt1'), index: 0 },
 			validateFn: (data) => (data.interests ?? []).length >= 1 && (data.interests?.[0] ?? '') !== '',
-			errorMessage: "Please fill in your interests before moving to the next page",
+			errorMessage: getErrorMessage('interestsRequired'),
 			showProfileBanner: true
 		},
 		{
 			id: 4,
 			component: Interest,
-			props: { prompt: "Can you think of anything else?", index: 1 },
+			props: { prompt: getPrompt('interestPrompt2'), index: 1 },
 			validateFn: (data) => (data.interests ?? []).length >= 2 && (data.interests?.[1] ?? '') !== '',
-			errorMessage: "Please fill in your interests before moving to the next page",
+			errorMessage: getErrorMessage('interestsRequired'),
 			showProfileBanner: true
 		},
 		{
 			id: 5,
 			component: Interest,
-			props: { prompt: "One more thing you enjoy", index: 2 },
+			props: { prompt: getPrompt('interestPrompt3'), index: 2 },
 			validateFn: (data) => (data.interests ?? []).length >= 3 && (data.interests?.[2] ?? '') !== '',
-			errorMessage: "Please fill in your interests before moving to the next page",
+			errorMessage: getErrorMessage('interestsRequired'),
 			showProfileBanner: true
 		},
 		{
 			id: 6,
 			component: AgentName,
 			validateFn: (data) => (data.agent_name ?? '') !== '',
-			errorMessage: "Please fill in an Agent Name before moving to the next page",
+			errorMessage: getErrorMessage('agentNameRequired'),
 			showProfileBanner: true
 		},
 		{
 			id: 7,
 			component: AvatarCreator,
 			validateFn: (data) => (data.avatar ?? '') !== '',
-			errorMessage: "Please choose an avatar before submitting"
+			errorMessage: getErrorMessage('avatarRequired')
 		}
 	];
 

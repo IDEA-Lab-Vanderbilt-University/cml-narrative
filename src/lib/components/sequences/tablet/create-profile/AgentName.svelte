@@ -13,11 +13,18 @@
 	import { tourManager } from '$lib/components/tour/TourManager';
 
 	import type { Student } from '$lib/types/UserData';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import { getTranslation, type Language } from '$lib/utils/translations';
 
 	export let profileData: Student;
 
 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
 	const dispatch = createEventDispatcher();
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
 	const handleSubmit = () => {
 		dispatch('submitClicked');
@@ -75,7 +82,7 @@
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-5 font-mono" style="transform: translateY(-10%)">
-	<h1 class="text-white" style="font-size:6vh">Choose an Agent name</h1>
+	<h1 class="text-white" style="font-size:6vh">{getTranslation(currentLanguage, 'introduction.profileAgent.heading')}</h1>
 	<div class="flex w-full justify-center space-x-7">
 		<div class="form-control w-full max-w-2xl">
 			<input

@@ -5,13 +5,20 @@
 	import type { Student } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
 	import { onDestroy, onMount } from 'svelte';
-	import {  studentDataStore, studentProgressStore } from '$lib/utils/stores/store';
+	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import { getTranslation, type Language } from '$lib/utils/translations';
 	import { get } from 'svelte/store';
 
 	const startPage: number = 3;
 	let message = '';
 	let isSuccess = false;
 	let showFeedbackModal = false;
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
 	let profileData: Student = get(studentDataStore);
 
@@ -52,12 +59,12 @@
 				status: 'complete'
 			});
 
-			message = 'Agent created successfully!';
+			message = getTranslation(currentLanguage, 'introduction.profileCreation.success');
 			isSuccess = true;
 
 			console.log('profileData after signup: ', submittedData);
 		} catch (error) {
-			message = 'Agent creation failed!';
+			message = getTranslation(currentLanguage, 'introduction.profileCreation.error');
 			isSuccess = false;
 			console.error(error);
 		}

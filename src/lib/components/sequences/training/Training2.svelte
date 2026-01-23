@@ -9,10 +9,19 @@
  https://idealab.sites.clemson.edu
  
 --->
+<script lang="ts">
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import { getTranslation, type Language } from '$lib/utils/translations';
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
+</script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-9 px-8">
 	<h2 class="font-mono text-3xl">
-		Technology is important in our world, and it comes in many forms
+		{getTranslation(currentLanguage, 'introduction.trainingTechnology.description')}
 	</h2>
 	<div class="flex w-fit space-x-10">
 		<img src="/img/icons/car.svg" alt="" class="w-48" />

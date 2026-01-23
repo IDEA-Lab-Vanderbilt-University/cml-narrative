@@ -13,6 +13,8 @@
     import libmoji from '$lib/utils/libmoji';
 
 	import type { Student } from '$lib/types/UserData';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import { getTranslation, type Language } from '$lib/utils/translations';
 
 	export let profileData: Student;
 
@@ -21,6 +23,11 @@
 	import { createEventDispatcher } from 'svelte';
 
 	const dispatch = createEventDispatcher();
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
 	const handleSubmit = () => {
 		dispatch('submitClicked');
@@ -172,7 +179,7 @@
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-2 font-mono">
-	<h1 class="text-white" style="font-size:4vh">Choose your Picture</h1>
+	<h1 class="text-white" style="font-size:4vh">{getTranslation(currentLanguage, 'introduction.profileAvatar.heading')}</h1>
 	<div class="flex w-full justify-center space-x-2">
 		<div class="moji-container moji-cols">
 			{#each options as moji, i}
@@ -186,7 +193,7 @@
 		</div>
 	</div>
     <div class="text-center">
-        <h2 class="text-white" style="font-size:3vh">Skin Tone</h2>
+        <h2 class="text-white" style="font-size:3vh">{getTranslation(currentLanguage, 'introduction.profileAvatar.skinTone')}</h2>
         <div class="flex w-full justify-center space-x-7">
             <div class="moji-container">
                 {#each skinTones as skinTone}
@@ -207,7 +214,7 @@
         </div>
     </div>
     <div class="text-center">
-        <h2 class="text-white" style="font-size:3vh">Hair Color</h2>
+        <h2 class="text-white" style="font-size:3vh">{getTranslation(currentLanguage, 'introduction.profileAvatar.hairColor')}</h2>
         <div class="flex w-full justify-center space-x-7">
             <div class="moji-container">
                 {#each hairColors as hairColor}
@@ -242,7 +249,7 @@
                 on:click={() => {
                     dispatch('cancel');
                 }}>
-                Cancel
+                {getTranslation(currentLanguage, 'introduction.profileAvatar.cancel')}
             </button>
         {/if}
         <button

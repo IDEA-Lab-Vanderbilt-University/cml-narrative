@@ -13,7 +13,14 @@
 	import { goto } from '$app/navigation';
 	import Scene from '$lib/components/scene/Scene.svelte';
 	import { studentProgressStore } from '$lib/utils/stores/store';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import { getTranslation, type Language } from '$lib/utils/translations';
 	import { fade, fly } from 'svelte/transition';
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 </script>
 
 <Scene background="/img/backgrounds/captain_office.jpg">
@@ -26,7 +33,7 @@
 			class="flex w-fit flex-col items-center justify-center space-y-12 rounded-lg bg-gray-600 py-6 px-12 text-5xl text-white shadow-xl">
 			<img src="/img/logos/SPOT-dots.svg" alt="" class="h-24" />
 			<h2 class="border-y-2 border-dashed border-yellow-500 py-7">
-				Are you ready to help us travel to the future?
+				{getTranslation(currentLanguage, 'introduction.invitation.heading')}
 			</h2>
 			<button id="readyBtn" class="rounded-md bg-yellow-500 px-4 py-2 text-black shadow-lg"
 				on:click={() => {
@@ -36,7 +43,7 @@
 						return data;
 					});
 				}}>
-				I am ready!
+				{getTranslation(currentLanguage, 'introduction.invitation.button')}
 			</button>
 		</div>
 	</div>
