@@ -36,8 +36,8 @@ import { browser } from '$app/environment';
  * cookies, which is probably something we will do in the future.
  */
 
-export let debugMode = false;
-export let showLanguageChoice = false;
+export let debugMode = true;
+export let showLanguageChoice = true;
 
 export const settingsStore = persist(
 	writable<Settings>(defaultSettings),

@@ -2,8 +2,14 @@
 	import { defaultSettings } from "$lib/types/Settings";
 	import { settingsStore } from "$lib/utils/stores/store";
 	import { onMount } from "svelte";
+	import { getTranslation, type Language } from '$lib/utils/translations';
+	import { languageStore } from '$lib/utils/stores/languageStore';
 
 	let open = false;
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
     export const show = () => {
 		open = true;
@@ -32,20 +38,20 @@
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div on:click|stopPropagation>
-			<h1>Settings</h1>
+			<h1>{getTranslation(currentLanguage, 'common.settings.title')}</h1>
 			<hr />
-			<label for="textSpeed">Text Speed:</label>
+			<label for="textSpeed">{getTranslation(currentLanguage, 'common.settings.textSpeed')}:</label>
 			<select name="textSpeed" bind:value={settings.textPeriod}>
-				<option value=15>Fast</option>
-				<option value=45>Medium</option>
-				<option value=75>Slow</option>
+				<option value=15>{getTranslation(currentLanguage, 'common.settings.textSpeedFast')}</option>
+				<option value=45>{getTranslation(currentLanguage, 'common.settings.textSpeedMedium')}</option>
+				<option value=75>{getTranslation(currentLanguage, 'common.settings.textSpeedSlow')}</option>
 			</select>
 			<hr />
-			<label for="fontSize">Font size:</label>
+			<label for="fontSize">{getTranslation(currentLanguage, 'common.settings.fontSize')}:</label>
 			<select name="fontSize" bind:value={settings.fontSize}>
-				<option value="text-3xl">Big</option>
-				<option value="text-2xl">Medium</option>
-				<option value="text-xl">Small</option>
+				<option value="text-3xl">{getTranslation(currentLanguage, 'common.settings.fontSizeBig')}</option>
+				<option value="text-2xl">{getTranslation(currentLanguage, 'common.settings.fontSizeMedium')}</option>
+				<option value="text-xl">{getTranslation(currentLanguage, 'common.settings.fontSizeSmall')}</option>
 			</select>
 			<hr />
 			<label for="audioEnabled">Audio Enabled:</label>

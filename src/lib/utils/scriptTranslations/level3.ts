@@ -1,0 +1,102 @@
+export const level3Translations = {
+	en: {
+		main: [
+			{ id: 1, dialog: 'Finding out how the smart cars are trained and tested was super fun! I love downloading new information!' },
+			{ id: 2, dialog: "It looks like I'm getting a news alert! Let's see what it says!" },
+			{ id: 3, dialog: "Isn't this that same kid, Kelvin, we met earlier in front of the school? Agent, push on my belly screen to activate the story." },
+			{ id: 4, dialog: 'Thank you all for coming out today! We kids are here to protest the problems we are having with the self-driving cars in our neighborhoods!' },
+			{ id: 5, dialog: "These cars aren't opening for us, and kids need to get to places too! Just like adults!" },
+			{ id: 6, dialog: "It's not just me! There are other kids that have had the same problems. Let's hear from them!" },
+			{ id: 7, dialog: " I was late to soccer practice three times this week because the cars could not scan my face! I don't want to be late! What can we do to fix this?" },
+			{ id: 8, dialog: "Kids don't just have problems with the scanners on these cars. I can't even fit in the seats in the car! I'm too short to read the map on the dashboard!" },
+			{ id: 9, dialog: "I have the same problem. The scans don't work on my face. I need an adult to make them work. Why aren't the cars designed so kids can use them easily?" },
+			{ id: 10, dialog: "My dad said this even happened to him when he was a kid! Why hasn't this been fixed? Kids need to get places and not be late!" },
+			{ id: 11, dialog: "It's like this everywhere! When I get to the mall, the face scanners are too high up for me to reach" },
+			{ id: 12, dialog: 'Yes!!! Exactly! When will kids be more included in the design of our technologies?' },
+			{ id: 13, dialog: 'Oh no! It looks like the car scanner problem is affecting even more kids than we thought!' },
+			{ id: 14, dialog: 'The kids talked about parents having the same issues accessing and using the self-driving cars when they were young too. So, the problem has been going on for a while' },
+			{ id: 15, dialog: "Like we saw before, for a machine like a self-driving car or a bot buddy like me to learn, a person needs to give us data and TRAIN us. Let's go back to the self-driving car data set on your tablet." },
+			{ id: 16, dialog: "Here is part of the TRAINING dataset used to train the algorithm that lets people get rides in the cars. Let's take some notes in your journal about this dataset." },
+			{ id: 17, dialog: 'What groups of people are represented in the dataset? What groups of people are not represented in the dataset?' },
+			{ id: 18, dialog: 'Did you notice there were more pictures of adults than kids? There are no faces of kids for the face scanner on the car to learn from!' },
+			{ id: 19, dialog: 'These self-driving cars are BIASED against kids. BIAS is based on human opinions, Like when your data show that you prefer one thing over another.' },
+			{ id: 20, dialog: 'Remember when we had different opinions when making our favorite pizzas?' },
+			{ id: 21, dialog: 'Data can be BIASED because one thing is not represented in the data as much as another thing. Like this data has a LOT of adults and just a few kids.' },
+			{ id: 22, dialog: 'The face scanners for the cars were trained with very few images of kids but lots of adults. So, the cars are not recognizing that they should open their doors to kids.' },
+			{ id: 23, dialog: "C'mon Agent! Let's teach these self-driving cars to recognize kids' faces!" }
+		],
+		traininator: [
+			{ id: 1, dialog: "I feel good about this! I hope that changing the dataset to add MORE and DIFFERENT faces of kids will help the cars recognize kids' faces and let them in!!!" }
+		],
+		outro: [
+			{ id: 1, dialog: "I feel good about this! I hope that changing the dataset to add MORE and DIFFERENT faces of kids will help the cars recognize kids' faces and let them in!!!" },
+			{ id: 2, dialog: 'Hello, Bot! Do you work here?' },
+			{ id: 3, dialog: 'No... I... we were just leaving. Nothing to see here Security Bot!' },
+			{ id: 4, dialog: "Agent, let's go and find Kelvin and tell him what we learned!" },
+			{ id: 5, dialog: 'Hey! What are you guys doing here?' },
+			{ id: 6, dialog: "We have some good news, Kelvin! The training data images that Vroom Vroom used were mostly of adults-not kids like you. That's why so many kids couldn't use the cars." },
+			{ id: 7, dialog: 'We added MORE and DIFFERENT types of kid images to the training dataset to reduce BIAS. Now, the self-driving cars will recognize kids better!' },
+			{ id: 8, dialog: 'We can never completely get rid of BIAS because we all have opinions that influence how we choose our datasets. So, we should be more mindful when we put together training datasets.' },
+			{ id: 9, dialog: 'Wow! Thanks for helping us out. This solves one problem with our technologies. But we still have a lot of work to do to make sure people are treated fairly when designing technologies.' },
+			{ id: 10, dialog: 'Incoming message from Mission Control!' },
+			{ id: 11, dialog: "Your Bot Buddy's system has informed us that you have completed your third mission. Mission Control needs to know a few more things. We have included our questions in this message." },
+			{ id: 12, dialog: 'bias opinion 1' },
+			{ id: 13, dialog: 'bias opinion 2' },
+			{ id: 14, dialog: 'bias opinion 3' },
+			{ id: 15, dialog: 'Incoming message from Mission Control!' },
+			{ id: 16, dialog: 'Congratulations on completing the third part of your mission!' },
+			{ id: 17, dialog: 'Badge GET!' },
+			{ id: 18, dialog: 'Megajoules GET!' }
+		]
+	},
+	es: {
+		main: [
+			{ id: 1, dialog: '¡Descubrir cómo se entrenan y prueban los autos inteligentes fue súper divertido! ¡Me encanta descargar nueva información!' },
+			{ id: 2, dialog: '¡Parece que estoy recibiendo una alerta de noticias! ¡Veamos qué dice!' },
+			{ id: 3, dialog: '¿No es ese el mismo niño, Kelvin, que conocimos antes frente a la escuela? Agente, presiona la pantalla de mi vientre para activar la historia.' },
+			{ id: 4, dialog: '¡Gracias a todos por venir hoy! ¡Nosotros los niños estamos aquí para protestar los problemas que tenemos con los autos autónomos en nuestros vecindarios!' },
+			{ id: 5, dialog: '¡Estos autos no se abren para nosotros, y los niños también necesitan llegar a lugares! ¡Igual que los adultos!' },
+			{ id: 6, dialog: '¡No soy solo yo! Hay otros niños que han tenido los mismos problemas. ¡Escuchemos de ellos!' },
+			{ id: 7, dialog: '¡Llegué tarde a la práctica de fútbol tres veces esta semana porque los autos no pudieron escanear mi cara! ¡No quiero llegar tarde! ¿Qué podemos hacer para arreglar esto?' },
+			{ id: 8, dialog: 'Los niños no solo tienen problemas con los escáneres de estos autos. ¡Ni siquiera puedo caber en los asientos del auto! ¡Soy demasiado bajo para leer el mapa en el tablero!' },
+			{ id: 9, dialog: 'Tengo el mismo problema. Los escaneos no funcionan en mi cara. Necesito un adulto para hacerlos funcionar. ¿Por qué no están diseñados los autos para que los niños puedan usarlos fácilmente?' },
+			{ id: 10, dialog: '¡Mi papá dijo que esto incluso le pasó a él cuando era niño! ¿Por qué no se ha arreglado esto? ¡Los niños necesitan llegar a lugares y no llegar tarde!' },
+			{ id: 11, dialog: '¡Es así en todas partes! Cuando llego al centro comercial, los escáneres faciales están demasiado altos para que pueda alcanzarlos' },
+			{ id: 12, dialog: '¡¡¡Sí!!! ¡Exactamente! ¿Cuándo se incluirán más a los niños en el diseño de nuestras tecnologías?' },
+			{ id: 13, dialog: '¡Oh no! ¡Parece que el problema del escáner del auto está afectando a aún más niños de lo que pensábamos!' },
+			{ id: 14, dialog: 'Los niños hablaron sobre que los padres tuvieron los mismos problemas para acceder y usar los autos autónomos cuando eran jóvenes también. Entonces, el problema ha estado ocurriendo por un tiempo' },
+			{ id: 15, dialog: 'Como vimos antes, para que una máquina como un auto autónomo o un bot buddy como yo aprenda, una persona necesita darnos datos y ENTRENARNOS. Volvamos al conjunto de datos del auto autónomo en tu tableta.' },
+			{ id: 16, dialog: 'Aquí está parte del conjunto de datos de ENTRENAMIENTO utilizado para entrenar el algoritmo que permite a las personas obtener viajes en los autos. Tomemos algunas notas en tu diario sobre este conjunto de datos.' },
+			{ id: 17, dialog: '¿Qué grupos de personas están representados en el conjunto de datos? ¿Qué grupos de personas no están representados en el conjunto de datos?' },
+			{ id: 18, dialog: '¿Notaste que había más fotos de adultos que de niños? ¡No hay caras de niños para que el escáner facial del auto aprenda!' },
+			{ id: 19, dialog: 'Estos autos autónomos están SESGADOS contra los niños. El SESGO se basa en opiniones humanas, como cuando tus datos muestran que prefieres una cosa sobre otra.' },
+			{ id: 20, dialog: '¿Recuerdas cuando teníamos diferentes opiniones al hacer nuestras pizzas favoritas?' },
+			{ id: 21, dialog: 'Los datos pueden estar SESGADOS porque una cosa no está representada en los datos tanto como otra cosa. Como estos datos tienen MUCHOS adultos y solo unos pocos niños.' },
+			{ id: 22, dialog: 'Los escáneres faciales de los autos fueron entrenados con muy pocas imágenes de niños pero muchos adultos. Entonces, los autos no están reconociendo que deben abrir sus puertas a los niños.' },
+			{ id: 23, dialog: '¡Vamos Agente! ¡Enseñemos a estos autos autónomos a reconocer las caras de los niños!' }
+		],
+		traininator: [
+			{ id: 1, dialog: '¡Me siento bien con esto! ¡Espero que cambiar el conjunto de datos para agregar MÁS y DIFERENTES caras de niños ayude a los autos a reconocer las caras de los niños y dejarlos entrar!' }
+		],
+		outro: [
+			{ id: 1, dialog: '¡Me siento bien con esto! ¡Espero que cambiar el conjunto de datos para agregar MÁS y DIFERENTES caras de niños ayude a los autos a reconocer las caras de los niños y dejarlos entrar!' },
+			{ id: 2, dialog: 'Hola, Bot! ¿Trabajas aquí?' },
+			{ id: 3, dialog: 'No... yo... nos íbamos. ¡Nada que ver aquí, Bot de Seguridad!' },
+			{ id: 4, dialog: '¡Agente, vayamos a buscar a Kelvin y contarle lo que aprendimos!' },
+			{ id: 5, dialog: '¡Hola! ¿Qué están haciendo aquí?' },
+			{ id: 6, dialog: '¡Tenemos buenas noticias, Kelvin! Las imágenes de datos de entrenamiento que usó Vroom Vroom eran principalmente de adultos, no de niños como tú. Por eso muchos niños no podían usar los autos.' },
+			{ id: 7, dialog: '¡Agregamos MÁS y DIFERENTES tipos de imágenes de niños al conjunto de datos de entrenamiento para reducir el SESGO. ¡Ahora, los autos autónomos reconocerán mejor a los niños!' },
+			{ id: 8, dialog: 'Nunca podemos deshacernos completamente del SESGO porque todos tenemos opiniones que influyen en cómo elegimos nuestros conjuntos de datos. Por lo tanto, debemos ser más conscientes cuando armamos conjuntos de datos de entrenamiento.' },
+			{ id: 9, dialog: '¡Guau! Gracias por ayudarnos. Esto resuelve un problema con nuestras tecnologías. Pero todavía tenemos mucho trabajo por hacer para asegurarnos de que las personas sean tratadas justamente al diseñar tecnologías.' },
+			{ id: 10, dialog: '¡Mensaje entrante del Control de Misión!' },
+			{ id: 11, dialog: 'El sistema de tu Bot Buddy nos ha informado que has completado tu tercera misión. El Control de Misión necesita saber algunas cosas más. Hemos incluido nuestras preguntas en este mensaje.' },
+			{ id: 12, dialog: 'Opinión sobre sesgo 1' },
+			{ id: 13, dialog: 'Opinión sobre sesgo 2' },
+			{ id: 14, dialog: 'Opinión sobre sesgo 3' },
+			{ id: 15, dialog: '¡Mensaje entrante del Control de Misión!' },
+			{ id: 16, dialog: '¡Felicitaciones por completar la tercera parte de tu misión!' },
+			{ id: 17, dialog: '¡INSIGNIA OBTENIDA!' },
+			{ id: 18, dialog: '¡MEGAJULIOS OBTENIDOS!' }
+		]
+	}
+} as const;
