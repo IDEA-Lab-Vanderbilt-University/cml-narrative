@@ -74,7 +74,9 @@
   </h1>
 {/if}
 
+{#if buttonLabel}
 <button class="nicebtn" id={"codinatorSubmit"} on:click={sendMessage} disabled={!iframeLoaded || submitted}>{buttonLabel}</button>
+{/if}
 
 <style>
   iframe { width: 100%; border: none; }
