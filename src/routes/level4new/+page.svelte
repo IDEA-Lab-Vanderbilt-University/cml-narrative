@@ -528,6 +528,22 @@
 			/>
 		</Tablet>
 		{/if}
+		{#if lineNumber == 18}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostepintro">
+					<h2><img src="/img/icons/robodesign.png" alt="Design"/> Design</h2>
+					<p>{line.dialog()}</p>
+					<button class="nextBtn" on:click={() => goto('/level4new?page=19')}><img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 19}
+			<TextResponseModal 
+				prompt={line.dialog()}
+				on:submit={() => goto('/level4new?page=20')}
+			/>
+		{/if}
     </div>
 </Scene>
 
