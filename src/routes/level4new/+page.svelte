@@ -540,8 +540,8 @@
 		{/if}
 		{#if lineNumber == 19}
 			<TextResponseModal 
-				prompt={line.dialog()}
-				on:submit={() => goto('/level4new?page=20')}
+				prompt={["Problem to Solve", "Who My Robot Helps"]}
+				onSuccess={() => goto('/level4new?page=20')}
 			/>
 		{/if}
     </div>
