@@ -34,7 +34,7 @@ export const level4newTranslations = {
 			{ id: 31, dialog: 'ALGORITHMS POST QUESTION' },
 			{ id: 32, dialog: 'POST SURVEY' },
 			{ id: 33, dialog: 'BADGE GET' },
-			{ id: 34, dialog: 'It’s been an honor working with you Agent ${agent.agent_name}. You are now an official junior agent at S.P.O.T. We hope that you continue building technologies that make the world a better place. Goodbye and best of luck to you!' },
+			{ id: 34, dialog: 'It’s been an honor working with you Agent {agentName}. You are now an official junior agent at S.P.O.T. We hope that you continue building technologies that make the world a better place. Goodbye and best of luck to you!' },
 		]
 	},
 	es: {
@@ -72,7 +72,7 @@ export const level4newTranslations = {
 			{ id: 31, dialog: 'PREGUNTA POSTERIOR SOBRE ALGORITMOS' },
 			{ id: 32, dialog: 'ENCUESTA POSTERIOR' },
 			{ id: 33, dialog: 'INSIGNIA OBTENIDA' },
-			{ id: 34, dialog: 'Ha sido un honor trabajar contigo, Agente ${agent.agent_name}. Ahora eres un agente junior oficial en S.P.O.T. Esperamos que sigas construyendo tecnologías que hagan del mundo un lugar mejor. ¡Adiós y la mejor de las suertes para ti!' },
+			{ id: 34, dialog: 'Ha sido un honor trabajar contigo, Agente {agentName}. Ahora eres un agente junior oficial en S.P.O.T. Esperamos que sigas construyendo tecnologías que hagan del mundo un lugar mejor. ¡Adiós y la mejor de las suertes para ti!' },
 		]
 	}
 } as const;

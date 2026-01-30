@@ -11,7 +11,7 @@ export const level5Translations = {
 			{ id: 8, dialog: 'Question' },
 			{ id: 9, dialog: 'Question' },
 			{ id: 10, dialog: 'BADGE GET' },
-			{ id: 11, dialog: "It's been an honor working with you Agent ${agent.agent_name}. You are now an official junior agent at S.P.O.T. We hope that you continue building technologies that make the world a better place. Goodbye and best of luck to you!" }
+			{ id: 11, dialog: "It's been an honor working with you Agent ${agentName}. You are now an official junior agent at S.P.O.T. We hope that you continue building technologies that make the world a better place. Goodbye and best of luck to you!" }
 		]
 	},
 	es: {

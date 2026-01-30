@@ -1,13 +1,16 @@
 
 import type { Script } from '$lib/types/Script';
-import { settingsStore } from '$lib/utils/stores/store';
+import { settingsStore, studentDataStore, studentProgressStore } from '$lib/utils/stores/store';
 import { getCharacterName, type Language } from '$lib/utils/translations';
 import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
+import { get } from 'svelte/store';
 
 let currentLanguage: Language = 'en';
 settingsStore.subscribe((value) => {
 	currentLanguage = (value.language as Language) || 'en';
 });
+
+let agent = get(studentDataStore);
 
 const script: Script = {
 	lines: [
@@ -213,17 +216,19 @@ const script: Script = {
 		},
 		{
 			id: 27,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
+			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 27),
-			avatars: [],
-			background: '',
+			avatars: ['/img/characters/captain-storm/storm_point.png'],
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			pos: 'left'
 		},
 		{
 			id: 28,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
+			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 28),
-			avatars: [],
-			background: '',
+			avatars: ['/img/characters/captain-storm/storm_point.png'],
+			background: '/img/backgrounds/Spark_Lab.jpg',
+			pos: 'left'
 		},
 		{
 			id: 29,
@@ -263,154 +268,11 @@ const script: Script = {
 		},
 		{
 			id: 34,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 34),
-			avatars: [],
-			background: '',
-			audio: '/audio/level4/computer_voice/L4-S36.mp3',
-		},
-		{
-			id: 35,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 35),
-			avatars: [],
-			background: '',
-		},
-		{
-			id: 36,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 36),
-			avatars: [],
-			background: '',
-			audio: '/audio/level4/computer_voice/L4-S38.mp3',
-		},
-		{
-			id: 37,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 37),
-			avatars: [],
-			background: '',
-		},
-		{
-			id: 38,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 38),
-			avatars: [],
-			background: '',
-		},
-		{
-			id: 39,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 39),
-			avatars: [],
-			background: '',
-		},
-		{
-			id: 40,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 40),
-			avatars: [],
-			background: '',
-		},
-		{
-			id: 41,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 41),
-			avatars: [],
-			background: '',
-		},
-		{
-			id: 42,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 42),
-			avatars: [],
-			background: '',
-		},
-		{
-			id: 43,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 43),
-			avatars: [],
-			background: '',
-			audio: '/audio/level4/computer_voice/L4-S52.mp3',
-		},
-		{
-			id: 44,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 44),
-			avatars: [],
-			background: '',
-			audio: '/audio/level4/computer_voice/L4-S54.mp3',
-		},
-		{
-			id: 45,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 45),
-			avatars: [],
-			background: '',
-			audio: '/audio/level4/computer_voice/L4-S55.mp3',
-		},
-		{
-			id: 46,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 46),
-			avatars: [],
-			background: '',
-		},
-		{
-			id: 47,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 47),
-			avatars: [],
-			background: '',
-			audio: '/audio/level4/computer_voice/L4-S57.mp3',
-		},
-		{
-			id: 48,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 48),
-			avatars: [],
-			background: '',
-			audio: '/audio/level4/computer_voice/L4-S58.mp3',
-		},
-		{
-			id: 49,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 49),
-			avatars: [],
-			background: '',
-			audio: '/audio/level4/computer_voice/L4-S59.mp3',
-		},
-		{
-			id: 50,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 50),
-			avatars: [],
-			background: '',
-			audio: '/audio/level4/computer_voice/L4-S60.mp3',
-		},
-		{
-			id: 51,
 			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 51),
-			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 34, { agentName: agent.agent_name || 'Agent' }),
+			avatars: ['/img/characters/captain-storm/storm_wave.png', '/img/characters/agent-spark/spark_wave.png', '/img/characters/agent-fern/fern_wave.png', '/img/characters/agent-gear/vanil_wave.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level4/captain_storm/captain_storm_l4s61.mp3',
-		},
-		{
-			id: 52,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 52),
-			avatars: [],
-			background: '',
-			audio: '/audio/level4/computer_voice/52.mp3',
-		},
-		{
-			id: 53,
-			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 53),
-			avatars: [],
-			background: '',
+			audio: '/audio/level5/captain_storm/captain_storm_l5s15.mp3',
 		},
 	],
 };

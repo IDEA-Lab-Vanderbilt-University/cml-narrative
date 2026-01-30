@@ -19,6 +19,13 @@
 	import TraininatorMain from '$lib/components/activities/traininator/TraininatorMain.svelte';
 	import Codinator from '$lib/components/activities/Codinator.svelte';
 	import TextResponse from '$lib/components/activities/free-response/TextResponse.svelte';
+	import SurveyOption from '$lib/components/activities/survey/SurveyOption.svelte';
+	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
+	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
+	import { Questions, QuestionsAudio } from '$lib/components/activities/survey/SurveyQuestions.js';
+	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
+	import { BadgesByName } from '$lib/utils/Assets/Badges';
+	import Confetti from 'svelte-confetti';
 
 	export let data;
 
@@ -213,19 +220,132 @@
 	let classNamesFromTravelLog: string[] = [];
 
 
+
+    // For the ImageResponseModal
+	let message = '';
+	let isSuccess = false;
+	let showFeedbackModal = false;
+	let submissionType = '';
+	
+
+    async function onFeedbackClose() {
+        showFeedbackModal = false;
+        if (doSubmit) {
+            onSubmit();
+        }
+    }
+
+    const onSubmit = () => {
+        handleNavigation(NavigationDirection.forward);
+    };
+
+    // For post survey
+	let questionIndex: number = 0;
+
+    let questionsAndResponse = Questions.map((question) => {
+        return {
+            question: question,
+            response: null
+        };
+    });
+
+	/**
+	 * Gets the next question from the questionsAndResponse object array
+	 *
+	 * We will check to make sure the current question has been answered before we
+	 * allow the user to procede.
+	 *
+	 * TODO: change alert? How can we make the alert a little more appealing?
+	 */
+     const getNextQuestion = async () => {
+		// Determine if the user has selected a response for the presented question
+		if (questionsAndResponse[questionIndex].response != null) {
+			// Check to see if user is at the last survey question
+			if (questionIndex >= questionsAndResponse.length - 1) {
+				console.log('User has finished survey; we can now proceed.');
+
+				try {
+					await DataService.TravelLog.submitTravelLog({
+						description: 'level-5-post-survey',
+						data: JSON.stringify(questionsAndResponse),
+						status: 'complete'
+					});
+
+					message = "Survey responses were recorded successfully!";
+					isSuccess = true;
+
+				} catch (error) {
+					message = "Survey responses submission failed!";
+					isSuccess = false;
+					console.error(error);
+				}
+
+		showFeedbackModal = true;
+        nextButton.disabled = true;
+
+			} else {
+				// Advance to the next question
+				questionIndex += 1;
+
+				// Reset the SurveyOption elements
+				resetButtons();
+			}
+		} else {
+			// User has not selected a response
+			alert('Please select an option first!');
+		}
+	};
+
+	const resetButtons = () => {
+		strongAgreeElement?.reset();
+		agreeElement?.reset();
+		neutralElement?.reset();
+		disagreeElement?.reset();
+		strongDisagreeElement?.reset();
+	};
+
+	var nextButton: HTMLButtonElement | void;
+
+	var strongAgreeElement: SurveyOption | void;
+	var agreeElement: SurveyOption | void;
+	var neutralElement: SurveyOption | void;
+	var disagreeElement: SurveyOption | void;
+	var strongDisagreeElement: SurveyOption | void;
+
+    /**
+	 * This function is called when a SurveyOption is clicked. The proper survey response should be passed in
+	 * as parameter. Then, that response is saved to the current questionsAndResponse object
+	 *
+	 * @param response survey response selection
+	 */
+	const handleSelection = (response: string) => {
+		resetButtons();
+		// @ts-ignore
+		questionsAndResponse[questionIndex].response = response;
+	};
+
+	// Disable the next button until a response is selected or there are no more questions
+	$: {
+		if (nextButton != undefined) {
+			nextButton.disabled = questionIndex >= questionsAndResponse.length || questionsAndResponse[questionIndex].response == null;
+		}
+	}
+
+    let confetti = 0;
+
 </script>
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-        {#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17)}
+        {#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 34}
             <DialogBox {line} on:dialogEvent={handleDialogEvent} />
         {/if}
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
-        {#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17)}
+        {#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 34}
 			<TabletButton on:click={() => { 
-				if(lineNumber == 16) {
+				if(lineNumber == 16 || lineNumber == 28) {
 					handleNavigation(NavigationDirection.forward);
 					return;
 				}
@@ -236,7 +356,7 @@
 				
 				content?.dispatchEvent(event);
 			}}
-			pulse={lineNumber == 16}
+			pulse={lineNumber == 16 || lineNumber == 28}
 			/>
         {/if}
 
@@ -390,9 +510,139 @@
 		{#if lineNumber == 21}
 			<TextResponseModal 
 				prompt={["My Robot Will Be Named:"]}
+				singleLine={true}
 				onSuccess={() => goto('/level4new?page=22')}
 			/>
 		{/if}
+		{#if lineNumber == 22}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<div class="robostepintro">
+					<h2><img src="/img/icons/robotrain.png" alt="Train"/> Train &amp; Test</h2>
+					<p>
+						You are about to enter the Traininator, where you will input data to train your robot to identify different classes. Then you will enter the Codeinator, where you will create instructions for your AI robot to achieve its goal.
+					</p>
+					<button class="nicebtn" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4new?page=23';
+							return progress;
+						});
+						
+						goto('/level4new?page=23');
+					}}>
+						Next
+					</button>
+				</div>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 23}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				
+			</Tablet>
+		{/if}
+		{#if lineNumber == 24}
+			<TextResponseModal 
+				prompt={["Problem to Solve", "Who My Robot Helps", "Image Categories", "What My Robot Will Do", "My Robot Will Be Named:"]}
+				singleLine={[false, false, false, false, true]}
+				onSuccess={() => goto('/level4new?page=23')}
+			/>
+		{/if}
+		{#if lineNumber == 25}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<TraininatorMain 
+					onComplete={() => goto('/level4new?page=23')}
+				/>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 26}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<Codinator 
+					iframeStyle="height: 80vh;"
+					buttonLabel="Finish"
+					onComplete={() => goto('/level4new?page=23')}
+				/>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 29}
+			<Tablet showMeter={false} showBottomButtons={false}>
+				<TabletMenu apps={[
+					{
+						id: "travelLog",
+						title: "Travel Logs",
+						img: Assets.Tablet.travelLogIcon,
+						color: "rgb(85,205,110)"
+					},
+				]}
+
+				onSelect={(selection) => {
+					goto('/level4new?page=30');
+				}}
+				/>
+			</Tablet>
+		{/if}
+		{#if lineNumber == 30}
+            <Tablet showMeter={false} showBottomButtons={false}>
+                <div class="flex flex-col items-center justify-center h-full gap-4">
+                    <p class="text-3xl text-center text-white p-4">
+                        Mission Control needs to know a few more things before you get your final badge!
+                    </p>
+                    <button class="nicebtn" on:click={() => {
+                        handleNavigation(NavigationDirection.forward);
+                    }}>Continue</button>
+                </div>
+            </Tablet>
+		{/if}
+		{#if lineNumber == 31}
+            <TextResponseModal id="algorithmsPost" promptedTechnology={"an Algorithm"} onSuccess={() => {
+                handleNavigation(NavigationDirection.forward);
+            }} />
+        {/if}
+		{#if lineNumber == 32}
+			<Tablet>
+				<AudioPlayer src={QuestionsAudio[questionIndex]} />
+
+                {#if showFeedbackModal}
+                    <FeedbackModal {message} {isSuccess} on:close={() => { goto('/level4new?page=33'); }} />
+                {/if}
+                <div
+                    on:submit|preventDefault
+                    class="ml-auto mr-auto flex h-full w-1/2 flex-col  items-center justify-center space-y-6  text-white" id="bod">
+                    <div class="hud-red-blue-border w-full" id="question-box">
+                        <p class="text-center text-3xl text-white" id="question">{questionsAndResponse[questionIndex].question}</p>
+                    </div>
+                    <div class="hud-red-blue-border flex w-3/4 flex-col space-y-4 p-4 text-3xl" id="options">
+                        <SurveyOption emoji="😃" response="Strongly Agree" on:click={() => handleSelection('Strongly Agree')} bind:this={strongAgreeElement} />
+                        <SurveyOption emoji="🙂" response="Agree" on:click={() => handleSelection('Agree')} bind:this={agreeElement} />
+                        <SurveyOption emoji="😐" response="Neutral" on:click={() => handleSelection('Neutral')} bind:this={neutralElement} />
+                        <SurveyOption emoji="🙁" response="Disagree" on:click={() => handleSelection('Disagree')} bind:this={disagreeElement} />
+                        <SurveyOption emoji="☹️" response="Strongly Disagree" on:click={() => handleSelection('Strongly Disagree')} bind:this={strongDisagreeElement} />
+                    </div>
+                    <div class="flex w-full items-end justify-end">
+                        <button
+                            class="next-button rounded-xl bg-blue-300 px-4 py-2 text-3xl font-bold text-black"
+                            on:click={getNextQuestion}
+                            bind:this={nextButton}    
+                        >Next</button>
+                    </div>
+                </div>
+            </Tablet>
+		{/if}
+		{#if lineNumber == 33}
+            <BadgeGetModal 
+                badge={BadgesByName['Junior Agent']}
+                handleClick={() => {
+                    handleNavigation(NavigationDirection.forward);
+                }}            
+            />
+		{/if}
+
+        {#if lineNumber == 34}
+        <div id="confettiholder">
+            {#key confetti}
+                <Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+            {/key}
+        </div>
+        {/if}
+		
     </div>
 </Scene>
 
@@ -459,39 +709,6 @@
     #nextbutton:active {
         transform: scale(0.9);
     }
-
-	.robostepsummarybuttons {
-		display: flex;
-		justify-content: space-evenly;
-		width: 100%;
-	}
-
-	.robostepsummarybuttons button, .robostependsummary button, .nicebtn {
-		background: radial-gradient(farthest-corner at bottom right, #49c5ff 75%, #fff 100%);
-		background-color: #49c5ff;
-		color: #111;
-		border: none;
-		border: 2px solid #289dd3;
-		height: 7vh;
-		border-radius: 3.5vh;
-		padding: 1vh 2vw;
-		font-size: 1.5rem;
-		cursor: pointer;
-		transition: 0.3s;
-		display: block;
-	}
-	.robostepsummarybuttons button:not(:disabled):hover, .robostependsummary button:not(:disabled):hover, .nicebtn:not(:disabled):hover {
-		transform: scale(1.05);
-	}
-
-	.robostepsummarybuttons button:not(:disabled):active, .robostependsummary button:not(:disabled):active, .nicebtn:not(:disabled):active {
-		transform: scale(0.95);
-	}
-	
-	.robostepsummarybuttons button:disabled, .robostependsummary button:disabled, .nicebtn:disabled {
-		filter: grayscale(1);
-		cursor: not-allowed;
-	}
 
 	.examples {
 		display: flex;

@@ -12,6 +12,7 @@
 		title?: string;
 		prompt?: string;
 		placeholder?: string;
+		singleLine?: boolean;
 	}
 
 	let response: string = '';
@@ -35,6 +36,7 @@
     export let placeholder: string | undefined = undefined;
 	export let prefill: string | Record<string, string> | undefined = undefined;
 	export let audio: string | undefined = undefined;
+	export let singleLine: boolean | boolean[] | undefined = undefined;
 
 	// Determine mode and parse prompts
 	$: {
@@ -43,9 +45,13 @@
 			// Convert array to PromptItem objects
 			promptItems = prompt.map((item, index) => {
 				if (typeof item === 'string') {
+					const isSingleLine = Array.isArray(singleLine) 
+						? singleLine[index] ?? false 
+						: singleLine ?? false;
 					return {
 						id: `prompt_${index}`,
 						prompt: item,
+						singleLine: isSingleLine,
 					};
 				}
 				return item;
@@ -219,10 +225,18 @@
 					{#if item.prompt}
 						<p class="response-prompt">{item.prompt}</p>
 					{/if}
-					<textarea
-						class="response-textarea"
-						placeholder={item.placeholder || 'Enter your response...'}
-						bind:value={multiResponses[item.id]} />
+					{#if item.singleLine}
+						<input
+							type="text"
+							class="response-input"
+							placeholder={item.placeholder || 'Enter your response...'}
+							bind:value={multiResponses[item.id]} />
+					{:else}
+						<textarea
+							class="response-textarea"
+							placeholder={item.placeholder || 'Enter your response...'}
+							bind:value={multiResponses[item.id]} />
+					{/if}
 					{#if recordingItemId === item.id}
 						<p class="recording-indicator">Recording...</p>
 					{/if}
@@ -315,6 +329,27 @@
 	}
 
 	.response-textarea:focus {
+		outline: none;
+		border-color: #49c5ff;
+		box-shadow: 0 0 10px rgba(73, 197, 255, 0.5);
+	}
+
+	.response-input {
+		border: 2px dashed white;
+		border-radius: 0.375rem;
+		background-color: transparent;
+		color: white;
+		padding: 0.75rem;
+		font-size: 1.25rem;
+		font-family: inherit;
+		width: 100%;
+	}
+
+	.response-input::placeholder {
+		color: rgba(255, 255, 255, 0.5);
+	}
+
+	.response-input:focus {
 		outline: none;
 		border-color: #49c5ff;
 		box-shadow: 0 0 10px rgba(73, 197, 255, 0.5);
