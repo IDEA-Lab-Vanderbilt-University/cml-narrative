@@ -15,12 +15,10 @@
 	import { Assets } from '$lib/utils/Assets';
 	import TextResponseModal from '$lib/components/activities/free-response/TextResponseModal.svelte';
 	import ImageResponseModal from '$lib/components/activities/free-response/ImageResponseModal.svelte';
-	import RobotStepsModal from '$lib/components/modals/RobotStepsModal.svelte';
 	import { get } from 'svelte/store';
-	import WaitForTeacherModal from '$lib/components/modals/WaitForTeacherModal.svelte';
-	import SecretCodeModal from '$lib/components/modals/SecretCodeModal.svelte';
 	import TraininatorMain from '$lib/components/activities/traininator/TraininatorMain.svelte';
 	import Codinator from '$lib/components/activities/Codinator.svelte';
+	import TextResponse from '$lib/components/activities/free-response/TextResponse.svelte';
 
 	export let data;
 
@@ -194,27 +192,6 @@
 		}
 
 		logsLoaded = true;
-
-		if(lineNumber == 51 || lineNumber == 52){
-			// Create a robotshowcase travel log if it doesn't exist
-			let logs = await DataService.TravelLog.getTravelLogs('robotshowcase');
-
-			// Create a new travel log if there are no existing pending logs
-			logs = logs.filter((log) => {
-				return log.status == 'pending';
-			});
-
-
-			if(logs.length == 0) {
-				await DataService.TravelLog.createPendingTravelLog({
-					data: JSON.stringify({ 
-						response: 'robotshowcase'
-					}),
-					description: 'robotshowcase',
-					status: 'pending'
-				});
-			}
-		}
 	});
 
 	let logsLoaded = false;
@@ -235,146 +212,6 @@
 	let exampleClassNamesValid = false;
 	let classNamesFromTravelLog: string[] = [];
 
-	const validateExampleClassNames = () => {
-		exampleClassNamesValid = true;
-
-		const classNameInputs = document.querySelectorAll('.classnameinput');
-		for (let i = 0; i < classNameInputs.length; i++) {
-			const classNameInput = classNameInputs[i] as HTMLInputElement;
-			if (classNameInput.value.trim() === '') {
-				exampleClassNamesValid = false;
-				break;
-			}
-		}
-
-		return exampleClassNamesValid;
-	};
-
-	const validateExampleClasses = () => {
-		exampleClassesValid = true;
-
-		// Examples must all be out of the initial "Unsorted" class
-		const unsortedClass = document.getElementById('classColumn0');
-		if (unsortedClass) {
-			const examples = unsortedClass.querySelectorAll('.draggableExample');
-			if (examples.length > 0) {
-				exampleClassesValid = false;
-				return false;
-			}
-		}
-
-		// Check if examples are not all in the same class
-		const classColumns = document.querySelectorAll('.classColumn');
-		for (let i = 0; i < classColumns.length; i++) {
-			const classColumn = classColumns[i];
-			const examples = classColumn.querySelectorAll('.draggableExample');
-			if (examples.length > 5) {
-				exampleClassesValid = false;
-				return false;
-			}
-		}
-
-		return exampleClassesValid;
-	};
-
-	const dragExample = (event: DragEvent) => {
-		const target = event.target as HTMLElement;
-		if (target && target.classList.contains('draggableExample')) {
-			target.classList.add('dragging');
-		}
-	};
-
-	const dragEndExample = (event: DragEvent) => {
-		const target = event.target as HTMLElement;
-		if (target && target.classList.contains('draggableExample')) {
-			target.classList.remove('dragging');
-		}
-	};
-
-	const dropExample = (event: DragEvent) => {
-		event.preventDefault();
-		const target = event.target as HTMLElement;
-		if (target && target.classList.contains('classColumn')) {
-			const draggedElement = document.querySelector('.dragging') as HTMLElement;
-			if (draggedElement) {
-				target.appendChild(draggedElement);
-				draggedElement.classList.remove('dragging');
-			}
-		}
-		validateExampleClasses();
-	};
-
-	let drawingSubmitted = false;
-	$: {
-		if(lineNumber == 18) {
-			// Check if drawing was already submitted
-			DataService.TravelLog.getTravelLogs('draw-my-robot').then((travelLogs) => {
-				if (travelLogs.length > 0) {
-					drawingSubmitted = true;
-				}
-			});
-		}
-	}
-
-	$: {
-		if(lineNumber == 20 && !drawingSubmitted) {
-			// Send back to the drawing page
-			studentProgressStore.update((progress) => {
-				progress.last_visited = '/level4new?page=16';
-				return progress;
-			});
-			goto('/level4new?page=16');
-		}
-	}
-
-	let modifyClasses: Record<string, string[]> = {
-		'Modify': ["Training Data Classes","Training Data Set","Purpose of your AI Robot", "AI Algorithm"],
-		'Not Modify': []
-	};
-
-	$: {
-		if(lineNumber == 47 && modifyClasses['Not Modify'].includes('Training Data Classes')) {
-			// Skip to next page
-			studentProgressStore.update((progress) => {
-				progress.last_visited = '/level4new?page=48';
-				return progress;
-			});
-			goto('/level4new?page=48');
-		}
-	}
-
-	$: {
-		if(lineNumber == 48 && modifyClasses['Not Modify'].includes('Training Data Set')) {
-			// Skip to next page
-			studentProgressStore.update((progress) => {
-				progress.last_visited = '/level4new?page=49';
-				return progress;
-			});
-			goto('/level4new?page=49');
-		}
-	}
-
-	$: {
-		if(lineNumber == 49 && modifyClasses['Not Modify'].includes('AI Algorithm')) {
-			// Skip to next page
-			studentProgressStore.update((progress) => {
-				progress.last_visited = '/level4new?page=50';
-				return progress;
-			});
-			goto('/level4new?page=50');
-		}
-	}
-
-	$: {
-		if(lineNumber == 50 && modifyClasses['Not Modify'].includes('Purpose of your AI Robot')) {
-			// Skip to next page
-			studentProgressStore.update((progress) => {
-				progress.last_visited = '/level4new?page=51';
-				return progress;
-			});
-			goto('/level4new?page=51');
-		}
-	}
 
 </script>
 
@@ -542,6 +379,18 @@
 			<TextResponseModal 
 				prompt={["Problem to Solve", "Who My Robot Helps"]}
 				onSuccess={() => goto('/level4new?page=20')}
+			/>
+		{/if}
+		{#if lineNumber == 20}
+			<TextResponseModal 
+				prompt={["Image Categories", "What My Robot Will Do"]}
+				onSuccess={() => goto('/level4new?page=21')}
+			/>
+		{/if}
+		{#if lineNumber == 21}
+			<TextResponseModal 
+				prompt={["My Robot Will Be Named:"]}
+				onSuccess={() => goto('/level4new?page=22')}
 			/>
 		{/if}
     </div>
