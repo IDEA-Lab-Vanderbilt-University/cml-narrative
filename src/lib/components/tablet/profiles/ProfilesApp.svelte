@@ -18,6 +18,7 @@
 	import { Assets } from '$lib/utils/Assets';
 	import { studentDataStore } from '$lib/utils/stores/store';
 	import DataService from '$lib/utils/DataService';
+	import { t } from '$lib/utils/stores/languageStore';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
@@ -73,14 +74,14 @@
 	];
 
 	if (profileData.agent_name && profileData.agent_name != '') {
-		profileExamples.push({
+		profileExamples = [{
 			name: "Agent " + profileData.agent_name,
 			rank: (profileData.progress?.badge_count ?? 0) > 4 ? "Junior Agent" : "Agent in Training",
 			favoriteBadge: '',
 			img: profileData.avatar ?? '',
 			interests: profileData.interests ?? ['','',''],
 			canEdit: true
-		});
+		}, ...profileExamples];
 	}
 
 	let nextButton: HTMLButtonElement | void;
@@ -215,13 +216,13 @@
 					class="btn-primary btn"
 					id="previous"
 					on:click={() => handleNavigation(NavigationDirection.backward)}
-					bind:this={previousButton} >Previous</button>
+				bind:this={previousButton}>{$t('tablet.previous')}</button>
 				<button class="btn-primary btn" disabled on:click={() => handleNavigation(NavigationDirection.forward)}
 					id="next" bind:this={nextButton}>
-					Next
+					{$t('tablet.next')}
 				</button>
 			</div>
-			<button on:click={handleClick} class="btn-secondary btn">Go back</button>
+			<button on:click={handleClick} class="btn-secondary btn">{$t('tablet.goBack')}</button>
 		</div>
 	{/if}
 </div>

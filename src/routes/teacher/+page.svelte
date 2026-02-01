@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
+	import DataService from '$lib/utils/DataService';
 	import { RequestFactory } from '$lib/utils/network/RequestFactory';
 
 	let showSignUp = false;
@@ -116,4 +117,32 @@
 			<p class="text-l font-bold text-gray-800">New Teacher Sign Up</p>
 		</button>
 	{/if}
+
+	<button
+		on:click={() => {
+			goto('/teacher/forgot-password');
+		}}
+		class="mt-5 flex h-8 items-center justify-center gap-5 rounded-full bg-blue-400 bg-opacity-75 px-4 py-3 align-middle shadow-md">
+		<p class="text-l font-bold text-gray-800">Forgot Password</p>
+	</button>
+
+	<button id="return-home" on:click={() => goto('/')} class="mt-10 flex items-center justify-center gap-2 rounded-md bg-white bg-opacity-75 px-4 py-2 align-middle font-mokoto shadow-md">
+		Return to SPOT Home
+		<img src="/img/logos/SPOT-dots.svg" alt="SPOT Logo" class="inline-block h-6 w-6 ml-2" />
+	</button>
 </div>
+
+<style>
+	#return-home {
+		box-shadow: 0 0 6px rgb(163, 191, 212);
+		transition: all 0.2s ease-in-out;
+	}
+
+	#return-home:hover {
+		transform: scale(1.05);
+	}
+
+	#return-home:active {
+		transform: scale(0.95);
+	}
+</style>

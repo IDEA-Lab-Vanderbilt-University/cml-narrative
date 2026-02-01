@@ -21,11 +21,11 @@
     // Before the second training set is added, Bot Buddy will remind the user to add it
     let showBotBuddyDialog = false;
 
-    const CLASS_NAMES = ['Face', 'No Face'];
+    const CLASS_NAMES = ['Human Face', 'Not a Human Face'];
 
     let trainingSets: Record<string, string[]> = {
-        'Face': [...trainingSetImgs],
-        'No Face': [...trainingSet1NoFaceImgs]
+        [CLASS_NAMES[0]]: [...trainingSetImgs],
+        [CLASS_NAMES[1]]: [...trainingSet1NoFaceImgs]
     };
 
     const startTraining = () => {
@@ -45,8 +45,8 @@
 
         step = 1;
         trainingSets = {
-            'Face': [...trainingSetImgs],
-            'No Face': [...trainingSet1NoFaceImgs]
+            [CLASS_NAMES[0]]: [...trainingSetImgs],
+            [CLASS_NAMES[1]]: [...trainingSet1NoFaceImgs]
         };
         showAddDialog = false;
         set2Added = false;
@@ -75,8 +75,8 @@
     onMount(async () => {
         // Reset training data
         trainingSets = {
-            'Face': [...trainingSetImgs],
-            'No Face': [...trainingSet1NoFaceImgs]
+            [CLASS_NAMES[0]]: [...trainingSetImgs],
+            [CLASS_NAMES[1]]: [...trainingSet1NoFaceImgs]
         };
 
         console.log('Component mounted');
@@ -124,7 +124,7 @@
     const fakeUpload = () => {
         trainingSets = {
             ...trainingSets,
-            'Face': [...trainingSets['Face'], ...trainingSet2FaceImgs]
+            [CLASS_NAMES[0]]: [...trainingSets[CLASS_NAMES[0]], ...trainingSet2FaceImgs]
         };
 
         showAddDialog = false; 
@@ -137,8 +137,8 @@
 
             trainModel(
                 [
-                    trainingSets['Face'],
-                    trainingSets['No Face'],
+                    trainingSets[CLASS_NAMES[0]],
+                    trainingSets[CLASS_NAMES[1]],
                 ],
                 booster,
                 (progress) => {
@@ -241,8 +241,8 @@
             <div id="right">
                 <div class="header">Training Data</div>
                 <div id="trainingSets">
-                    <TraininatorImageSet className="Face" imgs={trainingSets['Face']} booster={booster} allowAdd={!set2Added} onAdd={() => { showAddDialog = true}} />
-                    <TraininatorImageSet className="No Face" imgs={trainingSets['No Face']} booster={booster} />
+                    <TraininatorImageSet className="{CLASS_NAMES[0]}" imgs={trainingSets[CLASS_NAMES[0]]} booster={booster} allowAdd={!set2Added} onAdd={() => { showAddDialog = true}} />
+                    <TraininatorImageSet className="{CLASS_NAMES[1]}" imgs={trainingSets[CLASS_NAMES[1]]} booster={booster} />
                 </div>
             </div>
         </div>
@@ -267,7 +267,7 @@
                     ['-', '-']
                 ]} />
 
-                <button id="trainButton" on:click={() => {step = 4;}}>Test Model</button>
+                <button id="trainButton" class="testButton" on:click={() => {step = 4;}}>Test Model</button>
             </div>
             <div id="right">
                 <div class="header">Testing Model</div>
@@ -280,7 +280,9 @@
         <div class="header">Testing Model</div>
         <TraininatorProgressBar trainingProgress={testingProgress} trainingStep={testingStep} />
     {:else if step == 5}
-        <TraininatorCard prediction={predictions[activeTestImg]} image={testSet1Imgs[activeTestImg]} classes={CLASS_NAMES} choice={nextTestImage} />
+        <TraininatorCard prediction={predictions[activeTestImg]} image={testSet1Imgs[activeTestImg]} classes={CLASS_NAMES} choice={nextTestImage} 
+            buttonTextOverrides={["It's a Human Face", "It's Not a Human Face"]}
+        />
     {:else if step == 6}
         <div id="traininatorbody">
             <div id="left">
@@ -340,7 +342,7 @@
             <div id="addDialogInner">
                 <div class="header">Add Training Set Images...</div>
                 <div id="trainingSets">
-                    <TraininatorImageSet className="Face" imgs={trainingSet2FaceImgs} booster={booster} />
+                    <TraininatorImageSet className="{CLASS_NAMES[0]}" imgs={trainingSet2FaceImgs} booster={booster} />
                 </div>
                 <button id="trainButton" on:click={fakeUpload}>Upload</button>
             </div>
@@ -551,5 +553,10 @@
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+    }
+
+    .testButton {
+        position: absolute;
+        bottom: 4vh;
     }
 </style>

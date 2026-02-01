@@ -4,10 +4,11 @@
 	import { onMount } from "svelte";
 	import Tablet from "../tablet/Tablet.svelte";
 	import ProfilesApp from "../tablet/profiles/ProfilesApp.svelte";
-	import { tabletModalActive } from "$lib/utils/stores/store";
+	import { showLanguageChoice, tabletModalActive } from "$lib/utils/stores/store";
 	import TabletMenu from "../tablet/TabletMenu.svelte";
 	import BadgesApp from "../tablet/badges/BadgesApp.svelte";
 	import TravelLogsApp from "../tablet/travel-logs/TravelLogsApp.svelte";
+	import LanguageMenu from "../LanguageMenu.svelte";
 
     export let hidden = true;
 
@@ -54,6 +55,12 @@
         {:else}
             <TabletMenu onSelect={(selection) => appMode = selection} />
         {/if}
+
+			{#if showLanguageChoice}
+			<div class="absolute bottom-4 left-4" >
+				<LanguageMenu />
+			</div>
+			{/if}
     </Tablet>
 </div>
 

@@ -20,7 +20,7 @@
 	import WaitForTeacherModal from '$lib/components/modals/WaitForTeacherModal.svelte';
 	import SecretCodeModal from '$lib/components/modals/SecretCodeModal.svelte';
 	import TraininatorMain from '$lib/components/activities/traininator/TraininatorMain.svelte';
-	import { browser } from '$app/environment';
+	import Codinator from '$lib/components/activities/Codinator.svelte';
 
 	export let data;
 
@@ -206,7 +206,7 @@
 
 
 			if(logs.length == 0) {
-				await DataService.TravelLog.submitTravelLog({
+				await DataService.TravelLog.createPendingTravelLog({
 					data: JSON.stringify({ 
 						response: 'robotshowcase'
 					}),
@@ -411,21 +411,25 @@
 		<Tablet showMeter={false} showBottomButtons={false}>
 			<TabletMenu apps={[
 				{
+					id: "travelLog",
 					title: "Travel Logs",
 					img: Assets.Tablet.travelLogIcon,
 					color: "rgb(85,205,110)"
 				},
 				{
+					id: "profile",
 					title: "Profiles",
 					img: Assets.Tablet.profileIcon,
 					color: "rgb(185,90,210)"
 				},
 				{
+					id: "badges",
 					title: "Badges",
 					img: Assets.Tablet.badgesIcon,
 					color: "rgb(0,175,210)"
 				},
 				{
+					id: "robotprototype",
 					title: "Robot Prototype",
 					img: Assets.Tablet.robotPrototypeIcon,
 					color: "rgb(200, 80, 50)"
@@ -433,7 +437,8 @@
 			]}
 
 			onSelect={(selection) => {
-				if(selection == "Robot Prototype") {
+				console.log(selection);
+				if(selection == "robotprototype") {
 					goto('/level4?page=9');
 				}
 			}}
@@ -573,7 +578,7 @@
 					</button>
 					<button class="nextBtn" on:click={() => {
 						// Submit the robot design
-						DataService.TravelLog.submitTravelLog({
+						DataService.TravelLog.createPendingTravelLog({
 							data: JSON.stringify({ 
 							response:
 `For the future, I will design an AI robot with special abilities. It will be able to ${robotAbilities}! 
@@ -950,7 +955,7 @@ Next
 							classNamesFromTravelLog = classes.map((classItem) => classItem.name);
 
 							// Submit the teacher version of the training data
-							await DataService.TravelLog.submitTravelLog({
+							await DataService.TravelLog.createPendingTravelLog({
 								data: JSON.stringify({ 
 									response: teacherVersion
 								}),
@@ -1153,43 +1158,17 @@ Next
 		{/if}
 		{#if lineNumber == 37}
 			<Tablet showMeter={false} showBottomButtons={false}>
-				<iframe src="https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id={get(accessTokenStore)}&host={browser? window.location.origin : ''}"
-					id="codinatorIframe" frameborder="0" title="The Codinator"  allow="camera; microphone; bluetooth" ></iframe>
-				<button class="nicebtn" id="codinatorSubmit" on:click={() => {
-					// Submit the robot code by passing a postMessage to the iframe
-					const codinatorIframe = document.getElementById('codinatorIframe');
-					if (codinatorIframe && codinatorIframe instanceof HTMLIFrameElement) {
-						// Wait for the iframe to respond with travelLogSubmitted
-						let waitForResponse = (event) => {
-							if (event.data.type === 'travelLogSubmitted') {
-								// The travel log has been submitted successfully
-								studentProgressStore.update((progress) => {
-									progress.last_visited = '/level4?page=38';
-									return progress;
-								});
-								
-								window.removeEventListener('message', waitForResponse);
-
-								// Go to the next page
-								goto('/level4?page=38');
-							}
-						};
-
-						window.addEventListener('message', waitForResponse);
-						
-						// Send a submitTravelLog message to the iframe to submit the code (data is description, status)
-						codinatorIframe.contentWindow?.postMessage({
-							type: 'submitTravelLog',
-							data: {
-								description: 'robotcode',
-								status: 'pending'
-							}
-						}, '*');
-					}
-
-				}}>
-					Submit
-				</button>
+				<Codinator
+					description="robotcode"
+					status="pending"
+					on:submitted={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4?page=38';
+							return progress;
+						});
+						goto('/level4?page=38');
+					}}
+				/>
 			</Tablet>
 		{/if}
 		{#if lineNumber == 38}
@@ -1275,44 +1254,19 @@ Next
 						Hit Next when complete
 					</p>
 
-
-				<iframe src="https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id={get(accessTokenStore)}&host={browser? window.location.origin : ''}"
-					id="codinatorIframe" frameborder="0" title="The Codinator"  allow="camera; microphone; bluetooth" style="height: 65vh;" ></iframe>
-				<button class="nicebtn" id="codinatorSubmit" on:click={() => {
-					// Submit the robot code by passing a postMessage to the iframe
-					const codinatorIframe = document.getElementById('codinatorIframe');
-					if (codinatorIframe && codinatorIframe instanceof HTMLIFrameElement) {
-						// Wait for the iframe to respond with travelLogSubmitted
-						let waitForResponse = (event) => {
-							if (event.data.type === 'travelLogSubmitted') {
-								// The travel log has been submitted successfully
-								studentProgressStore.update((progress) => {
-									progress.last_visited = '/level4?page=43';
-									return progress;
-								});
-								
-								window.removeEventListener('message', waitForResponse);
-
-								// Go to the next page
-								goto('/level4?page=43');
-							}
-						};
-
-						window.addEventListener('message', waitForResponse);
-
-						// Send a submitTravelLog message to the iframe to submit the code (data is description, status)
-						codinatorIframe.contentWindow?.postMessage({
-							type: 'submitTravelLog',
-							data: {
-								description: 'robotcodetested',
-								status: 'complete'
-							}
-						}, '*');
-					}
-
-				}}>
-					Next
-				</button>
+					<Codinator
+						description="robotcodetested"
+						status="complete"
+						buttonLabel="Next"
+						iframeStyle="height: 65vh;"
+						on:submitted={() => {
+							studentProgressStore.update((progress) => {
+								progress.last_visited = '/level4?page=43';
+								return progress;
+							});
+							goto('/level4?page=43');
+						}}
+					/>
 				</div>
 			</Tablet>
 		{/if}
@@ -1415,7 +1369,11 @@ Next
 							
 							if(examples.length > 0) {
 								const exampleTexts = Array.from(examples).map((example) => example.textContent);
-								classes[classColumn.querySelector('.classColumnTitle').textContent] = exampleTexts;
+								const col = classColumn?.querySelector('.classColumnTitle')?.textContent;
+
+								if(col) {
+									classes[col] = exampleTexts;
+								}
 							}
 						}
 						await DataService.TravelLog.submitTravelLog({
@@ -1555,43 +1513,21 @@ Next
 					<p>
 						You are now ready to demonstrate your AI robot! Hit Next when you are finished showing off your robot.
 					</p>
-					<iframe src="https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id={get(accessTokenStore)}&host={browser? window.location.origin : ''}"
-					id="codinatorIframe" frameborder="0" title="The Codinator"  allow="camera; microphone; bluetooth" style="height: 65vh;" ></iframe>
-					<button class="nicebtn" id="codinatorSubmit" on:click={() => {
-						// Submit the robot code by passing a postMessage to the iframe
-						const codinatorIframe = document.getElementById('codinatorIframe');
-						if (codinatorIframe && codinatorIframe instanceof HTMLIFrameElement) {
-							// Wait for the iframe to respond with travelLogSubmitted
-							let waitForResponse = (event) => {
-								if (event.data.type === 'travelLogSubmitted') {
-									// The travel log has been submitted successfully
-									studentProgressStore.update((progress) => {
-										progress.last_visited = '/level4?page=53';
-										return progress;
-									});
-									
-									window.removeEventListener('message', waitForResponse);
-
-									// Go to the next page
-									goto('/level4?page=53');
-								}
-							};
-
-							window.addEventListener('message', waitForResponse);
-
-							// Send a submitTravelLog message to the iframe to submit the code (data is description, status)
-							codinatorIframe.contentWindow?.postMessage({
-								type: 'submitTravelLog',
-								data: {
-									description: 'robotcodetested',
-									status: 'complete'
-								}
-							}, '*');
-						}
-
-					}}>
-						Next
-					</button>
+					<Codinator
+						description="robotshowcase"
+						status="pending"
+						buttonLabel="Next"
+						iframeStyle="height: 65vh;"
+						confirmBefore={true}
+						confirmMessage={"Are you sure you're done demonstrating your robot?"}
+						on:submitted={() => {
+							studentProgressStore.update((progress) => {
+								progress.last_visited = '/level4?page=53';
+								return progress;
+							});
+							goto('/level4?page=53');
+						}}
+					/>
 				</div>
 			</Tablet>
 		{/if}
@@ -1610,7 +1546,7 @@ Next
 						progress.last_visited = '/level4?page=53';
 						return progress;
 					});
-					goto('/level4?page=53');
+					goto('/level4?page=52');
 				}}
 			/>
 		{/if}
@@ -1788,15 +1724,4 @@ Next
 		border-radius: 25px;
 	}
 
-	#codinatorIframe {
-		width: 100%;
-		height: 75vh;
-		border: none;
-	}
-
-	#codinatorSubmit {
-		position: absolute;
-		bottom: 2vh;
-		right: 2vh;
-	}
 </style>

@@ -104,8 +104,18 @@
 
 	let model: tf.Sequential;
 
+
+	let uploading = false;
+
 	async function uploadModel() {
 		try {
+			// Prevent multiple uploads
+			if (uploading) {
+				return;
+			}
+
+			uploading = true;
+
             let student_id = get(studentDataStore).id;
 
             if (!student_id) {
@@ -141,6 +151,8 @@
 		} catch (error) {
 			alert('Error uploading model');
 			console.log(error);
+		} finally {
+			uploading = false;
 		}
 	}
 

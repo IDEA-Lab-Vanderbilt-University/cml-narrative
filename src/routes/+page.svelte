@@ -4,8 +4,10 @@
 
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import { debugMode } from '$lib/utils/stores/store';
+	import { debugMode, showLanguageChoice } from '$lib/utils/stores/store';
 	import { goto } from '$app/navigation';
+	import LanguageMenu from '$lib/components/LanguageMenu.svelte';
+	import { t } from '$lib/utils/stores/languageStore';
 
 	let showTablet: boolean = false;
 	let showLogIn: boolean = false;
@@ -33,8 +35,8 @@
 			class="absolute inset-0 z-10 flex flex-col items-center justify-center px-72 py-32 align-middle">
 			{#if screenState == HomeScreenStates.home}
 				<div id="toptext" class="font-mokoto space-y-4 text-center text-white">
-					<h2 class="text-5xl" in:fade|global={{ delay: 500 }}>WELCOME TO S.P.O.T</h2>
-					<p class="text-xl" in:fade|global={{ delay: 700 }}>Solving Problems of Tomorrow</p>
+					<h2 class="text-5xl" in:fade|global={{ delay: 500 }}>{$t('home.welcomeToSpot')}</h2>
+					<p class="text-xl" in:fade|global={{ delay: 700 }}>{$t('home.solvingProblems')}</p>
 				</div>
 				<div class="mt-10 space-x-3" in:fade|global={{ delay: 1500 }}>
 					<div id="button-container" class="mt-10 space-x-3" in:fade|global={{ delay: 1500 }}>
@@ -48,33 +50,35 @@
 									return;
 								}
 								screenState = HomeScreenStates.signUp;
-							}}>Login Agent</button>
+							}}>{$t('home.loginAgent')}</button>
 					</div>
 				</div>
 				<img id="spotdots" src="/img/logos/SPOT-dots.svg" alt="" class="mt-8 h-24" in:fade|global={{ delay: 2000 }} />
+				<div class="mt-10 space-x-3" in:fade|global={{ delay: 1500 }}>
+					<div id="button-container" class="mt-10 space-x-3" in:fade|global={{ delay: 1500 }}>
+						<button
+							id="senior-agent"
+							class="senior-agent rounded-md bg-blue-500 px-2 py-1 text-xl text-white shadow-lg"
+							on:click={() => {
+								stopAudio();
+								goto('/teacher');
+								return;
+							}}>{$t('home.loginSeniorAgent')}</button>
+					</div>
+				</div>
 			{:else if screenState == HomeScreenStates.signUp}
 				<Login on:back={() => (screenState = HomeScreenStates.home)} />
 			{/if} 
+			{#if showLanguageChoice}
+			<div class="absolute bottom-4 left-4" >
+				<LanguageMenu />
+			</div>
+			{/if}
 		</div>
 	</div>
 </div>
 
 <style>
-	#welcome {
-		box-shadow: 0 0 6px rgba(163, 212, 163, 0.613);
-		transition: all 0.2s ease-in-out;
-	}
-
-	#welcome:hover {
-		box-shadow: 0 0 9px rgb(180, 234, 180);
-		transform: scale(1.05);
-	}
-
-	#welcome:active {
-		box-shadow: 0 0 12px rgb(101, 242, 101);
-		transform: scale(1.1);
-	}
-
 	#new-agent {
 		box-shadow: 0 0 6px rgb(212, 163, 163);
 		transition: all 0.2s ease-in-out;
@@ -88,6 +92,14 @@
 	#new-agent:active {
 		box-shadow: 0 0 12px rgb(241, 103, 103);
 		transform: scale(1.1);
+	}
+
+	#senior-agent {
+		box-shadow: 0 0 6px rgb(163, 191, 212);
+		transition: all 0.2s ease-in-out;
+		position: absolute;
+		bottom: 2vh;
+		right: 2vh;
 	}
 
 	#toptext, #spotdots {

@@ -1,43 +1,43 @@
 <script lang="ts">
 	import { Assets } from "$lib/utils/Assets";
 	import SpotApplication from "../sequences/tablet/tablet-tutorial/SpotApplication.svelte";
+    import { t } from "$lib/utils/stores/languageStore";
 
-    export let onSelect: (selection: null | "profile" | "travelLog" | "badges" | "Robot Prototype" ) => void = () => {};
+    export let onSelect: (selection: null | "profile" | "travelLog" | "badges" | "robotprototype" ) => void = () => {};
 
     let handleAppContainerEvent = (e: CustomEvent<{ event: string; id: string }>) => {
         console.log(e.detail);
     };
 
-    export let apps = [
+    type AppItem = { id: "travelLog" | "profile" | "badges" | "robotprototype"; title: string; img: string; color: string };
+    export let apps: AppItem[] = [];
+
+    let displayApps = [...apps];
+    $: if(apps.length == 0) {
+        displayApps = [
         {
-            title: "Travel Logs",
+            id: "travelLog",
+            title: $t("tablet.travelLogs"),
             img: Assets.Tablet.travelLogIcon,
             color: "rgb(85,205,110)"
         },
         {
-            title: "Profiles",
+            id: "profile",
+            title: $t("tablet.profiles"),
             img: Assets.Tablet.profileIcon,
             color: "rgb(185,90,210)"
         },
         {
-            title: "Badges",
+            id: "badges",
+            title: $t("tablet.badges"),
             img: Assets.Tablet.badgesIcon,
             color: "rgb(0,175,210)"
         }
     ];
+    }
 
-    const select = (app: string) => {
-        if (app === "Travel Logs") {
-            onSelect("travelLog");
-        } else if (app === "Profiles") {
-            onSelect("profile");
-        } else if (app === "Badges") {
-            onSelect("badges");
-        } else if (app === "Robot Prototype") {
-            onSelect("Robot Prototype");
-        } else {
-            onSelect(null);
-        }
+    const select = (appId: AppItem["id"]) => {
+        onSelect(appId);
     };
     
 
@@ -46,13 +46,15 @@
 
 
 <div class="flex justify-center" id="tablet-menu">
-    {#each apps as app}
+    {#each displayApps as app}
+    <div>
         <SpotApplication
             color={app.color}
             title={app.title}
             img={app.img}
-            on:click={() => select(app.title)}
+            on:click={() => select(app.id)}
             on:applicationContainerEvent={handleAppContainerEvent} />
+    </div>
     {/each}
 </div>
 

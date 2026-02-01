@@ -46,7 +46,7 @@
                 if (travelLogs.length > 0) {
                     const travelLog = travelLogs[travelLogs.length - 1]; // Get the latest travel log
                     console.log("Travel log status: ", travelLog.status);
-                    if (travelLog.status === "approved") {
+                    if (travelLog.status === "approved" || travelLog.status === "completed" || travelLog.status === "complete") {
                         clearInterval(checkInterval);
                         onSuccess();
                     } else if (travelLog.status === "rejected") {

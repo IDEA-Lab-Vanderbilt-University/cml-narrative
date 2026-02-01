@@ -12,6 +12,7 @@ export interface Student {
 		nanos_since_epoch: number;
 	},
 	progress?: StudentProgress;
+    class_name?: string;
 }
 
 export interface StudentProgress {

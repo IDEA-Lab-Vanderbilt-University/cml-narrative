@@ -302,6 +302,15 @@
             if (correct) {
                 goto('/level1/pizza-algorithm?page=6');
             } else {
+
+                setTimeout(async () => {
+                    await DataService.TravelLog.submitTravelLog({
+                        description: 'pizza-algorithm-parsons-incorrect',
+                        data: 'Incorrect Parsons problem solution submitted',
+                        status: 'completed',
+                    });
+                }, 0);
+                
                 goto('/level1/pizza-algorithm?page=5');
             }
         };
@@ -315,6 +324,20 @@
 
             return algorithmStepStyles[index];
         };
+        
+        const getInverseStepClass = (step: string) => {
+            let index = algorithmSteps.indexOf(step);
+
+            if (index == -1) {
+                return 'hue-rotate-random-' + Math.floor(Math.random() * 360);
+            }
+
+            // Return the inverse hue-rotate class
+            let style = algorithmStepStyles[index];
+            let styleAngle = parseInt(style.replace('hue-rotate-', ''));
+            return `hue-rotate-minus-${styleAngle}`;
+        };
+
 
     </script>
 
@@ -328,6 +351,7 @@
                 <ul id="algo1" bind:this={algo1}>
                     {#each algorithmRandomIndices as i, index}
                         <li class="step {getStepClass(algorithmSteps[i])}">
+                            <img src="/img/icons/pizza-steps/{i}.png" alt={algorithmSteps[i]} class="stepicon {getInverseStepClass(algorithmSteps[i])}" />
                             <p>{algorithmSteps[i]}</p>
                         </li>
                     {/each}
@@ -360,6 +384,13 @@
                             if (correct) {
                                 goto('/level1/pizza-algorithm?page=3');
                             } else {
+                                setTimeout(async () => {
+                                    await DataService.TravelLog.submitTravelLog({
+                                        description: 'pizza-algorithm-incorrect',
+                                        data: 'Incorrect algorithm steps submitted',
+                                        status: 'completed',
+                                    });
+                                }, 0);
                                 goto(`/level1/pizza-algorithm?page=2`);
                             }
                         }}>
@@ -498,6 +529,29 @@
         .hue-rotate-270 {
             filter: drop-shadow(0 0 0.75rem black) hue-rotate(270deg);
         }
+
+        .hue-rotate-minus-0 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(0deg);
+        }
+        .hue-rotate-minus-45 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(-45deg);
+        }
+        .hue-rotate-minus-90 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(-90deg);
+        }
+        .hue-rotate-minus-135 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(-135deg);
+        }
+        .hue-rotate-minus-180 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(-180deg);
+        }
+        .hue-rotate-minus-225 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(-225deg);
+        }
+        .hue-rotate-minus-270 {
+            filter: drop-shadow(0 0 0.75rem black) hue-rotate(-270deg);
+        }
+
         .hue-rotate-random-0 {
             filter: drop-shadow(0 0 0.75rem black) hue-rotate(0deg);
         }
@@ -553,7 +607,7 @@
             padding: 0.75vh;
             height: 8vh;
             display: table;
-            width: 40vw;
+            width: 55vw;
             text-align: center;
             background: repeating-linear-gradient(
             -45deg,
@@ -564,6 +618,7 @@
             );
             border-radius: 3vh;
             border: 0.5vh solid #454545;
+            min-height: 9vh;
         }
 
         .step p {
@@ -576,6 +631,29 @@
             -webkit-text-stroke: 0.02rem #000;
             height: 100%;
             user-select: none;
+        }
+
+        .stepicon {
+            height: 9vh;
+            min-width: 9vh;
+            border-radius: 50%;
+            border: 0.5vh solid #454545;
+            background: white;
+            object-fit: cover;
+            aspect-ratio: 1 / 1;
+            margin-left: 0;
+            position: static;
+            margin-left: -3vh;
+            margin-bottom: -3vh;
+            transform: scale(0.75);
+            position: relative;
+            left: -3vh;
+            top: -1vh;
+            transition: transform 0.3s, filter 0.3s;
+        }
+
+        .step:hover .stepicon {
+            transform: scale(1.0);
         }
 
         .commandBlock {

@@ -75,6 +75,37 @@ const Auth = {
 			}
 		});
 	},
+
+	forgotPassword: async (email: string) => {
+		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				resolve();
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/forgot-password`, 'POST',  email);
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	resetPassword: async (token: string, newPassword: string) => {
+		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				resolve();
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/reset-password`, 'POST', { token, new_password: newPassword });
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
 };
 
 const Student = {
@@ -346,6 +377,16 @@ const Data = {
 			}
 		});
 	},
+	fetchIsTeacherAdmin: async () => {
+		return new Promise<boolean>(async (resolve, reject) => {
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/is-admin`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
 	fetchStudents: async (teacher_id: string, include_progress: boolean = false) => {
 		return new Promise<Student[]>(async (resolve, reject) => {
 			try {
@@ -381,7 +422,7 @@ const Data = {
 		});
 	},
 	registerAllStudents: async (students: Student[]) => {
-		return new Promise<boolean>(async (resolve, reject) => {
+		return new Promise<Array<any> | boolean>(async (resolve, reject) => {
 			try {
 				// let students: Student[] = [];
 				// studentClassStore.subscribe((data) => {
@@ -399,7 +440,7 @@ const Data = {
 						}
 					})
 				);
-				resolve(true);
+				resolve(responses);
 			} catch (error) {
 				reject(false);
 				throw new Error('Error singing up student');
@@ -434,6 +475,22 @@ const Teacher = {
 				reject(error);
 			}
 		});
+	},
+
+	getClasses: async (teacher_id: string) => {
+		return new Promise<any[]>(async (resolve, reject) => {
+			if(debugMode){
+				resolve([]);
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/teachers/${teacher_id}/classes`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
 	}
 };
 
@@ -441,6 +498,7 @@ const TravelLog = {
 	submitTravelLog: async (log: TravelLog) => {
 		return new Promise<void>(async (resolve, reject) => {
 			if(debugMode){
+				console.log('Mocking travel log submission:', log);
 				resolve();
 				return;
 			}
@@ -448,6 +506,40 @@ const TravelLog = {
 			let token = get(accessTokenStore);
 			log.student_id = token;
 
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs`, 'POST', log, token);
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+
+	createPendingTravelLog: async (log: TravelLog) => {
+		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				console.log('Mocking pending travel log creation:', log);
+				resolve();
+				return;
+			}
+
+			let token = get(accessTokenStore);
+			log.student_id = token;
+			log.status = 'pending';
+
+			// Fetch existing pending travel logs
+			const existingLogs = await DataService.TravelLog.getTravelLogs(log.description, token);
+			
+			// Modify existing logs with the same description to 'invalid'
+			console.log(`Found ${existingLogs.length} existing logs with the same description`);
+			for (let existingLog of existingLogs) {
+				if (existingLog.status === 'pending' && existingLog.description === log.description) {
+					console.log(`Modifying pending log ${existingLog.id} to 'invalid'`);
+					existingLog.status = 'invalid';
+					await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs/${existingLog.id}`, 'PUT', existingLog, token);
+				}
+			}
+			
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/travel-logs`, 'POST', log, token);
 				resolve();
@@ -568,10 +660,59 @@ const TravelLog = {
 	},
 };
 
+const Admin = {
+	getAllTeachers: async () => {
+		return new Promise<Teacher[]>(async (resolve, reject) => {
+			if(debugMode){
+				resolve([]);
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/teachers`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	getStudentsForTeacherClass: async (teacher_id: string, class_id: string) => {
+		return new Promise<Student[]>(async (resolve, reject) => {
+			if(debugMode){
+				resolve([]);
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/teachers/${teacher_id}/classes/${class_id}/students`, 'GET');
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	impersonateTeacher: async (teacher_id: string) => {
+		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				resolve();
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/impersonate/${teacher_id}`, 'POST');
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+};
+
 /**
  * DataService is the manager for all of the communication between the frontend and the backend
  */
 const DataService = {
+	Admin,
 	Auth,
 	Data,
 	Student,

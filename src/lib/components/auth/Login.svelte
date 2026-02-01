@@ -1,17 +1,17 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { createEventDispatcher, onMount, onDestroy } from 'svelte';
+	import { onMount, onDestroy } from 'svelte';
 	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
-	import { fade } from 'svelte/transition';
 	import DataService from '$lib/utils/DataService';
 	import type { Student, StudentProgress } from '$lib/types/UserData';
 
-	const dispatch = createEventDispatcher();
-	import { Html5QrcodeScanner } from 'html5-qrcode';
-	import { RequestFactory } from '$lib/utils/network/RequestFactory';
+	import QrScanner from "qr-scanner";
 
-	let html5QrcodeScanner: Html5QrcodeScanner;
+	export let redirectOverride: string | null = null;
+
+	let qrScanner: QrScanner | null = null;
+	let qrVideo: HTMLVideoElement | null = null;
 	let message = '';
 	let isSuccess = false;
 	let showFeedbackModal = false;
@@ -19,28 +19,68 @@
 		last_visited: '/entry',
 	};
 
-	onMount(() => {
-		html5QrcodeScanner = new Html5QrcodeScanner(
-			'reader',
-			{ fps: 10, qrbox: { width: 250, height: 250 } },
-			/* verbose= */ false
-		);
-		html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+	let fileInput: HTMLInputElement | null = null;
+
+	async function onFileChange(event: Event) {
+		const input = event.target as HTMLInputElement;
+		if (input && input.files && input.files[0]) {
+			const file = input.files[0];
+			try {
+				const result = await QrScanner.scanImage(file, { returnDetailedScanResult: true });
+				// result is either a string or a ScanResult object
+				if (typeof result === 'string') {
+					onScanSuccess(result, result);
+				} else if (result && typeof result === 'object' && 'data' in result) {
+					onScanSuccess(result.data, result);
+				} else {
+					message = 'No QR code found.';
+					isSuccess = false;
+					showFeedbackModal = true;
+				}
+			} catch (error) {
+				message = 'No QR code found.';
+				isSuccess = false;
+				showFeedbackModal = true;
+				console.log(error || 'No QR code found.');
+			}
+		}
+	}
+
+	onMount(async () => {
+		try{
+			qrScanner = new QrScanner(
+				qrVideo as HTMLVideoElement,
+				(result: QrScanner.ScanResult) => {
+					onScanSuccess(result.data, result.data);
+				},
+				{
+					returnDetailedScanResult: true,
+					highlightScanRegion: true,
+					highlightCodeOutline: true,
+				}
+			);
+			await qrScanner.start();
+		} catch (error) {
+			console.error('Error starting QR scanner:', error);
+		}
 	});
 
 	onDestroy(() => {
-		html5QrcodeScanner.clear();
+		stopScanner();
 	});
 
-	async function onScanSuccess(decodedText: string, decodedResult: any) {
-		let student: Student = JSON.parse(decodedText);
-		doSignIn(student);
+	function stopScanner() {
+		if (qrScanner) {
+			qrScanner.stop();
+			qrScanner.destroy();
+			qrScanner = null;
+		}
 	}
 
-	function onScanFailure(error: any) {
-		// handle scan failure, usually better to ignore and keep scanning.
-		// for example:
-		console.warn(`Code scan error = ${error}`);
+	async function onScanSuccess(decodedText: string, decodedResult: any) {
+		console.log('QR Code scanned:', decodedText);
+		let student: Student = JSON.parse(decodedText);
+		doSignIn(student);
 	}
 
 	async function doSignIn(user: Student) {
@@ -60,31 +100,32 @@
 			console.log(user);
 			studentDataStore.set(serverUser);
 
-			// Create progress if it doesn't exist
-			if (!serverUser.progress) {
-				let defaultProgress = {
-					student_id: user.id,
-					badge_count: 0,
-					megajoules: 0,
-					updated_at: {
-						secs_since_epoch: new Date().getTime() / 1000,
-						nanos_since_epoch: 0	
-					},
-					last_visited: '/entry'
-				};
+			if (!redirectOverride) {
+				// Create progress if it doesn't exist
+				if (!serverUser.progress) {
+					let defaultProgress = {
+						student_id: user.id,
+						badge_count: 0,
+						megajoules: 0,
+						updated_at: {
+							secs_since_epoch: new Date().getTime() / 1000,
+							nanos_since_epoch: 0	
+						},
+						last_visited: '/entry'
+					};
 
-				serverUser.progress = await DataService.StudentProgress.createProgress(defaultProgress);
+					serverUser.progress = await DataService.StudentProgress.createProgress(defaultProgress);
 
-				// Update user
-				studentDataStore.update((data) => {
-					data.progress = serverUser.progress;
-					return data;
-				});
+					// Update user
+					studentDataStore.update((data) => {
+						data.progress = serverUser.progress;
+						return data;
+					});
+				}
+
+				tempProgress = serverUser.progress;
+				studentProgressStore.set(serverUser.progress);
 			}
-
-			tempProgress = serverUser.progress;
-			studentProgressStore.set(serverUser.progress);
-
 		} catch (err) {
 			message = 'Login Failed!';
 			isSuccess = false;
@@ -96,17 +137,31 @@
 
 	async function onFeedbackClose() {
 		if (isSuccess) {
-			await goto(tempProgress.last_visited || '/entry');
+			if (redirectOverride) {
+				await goto(redirectOverride);
+			} else {
+				await goto(tempProgress.last_visited || '/entry');
+			}
 		}
 		showFeedbackModal = false;
 	}
 </script>
 
 <div class="flex h-full w-full flex-col  items-center justify-center">
-	{#if showFeedbackModal}
-		<FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
-	{/if}
-	<div id="reader"/>
+   {#if showFeedbackModal}
+	   <FeedbackModal {message} {isSuccess} on:close={onFeedbackClose} />
+   {/if}
+   <div id="reader">
+	   <video bind:this={qrVideo} style="width: 100%; height: auto;" class="mt-3 mb-3"><track kind="captions" /></video>
+	   <p class="text-center text-lg font-bold">Scan your QR Code</p>
+	   <p class="text-center text-sm">Make sure the QR code is well-lit and clear.</p>
+	   <div class="flex flex-col items-center mt-4">
+		   <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-2" on:click={() => fileInput && fileInput.click()}>
+			   Scan from Image File
+		   </button>
+		   <input type="file" accept="image/*" bind:this={fileInput} class="hidden" on:change={onFileChange} />
+	   </div>
+   </div>
 </div>
 
 <style>

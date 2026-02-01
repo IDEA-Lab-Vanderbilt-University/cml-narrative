@@ -5,7 +5,8 @@
 	import { goto } from '$app/navigation';
 	import WarpSpeed from '$lib/components/effects/warpspeed';
 	import { fade } from 'svelte/transition';
-	import { studentProgressStore } from '$lib/utils/stores/store';
+	import { settingsStore, studentProgressStore } from '$lib/utils/stores/store';
+	import { get } from 'svelte/store';
 
 	let warpEffect: WarpSpeed | null = null;
 
@@ -50,7 +51,9 @@
 	const timeTravel = () => {
 		console.log('Time Traveling...');
 
-		audioplayer?.play();
+		if (get(settingsStore).audioEnabled) {
+			audioplayer?.play();
+		}
 
 		if (launchButton) {
 			launchButton.disabled = true;

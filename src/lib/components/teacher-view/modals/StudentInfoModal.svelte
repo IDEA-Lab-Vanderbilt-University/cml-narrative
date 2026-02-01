@@ -36,8 +36,16 @@
 				? new Date(student.updated_at.secs_since_epoch * 1000).toLocaleString()
 				: 'NULL'}</td>
 	</tr>
+	<tr>
+		<th>Class Name:</th>
+		<td>{student.class_name || 'Not specified'}</td>
+	</tr>
 
 	{#if student.progress}
+		<tr>
+			<th><u>Progress</u></th>
+			<td></td>
+		</tr>
 		<tr>
 			<th>Last Visited:</th>
 			<td>{student.progress.last_visited}</td>
@@ -51,7 +59,7 @@
 			<td>{student.progress.megajoules}</td>
 		</tr>
 		<tr>
-			<th>Updated At:</th>
+			<th>Progress Updated At:</th>
 			<td>{student.progress.updated_at ? new Date(student.progress.updated_at.secs_since_epoch * 1000).toLocaleString() : 'Never'}</td>
 		</tr>
 	{:else}

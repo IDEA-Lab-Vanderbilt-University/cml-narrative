@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { browser } from '$app/environment';
+	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
 	import DataService from '$lib/utils/DataService';
 	import { createEventDispatcher, onMount } from 'svelte';
 
@@ -110,10 +111,26 @@
 			placeholder = `I think ${promptedTechnology.toLowerCase()} is....`;
 		}
 	}
+
+	let audio = '';
+
+	if (promptedTechnology) {
+		if (promptedTechnology.toLowerCase() == 'an algorithm') {
+			audio = '/audio/level0/L0-S93.mp3';
+		} else if (promptedTechnology.toLowerCase() == 'machine learning') {
+			audio = '/audio/level0/L0-S98.mp3';
+		}
+	}
+
 </script>
 
 <div
 	class="flex h-full w-full flex-col items-center justify-center rounded-md bg-gray-900 bg-opacity-50 p-5 font-mono text-white bg-blend-darken">
+
+	{#if audio}
+		<AudioPlayer src={audio} />
+	{/if}
+
 	<h1 class="font-bold {(title?.length ?? 0) < 100 ? 'text-4xl' : 'text-2xl'}">{title}</h1>
 	<p class="mt-4 text-xl italic">
 		{prompt}

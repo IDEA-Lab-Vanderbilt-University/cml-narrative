@@ -3,6 +3,7 @@
 	import ColorSwatch from "./ColorSwatch.svelte";
 
     export let onSubmit: (img: HTMLImageElement) => void;
+    export let onBack: null | (() => void) = null;
 
 let colors = [
     'red',
@@ -197,6 +198,9 @@ onMount(() => {
 <canvas id="drawing-area" bind:this={canvas}></canvas>
 
 <button on:click={clearCanvas}>Clear</button> <button id="submit" on:click={submit}>Submit</button>
+{#if onBack}
+    <button id="back" on:click={onBack}>Back</button>
+{/if}
 
 
 

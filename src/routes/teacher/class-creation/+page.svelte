@@ -34,6 +34,10 @@
 
 	let editingStudent: Student | null = null;
 
+	let classes: string[] = [];
+	let selectedClass: string | null = null;
+	let isAdmin = false;
+
 	async function logout() {
 		try {
 			const res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/logout`, 'POST');
@@ -57,6 +61,11 @@
 
 	function toggleAllSelections(isSelected: boolean) {
 		selectedStudents = isSelected ? [...$studentClassStore] : [];
+
+		if(selectedClass != null) {
+			selectedStudents = selectedStudents.filter(student => (student.class_name ?? '') === selectedClass);
+		}
+
 		console.log(selectedStudents);
 	}
 
@@ -95,6 +104,11 @@
 
 	const showAddManually = () => {
 		showManual = !showManual;
+		// If opening the manual entry and a class is selected, default it on the new student
+		if (showManual && selectedClass && selectedClass !== '') {
+			// @ts-ignore - in case Student type doesn't include class_name yet
+			newStudent = { ...newStudent, class_name: selectedClass } as any;
+		}
 	};
 
 	const addStudentManually = async () => {
@@ -121,8 +135,22 @@
 	};
 
 	const onParse = async (csv: Student[]): Promise<void> => {
-		await DataService.Data.registerAllStudents(csv);
-		$studentClassStore = [...$studentClassStore, ...csv];
+		if(selectedClass != null) {
+			csv = csv.map(student => ({ ...student, class_name: selectedClass }));
+		}
+
+		let responses = await DataService.Data.registerAllStudents(csv);
+
+		if (responses === false) {
+			message = 'Error uploading CSV file';
+			isSuccess = false;
+			showFeedbackModal = true;
+			return;
+		}
+
+		console.log('CSV upload responses: ', responses);
+		
+		$studentClassStore = [...$studentClassStore, ...responses];
 	};
 
 	function onFeedbackClose() {
@@ -178,7 +206,7 @@
 			}
 
 			// Convert travel log to CSV format
-			csvContent += travelLog.map(e => e.join(",")).join("\n");
+			csvContent += travelLog.map(e => e.join(",")).join("\n") + '\n';
 		}
 
 		// Create a link element to download the CSV file
@@ -192,6 +220,35 @@
 		link.click();
 	};
 
+	function renameClass(oldClassName: string) {
+		const newName = prompt('Enter a new name for the class:', oldClassName);
+		if (!newName || newName.trim() === '') {
+			alert('Class name cannot be empty');
+			return;
+		}
+
+		if (classes.includes(newName)) {
+			alert('Class name already exists');
+			return;
+		}
+
+		if (oldClassName === newName) {
+			alert('Class name is the same, no changes made');
+			return;
+		}
+
+		// Update the class name for each student
+		let studentsToUpdate = $studentClassStore.filter(student => student.class_name === oldClassName);
+		studentsToUpdate.forEach(student => {
+			student.class_name = newName;
+			DataService.Student.updateStudent(student); // Persist change
+		});
+		$studentClassStore = $studentClassStore.map(s => s.class_name === oldClassName ? { ...s, class_name: newName } : s);
+		classes = classes.map(c => c === oldClassName ? newName : c);
+		selectedClass = newName; // Update selected class if it was the renamed one
+
+	}
+
 	onMount(() => {
 		DataService.Data.fetchTeacherID()
 			.then(async (res) => {
@@ -199,6 +256,29 @@
 				teacher = await DataService.Teacher.getTeacher($sessionTeacherID);
 				console.log('Teacher ID: ', $sessionTeacherID);
 				newStudent.teacher_id = $sessionTeacherID;
+
+				DataService.Data.fetchIsTeacherAdmin()
+					.then((result) => {
+						isAdmin = result;
+						if (isAdmin) {
+							console.log('Teacher is admin');
+						} else {
+							console.log('Teacher is not admin');
+						}
+					})
+					.catch((err) => {
+						console.error('Error checking if teacher is admin: ', err);
+					});
+
+				DataService.Teacher.getClasses($sessionTeacherID)
+					.then((c) => {
+						classes = c.filter((className) => className !== ''); // Filter out empty class names
+						console.log('Classes: ', classes);
+					})
+					.catch((err) => {
+						console.error('Error fetching classes: ', err);
+					});
+					
 				fetchStudents();
 			})
 			.catch((err) => {
@@ -221,6 +301,13 @@
 			}
 		});
 	});
+
+	let studentsFiltered = [];
+
+	// Filter students based on selected class
+	$: studentsFiltered = $studentClassStore.filter(student => {
+		return !selectedClass || (student.class_name ?? '') === selectedClass;
+	});
 </script>
 
 <svelte:head>
@@ -240,6 +327,7 @@
 					student={editingStudent}
 					onSave={handleEditSave}
 					onCancel={handleEditCancel}
+					{classes}
 				/>
 			</div>
 		</div>
@@ -249,8 +337,56 @@
 		<h1 class="text-4xl font-bold text-white">Your Students</h1>
 
 		{#if showManual}
-			<ManualStudentEntry {newStudent} onAdd={addStudentManually} />
+			<ManualStudentEntry {newStudent} onAdd={addStudentManually} classes={classes} selectedClass={selectedClass} />
 		{/if}
+
+		<div class="flex w-3/4 items-center justify-between">
+			<div class="flex items-center gap-2 w-full">
+				<!-- Tabs replacing the select dropdown -->
+				<div class="tabs tabs-boxed overflow-x-auto no-scrollbar w-full whitespace-nowrap">
+					<button
+						class="tab whitespace-nowrap text-sm md:text-base {selectedClass === '' || selectedClass === null ? 'tab-active' : ''}"
+						on:click={() => (selectedClass = '', selectedStudents = selectedStudents.filter(student => (student.class_name ?? '') === selectedClass))}
+						aria-selected={selectedClass === '' || selectedClass === null}
+						role="tab"
+						>
+						All Classes
+					</button>
+					{#each classes as c}
+							<button
+								class="tab whitespace-nowrap text-sm md:text-base {selectedClass === c ? 'tab-active' : ''}"
+								on:click={() => (selectedClass = c, selectedStudents = selectedStudents.filter(student => (student.class_name ?? '') === selectedClass))}
+								aria-selected={selectedClass === c}
+								role="tab"
+								>
+								{c}
+								<button
+									class="btn btn-ghost btn-xs"
+									on:click={(e) => { e.stopPropagation(); renameClass(c); }}
+									aria-label={`Rename class ${c}`}
+								>
+									✏️
+								</button>
+							</button>
+					{/each}
+				</div>
+			</div>
+
+			<button
+				class="btn btn-secondary ml-4 flex-shrink-0"
+				on:click={() => {
+					const name = prompt('Enter a new class name:');
+					if (!name) return;
+					const trimmed = name.trim();
+					if (!trimmed) return;
+					if (!classes.includes(trimmed)) {
+						classes = [...classes, trimmed];
+					}
+					selectedClass = trimmed;
+				}}>
+				Add Class
+			</button>
+		</div>
 
 		<table class="w-3/4 rounded bg-blue-50 shadow" style="max-height: {showManual ? '50vh' : '60vh'}; overflow-y: scroll; display: block;">
 			<thead class="text-left table">
@@ -272,7 +408,7 @@
 				</tr>
 			</thead>
 			<tbody class="w-full table">
-			{#each $studentClassStore as student}
+			{#each studentsFiltered as student}
 				<tr
 					class="w-full cursor-pointer text-lg hover:bg-blue-100 hover:shadow-inner"
 					on:click={() => {
@@ -401,4 +537,9 @@
 		box-shadow: 0 0 20px rgba(0,0,0,0.2);
 		z-index: 10000;
 	}
+
+	.no-scrollbar::-webkit-scrollbar { display: none; }
+	.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+	.tabs.tabs-boxed { white-space: nowrap; }
+	.tabs.tabs-boxed > div.inline-flex { display: inline-flex; }
 </style>

@@ -19,11 +19,12 @@
 	import MegaJoulesGetModal from '$lib/components/modals/MegaJoulesGetModal.svelte';
 	import { Assets } from '$lib/utils/Assets';
 	import ImageResponseModal from '$lib/components/activities/free-response/ImageResponseModal.svelte';
-	import { Questions } from '$lib/components/activities/survey/SurveyQuestions.js';
+	import { Questions, QuestionsAudio } from '$lib/components/activities/survey/SurveyQuestions.js';
 	import SurveyOption from '$lib/components/activities/survey/SurveyOption.svelte';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import Confetti from 'svelte-confetti';
 	import { BadgesByName } from '$lib/utils/Assets/Badges.js';
+	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
 
 	export let data;
 
@@ -315,6 +316,8 @@
         {#if lineNumber == 9}
 
             <Tablet>
+				<AudioPlayer src={QuestionsAudio[questionIndex]} />
+
                 {#if showFeedbackModal}
                     <FeedbackModal {message} {isSuccess} on:close={() => { handleNavigation(NavigationDirection.forward); }} />
                 {/if}

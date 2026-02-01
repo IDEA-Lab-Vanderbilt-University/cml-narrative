@@ -5,6 +5,7 @@
 	import type { StudentProgress } from '$lib/types/UserData';
 	import { Badges, type BadgeType } from '$lib/utils/Assets/Badges';
 	import { studentProgressStore } from '$lib/utils/stores/store';
+	import { t } from '$lib/utils/stores/languageStore';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
@@ -61,7 +62,7 @@
             <Badge name={badges[index].name} image={badges[index].image} />
 		</div>
             <div class="text-center text-white text-3xl font-mokoto p-16">
-                You have not earned this badge yet!
+                {$t('tablet.notEarnedYet')}
             </div>
         {:else}
             <Badge name={badges[index].name} image={badges[index].image} />
@@ -77,13 +78,13 @@
 				class="btn-primary btn"
 				id="previous"
 				on:click={() => handleNavigation(NavigationDirection.backward)}
-				bind:this={previousButton} >Previous</button>
+				bind:this={previousButton}>{$t('tablet.previous')}</button>
 			<button class="btn-primary btn" disabled on:click={() => handleNavigation(NavigationDirection.forward)}
 				id="next" bind:this={nextButton}>
-				Next
+				{$t('tablet.next')}
 			</button>
 		</div>
-		<button on:click={handleClick} class="btn-secondary btn">Go back</button>
+		<button on:click={handleClick} class="btn-secondary btn">{$t('tablet.goBack')}</button>
 	</div>
 </div>
 

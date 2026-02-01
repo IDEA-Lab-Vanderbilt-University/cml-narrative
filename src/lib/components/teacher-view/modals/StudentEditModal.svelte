@@ -4,10 +4,12 @@
 	export let student: Student;
 	export let onSave: (student: Student) => void;
 	export let onCancel: () => void;
+	export let classes: string[] = [];
 
 	let first_name = student.first_name;
 	let last_name = student.last_name;
 	let age = student.age;
+	let class_name = student.class_name || '';
 
 
 	function submitEdit() {
@@ -15,7 +17,8 @@
 			...student,
 			first_name,
 			last_name,
-			age
+			age,
+			class_name
 		});
 	}
 
@@ -64,6 +67,17 @@
                     }
                     }/>
                 </td>
+			</tr>
+			<tr>
+				<th>Class Name:</th>
+				<td>
+					<select bind:value={class_name}>
+						<option value="">No Class Selected</option>
+						{#each classes as c}
+							<option value={c}>{c}</option>
+						{/each}
+					</select>
+				</td>
 			</tr>
 		</table>
 			<div style="margin-top: 1.5rem; display: flex; gap: 1rem; justify-content: flex-end;">

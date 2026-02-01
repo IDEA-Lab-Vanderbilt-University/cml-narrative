@@ -8,3 +8,14 @@ export const Questions = [
     'It is important to me that I actively participate in local kids issues:',
     'Most community leaders would listen to me:'
 ];
+
+export const QuestionsAudio = [
+    '/audio/survey/l0s104.mp3',
+    '/audio/survey/l0s105.mp3',
+    '/audio/survey/l0s106.mp3',
+    '/audio/survey/l0s107.mp3',
+    '/audio/survey/l0s108.mp3',
+    '/audio/survey/l0s109.mp3',
+    '/audio/survey/l0s110.mp3',
+    '/audio/survey/l0s111.mp3',
+]
