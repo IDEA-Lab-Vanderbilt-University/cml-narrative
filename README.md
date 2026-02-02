@@ -33,7 +33,7 @@ This will create a new folder in your current working directory called `cml-narr
 
 ### Installing proper dependencies
 
-Once in the `cml-narrative` directory AND Node and npm are installed, run the command `cd application` to enter the directory in which the actual application lives. Once there, run `npm install` to install the required dependencies. This may take a while if it is the first time running. 
+Once in the `cml-narrative` directory AND Node and npm are installed, run the command `cd application` to enter the directory in which the actual application lives. Once there, run `npm install --dev` to install the required dependencies. This may take a while if it is the first time running. 
 
 ### Running the application
 
