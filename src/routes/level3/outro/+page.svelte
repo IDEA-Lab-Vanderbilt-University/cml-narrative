@@ -8,7 +8,7 @@
 	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
+	import { studentDataStore, studentProgressStore, useNewLevel4 } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level3/outro/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -49,7 +49,11 @@
 		if (direction == NavigationDirection.forward) {
 			if (line.id == script.lines.length) {
                 // Next level
-				target = '/level4?page=1';
+				if (useNewLevel4) {
+					target = '/level4new?page=1';
+				} else {
+					target = '/level4?page=1';
+				}
 			} else {
 				target = `/level3/outro?page=${line.id + 1}`;
 			}

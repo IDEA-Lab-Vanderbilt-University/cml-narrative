@@ -38,6 +38,7 @@ import { browser } from '$app/environment';
 
 export let debugMode = false;
 export let showLanguageChoice = false;
+export let useNewLevel4 = false;
 
 export const settingsStore = persist(
 	writable<Settings>(defaultSettings),
