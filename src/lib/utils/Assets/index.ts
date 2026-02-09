@@ -12,11 +12,15 @@
 
 import { Characters } from './Characters';
 import { Tablet } from './Tablet';
+import { getAudioPath } from './AudioPath';
 
 /**
  * This object defines all of the assets and their respective URLs that we will use throughout the application.
  */
 export const Assets = {
 	Characters,
-	Tablet
+	Tablet,
+	Audio: {
+		getPath: getAudioPath
+	}
 };

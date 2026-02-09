@@ -1,5 +1,12 @@
 <script lang="ts">
 	import { getContext } from 'svelte';
+	import { getTranslation, type Language } from '$lib/utils/translations';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
 	// @ts-ignore
 	const { close } = getContext('simple-modal');
@@ -127,9 +134,9 @@
 	};
 </script>
 
-<p class="mb-8 text-lg font-bold">Upload CSV/XLSX of student data following the proper schema.</p>
+<p class="mb-8 text-lg font-bold">{getTranslation(currentLanguage, 'common.upload.uploadCsvXlsx')}</p>
 
-<Dropzone on:drop={handleFilesSelect}>Drag CSV/XLSX here or click to find document</Dropzone>
+<Dropzone on:drop={handleFilesSelect}>{getTranslation(currentLanguage, 'common.upload.dragFilesHere')}</Dropzone>
 
 <div class="mt-8 flex flex-col space-y-5">
 	{#if files.accepted.length > 0}
@@ -139,11 +146,11 @@
 			{/each}
 		</ol>
 	{:else}
-		<p>No Files Uploaded!</p>
+		<p>{getTranslation(currentLanguage, 'common.upload.noFilesUploaded')}</p>
 	{/if}
 
 	<button
 		class={`btn ${files.accepted.length > 0 ? 'btn-primary' : 'btn-disabled'} `}
-		on:click={handleUpload}>Upload</button>
-	<button class={'btn btn-primary'} on:click={getSampleCSV}>Get Sample CSV</button>
+		on:click={handleUpload}>{getTranslation(currentLanguage, 'common.upload.upload')}</button>
+	<button class={'btn btn-primary'} on:click={getSampleCSV}>{getTranslation(currentLanguage, 'common.upload.getSampleCsv')}</button>
 </div>

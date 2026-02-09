@@ -11,24 +11,31 @@
 --->
 <script lang="ts">
 	import type { Student } from '$lib/types/UserData';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import { getTranslation, type Language } from '$lib/utils/translations';
 
 	export let profileData: Student;
+	
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-10">
-	<h1 class="text-6xl text-white">What is your name?</h1>
+	<h1 class="text-6xl text-white">{getTranslation(currentLanguage, 'introduction.profileName.heading')}</h1>
 	<div class="flex w-full justify-center space-x-7">
 		<div class="form-controlw-full h-24 max-w-xs">
 			<input
 				type="text"
-				placeholder="First name"
+				placeholder={getTranslation(currentLanguage, 'introduction.profileName.firstName')}
 				class="input-bordered input h-full w-full font-mono text-4xl"
 				bind:value={profileData.first_name} />
 		</div>
 		<div class="form-control h-24 w-full max-w-xs">
 			<input
 				type="text"
-				placeholder="Last name"
+				placeholder={getTranslation(currentLanguage, 'introduction.profileName.lastName')}
 				class="input-bordered input h-full w-full font-mono text-4xl"
 				bind:value={profileData.last_name} />
 		</div>

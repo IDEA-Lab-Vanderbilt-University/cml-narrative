@@ -5,6 +5,7 @@
 	import TabletButton from '$lib/components/tablet/TabletButton.svelte';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
+	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
 	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
@@ -88,7 +89,7 @@
 				<div id="mapdialogcontent">
 					<img id="mapdialogimage" src={line.avatars[0]} alt={line.speakers[0]} />
 					<p>
-						{line.dialog}
+						{getLineDialog(line)}
 					</p>
 					<button on:click={() => { if(line.id == 35) { goto('/level2?page=36') } else { goto('/level2?page=29') } }}>
 						<div id="mapdialogbuttontext"> 
@@ -133,19 +134,19 @@
 
 		{#if line.id == 17 || line.id == 20}
 		<div id="carscanner">
-			<img src="/img/misc/scanprompt.png" alt={line.dialog}>
+			<img src="/img/misc/scanprompt.png" alt={getLineDialog(line)}>
 		</div>
 		{/if}
 
 		{#if line.id == 18 || line.id == 21}
 		<div id="carscanner">
-			<img src="/img/misc/scanfailed.png" alt={line.dialog}>
+			<img src="/img/misc/scanfailed.png" alt={getLineDialog(line)}>
 		</div>
 		{/if}
 
 		{#if line.id == 27}
 		<div id="licenseplate">
-			<img src="/img/misc/licenseplate.png" alt={line.dialog}>
+			<img src="/img/misc/licenseplate.png" alt={getLineDialog(line)}>
 		</div>
 		{/if}
 

@@ -14,6 +14,7 @@
 	import { script } from '$lib/scripts/level1/outro/index.js';
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
+	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import type { Student, StudentProgress } from '$lib/types/UserData.js';
 	import { BadgesByName } from '$lib/utils/Assets/Badges.js';
 	import DataService from '$lib/utils/DataService/index.js';
@@ -160,7 +161,7 @@
             <ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)}>
                     <div class="border-white border-2 p-4 w-7/12">
                         <p class="text-3xl">
-                            {line.dialog}
+                            {getLineDialog(line)}
                         </p>
                     </div>
             </ReadMessageModal>

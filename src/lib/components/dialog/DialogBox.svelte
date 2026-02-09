@@ -7,6 +7,7 @@
 	import type { Line } from '$lib/types/Script';
 	import { defaultSettings, type Settings } from '$lib/types/Settings';
 	import { settingsStore, tabletModalActive } from '$lib/utils/stores/store';
+	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import typewriter from '$lib/utils/typewriter';
 
 	import { createEventDispatcher } from 'svelte';
@@ -35,9 +36,10 @@
 				clearInterval(currentTypewriter);
 			}
 
-			if(line != undefined && line.dialog != undefined && line.dialog.length > 0) {
+			const dialogText = getLineDialog(line);
+			if(dialogText && dialogText.length > 0) {
 				isTyping = true;
-				currentTypewriter = typewriter(dialogueParagraph, line.dialog, Number.parseInt((settings.textPeriod ?? defaultSettings.textPeriod).toString()), 0, () => {
+				currentTypewriter = typewriter(dialogueParagraph, dialogText, Number.parseInt((settings.textPeriod ?? defaultSettings.textPeriod).toString()), 0, () => {
 					isTyping = false;
 				});
 			} else {
@@ -155,7 +157,7 @@
 					<img src="/img/svg/dialog-arrow.svg" alt="Go Back" class="h-14 w-14" draggable="false" />
 				</button>
 				<p bind:this={dialogueParagraph} class="col-span-3 mt-auto w-full h-full leading-relaxed {settings.fontSize ?? defaultSettings.fontSize}">
-					{line.dialog}
+					{getLineDialog(line)}
 				</p>
 				<button class="forwardbutton" on:click={forward}>
 					<img src="/img/svg/dialog-arrow.svg" alt="Go Forward" class="h-14 w-14" draggable="false"  />

@@ -5,10 +5,17 @@
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import DataService from '$lib/utils/DataService';
 	import type { Student, StudentProgress } from '$lib/types/UserData';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import { getTranslation, type Language } from '$lib/utils/translations';
 
 	import QrScanner from "qr-scanner";
 
 	export let redirectOverride: string | null = null;
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
 	let qrScanner: QrScanner | null = null;
 	let qrVideo: HTMLVideoElement | null = null;
@@ -33,12 +40,12 @@
 				} else if (result && typeof result === 'object' && 'data' in result) {
 					onScanSuccess(result.data, result);
 				} else {
-					message = 'No QR code found.';
+					message = getTranslation(currentLanguage, 'login.invalidQrCode');
 					isSuccess = false;
 					showFeedbackModal = true;
 				}
 			} catch (error) {
-				message = 'No QR code found.';
+				message = getTranslation(currentLanguage, 'login.invalidQrCode');
 				isSuccess = false;
 				showFeedbackModal = true;
 				console.log(error || 'No QR code found.');
@@ -87,13 +94,13 @@
 		try {
 			if (!user.id) {
 				isSuccess = false;
-				message = 'Invalid QR Code';
+				message = getTranslation(currentLanguage, 'login.invalidQrCode');
 				showFeedbackModal = true;
 				return;
 			}
 
 			let serverUser = await DataService.Auth.signIn(user.id);
-			message = 'Login Successful!';
+			message = getTranslation(currentLanguage, 'login.loginSuccessful');
 			isSuccess = true;
 
 			// initialize store
@@ -127,7 +134,7 @@
 				studentProgressStore.set(serverUser.progress);
 			}
 		} catch (err) {
-			message = 'Login Failed!';
+			message = getTranslation(currentLanguage, 'login.loginFailed');
 			isSuccess = false;
 			console.log(err);
 			console.log('login failed');
@@ -153,11 +160,11 @@
    {/if}
    <div id="reader">
 	   <video bind:this={qrVideo} style="width: 100%; height: auto;" class="mt-3 mb-3"><track kind="captions" /></video>
-	   <p class="text-center text-lg font-bold">Scan your QR Code</p>
-	   <p class="text-center text-sm">Make sure the QR code is well-lit and clear.</p>
+	   <p class="text-center text-lg font-bold">{getTranslation(currentLanguage, 'login.scanQrCode')}</p>
+	   <p class="text-center text-sm">{getTranslation(currentLanguage, 'login.ensureWellLit')}</p>
 	   <div class="flex flex-col items-center mt-4">
 		   <button type="button" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mb-2" on:click={() => fileInput && fileInput.click()}>
-			   Scan from Image File
+			   {getTranslation(currentLanguage, 'login.scanFromFile')}
 		   </button>
 		   <input type="file" accept="image/*" bind:this={fileInput} class="hidden" on:change={onFileChange} />
 	   </div>

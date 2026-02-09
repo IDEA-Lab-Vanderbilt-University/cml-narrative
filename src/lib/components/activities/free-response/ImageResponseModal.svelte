@@ -22,9 +22,9 @@
 
     if (promptedTechnology) {
         if (promptedTechnology.toLowerCase() == 'an algorithm') {
-            audio = '/audio/level0/L0-S94.mp3';
+            audio = '/level0/L0-S94.mp3';
         } else if (promptedTechnology.toLowerCase() == 'machine learning') {
-            audio = '/audio/level0/L0-S99.mp3';
+            audio = '/level0/L0-S99.mp3';
         }
     }
 </script>

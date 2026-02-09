@@ -116,9 +116,9 @@
 
 	if (promptedTechnology) {
 		if (promptedTechnology.toLowerCase() == 'an algorithm') {
-			audio = '/audio/level0/L0-S93.mp3';
+			audio = '/level0/L0-S93.mp3';
 		} else if (promptedTechnology.toLowerCase() == 'machine learning') {
-			audio = '/audio/level0/L0-S98.mp3';
+			audio = '/level0/L0-S98.mp3';
 		}
 	}
 
