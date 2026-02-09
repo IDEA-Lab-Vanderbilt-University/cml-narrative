@@ -16,7 +16,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'outro', 1),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S33.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S33.wav',
             pos: 'left',
         },
         {
@@ -25,7 +25,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'outro', 2),
             avatars: ['/img/characters/captain-storm/storm_yeah.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/Computervoice_l2s66.wav',
+            audio: '/level2/computer_voice/Computervoice_l2s66.wav',
         },
         {
             id: 3,
@@ -33,7 +33,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'outro', 3),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/L2-S71.mp3',
+            audio: '/level2/computer_voice/L2-S71.mp3',
         },
         {
             id: 4,
@@ -41,7 +41,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'outro', 4),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/L2-S72.mp3',
+            audio: '/level2/computer_voice/L2-S72.mp3',
         },
         {
             id: 5,
@@ -49,7 +49,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'outro', 5),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/L2-S73.mp3',
+            audio: '/level2/computer_voice/L2-S73.mp3',
         },
         {
             id: 6,
@@ -57,7 +57,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'outro', 6),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S33.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S33.wav',
         },
         {
             id: 7,
@@ -65,7 +65,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'outro', 7),
             avatars: ['/img/characters/agent-gear/agent-gear.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/Computer_voice_L2S39.wav',
+            audio: '/level2/computer_voice/Computer_voice_L2S39.wav',
         },
         {
             id: 8,
@@ -73,7 +73,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'outro', 8),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level2/computer_voice/Computervoice_l2s72.wav',
+            audio: '/level2/computer_voice/Computervoice_l2s72.wav',
         },
         {
             id: 9,
@@ -81,7 +81,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'outro', 9),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/computer_voice/computervoice_megajoules.mp3',
+            audio: '/computer_voice/computervoice_megajoules.mp3',
         },
     ]
 };

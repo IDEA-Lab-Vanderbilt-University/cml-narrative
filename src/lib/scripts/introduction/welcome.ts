@@ -35,7 +35,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'welcome', 1),
 			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s34.wav',
+			audio: '/level0/agent_spark/agent_spark_l0s34.wav',
 			pos: 'left'
 		}
 	]

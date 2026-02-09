@@ -16,7 +16,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaTime', 1),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef Bot - welcome.mp3',
+            audio: '/level1/chef_bot/Chef Bot - welcome.mp3',
             pos: 'left'
         },
         {
@@ -25,7 +25,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaTime', 2),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef_bot_L1S17.wav',
+            audio: '/level1/chef_bot/Chef_bot_L1S17.wav',
             pos: 'left'
         },
         {
@@ -34,7 +34,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaTime', 3),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S18.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S18.wav',
             pos: 'left'
         },
         {
@@ -43,7 +43,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaTime', 4),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S19.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S19.wav',
             pos: 'left'
         },
         {
@@ -52,7 +52,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaTime', 5),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S20.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S20.wav',
             pos: 'left'
         },
         {
@@ -61,7 +61,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaTime', 6),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S21.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S21.wav',
             pos: 'left'
         },
         {
@@ -70,7 +70,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaTime', 7),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S22.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S22.wav',
             pos: 'left'
         },
         {
@@ -79,7 +79,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaTime', 8),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S23.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S23.wav',
             pos: 'left'
         },
         {
@@ -88,7 +88,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaTime', 9),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef_bot_L1S24.wav',
+            audio: '/level1/chef_bot/Chef_bot_L1S24.wav',
             pos: 'left'
         },
     ],

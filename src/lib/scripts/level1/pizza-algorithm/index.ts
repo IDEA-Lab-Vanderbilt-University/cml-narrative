@@ -16,7 +16,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 1),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef_bot_L1S25.wav',
+            audio: '/level1/chef_bot/Chef_bot_L1S25.wav',
         },
         {
             id: 2,
@@ -24,7 +24,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 2),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef_bot_L1S26.wav',
+            audio: '/level1/chef_bot/Chef_bot_L1S26.wav',
         },
         {
             id: 3,
@@ -32,7 +32,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 3),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef_bot_L1S27.wav',
+            audio: '/level1/chef_bot/Chef_bot_L1S27.wav',
         },
         {
             id: 4,
@@ -40,7 +40,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 4),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef Bot - If Then Statements.mp3',
+            audio: '/level1/chef_bot/Chef Bot - If Then Statements.mp3',
         },
         {
             id: 5,
@@ -48,7 +48,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 5),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef Bot - failed.mp3',
+            audio: '/level1/chef_bot/Chef Bot - failed.mp3',
         },
         {
             id: 6,
@@ -56,7 +56,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 6),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/Chef_bot_L1S29.wav',
+            audio: '/level1/chef_bot/Chef_bot_L1S29.wav',
         }
     ],
 };

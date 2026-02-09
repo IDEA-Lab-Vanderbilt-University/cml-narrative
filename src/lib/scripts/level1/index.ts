@@ -24,7 +24,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 1),
 			avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
 			background: '/img/backgrounds/level1/1.png',
-			audio: '/audio/level1/bot_buddy/bot_buddy_l1s1.wav',
+			audio: '/level1/bot_buddy/bot_buddy_l1s1.wav',
 			pos: 'left'
 		},
         {
@@ -33,7 +33,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 2),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level1/1.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s2.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s2.wav',
             pos: 'left'
         },
         {
@@ -42,7 +42,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 3),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/2.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s3.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s3.wav',
             pos: 'left'
         },
         {
@@ -51,7 +51,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 4),
             avatars: ['/img/characters/level-1/host-bot.png', '/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/Pizza_Host_Bot_L1S4.mp3',
+            audio: '/level1/Pizza_Host_Bot_L1S4.mp3',
             pos: 'left'
         },
         {
@@ -60,7 +60,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 5),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s5.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s5.wav',
             pos: 'right'
         },
         {
@@ -69,7 +69,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 6),
             avatars: ['/img/characters/bot-buddy/bot-buddy-pizza.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s6.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s6.wav',
             pos: 'center',
             size: 'full',
         },
@@ -79,7 +79,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 7),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s7.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s7.wav',
             pos: 'left'
         },
         {
@@ -88,7 +88,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 8),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy-2.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s11.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s11.wav',
             pos: 'left'
         },
         {
@@ -97,7 +97,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 9),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/16596.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s12.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s12.wav',
             pos: 'right'
         },
         {
@@ -106,7 +106,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 10),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/16596.png',
-            audio: '/audio/level1/chef_bot/Chef_Bot_L1S13.wav',
+            audio: '/level1/chef_bot/Chef_Bot_L1S13.wav',
             pos: 'left'
         },
         {
@@ -115,7 +115,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 11, { agentName: agent.agent_name || 'Agent' }),
             avatars: ['/img/characters/bot-buddy/bot-buddy-ohno.png'],
             background: '/img/backgrounds/level1/16596.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s14.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s14.wav',
             pos: 'center',
             size: 'full',
         },
@@ -125,7 +125,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'main', 12),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/16596.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s15.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s15.wav',
             pos: 'center',
             size: 'full',
         },

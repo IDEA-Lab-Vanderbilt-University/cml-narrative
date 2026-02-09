@@ -29,7 +29,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 1),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s37.wav'
+			audio: '/level0/computer/computer_l0_s37.wav'
 		},
 		{
 			id: 2,
@@ -37,7 +37,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 2),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s38.wav'
+			audio: '/level0/computer/computer_l0_s38.wav'
 		},
 		{
 			id: 3,
@@ -45,7 +45,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 3),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s39.wav'
+			audio: '/level0/computer/computer_l0_s39.wav'
 		},
 		{
 			id: 4,
@@ -53,7 +53,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 4),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s40.wav'
+			audio: '/level0/computer/computer_l0_s40.wav'
 		},
 		{
 			id: 5,
@@ -61,7 +61,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 5),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s41.wav'
+			audio: '/level0/computer/computer_l0_s41.wav'
 		},
 		{
 			id: 6,
@@ -69,7 +69,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 6),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s42.wav'
+			audio: '/level0/computer/computer_l0_s42.wav'
 		},
 		{
 			id: 7,
@@ -77,7 +77,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 7),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s43.wav'
+			audio: '/level0/computer/computer_l0_s43.wav'
 		},
 		{
 			id: 8,
@@ -85,7 +85,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 8),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s44.wav'
+			audio: '/level0/computer/computer_l0_s44.wav'
 		},
 		{
 			id: 9,
@@ -93,7 +93,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'tabletTutorial', 9),
 			avatars: ['/img/characters/agent-spark/spark_clapping.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/computer/computer_l0_s45.wav'
+			audio: '/level0/computer/computer_l0_s45.wav'
 		}
 	]
 };

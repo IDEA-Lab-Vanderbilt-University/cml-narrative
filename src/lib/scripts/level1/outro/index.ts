@@ -16,7 +16,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 1),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s30.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s30.wav',
             pos: 'right',
         },
         {
@@ -25,7 +25,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 2),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s31.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s31.wav',
             pos: 'right',
         },
         {
@@ -34,7 +34,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 3),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s32.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s32.wav',
             pos: 'right',
         },
         {
@@ -43,7 +43,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 4),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S33.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S33.wav',
             pos: 'left',
         },
         {
@@ -52,7 +52,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 5),
             avatars: ['/img/characters/captain-storm/storm_yeah.png'],
             background: '/img/backgrounds/level1/cafe.png',           
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S34.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S34.wav',
             pos: 'left',
         },
         {
@@ -61,7 +61,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 6),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S35.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S35.wav',
             pos: 'left',
         },
         {
@@ -70,7 +70,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 7),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S36.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S36.wav',
             pos: 'left',
         },
         {
@@ -79,7 +79,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 8),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S37.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S37.wav',
             pos: 'left',
         },
         {
@@ -88,7 +88,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 9),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S38.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S38.wav',
             pos: 'left',
         },
         {
@@ -97,7 +97,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 10),
             avatars: ['/img/characters/captain-storm/storm_yeah.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S39.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S39.wav',
             pos: 'left',
         },
         {
@@ -106,7 +106,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 11),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/computer_voice/Computer_voice_L1S40.wav',
+            audio: '/level1/computer_voice/Computer_voice_L1S40.wav',
             pos: 'left',
         },
         
@@ -116,7 +116,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 12),
             avatars: ['/img/characters/level-1/spot-computer.png'],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/computer_voice/computervoice_megajoules.mp3',
+            audio: '/computer_voice/computervoice_megajoules.mp3',
             pos: 'left',
         },
         {
@@ -125,7 +125,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 13),
             avatars: [ '/img/characters/bot-buddy/bot-buddy-happy.png', '/img/characters/level-1/host-bot.png',],
             background: '/img/backgrounds/level1/cafe.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s43.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s43.wav',
             pos: 'left'
         },
         {
@@ -134,7 +134,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'outro', 14),
             avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
             background: '/img/backgrounds/level1/2.png',
-            audio: '/audio/level1/bot_buddy/bot_buddy_l1s44.wav',
+            audio: '/level1/bot_buddy/bot_buddy_l1s44.wav',
             pos: 'left'
         },
     ]

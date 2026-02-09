@@ -38,27 +38,27 @@
 		<!-- svelte-ignore a11y-no-static-element-interactions -->
 		<!-- svelte-ignore a11y-click-events-have-key-events -->
 		<div on:click|stopPropagation>
-			<h1>{getTranslation(currentLanguage, 'common.settings.title')}</h1>
+			<h1>{getTranslation(currentLanguage, 'settings.title')}</h1>
 			<hr />
-			<label for="textSpeed">{getTranslation(currentLanguage, 'common.settings.textSpeed')}:</label>
+			<label for="textSpeed">{getTranslation(currentLanguage, 'settings.textSpeed')}:</label>
 			<select name="textSpeed" bind:value={settings.textPeriod}>
-				<option value=15>{getTranslation(currentLanguage, 'common.settings.textSpeedFast')}</option>
-				<option value=45>{getTranslation(currentLanguage, 'common.settings.textSpeedMedium')}</option>
-				<option value=75>{getTranslation(currentLanguage, 'common.settings.textSpeedSlow')}</option>
+				<option value=15>{getTranslation(currentLanguage, 'settings.textSpeedFast')}</option>
+				<option value=45>{getTranslation(currentLanguage, 'settings.textSpeedMedium')}</option>
+				<option value=75>{getTranslation(currentLanguage, 'settings.textSpeedSlow')}</option>
 			</select>
 			<hr />
-			<label for="fontSize">{getTranslation(currentLanguage, 'common.settings.fontSize')}:</label>
+			<label for="fontSize">{getTranslation(currentLanguage, 'settings.fontSize')}:</label>
 			<select name="fontSize" bind:value={settings.fontSize}>
-				<option value="text-3xl">{getTranslation(currentLanguage, 'common.settings.fontSizeBig')}</option>
-				<option value="text-2xl">{getTranslation(currentLanguage, 'common.settings.fontSizeMedium')}</option>
-				<option value="text-xl">{getTranslation(currentLanguage, 'common.settings.fontSizeSmall')}</option>
+				<option value="text-3xl">{getTranslation(currentLanguage, 'settings.fontSizeBig')}</option>
+				<option value="text-2xl">{getTranslation(currentLanguage, 'settings.fontSizeMedium')}</option>
+				<option value="text-xl">{getTranslation(currentLanguage, 'settings.fontSizeSmall')}</option>
 			</select>
 			<hr />
-			<label for="audioEnabled">Audio Enabled:</label>
+			<label for="audioEnabled">{getTranslation(currentLanguage, 'settings.audioEnabled')}:</label>
 			<input type="checkbox" name="audioEnabled"  bind:checked={settings.audioEnabled}/>
 			<hr />
 			<!-- svelte-ignore a11y-autofocus -->
-			<button autofocus on:click={() => dialog?.close()}>Save and Close</button>
+			<button autofocus on:click={() => dialog?.close()}>{getTranslation(currentLanguage, 'settings.saveAndClose')}</button>
 		</div>
 	</dialog>
 </div>

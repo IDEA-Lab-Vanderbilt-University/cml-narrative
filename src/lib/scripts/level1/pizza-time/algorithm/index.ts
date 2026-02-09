@@ -16,7 +16,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 1),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s1.wav',
+            audio: '/level1/chef_bot/chef_bot_l1s1.wav',
         },
         {
             id: 2,
@@ -24,7 +24,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 2),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s2.wav',
+            audio: '/level1/chef_bot/chef_bot_l1s2.wav',
         },
         {
             id: 3,
@@ -32,7 +32,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 3),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s3.wav',
+            audio: '/level1/chef_bot/chef_bot_l1s3.wav',
         },
         {
             id: 4,
@@ -40,7 +40,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 4),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s4.wav',
+            audio: '/level1/chef_bot/chef_bot_l1s4.wav',
         },
         {
             id: 5,
@@ -48,7 +48,7 @@ export const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level1', 'pizzaAlgorithm', 6),
             avatars: ['/img/characters/level-1/chef-bot.png'],
             background: '/img/backgrounds/level1/pizza-time/1.png',
-            audio: '/audio/level1/chef_bot/chef_bot_l1s5.wav',
+            audio: '/level1/chef_bot/chef_bot_l1s5.wav',
         }
     ],
 };

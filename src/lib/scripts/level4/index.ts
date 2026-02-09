@@ -17,7 +17,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 1),
 			avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
 			background: '/img/backgrounds/level1/1.png',
-			audio: '/audio/level4/bot_buddy/bot_buddy_l4s1.mp3',
+			audio: '/level4/bot_buddy/bot_buddy_l4s1.mp3',
 			pos: 'left',
 		},
 		{
@@ -33,7 +33,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 3),
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level4/captain_storm/captain_storm_l4s3.mp3',
+			audio: '/level4/captain_storm/captain_storm_l4s3.mp3',
 		},
 		{
 			id: 4,
@@ -41,7 +41,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 4),
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level4/captain_storm/captain_storm_l4s4.mp3',
+			audio: '/level4/captain_storm/captain_storm_l4s4.mp3',
 		},
 		{
 			id: 5,
@@ -49,7 +49,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 5),
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level4/captain_storm/captain_storm_l4s5.mp3',
+			audio: '/level4/captain_storm/captain_storm_l4s5.mp3',
 		},
 		{
 			id: 6,
@@ -57,7 +57,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 6),
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level4/captain_storm/captain_storm_l4s6.mp3',
+			audio: '/level4/captain_storm/captain_storm_l4s6.mp3',
 		},
 		{
 			id: 7,
@@ -65,7 +65,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 7),
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level4/captain_storm/captain_storm_l4s7.mp3',
+			audio: '/level4/captain_storm/captain_storm_l4s7.mp3',
 		},
 		{
 			id: 8,
@@ -87,7 +87,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 10),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S12.mp3',
+			audio: '/level4/computer_voice/L4-S12.mp3',
 		},
 		{
 			id: 11,
@@ -95,7 +95,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 11),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S13.mp3',
+			audio: '/level4/computer_voice/L4-S13.mp3',
 		},
 		{
 			id: 12,
@@ -103,7 +103,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 12),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S14.mp3',
+			audio: '/level4/computer_voice/L4-S14.mp3',
 		},
 		{
 			id: 13,
@@ -111,7 +111,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 13),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S16.mp3',
+			audio: '/level4/computer_voice/L4-S16.mp3',
 		},
 		{
 			id: 14,
@@ -119,7 +119,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 14),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S17.mp3',
+			audio: '/level4/computer_voice/L4-S17.mp3',
 		},
 		{
 			id: 15,
@@ -127,7 +127,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 15),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S18.mp3',
+			audio: '/level4/computer_voice/L4-S18.mp3',
 		},
 		{
 			id: 16,
@@ -135,7 +135,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 16),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S19.mp3',
+			audio: '/level4/computer_voice/L4-S19.mp3',
 		},
 		{
 			id: 17,
@@ -193,7 +193,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 24),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S27.mp3',
+			audio: '/level4/computer_voice/L4-S27.mp3',
 		},
 		{
 			id: 25,
@@ -201,7 +201,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 25),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S28.mp3',
+			audio: '/level4/computer_voice/L4-S28.mp3',
 		},
 		{
 			id: 26,
@@ -209,7 +209,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 26),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S29.mp3',
+			audio: '/level4/computer_voice/L4-S29.mp3',
 		},
 		{
 			id: 27,
@@ -252,7 +252,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 32),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S34.mp3',
+			audio: '/level4/computer_voice/L4-S34.mp3',
 		},
 		{
 			id: 33,
@@ -267,7 +267,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 34),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S36.mp3',
+			audio: '/level4/computer_voice/L4-S36.mp3',
 		},
 		{
 			id: 35,
@@ -282,7 +282,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 36),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S38.mp3',
+			audio: '/level4/computer_voice/L4-S38.mp3',
 		},
 		{
 			id: 37,
@@ -332,7 +332,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 43),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S52.mp3',
+			audio: '/level4/computer_voice/L4-S52.mp3',
 		},
 		{
 			id: 44,
@@ -340,7 +340,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 44),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S54.mp3',
+			audio: '/level4/computer_voice/L4-S54.mp3',
 		},
 		{
 			id: 45,
@@ -348,7 +348,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 45),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S55.mp3',
+			audio: '/level4/computer_voice/L4-S55.mp3',
 		},
 		{
 			id: 46,
@@ -363,7 +363,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 47),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S57.mp3',
+			audio: '/level4/computer_voice/L4-S57.mp3',
 		},
 		{
 			id: 48,
@@ -371,7 +371,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 48),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S58.mp3',
+			audio: '/level4/computer_voice/L4-S58.mp3',
 		},
 		{
 			id: 49,
@@ -379,7 +379,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 49),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S59.mp3',
+			audio: '/level4/computer_voice/L4-S59.mp3',
 		},
 		{
 			id: 50,
@@ -387,7 +387,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 50),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/L4-S60.mp3',
+			audio: '/level4/computer_voice/L4-S60.mp3',
 		},
 		{
 			id: 51,
@@ -395,7 +395,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 51),
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level4/captain_storm/captain_storm_l4s61.mp3',
+			audio: '/level4/captain_storm/captain_storm_l4s61.mp3',
 		},
 		{
 			id: 52,
@@ -403,7 +403,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4', 'main', 52),
 			avatars: [],
 			background: '',
-			audio: '/audio/level4/computer_voice/52.mp3',
+			audio: '/level4/computer_voice/52.mp3',
 		},
 		{
 			id: 53,

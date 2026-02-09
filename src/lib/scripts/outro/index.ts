@@ -36,7 +36,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'outro', 'main', 1, { agentName: agent.agent_name || 'Agent' }),
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/Spark_Lab_time_machine.png',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s107.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s107.wav',
 			pos: 'left'
 		},
 		{
@@ -45,7 +45,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'outro', 'main', 2),
 			avatars: ['/img/characters/captain-storm/storm_point.png'],
 			background: '/img/backgrounds/Spark_Lab_time_machine.png',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s108.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s108.wav',
 			pos: 'left'
 		}
 	]

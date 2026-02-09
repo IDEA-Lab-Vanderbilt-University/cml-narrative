@@ -41,7 +41,7 @@ const script: Script = {
 				'/img/characters/agent-spark/spark_gesture_1_inverted.png'
 			],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s48.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s48.wav',
 			pos: 'normal'
 		},
 		{
@@ -50,7 +50,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 2, { agentName: agent.agent_name || 'Agent' }),
 			avatars: ['/img/characters/agent-fern/fern_wave_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_fern/agent_fern_l0s52.mp3',
+			audio: '/level0/agent_fern/agent_fern_l0s52.mp3',
 			pos: 'left'
 		},
 		{
@@ -59,7 +59,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 3),
 			avatars: ['/img/characters/agent-fern/fern_talking.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_fern/agent_fern_l0s53.mp3',
+			audio: '/level0/agent_fern/agent_fern_l0s53.mp3',
 			pos: 'right'
 		},
 		{
@@ -68,7 +68,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 4),
 			avatars: ['/img/characters/captain-storm/storm_unsure.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s55.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s55.wav',
 			pos: 'left'
 		},
 		{
@@ -77,7 +77,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 5),
 			avatars: ['/img/characters/agent-fern/fern_oh_no.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_fern/agent_fern_l0s56.mp3',
+			audio: '/level0/agent_fern/agent_fern_l0s56.mp3',
 			pos: 'right'
 		},
 		{
@@ -86,7 +86,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 6),
 			avatars: ['/img/characters/agent-gear/vanilla_strong_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/agent_gear/agent_gear_l0s57.wav',
+			audio: '/level0/agent_gear/agent_gear_l0s57.wav',
 			pos: 'right'
 		},
 		{
@@ -95,7 +95,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 7),
 			avatars: ['/img/characters/bot-buddy/bot-buddy-smug.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/bot_buddy/bot_buddy_l0s59.wav',
+			audio: '/level0/bot_buddy/bot_buddy_l0s59.wav',
 			pos: 'left'
 		},
 		{
@@ -104,7 +104,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 8),
 			avatars: ['/img/characters/captain-storm/storm_better_laugh.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/crash-bang.mp3',
+			audio: '/level0/crash-bang.mp3',
 			pos: 'left'
 		},
 		{
@@ -113,7 +113,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 9),
 			avatars: ['/img/characters/bot-buddy/bot-buddy-happy.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/bot_buddy/bot_buddy_l0s63.wav',
+			audio: '/level0/bot_buddy/bot_buddy_l0s63.wav',
 			pos: 'left'
 		},
 		{
@@ -122,7 +122,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 10),
 			avatars: ['/img/characters/captain-storm/storm_2_thumbs_up.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s65.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s65.wav',
 			pos: 'left'
 		},
 		{
@@ -131,7 +131,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 11, { agentName: agent.agent_name || 'Agent' }),
 			avatars: ['/img/characters/captain-storm/storm_gesture_4_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s66.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s66.wav',
 			pos: 'left'
 		},
 		{
@@ -140,7 +140,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 12),
 			avatars: ['/img/characters/captain-storm/clapping_storm.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s67.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s67.wav',
 			pos: 'left'
 		},
 		{
@@ -149,7 +149,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 13),
 			avatars: ['/img/characters/captain-storm/gesture_2_storm_inverted.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s68.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s68.wav',
 			pos: 'left'
 		},
 		{
@@ -158,7 +158,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 14),
 			avatars: ['/img/characters/agent-groups/spot_agents.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/spot_agents/level0_s69_you_can_count_on_us_01.wav',
+			audio: '/level0/spot_agents/level0_s69_you_can_count_on_us_01.wav',
 			pos: 'left'
 		},
 		{
@@ -167,7 +167,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'botBuddy', 15),
 			avatars: ['/img/characters/agent-groups/spot_agents_2.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s70.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s70.wav',
 			pos: 'left'
 		}
 	]

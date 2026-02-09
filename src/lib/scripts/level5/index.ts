@@ -20,7 +20,7 @@ const script: Script = {
             avatars: ['/img/characters/captain-storm/storm_lol.png'],
             background: '/img/backgrounds/captain_office.jpg',
             pos: 'left',
-            audio: '/audio/level5/captain_storm/captain_storm_l5s1.mp3'
+            audio: '/level5/captain_storm/captain_storm_l5s1.mp3'
         },
         {
             id: 2,
@@ -29,7 +29,7 @@ const script: Script = {
             avatars: ['/img/characters/captain-storm/storm_thumbs_up_inverted.png'],
             background: '/img/backgrounds/captain_office.jpg',
             pos: 'left',
-            audio: '/audio/level5/captain_storm/captain_storm_l5s2.mp3'
+            audio: '/level5/captain_storm/captain_storm_l5s2.mp3'
         },
         {
             id: 3,
@@ -44,7 +44,7 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level5', 'main', 4),
             avatars: [],
             background: '',
-            audio: '/audio/level5/L5-S4.mp3'
+            audio: '/level5/L5-S4.mp3'
         },
         {
             id: 5,
@@ -95,7 +95,7 @@ const script: Script = {
             avatars: ['/img/characters/captain-storm/clapping_storm_inverted.png', '/img/characters/agent-gear/vanil_wave.png', '/img/characters/agent-fern/fern_wave.png', '/img/characters/agent-spark/spark_wave.png'],
             background: '/img/backgrounds/Spark_Lab.jpg',
             pos: 'left',
-            audio: '/audio/level5/captain_storm/captain_storm_l5s15.mp3'
+            audio: '/level5/captain_storm/captain_storm_l5s15.mp3'
         }
     ]
 };

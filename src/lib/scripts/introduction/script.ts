@@ -29,7 +29,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 1),
 			avatars: ['/img/characters/captain-storm/storm_yeah.png'],
 			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s1.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s1.wav',
 			pos: 'right'
 		},
 		{
@@ -38,7 +38,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 2),
 			avatars: ['/img/characters/captain-storm/gesture_2_storm.png'],
 			background: '/img/backgrounds/captain_office.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s2.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s2.wav',
 			pos: 'right'
 		},
 		{
@@ -47,7 +47,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 3),
 			avatars: ['/img/characters/captain-storm/storm_thumbs_up.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s12.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s12.wav',
 			pos: 'right'
 		},
 		{
@@ -59,7 +59,7 @@ const script: Script = {
 				'/img/characters/captain-storm/storm_gesture_4.png'
 			],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s13.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s13.wav',
 			pos: 'normal'
 		},
 		{
@@ -71,7 +71,7 @@ const script: Script = {
 				'/img/characters/captain-storm/storm_gesture_4.png'
 			],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s14.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s14.wav',
 			pos: 'normal'
 		},
 		{
@@ -83,7 +83,7 @@ const script: Script = {
 				'/img/characters/captain-storm/storm_gesture_4.png'
 			],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/captain_storm/captn_storm_l0s15.wav',
+			audio: '/level0/captain_storm/captn_storm_l0s15.wav',
 			pos: 'normal'
 		},
 		{
@@ -92,7 +92,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 7),
 			avatars: ['/img/characters/agent-spark/spark_wave.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s14.wav',
+			audio: '/level0/agent_spark/agent_spark_l0s14.wav',
 			pos: 'right'
 		},
 		{
@@ -101,7 +101,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 8),
 			avatars: ['/img/characters/agent-spark/spark_surprised.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s16.wav',
+			audio: '/level0/agent_spark/agent_spark_l0s16.wav',
 			pos: 'right'
 		},
 		{
@@ -110,7 +110,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 9),
 			avatars: ['/img/characters/agent-spark/spark_gesture_1.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s18.wav',
+			audio: '/level0/agent_spark/agent_spark_l0s18.wav',
 			pos: 'left'
 		},
 		{
@@ -122,7 +122,7 @@ const script: Script = {
 				'/img/characters/agent-spark/spark_gesture_1_inverted.png'
 			],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s19.wav',
+			audio: '/level0/agent_spark/agent_spark_l0s19.wav',
 			pos: 'normal'
 		},
 		{
@@ -134,7 +134,7 @@ const script: Script = {
 				'/img/characters/agent-spark/spark_gesture_1_inverted.png'
 			],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s20.wav',
+			audio: '/level0/agent_spark/agent_spark_l0s20.wav',
 			pos: 'normal'
 		},
 		{
@@ -143,7 +143,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 12),
 			avatars: ['/img/characters/agent-spark/spark_aww.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s21.wav',
+			audio: '/level0/agent_spark/agent_spark_l0s21.wav',
 			pos: 'left'
 		},
 		{
@@ -152,7 +152,7 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'introduction', 'main', 13),
 			avatars: ['/img/characters/agent-spark/spark_talking.png'],
 			background: '/img/backgrounds/Agency_Walkway.jpg',
-			audio: '/audio/level0/agent_spark/agent_spark_l0s22.mp3',
+			audio: '/level0/agent_spark/agent_spark_l0s22.mp3',
 			pos: 'left'
 		}
 	]
