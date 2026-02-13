@@ -142,7 +142,7 @@
 		on:keydown|stopPropagation
 		on:keypress|stopPropagation
 		on:keyup|stopPropagation
-		 />
+		/>
 	{#if isRecording}
 		<p class="mt-9 text-xl italic">Recording...</p>
 	{/if}

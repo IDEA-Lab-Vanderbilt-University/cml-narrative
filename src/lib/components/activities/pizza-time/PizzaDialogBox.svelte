@@ -99,17 +99,20 @@
 		switch (event.key) {
 			case 'ArrowRight':
 			case ' ':
+				event.preventDefault(); // Prevent default spacebar scrolling behavior
 				forward();
 				break;
 			case 'ArrowLeft':
+				event.preventDefault();
 				back();
+				break;
 			default:
 				break;
 		}
 	};
 </script>
 
-<svelte:window on:keydown|preventDefault={handleKeydownEvent} />
+<svelte:window on:keydown={handleKeydownEvent} />
 
 <div id="dialogueroot" class="bg-jet">
 	{#if getLineDialog(line)}

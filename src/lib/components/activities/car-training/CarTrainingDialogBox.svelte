@@ -102,9 +102,11 @@
 		switch (event.key) {
 			case 'ArrowRight':
 			case ' ':
+				event.preventDefault(); // Prevent default spacebar scrolling behavior
 				if(showNext) forward();
 				break;
 			case 'ArrowLeft':
+				event.preventDefault();
 				if(showBack) back();
 				break;
 			default:
@@ -114,7 +116,7 @@
 
 </script>
 
-<svelte:window on:keydown|preventDefault={handleKeydownEvent} />
+<svelte:window on:keydown={handleKeydownEvent} />
 
 <div id="dialogueroot" class="flex flex-col items-center justify-end">
 	<div class="davatar">
