@@ -138,7 +138,11 @@
 	<textarea
 		class="textarea textarea-bordered  mx-12 mt-9 h-1/2 w-full border-4 border-dashed border-white bg-transparent text-xl"
 		placeholder={placeholder}
-		bind:value={response} />
+		bind:value={response}
+		on:keydown|stopPropagation
+		on:keypress|stopPropagation
+		on:keyup|stopPropagation
+		/>
 	{#if isRecording}
 		<p class="mt-9 text-xl italic">Recording...</p>
 	{/if}

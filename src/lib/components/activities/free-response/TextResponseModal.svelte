@@ -26,6 +26,7 @@
 	let canRecord = false;
 	let recordingItemId: string | null = null;
 	let recognition: any;
+	let hasInitialized = false; // Track if we've initialized from prefill
 
     export let onSuccess: (result: string | Record<string, string>) => void;
     export let id: string | undefined = undefined;
@@ -57,18 +58,25 @@
 				return item;
 			});
 			
-			// Initialize multi responses
-			if (typeof prefill === 'object' && prefill !== null) {
-				multiResponses = { ...prefill };
-			}
-			promptItems.forEach((item) => {
-				if (!(item.id in multiResponses)) {
-					multiResponses[item.id] = '';
+			// Initialize multi responses only once
+			if (!hasInitialized) {
+				if (typeof prefill === 'object' && prefill !== null) {
+					multiResponses = { ...prefill };
 				}
-			});
+				promptItems.forEach((item) => {
+					if (!(item.id in multiResponses)) {
+						multiResponses[item.id] = '';
+					}
+				});
+				hasInitialized = true;
+			}
 		} else {
 			isMultiMode = false;
-			response = (typeof prefill === 'string' ? prefill : '') || '';
+			// Only set response from prefill if we haven't initialized yet
+			if (!hasInitialized) {
+				response = (typeof prefill === 'string' ? prefill : '') || '';
+				hasInitialized = true;
+			}
 		}
 	}
 
@@ -230,12 +238,18 @@
 							type="text"
 							class="response-input"
 							placeholder={item.placeholder || 'Enter your response...'}
-							bind:value={multiResponses[item.id]} />
+						bind:value={multiResponses[item.id]}
+						on:keydown|stopPropagation
+						on:keypress|stopPropagation
+						on:keyup|stopPropagation />
 					{:else}
 						<textarea
 							class="response-textarea"
 							placeholder={item.placeholder || 'Enter your response...'}
-							bind:value={multiResponses[item.id]} />
+						bind:value={multiResponses[item.id]}
+						on:keydown|stopPropagation
+						on:keypress|stopPropagation
+						on:keyup|stopPropagation />
 					{/if}
 					{#if recordingItemId === item.id}
 						<p class="recording-indicator">Recording...</p>

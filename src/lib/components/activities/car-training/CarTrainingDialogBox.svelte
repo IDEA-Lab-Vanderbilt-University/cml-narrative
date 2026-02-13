@@ -93,12 +93,20 @@
 	 *
 	 */
 	 const handleKeydownEvent = (event: KeyboardEvent) => {
+		// Don't capture keyboard events when user is typing in an input/textarea
+		const target = event.target as HTMLElement;
+		if (target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA' || target?.isContentEditable) {
+			return;
+		}
+
 		switch (event.key) {
 			case 'ArrowRight':
 			case ' ':
+				event.preventDefault(); // Prevent default spacebar scrolling behavior
 				if(showNext) forward();
 				break;
 			case 'ArrowLeft':
+				event.preventDefault();
 				if(showBack) back();
 				break;
 			default:
@@ -108,7 +116,7 @@
 
 </script>
 
-<svelte:window on:keydown|preventDefault={handleKeydownEvent} />
+<svelte:window on:keydown={handleKeydownEvent} />
 
 <div id="dialogueroot" class="flex flex-col items-center justify-end">
 	<div class="davatar">
