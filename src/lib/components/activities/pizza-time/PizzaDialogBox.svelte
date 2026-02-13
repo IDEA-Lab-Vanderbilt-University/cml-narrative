@@ -90,6 +90,12 @@
 	 *
 	 */
 	 const handleKeydownEvent = (event: KeyboardEvent) => {
+		// Don't capture keyboard events when user is typing in an input/textarea
+		const target = event.target as HTMLElement;
+		if (target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA' || target?.isContentEditable) {
+			return;
+		}
+
 		switch (event.key) {
 			case 'ArrowRight':
 			case ' ':

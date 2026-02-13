@@ -89,6 +89,12 @@
 	 *
 	 */
 	 const handleKeydownEvent = (event: KeyboardEvent) => {
+		// Don't capture keyboard events when user is typing in an input/textarea
+		const target = event.target as HTMLElement;
+		if (target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA' || target?.isContentEditable) {
+			return;
+		}
+
 		// Do not allow navigation if the dialogue is still typing or if the tablet modal is up
 		if (navigationLocked) return;
 

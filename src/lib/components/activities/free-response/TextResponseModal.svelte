@@ -230,12 +230,18 @@
 							type="text"
 							class="response-input"
 							placeholder={item.placeholder || 'Enter your response...'}
-							bind:value={multiResponses[item.id]} />
+						bind:value={multiResponses[item.id]}
+						on:keydown|stopPropagation
+						on:keypress|stopPropagation
+						on:keyup|stopPropagation />
 					{:else}
 						<textarea
 							class="response-textarea"
 							placeholder={item.placeholder || 'Enter your response...'}
-							bind:value={multiResponses[item.id]} />
+						bind:value={multiResponses[item.id]}
+						on:keydown|stopPropagation
+						on:keypress|stopPropagation
+						on:keyup|stopPropagation />
 					{/if}
 					{#if recordingItemId === item.id}
 						<p class="recording-indicator">Recording...</p>
