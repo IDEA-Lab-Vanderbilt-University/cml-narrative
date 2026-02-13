@@ -106,37 +106,6 @@ const Auth = {
 			}
 		});
 	},
-
-	forgotPassword: async (email: string) => {
-		return new Promise<void>(async (resolve, reject) => {
-			if(debugMode){
-				resolve();
-				return;
-			}
-
-			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/forgot-password`, 'POST',  email);
-				resolve();
-			} catch (error) {
-				reject(error);
-			}
-		});
-	},
-	resetPassword: async (token: string, newPassword: string) => {
-		return new Promise<void>(async (resolve, reject) => {
-			if(debugMode){
-				resolve();
-				return;
-			}
-
-			try {
-				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/reset-password`, 'POST', { token, new_password: newPassword });
-				resolve();
-			} catch (error) {
-				reject(error);
-			}
-		});
-	},
 };
 
 const Student = {
