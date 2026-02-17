@@ -78,10 +78,10 @@
 
     let content: HTMLDivElement | null;
 
-	let robotAbilities = '';
-	let robotHelp = '';
-	let robotImportance = '';
-	let robotBias = '';
+	let robotProblem = '';
+	let robotHelps = '';
+	let robotCategories = '';
+	let robotAction = '';
 	let robotName = '';
 	let rejectionComment = '';
 	let teacherAgent = '';
@@ -95,22 +95,22 @@
 		// Load the travel logs for the robot design if they exist
 		let logs1 = await DataService.TravelLog.getTravelLogs('robotdesign1');
 		if(logs1.length > 0) {
-			robotAbilities = logs1[logs1.length - 1].data;
+			robotProblem = logs1[logs1.length - 1].data;
 		}
 
 		let logs2 = await DataService.TravelLog.getTravelLogs('robotdesign2');
 		if(logs2.length > 0) {
-			robotHelp = logs2[logs2.length - 1].data;
+			robotHelps = logs2[logs2.length - 1].data;
 		}
 
 		let logs3 = await DataService.TravelLog.getTravelLogs('robotdesign3');
 		if(logs3.length > 0) {
-			robotImportance = logs3[logs3.length - 1].data;
+			robotCategories = logs3[logs3.length - 1].data;
 		}
 
 		let logs4 = await DataService.TravelLog.getTravelLogs('robotdesign4');
 		if(logs4.length > 0) {
-			robotBias = logs4[logs4.length - 1].data;
+			robotAction = logs4[logs4.length - 1].data;
 		}
 
 		let logs5 = await DataService.TravelLog.getTravelLogs('robotdesign5');
@@ -436,6 +436,8 @@
 							<Codinator 
 								iframeStyle="height: 60vh;"
 								buttonLabel=""
+								overrideStudentID="89fd991a-2567-477c-99a2-c4670f88a416"
+								overrideHost="https://spotcommandapp.com/api"
 							/>
 						{/if}
 
@@ -497,21 +499,32 @@
 		{/if}
 		{#if lineNumber == 19}
 			<TextResponseModal 
-				prompt={["Problem to Solve", "Who My Robot Helps"]}
-				onSuccess={() => goto('/level4new?page=20')}
+				prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, 
+					{id: "robotdesign2", prompt: "Who My Robot Helps"}]}
+				onSuccess={(responses) => {					
+					robotProblem = responses['robotdesign1'];
+					robotHelps = responses['robotdesign2'];
+					goto('/level4new?page=20');
+				}}
 			/>
 		{/if}
 		{#if lineNumber == 20}
 			<TextResponseModal 
-				prompt={["Image Categories", "What My Robot Will Do"]}
-				onSuccess={() => goto('/level4new?page=21')}
+				prompt={[{id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}]}
+				onSuccess={(responses) => {
+					robotCategories = responses['robotdesign3'];
+					robotAction = responses['robotdesign4'];
+					goto('/level4new?page=21');
+				}}
 			/>
 		{/if}
 		{#if lineNumber == 21}
 			<TextResponseModal 
-				prompt={["My Robot Will Be Named:"]}
-				singleLine={true}
-				onSuccess={() => goto('/level4new?page=22')}
+				prompt={[{id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
+				onSuccess={(responses) => {
+					robotName = responses['robotdesign5'];
+					goto('/level4new?page=22');
+				}}
 			/>
 		{/if}
 		{#if lineNumber == 22}
@@ -536,14 +549,33 @@
 		{/if}
 		{#if lineNumber == 23}
 			<Tablet showMeter={false} showBottomButtons={false}>
-				
+				<div class="flex flex-col items-center justify-center h-full gap-4 text-white">
+					<button on:click={() => goto('/level4new?page=25')}>Traininator</button>
+					<button on:click={() => goto('/level4new?page=26')}>Codeinator</button>
+					<button on:click={() => goto('/level4new?page=24')}>Robot Design</button>
+				</div>
 			</Tablet>
 		{/if}
 		{#if lineNumber == 24}
 			<TextResponseModal 
-				prompt={["Problem to Solve", "Who My Robot Helps", "Image Categories", "What My Robot Will Do", "My Robot Will Be Named:"]}
+				prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, {id: "robotdesign2", prompt: "Who My Robot Helps"}, {id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}, {id: "robotdesign5", prompt: "My Robot Will Be Named:"}]}
 				singleLine={[false, false, false, false, true]}
-				onSuccess={() => goto('/level4new?page=23')}
+				prefill={{
+					robotdesign1: robotProblem,
+					robotdesign2: robotHelps,
+					robotdesign3: robotCategories,
+					robotdesign4: robotAction,
+					robotdesign5: robotName
+				}}
+				onSuccess={(responses) => {
+					// Update robotProblem, robotHelps, robotCategories, robotAction, and robotName with the new responses so that if the user goes back to this page, they will see their updated responses
+					robotProblem = responses['robotdesign1'];
+					robotHelps = responses['robotdesign2'];
+					robotCategories = responses['robotdesign3'];
+					robotAction = responses['robotdesign4'];
+					robotName = responses['robotdesign5'];
+					goto('/level4new?page=23');
+				}}
 			/>
 		{/if}
 		{#if lineNumber == 25}
@@ -558,7 +590,13 @@
 				<Codinator 
 					iframeStyle="height: 80vh;"
 					buttonLabel="Finish"
-					onComplete={() => goto('/level4new?page=23')}
+					on:submitted={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4new?page=23';
+							return progress;
+						});
+						goto('/level4new?page=23');
+					}}
 				/>
 			</Tablet>
 		{/if}

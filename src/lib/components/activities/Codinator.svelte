@@ -10,6 +10,8 @@
   export let iframeStyle: string = 'height: 70vh;';
   export let confirmBefore: boolean = false;
   export let confirmMessage: string = "Are you sure?";
+  export let overrideStudentID: string | null = null;
+  export let overrideHost: string | null = null;
 
   const dispatch = createEventDispatcher();
   let iframeEl: HTMLIFrameElement | null = null;
@@ -17,7 +19,7 @@
   let iframeLoaded: boolean = false;
   let submitted: boolean = false;
 
-  const src = `https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id=${get(accessTokenStore)}&host=${browser ? window.location.origin : ''}`;
+  const src = `https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id=${overrideStudentID ?? get(accessTokenStore)}&host=${overrideHost ?? (browser ? window.location.origin : '')}`;
 
   onMount(() => {
     listener = (event: MessageEvent) => {
