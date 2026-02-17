@@ -436,6 +436,8 @@
 							<Codinator 
 								iframeStyle="height: 60vh;"
 								buttonLabel=""
+								overrideStudentID="89fd991a-2567-477c-99a2-c4670f88a416"
+								overrideHost="https://spotcommandapp.com/api"
 							/>
 						{/if}
 
