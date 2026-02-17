@@ -1,7 +1,7 @@
 import type { Script } from '$lib/types/Script';
-import { getScriptTranslationWithFallback, getCharacterName } from '$lib/utils/scriptTranslations';
-import type { Language } from '$lib/utils/translations';
-import { settingsStore } from '$lib/scripts/utils';
+import { getCharacterName, type Language } from '$lib/utils/translations';
+import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
+import { settingsStore } from '$lib/utils/stores/store';
 
 let currentLanguage: Language = 'en';
 settingsStore.subscribe((value) => {
