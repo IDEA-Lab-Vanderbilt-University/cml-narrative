@@ -499,20 +499,22 @@
 		{/if}
 		{#if lineNumber == 19}
 			<TextResponseModal 
-				prompt={["Problem to Solve", "Who My Robot Helps"]}
-				onSuccess={() => goto('/level4new?page=20')}
+				prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, 
+					{id: "robotdesign2", prompt: "Who My Robot Helps"}]}
+				onSuccess={() => {					
+					goto('/level4new?page=20');
+				}}
 			/>
 		{/if}
 		{#if lineNumber == 20}
 			<TextResponseModal 
-				prompt={["Image Categories", "What My Robot Will Do"]}
+				prompt={[{id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}]}
 				onSuccess={() => goto('/level4new?page=21')}
 			/>
 		{/if}
 		{#if lineNumber == 21}
 			<TextResponseModal 
-				prompt={["My Robot Will Be Named:"]}
-				singleLine={true}
+				prompt={[{id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
 				onSuccess={() => goto('/level4new?page=22')}
 			/>
 		{/if}
@@ -543,7 +545,7 @@
 		{/if}
 		{#if lineNumber == 24}
 			<TextResponseModal 
-				prompt={["Problem to Solve", "Who My Robot Helps", "Image Categories", "What My Robot Will Do", "My Robot Will Be Named:"]}
+				prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, {id: "robotdesign2", prompt: "Who My Robot Helps"}, {id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}, {id: "robotdesign5", prompt: "My Robot Will Be Named:"}]}
 				singleLine={[false, false, false, false, true]}
 				onSuccess={() => goto('/level4new?page=23')}
 			/>
