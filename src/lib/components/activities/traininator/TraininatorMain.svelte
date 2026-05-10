@@ -108,6 +108,19 @@
 	let uploading = false;
 
 	async function uploadModel() {
+		let student_id = get(studentDataStore).id;
+
+		const fallbackMessage: TraininatorModelMessage = {
+			student_id,
+			name: modelName,
+			metadata_json: {
+				labels: classes,
+				imageSize: 224,
+				timeStamp: new Date().toISOString(),
+				localOnly: true
+			}
+		};
+
 		try {
 			// Prevent multiple uploads
 			if (uploading) {
@@ -116,10 +129,9 @@
 
 			uploading = true;
 
-            let student_id = get(studentDataStore).id;
-
             if (!student_id) {
                 console.error("Student ID is not available. Upload failed.");
+				onComplete(fallbackMessage);
                 return;
             }
 
@@ -151,6 +163,7 @@
 		} catch (error) {
 			alert('Error uploading model');
 			console.log(error);
+			onComplete(fallbackMessage);
 		} finally {
 			uploading = false;
 		}

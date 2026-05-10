@@ -22,11 +22,11 @@
 	let showFeedbackModal = false;
 	let isMultiMode = false;
 	let promptItems: PromptItem[] = [];
+	let lastPromptSignature = '';
 	let allResponsesFilled = false;
 	let canRecord = false;
 	let recordingItemId: string | null = null;
 	let recognition: any;
-	let hasInitialized = false; // Track if we've initialized from prefill
 
     export let onSuccess: (result: string | Record<string, string>) => void;
     export let id: string | undefined = undefined;
@@ -38,11 +38,22 @@
 	export let prefill: string | Record<string, string> | undefined = undefined;
 	export let audio: string | undefined = undefined;
 	export let singleLine: boolean | boolean[] | undefined = undefined;
+	export let requireAllResponses: boolean = true;
 
 	// Determine mode and parse prompts
 	$: {
 		if (Array.isArray(prompt)) {
 			isMultiMode = true;
+			const currentPromptSignature = JSON.stringify(
+				prompt.map((item, index) => {
+					if (typeof item === 'string') return `str:${index}:${item}`;
+					return `obj:${index}:${item.id}`;
+				})
+			);
+
+			const shouldInitializeResponses = lastPromptSignature !== currentPromptSignature;
+			lastPromptSignature = currentPromptSignature;
+
 			// Convert array to PromptItem objects
 			promptItems = prompt.map((item, index) => {
 				if (typeof item === 'string') {
@@ -58,24 +69,25 @@
 				return item;
 			});
 			
-			// Initialize multi responses only once
-			if (!hasInitialized) {
+			// Initialize multi responses
+			if (shouldInitializeResponses) {
 				if (typeof prefill === 'object' && prefill !== null) {
 					multiResponses = { ...prefill };
+				} else {
+					multiResponses = {};
 				}
+
 				promptItems.forEach((item) => {
 					if (!(item.id in multiResponses)) {
 						multiResponses[item.id] = '';
 					}
 				});
-				hasInitialized = true;
 			}
 		} else {
 			isMultiMode = false;
-			// Only set response from prefill if we haven't initialized yet
-			if (!hasInitialized) {
+			lastPromptSignature = '';
+			if (!response) {
 				response = (typeof prefill === 'string' ? prefill : '') || '';
-				hasInitialized = true;
 			}
 		}
 	}
@@ -83,9 +95,9 @@
 	// Check if all responses are filled
 	$: {
 		if (isMultiMode) {
-			allResponsesFilled = promptItems.every(
-				(item) => multiResponses[item.id] && multiResponses[item.id].trim() !== ''
-			);
+			allResponsesFilled = requireAllResponses
+				? promptItems.every((item) => multiResponses[item.id] && multiResponses[item.id].trim() !== '')
+				: true;
 		}
 	}
 
@@ -168,12 +180,14 @@
 		try {
 			if (isMultiMode) {
 				// Validate all responses are filled
-				for (const item of promptItems) {
-					if (!multiResponses[item.id] || multiResponses[item.id].trim() === '') {
-						message = 'Please fill in all responses.';
-						isSuccess = false;
-						showFeedbackModal = true;
-						return;
+				if (requireAllResponses) {
+					for (const item of promptItems) {
+						if (!multiResponses[item.id] || multiResponses[item.id].trim() === '') {
+							message = 'Please fill in all responses.';
+							isSuccess = false;
+							showFeedbackModal = true;
+							return;
+						}
 					}
 				}
 
@@ -238,18 +252,12 @@
 							type="text"
 							class="response-input"
 							placeholder={item.placeholder || 'Enter your response...'}
-						bind:value={multiResponses[item.id]}
-						on:keydown|stopPropagation
-						on:keypress|stopPropagation
-						on:keyup|stopPropagation />
+							bind:value={multiResponses[item.id]} />
 					{:else}
 						<textarea
 							class="response-textarea"
 							placeholder={item.placeholder || 'Enter your response...'}
-						bind:value={multiResponses[item.id]}
-						on:keydown|stopPropagation
-						on:keypress|stopPropagation
-						on:keyup|stopPropagation />
+							bind:value={multiResponses[item.id]} />
 					{/if}
 					{#if recordingItemId === item.id}
 						<p class="recording-indicator">Recording...</p>
@@ -298,19 +306,20 @@
 		flex-direction: column;
 		height: 100%;
 		width: 100%;
-		padding: 2rem;
+		padding: 0.75rem 2rem 5rem 2rem;
 		gap: 1rem;
+		overflow-y: auto;
 	}
 
 	.response-column {
-		flex: 1;
+		flex: 0 0 auto;
 		display: flex;
 		flex-direction: column;
 		gap: 0.5rem;
 		padding: 1rem;
 		background-color: rgba(0, 0, 0, 0.3);
 		border-radius: 0.5rem;
-		overflow: hidden;
+		overflow: visible;
 	}
 
 	.response-title {
@@ -327,7 +336,8 @@
 	}
 
 	.response-textarea {
-		flex: 1;
+		flex: 0 0 auto;
+		min-height: 4.5rem;
 		border: 2px dashed white;
 		border-radius: 0.375rem;
 		background-color: transparent;
@@ -370,6 +380,9 @@
 	}
 
 	.submit-button {
+		align-self: flex-end;
+		flex-shrink: 0;
+		margin-top: 0.5rem;
 		padding: 0.75rem 2rem;
 		background-color: #49c5ff;
 		color: #111;

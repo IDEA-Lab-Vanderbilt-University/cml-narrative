@@ -6,7 +6,7 @@
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { accessTokenStore, studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
+	import { accessTokenStore, settingsStore, studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { onMount } from 'svelte';
 	import script from '$lib/scripts/level4/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -18,11 +18,12 @@
 	import { get } from 'svelte/store';
 	import TraininatorMain from '$lib/components/activities/traininator/TraininatorMain.svelte';
 	import Codinator from '$lib/components/activities/Codinator.svelte';
+	import ChatbotWidget from '$lib/components/chatbot/ChatbotWidget.svelte';
 	import TextResponse from '$lib/components/activities/free-response/TextResponse.svelte';
 	import SurveyOption from '$lib/components/activities/survey/SurveyOption.svelte';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
-	import { Questions, QuestionsAudio } from '$lib/components/activities/survey/SurveyQuestions.js';
+	import { Questions, QuestionsAudio, QuestionsByLanguage } from '$lib/components/activities/survey/SurveyQuestions.js';
 	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
 	import { BadgesByName } from '$lib/utils/Assets/Badges';
 	import Confetti from 'svelte-confetti';
@@ -34,6 +35,20 @@
 
     let lineNumber = 1;
     $: lineNumber = line.id;
+	let hasTriedTraininatorInLevel4New = false;
+	let surveyReadyToAdvance = false;
+	type SurveyLanguage = 'en' | 'es';
+	let surveyLanguage: SurveyLanguage = 'en';
+	$: surveyLanguage = $settingsStore?.language === 'es' ? 'es' : 'en';
+	const chatbotAssistantId = import.meta.env.VITE_CHATBOT_ASSISTANT_ID || 'astp/e1d56033-f967-4d44-b479-32b76ef4d5f4';
+	$: hasTriedTraininatorInLevel4New = Boolean($studentProgressStore?.level4new_traininator_tried);
+
+	$: if (lineNumber == 25 && !$studentProgressStore?.level4new_traininator_tried) {
+		studentProgressStore.update((progress) => {
+			progress.level4new_traininator_tried = true;
+			return progress;
+		});
+	}
 
 	/**
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
@@ -51,6 +66,10 @@
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
+		if (line.id === 32 && direction === NavigationDirection.forward && !surveyReadyToAdvance) {
+			return;
+		}
+
 		let target = '';
 		if (direction == NavigationDirection.forward) {
 			if (line.id == script.lines.length) {
@@ -242,7 +261,41 @@
     // For post survey
 	let questionIndex: number = 0;
 
-    let questionsAndResponse = Questions.map((question) => {
+	const surveyOptions = [
+		{ emoji: '😃', value: 'Strongly Agree', label: { en: 'Strongly Agree', es: 'Totalmente de acuerdo' } },
+		{ emoji: '🙂', value: 'Agree', label: { en: 'Agree', es: 'De acuerdo' } },
+		{ emoji: '😐', value: 'Neutral', label: { en: 'Neutral', es: 'Neutral' } },
+		{ emoji: '🙁', value: 'Disagree', label: { en: 'Disagree', es: 'En desacuerdo' } },
+		{ emoji: '☹️', value: 'Strongly Disagree', label: { en: 'Strongly Disagree', es: 'Totalmente en desacuerdo' } }
+	];
+
+	const surveyUiText = {
+		en: {
+			next: 'Next',
+			selectFirst: 'Please select an option first!',
+			submitted: 'Survey responses were recorded successfully!',
+			submitFailed: 'Survey responses submission failed!'
+		},
+		es: {
+			next: 'Siguiente',
+			selectFirst: '¡Primero selecciona una opción!',
+			submitted: '¡Las respuestas de la encuesta se guardaron correctamente!',
+			submitFailed: '¡Error al enviar las respuestas de la encuesta!'
+		}
+	} as const;
+
+	const getSurveyQuestions = () => QuestionsByLanguage[surveyLanguage] || Questions;
+	const getSurveyQuestionAudio = (index: number) => {
+		const basePath = QuestionsAudio[index] || '';
+
+		if (surveyLanguage === 'es' && basePath.startsWith('/survey/')) {
+			return basePath.replace('/survey/', '/level4new/survey/');
+		}
+
+		return basePath;
+	};
+
+	let questionsAndResponse = getSurveyQuestions().map((question) => {
         return {
             question: question,
             response: null
@@ -263,6 +316,7 @@
 			// Check to see if user is at the last survey question
 			if (questionIndex >= questionsAndResponse.length - 1) {
 				console.log('User has finished survey; we can now proceed.');
+				surveyReadyToAdvance = false;
 
 				try {
 					await DataService.TravelLog.submitTravelLog({
@@ -271,12 +325,14 @@
 						status: 'complete'
 					});
 
-					message = "Survey responses were recorded successfully!";
+					message = surveyUiText[surveyLanguage].submitted;
 					isSuccess = true;
+					surveyReadyToAdvance = true;
 
 				} catch (error) {
-					message = "Survey responses submission failed!";
+					message = surveyUiText[surveyLanguage].submitFailed;
 					isSuccess = false;
+					surveyReadyToAdvance = false;
 					console.error(error);
 				}
 
@@ -292,7 +348,7 @@
 			}
 		} else {
 			// User has not selected a response
-			alert('Please select an option first!');
+			alert(surveyUiText[surveyLanguage].selectFirst);
 		}
 	};
 
@@ -324,6 +380,13 @@
 		questionsAndResponse[questionIndex].response = response;
 	};
 
+	const handleSurveyFeedbackClose = () => {
+		showFeedbackModal = false;
+		if (surveyReadyToAdvance) {
+			goto('/level4new?page=33');
+		}
+	};
+
 	// Disable the next button until a response is selected or there are no more questions
 	$: {
 		if (nextButton != undefined) {
@@ -332,6 +395,33 @@
 	}
 
     let confetti = 0;
+	let page3Confetti = 0;
+	let previousLineNumber = -1;
+
+	$: {
+		if (lineNumber !== previousLineNumber) {
+			if (lineNumber === 3) {
+				page3Confetti += 1;
+			}
+
+			if (lineNumber === 32) {
+				questionIndex = 0;
+				surveyReadyToAdvance = false;
+				questionsAndResponse = getSurveyQuestions().map((question) => {
+					return {
+						question: question,
+						response: null
+					};
+				});
+				showFeedbackModal = false;
+				message = '';
+				isSuccess = false;
+				resetButtons();
+			}
+
+			previousLineNumber = lineNumber;
+		}
+	}
 
 </script>
 
@@ -343,6 +433,72 @@
 	</div>
 
 	<div slot="content" class="h-full w-full" bind:this={content}>
+		{#if lineNumber == 3 || lineNumber == 4}
+			<div class="welcome-back-banner" aria-hidden="true">
+				<div class="welcome-back-flags">
+					<span class="welcome-back-flag">W</span>
+					<span class="welcome-back-flag">E</span>
+					<span class="welcome-back-flag">L</span>
+					<span class="welcome-back-flag">C</span>
+					<span class="welcome-back-flag">O</span>
+					<span class="welcome-back-flag">M</span>
+					<span class="welcome-back-flag">E</span>
+					<span class="welcome-back-gap"></span>
+					<span class="welcome-back-flag">B</span>
+					<span class="welcome-back-flag">A</span>
+					<span class="welcome-back-flag">C</span>
+					<span class="welcome-back-flag">K</span>
+				</div>
+			</div>
+		{/if}
+
+		{#if lineNumber == 34}
+			<div class="welcome-back-banner congrats-banner" aria-hidden="true">
+				<div class="welcome-back-flags congrats-flags">
+					<span class="welcome-back-flag">C</span>
+					<span class="welcome-back-flag">O</span>
+					<span class="welcome-back-flag">N</span>
+					<span class="welcome-back-flag">G</span>
+					<span class="welcome-back-flag">R</span>
+					<span class="welcome-back-flag">A</span>
+					<span class="welcome-back-flag">T</span>
+					<span class="welcome-back-flag">U</span>
+					<span class="welcome-back-flag">L</span>
+					<span class="welcome-back-flag">A</span>
+					<span class="welcome-back-flag">T</span>
+					<span class="welcome-back-flag">I</span>
+					<span class="welcome-back-flag">O</span>
+					<span class="welcome-back-flag">N</span>
+					<span class="welcome-back-flag">S</span>
+				</div>
+			</div>
+		{/if}
+
+		{#if lineNumber == 3}
+			<div id="page3-confettiholder">
+				{#key page3Confetti}
+					<div class="page3-confetti-emitter page3-confetti-top-left">
+						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+					</div>
+					<div class="page3-confetti-emitter page3-confetti-top-right">
+						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+					</div>
+					<div class="page3-confetti-emitter page3-confetti-mid-left">
+						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+					</div>
+					<div class="page3-confetti-emitter page3-confetti-mid-right">
+						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+					</div>
+					<div class="page3-confetti-emitter page3-confetti-bottom-left">
+						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+					</div>
+					<div class="page3-confetti-emitter page3-confetti-bottom-right">
+						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+					</div>
+				{/key}
+			</div>
+		{/if}
+
         {#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 34}
 			<TabletButton on:click={() => { 
 				if(lineNumber == 16 || lineNumber == 28) {
@@ -507,6 +663,7 @@
 					goto('/level4new?page=20');
 				}}
 			/>
+			<ChatbotWidget assistantId={chatbotAssistantId} />
 		{/if}
 		{#if lineNumber == 20}
 			<TextResponseModal 
@@ -517,6 +674,7 @@
 					goto('/level4new?page=21');
 				}}
 			/>
+			<ChatbotWidget assistantId={chatbotAssistantId} />
 		{/if}
 		{#if lineNumber == 21}
 			<TextResponseModal 
@@ -526,15 +684,16 @@
 					goto('/level4new?page=22');
 				}}
 			/>
+			<ChatbotWidget assistantId={chatbotAssistantId} />
 		{/if}
 		{#if lineNumber == 22}
 			<Tablet showMeter={false} showBottomButtons={false}>
 				<div class="robostepintro">
 					<h2><img src="/img/icons/robotrain.png" alt="Train"/> Train &amp; Test</h2>
 					<p>
-						You are about to enter the Traininator, where you will input data to train your robot to identify different classes. Then you will enter the Codeinator, where you will create instructions for your AI robot to achieve its goal.
+						{typeof line.dialog === 'function' ? line.dialog() : line.dialog}
 					</p>
-					<button class="nicebtn" on:click={() => {
+					<button class="nextBtn" on:click={() => {
 						studentProgressStore.update((progress) => {
 							progress.last_visited = '/level4new?page=23';
 							return progress;
@@ -542,54 +701,121 @@
 						
 						goto('/level4new?page=23');
 					}}>
-						Next
+						<img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
 					</button>
 				</div>
 			</Tablet>
 		{/if}
 		{#if lineNumber == 23}
-			<Tablet showMeter={false} showBottomButtons={false}>
-				<div class="flex flex-col items-center justify-center h-full gap-4 text-white">
-					<button on:click={() => goto('/level4new?page=25')}>Traininator</button>
-					<button on:click={() => goto('/level4new?page=26')}>Codeinator</button>
-					<button on:click={() => goto('/level4new?page=24')}>Robot Design</button>
+			<Tablet showMeter={false}>
+				<div class="train-test-hub">
+					<div class="train-test-hub-top">
+						<div class="train-test-hub-card">
+							<button class="train-test-hub-icon-button" on:click={() => goto('/level4new?page=25')}>
+								<img src="/img/tablet/traininatoricon.svg" alt="Traininator" class="train-test-hub-card-logo" />
+							</button>
+							<div class="train-test-hub-card-copy">
+								<h3>TRAININATOR</h3>
+								<p>Input training data to train your machine learning model to identify different classes.</p>
+							</div>
+						</div>
+
+						<div class={`train-test-hub-card ${hasTriedTraininatorInLevel4New ? '' : 'train-test-hub-card-disabled'}`}>
+							<button
+								class="train-test-hub-icon-button"
+								disabled={!hasTriedTraininatorInLevel4New}
+								on:click={() => goto('/level4new?page=26')}
+							>
+								<img src="/img/tablet/codeinatoricon.svg" alt="Codeinator" class="train-test-hub-card-logo" />
+							</button>
+							<div class="train-test-hub-card-copy">
+								<h3>CODEINATOR</h3>
+								<p>Program your robot to respond to the different classes</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="train-test-hub-notes">
+						<button class="train-test-hub-icon-button" on:click={() => goto('/level4new?page=24')}>
+							<img src="/img/tablet/designnotesicon.svg" alt="Design Notes" class="train-test-hub-card-logo" />
+						</button>
+						<div class="train-test-hub-card-copy">
+							<h3>DESIGN NOTES</h3>
+							<p>View your design notes</p>
+						</div>
+					</div>
+
+					<button class="nextBtn page23-done-next" on:click={() => {
+						studentProgressStore.update((progress) => {
+							progress.last_visited = '/level4new?page=27';
+							return progress;
+						});
+
+						goto('/level4new?page=27');
+					}}>
+						<img src="/img/misc/nextbutton.png" alt="I’m Done" id="nextbutton" />
+					</button>
 				</div>
 			</Tablet>
 		{/if}
 		{#if lineNumber == 24}
-			<TextResponseModal 
-				prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, {id: "robotdesign2", prompt: "Who My Robot Helps"}, {id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}, {id: "robotdesign5", prompt: "My Robot Will Be Named:"}]}
-				singleLine={[false, false, false, false, true]}
-				prefill={{
-					robotdesign1: robotProblem,
-					robotdesign2: robotHelps,
-					robotdesign3: robotCategories,
-					robotdesign4: robotAction,
-					robotdesign5: robotName
-				}}
-				onSuccess={(responses) => {
-					// Update robotProblem, robotHelps, robotCategories, robotAction, and robotName with the new responses so that if the user goes back to this page, they will see their updated responses
-					robotProblem = responses['robotdesign1'];
-					robotHelps = responses['robotdesign2'];
-					robotCategories = responses['robotdesign3'];
-					robotAction = responses['robotdesign4'];
-					robotName = responses['robotdesign5'];
-					goto('/level4new?page=23');
-				}}
-			/>
+			{#if logsLoaded}
+				<TextResponseModal 
+					prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, {id: "robotdesign2", prompt: "Who My Robot Helps"}, {id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}, {id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
+					requireAllResponses={false}
+					prefill={{
+						robotdesign1: robotProblem,
+						robotdesign2: robotHelps,
+						robotdesign3: robotCategories,
+						robotdesign4: robotAction,
+						robotdesign5: robotName
+					}}
+					onSuccess={(responses) => {
+						robotProblem = responses['robotdesign1'];
+						robotHelps = responses['robotdesign2'];
+						robotCategories = responses['robotdesign3'];
+						robotAction = responses['robotdesign4'];
+						robotName = responses['robotdesign5'];
+						goto('/level4new?page=23');
+					}}
+				/>
+				<ChatbotWidget assistantId={chatbotAssistantId} className="design-notes-chatbot" />
+			{/if}
 		{/if}
 		{#if lineNumber == 25}
 			<Tablet showMeter={false} showBottomButtons={false}>
+				<button class="traininator-exit-btn" on:click={() => goto('/level4new?page=23')}>
+					EXIT
+				</button>
+				<TabletButton on:click={() => { 
+					const event  = new CustomEvent('showTablet', {
+						bubbles: true
+					});
+					content?.dispatchEvent(event);
+				}} />
 				<TraininatorMain 
-					onComplete={() => goto('/level4new?page=23')}
+					onComplete={() => {
+						studentProgressStore.update((progress) => {
+							progress.level4new_traininator_tried = true;
+							progress.last_visited = '/level4new?page=23';
+							return progress;
+						});
+
+						goto('/level4new?page=23');
+					}}
 				/>
 			</Tablet>
 		{/if}
 		{#if lineNumber == 26}
 			<Tablet showMeter={false} showBottomButtons={false}>
+				<button class="traininator-exit-btn" on:click={() => goto('/level4new?page=23')}>
+					EXIT
+				</button>
 				<Codinator 
 					iframeStyle="height: 80vh;"
 					buttonLabel="Finish"
+					allowFinishWithoutSubmission={false}
+					requireSuccessfulBuild={true}
 					on:submitted={() => {
 						studentProgressStore.update((progress) => {
 							progress.last_visited = '/level4new?page=23';
@@ -621,11 +847,14 @@
             <Tablet showMeter={false} showBottomButtons={false}>
                 <div class="flex flex-col items-center justify-center h-full gap-4">
                     <p class="text-3xl text-center text-white p-4">
-                        Mission Control needs to know a few more things before you get your final badge!
+                        {$settingsStore?.language === 'es'
+                            ? '¡El Control de Misión necesita saber algunas cosas más antes de que obtengas tu insignia final!'
+                            : 'Mission Control needs to know a few more things before you get your final badge!'}
                     </p>
-                    <button class="nicebtn" on:click={() => {
+					<button class="nextBtn" on:click={() => {
                         handleNavigation(NavigationDirection.forward);
-                    }}>Continue</button>
+					}}><img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
+					</button>
                 </div>
             </Tablet>
 		{/if}
@@ -636,10 +865,10 @@
         {/if}
 		{#if lineNumber == 32}
 			<Tablet>
-				<AudioPlayer src={QuestionsAudio[questionIndex]} />
+				<AudioPlayer src={getSurveyQuestionAudio(questionIndex)} />
 
                 {#if showFeedbackModal}
-                    <FeedbackModal {message} {isSuccess} on:close={() => { goto('/level4new?page=33'); }} />
+					<FeedbackModal {message} {isSuccess} on:close={handleSurveyFeedbackClose} />
                 {/if}
                 <div
                     on:submit|preventDefault
@@ -648,18 +877,18 @@
                         <p class="text-center text-3xl text-white" id="question">{questionsAndResponse[questionIndex].question}</p>
                     </div>
                     <div class="hud-red-blue-border flex w-3/4 flex-col space-y-4 p-4 text-3xl" id="options">
-                        <SurveyOption emoji="😃" response="Strongly Agree" on:click={() => handleSelection('Strongly Agree')} bind:this={strongAgreeElement} />
-                        <SurveyOption emoji="🙂" response="Agree" on:click={() => handleSelection('Agree')} bind:this={agreeElement} />
-                        <SurveyOption emoji="😐" response="Neutral" on:click={() => handleSelection('Neutral')} bind:this={neutralElement} />
-                        <SurveyOption emoji="🙁" response="Disagree" on:click={() => handleSelection('Disagree')} bind:this={disagreeElement} />
-                        <SurveyOption emoji="☹️" response="Strongly Disagree" on:click={() => handleSelection('Strongly Disagree')} bind:this={strongDisagreeElement} />
+						<SurveyOption emoji={surveyOptions[0].emoji} response={surveyOptions[0].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[0].value)} bind:this={strongAgreeElement} />
+						<SurveyOption emoji={surveyOptions[1].emoji} response={surveyOptions[1].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[1].value)} bind:this={agreeElement} />
+						<SurveyOption emoji={surveyOptions[2].emoji} response={surveyOptions[2].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[2].value)} bind:this={neutralElement} />
+						<SurveyOption emoji={surveyOptions[3].emoji} response={surveyOptions[3].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[3].value)} bind:this={disagreeElement} />
+						<SurveyOption emoji={surveyOptions[4].emoji} response={surveyOptions[4].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[4].value)} bind:this={strongDisagreeElement} />
                     </div>
                     <div class="flex w-full items-end justify-end">
                         <button
                             class="next-button rounded-xl bg-blue-300 px-4 py-2 text-3xl font-bold text-black"
                             on:click={getNextQuestion}
                             bind:this={nextButton}    
-                        >Next</button>
+						>{surveyUiText[surveyLanguage].next}</button>
                     </div>
                 </div>
             </Tablet>
@@ -674,9 +903,26 @@
 		{/if}
 
         {#if lineNumber == 34}
-        <div id="confettiholder">
+		<div id="page3-confettiholder">
             {#key confetti}
-                <Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				<div class="page3-confetti-emitter page3-confetti-top-left">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
+				<div class="page3-confetti-emitter page3-confetti-top-right">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
+				<div class="page3-confetti-emitter page3-confetti-mid-left">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
+				<div class="page3-confetti-emitter page3-confetti-mid-right">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
+				<div class="page3-confetti-emitter page3-confetti-bottom-left">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
+				<div class="page3-confetti-emitter page3-confetti-bottom-right">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
             {/key}
         </div>
         {/if}
@@ -733,6 +979,161 @@
 		top: -2vh;
 	}
 
+	.train-test-hub {
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 4vh;
+		color: white;
+		font-family: 'Gemunu Libre';
+		position: relative;
+	}
+
+	.train-test-hub-top {
+		display: flex;
+		align-items: flex-start;
+		justify-content: center;
+		gap: 10vw;
+		width: 100%;
+		transform: translateY(-3.5vh);
+	}
+
+	.train-test-hub-card {
+		background: transparent;
+		border: none;
+		color: white;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		width: 26vw;
+		min-height: 24vh;
+		padding: 1vh 1vw;
+		gap: 0.8vh;
+	}
+
+	.train-test-hub-card-copy {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: flex-start;
+		width: 100%;
+		max-width: 24vw;
+	}
+
+	.train-test-hub-icon-button {
+		background: transparent;
+		border: none;
+		padding: 0;
+		cursor: pointer;
+		transition: transform 0.2s;
+	}
+
+	.train-test-hub-icon-button:disabled {
+		cursor: not-allowed;
+	}
+
+	.train-test-hub-icon-button:hover {
+		animation: traininator-bounce 0.5s ease;
+		transform: scale(1.03);
+	}
+
+	.train-test-hub-icon-button:disabled:hover,
+	.train-test-hub-icon-button:disabled:active {
+		animation: none;
+		transform: none;
+	}
+
+	.train-test-hub-icon-button:active {
+		transform: scale(0.98);
+	}
+
+	@keyframes traininator-bounce {
+		0% { transform: scale(1); }
+		50% { transform: scale(1.08); }
+		100% { transform: scale(1.03); }
+	}
+
+	.train-test-hub-card-disabled {
+		opacity: 0.45;
+		cursor: not-allowed;
+	}
+
+	.train-test-hub-card-disabled:hover,
+	.train-test-hub-card-disabled:active {
+		transform: none;
+	}
+
+	.train-test-hub-card h3,
+	.train-test-hub-notes h3 {
+		font-family: 'Mokoto';
+		font-size: 2.4vh;
+		margin: 0 0 1.5vh 0;
+		letter-spacing: 0.08em;
+	}
+
+	.train-test-hub-card-logo {
+		width: 18vh;
+		height: 18vh;
+		object-fit: contain;
+		margin-bottom: 0.6vh;
+	}
+
+	.train-test-hub-card p,
+	.train-test-hub-notes p {
+		font-size: 4vh;
+		line-height: 1.15;
+		text-align: center;
+		margin: 0;
+	}
+
+	.train-test-hub-notes {
+		color: white;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		transform: translateY(-2.5vh);
+	}
+
+	.page23-done-next {
+		position: absolute;
+		right: 19vw;
+		bottom: 2.4vh;
+		z-index: 20;
+	}
+
+	.traininator-exit-btn {
+		position: absolute;
+		right: 3.2vw;
+		bottom: 2.8vh;
+		z-index: 30;
+		height: 7vh;
+		padding: 1vh 2vw;
+		border: 2px solid #289dd3;
+		border-radius: 3.5vh;
+		background: radial-gradient(farthest-corner at bottom right, #49c5ff 75%, #fff 100%);
+		background-color: #49c5ff;
+		color: #111;
+		font-family: 'Gemunu Libre';
+		font-weight: 700;
+		font-size: 1.5rem;
+		cursor: pointer;
+		transition: 0.3s;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.traininator-exit-btn:hover {
+		transform: scale(1.05);
+	}
+
+	.traininator-exit-btn:active {
+		transform: scale(0.95);
+	}
 
     #nextbutton {
         height: 10vh;
@@ -860,6 +1261,125 @@
 	.agent-example-body img {
 		max-height: 50vh;
 		width: auto;
+	}
+
+	.welcome-back-banner {
+		position: absolute;
+		top: 1.2vh;
+		left: 50%;
+		transform: translateX(-50%);
+		z-index: 20;
+		pointer-events: none;
+	}
+
+	.welcome-back-flags {
+		display: flex;
+		align-items: flex-start;
+		gap: clamp(0.42rem, 1.15vw, 1.1rem);
+		padding: 0.35rem 1rem;
+	}
+
+	.welcome-back-flag {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: clamp(3.6rem, 5.3vw, 5.4rem);
+		height: clamp(4.4rem, 6.4vw, 6.3rem);
+		font-size: clamp(2.15rem, 3.3vw, 3.3rem);
+		font-weight: 800;
+		color: #0f172a;
+		line-height: 1;
+		clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%);
+		box-shadow: 0 0.3vh 0.6vh rgba(0, 0, 0, 0.2);
+	}
+
+	.welcome-back-flag:nth-child(odd) {
+		transform: rotate(-4deg);
+	}
+
+	.welcome-back-flag:nth-child(even) {
+		transform: rotate(4deg);
+	}
+
+	.welcome-back-flag:nth-child(4n + 1) {
+		background-color: #49c5ff;
+	}
+
+	.welcome-back-flag:nth-child(4n + 2) {
+		background-color: #f6d365;
+	}
+
+	.welcome-back-flag:nth-child(4n + 3) {
+		background-color: #fda085;
+	}
+
+	.welcome-back-flag:nth-child(4n + 4) {
+		background-color: #a1ffce;
+	}
+
+	.welcome-back-gap {
+		display: block;
+		width: clamp(1.2rem, 3.1vw, 2.4rem);
+	}
+
+	.congrats-banner {
+		top: 0.3vh;
+		transform: translateX(calc(-50% - 6vw));
+	}
+
+	.congrats-flags {
+		gap: clamp(0.36rem, 1vw, 1rem);
+		padding: 0.55rem 1.45rem;
+	}
+
+	.congrats-flags .welcome-back-flag {
+		width: clamp(3.2rem, 4.9vw, 5rem);
+		height: clamp(4rem, 6.1vw, 6rem);
+		font-size: clamp(2rem, 3.1vw, 3.2rem);
+	}
+
+	#page3-confettiholder {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		z-index: 14;
+		pointer-events: none;
+	}
+
+	.page3-confetti-emitter {
+		position: absolute;
+	}
+
+	.page3-confetti-top-left {
+		top: 15%;
+		left: 20%;
+	}
+
+	.page3-confetti-top-right {
+		top: 15%;
+		left: 80%;
+	}
+
+	.page3-confetti-mid-left {
+		top: 50%;
+		left: 20%;
+	}
+
+	.page3-confetti-mid-right {
+		top: 50%;
+		left: 80%;
+	}
+
+	.page3-confetti-bottom-left {
+		top: 85%;
+		left: 20%;
+	}
+
+	.page3-confetti-bottom-right {
+		top: 85%;
+		left: 80%;
 	}
 
 </style>

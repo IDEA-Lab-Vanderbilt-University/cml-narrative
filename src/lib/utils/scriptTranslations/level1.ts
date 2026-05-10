@@ -90,11 +90,11 @@ export const level1Translations = {
 		main: [
 			{
 				id: 1,
-				dialog: '¡Aquí estamos en 2075! ¡Lo hicimos!'
+				dialog: '¡Aquí estamos en 2075! ¡hemos llegado!'
 			},
 			{
 				id: 2,
-				dialog: '¡Viajar en el tiempo me dio hambre! Veamos qué tienen para comer aquí. ¡Espero que en 2075 todavía tengan pizza!'
+				dialog: '¡Todo ese viaje en el tiempo me ha dado hambre! Veamos qué hay para comer aquí. ¡Espero que en 2075 todavía haya pizza!'
 			},
 			{
 				id: 3,
@@ -102,15 +102,15 @@ export const level1Translations = {
 			},
 			{
 				id: 4,
-				dialog: 'Bienvenido. Por favor, siéntese y un servidor estará con usted en breve.'
+				dialog: 'Bienvenido. Por favor, tome asiento y un camarero le atenderá en breve.'
 			},
 			{
 				id: 5,
-				dialog: '¡Guau, no hay humanos trabajando aquí! ¡Esta es la primera tecnología que podemos investigar!'
+				dialog: '¡Vaya, Aquí no hay humanos trabajando! ¡Esta es la primera tecnología que podemos investigar!'
 			},
 			{
 				id: 6,
-				dialog: 'Deliciosa tecnología de pizza...'
+				dialog: '¡Delicioso! Tecnología de la pizza...'
 			},
 			{
 				id: 7,
@@ -122,7 +122,7 @@ export const level1Translations = {
 			},
 			{
 				id: 9,
-				dialog: '¡Hola, robot del futuro, quiero decir, robot chef de pizza normal y corriente! ¿Podemos intentar hacer nuestras propias pizzas usando un algoritmo?'
+				dialog: '¡Hola, robot del futuro. Me refiero a un robot pizzero normal y corriente! ¿podemos intentar hacer nuestras propias pizzas utilizando un algoritmo?'
 			},
 			{
 				id: 10,
@@ -130,7 +130,7 @@ export const level1Translations = {
 			},
 			{
 				id: 11,
-				dialog: 'Perdón, Agente {agentName}, casi descubrimos nuestro disfraz allí.'
+				dialog: 'Lo siento, agente {agentName}, casi delato nuestra tapadera.'
 			},
 			{
 				id: 12,
@@ -138,8 +138,8 @@ export const level1Translations = {
 			}
 		],
 		pizzaAlgorithm: [
-			{ id: 1, dialog: 'Primero lo primero. El orden es importante en un algoritmo. Arrastra y suelta las instrucciones en el orden correcto.' },
-			{ id: 2, dialog: '¡Oh no! El orden del algoritmo no está del todo bien. ¡Intentemos de nuevo!' },
+			{ id: 1, dialog: 'Lo primero es lo primero. El orden es importante en un algoritmo. Arrastra y suelta las instrucciones en el orden correcto.' },
+			{ id: 2, dialog: '¡Oh, vaya! El orden del algoritmo no es del todo correcto. ¡Intentémoslo de nuevo!' },
 			{ id: 3, dialog: '¡Esto se ve bien! Nuestros chefs robot definitivamente podrán hacer esta pizza. Pero nuestros chefs robot necesitarán instrucciones más específicas...' },
 			{ id: 4, dialog: 'Las declaraciones si/entonces ayudan a las máquinas a tomar decisiones. Arrastra y suelta los bloques de <condición> y [acción] en los lugares correctos del algoritmo.' },
 			{ id: 5, dialog: '...ejecutando simulación... ¡Uy! ¡Esas instrucciones no hacen pizzas correctamente! ¡Intentemos de nuevo!' },

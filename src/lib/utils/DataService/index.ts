@@ -59,17 +59,52 @@ const Auth = {
 				return;
 			}
 
+			if (!PUBLIC_BACKEND_API_URL) {
+				reject(new Error('PUBLIC_BACKEND_API_URL is not configured. Please set it in your environment.'));
+				return;
+			}
+
 			try {
 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students/${id}`, 'GET');
 
 				if (res) {
-					resolve(res);
 					console.log('after sign in : ', res);
 					accessTokenStore.set(res.id);
 					resolve(res);
 				} else {
 					reject(res);
 				}
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+
+	forgotPassword: async (email: string) => {
+		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				resolve();
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/forgot-password`, 'POST',  email);
+				resolve();
+			} catch (error) {
+				reject(error);
+			}
+		});
+	},
+	resetPassword: async (token: string, newPassword: string) => {
+		return new Promise<void>(async (resolve, reject) => {
+			if(debugMode){
+				resolve();
+				return;
+			}
+
+			try {
+				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/reset-password`, 'POST', { token, new_password: newPassword });
+				resolve();
 			} catch (error) {
 				reject(error);
 			}
@@ -660,6 +695,79 @@ const TravelLog = {
 	},
 };
 
+const Assistant = {
+	studentChat: async ({
+		assistant_id,
+		prompt,
+		conversation_history
+	}: {
+		assistant_id: string;
+		prompt: string;
+		conversation_history: Array<{ role: 'user' | 'assistant'; content: string }>;
+	}) => {
+		return new Promise<any>(async (resolve, reject) => {
+			if (debugMode) {
+				try {
+					const debugRes = await RequestFactory(
+						`${PUBLIC_BACKEND_API_URL}/chat`,
+						'POST',
+						{
+							assistant_id,
+							prompt,
+							message: prompt,
+							messages: conversation_history
+						},
+						undefined,
+						false
+					);
+
+					resolve(debugRes);
+					return;
+				} catch (error) {
+					reject(error);
+					return;
+				}
+			}
+
+			if (!PUBLIC_BACKEND_API_URL) {
+				reject(new Error('PUBLIC_BACKEND_API_URL is not configured. Please set it in your environment.'));
+				return;
+			}
+
+			const token = get(accessTokenStore);
+			const student = get(studentDataStore);
+			const student_id = student?.id || token;
+			const isValidUuid = (value: string) =>
+				/^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+
+			try {
+				const body: any = {
+					assistant_id,
+					prompt,
+					conversation_history,
+					messages: conversation_history
+				};
+
+				if (student_id && isValidUuid(student_id)) {
+					body.student_id = student_id;
+				}
+
+				const res = await RequestFactory(
+					`${PUBLIC_BACKEND_API_URL}/assistant/student_chat`,
+					'POST',
+					body,
+					undefined,
+					false
+				);
+
+				resolve(res);
+			} catch (error) {
+				reject(error);
+			}
+		});
+	}
+};
+
 const Admin = {
 	getAllTeachers: async () => {
 		return new Promise<Teacher[]>(async (resolve, reject) => {
@@ -713,6 +821,7 @@ const Admin = {
  */
 const DataService = {
 	Admin,
+	Assistant,
 	Auth,
 	Data,
 	Student,

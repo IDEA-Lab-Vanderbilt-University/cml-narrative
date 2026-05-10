@@ -7,8 +7,8 @@ export const outroTranslations = {
 	},
 	es: {
 		main: [
-			{ id: 1, dialog: '¡Agente {agentName}! ¡Es hora de enviarte a ti y a Bot Buddy al futuro! Estaré aquí en el Control de Misión, pero nos mantendremos en contacto a través del Registro de Viaje en tu Tableta SPOT.' },
-			{ id: 2, dialog: '¡Estoy encendiendo la máquina del tiempo! Cuando entres en la máquina del tiempo, respira profundo y mucho ánimo, ¡Agente!' }
+			{ id: 1, dialog: '¡Agente {agentName}! ¡Es hora de enviarte a ti y a Bot Buddy al futuro! Yo estaré aquí en el Control de la Misión, pero nos mantendremos en contacto a través del Registro de Viaje en tu Tableta SPOT.' },
+			{ id: 2, dialog: '¡Estoy encendiendo la máquina del tiempo! Al entrar en la máquina del tiempo, respira hondo y buena suerte, ¡Agentes!' }
 		]
 	}
 } as const;

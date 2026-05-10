@@ -101,6 +101,10 @@
 		SUBMIT
 	</button>
 	<div class="hud-red-blue-border text-white">
-		S.P.O.T agents usually choose a name about what inspires them. What inspires you?
+		{#if currentLanguage === 'es'}
+			Los agentes de S.P.O.T. normalmente eligen un nombre sobre lo que los inspira. ¿Qué te inspira a ti?
+		{:else}
+			S.P.O.T agents usually choose a name about what inspires them. What inspires you?
+		{/if}
 	</div>
 </div>

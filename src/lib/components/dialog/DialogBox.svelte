@@ -89,12 +89,6 @@
 	 *
 	 */
 	 const handleKeydownEvent = (event: KeyboardEvent) => {
-		// Don't capture keyboard events when user is typing in an input/textarea
-		const target = event.target as HTMLElement;
-		if (target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA' || target?.isContentEditable) {
-			return;
-		}
-
 		// Do not allow navigation if the dialogue is still typing or if the tablet modal is up
 		if (navigationLocked) return;
 
@@ -141,6 +135,13 @@
 				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} mirror={line.mirror} />
 				<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 					{line.speakers[0]}
+				</div>
+			{:else if line.pos == 'left-bottom'}
+				<div class="absolute left-0 bottom-0 z-20 flex items-end">
+					<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} mirror={line.mirror} />
+					<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+						{line.speakers[0]}
+					</div>
 				</div>
 			{:else if line.pos == 'center'}
 				<div class="center">

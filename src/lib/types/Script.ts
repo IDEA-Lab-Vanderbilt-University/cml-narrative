@@ -56,7 +56,7 @@ export interface Line {
 	/**
 	 * Position of the speaker's avatar
 	 */
-	pos?: 'left' | 'right' | 'normal' | 'center';
+	pos?: 'left' | 'right' | 'normal' | 'center' | 'left-bottom';
 
 	/**
 	 * Size of the speaker's avatar (note: 'full' works best with 'center' pos)

@@ -12,12 +12,15 @@
   export let confirmMessage: string = "Are you sure?";
   export let overrideStudentID: string | null = null;
   export let overrideHost: string | null = null;
+  export let allowFinishWithoutSubmission: boolean = false;
+  export let requireSuccessfulBuild: boolean = false;
 
   const dispatch = createEventDispatcher();
   let iframeEl: HTMLIFrameElement | null = null;
   let listener: (event: MessageEvent) => void;
   let iframeLoaded: boolean = false;
   let submitted: boolean = false;
+  let modelBuiltSuccessfully: boolean = false;
 
   const src = `https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id=${overrideStudentID ?? get(accessTokenStore)}&host=${overrideHost ?? (browser ? window.location.origin : '')}`;
 
@@ -25,6 +28,7 @@
     listener = (event: MessageEvent) => {
       try {
         if (event?.data?.type === 'travelLogSubmitted') {
+          modelBuiltSuccessfully = true;
           dispatch('submitted', event.data);
         }
       } catch (e) {
@@ -45,7 +49,12 @@
     }
 
     if (iframeEl?.contentWindow) {
-        submitted = true;
+      submitted = true;
+
+      if (allowFinishWithoutSubmission) {
+        dispatch('submitted', { localBypass: true });
+      }
+
       iframeEl.contentWindow.postMessage({
         type: 'submitTravelLog',
         data: {
@@ -55,6 +64,8 @@
       }, '*');
     }
   }
+
+  $: isButtonDisabled = !iframeLoaded || submitted || (requireSuccessfulBuild && !modelBuiltSuccessfully);
 </script>
 
 <iframe
@@ -77,7 +88,7 @@
 {/if}
 
 {#if buttonLabel}
-<button class="nicebtn" id={"codinatorSubmit"} on:click={sendMessage} disabled={!iframeLoaded || submitted}>{buttonLabel}</button>
+<button class="nicebtn" id={"codinatorSubmit"} on:click={sendMessage} disabled={isButtonDisabled}>{buttonLabel}</button>
 {/if}
 
 <style>
@@ -119,8 +130,8 @@
 
 	#codinatorSubmit {
 		position: absolute;
-		bottom: 2vh;
-		right: 2vh;
+		bottom: 12vh;
+		right: 3.2vw;
 	}
 
     #loadingCodinator {

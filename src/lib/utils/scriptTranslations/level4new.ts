@@ -14,7 +14,7 @@ export const level4newTranslations = {
 			{ id: 11, dialog: 'This agent designed a robot that detects dangerous things, like knives, and safe places to tell children what is safe and what is dangerous.' },
 			{ id: 12, dialog: 'Agent Raven designed a robot that detects whether a person is sad or happy If they are sad, the robot plays a happy song and encourages them to go outside or hang out with friends.' },
 			{ id: 13, dialog: 'Agent Raven designed a robot that detects whether a person is sad or happy If they are sad, the robot plays a happy song and encourages them to go outside or hang out with friends.' },
-			{ id: 14, dialog: 'Test out Agent Nova’s Robot. Does it work?' },
+			{ id: 14, dialog: "Test out Agent Raven's Robot. Does it work?" },
 			{ id: 15, dialog: 'Now it’s your turn! Let’s start designing and planning!!' },
 			{ id: 16, dialog: 'Agent, on your SPOT tablet, open file named  “Robot Prototype.”' },
 			{ id: 17, dialog: 'SPOT TABLET WITH ROBOT PROTOTYPE BUTTON' },

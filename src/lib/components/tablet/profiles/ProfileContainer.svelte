@@ -48,7 +48,7 @@
 			{#each profile.interests as interest}
 				<div
 					class="hud-red-blue-border flex h-full w-full flex-col items-center bg-slate-700 text-center text-xl text-white">
-					<p>I like to:</p>
+					<p>{$t('tablet.iLikeTo')}</p>
 					<p class="mt-auto mb-auto text-2xl">{interest}</p>
 				</div>
 			{/each}

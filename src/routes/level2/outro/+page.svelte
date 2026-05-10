@@ -7,6 +7,7 @@
 	import type { Line } from '$lib/types/Script';
 	import type { Student, StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
+	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level2/outro/index.js';
@@ -16,6 +17,7 @@
 	import IncomingMessageModal from '$lib/components/modals/IncomingMessageModal.svelte';
 	import ReadMessageModal from '$lib/components/modals/ReadMessageModal.svelte';
 	import { BadgesByName } from '$lib/utils/Assets/Badges.js';
+	import { settingsStore } from '$lib/utils/stores/store.js';
 
 	export let data;
 
@@ -98,9 +100,7 @@
             <ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)}>
                     <div class="border-white border-2 p-2 w-10/12">
                         <p class="text-2xl">
-                            Your Bot Buddy’s system has informed us that you have
-completed your second mission. Mission Control needs to know a few more things. We have
-included our questions in this message.
+							{getLineDialog(line)}
                         </p>
                     </div>
             </ReadMessageModal>
@@ -111,23 +111,42 @@ included our questions in this message.
         {#if line.id == 7}
             <ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)}>
                     <div class="border-white border-2 p-2 w-10/12">
-                        <p class="text-2xl">
-                            Agent, congratulations on completing the next part of your mission! I was super excited to learn more about the self-driving cars. You know how much I love technology and gadgets!!
-                        </p>
-                        <br/>
-                        <p class="text-2xl">
-                            Reports from your Bot Buddy and your Travel Log helped us learn that:
-                        </p>
-                        <ul class="text-2xl">
-                            <li>The self-driving cars are trained using an algorithm designed by people at the car factory</li>
-                            <li>The self-driving cars are trained with multiple images of faces called TRAINING DATA</li>
-                            <li>The self-driving cars are then tested using a different set of face images called TESTING DATA.</li>
-                        </ul>
-                        <br/>
-                        <p class="text-2xl">
-                            You have earned the Machine Learning Master Badge and generated some more megajoules for
-                            your journey back!
-                        </p>
+						{#if $settingsStore.language === 'es'}
+							<p class="text-2xl">
+								¡Agente, felicitaciones por completar la siguiente parte de tu misión! Me emocionó muchísimo aprender más sobre los autos autónomos. ¡Ya sabes cuánto me encantan la tecnología y los aparatos!
+							</p>
+							<br/>
+							<p class="text-2xl">
+								Los informes de tu Bot Buddy y de tu Registro de Viaje nos ayudaron a aprender que:
+							</p>
+							<ul class="text-2xl">
+								<li>Los autos autónomos se entrenan usando un algoritmo diseñado por personas en la fábrica de autos</li>
+								<li>Los autos autónomos se entrenan con múltiples imágenes de rostros llamadas DATOS DE ENTRENAMIENTO</li>
+								<li>Luego, los autos autónomos se prueban usando un conjunto diferente de imágenes de rostros llamado DATOS DE PRUEBA.</li>
+							</ul>
+							<br/>
+							<p class="text-2xl">
+								¡Has ganado la insignia de Maestro de Aprendizaje Automático y generado algunos megajulios más para tu viaje de regreso!
+							</p>
+						{:else}
+							<p class="text-2xl">
+								Agent, congratulations on completing the next part of your mission! I was super excited to learn more about the self-driving cars. You know how much I love technology and gadgets!!
+							</p>
+							<br/>
+							<p class="text-2xl">
+								Reports from your Bot Buddy and your Travel Log helped us learn that:
+							</p>
+							<ul class="text-2xl">
+								<li>The self-driving cars are trained using an algorithm designed by people at the car factory</li>
+								<li>The self-driving cars are trained with multiple images of faces called TRAINING DATA</li>
+								<li>The self-driving cars are then tested using a different set of face images called TESTING DATA.</li>
+							</ul>
+							<br/>
+							<p class="text-2xl">
+								You have earned the Machine Learning Master Badge and generated some more megajoules for
+								your journey back!
+							</p>
+						{/if}
                     </div>
             </ReadMessageModal>
         {/if}

@@ -22,7 +22,8 @@ export const RequestFactory = async (
 	url: string, 
 	method: string, 
 	body?: FormData | any, 
-	accessToken?: string
+	accessToken?: string,
+	includeCredentials: boolean = true
 ) => {
 	return new Promise<any>(async (resolve, reject) => {
 		// Initialize headers
@@ -37,7 +38,7 @@ export const RequestFactory = async (
 		// Initialize request options for a POST request
 		var requestOptions: RequestInit = {
 			method: method,
-			credentials: 'include',
+			credentials: includeCredentials ? 'include' : 'omit',
 			headers: headers,
 			redirect: 'follow'
 		};
@@ -58,9 +59,33 @@ export const RequestFactory = async (
 			console.log('requestOptions: ', requestOptions);
 			let response = await fetch(url, requestOptions);
 			if (!response.ok) {
-				throw new Error('Error fetching data from server: ' + response.statusText);
+				let errorDetails = '';
+				try {
+					errorDetails = await response.text();
+				} catch (readError) {
+					errorDetails = '';
+				}
+
+				const message = errorDetails
+					? `Error fetching data from server: ${response.statusText} (${response.status}) - ${errorDetails}`
+					: `Error fetching data from server: ${response.statusText} (${response.status})`;
+
+				throw new Error(message);
 			}
-			let result = await response.json();
+
+			const contentType = response.headers.get('content-type') || '';
+			let result: any;
+
+			if (contentType.includes('application/json')) {
+				result = await response.json();
+			} else {
+				const textResult = await response.text();
+				try {
+					result = JSON.parse(textResult);
+				} catch (parseError) {
+					result = { response: textResult };
+				}
+			}
 
 			resolve(result);
 		} catch (error) {

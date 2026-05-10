@@ -18,7 +18,8 @@
 	import { Assets } from '$lib/utils/Assets';
 	import { studentDataStore } from '$lib/utils/stores/store';
 	import DataService from '$lib/utils/DataService';
-	import { t } from '$lib/utils/stores/languageStore';
+	import { languageStore, t } from '$lib/utils/stores/languageStore';
+	import type { Language } from '$lib/utils/translations';
 	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
@@ -27,62 +28,137 @@
 	 */
 	let index = 0;
 	let isEditingProfile = false;
+	let currentLanguage: Language = 'en';
 
 	let profileData: Student = get(studentDataStore);
 
-	let profileExamples: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[], canEdit: boolean}[] = [
-		{
-			name: 'Agent Gear',
-			rank: 'Senior Agent',
-			favoriteBadge: 'Robot Wrangler',
-			img: Assets.Characters.AgentGear.talking,
-			interests: ['Ride motorcycles', 'Eat empanadas', 'Watch race car tournaments'],
-			canEdit: false
-		},
-		{
-			name: 'Agent Spark',
-			rank: 'Junior Agent',
-			favoriteBadge: 'Scratch Code Champion',
-			img: Assets.Characters.AgentSpark.talking,
-			interests: [
-				'Build computers and learn how they work',
-				'Read sci-fi books',
-				'Play video games'
-			],
-			canEdit: false
-		},
-		{
-			name: 'Agent Fern',
-			rank: 'Senior Agent',
-			favoriteBadge: 'Algorithm Ace',
-			img: Assets.Characters.AgentFern.smile,
-			interests: ['Water my plants', 'Travel to new places', 'Play piano'],
-			canEdit: false
-		},
-		{
-			name: 'Captain Storm',
-			rank: 'Captain',
-			favoriteBadge: 'Machine Learning Master',
-			img: Assets.Characters.CaptainStorm.yeah,
-			interests: [
-				"Watch thunderstorms (when it's safe of course!)",
-				'Play volleyball',
-				'Build robots'
-			],
-			canEdit: false
-		},
-	];
+	let profileExamples: {name: string, rank: string, favoriteBadge: string, img: string, interests: string[], canEdit: boolean}[] = [];
 
-	if (profileData.agent_name && profileData.agent_name != '') {
-		profileExamples = [{
-			name: "Agent " + profileData.agent_name,
-			rank: (profileData.progress?.badge_count ?? 0) > 4 ? "Junior Agent" : "Agent in Training",
-			favoriteBadge: '',
-			img: profileData.avatar ?? '',
-			interests: profileData.interests ?? ['','',''],
-			canEdit: true
-		}, ...profileExamples];
-	}
+	const getBaseProfileExamples = (language: Language) => {
+		if (language === 'es') {
+			return [
+				{
+					name: 'Agente Gear',
+					rank: 'Agente Senior',
+					favoriteBadge: 'Domador de Robots',
+					img: Assets.Characters.AgentGear.talking,
+					interests: ['Montar motocicletas', 'Comer empanadas', 'Ver torneos de carreras de autos'],
+					canEdit: false
+				},
+				{
+					name: 'Agente Spark',
+					rank: 'Agente Junior',
+					favoriteBadge: 'Campeón de Código Scratch',
+					img: Assets.Characters.AgentSpark.talking,
+					interests: [
+						'Construir computadoras y aprender cómo funcionan',
+						'Leer libros de ciencia ficción',
+						'Jugar videojuegos'
+					],
+					canEdit: false
+				},
+				{
+					name: 'Agente Fern',
+					rank: 'Agente Senior',
+					favoriteBadge: 'As de Algoritmos',
+					img: Assets.Characters.AgentFern.smile,
+					interests: ['Regar mis plantas', 'Viajar a lugares nuevos', 'Tocar el piano'],
+					canEdit: false
+				},
+				{
+					name: 'Capitán Storm',
+					rank: 'Capitán',
+					favoriteBadge: 'Maestro de Aprendizaje Automático',
+					img: Assets.Characters.CaptainStorm.yeah,
+					interests: [
+						'Ver tormentas eléctricas (¡cuando es seguro, claro!)',
+						'Jugar voleibol',
+						'Construir robots'
+					],
+					canEdit: false
+				}
+			];
+		}
+
+		return [
+			{
+				name: 'Agent Gear',
+				rank: 'Senior Agent',
+				favoriteBadge: 'Robot Wrangler',
+				img: Assets.Characters.AgentGear.talking,
+				interests: ['Ride motorcycles', 'Eat empanadas', 'Watch race car tournaments'],
+				canEdit: false
+			},
+			{
+				name: 'Agent Spark',
+				rank: 'Junior Agent',
+				favoriteBadge: 'Scratch Code Champion',
+				img: Assets.Characters.AgentSpark.talking,
+				interests: [
+					'Build computers and learn how they work',
+					'Read sci-fi books',
+					'Play video games'
+				],
+				canEdit: false
+			},
+			{
+				name: 'Agent Fern',
+				rank: 'Senior Agent',
+				favoriteBadge: 'Algorithm Ace',
+				img: Assets.Characters.AgentFern.smile,
+				interests: ['Water my plants', 'Travel to new places', 'Play piano'],
+				canEdit: false
+			},
+			{
+				name: 'Captain Storm',
+				rank: 'Captain',
+				favoriteBadge: 'Machine Learning Master',
+				img: Assets.Characters.CaptainStorm.yeah,
+				interests: [
+					"Watch thunderstorms (when it's safe of course!)",
+					'Play volleyball',
+					'Build robots'
+				],
+				canEdit: false
+			}
+		];
+	};
+
+	const getStudentProfileExample = (student: Student, language: Language) => ({
+		name: `${language === 'es' ? 'Agente' : 'Agent'} ${student.agent_name}`,
+		rank:
+			(student.progress?.badge_count ?? 0) > 4
+				? language === 'es'
+					? 'Agente Junior'
+					: 'Junior Agent'
+				: language === 'es'
+					? 'Agente en Entrenamiento'
+					: 'Agent in Training',
+		favoriteBadge: '',
+		img: student.avatar ?? '',
+		interests: student.interests ?? ['', '', ''],
+		canEdit: true
+	});
+
+	const refreshProfileExamples = () => {
+		const localizedExamples = getBaseProfileExamples(currentLanguage);
+		if (profileData.agent_name && profileData.agent_name !== '') {
+			profileExamples = [getStudentProfileExample(profileData, currentLanguage), ...localizedExamples];
+		} else {
+			profileExamples = localizedExamples;
+		}
+
+		if (index > profileExamples.length - 1) {
+			index = Math.max(profileExamples.length - 1, 0);
+		}
+	};
+
+	languageStore.subscribe((lang) => {
+		currentLanguage = lang;
+		refreshProfileExamples();
+	});
+
+	refreshProfileExamples();
 
 	let nextButton: HTMLButtonElement | void;
 	let previousButton: HTMLButtonElement | void;
@@ -125,19 +201,7 @@
 			
 			// Update the local student agent reference
 			profileData = submittedData;
-			
-			// Update the profile examples array
-			const studentProfileIndex = profileExamples.findIndex(p => p.canEdit);
-			if (studentProfileIndex !== -1) {
-				profileExamples[studentProfileIndex] = {
-					name: "Agent " + submittedData.agent_name,
-					rank: (submittedData.progress?.badge_count ?? 0) > 4 ? "Junior Agent" : "Agent in Training",
-					favoriteBadge: '',
-					img: submittedData.avatar ?? '',
-					interests: submittedData.interests ?? ['','',''],
-					canEdit: true
-				};
-			}
+			refreshProfileExamples();
 			
 			// Exit edit mode
 			isEditingProfile = false;
@@ -186,7 +250,7 @@
 		<!-- Profile Editor Mode -->
 		<div class="h-full flex flex-col">
 			<div class="text-center py-4">
-				<h2 class="text-3xl text-white font-mono">Edit Your Profile</h2>
+				<h2 class="text-3xl text-white font-mono">{$t('tablet.editYourProfile')}</h2>
 			</div>
 			<div class="flex-1">
 				<ProfileEditor 

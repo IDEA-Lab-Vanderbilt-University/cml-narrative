@@ -9,14 +9,14 @@
 </script>
 
 
-<div class="flex w-full">
+<div style="position: absolute; top: 1rem; right: 1rem; z-index: 10;">
     <button
         on:click={handleClick}
-        class="mx-4 my-4 ml-auto w-fit  rounded-full bg-green-500 px-6 py-7 shadow-md hover:shadow-lg">
+        class="rounded-full bg-green-500 px-6 py-7 shadow-md hover:shadow-lg">
         <img
             src="/img/icons/mobile-app.png"
             alt=""
-            class="h-24 {pulse? "animate-pulse" : ""}" draggable="false" />
+            class="h-24 {pulse? 'animate-pulse' : ''}" draggable="false" />
     </button>
 </div>
 

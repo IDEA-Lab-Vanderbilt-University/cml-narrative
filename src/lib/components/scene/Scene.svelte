@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
+	import { browser } from '$app/environment';
 	import AudioPlayer from '../audio/AudioPlayer.svelte';
 
 	/**  The background image of the scene */
@@ -18,14 +19,30 @@
 	}
 
 	let audioPlayer: AudioPlayer | void;
+	let handleShowTablet: () => void;
+	let handleHideTablet: () => void;
 
 	onMount(() => {
-		document.addEventListener('showTablet', (e) => {
+		if (!browser) return;
+
+		handleShowTablet = () => {
 			audioPlayer?.stopAll();		
-		});
-		document.addEventListener('hideTablet', (e) => {
+		};
+
+		handleHideTablet = () => {
 			audioPlayer?.playAll();
-		});
+		};
+
+		document.addEventListener('showTablet', handleShowTablet);
+		document.addEventListener('hideTablet', handleHideTablet);
+	});
+
+	onDestroy(() => {
+		if (!browser) return;
+		if (!handleShowTablet || !handleHideTablet) return;
+
+		document.removeEventListener('showTablet', handleShowTablet);
+		document.removeEventListener('hideTablet', handleHideTablet);
 	});
 
 	export let bgSize: string = 'cover';

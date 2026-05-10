@@ -19,6 +19,7 @@ export interface StudentProgress {
 	id?: string;
 	student_id?: string;
 	last_visited?: string;
+    level4new_traininator_tried?: boolean;
 	badge_count?: number;
 	megajoules?: number;
 	updated_at?: {
