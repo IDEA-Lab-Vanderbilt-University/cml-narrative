@@ -1,0 +1,1437 @@
+﻿diff --git a/.env.example b/.env.example
+index e2f1038..98eb7f6 100644
+--- a/.env.example
++++ b/.env.example
+@@ -1 +1 @@
+-PUBLIC_BACKEND_API_URL=''
+\ No newline at end of file
++PUBLIC_BACKEND_API_URL='http://localhost:8080'
+\ No newline at end of file
+diff --git a/package-lock.json b/package-lock.json
+index c4d8c5f..b0daa6c 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -26,7 +26,8 @@
+ 				"svelte-file-dropzone": "2.0.9",
+ 				"svelte-preprocess-react": "0.17.1",
+ 				"svelte-simple-modal": "^1.6.2",
+-				"vite": "4.5.5"
++				"vite": "4.5.5",
++				"xlsx-to-js": "^1.0.4"
+ 			},
+ 			"devDependencies": {
+ 				"@sveltejs/adapter-node": "1.3",
+@@ -37,7 +38,6 @@
+ 				"@types/sortablejs": "^1.15.8",
+ 				"autoprefixer": "^10.4.20",
+ 				"daisyui": "4.12.10",
+-				"html5-qrcode": "^2.3.8",
+ 				"postcss": "8.4.45",
+ 				"prettier": "^3.3.3",
+ 				"prettier-plugin-svelte": "3.2.6",
+@@ -1457,6 +1457,12 @@
+ 				"url": "https://opencollective.com/core-js"
+ 			}
+ 		},
++		"node_modules/core-util-is": {
++			"version": "1.0.3",
++			"resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.3.tgz",
++			"integrity": "sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==",
++			"license": "MIT"
++		},
+ 		"node_modules/cross-spawn": {
+ 			"version": "7.0.6",
+ 			"resolved": "https://registry.npmjs.org/cross-spawn/-/cross-spawn-7.0.6.tgz",
+@@ -2025,17 +2031,17 @@
+ 				"node": ">=8.0.0"
+ 			}
+ 		},
+-		"node_modules/html5-qrcode": {
+-			"version": "2.3.8",
+-			"resolved": "https://registry.npmjs.org/html5-qrcode/-/html5-qrcode-2.3.8.tgz",
+-			"integrity": "sha512-jsr4vafJhwoLVEDW3n1KvPnCCXWaQfRng0/EEYk1vNcQGcG/htAdhJX0be8YyqMoSz7+hZvOZSTAepsabiuhiQ==",
+-			"dev": true
+-		},
+ 		"node_modules/idb-keyval": {
+ 			"version": "6.2.1",
+ 			"resolved": "https://registry.npmjs.org/idb-keyval/-/idb-keyval-6.2.1.tgz",
+ 			"integrity": "sha512-8Sb3veuYCyrZL+VBt9LJfZjLUPWVvqn8tG28VqYNFCo43KHcKuq+b4EiXGeuaLAQWL2YmyDgMp2aSpH9JHsEQg=="
+ 		},
++		"node_modules/immediate": {
++			"version": "3.0.6",
++			"resolved": "https://registry.npmjs.org/immediate/-/immediate-3.0.6.tgz",
++			"integrity": "sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ==",
++			"license": "MIT"
++		},
+ 		"node_modules/inflight": {
+ 			"version": "1.0.6",
+ 			"resolved": "https://registry.npmjs.org/inflight/-/inflight-1.0.6.tgz",
+@@ -2049,8 +2055,7 @@
+ 		"node_modules/inherits": {
+ 			"version": "2.0.4",
+ 			"resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.4.tgz",
+-			"integrity": "sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==",
+-			"dev": true
++			"integrity": "sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ=="
+ 		},
+ 		"node_modules/intro.js": {
+ 			"version": "7.2.0",
+@@ -2149,6 +2154,12 @@
+ 				"@types/estree": "*"
+ 			}
+ 		},
++		"node_modules/isarray": {
++			"version": "1.0.0",
++			"resolved": "https://registry.npmjs.org/isarray/-/isarray-1.0.0.tgz",
++			"integrity": "sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==",
++			"license": "MIT"
++		},
+ 		"node_modules/isexe": {
+ 			"version": "2.0.0",
+ 			"resolved": "https://registry.npmjs.org/isexe/-/isexe-2.0.0.tgz",
+@@ -2204,6 +2215,18 @@
+ 				"html2canvas": "^1.0.0-rc.5"
+ 			}
+ 		},
++		"node_modules/jszip": {
++			"version": "3.10.1",
++			"resolved": "https://registry.npmjs.org/jszip/-/jszip-3.10.1.tgz",
++			"integrity": "sha512-xXDvecyTpGLrqFrvkrUSoxxfJI5AH7U8zxxtVclpsUtMCq4JQ290LY8AW5c7Ggnr/Y/oK+bQMbqK2qmtk3pN4g==",
++			"license": "(MIT OR GPL-3.0-or-later)",
++			"dependencies": {
++				"lie": "~3.3.0",
++				"pako": "~1.0.2",
++				"readable-stream": "~2.3.6",
++				"setimmediate": "^1.0.5"
++			}
++		},
+ 		"node_modules/kleur": {
+ 			"version": "4.1.5",
+ 			"resolved": "https://registry.npmjs.org/kleur/-/kleur-4.1.5.tgz",
+@@ -2213,6 +2236,15 @@
+ 				"node": ">=6"
+ 			}
+ 		},
++		"node_modules/lie": {
++			"version": "3.3.0",
++			"resolved": "https://registry.npmjs.org/lie/-/lie-3.3.0.tgz",
++			"integrity": "sha512-UaiMJzeWRlEujzAuw5LokY1L5ecNQYZKfmyZ9L7wDHb/p5etKaxXhohBcrw0EYby+G/NA52vRSN4N39dxHAIwQ==",
++			"license": "MIT",
++			"dependencies": {
++				"immediate": "~3.0.5"
++			}
++		},
+ 		"node_modules/lilconfig": {
+ 			"version": "2.1.0",
+ 			"resolved": "https://registry.npmjs.org/lilconfig/-/lilconfig-2.1.0.tgz",
+@@ -2476,6 +2508,12 @@
+ 				"node": ">=6"
+ 			}
+ 		},
++		"node_modules/pako": {
++			"version": "1.0.11",
++			"resolved": "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz",
++			"integrity": "sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==",
++			"license": "(MIT AND Zlib)"
++		},
+ 		"node_modules/papaparse": {
+ 			"version": "5.4.1",
+ 			"resolved": "https://registry.npmjs.org/papaparse/-/papaparse-5.4.1.tgz",
+@@ -2843,6 +2881,12 @@
+ 				}
+ 			}
+ 		},
++		"node_modules/process-nextick-args": {
++			"version": "2.0.1",
++			"resolved": "https://registry.npmjs.org/process-nextick-args/-/process-nextick-args-2.0.1.tgz",
++			"integrity": "sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==",
++			"license": "MIT"
++		},
+ 		"node_modules/qr-scanner": {
+ 			"version": "1.4.2",
+ 			"resolved": "https://registry.npmjs.org/qr-scanner/-/qr-scanner-1.4.2.tgz",
+@@ -2933,6 +2977,21 @@
+ 				"pify": "^2.3.0"
+ 			}
+ 		},
++		"node_modules/readable-stream": {
++			"version": "2.3.8",
++			"resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-2.3.8.tgz",
++			"integrity": "sha512-8p0AUk4XODgIewSi0l8Epjs+EVnWiK7NoDIEGU0HhE7+ZyY8D1IMY7odu5lRrFXGg71L15KG8QrPmum45RTtdA==",
++			"license": "MIT",
++			"dependencies": {
++				"core-util-is": "~1.0.0",
++				"inherits": "~2.0.3",
++				"isarray": "~1.0.0",
++				"process-nextick-args": "~2.0.0",
++				"safe-buffer": "~5.1.1",
++				"string_decoder": "~1.1.1",
++				"util-deprecate": "~1.0.1"
++			}
++		},
+ 		"node_modules/readdirp": {
+ 			"version": "3.6.0",
+ 			"resolved": "https://registry.npmjs.org/readdirp/-/readdirp-3.6.0.tgz",
+@@ -3049,6 +3108,12 @@
+ 				"node": ">=6"
+ 			}
+ 		},
++		"node_modules/safe-buffer": {
++			"version": "5.1.2",
++			"resolved": "https://registry.npmjs.org/safe-buffer/-/safe-buffer-5.1.2.tgz",
++			"integrity": "sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==",
++			"license": "MIT"
++		},
+ 		"node_modules/scheduler": {
+ 			"version": "0.23.2",
+ 			"resolved": "https://registry.npmjs.org/scheduler/-/scheduler-0.23.2.tgz",
+@@ -3074,6 +3139,12 @@
+ 			"integrity": "sha512-RVnVQxTXuerk653XfuliOxBP81Sf0+qfQE73LIYKcyMYHG94AuH0kgrQpRDuTZnSmjpysHmzxJXKNfa6PjFhyQ==",
+ 			"dev": true
+ 		},
++		"node_modules/setimmediate": {
++			"version": "1.0.5",
++			"resolved": "https://registry.npmjs.org/setimmediate/-/setimmediate-1.0.5.tgz",
++			"integrity": "sha512-MATJdZp8sLqDl/68LfQmbP8zKPLQNV6BIZoIgrscFDQ+RsvK/BxeDQOgyxKKoh0y/8h3BqVFnCqQ/gd+reiIXA==",
++			"license": "MIT"
++		},
+ 		"node_modules/shebang-command": {
+ 			"version": "2.0.0",
+ 			"resolved": "https://registry.npmjs.org/shebang-command/-/shebang-command-2.0.0.tgz",
+@@ -3164,6 +3235,15 @@
+ 				"node": ">=0.1.14"
+ 			}
+ 		},
++		"node_modules/string_decoder": {
++			"version": "1.1.1",
++			"resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-1.1.1.tgz",
++			"integrity": "sha512-n/ShnvDi6FHbbVfviro+WojiFzv+s8MPMHBczVePfUpDJLwoLT0ht1l4YwBCbi8pJAveEEdnkHyPyTP/mzRfwg==",
++			"license": "MIT",
++			"dependencies": {
++				"safe-buffer": "~5.1.0"
++			}
++		},
+ 		"node_modules/string-width": {
+ 			"version": "5.1.2",
+ 			"resolved": "https://registry.npmjs.org/string-width/-/string-width-5.1.2.tgz",
+@@ -3688,8 +3768,7 @@
+ 		"node_modules/util-deprecate": {
+ 			"version": "1.0.2",
+ 			"resolved": "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz",
+-			"integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==",
+-			"dev": true
++			"integrity": "sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw=="
+ 		},
+ 		"node_modules/utrie": {
+ 			"version": "1.0.2",
+@@ -3885,6 +3964,15 @@
+ 			"integrity": "sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==",
+ 			"dev": true
+ 		},
++		"node_modules/xlsx-to-js": {
++			"version": "1.0.4",
++			"resolved": "https://registry.npmjs.org/xlsx-to-js/-/xlsx-to-js-1.0.4.tgz",
++			"integrity": "sha512-UEYRVatuKOBaqeRTpAHG5o2oRiCot5SOMBY6R5DrpGDrcf4lgfkDOW7tb5Vt+SPl5LvpSsVASwR+tDl0ILH0Fg==",
++			"license": "MIT",
++			"dependencies": {
++				"jszip": "^3.10.1"
++			}
++		},
+ 		"node_modules/y18n": {
+ 			"version": "4.0.3",
+ 			"resolved": "https://registry.npmjs.org/y18n/-/y18n-4.0.3.tgz",
+diff --git a/src/lib/components/activities/free-response/TextResponseModal.svelte b/src/lib/components/activities/free-response/TextResponseModal.svelte
+index 32c5dc2..a3342b5 100644
+--- a/src/lib/components/activities/free-response/TextResponseModal.svelte
++++ b/src/lib/components/activities/free-response/TextResponseModal.svelte
+@@ -26,7 +26,6 @@
+ 	let canRecord = false;
+ 	let recordingItemId: string | null = null;
+ 	let recognition: any;
+-	let hasInitialized = false; // Track if we've initialized from prefill
+ 
+     export let onSuccess: (result: string | Record<string, string>) => void;
+     export let id: string | undefined = undefined;
+@@ -58,24 +57,19 @@
+ 				return item;
+ 			});
+ 			
+-			// Initialize multi responses only once
+-			if (!hasInitialized) {
+-				if (typeof prefill === 'object' && prefill !== null) {
+-					multiResponses = { ...prefill };
+-				}
+-				promptItems.forEach((item) => {
+-					if (!(item.id in multiResponses)) {
+-						multiResponses[item.id] = '';
+-					}
+-				});
+-				hasInitialized = true;
++			// Initialize multi responses
++			if (typeof prefill === 'object' && prefill !== null) {
++				multiResponses = { ...prefill };
+ 			}
++			promptItems.forEach((item) => {
++				if (!(item.id in multiResponses)) {
++					multiResponses[item.id] = '';
++				}
++			});
+ 		} else {
+ 			isMultiMode = false;
+-			// Only set response from prefill if we haven't initialized yet
+-			if (!hasInitialized) {
++			if (!response) {
+ 				response = (typeof prefill === 'string' ? prefill : '') || '';
+-				hasInitialized = true;
+ 			}
+ 		}
+ 	}
+@@ -238,18 +232,12 @@
+ 							type="text"
+ 							class="response-input"
+ 							placeholder={item.placeholder || 'Enter your response...'}
+-						bind:value={multiResponses[item.id]}
+-						on:keydown|stopPropagation
+-						on:keypress|stopPropagation
+-						on:keyup|stopPropagation />
++							bind:value={multiResponses[item.id]} />
+ 					{:else}
+ 						<textarea
+ 							class="response-textarea"
+ 							placeholder={item.placeholder || 'Enter your response...'}
+-						bind:value={multiResponses[item.id]}
+-						on:keydown|stopPropagation
+-						on:keypress|stopPropagation
+-						on:keyup|stopPropagation />
++							bind:value={multiResponses[item.id]} />
+ 					{/if}
+ 					{#if recordingItemId === item.id}
+ 						<p class="recording-indicator">Recording...</p>
+diff --git a/src/lib/components/audio/AudioPlayer.svelte b/src/lib/components/audio/AudioPlayer.svelte
+index 45017b9..5128a13 100644
+--- a/src/lib/components/audio/AudioPlayer.svelte
++++ b/src/lib/components/audio/AudioPlayer.svelte
+@@ -25,14 +25,16 @@
+ 
+ <script lang="ts">
+ 	import { createEventDispatcher, onDestroy, onMount } from 'svelte';
++	import { browser } from '$app/environment';
+ 	import { languageStore } from '$lib/utils/stores/languageStore';
+ 	import { getAudioPath } from '$lib/utils/Assets/AudioPath';
+ 	import type { Language } from '$lib/utils/translations';
+ 
+-	export let src: string; // Relative path (e.g., '/level1/bot_buddy/file.wav')
++	export let src: string;
+ 	let hasPlayerMounted = false;
+ 	let currentLanguage: Language = 'en';
+ 	let fullAudioPath = '';
++	let pathResolutionRequestId = 0;
+ 	let attemptedNonEnglishPaths = new Set<string>(); // Track paths we've tried to warn only once
+ 
+ 	const dispatch = createEventDispatcher();
+@@ -42,36 +44,100 @@
+ 		currentLanguage = lang;
+ 	});
+ 
+-	// Construct full audio path synchronously
+-	function constructAudioPath(relativePath: string, language: Language): string {
+-		if (!relativePath) return '';
+-		return getAudioPath(language, relativePath);
++	function pathExists(path: string): Promise<boolean> {
++		if (!browser) return Promise.resolve(false);
++		return fetch(path, { method: 'HEAD' })
++			.then((response) => response.ok)
++			.catch(() => false);
++	}
++
++	function toMp3RelativePath(relativePath: string): string | null {
++		if (!/\.wav$/i.test(relativePath)) return null;
++		return relativePath.replace(/\.wav$/i, '.mp3');
++	}
++
++	function toWavRelativePath(relativePath: string): string | null {
++		if (!/\.mp3$/i.test(relativePath)) return null;
++		return relativePath.replace(/\.mp3$/i, '.wav');
++	}
++
++	function withExtension(relativePath: string, extension: 'wav' | 'mp3'): string {
++		const noExt = relativePath.replace(/\.(wav|mp3)$/i, '');
++		return `${noExt}.${extension}`;
++	}
++
++	function toNestedRelativePath(relativePath: string): string | null {
++		const cleanPath = relativePath.startsWith('/') ? relativePath.slice(1) : relativePath;
++		const segments = cleanPath.split('/').filter(Boolean);
++
++		if (segments.length < 3) return null;
++
++		const filename = segments[segments.length - 1];
++		const parentDir = segments[segments.length - 2];
++		if (!filename.toLowerCase().startsWith(`${parentDir.toLowerCase()}_`)) return null;
++
++		return `/${[...segments.slice(0, segments.length - 1), parentDir, filename].join('/')}`;
++	}
++
++	function buildRelativeCandidates(relativePath: string): string[] {
++		if (!relativePath) return [];
++
++		const hasKnownExtension = /\.(wav|mp3)$/i.test(relativePath);
++		const directCandidates = hasKnownExtension
++			? [relativePath, toMp3RelativePath(relativePath), toWavRelativePath(relativePath)].filter(Boolean) as string[]
++			: [withExtension(relativePath, 'wav'), withExtension(relativePath, 'mp3')];
++
++		const nestedCandidates = directCandidates
++			.map((candidate) => toNestedRelativePath(candidate))
++			.filter(Boolean) as string[];
++
++		return [...new Set([...directCandidates, ...nestedCandidates])];
++	}
++
++	async function resolveAudioPath(relativePath: string, language: Language): Promise<string> {
++		const languageCandidates = buildRelativeCandidates(relativePath).map((candidate) => getAudioPath(language, candidate));
++		const englishCandidates = language === 'en' || language === 'es'
++			? []
++			: buildRelativeCandidates(relativePath).map((candidate) => getAudioPath('en', candidate));
++
++		const allCandidates = [...languageCandidates, ...englishCandidates];
++
++		for (const candidatePath of allCandidates) {
++			if (await pathExists(candidatePath)) {
++				if (language !== 'en' && candidatePath.includes('/audio/en/')) {
++					const pathKey = `${language}:${relativePath}`;
++					if (!attemptedNonEnglishPaths.has(pathKey)) {
++						console.warn(`[Audio] Language-specific file not found for ${relativePath}. Falling back to English: ${candidatePath}`);
++						attemptedNonEnglishPaths.add(pathKey);
++					}
++				}
++				return candidatePath;
++			}
++		}
++
++		return allCandidates[0] || '';
+ 	}
+ 
+ 	// Handle audio load errors (when file doesn't exist)
+ 	function handleAudioError() {
+-		// If we're not using English and haven't tried fallback yet
+-		if (currentLanguage !== 'en' && fullAudioPath && !fullAudioPath.includes('/audio/en/')) {
+-			const pathKey = `${currentLanguage}:${src}`;
+-			if (!attemptedNonEnglishPaths.has(pathKey)) {
+-				const englishPath = getAudioPath('en', src);
+-				console.warn(
+-					`[Audio] Language-specific file not found: ${fullAudioPath}\n` +
+-					`Falling back to English: ${englishPath}`
+-				);
+-				attemptedNonEnglishPaths.add(pathKey);
++		if (!src) return;
++		if (currentLanguage === 'en' || currentLanguage === 'es' || !browser) return;
++		resolveAudioPath(src, 'en').then((englishPath) => {
++			if (englishPath && englishPath !== fullAudioPath) {
+ 				fullAudioPath = englishPath;
+ 			}
+-		}
++		});
+ 	}
+ 
+-	// Reactive statement: Update audio when src or language changes
++	// Reactive statement: Resolve audio path when src or language changes
+ 	$: {
+-		if (src && currentLanguage) {
+-			const newPath = constructAudioPath(src, currentLanguage);
+-			if (newPath !== fullAudioPath) {
+-				fullAudioPath = newPath;
+-			}
++		if (browser && src && currentLanguage) {
++			const requestId = ++pathResolutionRequestId;
++			resolveAudioPath(src, currentLanguage).then((resolvedPath) => {
++				if (requestId === pathResolutionRequestId && resolvedPath !== fullAudioPath) {
++					fullAudioPath = resolvedPath;
++				}
++			});
+ 		}
+ 	}
+ 
+@@ -110,12 +176,7 @@
+ 
+ 	onDestroy(() => {
+ 		unsubscribe();
+-		players.forEach((p) => {
+-			if (p) {
+-				p.pause();
+-				p.src = '';
+-			}
+-		});
++		players.forEach((p) => p.pause());
+ 	});
+ </script>
+ 
+diff --git a/src/lib/components/auth/Login.svelte b/src/lib/components/auth/Login.svelte
+index befeccd..56fce18 100644
+--- a/src/lib/components/auth/Login.svelte
++++ b/src/lib/components/auth/Login.svelte
+@@ -134,7 +134,8 @@
+ 				studentProgressStore.set(serverUser.progress);
+ 			}
+ 		} catch (err) {
+-			message = getTranslation(currentLanguage, 'login.loginFailed');
++			const detail = err instanceof Error ? err.message : 'Unknown error';
++			message = `${getTranslation(currentLanguage, 'login.loginFailed')} (${detail})`;
+ 			isSuccess = false;
+ 			console.log(err);
+ 			console.log('login failed');
+diff --git a/src/lib/components/dialog/DialogBox.svelte b/src/lib/components/dialog/DialogBox.svelte
+index 970abd7..0a0a336 100644
+--- a/src/lib/components/dialog/DialogBox.svelte
++++ b/src/lib/components/dialog/DialogBox.svelte
+@@ -89,12 +89,6 @@
+ 	 *
+ 	 */
+ 	 const handleKeydownEvent = (event: KeyboardEvent) => {
+-		// Don't capture keyboard events when user is typing in an input/textarea
+-		const target = event.target as HTMLElement;
+-		if (target?.tagName === 'INPUT' || target?.tagName === 'TEXTAREA' || target?.isContentEditable) {
+-			return;
+-		}
+-
+ 		// Do not allow navigation if the dialogue is still typing or if the tablet modal is up
+ 		if (navigationLocked) return;
+ 
+@@ -142,6 +136,13 @@
+ 				<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+ 					{line.speakers[0]}
+ 				</div>
++			{:else if line.pos == 'left-bottom'}
++				<div class="absolute left-0 bottom-0 z-20 flex items-end">
++					<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} mirror={line.mirror} />
++					<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
++						{line.speakers[0]}
++					</div>
++				</div>
+ 			{:else if line.pos == 'center'}
+ 				<div class="center">
+ 					<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]}  size={line.size} mirror={line.mirror} />
+diff --git a/src/lib/scripts/level3/traininator/index.ts b/src/lib/scripts/level3/traininator/index.ts
+index d95772f..33eeb2d 100644
+--- a/src/lib/scripts/level3/traininator/index.ts
++++ b/src/lib/scripts/level3/traininator/index.ts
+@@ -1,7 +1,7 @@
+ import type { Script } from '$lib/types/Script';
++import { settingsStore } from '$lib/utils/stores/store';
+ import { getCharacterName, type Language } from '$lib/utils/translations';
+ import { getScriptTranslationWithFallback } from '$lib/utils/getScriptTranslation';
+-import { settingsStore } from '$lib/utils/stores/store';
+ 
+ let currentLanguage: Language = 'en';
+ settingsStore.subscribe((value) => {
+diff --git a/src/lib/scripts/level4new/index.ts b/src/lib/scripts/level4new/index.ts
+index 05fb2f7..8f22042 100644
+--- a/src/lib/scripts/level4new/index.ts
++++ b/src/lib/scripts/level4new/index.ts
+@@ -48,7 +48,7 @@ const script: Script = {
+ 		},
+ 		{
+ 			id: 5,
+-			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
++			speakers: ['', getCharacterName(currentLanguage, 'captainStorm')],
+ 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 5),
+ 			avatars: ['/img/characters/bot-buddy/bot-buddy-smug.png', '/img/characters/captain-storm/storm_gesture_4.png'],
+ 			background: '/img/backgrounds/Spark_Lab.jpg',
+@@ -56,7 +56,7 @@ const script: Script = {
+ 		},
+ 		{
+ 			id: 6,
+-			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
++			speakers: ['', getCharacterName(currentLanguage, 'captainStorm')],
+ 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 6),
+ 			avatars: ['/img/characters/bot-buddy/bot-buddy-smug.png', '/img/characters/captain-storm/storm_gesture_4.png'],
+ 			background: '/img/backgrounds/Spark_Lab.jpg',
+@@ -64,7 +64,7 @@ const script: Script = {
+ 		},
+ 		{
+ 			id: 7,
+-			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
++			speakers: ['', getCharacterName(currentLanguage, 'captainStorm')],
+ 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 7),
+ 			avatars: ['/img/characters/bot-buddy/bot-buddy-smug.png', '/img/characters/captain-storm/storm_gesture_4.png'],
+ 			background: '/img/backgrounds/Spark_Lab.jpg',
+@@ -126,7 +126,7 @@ const script: Script = {
+ 		},
+ 		{
+ 			id: 15,
+-			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
++			speakers: ['', getCharacterName(currentLanguage, 'captainStorm')],
+ 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 15),
+ 			avatars: ['/img/characters/bot-buddy/bot-buddy-smug.png', '/img/characters/captain-storm/storm_point.png'],
+ 			background: '/img/backgrounds/Spark_Lab.jpg',
+@@ -134,7 +134,7 @@ const script: Script = {
+ 		},
+ 		{
+ 			id: 16,
+-			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
++			speakers: ['', getCharacterName(currentLanguage, 'captainStorm')],
+ 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 16),
+ 			avatars: ['/img/characters/bot-buddy/bot-buddy-smug.png', '/img/characters/captain-storm/storm_point.png'],
+ 			background: '/img/backgrounds/Spark_Lab.jpg',
+@@ -220,7 +220,7 @@ const script: Script = {
+ 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 27),
+ 			avatars: ['/img/characters/captain-storm/storm_point.png'],
+ 			background: '/img/backgrounds/Spark_Lab.jpg',
+-			pos: 'left'
++			pos: 'left-bottom'
+ 		},
+ 		{
+ 			id: 28,
+diff --git a/src/lib/types/Script.ts b/src/lib/types/Script.ts
+index fbda365..5e2ee44 100644
+--- a/src/lib/types/Script.ts
++++ b/src/lib/types/Script.ts
+@@ -56,7 +56,7 @@ export interface Line {
+ 	/**
+ 	 * Position of the speaker's avatar
+ 	 */
+-	pos?: 'left' | 'right' | 'normal' | 'center';
++	pos?: 'left' | 'right' | 'normal' | 'center' | 'left-bottom';
+ 
+ 	/**
+ 	 * Size of the speaker's avatar (note: 'full' works best with 'center' pos)
+diff --git a/src/lib/types/UserData.ts b/src/lib/types/UserData.ts
+index 73b0413..0626163 100644
+--- a/src/lib/types/UserData.ts
++++ b/src/lib/types/UserData.ts
+@@ -19,6 +19,7 @@ export interface StudentProgress {
+ 	id?: string;
+ 	student_id?: string;
+ 	last_visited?: string;
++    level4new_traininator_tried?: boolean;
+ 	badge_count?: number;
+ 	megajoules?: number;
+ 	updated_at?: {
+diff --git a/src/lib/utils/DataService/index.ts b/src/lib/utils/DataService/index.ts
+index 220f203..a322c8e 100644
+--- a/src/lib/utils/DataService/index.ts
++++ b/src/lib/utils/DataService/index.ts
+@@ -59,11 +59,15 @@ const Auth = {
+ 				return;
+ 			}
+ 
++			if (!PUBLIC_BACKEND_API_URL) {
++				reject(new Error('PUBLIC_BACKEND_API_URL is not configured. Please set it in your environment.'));
++				return;
++			}
++
+ 			try {
+ 				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/students/${id}`, 'GET');
+ 
+ 				if (res) {
+-					resolve(res);
+ 					console.log('after sign in : ', res);
+ 					accessTokenStore.set(res.id);
+ 					resolve(res);
+@@ -106,6 +110,37 @@ const Auth = {
+ 			}
+ 		});
+ 	},
++
++	forgotPassword: async (email: string) => {
++		return new Promise<void>(async (resolve, reject) => {
++			if(debugMode){
++				resolve();
++				return;
++			}
++
++			try {
++				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/forgot-password`, 'POST',  email);
++				resolve();
++			} catch (error) {
++				reject(error);
++			}
++		});
++	},
++	resetPassword: async (token: string, newPassword: string) => {
++		return new Promise<void>(async (resolve, reject) => {
++			if(debugMode){
++				resolve();
++				return;
++			}
++
++			try {
++				let res = await RequestFactory(`${PUBLIC_BACKEND_API_URL}/reset-password`, 'POST', { token, new_password: newPassword });
++				resolve();
++			} catch (error) {
++				reject(error);
++			}
++		});
++	},
+ };
+ 
+ const Student = {
+diff --git a/src/lib/utils/scriptTranslations/introduction.ts b/src/lib/utils/scriptTranslations/introduction.ts
+index ba25f0b..168c0d7 100644
+--- a/src/lib/utils/scriptTranslations/introduction.ts
++++ b/src/lib/utils/scriptTranslations/introduction.ts
+@@ -64,7 +64,7 @@ export const introductionTranslations = {
+ 			main: [
+ 				{ id: 1, dialog: '┬íBienvenido a la Agencia SPOT! Mi nombre es Capit├ín Storm.' },
+ 				{ id: 2, dialog: '┬íRecientemente, nuestro equipo de cient├¡ficos e investigadores encontr├│ una forma de viajar al futuro!' },
+-				{ id: 3, dialog: '┬íMe alegra que ahora seas parte de nuestro equipo! Ahora nuestros agentes te ayudar├ín a comenzar y configurarte en el sistema SPOT.' },
++				{ id: 3, dialog: '┬íEstamos muy contentos de que ahora seas parte de nuestro equipo! Ahora nuestros agentes te ayudar├ín a comenzar y a configurarte en el sistema SPOT.' },
+ 				{ id: 4, dialog: '┬íLa Agente Fern es nuestra brillante f├¡sica que desarroll├│ una forma de viajar en el tiempo!' },
+ 				{ id: 5, dialog: '┬íEl Agente Gear es nuestro ingeniero que dise├▒├│ y construy├│ nuestros robots en la agencia SPOT!' },
+ 				{ id: 6, dialog: 'La Agente Spark es nuestra desarrolladora de software. ┬íElla escribe el c├│digo para toda nuestra tecnolog├¡a SPOT!' },
+@@ -74,7 +74,7 @@ export const introductionTranslations = {
+ 				{ id: 10, dialog: 'Adem├ís de la f├¡sica, a la Agente Fern le encantan las plantas y todo lo que crece en la naturaleza.' },
+ 				{ id: 11, dialog: '┬íEl Agente Gear se inspira en las motocicletas!' },
+ 				{ id: 12, dialog: '┬┐Qu├⌐ te inspira? ┬íEstoy seguro de que elegir├ís un gran nombre de agente secreto!' },
+-				{ id: 13, dialog: '┬íAbre tu tableta SPOT. La usar├ís para hacer un seguimiento de tu misi├│n al futuro y comunicarte con el control de misi├│n. ┬íConfiguremos la tuya!' }
++				{ id: 13, dialog: '┬íAbre tu tableta SPOT. La usar├ís para llevar un registro de tu misi├│n hacia el futuro y comunicarte con el Control de la Misi├│n. Vamos a configurarla.' }
+ 			],
+ 			welcome: [
+ 				{ id: 1, dialog: 'Ahora, echemos un vistazo a todas las funciones de tu tableta SPOT.' }
+@@ -91,34 +91,35 @@ export const introductionTranslations = {
+ 				{ id: 9, dialog: '┬íAhora tienes toda la informaci├│n sobre c├│mo usar la tableta SPOT!' }
+ 			],
+ 			training: [
+-				{ id: 1, dialog: '┬íEs hora de tu entrenamiento de Agente SPOT!' },
+-				{ id: 6, dialog: '┬┐Has o├¡do hablar de los algoritmos?' },
+-				{ id: 8, dialog: 'Gear, ┬┐sobrecargaste el generador otra vez?' },
+-				{ id: 9, dialog: '┬íUps, lo siento! ┬íLo estoy arreglando ahora!' },
+-				{ id: 10, dialog: 'De todos modos, volviendo a los algoritmos. ┬┐Qu├⌐ crees que es un algoritmo?' },
++				{ id: 1, dialog: '┬íEs hora de tu entrenamiento como Agente SPOT!' },
++				{ id: 6, dialog: '┬┐Alguna vez has o├¡do hablar de los algoritmos?' },
++				{ id: 8, dialog: '┬┐Gear? ┬┐Volviste a sobrecargar el generador?' },
++				{ id: 9, dialog: '┬íNo pasa nada! ┬íLo estoy arreglando ahora!' },
++				{ id: 10, dialog: 'En fin, volvamos a los algoritmos. ┬┐Qu├⌐ crees que es un algoritmo?' },
+ 				{ id: 11, dialog: 'No hay respuesta correcta o incorrecta. Necesitamos saber lo que sabes para prepararte a ti y a tu Bot Buddy para tu viaje.' },
+ 				{ id: 12, dialog: '┬íPensamientos interesantes, Agente {agentName}!' },
+ 				{ id: 14, dialog: 'Recuerda, no hay respuesta correcta o incorrecta, solo necesitamos saber lo que sabes para prepararte para tu misi├│n.' },
+-				{ id: 15, dialog: 'Una cosa m├ís antes de irte. Necesitamos saber m├ís sobre lo que piensas respondiendo algunas preguntas. Abre tu tableta en la parte superior de tu pantalla y completa la encuesta para contarnos m├ís sobre ti.' },
+-				{ id: 16, dialog: '┬íWAHOOO! ┬íYay, {agentName}!' },
++				{ id: 15, dialog: 'Una cosa m├ís antes de que te vayas. Necesitamos saber m├ís sobre lo que piensas respondiendo a algunas preguntas. Abre tu tableta y completa la encuesta para contarnos m├ís sobre ti.' },
++				{ id: 16, dialog: '┬íWoohoo, yay, agente! ┬íWoohoo, yay!' },
+ 				{ id: 18, dialog: '┬íFelicitaciones, has ganado tu insignia de Agente en Entrenamiento! ┬íAhora eres un Agente SPOT oficial! ┬íRevisa tu tableta SPOT para ver tu nueva insignia!' }
+ 			],
+ 			botBuddy: [
+ 				{ id: 1, dialog: '┬íGracias Agente Spark! ┬íParece que nuestro nuevo agente en entrenamiento est├í listo para ir al laboratorio!' },
+-				{ id: 2, dialog: '┬íQu├⌐ bueno verte, Capit├ín Storm! ┬íBienvenido, Agente {agentName}! ┬íNo puedo esperar para contarte sobre Bot Buddy!' },
++				{ id: 2, dialog: '┬íQu├⌐ gusto verte, Capit├ín Storm! ┬íBienvenido, Agente {agentName}! ┬íNo puedo esperar para contarte sobre Bot Buddy!' },
+ 				{ id: 3, dialog: 'Tu Bot Buddy ser├í tu compa├▒ero durante esta misi├│n. El Bot Buddy puede proporcionar pistas y recibir instrucciones del Control de Misi├│n.' },
+ 				{ id: 4, dialog: 'Agente Fern... ┬┐d├│nde est├í Bot Buddy?' },
+ 				{ id: 5, dialog: '┬í┬íNo lo s├⌐!!' },
+ 				{ id: 6, dialog: '┬íLo tengo, Capit├ín Storm! Perd├│n por llegar tarde, ┬íquer├¡a que nuestro nuevo agente tuviera el modelo actualizado!' },
+ 				{ id: 7, dialog: '$$((( ooo!>>> =+=; $^(( %&<!!' },
+ 				{ id: 8, dialog: '*CRASH* \n*BANG*' },
+-				{ id: 9, dialog: '┬íHola! ┬íSoy Bot Buddy! Ser├⌐ tu asistente robot.' },
++				{ id: 9, dialog: 'Beh bu. ┬íHola, soy Bot Buddy. Ser├⌐ tu asistente rob├│tico.' },
+ 				{ id: 10, dialog: '┬íExcelente! ┬íGracias Agente Gear y Agente Fern!' },
+ 				{ id: 11, dialog: 'Agente {agentName}, el Control de Misi├│n necesita que completes algo de entrenamiento antes de ir a la misi├│n.' },
+ 				{ id: 12, dialog: 'Este entrenamiento nos ayuda a entender lo que sabes sobre tecnolog├¡a e Inteligencia Artificial.' },
+-				{ id: 13, dialog: 'Luego, el Equipo T├⌐cnico cargar├í a tu Bot Buddy con informaci├│n y conocimiento adicional para ayudarte en tu misi├│n.' },
++				{ id: 13, dialog: 'Luego, el equipo t├⌐cnico cargar├í a tu Bot Buddy con informaci├│n y conocimientos adicionales para ayudarte en tu misi├│n. ┬┐Verdad, equipo?' },
+ 				{ id: 14, dialog: '┬íPueden contar con nosotros!' },
+-				{ id: 15, dialog: '┬íGracias, equipo! Al final de este primer entrenamiento, recibir├ís tu primera insignia. ┬íComencemos!' }
++				{ id: 15, dialog: '┬íGracias, equipo! Agente, al final de este primer entrenamiento, recibir├ís tu primera insignia. ┬íComencemos!' }
+ 			]
+ 	}
++
+ } as const;
+diff --git a/src/lib/utils/scriptTranslations/level1.ts b/src/lib/utils/scriptTranslations/level1.ts
+index d2001bd..58d08b3 100644
+--- a/src/lib/utils/scriptTranslations/level1.ts
++++ b/src/lib/utils/scriptTranslations/level1.ts
+@@ -90,11 +90,11 @@ export const level1Translations = {
+ 		main: [
+ 			{
+ 				id: 1,
+-				dialog: '┬íAqu├¡ estamos en 2075! ┬íLo hicimos!'
++				dialog: '┬íAqu├¡ estamos en 2075! ┬íhemos llegado!'
+ 			},
+ 			{
+ 				id: 2,
+-				dialog: '┬íViajar en el tiempo me dio hambre! Veamos qu├⌐ tienen para comer aqu├¡. ┬íEspero que en 2075 todav├¡a tengan pizza!'
++				dialog: '┬íTodo ese viaje en el tiempo me ha dado hambre! Veamos qu├⌐ hay para comer aqu├¡. ┬íEspero que en 2075 todav├¡a haya pizza!'
+ 			},
+ 			{
+ 				id: 3,
+@@ -102,15 +102,15 @@ export const level1Translations = {
+ 			},
+ 			{
+ 				id: 4,
+-				dialog: 'Bienvenido. Por favor, si├⌐ntese y un servidor estar├í con usted en breve.'
++				dialog: 'Bienvenido. Por favor, tome asiento y un camarero le atender├í en breve.'
+ 			},
+ 			{
+ 				id: 5,
+-				dialog: '┬íGuau, no hay humanos trabajando aqu├¡! ┬íEsta es la primera tecnolog├¡a que podemos investigar!'
++				dialog: '┬íVaya, Aqu├¡ no hay humanos trabajando! ┬íEsta es la primera tecnolog├¡a que podemos investigar!'
+ 			},
+ 			{
+ 				id: 6,
+-				dialog: 'Deliciosa tecnolog├¡a de pizza...'
++				dialog: '┬íDelicioso! Tecnolog├¡a de la pizza...'
+ 			},
+ 			{
+ 				id: 7,
+diff --git a/src/lib/utils/scriptTranslations/level4new.ts b/src/lib/utils/scriptTranslations/level4new.ts
+index 1901003..a44cfa7 100644
+--- a/src/lib/utils/scriptTranslations/level4new.ts
++++ b/src/lib/utils/scriptTranslations/level4new.ts
+@@ -14,7 +14,7 @@ export const level4newTranslations = {
+ 			{ id: 11, dialog: 'This agent designed a robot that detects dangerous things, like knives, and safe places to tell children what is safe and what is dangerous.' },
+ 			{ id: 12, dialog: 'Agent Raven designed a robot that detects whether a person is sad or happy If they are sad, the robot plays a happy song and encourages them to go outside or hang out with friends.' },
+ 			{ id: 13, dialog: 'Agent Raven designed a robot that detects whether a person is sad or happy If they are sad, the robot plays a happy song and encourages them to go outside or hang out with friends.' },
+-			{ id: 14, dialog: 'Test out Agent NovaΓÇÖs Robot. Does it work?' },
++			{ id: 14, dialog: "Test out Agent Raven's Robot. Does it work?" },
+ 			{ id: 15, dialog: 'Now itΓÇÖs your turn! LetΓÇÖs start designing and planning!!' },
+ 			{ id: 16, dialog: 'Agent, on your SPOT tablet, open file named  ΓÇ£Robot Prototype.ΓÇ¥' },
+ 			{ id: 17, dialog: 'SPOT TABLET WITH ROBOT PROTOTYPE BUTTON' },
+diff --git a/src/lib/utils/scriptTranslations/outro.ts b/src/lib/utils/scriptTranslations/outro.ts
+index 06bc22b..751a293 100644
+--- a/src/lib/utils/scriptTranslations/outro.ts
++++ b/src/lib/utils/scriptTranslations/outro.ts
+@@ -7,8 +7,8 @@ export const outroTranslations = {
+ 	},
+ 	es: {
+ 		main: [
+-			{ id: 1, dialog: '┬íAgente {agentName}! ┬íEs hora de enviarte a ti y a Bot Buddy al futuro! Estar├⌐ aqu├¡ en el Control de Misi├│n, pero nos mantendremos en contacto a trav├⌐s del Registro de Viaje en tu Tableta SPOT.' },
+-			{ id: 2, dialog: '┬íEstoy encendiendo la m├íquina del tiempo! Cuando entres en la m├íquina del tiempo, respira profundo y mucho ├ínimo, ┬íAgente!' }
++			{ id: 1, dialog: '┬íAgente {agentName}! ┬íEs hora de enviarte a ti y a Bot Buddy al futuro! Yo estar├⌐ aqu├¡ en el Control de la Misi├│n, pero nos mantendremos en contacto a trav├⌐s del Registro de Viaje en tu Tableta SPOT.' },
++			{ id: 2, dialog: '┬íEstoy encendiendo la m├íquina del tiempo! Al entrar en la m├íquina del tiempo, respira hondo y buena suerte, ┬íAgentes!' }
+ 		]
+ 	}
+ } as const;
+diff --git a/src/lib/utils/stores/store.ts b/src/lib/utils/stores/store.ts
+index 84057d7..a61e067 100644
+--- a/src/lib/utils/stores/store.ts
++++ b/src/lib/utils/stores/store.ts
+@@ -36,8 +36,8 @@ import { browser } from '$app/environment';
+  * cookies, which is probably something we will do in the future.
+  */
+ 
+-export let debugMode = false;
+-export let showLanguageChoice = false;
++export let debugMode = true; // Set to true to enable debug mode (e.g., auto-login, bypassing certain checks)
++export let showLanguageChoice = true;
+ export let useNewLevel4 = false;
+ 
+ export const settingsStore = persist(
+diff --git a/src/routes/level4new/+page.svelte b/src/routes/level4new/+page.svelte
+index fcbbcf5..f834bfe 100644
+--- a/src/routes/level4new/+page.svelte
++++ b/src/routes/level4new/+page.svelte
+@@ -34,6 +34,14 @@
+ 
+     let lineNumber = 1;
+     $: lineNumber = line.id;
++	$: hasTriedTraininatorInLevel4New = Boolean($studentProgressStore?.level4new_traininator_tried);
++
++	$: if (lineNumber == 25 && !$studentProgressStore?.level4new_traininator_tried) {
++		studentProgressStore.update((progress) => {
++			progress.level4new_traininator_tried = true;
++			return progress;
++		});
++	}
+ 
+ 	/**
+ 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
+@@ -78,10 +86,10 @@
+ 
+     let content: HTMLDivElement | null;
+ 
+-	let robotProblem = '';
+-	let robotHelps = '';
+-	let robotCategories = '';
+-	let robotAction = '';
++	let robotAbilities = '';
++	let robotHelp = '';
++	let robotImportance = '';
++	let robotBias = '';
+ 	let robotName = '';
+ 	let rejectionComment = '';
+ 	let teacherAgent = '';
+@@ -95,22 +103,22 @@
+ 		// Load the travel logs for the robot design if they exist
+ 		let logs1 = await DataService.TravelLog.getTravelLogs('robotdesign1');
+ 		if(logs1.length > 0) {
+-			robotProblem = logs1[logs1.length - 1].data;
++			robotAbilities = logs1[logs1.length - 1].data;
+ 		}
+ 
+ 		let logs2 = await DataService.TravelLog.getTravelLogs('robotdesign2');
+ 		if(logs2.length > 0) {
+-			robotHelps = logs2[logs2.length - 1].data;
++			robotHelp = logs2[logs2.length - 1].data;
+ 		}
+ 
+ 		let logs3 = await DataService.TravelLog.getTravelLogs('robotdesign3');
+ 		if(logs3.length > 0) {
+-			robotCategories = logs3[logs3.length - 1].data;
++			robotImportance = logs3[logs3.length - 1].data;
+ 		}
+ 
+ 		let logs4 = await DataService.TravelLog.getTravelLogs('robotdesign4');
+ 		if(logs4.length > 0) {
+-			robotAction = logs4[logs4.length - 1].data;
++			robotBias = logs4[logs4.length - 1].data;
+ 		}
+ 
+ 		let logs5 = await DataService.TravelLog.getTravelLogs('robotdesign5');
+@@ -332,6 +340,18 @@
+ 	}
+ 
+     let confetti = 0;
++	let page3Confetti = 0;
++	let previousLineNumber = -1;
++
++	$: {
++		if (lineNumber !== previousLineNumber) {
++			if (lineNumber === 3) {
++				page3Confetti += 1;
++			}
++
++			previousLineNumber = lineNumber;
++		}
++	}
+ 
+ </script>
+ 
+@@ -343,6 +363,50 @@
+ 	</div>
+ 
+ 	<div slot="content" class="h-full w-full" bind:this={content}>
++		{#if lineNumber == 3 || lineNumber == 4}
++			<div class="welcome-back-banner" aria-hidden="true">
++				<div class="welcome-back-flags">
++					<span class="welcome-back-flag">W</span>
++					<span class="welcome-back-flag">E</span>
++					<span class="welcome-back-flag">L</span>
++					<span class="welcome-back-flag">C</span>
++					<span class="welcome-back-flag">O</span>
++					<span class="welcome-back-flag">M</span>
++					<span class="welcome-back-flag">E</span>
++					<span class="welcome-back-gap"></span>
++					<span class="welcome-back-flag">B</span>
++					<span class="welcome-back-flag">A</span>
++					<span class="welcome-back-flag">C</span>
++					<span class="welcome-back-flag">K</span>
++				</div>
++			</div>
++		{/if}
++
++		{#if lineNumber == 3}
++			<div id="page3-confettiholder">
++				{#key page3Confetti}
++					<div class="page3-confetti-emitter page3-confetti-top-left">
++						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
++					</div>
++					<div class="page3-confetti-emitter page3-confetti-top-right">
++						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
++					</div>
++					<div class="page3-confetti-emitter page3-confetti-mid-left">
++						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
++					</div>
++					<div class="page3-confetti-emitter page3-confetti-mid-right">
++						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
++					</div>
++					<div class="page3-confetti-emitter page3-confetti-bottom-left">
++						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
++					</div>
++					<div class="page3-confetti-emitter page3-confetti-bottom-right">
++						<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
++					</div>
++				{/key}
++			</div>
++		{/if}
++
+         {#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 34}
+ 			<TabletButton on:click={() => { 
+ 				if(lineNumber == 16 || lineNumber == 28) {
+@@ -436,8 +500,6 @@
+ 							<Codinator 
+ 								iframeStyle="height: 60vh;"
+ 								buttonLabel=""
+-								overrideStudentID="89fd991a-2567-477c-99a2-c4670f88a416"
+-								overrideHost="https://spotcommandapp.com/api"
+ 							/>
+ 						{/if}
+ 
+@@ -499,42 +561,31 @@
+ 		{/if}
+ 		{#if lineNumber == 19}
+ 			<TextResponseModal 
+-				prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, 
+-					{id: "robotdesign2", prompt: "Who My Robot Helps"}]}
+-				onSuccess={(responses) => {					
+-					robotProblem = responses['robotdesign1'];
+-					robotHelps = responses['robotdesign2'];
+-					goto('/level4new?page=20');
+-				}}
++				prompt={["Problem to Solve", "Who My Robot Helps"]}
++				onSuccess={() => goto('/level4new?page=20')}
+ 			/>
+ 		{/if}
+ 		{#if lineNumber == 20}
+ 			<TextResponseModal 
+-				prompt={[{id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}]}
+-				onSuccess={(responses) => {
+-					robotCategories = responses['robotdesign3'];
+-					robotAction = responses['robotdesign4'];
+-					goto('/level4new?page=21');
+-				}}
++				prompt={["Image Categories", "What My Robot Will Do"]}
++				onSuccess={() => goto('/level4new?page=21')}
+ 			/>
+ 		{/if}
+ 		{#if lineNumber == 21}
+ 			<TextResponseModal 
+-				prompt={[{id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
+-				onSuccess={(responses) => {
+-					robotName = responses['robotdesign5'];
+-					goto('/level4new?page=22');
+-				}}
++				prompt={["My Robot Will Be Named:"]}
++				singleLine={true}
++				onSuccess={() => goto('/level4new?page=22')}
+ 			/>
+ 		{/if}
+ 		{#if lineNumber == 22}
+ 			<Tablet showMeter={false} showBottomButtons={false}>
+-				<div class="robostepintro">
+-					<h2><img src="/img/icons/robotrain.png" alt="Train"/> Train &amp; Test</h2>
+-					<p>
++				<div class="robostepintro train-test-intro">
++					<h2 class="train-test-heading"><img src="/img/icons/robotrain.png" alt="Train"/> Train &amp; Test</h2>
++					<p class="train-test-text">
+ 						You are about to enter the Traininator, where you will input data to train your robot to identify different classes. Then you will enter the Codeinator, where you will create instructions for your AI robot to achieve its goal.
+ 					</p>
+-					<button class="nicebtn" on:click={() => {
++					<button class="nextBtn robostepintro-nextimg" on:click={() => {
+ 						studentProgressStore.update((progress) => {
+ 							progress.last_visited = '/level4new?page=23';
+ 							return progress;
+@@ -542,40 +593,53 @@
+ 						
+ 						goto('/level4new?page=23');
+ 					}}>
+-						Next
++						<img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
+ 					</button>
+ 				</div>
+ 			</Tablet>
+ 		{/if}
+ 		{#if lineNumber == 23}
+-			<Tablet showMeter={false} showBottomButtons={false}>
+-				<div class="flex flex-col items-center justify-center h-full gap-4 text-white">
+-					<button on:click={() => goto('/level4new?page=25')}>Traininator</button>
+-					<button on:click={() => goto('/level4new?page=26')}>Codeinator</button>
+-					<button on:click={() => goto('/level4new?page=24')}>Robot Design</button>
++			<Tablet showMeter={false}>
++				<div class="train-test-hub">
++					<div class="train-test-hub-top">
++						<button class="train-test-hub-card" on:click={() => goto('/level4new?page=25')}>
++							<h3>TRAININATOR</h3>
++							<p>Input training data to train your machine learning model to identify different classes.</p>
++						</button>
++
++						<button
++							class={`train-test-hub-card ${hasTriedTraininatorInLevel4New ? '' : 'train-test-hub-card-disabled'}`}
++							disabled={!hasTriedTraininatorInLevel4New}
++							on:click={() => goto('/level4new?page=26')}
++						>
++							<h3>CODEINATOR</h3>
++							<p>Program your robot to respond to the different classes</p>
++						</button>
++					</div>
++
++					<button class="train-test-hub-notes" on:click={() => goto('/level4new?page=24')}>
++						<h3>DESIGN NOTES</h3>
++						<p>View your design notes</p>
++					</button>
++
++					<button class="train-test-hub-done" on:click={() => {
++						studentProgressStore.update((progress) => {
++							progress.last_visited = '/level4new?page=27';
++							return progress;
++						});
++
++						goto('/level4new?page=27');
++					}}>
++						IΓÇÖm Done!
++					</button>
+ 				</div>
+ 			</Tablet>
+ 		{/if}
+ 		{#if lineNumber == 24}
+ 			<TextResponseModal 
+-				prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, {id: "robotdesign2", prompt: "Who My Robot Helps"}, {id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}, {id: "robotdesign5", prompt: "My Robot Will Be Named:"}]}
++				prompt={["Problem to Solve", "Who My Robot Helps", "Image Categories", "What My Robot Will Do", "My Robot Will Be Named:"]}
+ 				singleLine={[false, false, false, false, true]}
+-				prefill={{
+-					robotdesign1: robotProblem,
+-					robotdesign2: robotHelps,
+-					robotdesign3: robotCategories,
+-					robotdesign4: robotAction,
+-					robotdesign5: robotName
+-				}}
+-				onSuccess={(responses) => {
+-					// Update robotProblem, robotHelps, robotCategories, robotAction, and robotName with the new responses so that if the user goes back to this page, they will see their updated responses
+-					robotProblem = responses['robotdesign1'];
+-					robotHelps = responses['robotdesign2'];
+-					robotCategories = responses['robotdesign3'];
+-					robotAction = responses['robotdesign4'];
+-					robotName = responses['robotdesign5'];
+-					goto('/level4new?page=23');
+-				}}
++				onSuccess={() => goto('/level4new?page=23')}
+ 			/>
+ 		{/if}
+ 		{#if lineNumber == 25}
+@@ -590,13 +654,7 @@
+ 				<Codinator 
+ 					iframeStyle="height: 80vh;"
+ 					buttonLabel="Finish"
+-					on:submitted={() => {
+-						studentProgressStore.update((progress) => {
+-							progress.last_visited = '/level4new?page=23';
+-							return progress;
+-						});
+-						goto('/level4new?page=23');
+-					}}
++					onComplete={() => goto('/level4new?page=23')}
+ 				/>
+ 			</Tablet>
+ 		{/if}
+@@ -619,13 +677,15 @@
+ 		{/if}
+ 		{#if lineNumber == 30}
+             <Tablet showMeter={false} showBottomButtons={false}>
+-                <div class="flex flex-col items-center justify-center h-full gap-4">
+-                    <p class="text-3xl text-center text-white p-4">
++				<div class="flex flex-col items-center justify-center h-full gap-4 page30-wrap">
++					<p class="text-3xl text-center text-white p-4 page30-text">
+                         Mission Control needs to know a few more things before you get your final badge!
+                     </p>
+-                    <button class="nicebtn" on:click={() => {
++					<button class="nextBtn page30-next" on:click={() => {
+                         handleNavigation(NavigationDirection.forward);
+-                    }}>Continue</button>
++					}}>
++						<img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
++					</button>
+                 </div>
+             </Tablet>
+ 		{/if}
+@@ -668,7 +728,12 @@
+             <BadgeGetModal 
+                 badge={BadgesByName['Junior Agent']}
+                 handleClick={() => {
+-                    handleNavigation(NavigationDirection.forward);
++					studentProgressStore.update((progress) => {
++						progress.last_visited = '/level4new?page=34';
++						return progress;
++					});
++
++					goto('/level4new?page=34');
+                 }}            
+             />
+ 		{/if}
+@@ -733,6 +798,185 @@
+ 		top: -2vh;
+ 	}
+ 
++	.train-test-intro {
++		position: relative;
++		justify-content: flex-start;
++		padding-top: 2vh;
++	}
++
++	.train-test-heading {
++		margin-top: 0;
++		transform: translateY(2vh);
++	}
++
++	.train-test-text {
++		text-align: center;
++		position: absolute;
++		top: 50%;
++		left: 50%;
++		width: 70%;
++		margin: 0;
++		transform: translate(-50%, -50%);
++	}
++
++	.robostepintro-next {
++		position: absolute;
++		right: 2vw;
++		bottom: 2vh;
++	}
++
++	.robostepintro-nextimg {
++		position: absolute;
++		right: 2vw;
++		bottom: 2vh;
++		z-index: 20;
++	}
++
++	.page30-wrap {
++		position: relative;
++	}
++
++	.page30-text {
++		transform: translateY(-4vh);
++	}
++
++	.page30-next {
++		position: absolute;
++		right: 2vw;
++		bottom: 4vh;
++		transform: none;
++		z-index: 20;
++	}
++
++	.page30-next #nextbutton {
++		width: 24vh;
++		height: 8vh;
++	}
++
++	.train-test-hub {
++		height: 100%;
++		width: 100%;
++		display: flex;
++		flex-direction: column;
++		align-items: center;
++		justify-content: center;
++		gap: 6vh;
++		color: white;
++		font-family: 'Gemunu Libre';
++		position: relative;
++	}
++
++	.train-test-hub-top {
++		display: flex;
++		align-items: flex-start;
++		justify-content: center;
++		gap: 10vw;
++		width: 100%;
++	}
++
++	.train-test-hub-card {
++		background: transparent;
++		border: none;
++		color: white;
++		display: flex;
++		flex-direction: column;
++		align-items: center;
++		justify-content: flex-start;
++		width: 26vw;
++		min-height: 24vh;
++		padding: 1vh 1vw;
++		cursor: pointer;
++		transition: transform 0.2s;
++	}
++
++	.train-test-hub-card:hover {
++		transform: scale(1.03);
++	}
++
++	.train-test-hub-card:active {
++		transform: scale(0.98);
++	}
++
++	.train-test-hub-card-disabled {
++		opacity: 0.45;
++		cursor: not-allowed;
++	}
++
++	.train-test-hub-card-disabled:hover,
++	.train-test-hub-card-disabled:active {
++		transform: none;
++	}
++
++	.train-test-hub-card h3,
++	.train-test-hub-notes h3 {
++		font-family: 'Mokoto';
++		font-size: 2.4vh;
++		margin: 0 0 1.5vh 0;
++		letter-spacing: 0.08em;
++	}
++
++	.train-test-hub-card p,
++	.train-test-hub-notes p {
++		font-size: 4vh;
++		line-height: 1.15;
++		text-align: center;
++		margin: 0;
++	}
++
++	.train-test-hub-notes {
++		background: transparent;
++		border: none;
++		color: white;
++		display: flex;
++		flex-direction: column;
++		align-items: center;
++		cursor: pointer;
++		transition: transform 0.2s;
++	}
++
++	.train-test-hub-notes:hover {
++		transform: scale(1.03);
++	}
++
++	.train-test-hub-notes:active {
++		transform: scale(0.98);
++	}
++
++	.train-test-hub-done {
++		position: absolute;
++		right: 19vw;
++		bottom: 2.4vh;
++		z-index: 20;
++		background: radial-gradient(farthest-corner at bottom right, #49c5ff 75%, #fff 100%);
++		background-color: #49c5ff;
++		color: #111;
++		border: 2px solid #289dd3;
++		box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.25);
++		padding: 1vh 2.6vw;
++		min-width: 18vw;
++		height: 7.6vh;
++		border-radius: 4vh;
++		font-size: 2.2vh;
++		font-weight: 700;
++		cursor: pointer;
++		transition: transform 0.2s;
++		display: inline-flex;
++		align-items: center;
++		justify-content: center;
++		font-family: 'Mokoto';
++		letter-spacing: 0.02em;
++		line-height: 1;
++		white-space: nowrap;
++	}
++
++	.train-test-hub-done:hover {
++		transform: scale(1.05);
++	}
++
++	.train-test-hub-done:active {
++		transform: scale(0.95);
++	}
++
+ 
+     #nextbutton {
+         height: 10vh;
+@@ -862,4 +1106,113 @@
+ 		width: auto;
+ 	}
+ 
++	.welcome-back-banner {
++		position: absolute;
++		top: 0;
++		left: 0;
++		width: 100%;
++		display: flex;
++		justify-content: center;
++		padding-top: 1vh;
++		z-index: 15;
++		pointer-events: none;
++	}
++
++	.welcome-back-flags {
++		display: flex;
++		align-items: flex-start;
++		gap: 0.4vw;
++		width: 100%;
++		justify-content: center;
++	}
++
++	.welcome-back-flag {
++		display: flex;
++		align-items: center;
++		justify-content: center;
++		width: clamp(2.2rem, 5.2vw, 4.5rem);
++		height: clamp(2.8rem, 9vh, 4.2rem);
++		background-color: #49c5ff;
++		color: #111;
++		font-family: 'Gemunu Libre';
++		font-size: clamp(1.2rem, 3.8vh, 2.2rem);
++		font-weight: 700;
++		line-height: 1;
++		clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%);
++		box-shadow: 0 0.3vh 0.6vh rgba(0, 0, 0, 0.2);
++	}
++
++	.welcome-back-flag:nth-child(odd) {
++		transform: rotate(-4deg);
++	}
++
++	.welcome-back-flag:nth-child(even) {
++		transform: rotate(4deg);
++	}
++
++	.welcome-back-flag:nth-child(4n + 1) {
++		background-color: #49c5ff;
++	}
++
++	.welcome-back-flag:nth-child(4n + 2) {
++		background-color: #f6d365;
++	}
++
++	.welcome-back-flag:nth-child(4n + 3) {
++		background-color: #fda085;
++	}
++
++	.welcome-back-flag:nth-child(4n + 4) {
++		background-color: #a1ffce;
++	}
++
++	.welcome-back-gap {
++		display: block;
++		width: clamp(0.8rem, 2vw, 1.6rem);
++	}
++
++	#page3-confettiholder {
++		position: absolute;
++		top: 0;
++		left: 0;
++		width: 100%;
++		height: 100%;
++		z-index: 14;
++		pointer-events: none;
++	}
++
++	.page3-confetti-emitter {
++		position: absolute;
++	}
++
++	.page3-confetti-top-left {
++		top: 15%;
++		left: 20%;
++	}
++
++	.page3-confetti-top-right {
++		top: 15%;
++		left: 80%;
++	}
++
++	.page3-confetti-mid-left {
++		top: 50%;
++		left: 20%;
++	}
++
++	.page3-confetti-mid-right {
++		top: 50%;
++		left: 80%;
++	}
++
++	.page3-confetti-bottom-left {
++		top: 85%;
++		left: 20%;
++	}
++
++	.page3-confetti-bottom-right {
++		top: 85%;
++		left: 80%;
++	}
++
+ </style>
+\ No newline at end of file

@@ -6,7 +6,7 @@
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { accessTokenStore, settingsStore, studentDataStore, studentProgressStore, audioPlaybackFinished } from '$lib/utils/stores/store.js';
+	import { accessTokenStore, studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { onMount } from 'svelte';
 	import script from '$lib/scripts/level4/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -18,12 +18,11 @@
 	import { get } from 'svelte/store';
 	import TraininatorMain from '$lib/components/activities/traininator/TraininatorMain.svelte';
 	import Codinator from '$lib/components/activities/Codinator.svelte';
-	import ChatbotWidget from '$lib/components/chatbot/ChatbotWidget.svelte';
 	import TextResponse from '$lib/components/activities/free-response/TextResponse.svelte';
 	import SurveyOption from '$lib/components/activities/survey/SurveyOption.svelte';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
-	import { Questions, QuestionsAudio, QuestionsByLanguage } from '$lib/components/activities/survey/SurveyQuestions.js';
+	import { Questions, QuestionsAudio } from '$lib/components/activities/survey/SurveyQuestions.js';
 	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
 	import { BadgesByName } from '$lib/utils/Assets/Badges';
 	import Confetti from 'svelte-confetti';
@@ -33,37 +32,9 @@
 	let line: Line;
 	$: line = data.line;
 
-	let lineNumber = 1;
-	$: lineNumber = line.id;
-
-	// Tutorial step for Agent Nova's Codinator walkthrough (page 14)
-	let tutorialStep = 1;
-	let robotIsConnected = false;
-	let hasTriedTraininatorInLevel4New = false;
-	let hasTriedCodeinatorInLevel4New = false;
-	let hasCompletedTrainAndCodeinatorInLevel4New = false;
-	let surveyReadyToAdvance = false;
-	type SurveyLanguage = 'en' | 'es';
-	let surveyLanguage: SurveyLanguage = 'en';
-	$: surveyLanguage = $settingsStore?.language === 'es' ? 'es' : 'en';
-	const chatbotAssistantId = import.meta.env.VITE_CHATBOT_ASSISTANT_ID || 'astp/e1d56033-f967-4d44-b479-32b76ef4d5f4';
-	$: if (lineNumber !== 14) {
-		tutorialStep = 1;
-		robotIsConnected = false;
-	}
-	$: if (lineNumber === 14 && typeof window !== 'undefined') {
-		const tutorialStepRaw = new URLSearchParams(window.location.search).get('tutorialStep');
-		const tutorialStepParam = Number(tutorialStepRaw);
-		if (tutorialStepRaw !== null && Number.isInteger(tutorialStepParam) && tutorialStepParam >= 1 && tutorialStepParam <= 7 && tutorialStep !== tutorialStepParam) {
-			tutorialStep = tutorialStepParam;
-			robotIsConnected = tutorialStepParam >= 2;
-		} else if (tutorialStepRaw === null && tutorialStep <= 7) {
-			tutorialStep = 7;
-		}
-	}
+    let lineNumber = 1;
+    $: lineNumber = line.id;
 	$: hasTriedTraininatorInLevel4New = Boolean($studentProgressStore?.level4new_traininator_tried);
-	$: hasTriedCodeinatorInLevel4New = Boolean($studentProgressStore?.level4new_codeinator_tried);
-	$: hasCompletedTrainAndCodeinatorInLevel4New = hasTriedTraininatorInLevel4New && hasTriedCodeinatorInLevel4New;
 
 	$: if (lineNumber == 25 && !$studentProgressStore?.level4new_traininator_tried) {
 		studentProgressStore.update((progress) => {
@@ -88,19 +59,13 @@
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
-		if (line.id === 32 && direction === NavigationDirection.forward && !surveyReadyToAdvance) {
-			return;
-		}
-
 		let target = '';
 		if (direction == NavigationDirection.forward) {
 			if (line.id == script.lines.length) {
                 // No next level
 				// target = '/level5?page=1';
 			} else {
-				if (line.id === 13) {
-					target = '/level4new?page=14&tutorialStep=1';
-				} else if(line.id > 2 || line.id == 1) {
+                if(line.id > 2 || line.id == 1) {
 					target = `/level4new?page=${line.id + 1}`;
 				}
 			}
@@ -119,26 +84,12 @@
 		}
 	};
 
-	const setTutorialStep = (step: number) => {
-		tutorialStep = step;
-		if (typeof window !== 'undefined' && lineNumber === 14) {
-			const params = new URLSearchParams(window.location.search);
-			params.set('page', '14');
-			if (step >= 1 && step <= 7) {
-				params.set('tutorialStep', String(step));
-			} else {
-				params.delete('tutorialStep');
-			}
-			history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
-		}
-	};
-
     let content: HTMLDivElement | null;
 
-	let robotProblem = '';
-	let robotHelps = '';
-	let robotCategories = '';
-	let robotAction = '';
+	let robotAbilities = '';
+	let robotHelp = '';
+	let robotImportance = '';
+	let robotBias = '';
 	let robotName = '';
 	let rejectionComment = '';
 	let teacherAgent = '';
@@ -149,37 +100,25 @@
 	let imageResponseModalMessage = '';
 
 	onMount(async () => {
-		if (typeof window !== 'undefined') {
-			const params = new URLSearchParams(window.location.search);
-			const tutorialStepRaw = params.get('tutorialStep');
-			const tutorialStepParam = Number(tutorialStepRaw);
-			if (line.id === 14 && tutorialStepRaw !== null && Number.isInteger(tutorialStepParam) && tutorialStepParam >= 1 && tutorialStepParam <= 7) {
-				setTutorialStep(tutorialStepParam);
-				robotIsConnected = tutorialStepParam >= 2;
-			} else if (line.id === 14 && tutorialStepRaw === null) {
-				setTutorialStep(7);
-			}
-		}
-
 		// Load the travel logs for the robot design if they exist
 		let logs1 = await DataService.TravelLog.getTravelLogs('robotdesign1');
 		if(logs1.length > 0) {
-			robotProblem = logs1[logs1.length - 1].data;
+			robotAbilities = logs1[logs1.length - 1].data;
 		}
 
 		let logs2 = await DataService.TravelLog.getTravelLogs('robotdesign2');
 		if(logs2.length > 0) {
-			robotHelps = logs2[logs2.length - 1].data;
+			robotHelp = logs2[logs2.length - 1].data;
 		}
 
 		let logs3 = await DataService.TravelLog.getTravelLogs('robotdesign3');
 		if(logs3.length > 0) {
-			robotCategories = logs3[logs3.length - 1].data;
+			robotImportance = logs3[logs3.length - 1].data;
 		}
 
 		let logs4 = await DataService.TravelLog.getTravelLogs('robotdesign4');
 		if(logs4.length > 0) {
-			robotAction = logs4[logs4.length - 1].data;
+			robotBias = logs4[logs4.length - 1].data;
 		}
 
 		let logs5 = await DataService.TravelLog.getTravelLogs('robotdesign5');
@@ -311,41 +250,7 @@
     // For post survey
 	let questionIndex: number = 0;
 
-	const surveyOptions = [
-		{ emoji: '😃', value: 'Strongly Agree', label: { en: 'Strongly Agree', es: 'Totalmente de acuerdo' } },
-		{ emoji: '🙂', value: 'Agree', label: { en: 'Agree', es: 'De acuerdo' } },
-		{ emoji: '😐', value: 'Neutral', label: { en: 'Neutral', es: 'Neutral' } },
-		{ emoji: '🙁', value: 'Disagree', label: { en: 'Disagree', es: 'En desacuerdo' } },
-		{ emoji: '☹️', value: 'Strongly Disagree', label: { en: 'Strongly Disagree', es: 'Totalmente en desacuerdo' } }
-	];
-
-	const surveyUiText = {
-		en: {
-			next: 'Next',
-			selectFirst: 'Please select an option first!',
-			submitted: 'Survey responses were recorded successfully!',
-			submitFailed: 'Survey responses submission failed!'
-		},
-		es: {
-			next: 'Siguiente',
-			selectFirst: '¡Primero selecciona una opción!',
-			submitted: '¡Las respuestas de la encuesta se guardaron correctamente!',
-			submitFailed: '¡Error al enviar las respuestas de la encuesta!'
-		}
-	} as const;
-
-	const getSurveyQuestions = () => QuestionsByLanguage[surveyLanguage] || Questions;
-	const getSurveyQuestionAudio = (index: number) => {
-		const basePath = QuestionsAudio[index] || '';
-
-		if ((surveyLanguage === 'en' || surveyLanguage === 'es') && basePath.startsWith('/survey/')) {
-			return basePath.replace('/survey/', '/level4new/survey/');
-		}
-
-		return basePath;
-	};
-
-	let questionsAndResponse = getSurveyQuestions().map((question) => {
+    let questionsAndResponse = Questions.map((question) => {
         return {
             question: question,
             response: null
@@ -366,7 +271,6 @@
 			// Check to see if user is at the last survey question
 			if (questionIndex >= questionsAndResponse.length - 1) {
 				console.log('User has finished survey; we can now proceed.');
-				surveyReadyToAdvance = false;
 
 				try {
 					await DataService.TravelLog.submitTravelLog({
@@ -375,14 +279,12 @@
 						status: 'complete'
 					});
 
-					message = surveyUiText[surveyLanguage].submitted;
+					message = "Survey responses were recorded successfully!";
 					isSuccess = true;
-					surveyReadyToAdvance = true;
 
 				} catch (error) {
-					message = surveyUiText[surveyLanguage].submitFailed;
+					message = "Survey responses submission failed!";
 					isSuccess = false;
-					surveyReadyToAdvance = false;
 					console.error(error);
 				}
 
@@ -398,7 +300,7 @@
 			}
 		} else {
 			// User has not selected a response
-			alert(surveyUiText[surveyLanguage].selectFirst);
+			alert('Please select an option first!');
 		}
 	};
 
@@ -430,13 +332,6 @@
 		questionsAndResponse[questionIndex].response = response;
 	};
 
-	const handleSurveyFeedbackClose = () => {
-		showFeedbackModal = false;
-		if (surveyReadyToAdvance) {
-			goto('/level4new?page=33');
-		}
-	};
-
 	// Disable the next button until a response is selected or there are no more questions
 	$: {
 		if (nextButton != undefined) {
@@ -452,21 +347,6 @@
 		if (lineNumber !== previousLineNumber) {
 			if (lineNumber === 3) {
 				page3Confetti += 1;
-			}
-
-			if (lineNumber === 32) {
-				questionIndex = 0;
-				surveyReadyToAdvance = false;
-				questionsAndResponse = getSurveyQuestions().map((question) => {
-					return {
-						question: question,
-						response: null
-					};
-				});
-				showFeedbackModal = false;
-				message = '';
-				isSuccess = false;
-				resetButtons();
 			}
 
 			previousLineNumber = lineNumber;
@@ -498,28 +378,6 @@
 					<span class="welcome-back-flag">A</span>
 					<span class="welcome-back-flag">C</span>
 					<span class="welcome-back-flag">K</span>
-				</div>
-			</div>
-		{/if}
-
-		{#if lineNumber == 34}
-			<div class="welcome-back-banner congrats-banner" aria-hidden="true">
-				<div class="welcome-back-flags congrats-flags">
-					<span class="welcome-back-flag">C</span>
-					<span class="welcome-back-flag">O</span>
-					<span class="welcome-back-flag">N</span>
-					<span class="welcome-back-flag">G</span>
-					<span class="welcome-back-flag">R</span>
-					<span class="welcome-back-flag">A</span>
-					<span class="welcome-back-flag">T</span>
-					<span class="welcome-back-flag">U</span>
-					<span class="welcome-back-flag">L</span>
-					<span class="welcome-back-flag">A</span>
-					<span class="welcome-back-flag">T</span>
-					<span class="welcome-back-flag">I</span>
-					<span class="welcome-back-flag">O</span>
-					<span class="welcome-back-flag">N</span>
-					<span class="welcome-back-flag">S</span>
 				</div>
 			</div>
 		{/if}
@@ -638,174 +496,18 @@
 							</div>
 						{/if}
 
-				{#if lineNumber == 14}
-					<Codinator 
-						iframeStyle="height: 60vh;"
-						buttonLabel=""
-						overrideStudentID="89fd991a-2567-477c-99a2-c4670f88a416"
-						overrideHost="https://spotcommandapp.com/api"
-						glowConnectButton={tutorialStep === 1}
-						showRobotConnectHint={tutorialStep === 1}
-						showFlagHint={tutorialStep === 4}
-						robotConnectHintText={$settingsStore?.language === 'es' ? 'Toca aquí para conectar' : 'Click here to connect'}
-						on:robotconnected={() => { robotIsConnected = true; }}
-					/>
-					{#if tutorialStep >= 1 && tutorialStep <= 7}
-						<div class="tutorial-dialog-banner tutorial-dialog-banner-full">
-							<button class="tutorial-arrow left" aria-label={$settingsStore?.language === 'es' ? 'Paso anterior' : 'Previous step'} on:click={() => setTutorialStep(Math.max(1, tutorialStep - 1))} disabled={tutorialStep === 1}>
-								<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-									<defs>
-										<linearGradient id="arrowLeftGradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-											<stop offset="0%" stop-color="#fff9c4"/>
-											<stop offset="60%" stop-color="#ffe066"/>
-											<stop offset="100%" stop-color="#ffd600"/>
-										</linearGradient>
-										<filter id="arrowLeftShadow" x="0" y="0" width="56" height="56" filterUnits="userSpaceOnUse">
-											<feGaussianBlur stdDeviation="4" result="blur"/>
-										</filter>
-									</defs>
-									<ellipse cx="26" cy="28" rx="13" ry="18" fill="#fff" fill-opacity="0.18" filter="url(#arrowLeftShadow)"/>
-									<polygon points="38,10 18,28 38,46" fill="url(#arrowLeftGradient)" stroke="#bfa600" stroke-width="3"/>
-								</svg>
-							</button>
-							<span class="tutorial-dialog-step">{$settingsStore?.language === 'es' ? 'Paso' : 'Step'} {tutorialStep}</span>
-							<span class="tutorial-dialog-message">{$settingsStore?.language === 'es'
-								? tutorialStep === 1
-									? "¡Ahora, inténtalo tú mismo! Toca 'Conectar robot' para activarlo!"
-									: tutorialStep === 2
-										? '¿Tu robot tiene una carita sonriente 🙂? Entonces, ¡ya está conectado!'
-										: tutorialStep === 3
-											? '¡Haz clic en el bloque de cámara en el modelo de Raven para que funcione!'
-											: tutorialStep === 4
-												? 'Toca la bandera verde para ver el código en acción'
-												: tutorialStep === 5
-													? '¡Intenta cambiar la canción cuando la predicción del modelo sea feliz!'
-													: tutorialStep === 6
-														? '¿Ves cómo el robot muestra un corazón ❤️? ¡Intenta cambiarlo por otra cosa!'
-														: tutorialStep === 7
-															? '¡Intenta cambiar el código tú mismo y mira qué pasa!'
-													: ''
-								: tutorialStep === 1
-									? "Now, try it out yourself! Tap 'Connect Robot' to wake it up!"
-									: tutorialStep === 2
-										? 'Does your robot have a smiley face 🙂? then, you are connected!'
-										: tutorialStep === 3
-											? "Click on the camera block in Raven's model to make it work!"
-											: tutorialStep === 4
-												? 'Click the green flag to see the code in action'
-												: tutorialStep === 5
-													? 'Try changing the song when the model prediction is happy!'
-													: tutorialStep === 6
-														? 'See how the robot displays a heart ❤️? Try changing it to something else!'
-														: tutorialStep === 7
-															? 'Try changing the code up yourself and see what happens!'
-													: ''}</span>
-							{#if tutorialStep !== 1 || robotIsConnected}
-								<button class="tutorial-arrow right" aria-label={$settingsStore?.language === 'es' ? 'Siguiente paso' : 'Next step'} on:click={() => { if (tutorialStep < 7) { setTutorialStep(tutorialStep + 1); } else { setTutorialStep(8); } }}>
-									<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
-										<defs>
-											<linearGradient id="arrowRightGradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
-												<stop offset="0%" stop-color="#fff9c4"/>
-												<stop offset="60%" stop-color="#ffe066"/>
-												<stop offset="100%" stop-color="#ffd600"/>
-											</linearGradient>
-											<filter id="arrowRightShadow" x="0" y="0" width="56" height="56" filterUnits="userSpaceOnUse">
-												<feGaussianBlur stdDeviation="4" result="blur"/>
-											</filter>
-										</defs>
-										<ellipse cx="30" cy="28" rx="13" ry="18" fill="#fff" fill-opacity="0.18" filter="url(#arrowRightShadow)"/>
-										<polygon points="18,10 38,28 18,46" fill="url(#arrowRightGradient)" stroke="#bfa600" stroke-width="3"/>
-									</svg>
-								</button>
-							{/if}
-							{#if tutorialStep >= 1 && tutorialStep <= 7}
-								<AudioPlayer src={`/level4new/tutorial/step_${tutorialStep}.mp3`} />
-							{/if}
-						</div>
-
-					{/if}
-				{/if}
-<style>
-.tutorial-dialog-banner {
-	position: fixed;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	z-index: 1000;
-	background: #363636;
-	border-radius: 1.2rem;
-	box-shadow: 0 -2px 24px rgba(0,0,0,0.22);
-	padding: 2.2rem 0 1.7rem 0;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	pointer-events: none;
-	margin: 0 1.5vw 1.5vw 1.5vw;
-	max-width: calc(100vw - 3vw);
-}
-.tutorial-arrow {
-	background: none;
-	border: none;
-	outline: none;
-	padding: 0 2.2rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 3.5rem;
-	cursor: pointer;
-	pointer-events: auto;
-	transition: filter 0.18s;
-}
-.tutorial-arrow[disabled] {
-	opacity: 0.45;
-	cursor: not-allowed;
-	filter: grayscale(1);
-}
-.tutorial-arrow.left {
-	margin-right: 1.2rem;
-}
-.tutorial-arrow.right {
-	margin-left: 1.2rem;
-}
-.tutorial-dialog-banner-full {
-	width: 100vw;
-	min-width: unset;
-	max-width: unset;
-	border-radius: 0;
-}
-.tutorial-dialog-step {
-	position: absolute;
-	left: 2.5rem;
-	top: -0.8rem;
-	background: #ffe066;
-	color: #222;
-	font-weight: 800;
-	font-size: 1.45rem;
-	padding: 0.32rem 2.1rem;
-	border-radius: 1.35rem;
-	box-shadow: 0 2px 12px rgba(0,0,0,0.13);
-	letter-spacing: 0.03em;
-	pointer-events: auto;
-}
-.tutorial-dialog-message {
-	color: #fff;
-	font-size: 1.65rem;
-	font-weight: 600;
-	margin-left: 0;
-	margin-right: 0;
-	width: 100%;
-	text-align: center;
-	pointer-events: auto;
-}
-</style>
+						{#if lineNumber == 14}
+							<Codinator 
+								iframeStyle="height: 60vh;"
+								buttonLabel=""
+							/>
+						{/if}
 
 					</div>
 				</div>
 
-				{#if lineNumber !== 14 || tutorialStep > 6}
-					<button class="nextBtn float-right relative z-10" on:click={() => handleNavigation(NavigationDirection.forward)}><img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
-					</button>
-				{/if}
+				<button class="nextBtn float-right relative z-10" on:click={() => handleNavigation(NavigationDirection.forward)}><img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
+				</button>
 			</Tablet>
 		{/if}
 
@@ -852,52 +554,38 @@
 				<div class="robostepintro">
 					<h2><img src="/img/icons/robodesign.png" alt="Design"/> Design</h2>
 					<p>{line.dialog()}</p>
-					<button class="nextBtn page18-next" on:click={() => goto('/level4new?page=19')} disabled={!$audioPlaybackFinished}><img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
+					<button class="nextBtn" on:click={() => goto('/level4new?page=19')}><img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
 					</button>
 				</div>
 			</Tablet>
 		{/if}
 		{#if lineNumber == 19}
 			<TextResponseModal 
-				prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, 
-					{id: "robotdesign2", prompt: "Who My Robot Helps"}]}
-				onSuccess={(responses) => {					
-					robotProblem = responses['robotdesign1'];
-					robotHelps = responses['robotdesign2'];
-					goto('/level4new?page=20');
-				}}
+				prompt={["Problem to Solve", "Who My Robot Helps"]}
+				onSuccess={() => goto('/level4new?page=20')}
 			/>
-			<ChatbotWidget assistantId={chatbotAssistantId} preserveSpeechPunctuation={true} className="design-notes-chatbot" />
 		{/if}
 		{#if lineNumber == 20}
 			<TextResponseModal 
-				prompt={[{id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}]}
-				onSuccess={(responses) => {
-					robotCategories = responses['robotdesign3'];
-					robotAction = responses['robotdesign4'];
-					goto('/level4new?page=21');
-				}}
+				prompt={["Image Categories", "What My Robot Will Do"]}
+				onSuccess={() => goto('/level4new?page=21')}
 			/>
-			<ChatbotWidget assistantId={chatbotAssistantId} preserveSpeechPunctuation={true} className="design-notes-chatbot" />
 		{/if}
 		{#if lineNumber == 21}
 			<TextResponseModal 
-				prompt={[{id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
-				onSuccess={(responses) => {
-					robotName = responses['robotdesign5'];
-					goto('/level4new?page=22');
-				}}
+				prompt={["My Robot Will Be Named:"]}
+				singleLine={true}
+				onSuccess={() => goto('/level4new?page=22')}
 			/>
-			<ChatbotWidget assistantId={chatbotAssistantId} preserveSpeechPunctuation={true} className="design-notes-chatbot" />
 		{/if}
 		{#if lineNumber == 22}
 			<Tablet showMeter={false} showBottomButtons={false}>
-				<div class="robostepintro">
-					<h2><img src="/img/icons/robotrain.png" alt="Train"/> Train &amp; Test</h2>
-					<p>
-						{typeof line.dialog === 'function' ? line.dialog() : line.dialog}
+				<div class="robostepintro train-test-intro">
+					<h2 class="train-test-heading"><img src="/img/icons/robotrain.png" alt="Train"/> Train &amp; Test</h2>
+					<p class="train-test-text">
+						You are about to enter the Traininator, where you will input data to train your robot to identify different classes. Then you will enter the Codeinator, where you will create instructions for your AI robot to achieve its goal.
 					</p>
-					<button class="nextBtn" on:click={() => {
+					<button class="nextBtn robostepintro-nextimg" on:click={() => {
 						studentProgressStore.update((progress) => {
 							progress.last_visited = '/level4new?page=23';
 							return progress;
@@ -914,42 +602,27 @@
 			<Tablet showMeter={false}>
 				<div class="train-test-hub">
 					<div class="train-test-hub-top">
-						<div class="train-test-hub-card">
-							<button class="train-test-hub-icon-button" on:click={() => goto('/level4new?page=25')}>
-								<img src="/img/tablet/traininatoricon.svg" alt="Traininator" class="train-test-hub-card-logo" />
-							</button>
-							<div class="train-test-hub-card-copy">
-								<h3>TRAININATOR</h3>
-								<p>{$settingsStore?.language === 'es' ? 'Ingresa datos de entrenamiento para entrenar tu modelo de aprendizaje automático para identificar diferentes clases.' : 'Input training data to train your machine learning model to identify different classes.'}</p>
-							</div>
-						</div>
-
-						<div class={`train-test-hub-card ${hasTriedTraininatorInLevel4New ? '' : 'train-test-hub-card-disabled'}`}>
-							<button
-								class="train-test-hub-icon-button"
-								disabled={!hasTriedTraininatorInLevel4New}
-								on:click={() => goto('/level4new?page=26')}
-							>
-								<img src="/img/tablet/codeinatoricon.svg" alt="Codeinator" class="train-test-hub-card-logo" />
-							</button>
-							<div class="train-test-hub-card-copy">
-								<h3>CODEINATOR</h3>
-								<p>{$settingsStore?.language === 'es' ? 'Programa tu robot para responder a las diferentes clases' : 'Program your robot to respond to the different classes'}</p>
-							</div>
-						</div>
-					</div>
-
-					<div class="train-test-hub-notes">
-						<button class="train-test-hub-icon-button" on:click={() => goto('/level4new?page=24')}>
-							<img src="/img/tablet/designnotesicon.svg" alt="Design Notes" class="train-test-hub-card-logo" />
+						<button class="train-test-hub-card" on:click={() => goto('/level4new?page=25')}>
+							<h3>TRAININATOR</h3>
+							<p>Input training data to train your machine learning model to identify different classes.</p>
 						</button>
-						<div class="train-test-hub-card-copy">
-							<h3>DESIGN NOTES</h3>
-							<p>{$settingsStore?.language === 'es' ? 'Ver tus notas de diseño' : 'View your design notes'}</p>
-						</div>
+
+						<button
+							class={`train-test-hub-card ${hasTriedTraininatorInLevel4New ? '' : 'train-test-hub-card-disabled'}`}
+							disabled={!hasTriedTraininatorInLevel4New}
+							on:click={() => goto('/level4new?page=26')}
+						>
+							<h3>CODEINATOR</h3>
+							<p>Program your robot to respond to the different classes</p>
+						</button>
 					</div>
 
-					<button class="nextBtn page23-done-next" disabled={!hasCompletedTrainAndCodeinatorInLevel4New} on:click={() => {
+					<button class="train-test-hub-notes" on:click={() => goto('/level4new?page=24')}>
+						<h3>DESIGN NOTES</h3>
+						<p>View your design notes</p>
+					</button>
+
+					<button class="train-test-hub-done" on:click={() => {
 						studentProgressStore.update((progress) => {
 							progress.last_visited = '/level4new?page=27';
 							return progress;
@@ -957,53 +630,22 @@
 
 						goto('/level4new?page=27');
 					}}>
-						<img src="/img/misc/nextbutton.png" alt="I’m Done" id="nextbutton" />
+						I’m Done!
 					</button>
 				</div>
 			</Tablet>
 		{/if}
 		{#if lineNumber == 24}
-			{#if logsLoaded}
-				<TextResponseModal 
-					prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, {id: "robotdesign2", prompt: "Who My Robot Helps"}, {id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}, {id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
-					requireAllResponses={false}
-					prefill={{
-						robotdesign1: robotProblem,
-						robotdesign2: robotHelps,
-						robotdesign3: robotCategories,
-						robotdesign4: robotAction,
-						robotdesign5: robotName
-					}}
-					onSuccess={(responses) => {
-						robotProblem = responses['robotdesign1'];
-						robotHelps = responses['robotdesign2'];
-						robotCategories = responses['robotdesign3'];
-						robotAction = responses['robotdesign4'];
-						robotName = responses['robotdesign5'];
-						goto('/level4new?page=23');
-					}}
-				/>
-				<ChatbotWidget assistantId={chatbotAssistantId} className="design-notes-chatbot" preserveSpeechPunctuation={true} />
-			{/if}
+			<TextResponseModal 
+				prompt={["Problem to Solve", "Who My Robot Helps", "Image Categories", "What My Robot Will Do", "My Robot Will Be Named:"]}
+				singleLine={[false, false, false, false, true]}
+				onSuccess={() => goto('/level4new?page=23')}
+			/>
 		{/if}
 		{#if lineNumber == 25}
 			<Tablet showMeter={false} showBottomButtons={false}>
-				<TabletButton on:click={() => { 
-					const event  = new CustomEvent('showTablet', {
-						bubbles: true
-					});
-					content?.dispatchEvent(event);
-				}} />
 				<TraininatorMain 
-					onComplete={() => {
-						studentProgressStore.update((progress) => {
-							progress.level4new_traininator_tried = true;
-							progress.last_visited = '/level4new?page=23';
-							return progress;
-						});
-
-						goto('/level4new?page=23');
-					}}
+					onComplete={() => goto('/level4new?page=23')}
 				/>
 			</Tablet>
 		{/if}
@@ -1012,17 +654,7 @@
 				<Codinator 
 					iframeStyle="height: 80vh;"
 					buttonLabel="Finish"
-					allowFinishWithoutSubmission={false}
-					requireSuccessfulBuild={true}
-					unlockAfterMs={180000}
-					on:submitted={() => {
-						studentProgressStore.update((progress) => {
-								progress.level4new_codeinator_tried = true;
-							progress.last_visited = '/level4new?page=23';
-							return progress;
-						});
-						goto('/level4new?page=23');
-					}}
+					onComplete={() => goto('/level4new?page=23')}
 				/>
 			</Tablet>
 		{/if}
@@ -1045,15 +677,14 @@
 		{/if}
 		{#if lineNumber == 30}
             <Tablet showMeter={false} showBottomButtons={false}>
-                <div class="flex flex-col items-center justify-center h-full gap-4">
-                    <p class="text-3xl text-center text-white p-4">
-                        {$settingsStore?.language === 'es'
-                            ? '¡El Control de Misión necesita saber algunas cosas más antes de que obtengas tu insignia final!'
-                            : 'Mission Control needs to know a few more things before you get your final badge!'}
+				<div class="flex flex-col items-center justify-center h-full gap-4 page30-wrap">
+					<p class="text-3xl text-center text-white p-4 page30-text">
+                        Mission Control needs to know a few more things before you get your final badge!
                     </p>
-					<button class="nextBtn" on:click={() => {
+					<button class="nextBtn page30-next" on:click={() => {
                         handleNavigation(NavigationDirection.forward);
-					}}><img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
+					}}>
+						<img src="/img/misc/nextbutton.png" alt="Next" id="nextbutton" />
 					</button>
                 </div>
             </Tablet>
@@ -1065,10 +696,10 @@
         {/if}
 		{#if lineNumber == 32}
 			<Tablet>
-				<AudioPlayer src={getSurveyQuestionAudio(questionIndex)} />
+				<AudioPlayer src={QuestionsAudio[questionIndex]} />
 
                 {#if showFeedbackModal}
-					<FeedbackModal {message} {isSuccess} on:close={handleSurveyFeedbackClose} />
+                    <FeedbackModal {message} {isSuccess} on:close={() => { goto('/level4new?page=33'); }} />
                 {/if}
                 <div
                     on:submit|preventDefault
@@ -1077,18 +708,18 @@
                         <p class="text-center text-3xl text-white" id="question">{questionsAndResponse[questionIndex].question}</p>
                     </div>
                     <div class="hud-red-blue-border flex w-3/4 flex-col space-y-4 p-4 text-3xl" id="options">
-						<SurveyOption emoji={surveyOptions[0].emoji} response={surveyOptions[0].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[0].value)} bind:this={strongAgreeElement} />
-						<SurveyOption emoji={surveyOptions[1].emoji} response={surveyOptions[1].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[1].value)} bind:this={agreeElement} />
-						<SurveyOption emoji={surveyOptions[2].emoji} response={surveyOptions[2].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[2].value)} bind:this={neutralElement} />
-						<SurveyOption emoji={surveyOptions[3].emoji} response={surveyOptions[3].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[3].value)} bind:this={disagreeElement} />
-						<SurveyOption emoji={surveyOptions[4].emoji} response={surveyOptions[4].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[4].value)} bind:this={strongDisagreeElement} />
+                        <SurveyOption emoji="😃" response="Strongly Agree" on:click={() => handleSelection('Strongly Agree')} bind:this={strongAgreeElement} />
+                        <SurveyOption emoji="🙂" response="Agree" on:click={() => handleSelection('Agree')} bind:this={agreeElement} />
+                        <SurveyOption emoji="😐" response="Neutral" on:click={() => handleSelection('Neutral')} bind:this={neutralElement} />
+                        <SurveyOption emoji="🙁" response="Disagree" on:click={() => handleSelection('Disagree')} bind:this={disagreeElement} />
+                        <SurveyOption emoji="☹️" response="Strongly Disagree" on:click={() => handleSelection('Strongly Disagree')} bind:this={strongDisagreeElement} />
                     </div>
                     <div class="flex w-full items-end justify-end">
                         <button
                             class="next-button rounded-xl bg-blue-300 px-4 py-2 text-3xl font-bold text-black"
                             on:click={getNextQuestion}
                             bind:this={nextButton}    
-						>{surveyUiText[surveyLanguage].next}</button>
+                        >Next</button>
                     </div>
                 </div>
             </Tablet>
@@ -1097,32 +728,20 @@
             <BadgeGetModal 
                 badge={BadgesByName['Junior Agent']}
                 handleClick={() => {
-                    handleNavigation(NavigationDirection.forward);
+					studentProgressStore.update((progress) => {
+						progress.last_visited = '/level4new?page=34';
+						return progress;
+					});
+
+					goto('/level4new?page=34');
                 }}            
             />
 		{/if}
 
         {#if lineNumber == 34}
-		<div id="page3-confettiholder">
+        <div id="confettiholder">
             {#key confetti}
-				<div class="page3-confetti-emitter page3-confetti-top-left">
-					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
-				</div>
-				<div class="page3-confetti-emitter page3-confetti-top-right">
-					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
-				</div>
-				<div class="page3-confetti-emitter page3-confetti-mid-left">
-					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
-				</div>
-				<div class="page3-confetti-emitter page3-confetti-mid-right">
-					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
-				</div>
-				<div class="page3-confetti-emitter page3-confetti-bottom-left">
-					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
-				</div>
-				<div class="page3-confetti-emitter page3-confetti-bottom-right">
-					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
-				</div>
+                <Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
             {/key}
         </div>
         {/if}
@@ -1179,6 +798,61 @@
 		top: -2vh;
 	}
 
+	.train-test-intro {
+		position: relative;
+		justify-content: flex-start;
+		padding-top: 2vh;
+	}
+
+	.train-test-heading {
+		margin-top: 0;
+		transform: translateY(2vh);
+	}
+
+	.train-test-text {
+		text-align: center;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		width: 70%;
+		margin: 0;
+		transform: translate(-50%, -50%);
+	}
+
+	.robostepintro-next {
+		position: absolute;
+		right: 2vw;
+		bottom: 2vh;
+	}
+
+	.robostepintro-nextimg {
+		position: absolute;
+		right: 2vw;
+		bottom: 2vh;
+		z-index: 20;
+	}
+
+	.page30-wrap {
+		position: relative;
+	}
+
+	.page30-text {
+		transform: translateY(-4vh);
+	}
+
+	.page30-next {
+		position: absolute;
+		right: 2vw;
+		bottom: 4vh;
+		transform: none;
+		z-index: 20;
+	}
+
+	.page30-next #nextbutton {
+		width: 24vh;
+		height: 8vh;
+	}
+
 	.train-test-hub {
 		height: 100%;
 		width: 100%;
@@ -1186,7 +860,7 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		gap: 4vh;
+		gap: 6vh;
 		color: white;
 		font-family: 'Gemunu Libre';
 		position: relative;
@@ -1198,7 +872,6 @@
 		justify-content: center;
 		gap: 10vw;
 		width: 100%;
-		transform: translateY(-3.5vh);
 	}
 
 	.train-test-hub-card {
@@ -1212,49 +885,16 @@
 		width: 26vw;
 		min-height: 24vh;
 		padding: 1vh 1vw;
-		gap: 0.8vh;
-	}
-
-	.train-test-hub-card-copy {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: flex-start;
-		width: 100%;
-		max-width: 24vw;
-	}
-
-	.train-test-hub-icon-button {
-		background: transparent;
-		border: none;
-		padding: 0;
 		cursor: pointer;
 		transition: transform 0.2s;
 	}
 
-	.train-test-hub-icon-button:disabled {
-		cursor: not-allowed;
-	}
-
-	.train-test-hub-icon-button:hover {
-		animation: traininator-bounce 0.5s ease;
+	.train-test-hub-card:hover {
 		transform: scale(1.03);
 	}
 
-	.train-test-hub-icon-button:disabled:hover,
-	.train-test-hub-icon-button:disabled:active {
-		animation: none;
-		transform: none;
-	}
-
-	.train-test-hub-icon-button:active {
+	.train-test-hub-card:active {
 		transform: scale(0.98);
-	}
-
-	@keyframes traininator-bounce {
-		0% { transform: scale(1); }
-		50% { transform: scale(1.08); }
-		100% { transform: scale(1.03); }
 	}
 
 	.train-test-hub-card-disabled {
@@ -1275,13 +915,6 @@
 		letter-spacing: 0.08em;
 	}
 
-	.train-test-hub-card-logo {
-		width: 18vh;
-		height: 18vh;
-		object-fit: contain;
-		margin-bottom: 0.6vh;
-	}
-
 	.train-test-hub-card p,
 	.train-test-hub-notes p {
 		font-size: 4vh;
@@ -1291,67 +924,59 @@
 	}
 
 	.train-test-hub-notes {
+		background: transparent;
+		border: none;
 		color: white;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		transform: translateY(-2.5vh);
+		cursor: pointer;
+		transition: transform 0.2s;
 	}
 
-	.page23-done-next {
+	.train-test-hub-notes:hover {
+		transform: scale(1.03);
+	}
+
+	.train-test-hub-notes:active {
+		transform: scale(0.98);
+	}
+
+	.train-test-hub-done {
 		position: absolute;
 		right: 19vw;
 		bottom: 2.4vh;
 		z-index: 20;
-	}
-
-	.page18-next:disabled {
-		cursor: not-allowed;
-	}
-
-	.page18-next:disabled #nextbutton {
-		filter: grayscale(1);
-		opacity: 0.5;
-	}
-
-	.page23-done-next:disabled {
-		cursor: not-allowed;
-	}
-
-	.page23-done-next:disabled #nextbutton {
-		filter: grayscale(1);
-		opacity: 0.5;
-	}
-
-	.traininator-exit-btn {
-		position: absolute;
-		right: 3.2vw;
-		bottom: 2.8vh;
-		z-index: 30;
-		height: 7vh;
-		padding: 1vh 2vw;
-		border: 2px solid #289dd3;
-		border-radius: 3.5vh;
 		background: radial-gradient(farthest-corner at bottom right, #49c5ff 75%, #fff 100%);
 		background-color: #49c5ff;
 		color: #111;
-		font-family: 'Gemunu Libre';
+		border: 2px solid #289dd3;
+		box-shadow: inset 0 0 0 3px rgba(255, 255, 255, 0.25);
+		padding: 1vh 2.6vw;
+		min-width: 18vw;
+		height: 7.6vh;
+		border-radius: 4vh;
+		font-size: 2.2vh;
 		font-weight: 700;
-		font-size: 1.5rem;
 		cursor: pointer;
-		transition: 0.3s;
+		transition: transform 0.2s;
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
+		font-family: 'Mokoto';
+		letter-spacing: 0.02em;
+		line-height: 1;
+		white-space: nowrap;
 	}
 
-	.traininator-exit-btn:hover {
+	.train-test-hub-done:hover {
 		transform: scale(1.05);
 	}
 
-	.traininator-exit-btn:active {
+	.train-test-hub-done:active {
 		transform: scale(0.95);
 	}
+
 
     #nextbutton {
         height: 10vh;
@@ -1483,29 +1108,35 @@
 
 	.welcome-back-banner {
 		position: absolute;
-		top: 1.2vh;
-		left: 50%;
-		transform: translateX(-50%);
-		z-index: 20;
+		top: 0;
+		left: 0;
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		padding-top: 1vh;
+		z-index: 15;
 		pointer-events: none;
 	}
 
 	.welcome-back-flags {
 		display: flex;
 		align-items: flex-start;
-		gap: clamp(0.42rem, 1.15vw, 1.1rem);
-		padding: 0.35rem 1rem;
+		gap: 0.4vw;
+		width: 100%;
+		justify-content: center;
 	}
 
 	.welcome-back-flag {
-		display: inline-flex;
+		display: flex;
 		align-items: center;
 		justify-content: center;
-		width: clamp(3.6rem, 5.3vw, 5.4rem);
-		height: clamp(4.4rem, 6.4vw, 6.3rem);
-		font-size: clamp(2.15rem, 3.3vw, 3.3rem);
-		font-weight: 800;
-		color: #0f172a;
+		width: clamp(2.2rem, 5.2vw, 4.5rem);
+		height: clamp(2.8rem, 9vh, 4.2rem);
+		background-color: #49c5ff;
+		color: #111;
+		font-family: 'Gemunu Libre';
+		font-size: clamp(1.2rem, 3.8vh, 2.2rem);
+		font-weight: 700;
 		line-height: 1;
 		clip-path: polygon(0 0, 100% 0, 100% 84%, 50% 100%, 0 84%);
 		box-shadow: 0 0.3vh 0.6vh rgba(0, 0, 0, 0.2);
@@ -1537,23 +1168,7 @@
 
 	.welcome-back-gap {
 		display: block;
-		width: clamp(1.2rem, 3.1vw, 2.4rem);
-	}
-
-	.congrats-banner {
-		top: 0.3vh;
-		transform: translateX(calc(-50% - 6vw));
-	}
-
-	.congrats-flags {
-		gap: clamp(0.36rem, 1vw, 1rem);
-		padding: 0.55rem 1.45rem;
-	}
-
-	.congrats-flags .welcome-back-flag {
-		width: clamp(3.2rem, 4.9vw, 5rem);
-		height: clamp(4rem, 6.1vw, 6rem);
-		font-size: clamp(2rem, 3.1vw, 3.2rem);
+		width: clamp(0.8rem, 2vw, 1.6rem);
 	}
 
 	#page3-confettiholder {

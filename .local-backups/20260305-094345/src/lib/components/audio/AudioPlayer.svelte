@@ -29,7 +29,6 @@
 	import { languageStore } from '$lib/utils/stores/languageStore';
 	import { getAudioPath } from '$lib/utils/Assets/AudioPath';
 	import type { Language } from '$lib/utils/translations';
-	import { audioPlaybackFinished } from '$lib/utils/stores/store';
 
 	export let src: string;
 	let hasPlayerMounted = false;
@@ -47,28 +46,23 @@
 
 	function pathExists(path: string): Promise<boolean> {
 		if (!browser) return Promise.resolve(false);
-		return fetch(encodeURI(path), { method: 'HEAD' })
+		return fetch(path, { method: 'HEAD' })
 			.then((response) => response.ok)
 			.catch(() => false);
 	}
 
 	function toMp3RelativePath(relativePath: string): string | null {
-		if (!/\.(wav|ogg)$/i.test(relativePath)) return null;
-		return relativePath.replace(/\.(wav|ogg)$/i, '.mp3');
+		if (!/\.wav$/i.test(relativePath)) return null;
+		return relativePath.replace(/\.wav$/i, '.mp3');
 	}
 
 	function toWavRelativePath(relativePath: string): string | null {
-		if (!/\.(mp3|ogg)$/i.test(relativePath)) return null;
-		return relativePath.replace(/\.(mp3|ogg)$/i, '.wav');
+		if (!/\.mp3$/i.test(relativePath)) return null;
+		return relativePath.replace(/\.mp3$/i, '.wav');
 	}
 
-	function toOggRelativePath(relativePath: string): string | null {
-		if (!/\.(wav|mp3)$/i.test(relativePath)) return null;
-		return relativePath.replace(/\.(wav|mp3)$/i, '.ogg');
-	}
-
-	function withExtension(relativePath: string, extension: 'wav' | 'mp3' | 'ogg'): string {
-		const noExt = relativePath.replace(/\.(wav|mp3|ogg)$/i, '');
+	function withExtension(relativePath: string, extension: 'wav' | 'mp3'): string {
+		const noExt = relativePath.replace(/\.(wav|mp3)$/i, '');
 		return `${noExt}.${extension}`;
 	}
 
@@ -88,10 +82,10 @@
 	function buildRelativeCandidates(relativePath: string): string[] {
 		if (!relativePath) return [];
 
-		const hasKnownExtension = /\.(wav|mp3|ogg)$/i.test(relativePath);
+		const hasKnownExtension = /\.(wav|mp3)$/i.test(relativePath);
 		const directCandidates = hasKnownExtension
-			? [relativePath, toMp3RelativePath(relativePath), toWavRelativePath(relativePath), toOggRelativePath(relativePath)].filter(Boolean) as string[]
-			: [withExtension(relativePath, 'wav'), withExtension(relativePath, 'mp3'), withExtension(relativePath, 'ogg')];
+			? [relativePath, toMp3RelativePath(relativePath), toWavRelativePath(relativePath)].filter(Boolean) as string[]
+			: [withExtension(relativePath, 'wav'), withExtension(relativePath, 'mp3')];
 
 		const nestedCandidates = directCandidates
 			.map((candidate) => toNestedRelativePath(candidate))
@@ -117,49 +111,26 @@
 						attemptedNonEnglishPaths.add(pathKey);
 					}
 				}
-				return encodeURI(candidatePath);
+				return candidatePath;
 			}
 		}
 
-		return allCandidates[0] ? encodeURI(allCandidates[0]) : '';
+		return allCandidates[0] || '';
 	}
 
 	// Handle audio load errors (when file doesn't exist)
 	function handleAudioError() {
-		if (!src) {
-			audioPlaybackFinished.set(true);
-			return;
-		}
-		if (currentLanguage === 'en' || currentLanguage === 'es' || !browser) {
-			// No further fallback available — treat as finished
-			audioPlaybackFinished.set(true);
-			return;
-		}
+		if (!src) return;
+		if (currentLanguage === 'en' || currentLanguage === 'es' || !browser) return;
 		resolveAudioPath(src, 'en').then((englishPath) => {
 			if (englishPath && englishPath !== fullAudioPath) {
 				fullAudioPath = englishPath;
-			} else {
-				// English fallback also missing — treat as finished
-				audioPlaybackFinished.set(true);
 			}
 		});
 	}
 
 	// Reactive statement: Resolve audio path when src or language changes
 	$: {
-		if (browser && (!src || src.trim() === '')) {
-			pathResolutionRequestId++;
-			fullAudioPath = '';
-			audioPlaybackFinished.set(true);
-
-			if (hasPlayerMounted && player) {
-				player.pause();
-				player.currentTime = 0;
-				player.removeAttribute('src');
-				player.load();
-			}
-		}
-
 		if (browser && src && currentLanguage) {
 			const requestId = ++pathResolutionRequestId;
 			resolveAudioPath(src, currentLanguage).then((resolvedPath) => {
@@ -173,7 +144,6 @@
 	// Reactive statement: Play audio when path changes
 	$: {
 		if (hasPlayerMounted && fullAudioPath && (settings.audioEnabled ?? defaultSettings.audioEnabled) && player) {
-			audioPlaybackFinished.set(false);
 			player.pause();
 			player.currentTime = 0;
 			player.src = fullAudioPath;
@@ -184,9 +154,6 @@
 					console.error('[Audio] Playback error:', err);
 				}
 			});
-		} else if (hasPlayerMounted && fullAudioPath && !(settings.audioEnabled ?? defaultSettings.audioEnabled)) {
-			// Audio disabled — treat as finished immediately
-			audioPlaybackFinished.set(true);
 		}
 	}
 
@@ -209,16 +176,10 @@
 
 	onDestroy(() => {
 		unsubscribe();
-		if (player) {
-			player.pause();
-			player.currentTime = 0;
-			player.removeAttribute('src');
-			player.load();
-			players.delete(player);
-		}
+		players.forEach((p) => p.pause());
 	});
 </script>
 
-<audio bind:this={player} src={fullAudioPath} on:error={handleAudioError} on:ended={() => audioPlaybackFinished.set(true)}>
+<audio bind:this={player} src={fullAudioPath} on:error={handleAudioError}>
 	<track kind="captions" />
 </audio>

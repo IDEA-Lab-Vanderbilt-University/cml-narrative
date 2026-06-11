@@ -158,7 +158,7 @@
 			);
 
 			// model.save(`${PUBLIC_BACKEND_API_URL}/traininator-models/${res.id}/upload`);
-			saveModel(model, `${PUBLIC_BACKEND_API_URL}/traininator-models/${res.id}/upload`);
+			await saveModel(model, `${PUBLIC_BACKEND_API_URL}/traininator-models/${res.id}/upload`);
             onComplete(res);
 		} catch (error) {
 			alert('Error uploading model');

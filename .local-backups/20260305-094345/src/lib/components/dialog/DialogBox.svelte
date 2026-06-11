@@ -6,7 +6,7 @@
 	 */
 	import type { Line } from '$lib/types/Script';
 	import { defaultSettings, type Settings } from '$lib/types/Settings';
-	import { settingsStore, tabletModalActive, audioPlaybackFinished } from '$lib/utils/stores/store';
+	import { settingsStore, tabletModalActive } from '$lib/utils/stores/store';
 	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import typewriter from '$lib/utils/typewriter';
 
@@ -53,7 +53,7 @@
 	});
 
 	$:{ 
-		if(isTyping || tabletUp || !$audioPlaybackFinished) {
+		if(isTyping || tabletUp) {
 			navigationLocked = true;
 		} else {
 			navigationLocked = false;
