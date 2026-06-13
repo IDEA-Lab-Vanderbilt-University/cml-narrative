@@ -4,7 +4,7 @@
 
 	import { onMount } from 'svelte';
 	import { fade } from 'svelte/transition';
-	import { debugMode, showLanguageChoice } from '$lib/utils/stores/store';
+	import { debugMode } from '$lib/utils/stores/store';
 	import { goto } from '$app/navigation';
 	import LanguageMenu from '$lib/components/LanguageMenu.svelte';
 	import { t } from '$lib/utils/stores/languageStore';
@@ -68,15 +68,14 @@
 				</div>
 			{:else if screenState == HomeScreenStates.signUp}
 				<Login on:back={() => (screenState = HomeScreenStates.home)} />
-			{/if} 
-			{#if showLanguageChoice}
-			<div class="absolute bottom-4 left-4" >
-				<LanguageMenu />
-			</div>
 			{/if}
+		</div>
+		<div class="fixed bottom-4 left-4 z-[9999]">
+			<LanguageMenu />
 		</div>
 	</div>
 </div>
+
 
 <style>
 	#new-agent {
