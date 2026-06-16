@@ -29,7 +29,7 @@
 	import { languageStore } from '$lib/utils/stores/languageStore';
 	import { getAudioPath } from '$lib/utils/Assets/AudioPath';
 	import type { Language } from '$lib/utils/translations';
-	import { audioPlaybackFinished } from '$lib/utils/stores/store';
+	import { audioPlaybackFinished } from '$lib/utils/stores/audioStore';
 
 	export let src: string;
 	let hasPlayerMounted = false;

@@ -6,7 +6,8 @@
 	 */
 	import type { Line } from '$lib/types/Script';
 	import { defaultSettings, type Settings } from '$lib/types/Settings';
-	import { settingsStore, tabletModalActive, audioPlaybackFinished } from '$lib/utils/stores/store';
+	import { settingsStore, tabletModalActive } from '$lib/utils/stores/store';
+	import { audioPlaybackFinished } from '$lib/utils/stores/audioStore';
 	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import typewriter from '$lib/utils/typewriter';
 

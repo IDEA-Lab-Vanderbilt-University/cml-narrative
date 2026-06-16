@@ -6,7 +6,8 @@
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import DataService from '$lib/utils/DataService/index.js';
-	import { accessTokenStore, settingsStore, studentDataStore, studentProgressStore, audioPlaybackFinished } from '$lib/utils/stores/store.js';
+	import { accessTokenStore, settingsStore, studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
+	import { audioPlaybackFinished } from '$lib/utils/stores/audioStore';
 	import { onMount } from 'svelte';
 	import script from '$lib/scripts/level4/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
