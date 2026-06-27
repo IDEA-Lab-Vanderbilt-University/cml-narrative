@@ -3,6 +3,6 @@ import { isLevel5Enabled } from '$lib/utils/featureFlags';
 
 export const load = () => {
 	if (!isLevel5Enabled) {
-		throw redirect(307, '/');
+		throw redirect(307, '/level4new?page=1');
 	}
 };
