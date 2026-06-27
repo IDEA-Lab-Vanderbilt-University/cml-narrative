@@ -701,7 +701,7 @@
 														: tutorialStep === 7
 															? 'Try changing the code up yourself and see what happens!'
 													: ''}</span>
-							{#if tutorialStep !== 1 || robotIsConnected}
+							{#if tutorialStep >= 1 && tutorialStep <= 7}
 								<button class="tutorial-arrow right" aria-label={$settingsStore?.language === 'es' ? 'Siguiente paso' : 'Next step'} on:click={() => { if (tutorialStep < 7) { setTutorialStep(tutorialStep + 1); } else { setTutorialStep(8); } }}>
 									<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<defs>
