@@ -1161,6 +1161,8 @@ Next
 				<Codinator
 					description="robotcode"
 					status="pending"
+					enableSubmitFallback={true}
+					submitFallbackMs={7000}
 					on:submitted={() => {
 						studentProgressStore.update((progress) => {
 							progress.last_visited = '/level4?page=38';

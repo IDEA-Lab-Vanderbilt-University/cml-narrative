@@ -19,6 +19,7 @@
 	import BadgeGetModal from '$lib/components/modals/BadgeGetModal.svelte';
 	import MegaJoulesGetModal from '$lib/components/modals/MegaJoulesGetModal.svelte';
 	import { BadgesByName } from '$lib/utils/Assets/Badges.js';
+	import { isLevel4Enabled } from '$lib/utils/featureFlags';
 
 	export let data;
 
@@ -49,7 +50,7 @@
 		if (direction == NavigationDirection.forward) {
 			if (line.id == script.lines.length) {
                 // Next level
-				if (useNewLevel4) {
+				if (useNewLevel4 || !isLevel4Enabled) {
 					target = '/level4new?page=1';
 				} else {
 					target = '/level4?page=1';

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher, onMount, onDestroy } from 'svelte';
   import { get } from 'svelte/store';
-  import { accessTokenStore } from '$lib/utils/stores/store.js';
+  import { accessTokenStore, studentDataStore } from '$lib/utils/stores/store.js';
   import { browser } from '$app/environment';
 
   export let description: string = 'robotcode';
@@ -15,6 +15,8 @@
   export let allowFinishWithoutSubmission: boolean = false;
   export let requireSuccessfulBuild: boolean = false;
   export let unlockAfterMs: number = 0;
+  export let enableSubmitFallback: boolean = false;
+  export let submitFallbackMs: number = 7000;
   export let showRobotConnectHint: boolean = false;
   export let robotConnectHintText: string = 'Click here to connect';
   export let glowConnectButton: boolean = false;
@@ -25,12 +27,16 @@
   let listener: (event: MessageEvent) => void;
   let iframeLoaded: boolean = false;
   let submitted: boolean = false;
+  let submissionAcknowledged: boolean = false;
   let modelBuiltSuccessfully: boolean = false;
   let timedUnlockReached: boolean = false;
   let unlockTimer: ReturnType<typeof setTimeout> | null = null;
+  let submitFallbackTimer: ReturnType<typeof setTimeout> | null = null;
 
-  const resolvedHost = overrideHost ?? (browser ? `${window.location.origin}/api` : '');
-  const src = `https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id=${overrideStudentID ?? get(accessTokenStore)}&host=${resolvedHost}`;
+  const rawHost = overrideHost ?? (browser ? window.location.origin : '');
+  const resolvedHost = rawHost && rawHost.endsWith('/api') ? rawHost : `${rawHost}/api`;
+  const resolvedStudentId = overrideStudentID ?? get(accessTokenStore) ?? get(studentDataStore)?.id ?? '';
+  const src = `https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id=${resolvedStudentId}&host=${resolvedHost}`;
 
 
   onMount(() => {
@@ -80,6 +86,11 @@
         }
 
         if (event?.data?.type === 'travelLogSubmitted') {
+          submissionAcknowledged = true;
+          if (submitFallbackTimer) {
+            clearTimeout(submitFallbackTimer);
+            submitFallbackTimer = null;
+          }
           modelBuiltSuccessfully = true;
           dispatch('submitted', event.data);
         }
@@ -101,6 +112,10 @@
       clearTimeout(unlockTimer);
       unlockTimer = null;
     }
+    if (submitFallbackTimer) {
+      clearTimeout(submitFallbackTimer);
+      submitFallbackTimer = null;
+    }
   });
 
   function sendMessage() {
@@ -110,6 +125,19 @@
 
     if (iframeEl?.contentWindow) {
       submitted = true;
+      submissionAcknowledged = false;
+
+      if (enableSubmitFallback) {
+        if (submitFallbackTimer) {
+          clearTimeout(submitFallbackTimer);
+        }
+
+        submitFallbackTimer = setTimeout(() => {
+          if (!submissionAcknowledged) {
+            dispatch('submitted', { fallback: true });
+          }
+        }, submitFallbackMs);
+      }
 
       if (allowFinishWithoutSubmission) {
         dispatch('submitted', { localBypass: true });
