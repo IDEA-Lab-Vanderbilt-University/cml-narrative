@@ -29,7 +29,8 @@
   let timedUnlockReached: boolean = false;
   let unlockTimer: ReturnType<typeof setTimeout> | null = null;
 
-  const src = `https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id=${overrideStudentID ?? get(accessTokenStore)}&host=${overrideHost ?? (browser ? window.location.origin : '')}`;
+  const resolvedHost = overrideHost ?? (browser ? `${window.location.origin}/api` : '');
+  const src = `https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id=${overrideStudentID ?? get(accessTokenStore)}&host=${resolvedHost}`;
 
 
   onMount(() => {
