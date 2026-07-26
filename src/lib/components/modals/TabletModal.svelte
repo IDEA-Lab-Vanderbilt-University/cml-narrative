@@ -2,6 +2,8 @@
 
 <script lang="ts">
 	import { onMount } from "svelte";
+    import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
 	import Tablet from "../tablet/Tablet.svelte";
 	import ProfilesApp from "../tablet/profiles/ProfilesApp.svelte";
 	import { showLanguageChoice, tabletModalActive } from "$lib/utils/stores/store";
@@ -32,6 +34,16 @@
     }
 
     let appMode: null | "profile" | "travelLog" | "badges" = null;
+    $: isLevel4NewPage34 = $page.url.pathname === '/level4new' && $page.url.searchParams.get('page') === '34';
+
+    const openLevel4NewFinalCodeinator = () => {
+        const event  = new CustomEvent('hideTablet', {
+            bubbles: true
+        });
+
+        tabletDiv?.dispatchEvent(event);
+        goto('/level4new?page=26&returnPage=34');
+    };
     
 </script>
 
@@ -53,7 +65,17 @@
         {:else if appMode === "badges"}
             <BadgesApp handleClick={() => appMode = null} />
         {:else}
-            <TabletMenu onSelect={(selection) => appMode = selection} />
+            <TabletMenu
+                includeCodeinator={isLevel4NewPage34}
+                onSelect={(selection) => {
+                    if (selection === 'codeinator' && isLevel4NewPage34) {
+                        openLevel4NewFinalCodeinator();
+                        return;
+                    }
+
+                    appMode = selection;
+                }}
+            />
         {/if}
 
 			{#if showLanguageChoice}

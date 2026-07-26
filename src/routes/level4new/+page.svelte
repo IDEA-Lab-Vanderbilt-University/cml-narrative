@@ -134,6 +134,17 @@
 		}
 	};
 
+	const getReturnPageFromQuery = () => {
+		if (typeof window === 'undefined') {
+			return null;
+		}
+
+		return new URLSearchParams(window.location.search).get('returnPage');
+	};
+
+	$: isFinalCodeinatorReview = lineNumber === 26 && getReturnPageFromQuery() === '34';
+	$: shouldAutoOpenTabletOnPage34 = lineNumber === 34 && getReturnPageFromQuery() === '34' && (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('showTablet') === '1' : false);
+
     let content: HTMLDivElement | null;
 
 	let robotProblem = '';
@@ -159,6 +170,19 @@
 				robotIsConnected = tutorialStepParam >= 2;
 			} else if (line.id === 14 && tutorialStepRaw === null) {
 				setTutorialStep(7);
+			}
+
+			if (line.id === 34 && params.get('returnPage') === '34' && params.get('showTablet') === '1') {
+				setTimeout(() => {
+					const event = new CustomEvent('showTablet', {
+						bubbles: true
+					});
+
+					content?.dispatchEvent(event);
+				}, 0);
+
+				params.delete('showTablet');
+				history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
 			}
 		}
 
@@ -596,11 +620,11 @@
 						<div class="flex flex-row">
 							<div class="flex flex-col text-center">
 								<p>Healthy Foods</p>
-								<img src="/img/level4new/healthyfoods.png" alt="Healthy Foods Example" class="agent-nova-image mr-4" />
+								<img src="/img/level4new/healthyfoods.png" alt="Healthy Foods Example" class="agent-nova-image agent-nova-image-highlight mr-4" />
 							</div>
 							<div class="flex flex-col text-center">
 								<p>Unhealthy Foods</p>
-								<img src="/img/level4new/unhealthyfoods.png" alt="Unhealthy Foods Example" class="agent-nova-image" />
+								<img src="/img/level4new/unhealthyfoods.png" alt="Unhealthy Foods Example" class="agent-nova-image agent-nova-image-highlight" />
 							</div>
 						</div>
 						{/if}
@@ -613,11 +637,11 @@
 						<div class="flex flex-row">
 							<div class="flex flex-col text-center">
 								<p>Safe Objects</p>
-								<img src="/img/level4new/safeobjects.png" alt="Safe Objects Example" class="agent-nova-image mr-4" />
+								<img src="/img/level4new/safeobjects.png" alt="Safe Objects Example" class="agent-nova-image agent-nova-image-highlight mr-4" />
 							</div>
 							<div class="flex flex-col text-center">
 								<p>Sharp Objects</p>
-								<img src="/img/level4new/dangerousobjects.png" alt="Dangerous Objects Example" class="agent-nova-image" />
+								<img src="/img/level4new/dangerousobjects.png" alt="Dangerous Objects Example" class="agent-nova-image agent-nova-image-highlight" />
 							</div>
 						</div>
 						{/if}
@@ -630,11 +654,11 @@
 							<div class="flex flex-row">
 								<div class="flex flex-col text-center">
 									<p>Positive Emotions</p>
-									<img src="/img/level4new/positiveemotions.png" alt="Positive Emotions Example" class="agent-nova-image mr-4" />
+									<img src="/img/level4new/positiveemotions.png" alt="Positive Emotions Example" class="agent-nova-image agent-nova-image-highlight mr-4" />
 								</div>
 								<div class="flex flex-col text-center">
 									<p>Negative Emotions</p>
-									<img src="/img/level4new/negativeemotions.png" alt="Negative Emotions Example" class="agent-nova-image" />
+									<img src="/img/level4new/negativeemotions.png" alt="Negative Emotions Example" class="agent-nova-image agent-nova-image-highlight" />
 								</div>
 							</div>
 						{/if}
@@ -647,7 +671,7 @@
 						overrideHost="https://spotcommandapp.com/api"
 						glowConnectButton={tutorialStep === 1}
 						showRobotConnectHint={tutorialStep === 1}
-						showFlagHint={tutorialStep === 4}
+						showFlagHint={false}
 						robotConnectHintText={$settingsStore?.language === 'es' ? 'Toca aquí para conectar' : 'Click here to connect'}
 						on:robotconnected={() => { robotIsConnected = true; }}
 					/>
@@ -670,39 +694,58 @@
 								</svg>
 							</button>
 							<span class="tutorial-dialog-step">{$settingsStore?.language === 'es' ? 'Paso' : 'Step'} {tutorialStep}</span>
-							<span class="tutorial-dialog-message">{$settingsStore?.language === 'es'
-								? tutorialStep === 1
-									? "¡Ahora, inténtalo tú mismo! Toca 'Conectar robot' para activarlo!"
-									: tutorialStep === 2
-										? '¿Tu robot tiene una carita sonriente 🙂? Entonces, ¡ya está conectado!'
-										: tutorialStep === 3
-											? '¡Haz clic en el bloque de cámara en el modelo de Raven para que funcione!'
-											: tutorialStep === 4
-												? 'Toca la bandera verde para ver el código en acción'
-												: tutorialStep === 5
-													? '¡Intenta cambiar la canción cuando la predicción del modelo sea feliz!'
-													: tutorialStep === 6
-														? '¿Ves cómo el robot muestra un corazón ❤️? ¡Intenta cambiarlo por otra cosa!'
-														: tutorialStep === 7
-															? '¡Intenta cambiar el código tú mismo y mira qué pasa!'
-													: ''
-								: tutorialStep === 1
-									? "Now, try it out yourself! Tap 'Connect Robot' to wake it up!"
-									: tutorialStep === 2
-										? 'Does your robot have a smiley face 🙂? then, you are connected!'
-										: tutorialStep === 3
-											? "Click on the camera block in Raven's model to make it work!"
-											: tutorialStep === 4
-												? 'Click the green flag to see the code in action'
-												: tutorialStep === 5
-													? 'Try changing the song when the model prediction is happy!'
-													: tutorialStep === 6
-														? 'See how the robot displays a heart ❤️? Try changing it to something else!'
-														: tutorialStep === 7
-															? 'Try changing the code up yourself and see what happens!'
-													: ''}</span>
+							<span class="tutorial-dialog-message">
+								{#if $settingsStore?.language === 'es'}
+									{#if tutorialStep === 1}
+										¡Ahora, inténtalo tú mismo! Toca 'Conectar robot' para activarlo!
+									{:else if tutorialStep === 2}
+										¿Tu robot tiene una carita sonriente 🙂? Entonces, ¡ya está conectado!
+									{:else if tutorialStep === 3}
+										Enciende la cámara haciendo clic en el interruptor "Turn video (on)" en el modelo de Raven para que funcione.
+									{:else if tutorialStep === 4}
+										Toca la bandera verde <span class="tutorial-green-flag-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3.5v17"/><path d="M7.8 5.6h9.6l-2.1 2.8 2.1 2.8H7.8z"/></svg></span> para ver el código en acción
+									{:else if tutorialStep === 5}
+										¡Intenta cambiar la canción cuando la predicción del modelo sea feliz!
+									{:else if tutorialStep === 6}
+										¿Ves cómo el robot muestra un corazón ❤️? ¡Intenta cambiarlo por otra cosa!
+									{:else if tutorialStep === 7}
+										¡Intenta cambiar el código tú mismo y mira qué pasa!
+									{/if}
+								{:else}
+									{#if tutorialStep === 1}
+										Now, try it out yourself! Tap 'Connect Robot' to wake it up!
+									{:else if tutorialStep === 2}
+										Does your robot have a smiley face 🙂? then, you are connected!
+									{:else if tutorialStep === 3}
+										Turn on the camera by clicking on "Turn video (on)" toggle in Raven's model to make it work!
+									{:else if tutorialStep === 4}
+										Click the green flag <span class="tutorial-green-flag-icon" aria-hidden="true"><svg viewBox="0 0 24 24" focusable="false"><path d="M6 3.5v17"/><path d="M7.8 5.6h9.6l-2.1 2.8 2.1 2.8H7.8z"/></svg></span> to see the code in action!
+									{:else if tutorialStep === 5}
+										Try changing the song when the model prediction is happy!
+									{:else if tutorialStep === 6}
+										See how the robot displays a heart ❤️? Try changing it to something else!
+									{:else if tutorialStep === 7}
+										Try changing the code up yourself and see what happens!
+									{/if}
+								{/if}
+							</span>
 							{#if tutorialStep >= 1 && tutorialStep <= 7}
-								<button class="tutorial-arrow right" aria-label={$settingsStore?.language === 'es' ? 'Siguiente paso' : 'Next step'} on:click={() => { if (tutorialStep < 7) { setTutorialStep(tutorialStep + 1); } else { setTutorialStep(8); } }}>
+								<button
+									class="tutorial-arrow right"
+									aria-label={$settingsStore?.language === 'es' ? 'Siguiente paso' : 'Next step'}
+									disabled={!$audioPlaybackFinished}
+									on:click={() => {
+										if (!$audioPlaybackFinished) {
+											return;
+										}
+
+										if (tutorialStep < 7) {
+											setTutorialStep(tutorialStep + 1);
+										} else {
+											setTutorialStep(8);
+										}
+									}}
+								>
 									<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
 										<defs>
 											<linearGradient id="arrowRightGradient" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
@@ -798,6 +841,33 @@
 	text-align: center;
 	pointer-events: auto;
 }
+
+.tutorial-dialog-message .tutorial-green-flag-icon {
+	display: inline-flex;
+	vertical-align: middle;
+	margin: 0 0.2em;
+	width: 1.7em;
+	height: 1.7em;
+}
+
+.tutorial-dialog-message .tutorial-green-flag-icon svg {
+	width: 100%;
+	height: 100%;
+}
+
+.tutorial-dialog-message .tutorial-green-flag-icon svg path:first-child {
+	stroke: #5b3b13;
+	stroke-width: 2.2;
+	stroke-linecap: round;
+	fill: none;
+}
+
+.tutorial-dialog-message .tutorial-green-flag-icon svg path:last-child {
+	fill: #42d97a;
+	stroke: #1c8f4d;
+	stroke-width: 1.1;
+	stroke-linejoin: round;
+}
 </style>
 
 					</div>
@@ -861,35 +931,20 @@
 		{#if lineNumber == 19}
 			<TextResponseModal 
 				prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, 
-					{id: "robotdesign2", prompt: "Who My Robot Helps"}]}
+					{id: "robotdesign2", prompt: "Who My Robot Helps"},
+					{id: "robotdesign3", prompt: "Image Categories (add at least two categories up to four categories)"},
+					{id: "robotdesign4", prompt: "What My Robot Will Do"},
+					{id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
 				onSuccess={(responses) => {					
 					robotProblem = responses['robotdesign1'];
 					robotHelps = responses['robotdesign2'];
-					goto('/level4new?page=20');
-				}}
-			/>
-			<ChatbotWidget assistantId={chatbotAssistantId} preserveSpeechPunctuation={true} className="design-notes-chatbot" />
-		{/if}
-		{#if lineNumber == 20}
-			<TextResponseModal 
-				prompt={[{id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}]}
-				onSuccess={(responses) => {
 					robotCategories = responses['robotdesign3'];
 					robotAction = responses['robotdesign4'];
-					goto('/level4new?page=21');
-				}}
-			/>
-			<ChatbotWidget assistantId={chatbotAssistantId} preserveSpeechPunctuation={true} className="design-notes-chatbot" />
-		{/if}
-		{#if lineNumber == 21}
-			<TextResponseModal 
-				prompt={[{id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
-				onSuccess={(responses) => {
 					robotName = responses['robotdesign5'];
 					goto('/level4new?page=22');
 				}}
 			/>
-			<ChatbotWidget assistantId={chatbotAssistantId} preserveSpeechPunctuation={true} className="design-notes-chatbot" />
+			<ChatbotWidget assistantId={chatbotAssistantId} historyScope="level4new-design-notes" preserveSpeechPunctuation={true} className="design-notes-chatbot" />
 		{/if}
 		{#if lineNumber == 22}
 			<Tablet showMeter={false} showBottomButtons={false}>
@@ -966,7 +1021,7 @@
 		{#if lineNumber == 24}
 			{#if logsLoaded}
 				<TextResponseModal 
-					prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, {id: "robotdesign2", prompt: "Who My Robot Helps"}, {id: "robotdesign3", prompt: "Image Categories"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}, {id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
+					prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, {id: "robotdesign2", prompt: "Who My Robot Helps"}, {id: "robotdesign3", prompt: "Image Categories (add at least two categories up to four categories)"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}, {id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
 					requireAllResponses={false}
 					prefill={{
 						robotdesign1: robotProblem,
@@ -984,7 +1039,7 @@
 						goto('/level4new?page=23');
 					}}
 				/>
-				<ChatbotWidget assistantId={chatbotAssistantId} className="design-notes-chatbot" preserveSpeechPunctuation={true} />
+				<ChatbotWidget assistantId={chatbotAssistantId} historyScope="level4new-design-notes" className="design-notes-chatbot" preserveSpeechPunctuation={true} />
 			{/if}
 		{/if}
 		{#if lineNumber == 25}
@@ -1013,16 +1068,22 @@
 				<Codinator 
 					iframeStyle="height: 80vh;"
 					buttonLabel="Finish"
-					allowFinishWithoutSubmission={false}
-					requireSuccessfulBuild={true}
+					allowFinishWithoutSubmission={isFinalCodeinatorReview}
+					requireSuccessfulBuild={!isFinalCodeinatorReview}
 					unlockAfterMs={180000}
 					on:submitted={() => {
+						const returnPageFromQuery = typeof window !== 'undefined'
+							? new URLSearchParams(window.location.search).get('returnPage')
+							: null;
+						const targetPage = returnPageFromQuery === '34' ? 34 : 23;
+						const targetUrl = targetPage === 34 ? '/level4new?page=34&returnPage=34&showTablet=1' : '/level4new?page=23';
+
 						studentProgressStore.update((progress) => {
 								progress.level4new_codeinator_tried = true;
-							progress.last_visited = '/level4new?page=23';
+							progress.last_visited = targetUrl;
 							return progress;
 						});
-						goto('/level4new?page=23');
+						goto(targetUrl);
 					}}
 				/>
 			</Tablet>
@@ -1480,6 +1541,12 @@
 	.agent-example-body img {
 		max-height: 50vh;
 		width: auto;
+	}
+
+	.agent-nova-image-highlight {
+		border: 0.5vh solid #289dd3;
+		border-radius: 10px;
+		padding: 0.4vh;
 	}
 
 	.welcome-back-banner {

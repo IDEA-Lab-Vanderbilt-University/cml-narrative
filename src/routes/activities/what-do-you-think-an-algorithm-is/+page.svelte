@@ -9,5 +9,5 @@
 </script>
 
 <TextResponseModal id="algorithm" promptedTechnology={"an Algorithm"} onSuccess={() => {
-	goto("/activities/draw-an-algorithm");
+	goto("/introduction/training?page=7");
 }} />

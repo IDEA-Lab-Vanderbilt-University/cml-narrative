@@ -2,23 +2,28 @@
 	import { browser } from '$app/environment';
 	import { onMount } from 'svelte';
 	import DataService from '$lib/utils/DataService';
-	import { settingsStore } from '$lib/utils/stores/store';
+	import { accessTokenStore, settingsStore, studentDataStore } from '$lib/utils/stores/store';
 
 	export let assistantId = '';
 	export let title = 'SPOT BOT';
 	export let className = '';
 	export let preserveSpeechPunctuation = false;
+	export let historyScope = 'default';
 
 	type Message = {
 		sender: 'user' | 'bot';
 		text: string;
 	};
 
+	const CHATBOT_HISTORY_KEY_PREFIX = 'spot-chatbot-history-v1';
+	const MAX_PERSISTED_MESSAGES = 60;
+
 	let minimized = true;
 	let loading = false;
 	let errorMessage = '';
 	let input = '';
 	let messages: Message[] = [];
+	let historyStorageKey = '';
 	let canUseSpeechToText = false;
 	let isRecording = false;
 	let recognition: any = null;
@@ -31,6 +36,103 @@
 	$: {
 		const defaultVoiceLanguage = $settingsStore?.language === 'es' ? 'es-ES' : 'en-US';
 		activeVoiceLanguage = microphoneDetectedLanguage ?? defaultVoiceLanguage;
+	}
+
+	const sanitizeMessagesForPersistence = (value: unknown): Message[] => {
+		if (!Array.isArray(value)) return [];
+
+		return value
+			.filter((item) => item && (item as any).sender && typeof (item as any).text === 'string')
+			.map((item) => {
+				const sender = (item as any).sender === 'user' ? 'user' : 'bot';
+				const text = String((item as any).text ?? '').trim();
+				return { sender, text };
+			})
+			.filter((item) => item.text.length > 0)
+			.slice(-MAX_PERSISTED_MESSAGES);
+	};
+
+	const getCurrentAccountId = (): string => {
+		const studentId = ($studentDataStore as any)?.id;
+		if (typeof studentId === 'string' && studentId.trim().length > 0) {
+			return studentId.trim();
+		}
+
+		const token = $accessTokenStore;
+		if (typeof token === 'string' && token.trim().length > 0) {
+			return token.trim();
+		}
+
+		return '';
+	};
+
+	const buildHistoryStorageKey = (accountId: string, currentAssistantId: string, currentHistoryScope: string): string => {
+		const assistantKey = (currentAssistantId || 'default').trim() || 'default';
+		const scopeKey = (currentHistoryScope || 'default').trim() || 'default';
+		return `${CHATBOT_HISTORY_KEY_PREFIX}:${accountId}:${assistantKey}:${scopeKey}`;
+	};
+
+	const buildLegacyHistoryStorageKey = (accountId: string, currentAssistantId: string): string => {
+		const assistantKey = (currentAssistantId || 'default').trim() || 'default';
+		return `${CHATBOT_HISTORY_KEY_PREFIX}:${accountId}:${assistantKey}`;
+	};
+
+	const loadPersistedMessages = (key: string): Message[] => {
+		if (!browser || !key) return [];
+
+		try {
+			const storedValue = localStorage.getItem(key);
+			if (!storedValue) return [];
+
+			const parsed = JSON.parse(storedValue);
+			return sanitizeMessagesForPersistence(parsed);
+		} catch {
+			return [];
+		}
+	};
+
+	const persistMessages = (key: string, nextMessages: Message[]) => {
+		if (!browser || !key) return;
+
+		try {
+			const sanitized = sanitizeMessagesForPersistence(nextMessages);
+			localStorage.setItem(key, JSON.stringify(sanitized));
+		} catch {
+			// Ignore storage errors (quota/private mode)
+		}
+	};
+
+	$: if (browser) {
+		const accountId = getCurrentAccountId();
+		const nextKey = accountId ? buildHistoryStorageKey(accountId, assistantId, historyScope) : '';
+
+		if (nextKey !== historyStorageKey) {
+			const previousKey = historyStorageKey;
+			const previousMessages = sanitizeMessagesForPersistence(messages);
+			historyStorageKey = nextKey;
+
+			let nextMessages = historyStorageKey ? loadPersistedMessages(historyStorageKey) : [];
+
+			if (!nextMessages.length && accountId) {
+				const legacyKey = buildLegacyHistoryStorageKey(accountId, assistantId);
+				nextMessages = loadPersistedMessages(legacyKey);
+				if (nextMessages.length && historyStorageKey) {
+					persistMessages(historyStorageKey, nextMessages);
+				}
+			}
+
+			if (!nextMessages.length && previousMessages.length && historyStorageKey && previousKey) {
+				nextMessages = previousMessages;
+				persistMessages(historyStorageKey, nextMessages);
+			}
+
+			messages = nextMessages;
+			errorMessage = '';
+		}
+	}
+
+	$: if (browser && historyStorageKey) {
+		persistMessages(historyStorageKey, messages);
 	}
 
 	const getSpeechRecognition = () => {

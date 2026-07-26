@@ -10,6 +10,18 @@ export const generateQRCodes = async (students: Student[]) => {
 	documentFactory.save('agent-ids.pdf');
 };
 
+export const generateQRCodeImages = async (students: Student[]) => {
+	console.log('Begin Generating QR Images', students);
+
+	const canvas = await generateQRImageSheet(students);
+	const link = document.createElement('a');
+	link.href = canvas.toDataURL('image/png');
+	link.download = 'agent-ids.png';
+	document.body.appendChild(link);
+	link.click();
+	document.body.removeChild(link);
+};
+
 const generatePDFDocument = async (students: Student[]) => {
 	const doc = new jsPDF();
 
@@ -66,6 +78,113 @@ const generatePDFDocument = async (students: Student[]) => {
 
 		resolve(doc);
 	});
+};
+
+const generateQRImageSheet = async (students: Student[]) => {
+	const cardWidth = 320;
+	const cardHeight = 260;
+	const margin = 24;
+	const columns = 2;
+	const rows = Math.max(1, Math.ceil(students.length / columns));
+	const canvasWidth = (cardWidth * columns) + (margin * 3);
+	const canvasHeight = (cardHeight * rows) + (margin * (rows + 1));
+
+	const canvas = document.createElement('canvas');
+	canvas.width = canvasWidth;
+	canvas.height = canvasHeight;
+	const ctx = canvas.getContext('2d');
+
+	if (!ctx) {
+		throw new Error('Unable to create image canvas.');
+	}
+
+	ctx.fillStyle = '#ffffff';
+	ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+	ctx.textAlign = 'center';
+	ctx.textBaseline = 'middle';
+
+	const logo = await loadImage('/img/logos/SPOT-black.png');
+
+	for (let i = 0; i < students.length; i++) {
+		const student = students[i];
+		const img = await generateQRCode(student);
+		const qrImage = await loadImage(img);
+
+		const column = i % columns;
+		const row = Math.floor(i / columns);
+		const x = margin + column * (cardWidth + margin);
+		const y = margin + row * (cardHeight + margin);
+
+		ctx.fillStyle = '#f8fafc';
+		ctx.fillRect(x, y, cardWidth, cardHeight);
+		ctx.strokeStyle = '#cbd5e1';
+		ctx.lineWidth = 3;
+		ctx.strokeRect(x, y, cardWidth, cardHeight);
+
+		ctx.drawImage(logo, x + 14, y + 10, 100, 22);
+		ctx.drawImage(qrImage, x + 18, y + 42, 120, 120);
+
+		ctx.fillStyle = '#111827';
+		ctx.font = 'bold 20px sans-serif';
+		ctx.fillText('Welcome to SPOT, Agent!', x + 205, y + 54);
+
+		ctx.font = 'bold 18px sans-serif';
+		ctx.fillText(`${student.first_name ?? ''} ${student.last_name ?? ''}`.trim(), x + 205, y + 86);
+
+		ctx.font = '14px sans-serif';
+		wrapText(
+			ctx,
+			[
+				'You have been selected to become a new agent with',
+				'the Solving Problems Of Tomorrow Agency!',
+				'Use this credential to log into the SPOT Mainframe!'
+			],
+			x + 205,
+			y + 118,
+			130,
+			18
+		);
+	}
+
+	return canvas;
+};
+
+const loadImage = (src: string) => {
+	return new Promise<HTMLImageElement>((resolve, reject) => {
+		const img = new Image();
+		img.onload = () => resolve(img);
+		img.onerror = reject;
+		img.src = src;
+	});
+};
+
+const wrapText = (
+	ctx: CanvasRenderingContext2D,
+	lines: string[],
+	x: number,
+	y: number,
+	maxWidth: number,
+	lineHeight: number
+) => {
+	let offsetY = 0;
+	for (const line of lines) {
+		const words = line.split(' ');
+		let currentLine = '';
+		for (const word of words) {
+			const testLine = currentLine ? `${currentLine} ${word}` : word;
+			if (ctx.measureText(testLine).width > maxWidth && currentLine) {
+				ctx.fillText(currentLine, x, y + offsetY);
+				offsetY += lineHeight;
+				currentLine = word;
+			} else {
+				currentLine = testLine;
+			}
+		}
+		if (currentLine) {
+			ctx.fillText(currentLine, x, y + offsetY);
+			offsetY += lineHeight;
+		}
+	}
 };
 
 const generateQRCode = async (student: Student) => {

@@ -33,10 +33,15 @@
   let unlockTimer: ReturnType<typeof setTimeout> | null = null;
   let submitFallbackTimer: ReturnType<typeof setTimeout> | null = null;
 
-  const rawHost = overrideHost ?? (browser ? window.location.origin : '');
-  const resolvedHost = rawHost && rawHost.endsWith('/api') ? rawHost : `${rawHost}/api`;
-  const resolvedStudentId = overrideStudentID ?? get(accessTokenStore) ?? get(studentDataStore)?.id ?? '';
-  const src = `https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id=${resolvedStudentId}&host=${resolvedHost}`;
+  let rawHost: string = '';
+  let resolvedHost: string = '';
+  let resolvedStudentId: string = '';
+  let src: string = '';
+
+  $: rawHost = overrideHost ?? (browser ? window.location.origin : '');
+  $: resolvedHost = rawHost && rawHost.endsWith('/api') ? rawHost : `${rawHost}/api`;
+  $: resolvedStudentId = overrideStudentID ?? $studentDataStore?.id ?? $accessTokenStore ?? '';
+  $: src = `https://idea-lab-vanderbilt-university.github.io/prg-raise-playground/idea-lab/?student_id=${resolvedStudentId}&host=${resolvedHost}`;
 
 
   onMount(() => {

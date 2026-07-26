@@ -24,12 +24,12 @@ export const QuestionsByLanguage = {
 export const Questions = QuestionsByLanguage.en;
 
 export const QuestionsAudio = [
-    '/survey/l0s104.mp3',
-    '/survey/l0s105.mp3',
-    '/survey/l0s106.mp3',
-    '/survey/l0s107.mp3',
-    '/survey/l0s108.mp3',
-    '/survey/l0s109.mp3',
-    '/survey/l0s110.mp3',
-    '/survey/l0s111.mp3',
+    '/level0/survey/survey_01.mp3',
+    '/level0/survey/survey_02.mp3',
+    '/level0/survey/survey_03.mp3',
+    '/level0/survey/survey_04.mp3',
+    '/level0/survey/survey_05.mp3',
+    '/level0/survey/survey_06.mp3',
+    '/level0/survey/survey_07.mp3',
+    '/level0/survey/survey_08.mp3',
 ]

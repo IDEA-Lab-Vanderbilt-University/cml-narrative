@@ -2,6 +2,6 @@
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 </script>
 
-<Tablet showMeter={false} showBottomButtons={false}>
+<Tablet showMeter={false} showBottomButtons={false} showLanguageMenu={false}>
 	<slot />
 </Tablet>

@@ -3,14 +3,15 @@
 	import SpotApplication from "../sequences/tablet/tablet-tutorial/SpotApplication.svelte";
     import { t } from "$lib/utils/stores/languageStore";
 
-    export let onSelect: (selection: null | "profile" | "travelLog" | "badges" | "robotprototype" ) => void = () => {};
+    export let onSelect: (selection: null | "profile" | "travelLog" | "badges" | "robotprototype" | "codeinator" ) => void = () => {};
 
     let handleAppContainerEvent = (e: CustomEvent<{ event: string; id: string }>) => {
         console.log(e.detail);
     };
 
-    type AppItem = { id: "travelLog" | "profile" | "badges" | "robotprototype"; title: string; img: string; color: string };
+    type AppItem = { id: "travelLog" | "profile" | "badges" | "robotprototype" | "codeinator"; title: string; img: string; color: string };
     export let apps: AppItem[] = [];
+    export let includeCodeinator: boolean = false;
 
     let displayApps = [...apps];
     $: if(apps.length == 0) {
@@ -34,6 +35,18 @@
             color: "rgb(0,175,210)"
         }
     ];
+
+    if (includeCodeinator) {
+        displayApps = [
+            ...displayApps,
+            {
+                id: "codeinator",
+                title: "Codeinator",
+                img: '/img/tablet/codeinatoricon.svg',
+                color: "rgb(0,175,210)"
+            }
+        ];
+    }
     }
 
     const select = (appId: AppItem["id"]) => {

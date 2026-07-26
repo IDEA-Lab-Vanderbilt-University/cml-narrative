@@ -1,7 +1,13 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
+	import { getContext } from 'svelte';
 	import type { Student } from '$lib/types/UserData';
 	import { getTranslation, type Language } from '$lib/utils/translations';
 	import { languageStore } from '$lib/utils/stores/languageStore';
+	import { Badges } from '$lib/utils/Assets/Badges';
+
+	// @ts-ignore
+	const { close } = getContext('simple-modal');
 
 	let currentLanguage: Language = 'en';
 	languageStore.subscribe((lang: Language) => {
@@ -9,17 +15,13 @@
 	});
 
 	export let student: Student;
+
+	$: lastEarnedBadge = student.progress?.badge_count && student.progress.badge_count > 0
+		? Badges[(student.progress.badge_count - 1) < 0 ? 0 : student.progress.badge_count - 1] ?? null
+		: null;
 </script>
 
 <table class="text-left">
-	<tr>
-		<th>{getTranslation(currentLanguage, 'common.teacher.studentId')}:</th>
-		<td>{student.id}</td>
-	</tr>
-	<tr>
-		<th>{getTranslation(currentLanguage, 'common.teacher.teacherId')}:</th>
-		<td>{student.teacher_id}</td>
-	</tr>
 	<tr>
 		<th>{getTranslation(currentLanguage, 'common.teacher.name')}:</th>
 		<td>{student.first_name} {student.last_name}</td>
@@ -46,6 +48,24 @@
 	<tr>
 		<th>{getTranslation(currentLanguage, 'common.teacher.className')}:</th>
 		<td>{student.class_name || getTranslation(currentLanguage, 'common.teacher.notSpecified')}</td>
+	</tr>
+	<tr>
+		<th>Last Earned Badge:</th>
+		<td>{lastEarnedBadge?.name || getTranslation(currentLanguage, 'common.teacher.notSpecified')}</td>
+	</tr>
+	<tr>
+		<th>Travel Log:</th>
+		<td>
+			<a
+				class="travel-log-link"
+				href={`/teacher/student-travel-log?student_id=${student.id}`}
+				on:click|preventDefault={() => {
+					close();
+					goto(`/teacher/student-travel-log?student_id=${student.id}`);
+				}}>
+				View travel log
+			</a>
+		</td>
 	</tr>
 
 	{#if student.progress}
@@ -87,5 +107,10 @@
 		width: 30%;
 		text-align: right;
 		padding-right: 10px;
+	}
+
+	.travel-log-link {
+		color: #2563eb;
+		text-decoration: underline;
 	}
 </style>

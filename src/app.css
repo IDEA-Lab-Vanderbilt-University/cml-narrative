@@ -51,3 +51,13 @@ body {
 	height: 100%;
 	width: 100%;
 }
+
+body.audio-gate-active .nextBtn,
+body.audio-gate-active .next-button,
+body.audio-gate-active #nextbutton,
+body.audio-gate-active #nextButton,
+body.audio-gate-active .nextButton {
+	pointer-events: none !important;
+	opacity: 0.5;
+	filter: grayscale(0.4);
+}

@@ -14,6 +14,7 @@
 	import { studentProgressStore } from '$lib/utils/stores/store';
 	import MegaJoulesMeter from './MegaJoulesMeter.svelte';
 	import SettingsModal from '../modals/SettingsModal.svelte';
+	import LanguageMenu from '../LanguageMenu.svelte';
 
 	/**
 	 * Tracks if powerdown button is enabled. This is determined by a store
@@ -53,6 +54,7 @@
 
 	export let showMeter: boolean = true;
 	export let showBottomButtons: boolean = true;
+	export let showLanguageMenu: boolean = true;
 </script>
 
 <SettingsModal bind:this={tabletSettings}/>
@@ -72,6 +74,11 @@
 					<div class="grid-background h-full w-full">
 						<slot />
 					</div>
+					{#if showLanguageMenu}
+						<div class="absolute bottom-4 left-4 z-20">
+							<LanguageMenu />
+						</div>
+					{/if}
 					<div class="absolute inset-0 z-10 ml-auto flex  h-fit w-1/6 items-start justify-end p-2 {showMeter? '' : 'hidden'}">
 						<MegaJoulesMeter amount={$studentProgressStore.megajoules} />
 					</div>

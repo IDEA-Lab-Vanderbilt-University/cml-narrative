@@ -25,6 +25,8 @@
 
     let studentProgress: StudentProgress = get(studentProgressStore);
 
+	export let studentId: string | null = null;
+
 	const handleNavigation = (direction: NavigationDirection) => {
 		if (direction == NavigationDirection.forward && index != logs.length - 1) {
 			index += 1;
@@ -55,25 +57,23 @@
     };
 
 	const travelLogsTitles = {
-		"algorithm": "What is an Algorithm?",
-		"machineLearning": "What is Machine Learning?",
-		"draw-an-algorithm": "Draw an Algorithm",
-		"draw-machine-learning": "Draw Machine Learning",
+		"algorithm": "What do you think an Algorithm is?",
+		"machineLearning": "What do you think Machine Learning is?",
 		"pizza-time": "Your Pizza",
-		"botBuddyPizza": "Bot Buddy Pizza",
-		"botBuddyPizzaOpinion": "Bot Buddy Pizza Opinion",
-		"wrongPizzaOpinion": "Wrong Pizza Opinion",
-		"carTrainingSet": "Car Training Set",
-		"carTestSet": "Car Test Set",
-		"carTestTrainDifference": "Car Test Train Difference",
-		"biasGroups": "Bias Groups",
-		"biasEffects": "Bias Effects",
-		"biasMitigation": "Bias Mitigation",
-		"robotdesign1": "Robot Design 1",
-		"robotdesign2": "Robot Design 2",
-		"robotdesign3": "Robot Design 3",
-		"robotdesign4": "Robot Design 4",
-		"robotdesign5": "Robot Design 5",
+		"botBuddyPizza": "How was Bot Buddy's pizza algorithm different from yours?",
+		"botBuddyPizzaOpinion": "How do you think your opinions affected your pizza algorithm?",
+		"wrongPizzaOpinion": "If you got Bot Buddy's pizza by accident, how would you feel?",
+		"carTrainingSet": "What did you find out about training data sets?",
+		"carTestSet": "What did you find out about test data sets?",
+		"carTestTrainDifference": "Why should the training and test data sets be different?",
+		"biasGroups": "Why might machine learning technologies work for some groups of people and not other groups of people?",
+		"biasEffects": "How could you or others be negatively effected when technology designers use biased training datasets?",
+		"biasMitigation": "How can bias in a training dataset be reduced?",
+		"robotdesign1": "Robot Design 1: Problems to solve",
+		"robotdesign2": "Robot Design 2: Who my robot helps",
+		"robotdesign3": "Robot Design 3: Image Categories (add atleast 2 categories up to 4 categories)",
+		"robotdesign4": "Robot Design 4: What My Robot Will Do",
+		"robotdesign5": "Robot Design 5: My Robot Will Be Named",
 		"draw-my-robot": "Draw My Robot",
 		"robottestfeedback": "Robot Test Feedback",
 		"robottestbias": "Robot Test Bias",
@@ -83,9 +83,7 @@
 		"robotdesignmodifypurpose": "Robot Design Modify Purpose",
 		"machineLearningPost": "Machine Learning Post",
 		"algorithmsPost": "What is an Algorithm Post",
-		"draw-an-algorithm-Post": "Draw an Algorithm Post",
 		//"level-5-post-survey": "Level 5 Post Survey",
-		"draw-machine-learning-Post": "Draw Machine Learning Post",
 		"codinatorimage": "Codinator Image",
 		"robotdesignmodify": "Robot Design Modify",
 		"robotcodetested": "Robot Code Tested",
@@ -94,7 +92,7 @@
     
 	onMount(async () => {
         try {
-            let allLogs = await DataService.TravelLog.getTravelLogs(null, get(accessTokenStore));
+			let allLogs = await DataService.TravelLog.getTravelLogs(null, studentId ?? get(accessTokenStore));
 
 			// Filter logs to ones we can display
 			logs = allLogs.filter(log => log.status === "complete").filter(log => 

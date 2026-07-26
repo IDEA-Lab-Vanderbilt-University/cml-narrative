@@ -38,6 +38,18 @@
 	let pathResolutionRequestId = 0;
 	let attemptedNonEnglishPaths = new Set<string>(); // Track paths we've tried to warn only once
 
+	function setAudioPlaybackComplete(isComplete: boolean) {
+		audioPlaybackFinished.set(isComplete);
+
+		if (!browser) return;
+
+		if (isComplete) {
+			document.body.classList.remove('audio-gate-active');
+		} else {
+			document.body.classList.add('audio-gate-active');
+		}
+	}
+
 	const dispatch = createEventDispatcher();
 
 	// Subscribe to language changes
@@ -127,12 +139,12 @@
 	// Handle audio load errors (when file doesn't exist)
 	function handleAudioError() {
 		if (!src) {
-			audioPlaybackFinished.set(true);
+			setAudioPlaybackComplete(true);
 			return;
 		}
 		if (currentLanguage === 'en' || currentLanguage === 'es' || !browser) {
 			// No further fallback available — treat as finished
-			audioPlaybackFinished.set(true);
+			setAudioPlaybackComplete(true);
 			return;
 		}
 		resolveAudioPath(src, 'en').then((englishPath) => {
@@ -140,7 +152,7 @@
 				fullAudioPath = englishPath;
 			} else {
 				// English fallback also missing — treat as finished
-				audioPlaybackFinished.set(true);
+				setAudioPlaybackComplete(true);
 			}
 		});
 	}
@@ -150,7 +162,7 @@
 		if (browser && (!src || src.trim() === '')) {
 			pathResolutionRequestId++;
 			fullAudioPath = '';
-			audioPlaybackFinished.set(true);
+			setAudioPlaybackComplete(true);
 
 			if (hasPlayerMounted && player) {
 				player.pause();
@@ -173,7 +185,7 @@
 	// Reactive statement: Play audio when path changes
 	$: {
 		if (hasPlayerMounted && fullAudioPath && (settings.audioEnabled ?? defaultSettings.audioEnabled) && player) {
-			audioPlaybackFinished.set(false);
+			setAudioPlaybackComplete(false);
 			player.pause();
 			player.currentTime = 0;
 			player.src = fullAudioPath;
@@ -186,7 +198,7 @@
 			});
 		} else if (hasPlayerMounted && fullAudioPath && !(settings.audioEnabled ?? defaultSettings.audioEnabled)) {
 			// Audio disabled — treat as finished immediately
-			audioPlaybackFinished.set(true);
+			setAudioPlaybackComplete(true);
 		}
 	}
 
@@ -209,6 +221,7 @@
 
 	onDestroy(() => {
 		unsubscribe();
+		setAudioPlaybackComplete(true);
 		if (player) {
 			player.pause();
 			player.currentTime = 0;
@@ -219,6 +232,6 @@
 	});
 </script>
 
-<audio bind:this={player} src={fullAudioPath} on:error={handleAudioError} on:ended={() => audioPlaybackFinished.set(true)}>
+<audio bind:this={player} src={fullAudioPath} on:error={handleAudioError} on:ended={() => setAudioPlaybackComplete(true)}>
 	<track kind="captions" />
 </audio>
