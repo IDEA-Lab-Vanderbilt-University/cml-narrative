@@ -34,8 +34,9 @@
     }
 
     let appMode: null | "profile" | "travelLog" | "badges" = null;
-	$: isLevel4NewPage34 = $page.url.pathname === '/level4new' && $page.url.searchParams.get('page') === '34';
-	$: isLevel4NewPage35 = $page.url.pathname === '/level4new' && $page.url.searchParams.get('page') === '35';
+    $: normalizedPathname = $page.url.pathname.replace(/\/+$/, '') || '/';
+    $: isLevel4NewPage34 = normalizedPathname === '/level4new' && $page.url.searchParams.get('page') === '34';
+    $: isLevel4NewPage35 = normalizedPathname === '/level4new' && $page.url.searchParams.get('page') === '35';
 
     const openLevel4NewFinalCodeinator = () => {
         const returnPage = $page.url.searchParams.get('page') === '35' ? '35' : '34';
