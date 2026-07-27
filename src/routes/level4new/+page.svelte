@@ -142,8 +142,10 @@
 		return new URLSearchParams(window.location.search).get('returnPage');
 	};
 
-	$: isFinalCodeinatorReview = lineNumber === 26 && getReturnPageFromQuery() === '34';
-	$: shouldAutoOpenTabletOnPage34 = lineNumber === 34 && getReturnPageFromQuery() === '34' && (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('showTablet') === '1' : false);
+	$: isFinalCodeinatorReview = lineNumber === 26 && (getReturnPageFromQuery() === '34' || getReturnPageFromQuery() === '35');
+	$: shouldAutoOpenTabletOnFinalPage = (lineNumber === 34 || lineNumber === 35)
+		&& getReturnPageFromQuery() === String(lineNumber)
+		&& (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('showTablet') === '1' : false);
 
     let content: HTMLDivElement | null;
 
@@ -172,7 +174,7 @@
 				setTutorialStep(7);
 			}
 
-			if (line.id === 34 && params.get('returnPage') === '34' && params.get('showTablet') === '1') {
+			if ((line.id === 34 || line.id === 35) && params.get('returnPage') === String(line.id) && params.get('showTablet') === '1') {
 				setTimeout(() => {
 					const event = new CustomEvent('showTablet', {
 						bubbles: true
@@ -475,6 +477,10 @@
 
 	$: {
 		if (lineNumber !== previousLineNumber) {
+			if (lineNumber === 34) {
+				confetti += 1;
+			}
+
 			if (lineNumber === 3) {
 				page3Confetti += 1;
 			}
@@ -502,7 +508,7 @@
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-        {#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 34}
+		{#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 34}
             <DialogBox {line} on:dialogEvent={handleDialogEvent} />
         {/if}
 	</div>
@@ -574,7 +580,7 @@
 			</div>
 		{/if}
 
-        {#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 34}
+		{#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 34 || lineNumber == 35}
 			<TabletButton on:click={() => { 
 				if(lineNumber == 16 || lineNumber == 28) {
 					handleNavigation(NavigationDirection.forward);
@@ -1075,8 +1081,12 @@
 						const returnPageFromQuery = typeof window !== 'undefined'
 							? new URLSearchParams(window.location.search).get('returnPage')
 							: null;
-						const targetPage = returnPageFromQuery === '34' ? 34 : 23;
-						const targetUrl = targetPage === 34 ? '/level4new?page=34&returnPage=34&showTablet=1' : '/level4new?page=23';
+						const targetPage = returnPageFromQuery === '34' ? 34 : returnPageFromQuery === '35' ? 35 : 23;
+						const targetUrl = targetPage === 34
+							? '/level4new?page=34&returnPage=34&showTablet=1'
+							: targetPage === 35
+								? '/level4new?page=35&returnPage=35&showTablet=1'
+								: '/level4new?page=23';
 
 						studentProgressStore.update((progress) => {
 								progress.level4new_codeinator_tried = true;
@@ -1188,6 +1198,31 @@
             {/key}
         </div>
         {/if}
+
+		{#if lineNumber == 35}
+		<div id="page3-confettiholder">
+			{#key confetti}
+				<div class="page3-confetti-emitter page3-confetti-top-left">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
+				<div class="page3-confetti-emitter page3-confetti-top-right">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
+				<div class="page3-confetti-emitter page3-confetti-mid-left">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
+				<div class="page3-confetti-emitter page3-confetti-mid-right">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
+				<div class="page3-confetti-emitter page3-confetti-bottom-left">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
+				<div class="page3-confetti-emitter page3-confetti-bottom-right">
+					<Confetti x={[-5, 5]} y={[-3, 0]} amount={150} colorRange={[40, 50]} duration={5000} />
+				</div>
+			{/key}
+		</div>
+		{/if}
 		
     </div>
 </Scene>

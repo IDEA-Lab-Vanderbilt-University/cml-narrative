@@ -9,6 +9,7 @@
 	import { NavigationDirection } from '$lib/types/Enums';
 	import type { Line } from '$lib/types/Script';
 	import DataService from '$lib/utils/DataService/index.js';
+	import { audioPlaybackFinished } from '$lib/utils/stores/audioStore';
 	import { pizzaConfigStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 
@@ -329,7 +330,7 @@
 	</div>
 	<div slot="content" id="content"  bind:this={content}>
 		{#if lineNumber == 1 }
-			<button id="startButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
+			<button id="startButton" on:click={() => handleNavigation(NavigationDirection.forward)} disabled={!$audioPlaybackFinished}>
 				<img src="/img/misc/pizzastart.png" alt="Start" />
 			</button>
 		{/if}
@@ -376,6 +377,18 @@
 	#startButton:active {
 		transform: scale(0.9);
 		filter: brightness(0.9);
+	}
+
+	#startButton:disabled {
+		cursor: not-allowed;
+		filter: grayscale(1);
+		opacity: 0.5;
+	}
+
+	#startButton:disabled:hover,
+	#startButton:disabled:active {
+		transform: none;
+		filter: grayscale(1);
 	}
 
 	#startButton img {

@@ -34,15 +34,17 @@
     }
 
     let appMode: null | "profile" | "travelLog" | "badges" = null;
-    $: isLevel4NewPage34 = $page.url.pathname === '/level4new' && $page.url.searchParams.get('page') === '34';
+	$: isLevel4NewPage34 = $page.url.pathname === '/level4new' && $page.url.searchParams.get('page') === '34';
+	$: isLevel4NewPage35 = $page.url.pathname === '/level4new' && $page.url.searchParams.get('page') === '35';
 
     const openLevel4NewFinalCodeinator = () => {
+        const returnPage = $page.url.searchParams.get('page') === '35' ? '35' : '34';
         const event  = new CustomEvent('hideTablet', {
             bubbles: true
         });
 
         tabletDiv?.dispatchEvent(event);
-        goto('/level4new?page=26&returnPage=34');
+        goto(`/level4new?page=26&returnPage=${returnPage}`);
     };
     
 </script>
@@ -66,9 +68,9 @@
             <BadgesApp handleClick={() => appMode = null} />
         {:else}
             <TabletMenu
-                includeCodeinator={isLevel4NewPage34}
+                includeCodeinator={isLevel4NewPage34 || isLevel4NewPage35}
                 onSelect={(selection) => {
-                    if (selection === 'codeinator' && isLevel4NewPage34) {
+                    if (selection === 'codeinator' && (isLevel4NewPage34 || isLevel4NewPage35)) {
                         openLevel4NewFinalCodeinator();
                         return;
                     }

@@ -84,9 +84,9 @@ const generateQRImageSheet = async (students: Student[]) => {
 	const cardWidth = 320;
 	const cardHeight = 260;
 	const margin = 24;
-	const columns = 2;
+	const columns = students.length <= 1 ? 1 : 2;
 	const rows = Math.max(1, Math.ceil(students.length / columns));
-	const canvasWidth = (cardWidth * columns) + (margin * 3);
+	const canvasWidth = (cardWidth * columns) + (margin * (columns + 1));
 	const canvasHeight = (cardHeight * rows) + (margin * (rows + 1));
 
 	const canvas = document.createElement('canvas');
@@ -101,7 +101,7 @@ const generateQRImageSheet = async (students: Student[]) => {
 	ctx.fillStyle = '#ffffff';
 	ctx.fillRect(0, 0, canvasWidth, canvasHeight);
 	ctx.textAlign = 'center';
-	ctx.textBaseline = 'middle';
+	ctx.textBaseline = 'top';
 
 	const logo = await loadImage('/img/logos/SPOT-black.png');
 
@@ -121,17 +121,17 @@ const generateQRImageSheet = async (students: Student[]) => {
 		ctx.lineWidth = 3;
 		ctx.strokeRect(x, y, cardWidth, cardHeight);
 
-		ctx.drawImage(logo, x + 14, y + 10, 100, 22);
-		ctx.drawImage(qrImage, x + 18, y + 42, 120, 120);
+		ctx.drawImage(logo, x + 14, y + 12, 92, 20);
+		ctx.drawImage(qrImage, x + 18, y + 46, 112, 112);
 
 		ctx.fillStyle = '#111827';
-		ctx.font = 'bold 20px sans-serif';
-		ctx.fillText('Welcome to SPOT, Agent!', x + 205, y + 54);
-
 		ctx.font = 'bold 18px sans-serif';
-		ctx.fillText(`${student.first_name ?? ''} ${student.last_name ?? ''}`.trim(), x + 205, y + 86);
+		ctx.fillText('Welcome to SPOT, Agent!', x + 234, y + 38, 142);
 
-		ctx.font = '14px sans-serif';
+		ctx.font = 'bold 17px sans-serif';
+		ctx.fillText(`${student.first_name ?? ''} ${student.last_name ?? ''}`.trim(), x + 234, y + 68, 142);
+
+		ctx.font = '13px sans-serif';
 		wrapText(
 			ctx,
 			[
@@ -139,10 +139,10 @@ const generateQRImageSheet = async (students: Student[]) => {
 				'the Solving Problems Of Tomorrow Agency!',
 				'Use this credential to log into the SPOT Mainframe!'
 			],
-			x + 205,
-			y + 118,
-			130,
-			18
+			x + 234,
+			y + 95,
+			142,
+			17
 		);
 	}
 

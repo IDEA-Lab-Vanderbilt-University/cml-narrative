@@ -79,7 +79,6 @@
 				<th>{getTranslation(currentLanguage, 'common.teacher.className')}:</th>
 				<td>
 					<select bind:value={class_name}>
-						<option value="">{getTranslation(currentLanguage, 'common.teacher.noClassSelected')}</option>
 						{#each classes as c}
 							<option value={c}>{c}</option>
 						{/each}
