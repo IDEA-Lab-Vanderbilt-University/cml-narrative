@@ -3,15 +3,17 @@
 	import SpotApplication from "../sequences/tablet/tablet-tutorial/SpotApplication.svelte";
     import { t } from "$lib/utils/stores/languageStore";
 
-    export let onSelect: (selection: null | "profile" | "travelLog" | "badges" | "robotprototype" | "codeinator" ) => void = () => {};
+    export let onSelect: (selection: null | "profile" | "travelLog" | "badges" | "robotprototype" | "codeinator" | "traininator" | "designnotes" ) => void = () => {};
 
     let handleAppContainerEvent = (e: CustomEvent<{ event: string; id: string }>) => {
         console.log(e.detail);
     };
 
-    type AppItem = { id: "travelLog" | "profile" | "badges" | "robotprototype" | "codeinator"; title: string; img: string; color: string };
+    type AppItem = { id: "travelLog" | "profile" | "badges" | "robotprototype" | "codeinator" | "traininator" | "designnotes"; title: string; img: string; color: string };
     export let apps: AppItem[] = [];
     export let includeCodeinator: boolean = false;
+    export let includeTraininator: boolean = false;
+    export let includeDesignNotes: boolean = false;
 
     let displayApps = [...apps];
     $: if(apps.length == 0) {
@@ -47,6 +49,30 @@
             }
         ];
     }
+
+    if (includeTraininator) {
+        displayApps = [
+            ...displayApps,
+            {
+                id: "traininator",
+                title: "Traininator",
+                img: '/img/tablet/traininatoricon.svg',
+                color: "rgb(85,205,110)"
+            }
+        ];
+    }
+
+    if (includeDesignNotes) {
+        displayApps = [
+            ...displayApps,
+            {
+                id: "designnotes",
+                title: "Design Notes",
+                img: '/img/tablet/designnotesicon.svg',
+                color: "rgb(185,90,210)"
+            }
+        ];
+    }
     }
 
     const select = (appId: AppItem["id"]) => {
@@ -60,7 +86,7 @@
 
 <div class="flex justify-center" id="tablet-menu">
     {#each displayApps as app}
-    <div>
+    <div class="tablet-menu-item">
         <SpotApplication
             color={app.color}
             title={app.title}
@@ -75,9 +101,18 @@
     #tablet-menu {
         width: 100%;
         height: 100%;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        justify-items: center;
+        align-content: center;
+        gap: 2rem 1rem;
+        padding: 1.5rem 2rem;
+    }
+
+    .tablet-menu-item {
         display: flex;
-        justify-content: space-around;
-        align-items: center;
+        justify-content: center;
+        width: 100%;
     }
 
 </style>

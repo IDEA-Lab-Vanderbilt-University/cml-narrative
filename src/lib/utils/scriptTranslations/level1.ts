@@ -168,7 +168,7 @@ export const level1Translations = {
 			{ id: 9, dialog: '¡Mensaje entrante del Capitán Storm!' },
 			{ id: 10, dialog: 'Blah blah blah' },
 			{ id: 11, dialog: '¡INSIGNIA OBTENIDA!' },
-			{ id: 12, dialog: '¡MEGAJULIOS OBTENIDOS!' },
+			{ id: 12, dialog: '¡MEGAJOULES OBTENIDOS!' },
 			{ id: 13, dialog: '¡Gracias por recibirnos, robots de pizza! Nuestros algoritmos fueron muy diferentes, pero cada uno hizo una pizza deliciosa para nosotros.' },
 			{ id: 14, dialog: '¡Espero que estos robots sepan cómo hacer la pizza favorita de todos!' }
 		]

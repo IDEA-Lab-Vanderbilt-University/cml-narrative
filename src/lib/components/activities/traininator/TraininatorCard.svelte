@@ -1,8 +1,15 @@
 <script lang="ts">
+    import { settingsStore } from '$lib/utils/stores/store';
+
     export let prediction: number;
     export let classes: string[];
     export let image: string;
     export let buttonTextOverrides: string[] = [];
+    export let promptText: string = '';
+
+    $: resolvedPromptText = promptText.trim() || ($settingsStore?.language === 'es'
+        ? '¿A qué categoría pertenece esta imagen?'
+        : 'What category does this image belong to?');
 
     export let choice = (i: number) => {
         console.log(`You chose ${classes[i]}`);
@@ -13,7 +20,7 @@
 <div class="card">
     <img class="card-img-top" src={image} alt="Image for prediction" />
     <div class="card-body">
-        What category does this image belong to?
+        {resolvedPromptText}
     </div>
     <div class="card-options">
         {#each classes as c, i}
@@ -21,7 +28,7 @@
                 {#if buttonTextOverrides.length > i}
                     {buttonTextOverrides[i]}
                 {:else}
-                    It's a {c}
+                    {$settingsStore?.language === 'es' ? `Pertenece a ${c}` : `It's a ${c}`}
                 {/if}
             </button>
         {/each}

@@ -1,14 +1,21 @@
 <script lang="ts">
 	import type { Booster } from "$lib/utils/traininator/TraininatorUtils";
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import type { Language } from '$lib/utils/translations';
 
     export let onSelect: (booster: Booster) => void;
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 </script>
 
 <ul id="boosters">
-    <li><input type="radio" id="none" name="booster" value="none" checked on:change={onSelect.bind(null, 'none')}><label for="none">None</label></li>
-    <li><input type="radio" id="rotate" name="booster" value="rotate" on:change={onSelect.bind(null, 'rotate')}><label for="rotate">Rotate</label></li>
-    <li><input type="radio" id="flip" name="booster" value="flip" on:change={onSelect.bind(null, 'flip')}><label for="flip">Reflect</label></li>
-    <li><input type="radio" id="adjust" name="booster" value="adjust" on:change={onSelect.bind(null, 'adjust')}><label for="adjust">Recolor</label></li>
+    <li><input type="radio" id="none" name="booster" value="none" checked on:change={onSelect.bind(null, 'none')}><label for="none">{currentLanguage === 'es' ? 'Ninguno' : 'None'}</label></li>
+    <li><input type="radio" id="rotate" name="booster" value="rotate" on:change={onSelect.bind(null, 'rotate')}><label for="rotate">{currentLanguage === 'es' ? 'Rotar' : 'Rotate'}</label></li>
+    <li><input type="radio" id="flip" name="booster" value="flip" on:change={onSelect.bind(null, 'flip')}><label for="flip">{currentLanguage === 'es' ? 'Reflejar' : 'Reflect'}</label></li>
+    <li><input type="radio" id="adjust" name="booster" value="adjust" on:change={onSelect.bind(null, 'adjust')}><label for="adjust">{currentLanguage === 'es' ? 'Recolorear' : 'Recolor'}</label></li>
 </ul>
 
 <style>

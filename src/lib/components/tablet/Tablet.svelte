@@ -55,6 +55,7 @@
 	export let showMeter: boolean = true;
 	export let showBottomButtons: boolean = true;
 	export let showLanguageMenu: boolean = true;
+	export let languageMenuPosition: 'left' | 'right' = 'right';
 </script>
 
 <SettingsModal bind:this={tabletSettings}/>
@@ -75,7 +76,7 @@
 						<slot />
 					</div>
 					{#if showLanguageMenu}
-						<div class="absolute bottom-4 left-4 z-20">
+						<div class="absolute bottom-24 z-20 {languageMenuPosition === 'right' ? 'right-4' : 'left-4'}">
 							<LanguageMenu />
 						</div>
 					{/if}

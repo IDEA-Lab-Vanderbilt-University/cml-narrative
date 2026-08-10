@@ -35,17 +35,36 @@
 
     let appMode: null | "profile" | "travelLog" | "badges" = null;
     $: normalizedPathname = $page.url.pathname.replace(/\/+$/, '') || '/';
-    $: isLevel4NewPage34 = normalizedPathname === '/level4new' && $page.url.searchParams.get('page') === '34';
     $: isLevel4NewPage35 = normalizedPathname === '/level4new' && $page.url.searchParams.get('page') === '35';
 
     const openLevel4NewFinalCodeinator = () => {
-        const returnPage = $page.url.searchParams.get('page') === '35' ? '35' : '34';
+        const returnPage = '35';
         const event  = new CustomEvent('hideTablet', {
             bubbles: true
         });
 
         tabletDiv?.dispatchEvent(event);
         goto(`/level4new?page=26&returnPage=${returnPage}`);
+    };
+
+    const openLevel4NewFinalTraininator = () => {
+        const returnPage = '35';
+        const event  = new CustomEvent('hideTablet', {
+            bubbles: true
+        });
+
+        tabletDiv?.dispatchEvent(event);
+        goto(`/level4new?page=25&returnPage=${returnPage}`);
+    };
+
+    const openLevel4NewFinalDesignNotes = () => {
+        const returnPage = '35';
+        const event  = new CustomEvent('hideTablet', {
+            bubbles: true
+        });
+
+        tabletDiv?.dispatchEvent(event);
+        goto(`/level4new?page=24&returnPage=${returnPage}`);
     };
     
 </script>
@@ -69,10 +88,22 @@
             <BadgesApp handleClick={() => appMode = null} />
         {:else}
             <TabletMenu
-                includeCodeinator={isLevel4NewPage34 || isLevel4NewPage35}
+                includeCodeinator={isLevel4NewPage35}
+                includeTraininator={isLevel4NewPage35}
+                includeDesignNotes={isLevel4NewPage35}
                 onSelect={(selection) => {
-                    if (selection === 'codeinator' && (isLevel4NewPage34 || isLevel4NewPage35)) {
+                    if (selection === 'codeinator' && isLevel4NewPage35) {
                         openLevel4NewFinalCodeinator();
+                        return;
+                    }
+
+                    if (selection === 'traininator' && isLevel4NewPage35) {
+                        openLevel4NewFinalTraininator();
+                        return;
+                    }
+
+                    if (selection === 'designnotes' && isLevel4NewPage35) {
+                        openLevel4NewFinalDesignNotes();
                         return;
                     }
 

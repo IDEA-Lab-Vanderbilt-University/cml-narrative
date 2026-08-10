@@ -5,6 +5,8 @@
 	import { goto } from '$app/navigation';
 	import WarpSpeed from '$lib/components/effects/warpspeed';
 	import { fade } from 'svelte/transition';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import type { Language } from '$lib/utils/translations';
 	import { settingsStore, studentProgressStore } from '$lib/utils/stores/store';
 	import { get } from 'svelte/store';
 
@@ -13,6 +15,11 @@
 	export let destinationPage: string;
 	export let direction: 'forward' | 'backward' = 'forward';
 	export let audio = '/timetravelforward.mp3';
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
 	onMount(() => {
 		energyText?.style.setProperty('text-shadow', `0 0 10px rgba(255, 255, 0, 1)`);
@@ -140,13 +147,13 @@
 	<Tablet showMeter={false} showBottomButtons={false}>
 		<div id="timeTravelStuff">
 			<TimeRow date={presentDate} bind:this={presTimeRow} />
-			<span class="grid place-items-center text-white timelabel">PRESENT TIME</span>	
+			<span class="grid place-items-center text-white timelabel">{currentLanguage === 'es' ? 'TIEMPO PRESENTE' : 'PRESENT TIME'}</span>	
 			<TimeRow date={destDate} bind:this={destTimeRow}/>
-			<span class="grid place-items-center text-white timelabel">DESTINATION TIME</span>
+			<span class="grid place-items-center text-white timelabel">{currentLanguage === 'es' ? 'TIEMPO DE DESTINO' : 'DESTINATION TIME'}</span>
 			<span id="energyRemaining" class="text-white grid place-items-center" bind:this={energyText}>{energy} MJ</span>
-			<span class="grid place-items-center text-white timelabel">ENERGY REMAINING</span>
+			<span class="grid place-items-center text-white timelabel">{currentLanguage === 'es' ? 'ENERGÍA RESTANTE' : 'ENERGY REMAINING'}</span>
 			<span class="grid place-items-center text-xl text-white m-4">
-			<button bind:this={launchButton} class="launchbutton shadow-green-glow mx-4 min-h-12 min-w-32 rounded-md bg-lime-400 text-slate-800 outline outline-slate-800 px-2" on:click={timeTravel}>LAUNCH</button>
+			<button bind:this={launchButton} class="launchbutton shadow-green-glow mx-4 min-h-12 min-w-32 rounded-md bg-lime-400 text-slate-800 outline outline-slate-800 px-2" on:click={timeTravel}>{currentLanguage === 'es' ? 'INICIAR' : 'LAUNCH'}</button>
 			</span>
 		</div>
 	</Tablet>

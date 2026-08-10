@@ -1,14 +1,25 @@
 <script lang="ts">
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import type { Language } from '$lib/utils/translations';
 
     export let from = 'Mission Control';
     export let onNext: () => void;
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
+
+	$: incomingMessageText =
+		currentLanguage === 'es' ? '¡Mensaje entrante de' : 'Incoming message from';
+
+	let incomingMessageText = 'Incoming message from';
 </script>
 
 <Tablet showMeter={false}>
     <div class="flex flex-col items-center justify-center space-y-6 text-white" id="mailscreen">
-        <h1 class="text-5xl">Incoming message 
-            from {from}!</h1>
+        <h1 class="text-5xl">{incomingMessageText} {from}!</h1>
         <img src="/img/misc/mail.png" alt="letter" id="mailicon" />
         <button on:click={onNext}>
             <img src="/img/misc/readbutton.png" alt="Read" id="readbutton" />

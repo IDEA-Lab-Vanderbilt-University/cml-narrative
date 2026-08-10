@@ -8,7 +8,9 @@
         import type { Line } from '$lib/types/Script';
         import type { StudentProgress } from '$lib/types/UserData.js';
         import DataService from '$lib/utils/DataService/index.js';
+        import { languageStore } from '$lib/utils/stores/languageStore';
         import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
+        import type { Language } from '$lib/utils/translations';
         import { createEventDispatcher, onMount } from 'svelte';
         import Sortable from 'sortablejs';
         import { fade } from 'svelte/transition';
@@ -17,6 +19,11 @@
 
         let line: Line;
         let lineNumber: number;
+        let currentLanguage: Language = 'en';
+
+        languageStore.subscribe((lang: Language) => {
+            currentLanguage = lang;
+        });
 
         $: line = data.line;
         $: lineNumber = data.lineNumber;
@@ -55,15 +62,30 @@
 
         let content: HTMLElement | void;
 
-        let algorithmSteps = [
-            "Place the flattened dough on a pizza baking board and spread pizza sauce evenly on the dough.",
-            "Add desired topping on crust.",
-            "Place pizza in preheated oven set at 350 degrees.",
-            "Allow pizza to cook for 10 minutes or until crust is golden.",
-            "Use robotic arms to carefully remove the pizza from the oven.",
-            "Allow the pizza to cool for 5 minutes. Use the pizza cutter to slice the pizza into 8 equal triangular slices.",
-            "Give customer pizza and napkins."
-        ];
+        const algorithmStepsByLanguage: Record<Language, string[]> = {
+            en: [
+                'Place the flattened dough on a pizza baking board and spread pizza sauce evenly on the dough.',
+                'Add desired topping on crust.',
+                'Place pizza in preheated oven set at 350 degrees.',
+                'Allow pizza to cook for 10 minutes or until crust is golden.',
+                'Use robotic arms to carefully remove the pizza from the oven.',
+                'Allow the pizza to cool for 5 minutes. Use the pizza cutter to slice the pizza into 8 equal triangular slices.',
+                'Give customer pizza and napkins.'
+            ],
+            es: [
+                'Coloca la masa aplanada en una bandeja para pizza y esparce la salsa de pizza uniformemente sobre la masa.',
+                'Agrega los ingredientes deseados sobre la masa.',
+                'Coloca la pizza en un horno precalentado a 350 grados.',
+                'Deja que la pizza se cocine durante 10 minutos o hasta que la masa esté dorada.',
+                'Usa brazos robóticos para retirar cuidadosamente la pizza del horno.',
+                'Deja que la pizza se enfríe durante 5 minutos. Usa el cortador de pizza para cortarla en 8 rebanadas triangulares iguales.',
+                'Entrega la pizza y servilletas al cliente.'
+            ]
+        };
+
+        $: algorithmSteps = algorithmStepsByLanguage[currentLanguage] ?? algorithmStepsByLanguage.en;
+
+        let algorithmSteps: string[] = algorithmStepsByLanguage.en;
 
         // Used to provide a nice set of colors to be randomly assigned to the algorithm steps
         let algorithmStepStyles = [

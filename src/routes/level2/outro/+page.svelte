@@ -162,7 +162,7 @@
 {/if}
 
 {#if line.id == 3}
-    <TextResponseModal id="carTrainingSet" title={"What did you find out about training data sets?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
+	<TextResponseModal id="carTrainingSet" title={$settingsStore.language === 'es' ? '¿Qué descubriste sobre los conjuntos de datos de entrenamiento?' : 'What did you find out about training data sets?'} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
 {/if}
 
 {#if line.id == 4}
@@ -170,5 +170,5 @@
 {/if}
 
 {#if line.id == 5}
-    <TextResponseModal id="carTestTrainDifference" title={"Why should the training and test data sets be different?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
+	<TextResponseModal id="carTestTrainDifference" title={$settingsStore.language === 'es' ? '¿Por qué deberían ser diferentes los conjuntos de datos de entrenamiento y de prueba?' : 'Why should the training and test data sets be different?'} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
 {/if}

@@ -9,7 +9,7 @@
 	import { accessTokenStore, settingsStore, studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { audioPlaybackFinished } from '$lib/utils/stores/audioStore';
 	import { onMount } from 'svelte';
-	import script from '$lib/scripts/level4/index.js';
+	import script from '$lib/scripts/level4new/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
 	import TimeTravel from '$lib/components/activities/time-travel/TimeTravel.svelte';
 	import TabletMenu from '$lib/components/tablet/TabletMenu.svelte';
@@ -89,7 +89,7 @@
 	 * which line in the script should be returned to the user.
 	 */
 	const handleNavigation = async (direction: NavigationDirection) => {
-		if (line.id === 32 && direction === NavigationDirection.forward && !surveyReadyToAdvance) {
+		if (line.id === 33 && direction === NavigationDirection.forward && !surveyReadyToAdvance) {
 			return;
 		}
 
@@ -142,8 +142,10 @@
 		return new URLSearchParams(window.location.search).get('returnPage');
 	};
 
-	$: isFinalCodeinatorReview = lineNumber === 26 && (getReturnPageFromQuery() === '34' || getReturnPageFromQuery() === '35');
-	$: shouldAutoOpenTabletOnFinalPage = (lineNumber === 34 || lineNumber === 35)
+	$: isFinalCodeinatorReview = lineNumber === 26 && getReturnPageFromQuery() === '35';
+	$: isFinalTraininatorReview = lineNumber === 25 && getReturnPageFromQuery() === '35';
+	$: isFinalDesignNotesReview = lineNumber === 24 && getReturnPageFromQuery() === '35';
+	$: shouldAutoOpenTabletOnFinalPage = lineNumber === 35
 		&& getReturnPageFromQuery() === String(lineNumber)
 		&& (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('showTablet') === '1' : false);
 
@@ -156,6 +158,7 @@
 	let robotName = '';
 	let rejectionComment = '';
 	let teacherAgent = '';
+	let isNavigatingFromFinalDesignNotes = false;
 
 	let doSubmit = false;
 	let imageResponseModalShowFeedbackModal = false;
@@ -174,7 +177,7 @@
 				setTutorialStep(7);
 			}
 
-			if ((line.id === 34 || line.id === 35) && params.get('returnPage') === String(line.id) && params.get('showTablet') === '1') {
+			if (line.id === 35 && params.get('returnPage') === String(line.id) && params.get('showTablet') === '1') {
 				setTimeout(() => {
 					const event = new CustomEvent('showTablet', {
 						bubbles: true
@@ -460,7 +463,7 @@
 	const handleSurveyFeedbackClose = () => {
 		showFeedbackModal = false;
 		if (surveyReadyToAdvance) {
-			goto('/level4new?page=33');
+			goto('/level4new?page=34');
 		}
 	};
 
@@ -477,7 +480,7 @@
 
 	$: {
 		if (lineNumber !== previousLineNumber) {
-			if (lineNumber === 34) {
+			if (lineNumber === 35) {
 				confetti += 1;
 			}
 
@@ -485,7 +488,7 @@
 				page3Confetti += 1;
 			}
 
-			if (lineNumber === 32) {
+			if (lineNumber === 33) {
 				questionIndex = 0;
 				surveyReadyToAdvance = false;
 				questionsAndResponse = getSurveyQuestions().map((question) => {
@@ -508,7 +511,7 @@
 
 <Scene background={line.background} audio={line.audio}>
 	<div class="w-full" slot="dialog">
-		{#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 34}
+		{#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 35}
             <DialogBox {line} on:dialogEvent={handleDialogEvent} />
         {/if}
 	</div>
@@ -533,7 +536,7 @@
 			</div>
 		{/if}
 
-		{#if lineNumber == 34}
+		{#if lineNumber == 35}
 			<div class="welcome-back-banner congrats-banner" aria-hidden="true">
 				<div class="welcome-back-flags congrats-flags">
 					<span class="welcome-back-flag">C</span>
@@ -580,7 +583,7 @@
 			</div>
 		{/if}
 
-		{#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 34 || lineNumber == 35}
+		{#if (lineNumber != 2 && lineNumber < 8) || (lineNumber >= 15 && lineNumber < 17) || lineNumber == 27 || lineNumber == 28 || lineNumber == 35}
 			<TabletButton on:click={() => { 
 				if(lineNumber == 16 || lineNumber == 28) {
 					handleNavigation(NavigationDirection.forward);
@@ -594,6 +597,7 @@
 				content?.dispatchEvent(event);
 			}}
 			pulse={lineNumber == 16 || lineNumber == 28}
+			disabled={false}
 			/>
         {/if}
 
@@ -625,11 +629,11 @@
 						{#if lineNumber == 9}
 						<div class="flex flex-row">
 							<div class="flex flex-col text-center">
-								<p>Healthy Foods</p>
+								<p>{$settingsStore?.language === 'es' ? 'Comidas saludables' : 'Healthy Foods'}</p>
 								<img src="/img/level4new/healthyfoods.png" alt="Healthy Foods Example" class="agent-nova-image agent-nova-image-highlight mr-4" />
 							</div>
 							<div class="flex flex-col text-center">
-								<p>Unhealthy Foods</p>
+								<p>{$settingsStore?.language === 'es' ? 'Comidas no saludables' : 'Unhealthy Foods'}</p>
 								<img src="/img/level4new/unhealthyfoods.png" alt="Unhealthy Foods Example" class="agent-nova-image agent-nova-image-highlight" />
 							</div>
 						</div>
@@ -642,11 +646,11 @@
 						{#if lineNumber == 11}
 						<div class="flex flex-row">
 							<div class="flex flex-col text-center">
-								<p>Safe Objects</p>
+								<p>{$settingsStore?.language === 'es' ? 'Objetos seguros' : 'Safe Objects'}</p>
 								<img src="/img/level4new/safeobjects.png" alt="Safe Objects Example" class="agent-nova-image agent-nova-image-highlight mr-4" />
 							</div>
 							<div class="flex flex-col text-center">
-								<p>Sharp Objects</p>
+								<p>{$settingsStore?.language === 'es' ? 'Objetos afilados' : 'Sharp Objects'}</p>
 								<img src="/img/level4new/dangerousobjects.png" alt="Dangerous Objects Example" class="agent-nova-image agent-nova-image-highlight" />
 							</div>
 						</div>
@@ -659,11 +663,11 @@
 						{#if lineNumber == 13}
 							<div class="flex flex-row">
 								<div class="flex flex-col text-center">
-									<p>Positive Emotions</p>
+									<p>{$settingsStore?.language === 'es' ? 'Emociones positivas' : 'Positive Emotions'}</p>
 									<img src="/img/level4new/positiveemotions.png" alt="Positive Emotions Example" class="agent-nova-image agent-nova-image-highlight mr-4" />
 								</div>
 								<div class="flex flex-col text-center">
-									<p>Negative Emotions</p>
+									<p>{$settingsStore?.language === 'es' ? 'Emociones negativas' : 'Negative Emotions'}</p>
 									<img src="/img/level4new/negativeemotions.png" alt="Negative Emotions Example" class="agent-nova-image agent-nova-image-highlight" />
 								</div>
 							</div>
@@ -678,7 +682,7 @@
 						glowConnectButton={tutorialStep === 1}
 						showRobotConnectHint={tutorialStep === 1}
 						showFlagHint={false}
-						robotConnectHintText={$settingsStore?.language === 'es' ? 'Toca aquí para conectar' : 'Click here to connect'}
+						robotConnectHintText={$settingsStore?.language === 'es' ? 'Haz clic aquí, luego conecta\nel robot con "Conectar robot"' : "Click here, then connect robot\nwith 'Connect Robot'"}
 						on:robotconnected={() => { robotIsConnected = true; }}
 					/>
 					{#if tutorialStep >= 1 && tutorialStep <= 7}
@@ -891,25 +895,25 @@
 			<TabletMenu apps={[
 				{
 					id: "travelLog",
-					title: "Travel Logs",
+					title: $settingsStore?.language === 'es' ? 'Registros de viaje' : 'Travel Logs',
 					img: Assets.Tablet.travelLogIcon,
 					color: "rgb(85,205,110)"
 				},
 				{
 					id: "profile",
-					title: "Profiles",
+					title: $settingsStore?.language === 'es' ? 'Perfiles' : 'Profiles',
 					img: Assets.Tablet.profileIcon,
 					color: "rgb(185,90,210)"
 				},
 				{
 					id: "badges",
-					title: "Badges",
+					title: $settingsStore?.language === 'es' ? 'Insignias' : 'Badges',
 					img: Assets.Tablet.badgesIcon,
 					color: "rgb(0,175,210)"
 				},
 				{
 					id: "robotprototype",
-					title: "Robot Prototype",
+					title: $settingsStore?.language === 'es' ? 'Prototipo de robot' : 'Robot Prototype',
 					img: Assets.Tablet.robotPrototypeIcon,
 					color: "rgb(200, 80, 50)"
 				}
@@ -936,11 +940,31 @@
 		{/if}
 		{#if lineNumber == 19}
 			<TextResponseModal 
-				prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, 
-					{id: "robotdesign2", prompt: "Who My Robot Helps"},
-					{id: "robotdesign3", prompt: "Image Categories (add at least two categories up to four categories)"},
-					{id: "robotdesign4", prompt: "What My Robot Will Do"},
-					{id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
+				prompt={[
+					{
+						id: "robotdesign1",
+						prompt: $settingsStore?.language === 'es' ? 'Problema por resolver' : 'Problem to Solve'
+					}, 
+					{
+						id: "robotdesign2",
+						prompt: $settingsStore?.language === 'es' ? 'A quién ayuda mi robot' : 'Who My Robot Helps'
+					},
+					{
+						id: "robotdesign3",
+						prompt: $settingsStore?.language === 'es'
+							? 'Categorías de imágenes (agrega al menos dos categorías y hasta cuatro categorías)'
+							: 'Image Categories (add at least two categories up to four categories)'
+					},
+					{
+						id: "robotdesign4",
+						prompt: $settingsStore?.language === 'es' ? 'Qué hará mi robot' : 'What My Robot Will Do'
+					},
+					{
+						id: "robotdesign5",
+						prompt: $settingsStore?.language === 'es' ? 'Mi robot se llamará:' : 'My Robot Will Be Named:',
+						singleLine: true
+					}
+				]}
 				onSuccess={(responses) => {					
 					robotProblem = responses['robotdesign1'];
 					robotHelps = responses['robotdesign2'];
@@ -950,7 +974,7 @@
 					goto('/level4new?page=22');
 				}}
 			/>
-			<ChatbotWidget assistantId={chatbotAssistantId} historyScope="level4new-design-notes" preserveSpeechPunctuation={true} className="design-notes-chatbot" />
+			<ChatbotWidget assistantId={chatbotAssistantId} historyScope="level4new-design-notes" preserveSpeechPunctuation={true} className="design-notes-chatbot" emptyMessageText={$settingsStore?.language === 'es' ? 'Di hola para comenzar' : 'say hello to get started'} />
 		{/if}
 		{#if lineNumber == 22}
 			<Tablet showMeter={false} showBottomButtons={false}>
@@ -1027,7 +1051,34 @@
 		{#if lineNumber == 24}
 			{#if logsLoaded}
 				<TextResponseModal 
-					prompt={[{id: "robotdesign1", prompt: "Problem to Solve"}, {id: "robotdesign2", prompt: "Who My Robot Helps"}, {id: "robotdesign3", prompt: "Image Categories (add at least two categories up to four categories)"}, {id: "robotdesign4", prompt: "What My Robot Will Do"}, {id: "robotdesign5", prompt: "My Robot Will Be Named:", singleLine: true}]}
+					submitButtonText={isFinalDesignNotesReview
+						? ($settingsStore?.language === 'es' ? 'Terminar' : 'Finish')
+						: ($settingsStore?.language === 'es' ? 'Enviar' : 'Submit')}
+					prompt={[
+						{
+							id: "robotdesign1",
+							prompt: $settingsStore?.language === 'es' ? 'Problema por resolver' : 'Problem to Solve'
+						},
+						{
+							id: "robotdesign2",
+							prompt: $settingsStore?.language === 'es' ? 'A quién ayuda mi robot' : 'Who My Robot Helps'
+						},
+						{
+							id: "robotdesign3",
+							prompt: $settingsStore?.language === 'es'
+								? 'Categorías de imágenes (agrega al menos dos categorías y hasta cuatro categorías)'
+								: 'Image Categories (add at least two categories up to four categories)'
+						},
+						{
+							id: "robotdesign4",
+							prompt: $settingsStore?.language === 'es' ? 'Qué hará mi robot' : 'What My Robot Will Do'
+						},
+						{
+							id: "robotdesign5",
+							prompt: $settingsStore?.language === 'es' ? 'Mi robot se llamará:' : 'My Robot Will Be Named:',
+							singleLine: true
+						}
+					]}
 					requireAllResponses={false}
 					prefill={{
 						robotdesign1: robotProblem,
@@ -1037,15 +1088,31 @@
 						robotdesign5: robotName
 					}}
 					onSuccess={(responses) => {
+						if (isNavigatingFromFinalDesignNotes) {
+							return;
+						}
+
 						robotProblem = responses['robotdesign1'];
 						robotHelps = responses['robotdesign2'];
 						robotCategories = responses['robotdesign3'];
 						robotAction = responses['robotdesign4'];
 						robotName = responses['robotdesign5'];
-						goto('/level4new?page=23');
+
+						const shouldReturnToFinalPage = isFinalDesignNotesReview
+							|| (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('returnPage') === '35');
+
+						const targetUrl = shouldReturnToFinalPage
+							? '/level4new?page=35'
+							: '/level4new?page=23';
+
+						if (shouldReturnToFinalPage) {
+							isNavigatingFromFinalDesignNotes = true;
+						}
+
+						goto(targetUrl);
 					}}
 				/>
-				<ChatbotWidget assistantId={chatbotAssistantId} historyScope="level4new-design-notes" className="design-notes-chatbot" preserveSpeechPunctuation={true} />
+				<ChatbotWidget assistantId={chatbotAssistantId} historyScope="level4new-design-notes" className="design-notes-chatbot" preserveSpeechPunctuation={true} emptyMessageText={$settingsStore?.language === 'es' ? 'Di hola para comenzar' : 'say hello to get started'} />
 			{/if}
 		{/if}
 		{#if lineNumber == 25}
@@ -1057,14 +1124,34 @@
 					content?.dispatchEvent(event);
 				}} />
 				<TraininatorMain 
-					onComplete={() => {
+					allowFinishWithoutSubmission={isFinalTraininatorReview}
+					finishButtonLabel={$settingsStore?.language === 'es' ? 'Terminar' : 'Finish'}
+					onFinish={() => {
+						if (!isFinalTraininatorReview) {
+							return;
+						}
+
+						const targetUrl = '/level4new?page=35&returnPage=35&showTablet=1';
 						studentProgressStore.update((progress) => {
 							progress.level4new_traininator_tried = true;
-							progress.last_visited = '/level4new?page=23';
+							progress.last_visited = targetUrl;
 							return progress;
 						});
 
-						goto('/level4new?page=23');
+						goto(targetUrl);
+					}}
+					onComplete={() => {
+						const targetUrl = isFinalTraininatorReview
+							? '/level4new?page=35&returnPage=35&showTablet=1'
+							: '/level4new?page=23';
+
+						studentProgressStore.update((progress) => {
+							progress.level4new_traininator_tried = true;
+							progress.last_visited = targetUrl;
+							return progress;
+						});
+
+						goto(targetUrl);
 					}}
 				/>
 			</Tablet>
@@ -1103,7 +1190,7 @@
 				<TabletMenu apps={[
 					{
 						id: "travelLog",
-						title: "Travel Logs",
+						title: $settingsStore?.language === 'es' ? 'Registros de viaje' : 'Travel Logs',
 						img: Assets.Tablet.travelLogIcon,
 						color: "rgb(85,205,110)"
 					},
@@ -1136,6 +1223,11 @@
             }} />
         {/if}
 		{#if lineNumber == 32}
+			<TextResponseModal id="machineLearningPost" promptedTechnology={"machine learning"} onSuccess={() => {
+				handleNavigation(NavigationDirection.forward);
+			}} />
+		{/if}
+		{#if lineNumber == 33}
 			<Tablet>
 				<AudioPlayer src={getSurveyQuestionAudio(questionIndex)} />
 
@@ -1165,7 +1257,7 @@
                 </div>
             </Tablet>
 		{/if}
-		{#if lineNumber == 33}
+		{#if lineNumber == 34}
             <BadgeGetModal 
                 badge={BadgesByName['Junior Agent']}
                 handleClick={() => {
@@ -1174,7 +1266,7 @@
             />
 		{/if}
 
-        {#if lineNumber == 34}
+		{#if lineNumber == 35}
 		<div id="page3-confettiholder">
             {#key confetti}
 				<div class="page3-confetti-emitter page3-confetti-top-left">
@@ -1199,7 +1291,7 @@
         </div>
         {/if}
 
-		{#if lineNumber == 35}
+		{#if lineNumber == 36}
 		<div id="page3-confettiholder">
 			{#key confetti}
 				<div class="page3-confetti-emitter page3-confetti-top-left">

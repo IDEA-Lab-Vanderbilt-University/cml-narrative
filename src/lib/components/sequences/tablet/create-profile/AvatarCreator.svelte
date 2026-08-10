@@ -257,7 +257,7 @@
             class="bg-lapiz-blue rounded-md px-7 py-3 m-2 text-2xl text-white shadow hover:shadow-lg"
             disabled={!profileData.avatar}
             on:click={handleSubmit}>
-            SUBMIT
+            {getTranslation(currentLanguage, 'common.submit')}
         </button>
     </div>
 	<!-- <div class="hud-red-blue-border text-white" id="bottom-text">

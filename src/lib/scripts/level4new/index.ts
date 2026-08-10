@@ -261,7 +261,6 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 32),
 			avatars: [],
 			background: '',
-			audio: '/level4new/computer_voice/L4-S34.mp3',
 		},
 		{
 			id: 33,
@@ -269,11 +268,19 @@ const script: Script = {
 			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 33),
 			avatars: [],
 			background: '',
+			audio: '/level4new/computer_voice/L4-S34.mp3',
 		},
 		{
 			id: 34,
+			speakers: [getCharacterName(currentLanguage, 'spotTablet')],
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 34),
+			avatars: [],
+			background: '',
+		},
+		{
+			id: 35,
 			speakers: [getCharacterName(currentLanguage, 'captainStorm')],
-			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 34, { agentName: agent.agent_name || 'Agent' }),
+			dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level4new', 'main', 35, { agentName: agent.agent_name || 'Agent' }),
 			avatars: ['/img/characters/captain-storm/storm_wave.png', '/img/characters/agent-spark/spark_wave.png', '/img/characters/agent-fern/fern_wave.png', '/img/characters/agent-gear/vanil_wave.png'],
 			background: '/img/backgrounds/Spark_Lab.jpg',
 			audio: '/level4new/captain_storm/captain_storm_l4s34.mp3',

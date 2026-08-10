@@ -10,7 +10,9 @@
 	import type { Line } from '$lib/types/Script';
 	import DataService from '$lib/utils/DataService/index.js';
 	import { audioPlaybackFinished } from '$lib/utils/stores/audioStore';
+	import { languageStore } from '$lib/utils/stores/languageStore';
 	import { pizzaConfigStore, studentProgressStore } from '$lib/utils/stores/store.js';
+	import type { Language } from '$lib/utils/translations';
 	import { createEventDispatcher } from 'svelte';
 
 	export let data;
@@ -18,6 +20,10 @@
 	const dispatch = createEventDispatcher();
 
 	let line: Line;
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
 	$: line = data.line;
 	$: lineNumber = data.lineNumber;
@@ -107,24 +113,24 @@
 
 			<div id="pizzaChoices">
 				{#if lineNumber == 3}
-				<div id="pizzaChoiceHeader">Choose your crust!</div>
+				<div id="pizzaChoiceHeader">{currentLanguage === 'es' ? '¡Elige tu masa!' : 'Choose your crust!'}</div>
 				<div id="pizzaChoiceButtons">
 					<button on:click={() => pizza.crust = 'thin'}>
 						<img src="/img/pizzaparts/thincrust.svg" alt="Thin" />
-						Thin
+						{currentLanguage === 'es' ? 'Delgada' : 'Thin'}
 					</button>
 					<button on:click={() => pizza.crust = 'thick'}>
 						<img src="/img/pizzaparts/thickcrust.svg" alt="Thick" />
-						Thick
+						{currentLanguage === 'es' ? 'Gruesa' : 'Thick'}
 					</button>
 					<button on:click={() => pizza.crust = 'cauliflower'}>
 						<img src="/img/pizzaparts/cauliflowercrust.svg" alt="Cauliflower" />
-						Cauliflower
+						{currentLanguage === 'es' ? 'Coliflor' : 'Cauliflower'}
 					</button>
 				</div>
 				{/if}
 				{#if lineNumber == 4}
-				<div id="pizzaChoiceHeader">Choose your sauce!</div>
+				<div id="pizzaChoiceHeader">{currentLanguage === 'es' ? '¡Elige tu salsa!' : 'Choose your sauce!'}</div>
 				<div id="pizzaChoiceButtons">
 					<button on:click={() => pizza.sauce = 'alfredo'}>
 						<img src="/img/pizzaparts/alfredo.svg" alt="Alfredo" />
@@ -140,26 +146,26 @@
 					</button>
 					<button on:click={() => pizza.sauce = 'spicy'}>
 						<img src="/img/pizzaparts/spicy.svg" alt="Spicy" />
-						Spicy
+						{currentLanguage === 'es' ? 'Picante' : 'Spicy'}
 					</button>
 				</div>
 				
 				{/if}
 				{#if lineNumber == 5}
-					<div id="pizzaChoiceHeader">Add cheese?</div>
+					<div id="pizzaChoiceHeader">{currentLanguage === 'es' ? '¿Agregar queso?' : 'Add cheese?'}</div>
 					<div id="pizzaChoiceButtons">
 						<button on:click={() => pizza.cheese = true}>
 							<img src="/img/pizzaparts/cheese.svg" alt="Cheese" />
-							Yes
+							{currentLanguage === 'es' ? 'Sí' : 'Yes'}
 						</button>
 						<button on:click={() => pizza.cheese = false}>
 							<img src="/img/misc/no.svg" alt="No Cheese" />
-							No
+							{currentLanguage === 'es' ? 'No' : 'No'}
 						</button>
 					</div>
 				{/if}
 				{#if lineNumber == 6}
-					<div id="pizzaChoiceHeader">Choose your meats!</div>
+					<div id="pizzaChoiceHeader">{currentLanguage === 'es' ? '¡Elige tus carnes!' : 'Choose your meats!'}</div>
 					<div id="pizzaChoiceButtons">
 						<button on:click={() => {
 							if (pizza.meats.includes('pepperoni')) {
@@ -169,7 +175,7 @@
 							pizza.meats = [...pizza.meats, 'pepperoni'];
 						}}>
 							<img src="/img/pizzaparts/pepperoni.svg" alt="Pepperoni" />
-							Pepperoni
+							{currentLanguage === 'es' ? 'Pepperoni' : 'Pepperoni'}
 						</button>
 						<button on:click={() => {
 							if (pizza.meats.includes('shrimp')) {
@@ -179,7 +185,7 @@
 							pizza.meats = [...pizza.meats, 'shrimp'];
 						}}>
 							<img src="/img/pizzaparts/shrimp.svg" alt="Shrimp" />
-							Shrimp
+							{currentLanguage === 'es' ? 'Camarón' : 'Shrimp'}
 						</button>
 						<button on:click={() => {
 							if (pizza.meats.includes('bacon')) {
@@ -189,7 +195,7 @@
 							pizza.meats = [...pizza.meats, 'bacon'];
 						}}>
 							<img src="/img/pizzaparts/bacon.svg" alt="Bacon" />
-							Bacon
+							{currentLanguage === 'es' ? 'Tocino' : 'Bacon'}
 						</button>
 						<button on:click={() => {
 							if (pizza.meats.includes('ham')) {
@@ -199,16 +205,16 @@
 							pizza.meats = [...pizza.meats, 'ham'];
 						}}>
 							<img src="/img/pizzaparts/ham.svg" alt="Ham" />
-							Ham
+							{currentLanguage === 'es' ? 'Jamón' : 'Ham'}
 						</button>
 						<button on:click={() => pizza.meats = []}>
 							<img src="/img/misc/no.svg" alt="No Meats" />
-							No Meats
+							{currentLanguage === 'es' ? 'Sin carne' : 'No Meats'}
 						</button>
 					</div>
 				{/if}
 				{#if lineNumber == 7}
-					<div id="pizzaChoiceHeader">Choose your veggies!</div>
+					<div id="pizzaChoiceHeader">{currentLanguage === 'es' ? '¡Elige tus vegetales!' : 'Choose your veggies!'}</div>
 					<div id="pizzaChoiceButtons">
 						<button on:click={() => {
 							if (pizza.veggies.includes('mushrooms')) {
@@ -218,7 +224,7 @@
 							pizza.veggies = [...pizza.veggies, 'mushrooms'];
 						}}>
 							<img src="/img/pizzaparts/mushrooms.svg" alt="Mushrooms" />
-							Mushrooms
+							{currentLanguage === 'es' ? 'Champiñones' : 'Mushrooms'}
 						</button>
 						<button on:click={() => {
 							if (pizza.veggies.includes('onions')) {
@@ -228,7 +234,7 @@
 							pizza.veggies = [...pizza.veggies, 'onions'];
 						}}>
 							<img src="/img/pizzaparts/onions.svg" alt="Onions" />
-							Onions
+							{currentLanguage === 'es' ? 'Cebollas' : 'Onions'}
 						</button>
 						<button on:click={() => {
 							if (pizza.veggies.includes('tomatoes')) {
@@ -238,7 +244,7 @@
 							pizza.veggies = [...pizza.veggies, 'tomatoes'];
 						}}>
 							<img src="/img/pizzaparts/tomatoes.svg" alt="Tomatoes" />
-							Tomatoes
+							{currentLanguage === 'es' ? 'Tomates' : 'Tomatoes'}
 						</button>
 						<button on:click={() => {
 							if (pizza.veggies.includes('peppers')) {
@@ -248,7 +254,7 @@
 							pizza.veggies = [...pizza.veggies, 'peppers'];
 						}}>
 							<img src="/img/pizzaparts/peppers.svg" alt="Peppers" />
-							Peppers
+							{currentLanguage === 'es' ? 'Pimientos' : 'Peppers'}
 						</button>
 						<button on:click={() => {
 							if (pizza.veggies.includes('pineapple')) {
@@ -258,16 +264,16 @@
 							pizza.veggies = [...pizza.veggies, 'pineapple'];
 						}}>
 							<img src="/img/pizzaparts/pineapple.svg" alt="Pineapple" />
-							Pineapple
+							{currentLanguage === 'es' ? 'Piña' : 'Pineapple'}
 						</button>
 						<button on:click={() => pizza.veggies = []}>
 							<img src="/img/misc/no.svg" alt="No Veggies" />
-							No Veggies
+							{currentLanguage === 'es' ? 'Sin vegetales' : 'No Veggies'}
 						</button>
 					</div>
 				{/if}
 				{#if lineNumber == 8}
-					<div id="pizzaChoiceHeader">Finishing touches?</div>
+					<div id="pizzaChoiceHeader">{currentLanguage === 'es' ? '¿Toques finales?' : 'Finishing touches?'}</div>
 					<div id="pizzaChoiceButtons">
 						<button on:click={() => {
 							if (pizza.finishingTouches.includes('basil')) {
@@ -277,7 +283,7 @@
 							pizza.finishingTouches = [...pizza.finishingTouches, 'basil'];
 						}}>
 							<img src="/img/pizzaparts/basil.svg" alt="Basil" />
-							Basil
+							{currentLanguage === 'es' ? 'Albahaca' : 'Basil'}
 						</button>
 						<button on:click={() => {
 							if (pizza.finishingTouches.includes('herbs')) {
@@ -287,7 +293,7 @@
 							pizza.finishingTouches = [...pizza.finishingTouches, 'herbs'];
 						}}>
 							<img src="/img/pizzaparts/herbs.svg" alt="Herbs" />
-							Herbs
+							{currentLanguage === 'es' ? 'Hierbas' : 'Herbs'}
 						</button>
 						<button on:click={() => {
 							if (pizza.finishingTouches.includes('parmesan')) {
@@ -297,7 +303,7 @@
 							pizza.finishingTouches = [...pizza.finishingTouches, 'parmesan'];
 						}}>
 							<img src="/img/pizzaparts/parmesan.svg" alt="Parmesan" />
-							Parmesan
+							{currentLanguage === 'es' ? 'Parmesano' : 'Parmesan'}
 						</button>
 						<button on:click={() => {
 							if (pizza.finishingTouches.includes('olives')) {
@@ -307,7 +313,7 @@
 							pizza.finishingTouches = [...pizza.finishingTouches, 'olives'];
 						}}>
 							<img src="/img/pizzaparts/olives.svg" alt="Olives" />
-							Olives
+							{currentLanguage === 'es' ? 'Aceitunas' : 'Olives'}
 						</button>
 						<button on:click={() => {
 							if (pizza.finishingTouches.includes('jalapeno')) {
@@ -317,11 +323,11 @@
 							pizza.finishingTouches = [...pizza.finishingTouches, 'jalapeno'];
 						}}>
 							<img src="/img/pizzaparts/jalapeno.svg" alt="Jalapeno" />
-							Jalapeno
+							{currentLanguage === 'es' ? 'Jalapeño' : 'Jalapeno'}
 						</button>
 						<button on:click={() => pizza.finishingTouches = []}>
 							<img src="/img/misc/no.svg" alt="No Finishing Touches" />
-							None
+							{currentLanguage === 'es' ? 'Ninguno' : 'None'}
 						</button>
 					</div>
 				{/if}
@@ -331,7 +337,7 @@
 	<div slot="content" id="content"  bind:this={content}>
 		{#if lineNumber == 1 }
 			<button id="startButton" on:click={() => handleNavigation(NavigationDirection.forward)} disabled={!$audioPlaybackFinished}>
-				<img src="/img/misc/pizzastart.png" alt="Start" />
+				{currentLanguage === 'es' ? 'Comienza tu orden de pizza' : 'Start your pizza order'}
 			</button>
 		{/if}
 		{#if lineNumber > 1 }
@@ -367,6 +373,14 @@
 
 	#startButton {
 		transition: all 0.3s;
+		background: #f59e0b;
+		color: white;
+		font-family: 'Mokoto';
+		font-size: clamp(1.25rem, 2.2vw, 2rem);
+		padding: 1rem 2rem;
+		border-radius: 9999px;
+		border: 4px solid #fef3c7;
+		box-shadow: 0 8px 0 #b45309;
 	}
 
 	#startButton:hover {
@@ -391,8 +405,8 @@
 		filter: grayscale(1);
 	}
 
-	#startButton img {
-		width: 30vw;
+	#startButton:active {
+		box-shadow: 0 4px 0 #b45309;
 	}
 
 	#bgboard {

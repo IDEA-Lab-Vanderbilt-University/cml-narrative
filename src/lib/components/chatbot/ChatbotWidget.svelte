@@ -9,6 +9,7 @@
 	export let className = '';
 	export let preserveSpeechPunctuation = false;
 	export let historyScope = 'default';
+	export let emptyMessageText = 'Ask a question to start.';
 
 	type Message = {
 		sender: 'user' | 'bot';
@@ -231,6 +232,32 @@
 		);
 	};
 
+	const saveMessageToTravelLog = async (sender: 'user' | 'bot', text: string) => {
+		const trimmedText = text.trim();
+		if (!trimmedText) {
+			return;
+		}
+
+		const scopeKey = (historyScope || 'default').trim() || 'default';
+		const assistantKey = (assistantId || 'default').trim() || 'default';
+
+		try {
+			await DataService.TravelLog.submitTravelLog({
+				description: `spot-bot-conversation-${scopeKey}-${assistantKey}`,
+				data: JSON.stringify({
+					sender,
+					text: trimmedText,
+					history_scope: scopeKey,
+					assistant_id: assistantKey,
+					timestamp: new Date().toISOString()
+				}),
+				status: 'complete'
+			});
+		} catch (error) {
+			console.error('Failed to save chatbot message to travel log:', error);
+		}
+	};
+
 	const sendMessage = async () => {
 		if (!input.trim() || loading) return;
 
@@ -251,6 +278,7 @@
 		input = '';
 		errorMessage = '';
 		loading = true;
+		void saveMessageToTravelLog('user', prompt);
 
 		try {
 			const data = await DataService.Assistant.studentChat({
@@ -258,7 +286,9 @@
 				prompt,
 				conversation_history: historyForRequest
 			});
-			messages = [...messages, { sender: 'bot', text: extractBotText(data) }];
+			const botText = extractBotText(data);
+			messages = [...messages, { sender: 'bot', text: botText }];
+			void saveMessageToTravelLog('bot', botText);
 		} catch (error) {
 			const message = error instanceof Error ? error.message : 'Chatbot is unavailable right now.';
 			errorMessage = message;
@@ -464,7 +494,7 @@
 			<div class="chatbot-body">
 				<div class="chatbot-messages">
 					{#if messages.length === 0}
-						<div class="empty-message">Ask a question to start.</div>
+						<div class="empty-message">{emptyMessageText}</div>
 					{/if}
 
 					{#each messages as message, index}

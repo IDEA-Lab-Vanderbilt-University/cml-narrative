@@ -329,10 +329,11 @@
     border-radius: 14px;
     box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
     padding: 9px 13px;
-    white-space: nowrap;
+    white-space: pre;
     margin-right: 14px;
     display: flex;
     align-items: center;
+    text-align: center;
   }
 
   .robot-connect-label::after {

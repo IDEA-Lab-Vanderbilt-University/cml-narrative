@@ -9,7 +9,9 @@
 	import type { Line } from '$lib/types/Script';
 	import type { Student, StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
+	import { languageStore } from '$lib/utils/stores/languageStore';
 	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
+	import type { Language } from '$lib/utils/translations';
 	import { createEventDispatcher } from 'svelte';
 
     let agent: Student = {};
@@ -21,6 +23,10 @@
 	export let data;
 
 	let line: Line;
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
 	$: line = data.line;
 
@@ -67,14 +73,27 @@
     let lineNumber = 1;
     $: lineNumber = line.id;
 
-	let choiceOptions = [
-		'Stop when people cross the street',
-		'Recognize human faces',
-		'Open doors for humans',
-		'Honk at birds',
-		'Recognize street signs',
-		'Open doors for all animals',
-	];
+	const choiceOptionsByLanguage: Record<Language, string[]> = {
+		en: [
+			'Stop when people cross the street',
+			'Recognize human faces',
+			'Open doors for humans',
+			'Honk at birds',
+			'Recognize street signs',
+			'Open doors for all animals',
+		],
+		es: [
+			'Detenerse cuando las personas cruzan la calle',
+			'Reconocer rostros humanos',
+			'Abrir puertas para humanos',
+			'Tocar la bocina a los pájaros',
+			'Reconocer señales de tránsito',
+			'Abrir puertas para todos los animales',
+		]
+	};
+
+	$: choiceOptions = choiceOptionsByLanguage[currentLanguage] ?? choiceOptionsByLanguage.en;
+	let choiceOptions: string[] = choiceOptionsByLanguage.en;
 
 	let choiceCorrect = [
 		true,
@@ -374,13 +393,15 @@
 			<div class="options">
 				<div class="option">
 					<div style="text-align: center; width: 2vw; font-size: 1.5vw;">
-						Yes 
+						{currentLanguage === 'es' ? 'Sí' : 'Yes'} 
 					</div>
 					<div style="text-align: center; width: 2vw; font-size: 1.5vw;">
-						No 
+						{currentLanguage === 'es' ? 'No' : 'No'} 
 					</div>
 					<div style="text-align: center; font-size: 1vw;">
-						Which of these do we need to<br/> train our cars to be able to do?
+						{currentLanguage === 'es'
+							? '¿Cuáles de estas cosas necesitamos<br/> entrenar a nuestros autos para que puedan hacer?'
+							: 'Which of these do we need to<br/> train our cars to be able to do?'}
 					</div>
 				</div>
 				{#each choiceOptions as option, i}
@@ -442,7 +463,7 @@
 
 			{#if choicesCorrect}
 				<button class="nextButton" on:click={() => handleNavigation(NavigationDirection.forward)}>
-					<img src="/img/misc/vroomnext.png" alt="Next" />
+					<img src="/img/misc/vroomnext.png" alt={currentLanguage === 'es' ? 'Siguiente' : 'Next'} />
 				</button>
 			{/if}
 		{/if}

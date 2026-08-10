@@ -8,7 +8,9 @@
 	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
+	import { languageStore } from '$lib/utils/stores/languageStore';
 	import { studentDataStore, studentProgressStore, useNewLevel4 } from '$lib/utils/stores/store.js';
+	import type { Language } from '$lib/utils/translations';
 	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level3/outro/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -25,6 +27,11 @@
 
 	let line: Line;
 	$: line = data.line;
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
     let lineNumber = 1;
     $: lineNumber = line.id;
@@ -124,15 +131,15 @@
 		{/if}
 
 		{#if line.id == 12}
-			<TextResponseModal id="biasGroups" title={"Why might machine learning technologies work for some groups of people and not other groups of people?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+			<TextResponseModal id="biasGroups" title={currentLanguage === 'es' ? '¿Por qué las tecnologías de aprendizaje automático podrían funcionar para algunos grupos de personas y no para otros?' : 'Why might machine learning technologies work for some groups of people and not other groups of people?'} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
 		{/if}
 
 		{#if line.id == 13}
-			<TextResponseModal id="biasEffects" title={"How could you or others be negatively effected when technology designers use biased training datasets?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+			<TextResponseModal id="biasEffects" title={currentLanguage === 'es' ? '¿Cómo podrías tú u otras personas verse afectadas negativamente cuando los diseñadores de tecnología usan conjuntos de datos de entrenamiento sesgados?' : 'How could you or others be negatively effected when technology designers use biased training datasets?'} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
 		{/if}
 
 		{#if line.id == 14}
-			<TextResponseModal id="biasMitigation" title={"How can bias in a training dataset be reduced?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
+			<TextResponseModal id="biasMitigation" title={currentLanguage === 'es' ? '¿Cómo se puede reducir el sesgo en un conjunto de datos de entrenamiento?' : 'How can bias in a training dataset be reduced?'} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />
 		{/if}
 
 		{#if line.id == 15}
@@ -142,21 +149,39 @@
 		{#if line.id == 16}
 			<ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)}>
 					<div class="border-white border-2 p-2 w-10/12">
-						<p class="text-2xl">
-							Great job finishing Part 3 of your mission! Thanks to your Bot Buddy and Travel Log, we learned something important:
-<ul class="text-2xl">
-    <li>Technology creators build training datasets. Biased training datasets can include too much or too little information about certain groups—like kids or people who’ve been left out in the past.</li>
-    <li>When that happens, some people might not be able to use certain technologies. That can make things harder for them.</li>
-    <li>We can reduce bias by making sure training datasets include more types of people from different groups.</li>
-</ul>
+						{#if currentLanguage === 'es'}
+							<p class="text-2xl">
+								¡Excelente trabajo al terminar la Parte 3 de tu misión! Gracias a tu Bot Buddy y a tu Registro de Viaje, aprendimos algo importante:
+							</p>
+							<ul class="text-2xl">
+								<li>Las personas que crean tecnología construyen conjuntos de datos de entrenamiento. Los conjuntos de datos sesgados pueden incluir demasiada o muy poca información sobre ciertos grupos, como niños o personas que han sido excluidas en el pasado.</li>
+								<li>Cuando eso sucede, algunas personas podrían no poder usar ciertas tecnologías. Eso puede hacerles las cosas más difíciles.</li>
+								<li>Podemos reducir el sesgo al asegurarnos de que los conjuntos de datos de entrenamiento incluyan más tipos de personas de diferentes grupos.</li>
+							</ul>
 
-<p class="text-2xl">
-You’ve earned the Bias Buster Badge! Your megajoules meter is full and ready to bring you home. 
-</p>
-<p class="text-2xl">
-Once you're back at SPOT Mission Control, one last mission awaits. Safe travels—we can’t wait to see you!
-	
-						</p>
+							<p class="text-2xl">
+								¡Has ganado la insignia Cazasesgos! Tu medidor de megajoules está lleno y listo para llevarte de regreso a casa.
+							</p>
+							<p class="text-2xl">
+								Cuando regreses al Control de Misión de SPOT, te espera una última misión. ¡Buen viaje, estamos ansiosos por verte!
+							</p>
+						{:else}
+							<p class="text-2xl">
+								Great job finishing Part 3 of your mission! Thanks to your Bot Buddy and Travel Log, we learned something important:
+							</p>
+							<ul class="text-2xl">
+								<li>Technology creators build training datasets. Biased training datasets can include too much or too little information about certain groups—like kids or people who’ve been left out in the past.</li>
+								<li>When that happens, some people might not be able to use certain technologies. That can make things harder for them.</li>
+								<li>We can reduce bias by making sure training datasets include more types of people from different groups.</li>
+							</ul>
+
+							<p class="text-2xl">
+								You’ve earned the Bias Buster Badge! Your megajoules meter is full and ready to bring you home.
+							</p>
+							<p class="text-2xl">
+								Once you're back at SPOT Mission Control, one last mission awaits. Safe travels—we can’t wait to see you!
+							</p>
+						{/if}
 					</div>
 			</ReadMessageModal>
 		{/if}
