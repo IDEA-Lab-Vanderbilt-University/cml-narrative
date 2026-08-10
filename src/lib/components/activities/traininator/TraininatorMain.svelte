@@ -512,7 +512,7 @@
 					/>
 				</div>
 			</div>
-			{#if testAccuracy >= targetAccuracy}
+			{#if testAccuracy >= targetAccuracy && !allowFinishWithoutSubmission}
 				<button id="trainButton" on:click={uploadModel}>{$settingsStore?.language === 'es' ? '¡Terminé!' : "I'm done!"}</button>
 			{/if}
 		</div>

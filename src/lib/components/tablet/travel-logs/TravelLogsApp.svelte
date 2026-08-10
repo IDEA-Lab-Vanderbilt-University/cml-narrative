@@ -89,6 +89,35 @@
 		"robotcodetested": "Robot Code Tested",
 		// "profile_updated": "Profile Updated"
 	}
+
+	const isSpotBotConversationLog = (description: string) => description.startsWith('spot-bot-conversation-');
+
+	const getTravelLogTitle = (description: string) => {
+		if (Object.prototype.hasOwnProperty.call(travelLogsTitles, description)) {
+			return travelLogsTitles[description as keyof typeof travelLogsTitles];
+		}
+
+		if (isSpotBotConversationLog(description)) {
+			return 'SPOT Bot Chat';
+		}
+
+		return description;
+	};
+
+	const getTravelLogDisplayText = (log: TravelLog) => {
+		if (!isSpotBotConversationLog(log.description)) {
+			return log.data;
+		}
+
+		try {
+			const parsed = JSON.parse(log.data);
+			const sender = parsed?.sender === 'bot' ? 'SPOT Bot' : 'You';
+			const text = typeof parsed?.text === 'string' ? parsed.text : log.data;
+			return `${sender}: ${text}`;
+		} catch {
+			return log.data;
+		}
+	};
     
 	onMount(async () => {
         try {
@@ -96,7 +125,7 @@
 
 			// Filter logs to ones we can display
 			logs = allLogs.filter(log => log.status === "complete").filter(log => 
-				travelLogsTitles.hasOwnProperty(log.description)
+				travelLogsTitles.hasOwnProperty(log.description) || isSpotBotConversationLog(log.description)
 			);
 
 			// console.log("Fetched travel logs: ", Array.from(new Set(logs.map(log => log.description))).join(", "));
@@ -120,7 +149,7 @@
 <div class="h-full">
 	<div class="h-3/4 w-full flex flex-col items-center justify-center font-mokoto text-xl text-white">
         <h1 class="text-center text-2xl font-bold">
-				{travelLogsTitles.hasOwnProperty(logs[index].description) ? travelLogsTitles[logs[index].description] : logs[index].description}
+				{getTravelLogTitle(logs[index].description)}
         </h1>
 		{#if logs[index].description === "pizza-time"}
 			<p class="mb-4">{$t('tablet.hereIsPizza')}</p>
@@ -130,7 +159,7 @@
 		{:else if logs[index].data.startsWith("{\"response\":\"data:image") }
 			<img src={JSON.parse(logs[index].data)["response"]} alt="Travel Log" id="travelLogImage" />
 		{:else}
-			<p>{logs[index].data}</p>
+			<p>{getTravelLogDisplayText(logs[index])}</p>
 		{/if}
 	</div>
 	<div class="flex w-full flex-col items-center justify-center space-y-2">
