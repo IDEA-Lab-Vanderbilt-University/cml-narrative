@@ -86,7 +86,6 @@
     export let prefillModelName: string = '';
 	export let allowFinishWithoutSubmission: boolean = false;
 	export let finishButtonLabel: string = 'Finish';
-	export let onFinish: () => void = () => {};
     
 	let predictions: number[] = [];
 
@@ -234,8 +233,12 @@
 	$: localizedTrainingStep = localizeProgressStep(trainingStep);
 	$: localizedTestingStep = localizeProgressStep(testingStep);
 
-	const handleFinish = () => {
-		onFinish();
+	const handleFinish = async () => {
+		if (uploading) {
+			return;
+		}
+
+		await uploadModel();
 	};
 
 	$: {
@@ -519,8 +522,8 @@
 	</div>
 {/if}
 
-{#if allowFinishWithoutSubmission}
-	<button class="traininator-finish-btn" on:click={handleFinish}>{finishButtonLabel}</button>
+{#if allowFinishWithoutSubmission && step == 9 && testAccuracy >= targetAccuracy}
+	<button class="traininator-finish-btn" on:click={handleFinish} disabled={uploading}>{finishButtonLabel}</button>
 {/if}
 
 {#if showAddDialog}

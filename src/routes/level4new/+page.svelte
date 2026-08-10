@@ -1126,20 +1126,6 @@
 				<TraininatorMain 
 					allowFinishWithoutSubmission={isFinalTraininatorReview}
 					finishButtonLabel={$settingsStore?.language === 'es' ? 'Terminar' : 'Finish'}
-					onFinish={() => {
-						if (!isFinalTraininatorReview) {
-							return;
-						}
-
-						const targetUrl = '/level4new?page=35&returnPage=35&showTablet=1';
-						studentProgressStore.update((progress) => {
-							progress.level4new_traininator_tried = true;
-							progress.last_visited = targetUrl;
-							return progress;
-						});
-
-						goto(targetUrl);
-					}}
 					onComplete={() => {
 						const targetUrl = isFinalTraininatorReview
 							? '/level4new?page=35&returnPage=35&showTablet=1'
