@@ -33,6 +33,7 @@
 	let microphoneDetectedLanguage: 'en-US' | 'es-ES' | null = null;
 	let activeVoiceLanguage: 'en-US' | 'es-ES' = 'en-US';
 	let availableSpeechVoices: SpeechSynthesisVoice[] = [];
+	let travelLogSequence = 0;
 
 	$: {
 		const defaultVoiceLanguage = $settingsStore?.language === 'es' ? 'es-ES' : 'en-US';
@@ -266,6 +267,11 @@
 		return normalized || 'No response received.';
 	};
 
+	const buildUniqueTravelLogDescription = (scopeKey: string, assistantKey: string, sender: 'user' | 'bot') => {
+		travelLogSequence += 1;
+		return `spot-bot-conversation-${scopeKey}-${assistantKey}-${Date.now()}-${travelLogSequence}-${sender}`;
+	};
+
 	const saveMessageToTravelLog = async (sender: 'user' | 'bot', text: unknown) => {
 		const trimmedText = normalizeTextValue(text).trim();
 		if (!trimmedText) {
@@ -277,7 +283,7 @@
 
 		try {
 			await DataService.TravelLog.submitTravelLog({
-				description: `spot-bot-conversation-${scopeKey}-${assistantKey}`,
+				description: buildUniqueTravelLogDescription(scopeKey, assistantKey, sender),
 				data: JSON.stringify({
 					sender,
 					text: trimmedText,
