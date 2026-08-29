@@ -220,20 +220,54 @@
 		minimized = !minimized;
 	};
 
+	const normalizeTextValue = (value: any): string => {
+		if (typeof value === 'string') {
+			return value;
+		}
+
+		if (Array.isArray(value)) {
+			return value
+				.map((entry) => normalizeTextValue(entry))
+				.filter((entry) => entry.length > 0)
+				.join('\n')
+				.trim();
+		}
+
+		if (value && typeof value === 'object') {
+			if (typeof value.text === 'string') return value.text;
+			if (typeof value.content === 'string') return value.content;
+			if (typeof value.message === 'string') return value.message;
+			if (typeof value.output === 'string') return value.output;
+			if (typeof value.reply === 'string') return value.reply;
+			if (typeof value.response === 'string') return value.response;
+
+			try {
+				return JSON.stringify(value);
+			} catch {
+				return '';
+			}
+		}
+
+		return value == null ? '' : String(value);
+	};
+
 	const extractBotText = (payload: any): string => {
 		if (!payload) return 'No response received.';
-		return (
+
+		const rawValue =
 			payload.response ??
 			payload.reply ??
 			payload.message ??
 			payload.output ??
 			payload.text ??
-			'No response received.'
-		);
+			payload;
+
+		const normalized = normalizeTextValue(rawValue).trim();
+		return normalized || 'No response received.';
 	};
 
-	const saveMessageToTravelLog = async (sender: 'user' | 'bot', text: string) => {
-		const trimmedText = text.trim();
+	const saveMessageToTravelLog = async (sender: 'user' | 'bot', text: unknown) => {
+		const trimmedText = normalizeTextValue(text).trim();
 		if (!trimmedText) {
 			return;
 		}
@@ -278,7 +312,7 @@
 		input = '';
 		errorMessage = '';
 		loading = true;
-		void saveMessageToTravelLog('user', prompt);
+		await saveMessageToTravelLog('user', prompt);
 
 		try {
 			const data = await DataService.Assistant.studentChat({
@@ -288,7 +322,7 @@
 			});
 			const botText = extractBotText(data);
 			messages = [...messages, { sender: 'bot', text: botText }];
-			void saveMessageToTravelLog('bot', botText);
+			await saveMessageToTravelLog('bot', botText);
 		} catch (error) {
 			const message = error instanceof Error ? error.message : 'Chatbot is unavailable right now.';
 			errorMessage = message;
