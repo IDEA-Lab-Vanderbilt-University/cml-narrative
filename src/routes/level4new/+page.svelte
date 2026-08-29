@@ -148,6 +148,26 @@
 	$: shouldAutoOpenTabletOnFinalPage = lineNumber === 35
 		&& getReturnPageFromQuery() === String(lineNumber)
 		&& (typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('showTablet') === '1' : false);
+	let lastTabletAutoOpenSearch = '';
+
+	$: if (shouldAutoOpenTabletOnFinalPage && typeof window !== 'undefined') {
+		const currentSearch = window.location.search;
+		if (lastTabletAutoOpenSearch !== currentSearch) {
+			lastTabletAutoOpenSearch = currentSearch;
+
+			setTimeout(() => {
+				const event = new CustomEvent('showTablet', {
+					bubbles: true
+				});
+
+				content?.dispatchEvent(event);
+			}, 0);
+
+			const params = new URLSearchParams(window.location.search);
+			params.delete('showTablet');
+			history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
+		}
+	}
 
     let content: HTMLDivElement | null;
 
@@ -158,7 +178,6 @@
 	let robotName = '';
 	let rejectionComment = '';
 	let teacherAgent = '';
-	let isNavigatingFromFinalDesignNotes = false;
 
 	let doSubmit = false;
 	let imageResponseModalShowFeedbackModal = false;
@@ -177,18 +196,6 @@
 				setTutorialStep(7);
 			}
 
-			if (line.id === 35 && params.get('returnPage') === String(line.id) && params.get('showTablet') === '1') {
-				setTimeout(() => {
-					const event = new CustomEvent('showTablet', {
-						bubbles: true
-					});
-
-					content?.dispatchEvent(event);
-				}, 0);
-
-				params.delete('showTablet');
-				history.replaceState(null, '', `${window.location.pathname}?${params.toString()}`);
-			}
 		}
 
 		// Load the travel logs for the robot design if they exist
@@ -1088,10 +1095,6 @@
 						robotdesign5: robotName
 					}}
 					onSuccess={(responses) => {
-						if (isNavigatingFromFinalDesignNotes) {
-							return;
-						}
-
 						robotProblem = responses['robotdesign1'];
 						robotHelps = responses['robotdesign2'];
 						robotCategories = responses['robotdesign3'];
@@ -1102,12 +1105,8 @@
 							|| (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('returnPage') === '35');
 
 						const targetUrl = shouldReturnToFinalPage
-							? '/level4new?page=35'
+							? '/level4new?page=35&returnPage=35&showTablet=1'
 							: '/level4new?page=23';
-
-						if (shouldReturnToFinalPage) {
-							isNavigatingFromFinalDesignNotes = true;
-						}
 
 						goto(targetUrl);
 					}}
