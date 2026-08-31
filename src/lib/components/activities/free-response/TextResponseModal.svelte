@@ -28,6 +28,7 @@
 	let canRecord = false;
 	let recordingItemId: string | null = null;
 	let recognition: any;
+	let hasInitialized = false; // Track if we've initialized from prefill
 
     export let onSuccess: (result: string | Record<string, string>) => void;
     export let id: string | undefined = undefined;
