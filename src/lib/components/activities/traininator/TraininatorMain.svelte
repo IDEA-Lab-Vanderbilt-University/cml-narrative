@@ -21,7 +21,7 @@
 	import TraininatorBoostersList from '$lib/components/activities/traininator/TraininatorBoostersList.svelte';
 	import TraininatorModelMatrix from '$lib/components/activities/traininator/TraininatorModelMatrix.svelte';
 	import type { TraininatorModelMessage } from '$lib/types/UserData';
-	import { studentDataStore } from '$lib/utils/stores/store';
+	import { settingsStore, studentDataStore } from '$lib/utils/stores/store';
 	import { PUBLIC_BACKEND_API_URL } from '$env/static/public';
 	import { RequestFactory } from '$lib/utils/network/RequestFactory';
 	import { get } from 'svelte/store';
@@ -39,7 +39,7 @@
 	const startTraining = () => {
 		for (let i = 0; i < trainingSets.length; i++) {
 			if (trainingSets[i].length === 0) {
-				alert('You need at least one image for each category');
+				alert($settingsStore?.language === 'es' ? 'Necesitas al menos una imagen para cada categoría' : 'You need at least one image for each category');
 				return;
 			}
 		}
@@ -72,18 +72,44 @@
 	let trainingProgress = 0;
 	let trainingStep = 'Loading Training Data...';
 	let isTraining = false;
+	let localizedTrainingStep = '';
 
 	let showSetThresholdModal = true;
 	let targetAccuracy = 90;
 	let testingProgress = 0;
 	let testingStep = 'Loading Testing Data...';
 	let isTesting = false;
+	let localizedTestingStep = '';
 
     export let onComplete: (msg: TraininatorModelMessage) => void = () => {};
     export let prefillClassNames: string[] = [];
     export let prefillModelName: string = '';
+	export let allowFinishWithoutSubmission: boolean = false;
+	export let finishButtonLabel: string = 'Finish';
     
 	let predictions: number[] = [];
+
+	const localizeProgressStep = (stepLabel: string) => {
+		if ($settingsStore?.language !== 'es') {
+			return stepLabel;
+		}
+
+		const normalized = stepLabel.trim().toLowerCase();
+		if (normalized === 'loading training data...') {
+			return 'Cargando datos de entrenamiento...';
+		}
+		if (normalized === 'training complete!') {
+			return '¡Entrenamiento completo!';
+		}
+		if (normalized === 'loading testing data...') {
+			return 'Cargando datos de prueba...';
+		}
+		if (normalized === 'testing complete!') {
+			return '¡Prueba completada!';
+		}
+
+		return stepLabel;
+	};
 
 	let activeTestImg = 0;
 	let testLabels: number[] = [];
@@ -108,6 +134,19 @@
 	let uploading = false;
 
 	async function uploadModel() {
+		let student_id = get(studentDataStore).id;
+
+		const fallbackMessage: TraininatorModelMessage = {
+			student_id,
+			name: modelName,
+			metadata_json: {
+				labels: classes,
+				imageSize: 224,
+				timeStamp: new Date().toISOString(),
+				localOnly: true
+			}
+		};
+
 		try {
 			// Prevent multiple uploads
 			if (uploading) {
@@ -116,10 +155,9 @@
 
 			uploading = true;
 
-            let student_id = get(studentDataStore).id;
-
             if (!student_id) {
                 console.error("Student ID is not available. Upload failed.");
+				onComplete(fallbackMessage);
                 return;
             }
 
@@ -146,11 +184,12 @@
 			);
 
 			// model.save(`${PUBLIC_BACKEND_API_URL}/traininator-models/${res.id}/upload`);
-			saveModel(model, `${PUBLIC_BACKEND_API_URL}/traininator-models/${res.id}/upload`);
+			await saveModel(model, `${PUBLIC_BACKEND_API_URL}/traininator-models/${res.id}/upload`);
             onComplete(res);
 		} catch (error) {
 			alert('Error uploading model');
 			console.log(error);
+			onComplete(fallbackMessage);
 		} finally {
 			uploading = false;
 		}
@@ -190,6 +229,17 @@
 			});
 		}
 	}
+
+	$: localizedTrainingStep = localizeProgressStep(trainingStep);
+	$: localizedTestingStep = localizeProgressStep(testingStep);
+
+	const handleFinish = async () => {
+		if (uploading) {
+			return;
+		}
+
+		await uploadModel();
+	};
 
 	$: {
 		if (step == 7 && !isTesting) {
@@ -305,8 +355,8 @@
 <!-- <Tablet showMeter={false}> -->
 {#if step >= 4}
 	<div id="header">
-		<div class={step < 6 ? 'activestep' : ''}>Training</div>
-		<div class={step >= 6 ? 'activestep' : ''}>Testing</div>
+		<div class={step < 6 ? 'activestep' : ''}>{$settingsStore?.language === 'es' ? 'Entrenamiento' : 'Training'}</div>
+		<div class={step >= 6 ? 'activestep' : ''}>{$settingsStore?.language === 'es' ? 'Prueba' : 'Testing'}</div>
 	</div>
 {/if}
 
@@ -319,22 +369,22 @@
 {:else if step == 4}
 	<div id="traininatorbody">
 		<div id="left">
-			<div class="header">Categories</div>
+			<div class="header">{$settingsStore?.language === 'es' ? 'Categorías' : 'Categories'}</div>
 			<ul id="categories">
 				{#each classes as cls, i}
 					<li><a href="#{cls}"><span>{cls}</span> {trainingSets[i]?.length}</a></li>
 				{/each}
 			</ul>
-			<div class="header">Model Booster (x2)</div>
+			<div class="header">{$settingsStore?.language === 'es' ? 'Impulsor del modelo (x2)' : 'Model Booster (x2)'}</div>
 			<TraininatorBoostersList
 				onSelect={(b) => {
 					booster = b;
 				}} />
 
-			<button id="trainButton" on:click={startTraining}>Train Model</button>
+			<button id="trainButton" on:click={startTraining}>{$settingsStore?.language === 'es' ? 'Entrenar modelo' : 'Train Model'}</button>
 		</div>
 		<div id="right">
-			<div class="header">Training Data</div>
+			<div class="header">{$settingsStore?.language === 'es' ? 'Datos de entrenamiento' : 'Training Data'}</div>
 			<div id="trainingSets">
 				{#each classes as cls, i}
 					<TraininatorImageSet
@@ -355,20 +405,20 @@
 		</div>
 	</div>
 {:else if step == 5}
-	<div class="header">Training Model</div>
-	<TraininatorProgressBar {trainingProgress} {trainingStep} />
+	<div class="header">{$settingsStore?.language === 'es' ? 'Entrenando modelo' : 'Training Model'}</div>
+	<TraininatorProgressBar {trainingProgress} trainingStep={localizedTrainingStep} />
 {:else if step == 6}
 	<div id="traininatorbody">
 		<div id="left">
-			<div class="header">Model Performance</div>
+			<div class="header">{$settingsStore?.language === 'es' ? 'Rendimiento del modelo' : 'Model Performance'}</div>
 			<div id="modelPerformance">
-				Should be correct <br />
+				{$settingsStore?.language === 'es' ? 'Debe acertar' : 'Should be correct'} <br />
 				<span id="testgoal">{targetAccuracy}%</span> <br />
-				of the time <br />
-				(or better!)
+				{$settingsStore?.language === 'es' ? 'del tiempo' : 'of the time'} <br />
+				{$settingsStore?.language === 'es' ? '(¡o mejor!)' : '(or better!)'}
 			</div>
 
-			<div class="header">Model Matrix:</div>
+			<div class="header">{$settingsStore?.language === 'es' ? 'Matriz del modelo:' : 'Model Matrix:'}</div>
 			<TraininatorModelMatrix
 				{classes}
 				modelMatrix={Array(classes.length).fill(Array(classes.length).fill('-'))} />
@@ -377,17 +427,17 @@
 				id="trainButton"
 				on:click={() => {
 					if (testSets.length === 0) {
-						alert('You need to add images for testing');
+						alert($settingsStore?.language === 'es' ? 'Necesitas agregar imágenes para la prueba' : 'You need to add images for testing');
 						return;
 					}
 					step = 7;
-				}}>Test Model</button>
+				}}>{$settingsStore?.language === 'es' ? 'Probar modelo' : 'Test Model'}</button>
 		</div>
 		<div id="right">
-			<div class="header">Testing Model</div>
+			<div class="header">{$settingsStore?.language === 'es' ? 'Probando modelo' : 'Testing Model'}</div>
 			<div id="trainingSets">
 				<TraininatorImageSet
-					className="Test Set"
+					className={$settingsStore?.language === 'es' ? 'Conjunto de prueba' : 'Test Set'}
 					bind:imgs={testSets}
 					allowAdd={true}
 					allowRemove={true}
@@ -404,25 +454,27 @@
 		</div>
 	</div>
 {:else if step == 7}
-	<div class="header">Testing Model</div>
-	<TraininatorProgressBar trainingProgress={testingProgress} trainingStep={testingStep} />
+	<div class="header">{$settingsStore?.language === 'es' ? 'Probando modelo' : 'Testing Model'}</div>
+	<TraininatorProgressBar trainingProgress={testingProgress} trainingStep={localizedTestingStep} />
 {:else if step == 8}
 	<TraininatorCard
 		prediction={predictions[activeTestImg]}
 		image={testSets[activeTestImg]}
 		{classes}
+		promptText={$settingsStore?.language === 'es' ? '¿A qué categoría pertenece esta imagen?' : 'What category does this image belong to?'}
+		buttonTextOverrides={$settingsStore?.language === 'es' ? classes.map((className) => `Pertenece a ${className}`) : []}
 		choice={nextTestImage} />
 {:else if step == 9}
 	<div id="traininatorbody">
 		<div id="left">
 			<div id="left">
-				<div class="header">Model Performance</div>
+				<div class="header">{$settingsStore?.language === 'es' ? 'Rendimiento del modelo' : 'Model Performance'}</div>
 				<div id="modelPerformance">
-					Should be correct <br />
+					{$settingsStore?.language === 'es' ? 'Debe acertar' : 'Should be correct'} <br />
 					<span id="testgoal">{targetAccuracy}%</span> <br />
-					of the time <br />
-					(or better!)<br />
-					Model Accuracy:
+					{$settingsStore?.language === 'es' ? 'del tiempo' : 'of the time'} <br />
+					{$settingsStore?.language === 'es' ? '(¡o mejor!)' : '(or better!)'}<br />
+					{$settingsStore?.language === 'es' ? 'Precisión del modelo:' : 'Model Accuracy:'}
 					<span
 						id="testAccuracy"
 						style="background-color: {testAccuracy >= targetAccuracy ? '#00ff00' : '#ff0000'}"
@@ -430,7 +482,7 @@
 					{#if testAccuracy >= targetAccuracy}😊{:else}😞{/if}
 				</div>
 
-				<div class="header">Model Matrix:</div>
+				<div class="header">{$settingsStore?.language === 'es' ? 'Matriz del modelo:' : 'Model Matrix:'}</div>
 				<TraininatorModelMatrix
 					{classes}
 					modelMatrix={testModelMatrix.map((r) => r.map(String))}
@@ -440,14 +492,14 @@
 				id="trainButton"
 				on:click={() => {
 					restartTraining();
-				}}>Re-train Model</button>
+				}}>{$settingsStore?.language === 'es' ? 'Reentrenar modelo' : 'Re-train Model'}</button>
 		</div>
 		<div id="right">
-			<div class="header">Test Set Results:</div>
+			<div class="header">{$settingsStore?.language === 'es' ? 'Resultados del conjunto de prueba:' : 'Test Set Results:'}</div>
 			<div id="trainingSets">
 				<div class="trainingSet">
 					<TraininatorImageSet
-						className="Test Set"
+						className={$settingsStore?.language === 'es' ? 'Conjunto de prueba' : 'Test Set'}
 						imgs={testSets}
 						booster={'none'}
 						labels={testLabels.map(
@@ -463,11 +515,15 @@
 					/>
 				</div>
 			</div>
-			{#if testAccuracy >= targetAccuracy}
-				<button id="trainButton" on:click={uploadModel}>I'm done!</button>
+			{#if testAccuracy >= targetAccuracy && !allowFinishWithoutSubmission}
+				<button id="trainButton" on:click={uploadModel}>{$settingsStore?.language === 'es' ? '¡Terminé!' : "I'm done!"}</button>
 			{/if}
 		</div>
 	</div>
+{/if}
+
+{#if allowFinishWithoutSubmission && step == 9 && testAccuracy >= targetAccuracy}
+	<button class="traininator-finish-btn" on:click={handleFinish} disabled={uploading}>{finishButtonLabel}</button>
 {/if}
 
 {#if showAddDialog}
@@ -476,7 +532,7 @@
 	<div id="addDialog" on:click={() => (showAddDialog = false)} role="dialog">
 		<div id="addDialogInner" on:click={(e) => e.stopPropagation()} role="dialog">
 			<div class="header">
-				Add Images for {selectedClassIndex != -1 ? classes[selectedClassIndex] : 'testing'}
+				{$settingsStore?.language === 'es' ? 'Agregar imágenes para' : 'Add Images for'} {selectedClassIndex != -1 ? classes[selectedClassIndex] : ($settingsStore?.language === 'es' ? 'pruebas' : 'testing')}
 			</div>
 			<Dropzone
 				accept={['image/*']}
@@ -501,12 +557,16 @@
 						reader.readAsDataURL(file);
 					}
 					showAddDialog = false;
-				}} />
+				}}>
+				{$settingsStore?.language === 'es'
+					? 'Arrastra y suelta archivos aquí, o haz clic para seleccionar archivos'
+					: "Drag 'n' drop some files here, or click to select files"}
+			</Dropzone>
                 <button
                     id="cancelButton"
                     on:click={() => {
                         showAddDialog = false;
-                    }}>Cancel</button>
+                    }}>{$settingsStore?.language === 'es' ? 'Cancelar' : 'Cancel'}</button>
 		</div>
 	</div>
 {/if}
@@ -514,13 +574,13 @@
 {#if step == 6 && showSetThresholdModal}
 	<div id="addDialog">
 		<div id="addDialogInner">
-			<div class="header">Set How Accurate Your Model Should Be</div>
+			<div class="header">{$settingsStore?.language === 'es' ? 'Define qué tan preciso debe ser tu modelo' : 'Set How Accurate Your Model Should Be'}</div>
 			<ThresholdSlider bind:threshold={targetAccuracy} minThreshold={50} />
 			<button
 				id="trainButton"
 				on:click={() => {
 					showSetThresholdModal = false;
-				}}>Confirm</button>
+				}}>{$settingsStore?.language === 'es' ? 'Confirmar' : 'Confirm'}</button>
 		</div>
 	</div>
 {/if}
@@ -666,6 +726,33 @@
 
 	#categories a:hover {
 		background-color: #f0f0f044;
+	}
+
+	.traininator-finish-btn {
+		position: fixed;
+		right: 2.5rem;
+		bottom: 1.5rem;
+		z-index: 200;
+		background: radial-gradient(farthest-corner at bottom right, #49c5ff 75%, #fff 100%);
+		background-color: #49c5ff;
+		color: #111;
+		border: 2px solid #289dd3;
+		height: 5.5vh;
+		min-height: 46px;
+		border-radius: 999px;
+		padding: 0 1.5rem;
+		font-size: 1.35rem;
+		font-weight: 700;
+		cursor: pointer;
+		transition: 0.2s;
+	}
+
+	.traininator-finish-btn:hover {
+		transform: scale(1.05);
+	}
+
+	.traininator-finish-btn:active {
+		transform: scale(0.95);
 	}
 
 	#addDialog {

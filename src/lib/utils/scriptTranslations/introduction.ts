@@ -64,7 +64,7 @@ export const introductionTranslations = {
 			main: [
 				{ id: 1, dialog: '¡Bienvenido a la Agencia SPOT! Mi nombre es Capitán Storm.' },
 				{ id: 2, dialog: '¡Recientemente, nuestro equipo de científicos e investigadores encontró una forma de viajar al futuro!' },
-				{ id: 3, dialog: '¡Me alegra que ahora seas parte de nuestro equipo! Ahora nuestros agentes te ayudarán a comenzar y configurarte en el sistema SPOT.' },
+				{ id: 3, dialog: '¡Estamos muy contentos de que ahora seas parte de nuestro equipo! Ahora nuestros agentes te ayudarán a comenzar y a configurarte en el sistema SPOT.' },
 				{ id: 4, dialog: '¡La Agente Fern es nuestra brillante física que desarrolló una forma de viajar en el tiempo!' },
 				{ id: 5, dialog: '¡El Agente Gear es nuestro ingeniero que diseñó y construyó nuestros robots en la agencia SPOT!' },
 				{ id: 6, dialog: 'La Agente Spark es nuestra desarrolladora de software. ¡Ella escribe el código para toda nuestra tecnología SPOT!' },
@@ -74,7 +74,7 @@ export const introductionTranslations = {
 				{ id: 10, dialog: 'Además de la física, a la Agente Fern le encantan las plantas y todo lo que crece en la naturaleza.' },
 				{ id: 11, dialog: '¡El Agente Gear se inspira en las motocicletas!' },
 				{ id: 12, dialog: '¿Qué te inspira? ¡Estoy seguro de que elegirás un gran nombre de agente secreto!' },
-				{ id: 13, dialog: '¡Abre tu tableta SPOT. La usarás para hacer un seguimiento de tu misión al futuro y comunicarte con el control de misión. ¡Configuremos la tuya!' }
+				{ id: 13, dialog: '¡Abre tu tableta SPOT. La usarás para llevar un registro de tu misión hacia el futuro y comunicarte con el Control de la Misión. Vamos a configurarla.' }
 			],
 			welcome: [
 				{ id: 1, dialog: 'Ahora, echemos un vistazo a todas las funciones de tu tableta SPOT.' }
@@ -91,34 +91,35 @@ export const introductionTranslations = {
 				{ id: 9, dialog: '¡Ahora tienes toda la información sobre cómo usar la tableta SPOT!' }
 			],
 			training: [
-				{ id: 1, dialog: '¡Es hora de tu entrenamiento de Agente SPOT!' },
-				{ id: 6, dialog: '¿Has oído hablar de los algoritmos?' },
-				{ id: 8, dialog: 'Gear, ¿sobrecargaste el generador otra vez?' },
-				{ id: 9, dialog: '¡Ups, lo siento! ¡Lo estoy arreglando ahora!' },
-				{ id: 10, dialog: 'De todos modos, volviendo a los algoritmos. ¿Qué crees que es un algoritmo?' },
+				{ id: 1, dialog: '¡Es hora de tu entrenamiento como Agente SPOT!' },
+				{ id: 6, dialog: '¿Alguna vez has oído hablar de los algoritmos?' },
+				{ id: 8, dialog: '¿Gear? ¿Volviste a sobrecargar el generador?' },
+				{ id: 9, dialog: '¡No pasa nada! ¡Lo estoy arreglando ahora!' },
+				{ id: 10, dialog: 'En fin, volvamos a los algoritmos. ¿Qué crees que es un algoritmo?' },
 				{ id: 11, dialog: 'No hay respuesta correcta o incorrecta. Necesitamos saber lo que sabes para prepararte a ti y a tu Bot Buddy para tu viaje.' },
 				{ id: 12, dialog: '¡Pensamientos interesantes, Agente {agentName}!' },
 				{ id: 14, dialog: 'Recuerda, no hay respuesta correcta o incorrecta, solo necesitamos saber lo que sabes para prepararte para tu misión.' },
-				{ id: 15, dialog: 'Una cosa más antes de irte. Necesitamos saber más sobre lo que piensas respondiendo algunas preguntas. Abre tu tableta en la parte superior de tu pantalla y completa la encuesta para contarnos más sobre ti.' },
-				{ id: 16, dialog: '¡WAHOOO! ¡Yay, {agentName}!' },
+				{ id: 15, dialog: 'Una cosa más antes de que te vayas. Necesitamos saber más sobre lo que piensas respondiendo a algunas preguntas. Abre tu tableta y completa la encuesta para contarnos más sobre ti.' },
+				{ id: 16, dialog: '¡Woohoo, yay, agente! ¡Woohoo, yay!' },
 				{ id: 18, dialog: '¡Felicitaciones, has ganado tu insignia de Agente en Entrenamiento! ¡Ahora eres un Agente SPOT oficial! ¡Revisa tu tableta SPOT para ver tu nueva insignia!' }
 			],
 			botBuddy: [
 				{ id: 1, dialog: '¡Gracias Agente Spark! ¡Parece que nuestro nuevo agente en entrenamiento está listo para ir al laboratorio!' },
-				{ id: 2, dialog: '¡Qué bueno verte, Capitán Storm! ¡Bienvenido, Agente {agentName}! ¡No puedo esperar para contarte sobre Bot Buddy!' },
+				{ id: 2, dialog: '¡Qué gusto verte, Capitán Storm! ¡Bienvenido, Agente {agentName}! ¡No puedo esperar para contarte sobre Bot Buddy!' },
 				{ id: 3, dialog: 'Tu Bot Buddy será tu compañero durante esta misión. El Bot Buddy puede proporcionar pistas y recibir instrucciones del Control de Misión.' },
 				{ id: 4, dialog: 'Agente Fern... ¿dónde está Bot Buddy?' },
 				{ id: 5, dialog: '¡¡No lo sé!!' },
 				{ id: 6, dialog: '¡Lo tengo, Capitán Storm! Perdón por llegar tarde, ¡quería que nuestro nuevo agente tuviera el modelo actualizado!' },
 				{ id: 7, dialog: '$$((( ooo!>>> =+=; $^(( %&<!!' },
 				{ id: 8, dialog: '*CRASH* \n*BANG*' },
-				{ id: 9, dialog: '¡Hola! ¡Soy Bot Buddy! Seré tu asistente robot.' },
+				{ id: 9, dialog: 'Beh bu. ¡Hola, soy Bot Buddy. Seré tu asistente robótico.' },
 				{ id: 10, dialog: '¡Excelente! ¡Gracias Agente Gear y Agente Fern!' },
 				{ id: 11, dialog: 'Agente {agentName}, el Control de Misión necesita que completes algo de entrenamiento antes de ir a la misión.' },
-				{ id: 12, dialog: 'Este entrenamiento nos ayuda a entender lo que sabes sobre tecnología e Inteligencia Artificial.' },
-				{ id: 13, dialog: 'Luego, el Equipo Técnico cargará a tu Bot Buddy con información y conocimiento adicional para ayudarte en tu misión.' },
+				{ id: 12, dialog: 'Este entrenamiento nos ayuda a comprender lo que sabes sobre la tecnología y la inteligencia artificial.' },
+				{ id: 13, dialog: 'Luego, el equipo técnico cargará a tu Bot Buddy con información y conocimientos adicionales para ayudarte en tu misión. ¿Verdad, equipo?' },
 				{ id: 14, dialog: '¡Pueden contar con nosotros!' },
-				{ id: 15, dialog: '¡Gracias, equipo! Al final de este primer entrenamiento, recibirás tu primera insignia. ¡Comencemos!' }
+				{ id: 15, dialog: '¡Gracias, equipo! Agente, al final de este primer entrenamiento, recibirás tu primera insignia. ¡Comencemos!' }
 			]
 	}
+
 } as const;

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+    import { languageStore } from '$lib/utils/stores/languageStore';
 	import { studentProgressStore } from '$lib/utils/stores/store.js';
+    import type { Language } from '$lib/utils/translations';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
     import { onMount, onDestroy } from 'svelte';
     import * as tf from '@tensorflow/tfjs';
@@ -21,7 +23,52 @@
     // Before the second training set is added, Bot Buddy will remind the user to add it
     let showBotBuddyDialog = false;
 
+    let currentLanguage: Language = 'en';
+    languageStore.subscribe((lang: Language) => {
+        currentLanguage = lang;
+    });
+
     const CLASS_NAMES = ['Human Face', 'Not a Human Face'];
+
+    $: localizedClassNames = currentLanguage === 'es'
+        ? ['Rostro humano', 'No es un rostro humano']
+        : CLASS_NAMES;
+
+    let localizedClassNames = CLASS_NAMES;
+
+    const localizeTraininatorStep = (stepText: string): string => {
+        if (currentLanguage !== 'es') return stepText;
+
+        if (stepText === 'Loading Training Data...' || stepText === 'Loading training data...') {
+            return 'Cargando datos de entrenamiento...';
+        }
+        if (stepText === 'Training data loaded!') {
+            return '¡Datos de entrenamiento cargados!';
+        }
+        if (stepText === 'Model Booster!') {
+            return '¡Impulsor de modelo!';
+        }
+        if (stepText === 'Training Model...') {
+            return 'Entrenando modelo...';
+        }
+        if (stepText === 'Training Complete!' || stepText === 'Model trained!') {
+            return '¡Entrenamiento completo!';
+        }
+        if (stepText === 'Loading Testing Data...' || stepText === 'Loading test data...') {
+            return 'Cargando datos de prueba...';
+        }
+        if (stepText.startsWith('Predicting image ')) {
+            return stepText.replace('Predicting image ', 'Prediciendo imagen ');
+        }
+        if (stepText === 'Finalizing predictions...') {
+            return 'Finalizando predicciones...';
+        }
+        if (stepText === 'Testing Complete!') {
+            return '¡Pruebas completas!';
+        }
+
+        return stepText;
+    };
 
     let trainingSets: Record<string, string[]> = {
         [CLASS_NAMES[0]]: [...trainingSetImgs],
@@ -52,12 +99,12 @@
         set2Added = false;
 
         trainingProgress = 0;
-        trainingStep = 'Loading Training Data...';
+        trainingStep = localizeTraininatorStep('Loading Training Data...');
         isTraining = false;
         booster = 'none';
         
         testingProgress = 0;
-        testingStep = 'Loading Testing Data...';
+        testingStep = localizeTraininatorStep('Loading Testing Data...');
         isTesting = false;
 
         toLabel = [];
@@ -93,12 +140,12 @@
     });
 
     let trainingProgress = 0;
-    let trainingStep = 'Loading Training Data...';
+    let trainingStep = localizeTraininatorStep('Loading Training Data...');
     let isTraining = false;
     let booster: Booster = 'none';
     
     let testingProgress = 0;
-    let testingStep = 'Loading Testing Data...';
+    let testingStep = localizeTraininatorStep('Loading Testing Data...');
     let isTesting = false;
 
     let toLabel: Record<number, string>[] = [];
@@ -147,11 +194,11 @@
                     }
                 },
                 (step) => {
-                    trainingStep = step;
+                    trainingStep = localizeTraininatorStep(step);
                 }
             ).then((mdl) => {
                 trainingProgress = 100;
-                trainingStep = 'Training Complete!';
+                trainingStep = localizeTraininatorStep('Training Complete!');
 
 
                 if(!mdl) {
@@ -181,12 +228,12 @@
                     }
                 },
                 (step) => {
-                    testingStep = step;
+                    testingStep = localizeTraininatorStep(step);
                 }
             ).then((preds) => {
 
                 testingProgress = 100;
-                testingStep = 'Testing Complete!';
+                testingStep = localizeTraininatorStep('Testing Complete!');
 
                 if(!preds) {
                     console.log('Error testing model');
@@ -221,83 +268,84 @@
     }
 </script>
 
-<Tablet showMeter={false} showBottomButtons={false}>
-    <div id='header'><div class={step < 3? "activestep" : ""}>Training</div><div class={step >= 3? "activestep" : ""}>Testing</div></div>
+<Tablet showMeter={false} showBottomButtons={false} languageMenuPosition="right">
+    <div id='header'><div class={step < 3? "activestep" : ""}>{currentLanguage === 'es' ? 'Entrenamiento' : 'Training'}</div><div class={step >= 3? "activestep" : ""}>{currentLanguage === 'es' ? 'Pruebas' : 'Testing'}</div></div>
 
     {#if step == 1}
         <div id="traininatorbody">
             <div id="left">
-                <div class="header">Categories</div>
+                <div class="header">{currentLanguage === 'es' ? 'Categorías' : 'Categories'}</div>
                 <ul id="categories">
-                    {#each CLASS_NAMES as className}
-                        <li><a href={'#' + className}><span>{className}</span> {trainingSets[className].length}</a></li>
+                    {#each CLASS_NAMES as className, i}
+                        <li><a href={'#' + className}><span>{localizedClassNames[i]}</span> {trainingSets[className].length}</a></li>
                     {/each}
                 </ul>
-                <div class="header">Model Booster (x2)</div>
+                <div class="header">{currentLanguage === 'es' ? 'Impulsor de modelo (x2)' : 'Model Booster (x2)'}</div>
                 <TraininatorBoostersList onSelect={(b) => {booster = b;}} />
 
-                <button id="trainButton" on:click={startTraining}>Train Model</button>
+                <button id="trainButton" on:click={startTraining}>{currentLanguage === 'es' ? 'Entrenar modelo' : 'Train Model'}</button>
             </div>
             <div id="right">
-                <div class="header">Training Data</div>
+                <div class="header">{currentLanguage === 'es' ? 'Datos de entrenamiento' : 'Training Data'}</div>
                 <div id="trainingSets">
-                    <TraininatorImageSet className="{CLASS_NAMES[0]}" imgs={trainingSets[CLASS_NAMES[0]]} booster={booster} allowAdd={!set2Added} onAdd={() => { showAddDialog = true}} />
-                    <TraininatorImageSet className="{CLASS_NAMES[1]}" imgs={trainingSets[CLASS_NAMES[1]]} booster={booster} />
+                    <TraininatorImageSet className={localizedClassNames[0]} imgs={trainingSets[CLASS_NAMES[0]]} booster={booster} allowAdd={!set2Added} onAdd={() => { showAddDialog = true}} />
+                    <TraininatorImageSet className={localizedClassNames[1]} imgs={trainingSets[CLASS_NAMES[1]]} booster={booster} />
                 </div>
             </div>
         </div>
 
     {:else if step == 2}
-        <div class="header">Training Model</div>
+        <div class="header">{currentLanguage === 'es' ? 'Entrenando modelo' : 'Training Model'}</div>
         <TraininatorProgressBar trainingProgress={trainingProgress} trainingStep={trainingStep} />
     {:else if step == 3}
         <div id="traininatorbody">
             <div id="left">
-                <div class="header">Model Performance</div>
+                <div class="header">{currentLanguage === 'es' ? 'Rendimiento del modelo' : 'Model Performance'}</div>
                 <div id="modelPerformance">
-                    Should be correct <br/>
+                    {currentLanguage === 'es' ? 'Debe acertar' : 'Should be correct'} <br/>
                     <span id="testgoal">90%</span> <br/>
-                    of the time <br/>
-                    (or better!)
+                    {currentLanguage === 'es' ? 'la mayor parte del tiempo' : 'of the time'} <br/>
+                    {currentLanguage === 'es' ? '(¡o mejor!)' : '(or better!)'}
                 </div>
 
-                <div class="header">Model Matrix:</div>
-                <TraininatorModelMatrix classes={CLASS_NAMES} modelMatrix={[
+                <div class="header">{currentLanguage === 'es' ? 'Matriz del modelo:' : 'Model Matrix:'}</div>
+                <TraininatorModelMatrix classes={localizedClassNames} modelMatrix={[
                     ['-', '-'],
                     ['-', '-']
                 ]} />
 
-                <button id="trainButton" class="testButton" on:click={() => {step = 4;}}>Test Model</button>
+                <button id="trainButton" class="testButton" on:click={() => {step = 4;}}>{currentLanguage === 'es' ? 'Probar modelo' : 'Test Model'}</button>
             </div>
             <div id="right">
-                <div class="header">Testing Model</div>
+                <div class="header">{currentLanguage === 'es' ? 'Probando modelo' : 'Testing Model'}</div>
                 <div id="trainingSets">
-                    <TraininatorImageSet className="Test Set 1" imgs={testSet1Imgs} booster={'none'} />
+                    <TraininatorImageSet className={currentLanguage === 'es' ? 'Conjunto de prueba 1' : 'Test Set 1'} imgs={testSet1Imgs} booster={'none'} />
                 </div>
             </div>
         </div>
     {:else if step == 4}
-        <div class="header">Testing Model</div>
+        <div class="header">{currentLanguage === 'es' ? 'Probando modelo' : 'Testing Model'}</div>
         <TraininatorProgressBar trainingProgress={testingProgress} trainingStep={testingStep} />
     {:else if step == 5}
-        <TraininatorCard prediction={predictions[activeTestImg]} image={testSet1Imgs[activeTestImg]} classes={CLASS_NAMES} choice={nextTestImage} 
-            buttonTextOverrides={["It's a Human Face", "It's Not a Human Face"]}
+        <TraininatorCard prediction={predictions[activeTestImg]} image={testSet1Imgs[activeTestImg]} classes={localizedClassNames} choice={nextTestImage}
+            promptText={currentLanguage === 'es' ? '¿A qué categoría pertenece esta imagen?' : 'What category does this image belong to?'}
+            buttonTextOverrides={currentLanguage === 'es' ? ['Es un rostro humano', 'No es un rostro humano'] : ["It's a Human Face", "It's Not a Human Face"]}
         />
     {:else if step == 6}
         <div id="traininatorbody">
             <div id="left">
                 <div id="left">
-                    <div class="header">Model Performance</div>
+                    <div class="header">{currentLanguage === 'es' ? 'Rendimiento del modelo' : 'Model Performance'}</div>
                     <div id="modelPerformance">
-                        Should be correct <br/>
+                        {currentLanguage === 'es' ? 'Debe acertar' : 'Should be correct'} <br/>
                         <span id="testgoal">90%</span> <br/>
-                        of the time <br/>
-                        (or better!)<br/>
-                        Model Accuracy: <span id="testAccuracy" style="background-color: {testAccuracy >= 90? '#00ff00': '#ff0000'}">{testAccuracy.toFixed(2)}%</span> {#if testAccuracy >= 90}😊{:else}😞{/if}
+                        {currentLanguage === 'es' ? 'la mayor parte del tiempo' : 'of the time'} <br/>
+                        {currentLanguage === 'es' ? '(¡o mejor!)' : '(or better!)'}<br/>
+                        {currentLanguage === 'es' ? 'Precisión del modelo:' : 'Model Accuracy:'} <span id="testAccuracy" style="background-color: {testAccuracy >= 90? '#00ff00': '#ff0000'}">{testAccuracy.toFixed(2)}%</span> {#if testAccuracy >= 90}😊{:else}😞{/if}
                     </div>
 
-                    <div class="header">Model Matrix:</div>
-                    <TraininatorModelMatrix classes={CLASS_NAMES} modelMatrix={[
+                    <div class="header">{currentLanguage === 'es' ? 'Matriz del modelo:' : 'Model Matrix:'}</div>
+                    <TraininatorModelMatrix classes={localizedClassNames} modelMatrix={[
                         ["✓ " + truePositives, "✗ " + falseNegatives],
                         ["✗ " + falsePositives, "✓ " + trueNegatives]
                     ]}
@@ -310,18 +358,18 @@
                 </div>
             </div>
             <div id="right">
-                <div class="header">Test Set 1 Results:</div>
+                <div class="header">{currentLanguage === 'es' ? 'Resultados del conjunto de prueba 1:' : 'Test Set 1 Results:'}</div>
                 <div id="testingSetsPost">
                     <div class="trainingSet">
-                        <TraininatorImageSet className="Test Set 1" imgs={testSet1Imgs} booster={'none'} 
-                            labels={testLabels.map((label, i) => (label === predictions[i] ? '✓ ': '✗ ') + CLASS_NAMES[predictions[i]])} 
+                        <TraininatorImageSet className={currentLanguage === 'es' ? 'Conjunto de prueba 1' : 'Test Set 1'} imgs={testSet1Imgs} booster={'none'} 
+                            labels={testLabels.map((label, i) => (label === predictions[i] ? '✓ ': '✗ ') + localizedClassNames[predictions[i]])} 
                             labelClassess={testLabels.map((label, i) => label === predictions[i] ? 'correct' : 'incorrect')}
                             allowRelabel={true} onRelabel={(i) => { activeTestImg = i; relabling = true; step = 5; }}
                         />
                     </div>
                 </div>
                 <div>
-                    <button id="trainButton" on:click={() => {restartTraining()}}>Train Again</button>
+                    <button id="trainButton" on:click={() => {restartTraining()}}>{currentLanguage === 'es' ? 'Entrenar de nuevo' : 'Train Again'}</button>
 
                     <button id="trainButton" on:click={() => {
                             studentProgressStore.update((data) => {
@@ -331,7 +379,7 @@
                             goto('/level3/outro?page=1');
                         }}
                         disabled={testAccuracy < 90}
-                        >I'm done!</button>           
+                        >{currentLanguage === 'es' ? '¡Terminé!' : "I'm done!"}</button>           
                 </div>
             </div>
         </div>
@@ -340,11 +388,11 @@
     {#if showAddDialog} 
         <div id="addDialog">
             <div id="addDialogInner">
-                <div class="header">Add Training Set Images...</div>
+                <div class="header">{currentLanguage === 'es' ? 'Agregar imágenes al conjunto de entrenamiento...' : 'Add Training Set Images...'}</div>
                 <div id="trainingSets">
-                    <TraininatorImageSet className="{CLASS_NAMES[0]}" imgs={trainingSet2FaceImgs} booster={booster} />
+                    <TraininatorImageSet className={localizedClassNames[0]} imgs={trainingSet2FaceImgs} booster={booster} />
                 </div>
-                <button id="trainButton" on:click={fakeUpload}>Upload</button>
+                <button id="trainButton" on:click={fakeUpload}>{currentLanguage === 'es' ? 'Subir' : 'Upload'}</button>
             </div>
         </div>
     {/if}
@@ -352,13 +400,13 @@
     {#if showBotBuddyDialog}
         <div id="botBuddyDialog">
             <div id="botBuddyDialogInner">
-                <div class="header">Bot Buddy Says...</div>
+                <div class="header">{currentLanguage === 'es' ? 'Bot Buddy dice...' : 'Bot Buddy Says...'}</div>
                 <div id="botBuddyDialogText">
                     <img src="/img/characters/bot-buddy/bot-buddy-point.png" alt="Bot Buddy" />
-                    <p>Don't forget to add more images to the training set!</p>
-                    <p>Click the green + button to add more images!</p>
+                    <p>{currentLanguage === 'es' ? '¡No olvides agregar más imágenes al conjunto de entrenamiento!' : "Don't forget to add more images to the training set!"}</p>
+                    <p>{currentLanguage === 'es' ? '¡Haz clic en el botón verde + para agregar más imágenes!' : 'Click the green + button to add more images!'}</p>
                 </div>
-                <button id="trainButton" on:click={() => {showBotBuddyDialog = false;}}>Got it!</button>
+                <button id="trainButton" on:click={() => {showBotBuddyDialog = false;}}>{currentLanguage === 'es' ? '¡Entendido!' : 'Got it!'}</button>
             </div>
         </div>
     {/if}

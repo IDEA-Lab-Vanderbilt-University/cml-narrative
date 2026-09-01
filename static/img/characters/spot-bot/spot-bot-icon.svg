@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 376 394" role="img" aria-label="SPOT Bot icon">
+  <rect width="376" height="394" fill="none"/>
+
+  <path d="M50 180c0-96 62-160 138-160s138 64 138 160" fill="none" stroke="#000" stroke-width="8" stroke-linecap="round"/>
+
+  <rect x="63" y="106" width="250" height="248" rx="72" fill="#bec7ce"/>
+  <path d="M126 106h124c0 19-15 34-34 34h-56c-19 0-34-15-34-34z" fill="#6ec4d4"/>
+
+  <rect x="82" y="151" width="212" height="88" rx="42" fill="#050505"/>
+  <circle cx="126" cy="194" r="19" fill="#6ec4d4"/>
+  <circle cx="250" cy="194" r="19" fill="#6ec4d4"/>
+
+  <path d="M158 266c15 16 45 16 60 0" fill="none" stroke="#050505" stroke-width="8" stroke-linecap="round"/>
+
+  <rect x="24" y="163" width="32" height="90" rx="14" fill="#6ec4d4"/>
+  <rect x="48" y="167" width="13" height="82" rx="6" fill="#050505"/>
+
+  <rect x="320" y="163" width="32" height="90" rx="14" fill="#6ec4d4"/>
+  <rect x="315" y="167" width="13" height="82" rx="6" fill="#050505"/>
+
+  <path d="M306 226c30 12 41 34 38 58" fill="none" stroke="#050505" stroke-width="8" stroke-linecap="round"/>
+  <rect x="299" y="286" width="44" height="12" rx="6" fill="#050505"/>
+</svg>

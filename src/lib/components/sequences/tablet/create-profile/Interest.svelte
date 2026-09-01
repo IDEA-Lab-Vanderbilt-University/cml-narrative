@@ -12,24 +12,40 @@
 <script lang="ts">
 	import type { Student } from '$lib/types/UserData';
 	import { onMount } from 'svelte';
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import type { Language } from '$lib/utils/translations';
 
 	export let profileData: Student;
 	export let prompt: string;
 	export let index: number;
 
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
+
 	let randomPlaceholder = '';
+	let placeholderPrefix = 'I like to';
 	
 	const getRandomInterest = () => {
-		let interests: string[] = ['play basketball', 'play football', 'dance', 'go outside', 'draw'];
+		let interests: string[] = currentLanguage === 'es'
+			? ['jugar baloncesto', 'jugar fútbol', 'bailar', 'salir afuera', 'dibujar']
+			: ['play basketball', 'play football', 'dance', 'go outside', 'draw'];
 
 		const random = Math.floor(Math.random() * interests.length);
 
 		return interests[random];
 	};
 
+	$: placeholderPrefix = currentLanguage === 'es' ? 'Me gusta' : 'I like to';
+
 	onMount(() => {
 		randomPlaceholder = getRandomInterest();
 	});
+
+	$: if (currentLanguage) {
+		randomPlaceholder = getRandomInterest();
+	}
 </script>
 
 <div class="flex h-full w-full flex-col items-center justify-center space-y-10 mt-[-100px]">
@@ -38,7 +54,7 @@
 		<div class="form-control h-24 w-full max-w-2xl">
 			<input
 				type="text"
-				placeholder={`I like to ${randomPlaceholder}!`}
+				placeholder={`${placeholderPrefix} ${randomPlaceholder}!`}
 				class="input-bordered input h-full  w-full font-mono text-4xl"
 				bind:value={profileData.interests[index]} />
 		</div>

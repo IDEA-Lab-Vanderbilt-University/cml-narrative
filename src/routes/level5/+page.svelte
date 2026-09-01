@@ -25,6 +25,7 @@
 	import Confetti from 'svelte-confetti';
 	import { BadgesByName } from '$lib/utils/Assets/Badges.js';
 	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
+	import { audioPlaybackFinished } from '$lib/utils/stores/audioStore';
 
 	export let data;
 
@@ -196,7 +197,10 @@
 	// Disable the next button until a response is selected or there are no more questions
 	$: {
 		if (nextButton != undefined) {
-			nextButton.disabled = questionIndex >= questionsAndResponse.length || questionsAndResponse[questionIndex].response == null;
+			nextButton.disabled =
+				questionIndex >= questionsAndResponse.length ||
+				questionsAndResponse[questionIndex].response == null ||
+				!$audioPlaybackFinished;
 		}
 	}
 

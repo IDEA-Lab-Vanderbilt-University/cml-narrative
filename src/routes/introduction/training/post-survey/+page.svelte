@@ -5,9 +5,10 @@
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
 	import type { StudentProgress } from '$lib/types/UserData';
 	import DataService from '$lib/utils/DataService';
-	import { studentProgressStore } from '$lib/utils/stores/store';
-	import { Questions, QuestionsAudio } from '$lib/components/activities/survey/SurveyQuestions';
+	import { settingsStore, studentProgressStore } from '$lib/utils/stores/store';
+	import { QuestionsAudio, QuestionsByLanguage } from '$lib/components/activities/survey/SurveyQuestions';
 	import AudioPlayer from '$lib/components/audio/AudioPlayer.svelte';
+	import { audioPlaybackFinished } from '$lib/utils/stores/audioStore';
 
 	/**
 	 * Track the current question that is displaying
@@ -32,12 +33,56 @@
 	 * The user's response is directly saved into this object, which, theoretically, we can then stringify
 	 * and post to the database whenever we are ready.
 	 */
-	let questionsAndResponse = Questions.map((question) => {
+	type SurveyLanguage = 'en' | 'es';
+
+	let surveyLanguage: SurveyLanguage = 'en';
+	$: surveyLanguage = $settingsStore?.language === 'es' ? 'es' : 'en';
+
+	const getSurveyQuestions = () => QuestionsByLanguage[surveyLanguage] || QuestionsByLanguage.en;
+
+	const surveyOptions = [
+		{ emoji: '😃', value: 'Strongly Agree', label: { en: 'Strongly Agree', es: 'Totalmente de acuerdo' } },
+		{ emoji: '🙂', value: 'Agree', label: { en: 'Agree', es: 'De acuerdo' } },
+		{ emoji: '😐', value: 'Neutral', label: { en: 'Neutral', es: 'Neutral' } },
+		{ emoji: '🙁', value: 'Disagree', label: { en: 'Disagree', es: 'En desacuerdo' } },
+		{ emoji: '☹️', value: 'Strongly Disagree', label: { en: 'Strongly Disagree', es: 'Totalmente en desacuerdo' } }
+	];
+
+	const surveyUiText = {
+		en: {
+			next: 'Next',
+			selectFirst: 'Please select an option first!',
+			submitted: 'Survey responses were recorded successfully!',
+			submitFailed: 'Survey responses submission failed!'
+		},
+		es: {
+			next: 'Siguiente',
+			selectFirst: '¡Primero selecciona una opción!',
+			submitted: '¡Las respuestas de la encuesta se guardaron correctamente!',
+			submitFailed: '¡Error al enviar las respuestas de la encuesta!'
+		}
+	} as const;
+
+	let questionsAndResponse = getSurveyQuestions().map((question) => {
 		return {
 			question: question,
 			response: null
 		};
 	});
+
+	$: {
+		const localizedQuestions = getSurveyQuestions();
+
+		if (
+			localizedQuestions.length !== questionsAndResponse.length ||
+			localizedQuestions.some((question, index) => question !== questionsAndResponse[index]?.question)
+		) {
+			questionsAndResponse = localizedQuestions.map((question, index) => ({
+				question,
+				response: questionsAndResponse[index]?.response ?? null
+			}));
+		}
+	}
 
 	/**
 	 * Gets the next question from the questionsAndResponse object array
@@ -61,11 +106,11 @@
 						status: 'complete'
 					});
 
-					message = "Survey responses were recorded successfully!";
+					message = surveyUiText[surveyLanguage].submitted;
 					isSuccess = true;
 
 				} catch (error) {
-					message = "Survey responses submission failed!";
+					message = surveyUiText[surveyLanguage].submitFailed;
 					isSuccess = false;
 					console.error(error);
 				}
@@ -80,7 +125,7 @@
 			}
 		} else {
 			// User has not selected a response
-			alert('Please select an option first!');
+			alert(surveyUiText[surveyLanguage].selectFirst);
 		}
 	};
 
@@ -126,7 +171,10 @@
 	// Disable the next button until a response is selected
 	$: {
 		if (nextButton != undefined) {
-			nextButton.disabled = questionIndex >= questionsAndResponse.length || questionsAndResponse[questionIndex].response == null;
+			nextButton.disabled =
+				questionIndex >= questionsAndResponse.length ||
+				questionsAndResponse[questionIndex].response == null ||
+				!$audioPlaybackFinished;
 		}
 	}
 
@@ -146,17 +194,17 @@
 			<p id="question" class="text-center text-3xl text-white">{questionsAndResponse[questionIndex].question}</p>
 		</div>
 		<div id="options" class="hud-red-blue-border flex w-2/3 flex-col space-y-4 p-3 text-3xl">
-			<SurveyOption emoji="😃" response="Strongly Agree" on:click={() => handleSelection('Strongly Agree')} bind:this={strongAgreeElement} />
-			<SurveyOption emoji="🙂" response="Agree" on:click={() => handleSelection('Agree')} bind:this={agreeElement} />
-			<SurveyOption emoji="😐" response="Neutral" on:click={() => handleSelection('Neutral')} bind:this={neutralElement} />
-			<SurveyOption emoji="🙁" response="Disagree" on:click={() => handleSelection('Disagree')} bind:this={disagreeElement} />
-			<SurveyOption emoji="☹️" response="Strongly Disagree" on:click={() => handleSelection('Strongly Disagree')} bind:this={strongDisagreeElement} />
+			<SurveyOption emoji={surveyOptions[0].emoji} response={surveyOptions[0].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[0].value)} bind:this={strongAgreeElement} />
+			<SurveyOption emoji={surveyOptions[1].emoji} response={surveyOptions[1].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[1].value)} bind:this={agreeElement} />
+			<SurveyOption emoji={surveyOptions[2].emoji} response={surveyOptions[2].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[2].value)} bind:this={neutralElement} />
+			<SurveyOption emoji={surveyOptions[3].emoji} response={surveyOptions[3].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[3].value)} bind:this={disagreeElement} />
+			<SurveyOption emoji={surveyOptions[4].emoji} response={surveyOptions[4].label[surveyLanguage]} on:click={() => handleSelection(surveyOptions[4].value)} bind:this={strongDisagreeElement} />
 		</div>
 		<div class="flex w-full items-end justify-end">
 			<button
 				class="next-button rounded-xl bg-blue-300 px-4 py-2 text-3xl font-bold text-black"
 				on:click={getNextQuestion}
-				bind:this={nextButton}>Next</button>
+				bind:this={nextButton}>{surveyUiText[surveyLanguage].next}</button>
 		</div>
 	</div>
 </Tablet>

@@ -18,7 +18,9 @@
 	import type { Student, StudentProgress } from '$lib/types/UserData.js';
 	import { BadgesByName } from '$lib/utils/Assets/Badges.js';
 	import DataService from '$lib/utils/DataService/index.js';
+    import { languageStore } from '$lib/utils/stores/languageStore';
 	import { pizzaConfigStore, studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
+    import type { Language } from '$lib/utils/translations';
 	import { createEventDispatcher, onMount } from 'svelte';
 	import { get } from 'svelte/store';
 
@@ -31,6 +33,10 @@
 	export let data;
 
 	let line: Line;
+    let currentLanguage: Language = 'en';
+    languageStore.subscribe((lang: Language) => {
+        currentLanguage = lang;
+    });
 
 	$: line = data.line;
 
@@ -152,10 +158,10 @@
             </div>
         {/if}
         {#if lineNumber == 4}
-            <IncomingMessageModal from="Mission Control" onNext={() => handleNavigation(NavigationDirection.forward)} />
+            <IncomingMessageModal from={currentLanguage === 'es' ? 'Control de Misión' : 'Mission Control'} onNext={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
         {#if lineNumber == 9}
-            <IncomingMessageModal from="Captain Storm" onNext={() => handleNavigation(NavigationDirection.forward)} />
+            <IncomingMessageModal from={currentLanguage === 'es' ? 'Capitán Storm' : 'Captain Storm'} onNext={() => handleNavigation(NavigationDirection.forward)} />
         {/if}
         {#if lineNumber == 5}
             <ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)}>
@@ -167,24 +173,30 @@
             </ReadMessageModal>
         {/if}
         {#if lineNumber == 10}
-            <ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)} ps={[
+            <ReadMessageModal from={line.speakers[0]} onNext={() => handleNavigation(NavigationDirection.forward)} ps={currentLanguage === 'es' ? [
+                'PD. ¡Todos los agentes se alegraron de saber que todavía hay pizza en el futuro!',
+                'PPD. ¡El Agente Gear quiere saber más sobre los robots del futuro!'
+            ] : [
                 'PS. All the agents were happy to learn there is still pizza in the future!',
                 'PPS. Agent Gear wants to hear more about future robots!'
             ]}>
                 <div class="border-white border-2 p-2 w-10/12">
                     <p class="text-2xl">
-                        I just read your travel log, and I wanted to thank you for the great work on algorithms! You and Bot Buddy have helped us understand that: 
+                        {currentLanguage === 'es'
+                            ? 'Acabo de leer tu registro de viaje y quería agradecerte por el gran trabajo sobre algoritmos. Tú y Bot Buddy nos ayudaron a entender que:'
+                            : 'I just read your travel log, and I wanted to thank you for the great work on algorithms! You and Bot Buddy have helped us understand that:'}
                     </p>
                     <br/>
                     <ul class="text-2xl">
-                        <li>Computer algorithms are instructions based on people's opinions</li>
-                        <li>We get different results with different algorithms</li>
-                        <li>This means some results may not benefit everyone</li>
+                        <li>{currentLanguage === 'es' ? 'Los algoritmos informáticos son instrucciones basadas en las opiniones de las personas' : "Computer algorithms are instructions based on people's opinions"}</li>
+                        <li>{currentLanguage === 'es' ? 'Obtenemos resultados diferentes con algoritmos distintos' : 'We get different results with different algorithms'}</li>
+                        <li>{currentLanguage === 'es' ? 'Esto significa que algunos resultados pueden no beneficiar a todos' : 'This means some results may not benefit everyone'}</li>
                     </ul>
                     <br/>
                     <p class="text-2xl">
-                        You have earned the Algorithm All Stars Badge and generated some 
-megajoules! I sent them right to your SPOT Tablet.
+                        {currentLanguage === 'es'
+                            ? '¡Has ganado la insignia Algorithm All Stars y generado algunos megajulios! Los envié directamente a tu tablet SPOT.'
+                            : 'You have earned the Algorithm All Stars Badge and generated some megajoules! I sent them right to your SPOT Tablet.'}
                     </p>
 
                 </div>
@@ -204,15 +216,15 @@ megajoules! I sent them right to your SPOT Tablet.
 {/if}
 
 {#if lineNumber == 6}
-    <TextResponseModal id="botBuddyPizza" title={"How was Bot Buddy's pizza algorithm different from yours?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
+    <TextResponseModal id="botBuddyPizza" title={currentLanguage === 'es' ? '¿Cómo fue diferente el algoritmo de pizza de Bot Buddy al tuyo?' : "How was Bot Buddy's pizza algorithm different from yours?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
 {/if}
 
 {#if lineNumber == 7}
-    <TextResponseModal id="botBuddyPizzaOpinion" title={"How do you think your opinions affected your pizza algorithm?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
+    <TextResponseModal id="botBuddyPizzaOpinion" title={currentLanguage === 'es' ? '¿Cómo crees que tus opiniones afectaron tu algoritmo de pizza?' : 'How do you think your opinions affected your pizza algorithm?'} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
 {/if}
 
 {#if lineNumber == 8}
-    <TextResponseModal id="wrongPizzaOpinion" title={"If you got Bot Buddy's pizza by accident, how would you feel?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
+    <TextResponseModal id="wrongPizzaOpinion" title={currentLanguage === 'es' ? 'Si recibieras la pizza de Bot Buddy por accidente, ¿cómo te sentirías?' : "If you got Bot Buddy's pizza by accident, how would you feel?"} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" audio={line.audio} />
 {/if}
 <style>
     .pizzabox {

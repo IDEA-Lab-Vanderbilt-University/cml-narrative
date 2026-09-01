@@ -8,7 +8,9 @@
 	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
+	import { languageStore } from '$lib/utils/stores/languageStore';
 	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
+	import type { Language } from '$lib/utils/translations';
 	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level2/index.js';
 	import Tablet from '$lib/components/tablet/Tablet.svelte';
@@ -17,8 +19,21 @@
 	export let data;
 
 	let line: Line;
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
 
 	$: line = data.line;
+
+	let visitedFactoryPages: number[] = [];
+
+	$: if (line && line.id >= 30 && line.id <= 34 && !visitedFactoryPages.includes(line.id)) {
+		visitedFactoryPages = [...visitedFactoryPages, line.id];
+	}
+
+	$: isVroomLocked = line?.id === 29 && visitedFactoryPages.length < 2;
+	let isVroomLocked = true;
 
 	/**
 	 * Handles an emitted dialogEvent as sent from a DialogControl component and progresses the script as such
@@ -121,7 +136,7 @@
 
 		{#if line.id == 2}
 		<div id="spinring">
-			Detecting problems with self-driving cars near the school!
+			{currentLanguage === 'es' ? '¡Detectando problemas con autos autónomos cerca de la escuela!' : 'Detecting problems with self-driving cars near the school!'}
 		</div>
 		{/if}
 
@@ -168,7 +183,7 @@
 			<button id="toilet" on:click={() => { goto('/level2?page=34') }} class="mapicon">
 				<img src="/img/misc/map-icons/toilet.png" alt="Toilet"/>
 			</button>
-			<button id="vroom" on:click={() => { goto('/level2?page=35') }} class="mapicon">
+			<button id="vroom" disabled={isVroomLocked} on:click={() => { if (isVroomLocked) return; goto('/level2?page=35'); }} class="mapicon {isVroomLocked ? 'mapicon-disabled' : ''}">
 				<img src="/img/misc/map-icons/vroom.png" alt="Vroom Vroom"/>
 			</button>
 		</div>
@@ -185,7 +200,7 @@
 		<Tablet>
 			<SpotApplication
         color="rgb(175,105,190)"
-        title="Car Training"
+		title={currentLanguage === 'es' ? 'Entrenamiento de autos' : 'Car Training'}
         img="/img/icons/car.svg"
 		on:applicationContainerEvent={() => {}}
 		on:click={() => handleNavigation(NavigationDirection.forward)} 
@@ -296,6 +311,18 @@
 
 	.mapicon:active {
 		transform: scale(0.8);
+	}
+
+	.mapicon.mapicon-disabled {
+		filter: grayscale(100%) brightness(65%);
+		opacity: 0.7;
+		cursor: not-allowed;
+		pointer-events: none;
+	}
+
+	.mapicon.mapicon-disabled:hover,
+	.mapicon.mapicon-disabled:active {
+		transform: none;
 	}
 
 	#school {

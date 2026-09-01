@@ -2,6 +2,8 @@
 
 <script lang="ts">
 	import { onMount } from "svelte";
+    import { goto } from '$app/navigation';
+    import { page } from '$app/stores';
 	import Tablet from "../tablet/Tablet.svelte";
 	import ProfilesApp from "../tablet/profiles/ProfilesApp.svelte";
 	import { showLanguageChoice, tabletModalActive } from "$lib/utils/stores/store";
@@ -32,6 +34,44 @@
     }
 
     let appMode: null | "profile" | "travelLog" | "badges" = null;
+    $: normalizedPathname = $page.url.pathname.replace(/\/+$/, '') || '/';
+    $: currentPage = $page.url.searchParams.get('page');
+    $: returnPage = $page.url.searchParams.get('returnPage');
+    $: isLevel4NewFinalTabletFlow = normalizedPathname === '/level4new'
+        && (
+            currentPage === '35'
+            || ((currentPage === '24' || currentPage === '25' || currentPage === '26') && returnPage === '35')
+        );
+
+    const openLevel4NewFinalCodeinator = () => {
+        const returnPage = '35';
+        const event  = new CustomEvent('hideTablet', {
+            bubbles: true
+        });
+
+        tabletDiv?.dispatchEvent(event);
+        goto(`/level4new?page=26&returnPage=${returnPage}`);
+    };
+
+    const openLevel4NewFinalTraininator = () => {
+        const returnPage = '35';
+        const event  = new CustomEvent('hideTablet', {
+            bubbles: true
+        });
+
+        tabletDiv?.dispatchEvent(event);
+        goto(`/level4new?page=25&returnPage=${returnPage}`);
+    };
+
+    const openLevel4NewFinalDesignNotes = () => {
+        const returnPage = '35';
+        const event  = new CustomEvent('hideTablet', {
+            bubbles: true
+        });
+
+        tabletDiv?.dispatchEvent(event);
+        goto(`/level4new?page=24&returnPage=${returnPage}`);
+    };
     
 </script>
 
@@ -53,7 +93,29 @@
         {:else if appMode === "badges"}
             <BadgesApp handleClick={() => appMode = null} />
         {:else}
-            <TabletMenu onSelect={(selection) => appMode = selection} />
+            <TabletMenu
+                includeCodeinator={isLevel4NewFinalTabletFlow}
+                includeTraininator={isLevel4NewFinalTabletFlow}
+                includeDesignNotes={isLevel4NewFinalTabletFlow}
+                onSelect={(selection) => {
+                    if (selection === 'codeinator' && isLevel4NewFinalTabletFlow) {
+                        openLevel4NewFinalCodeinator();
+                        return;
+                    }
+
+                    if (selection === 'traininator' && isLevel4NewFinalTabletFlow) {
+                        openLevel4NewFinalTraininator();
+                        return;
+                    }
+
+                    if (selection === 'designnotes' && isLevel4NewFinalTabletFlow) {
+                        openLevel4NewFinalDesignNotes();
+                        return;
+                    }
+
+                    appMode = selection;
+                }}
+            />
         {/if}
 
 			{#if showLanguageChoice}

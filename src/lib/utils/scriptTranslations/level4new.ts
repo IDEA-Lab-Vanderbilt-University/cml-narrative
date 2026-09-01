@@ -14,7 +14,7 @@ export const level4newTranslations = {
 			{ id: 11, dialog: 'This agent designed a robot that detects dangerous things, like knives, and safe places to tell children what is safe and what is dangerous.' },
 			{ id: 12, dialog: 'Agent Raven designed a robot that detects whether a person is sad or happy If they are sad, the robot plays a happy song and encourages them to go outside or hang out with friends.' },
 			{ id: 13, dialog: 'Agent Raven designed a robot that detects whether a person is sad or happy If they are sad, the robot plays a happy song and encourages them to go outside or hang out with friends.' },
-			{ id: 14, dialog: 'Test out Agent Nova’s Robot. Does it work?' },
+			{ id: 14, dialog: "Test out Agent Raven's Robot. Does it work?" },
 			{ id: 15, dialog: 'Now it’s your turn! Let’s start designing and planning!!' },
 			{ id: 16, dialog: 'Agent, on your SPOT tablet, open file named  “Robot Prototype.”' },
 			{ id: 17, dialog: 'SPOT TABLET WITH ROBOT PROTOTYPE BUTTON' },
@@ -32,9 +32,10 @@ export const level4newTranslations = {
 			{ id: 29, dialog: 'TRAVEL LOG BUTTON' },
 			{ id: 30, dialog: 'Mission Control needs to know a few more things before you get your final badge' },
 			{ id: 31, dialog: 'ALGORITHMS POST QUESTION' },
-			{ id: 32, dialog: 'POST SURVEY' },
-			{ id: 33, dialog: 'BADGE GET' },
-			{ id: 34, dialog: 'It’s been an honor working with you Agent {agentName}. You are now an official junior agent at S.P.O.T. We hope that you continue building technologies that make the world a better place. Goodbye and best of luck to you!' },
+			{ id: 32, dialog: 'WHAT DO YOU THINK MACHINE LEARNING IS?' },
+			{ id: 33, dialog: 'POST SURVEY' },
+			{ id: 34, dialog: 'BADGE GET' },
+			{ id: 35, dialog: 'It’s been an honor working with you Agent {agentName}. You are now an official junior agent at S.P.O.T. We hope that you continue building technologies that make the world a better place. Goodbye and best of luck to you!' },
 		]
 	},
 	es: {
@@ -70,9 +71,10 @@ export const level4newTranslations = {
 			{ id: 29, dialog: 'BOTÓN DE REGISTRO DE VIAJES' },
 			{ id: 30, dialog: 'El Control de Misión necesita saber algunas cosas más antes de que recibas tu insignia final' },
 			{ id: 31, dialog: 'PREGUNTA POSTERIOR SOBRE ALGORITMOS' },
-			{ id: 32, dialog: 'ENCUESTA POSTERIOR' },
-			{ id: 33, dialog: 'INSIGNIA OBTENIDA' },
-			{ id: 34, dialog: 'Ha sido un honor trabajar contigo, Agente {agentName}. Ahora eres un agente junior oficial en S.P.O.T. Esperamos que sigas construyendo tecnologías que hagan del mundo un lugar mejor. ¡Adiós y la mejor de las suertes para ti!' },
+			{ id: 32, dialog: '¿QUÉ CREES QUE ES EL APRENDIZAJE AUTOMÁTICO?' },
+			{ id: 33, dialog: 'ENCUESTA POSTERIOR' },
+			{ id: 34, dialog: 'INSIGNIA OBTENIDA' },
+			{ id: 35, dialog: 'Ha sido un honor trabajar contigo, Agente {agentName}. Ahora eres un agente junior oficial en S.P.O.T. Esperamos que sigas construyendo tecnologías que hagan del mundo un lugar mejor. ¡Adiós y la mejor de las suertes para ti!' },
 		]
 	}
 } as const;

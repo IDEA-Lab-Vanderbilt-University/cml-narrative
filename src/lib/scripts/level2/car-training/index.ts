@@ -146,7 +146,9 @@ const script: Script = {
             dialog: () => getScriptTranslationWithFallback(currentLanguage as any, 'level2', 'carTraining', 17),
             avatars: ['/img/characters/level-2/dash/dash-front.png'],
             background: '/img/backgrounds/level2/car-training/1.png',
-            audio: '/level2/dash/Dash - nonhuman test.mp3',
+            audio: currentLanguage === 'es'
+                ? '/level2/dash/Dash_l2s67.mp3'
+                : '/level2/dash/Dash - nonhuman test.mp3',
         },
         {
             id: 18,

@@ -29,10 +29,12 @@
 			id: `#megajoules-meter`
 		});
 	});
+
+	$: meterLevel = Math.max(0, Math.min(14, Math.floor((amount ?? 0) / 100 * 14)));
 </script>
 
 <div class="w-full" id="megajoules-meter">
-	<img src={`/img/tablet/meter/meter-${Math.floor(amount / 100 * 14)}.svg`} alt="{amount} Megajoules" />
+	<img src={`/img/tablet/meter/meter-${meterLevel}.svg`} alt="{amount} Megajoules" />
 </div>
 
 <style>

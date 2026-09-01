@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { settingsStore } from '$lib/utils/stores/store';
+
 	export let threshold: number; // Default value in the middle of allowed range
 	export let minThreshold: number = 70;
 
@@ -12,8 +14,8 @@
 <div class="threshold-container" style="--min-threshold: {minThreshold}%">
 	<div class="value-display">{threshold}%</div>
 	<div class="slider-description">
-		<div class="slider-description-item">Easier to do</div>
-		<div class="slider-description-item">Harder to do</div>
+		<div class="slider-description-item">{$settingsStore?.language === 'es' ? 'Más fácil de lograr' : 'Easier to do'}</div>
+		<div class="slider-description-item">{$settingsStore?.language === 'es' ? 'Más difícil de lograr' : 'Harder to do'}</div>
 	</div>
 	<input
 		type="range"
@@ -24,8 +26,8 @@
 		on:input={handleInput}
 		class="threshold-slider" />
 	<div class="slider-description">
-		<div class="slider-description-item">Not as good</div>
-		<div class="slider-description-item">Does a good job</div>
+		<div class="slider-description-item">{$settingsStore?.language === 'es' ? 'No tan bueno' : 'Not as good'}</div>
+		<div class="slider-description-item">{$settingsStore?.language === 'es' ? 'Hace un buen trabajo' : 'Does a good job'}</div>
 	</div>
 </div>
 

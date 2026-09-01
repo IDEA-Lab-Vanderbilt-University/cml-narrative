@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { languageStore } from '$lib/utils/stores/languageStore';
+	import type { Language } from '$lib/utils/translations';
+
     export let className: string;
     export let imgs: string[];
     export let booster: string;
@@ -10,6 +13,11 @@
     export let onAdd: () => void = () => {};
     export let onRemove: (i: number) => void = () => {};
     export let onRelabel: (i: number) => void = () => {};
+
+	let currentLanguage: Language = 'en';
+	languageStore.subscribe((lang: Language) => {
+		currentLanguage = lang;
+	});
     
     const getBoosterStyle = (booster: string, img: string) => {
         switch (booster) {
@@ -92,7 +100,7 @@
             {/each}
         </div>
         <div class="boosterOverlay">
-            +{imgs.length} Boosted Images!
+			+{imgs.length} {currentLanguage === 'es' ? '¡imágenes mejoradas!' : 'Boosted Images!'}
         </div>
     {/if}
 </div>

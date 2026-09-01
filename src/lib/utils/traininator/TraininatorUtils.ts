@@ -60,12 +60,12 @@ export async function loadMobileNetFeatureModel() {
     return model;
 }
 
-export function saveModel(model: tf.LayersModel, url: string) {
+export async function saveModel(model: tf.LayersModel, url: string) {
     const jointModel = new tf.Sequential();
     if (mobilenet instanceof tf.LayersModel) {
         jointModel.add(mobilenet);
         jointModel.add(model);
-        jointModel.save(url);
+        await jointModel.save(url);
     }
 }
 

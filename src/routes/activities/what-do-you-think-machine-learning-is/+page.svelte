@@ -7,5 +7,5 @@
 </script>
 
 <TextResponseModal id="machineLearning" promptedTechnology={"Machine Learning"} onSuccess={() => {
-	goto("/activities/draw-machine-learning");
+	goto("/introduction/training?page=9");
 }} />

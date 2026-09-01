@@ -7,6 +7,7 @@
 	import type { Line } from '$lib/types/Script';
 	import type { StudentProgress } from '$lib/types/UserData.js';
 	import DataService from '$lib/utils/DataService/index.js';
+    import { getLineDialog } from '$lib/utils/getLineDialog';
 	import { studentDataStore, studentProgressStore } from '$lib/utils/stores/store.js';
 	import { createEventDispatcher } from 'svelte';
 	import script from '$lib/scripts/level3/index.js';
@@ -287,7 +288,7 @@
             </div>
         {/if}
         {#if lineNumber == 17}
-            <TextResponseModal id="carTrainingSet" title={`What groups of people are represented in this dataset? What groups of people are not represented in this dataset?`} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />    
+            <TextResponseModal id="carTrainingSet" title={getLineDialog(line)} onSuccess={() => handleNavigation(NavigationDirection.forward)} prompt="" placeholder="" />    
         {/if}
         {#if lineNumber == 20}
                 <img src="/img/misc/thoughts.png" id="thoughtbubble"/>

@@ -1,14 +1,22 @@
 <script lang="ts">
+    import { languageStore } from '$lib/utils/stores/languageStore';
+    import type { Language } from '$lib/utils/translations';
+
     export let classes: string[] = [];
     export let modelMatrix: string[][] = [];
     export let cellClasses: string[][] = [];
+
+    let currentLanguage: Language = 'en';
+    languageStore.subscribe((lang: Language) => {
+        currentLanguage = lang;
+    });
 </script>
 
 <table id="modelMatrix">
     <thead>
         <tr>
             <th></th>
-            <th colspan={classes.length + 1}>Model Says...</th>
+            <th colspan={classes.length + 1}>{currentLanguage === 'es' ? 'El modelo dice...' : 'Model Says...'}</th>
         </tr>
     </thead>
     <tbody>
@@ -20,7 +28,7 @@
             {/each}
         </tr>
         <tr>
-            <td rowspan={classes.length}  class="modelMaxtrixPlaceholder">You said...</td>
+            <td rowspan={classes.length}  class="modelMaxtrixPlaceholder">{currentLanguage === 'es' ? 'Tú dijiste...' : 'You said...'}</td>
             <td class="modelMaxtrixLabel">{classes[0]}</td>
             {#each modelMatrix[0] as cell, j}
                 {#if cellClasses.length > 0}
@@ -48,7 +56,7 @@
 </table>
 {#if modelMatrix[0][0] == '-'}
     <div id="modelMatrixOverlay">
-        Test model to see results!
+        {currentLanguage === 'es' ? '¡Prueba el modelo para ver los resultados!' : 'Test model to see results!'}
     </div>
 {/if}
 

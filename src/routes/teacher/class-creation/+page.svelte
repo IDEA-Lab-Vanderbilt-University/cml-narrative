@@ -4,7 +4,7 @@
 	import UploadCsvModal from '$lib/components/teacher-view/modals/UploadCSVModal.svelte';
 	import StudentInfoModal from '$lib/components/teacher-view/modals/StudentInfoModal.svelte';
 	import FeedbackModal from '$lib/components/modals/FeedbackModal.svelte';
-	import { generateQRCodes } from '$lib/utils/teacher-view/qr/QRGenerator';
+	import { generateQRCodes, generateQRCodeImages } from '$lib/utils/teacher-view/qr/QRGenerator';
 	import { studentClassStore, sessionTeacherID } from '$lib/utils/stores/store';
 	import DataService from '$lib/utils/DataService';
 	import { goto } from '$app/navigation';
@@ -20,6 +20,7 @@
 	let message = '';
 	let isSuccess = false;
 	let showFeedbackModal = false;
+	let showQrDownloadOptions = false;
 
 	var newStudent: Student = {
 		teacher_id: $sessionTeacherID, // TODO: read from session
@@ -86,9 +87,28 @@
 	}
 
 	function generateSelectedAgentIDs() {
+		showQrDownloadOptions = true;
+	}
+
+	async function downloadQrCodesAsPdf() {
+		showQrDownloadOptions = false;
 		try {
-			generateQRCodes(selectedStudents);
-			message = 'Agent IDs generated for selected students!';
+			await generateQRCodes(selectedStudents);
+			message = 'Agent IDs downloaded as PDF!';
+			isSuccess = true;
+		} catch (err) {
+			message = 'Error generating agent IDs';
+			isSuccess = false;
+			throw new Error('Error generating agent IDs');
+		}
+		showFeedbackModal = true;
+	}
+
+	async function downloadQrCodesAsImage() {
+		showQrDownloadOptions = false;
+		try {
+			await generateQRCodeImages(selectedStudents);
+			message = 'Agent IDs downloaded as image!';
 			isSuccess = true;
 		} catch (err) {
 			message = 'Error generating agent IDs';
@@ -172,8 +192,6 @@
 		editingStudent = null;
 	}
 	
-	let showHidden = false;
-
 	const downloadSelectedStudents = async () => {
 		// Fetch students' travel logs
 		const travelLogs = selectedStudents.map((student) => {
@@ -288,18 +306,6 @@
 
 		
 		
-		// Keyboard event listener for toggling hidden elements with shift
-		document.addEventListener('keydown', (event) => {
-			if (event.shiftKey) {
-				showHidden = true;
-			}
-		});
-
-		document.addEventListener('keyup', (event) => {
-			if (!event.shiftKey) {
-				showHidden = false;
-			}
-		});
 	});
 
 	let studentsFiltered = [];
@@ -455,20 +461,19 @@
 		</table>
 
 		<div class="fixed bottom-5 left-4 flex flex-col items-start space-y-2">
+			<button
+				class="rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+				disabled={selectedStudents.length === 0}
+				on:click={downloadSelectedStudents}>
+				Download Data
+			</button>
+
 			{#if selectedStudents.length > 0}
 				<button
 					class="rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-blue-600"
 					on:click={generateSelectedAgentIDs}>
 					Get QR Codes
 				</button>
-
-				{#if showHidden}
-					<button
-						class="rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-blue-600"
-						on:click={downloadSelectedStudents}>
-						Download Data
-					</button>
-				{/if}
 
 				<button
 					class="rounded-full bg-red-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-red-600"
@@ -487,22 +492,33 @@
 					on:click={openCSVModal}>
 					Add by Upload
 				</button>
-
-				<button
-					class="rounded-full bg-cyan-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-cyan-600"
-					on:click={fetchStudents}>
-					Refresh
-				</button>
-
-				<button
-					class="rounded-full bg-yellow-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-yellow-600"
-					on:click={() => {
-						goto('/teacher/student-submissions');
-					}}>
-					Student Submissions
-				</button>
 			{/if}
 		</div>
+
+		{#if showQrDownloadOptions}
+			<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+				<div class="rounded-2xl bg-white p-6 shadow-2xl">
+					<h2 class="mb-4 text-2xl font-bold text-gray-800">Download QR Codes As</h2>
+					<div class="flex gap-3">
+						<button
+							class="rounded-full bg-blue-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-blue-600"
+							on:click={downloadQrCodesAsPdf}>
+							PDF
+						</button>
+						<button
+							class="rounded-full bg-green-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-green-600"
+							on:click={downloadQrCodesAsImage}>
+							Image
+						</button>
+						<button
+							class="rounded-full bg-gray-500 px-4 py-2 font-bold text-white shadow-lg hover:bg-gray-600"
+							on:click={() => (showQrDownloadOptions = false)}>
+							Cancel
+						</button>
+					</div>
+				</div>
+			</div>
+		{/if}
 
 		<div class="absolute right-4 top-4 flex flex-col items-start space-y-2">
 			<button

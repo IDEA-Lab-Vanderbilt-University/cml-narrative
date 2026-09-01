@@ -134,7 +134,8 @@
 				studentProgressStore.set(serverUser.progress);
 			}
 		} catch (err) {
-			message = getTranslation(currentLanguage, 'login.loginFailed');
+			const detail = err instanceof Error ? err.message : 'Unknown error';
+			message = `${getTranslation(currentLanguage, 'login.loginFailed')} (${detail})`;
 			isSuccess = false;
 			console.log(err);
 			console.log('login failed');

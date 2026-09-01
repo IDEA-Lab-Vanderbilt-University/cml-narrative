@@ -7,6 +7,7 @@
 	import type { Line } from '$lib/types/Script';
 	import { defaultSettings, type Settings } from '$lib/types/Settings';
 	import { settingsStore, tabletModalActive } from '$lib/utils/stores/store';
+	import { audioPlaybackFinished } from '$lib/utils/stores/audioStore';
 	import { getLineDialog } from '$lib/utils/getLineDialog';
 	import typewriter from '$lib/utils/typewriter';
 
@@ -53,7 +54,7 @@
 	});
 
 	$:{ 
-		if(isTyping || tabletUp) {
+		if(isTyping || tabletUp || !$audioPlaybackFinished) {
 			navigationLocked = true;
 		} else {
 			navigationLocked = false;
@@ -141,6 +142,13 @@
 				<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} mirror={line.mirror} />
 				<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
 					{line.speakers[0]}
+				</div>
+			{:else if line.pos == 'left-bottom'}
+				<div class="absolute left-0 bottom-0 z-20 flex items-end">
+					<DialogBoxAvatar avatar={line.avatars[0]} speaker={line.speakers[0]} size={line.size} mirror={line.mirror} />
+					<div class=" bg-peach relative -bottom-4 z-20 h-fit w-fit rounded px-3 text-3xl text-black">
+						{line.speakers[0]}
+					</div>
 				</div>
 			{:else if line.pos == 'center'}
 				<div class="center">
