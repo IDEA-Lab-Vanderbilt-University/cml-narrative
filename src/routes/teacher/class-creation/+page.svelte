@@ -132,16 +132,23 @@
 	};
 
 	const addStudentManually = async () => {
-		const student = await DataService.Data.registerStudent(newStudent);
-		$studentClassStore = [...$studentClassStore, student];
+		try {
+			const student = await DataService.Data.registerStudent(newStudent);
+			$studentClassStore = [...$studentClassStore, student];
 
-		// Clear form data
-		newStudent = {
-			teacher_id: $sessionTeacherID, // TODO: read from session
-			first_name: '',
-			last_name: '',
-			age: undefined,
-		};
+			// Preserve selected class to avoid newly added students disappearing from current tab.
+			newStudent = {
+				teacher_id: $sessionTeacherID,
+				first_name: '',
+				last_name: '',
+				age: undefined,
+				class_name: selectedClass && selectedClass !== '' ? selectedClass : ''
+			};
+		} catch (error) {
+			message = 'Unable to add student. Please check required fields and try again.';
+			isSuccess = false;
+			showFeedbackModal = true;
+		}
 	};
 
 	const openCSVModal = () => {
@@ -159,18 +166,29 @@
 			csv = csv.map(student => ({ ...student, class_name: selectedClass }));
 		}
 
-		let responses = await DataService.Data.registerAllStudents(csv);
+		try {
+			const { successes, failures } = await DataService.Data.registerAllStudents(csv);
 
-		if (responses === false) {
+			if (successes.length > 0) {
+				$studentClassStore = [...$studentClassStore, ...successes];
+			}
+
+			if (failures.length > 0) {
+				message = `Uploaded ${successes.length} students. ${failures.length} student(s) could not be added.`;
+				isSuccess = successes.length > 0;
+				showFeedbackModal = true;
+			} else {
+				message = `Successfully uploaded ${successes.length} students.`;
+				isSuccess = true;
+				showFeedbackModal = true;
+			}
+
+			fetchStudents();
+		} catch (error) {
 			message = 'Error uploading CSV file';
 			isSuccess = false;
 			showFeedbackModal = true;
-			return;
 		}
-
-		console.log('CSV upload responses: ', responses);
-		
-		$studentClassStore = [...$studentClassStore, ...responses];
 	};
 
 	function onFeedbackClose() {
