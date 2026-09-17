@@ -76,7 +76,30 @@
 	};
 
 	const parse = async () => {
+		studentsFromCSV = [];
 		var file = files.accepted[0];
+
+		if (!file) {
+			return;
+		}
+
+		const normalizeAge = (value: unknown): number | null => {
+			const parsed = Number(value);
+			if (!Number.isFinite(parsed)) return null;
+			const rounded = Math.floor(parsed);
+			if (rounded <= 0 || rounded > 100) return null;
+			return rounded;
+		};
+
+		const pickField = (row: Record<string, any>, aliases: string[]): any => {
+			for (const [key, value] of Object.entries(row)) {
+				const normalizedKey = key.toLowerCase().trim().replace(/\s+/g, '_');
+				if (aliases.includes(normalizedKey)) {
+					return value;
+				}
+			}
+			return undefined;
+		};
 
 		// Use XlsxParser for XLSX files
 		if (file.name.endsWith('.xlsx')) {
@@ -96,11 +119,13 @@
 
 			data = data.filter((row) => row.first_name && row.last_name && row.age && !isNaN(row.age));
 			data.forEach((student) => {
+				const parsedAge = normalizeAge(student.age);
+				if (parsedAge == null) return;
 				studentsFromCSV.push({
 					teacher_id: get(sessionTeacherID),
-					first_name: student.first_name,
-					last_name: student.last_name,
-					age: student.age
+					first_name: String(student.first_name).trim(),
+					last_name: String(student.last_name).trim(),
+					age: parsedAge
 				});
 			});
 			console.log('studentsFromCSV: ', studentsFromCSV);
@@ -112,18 +137,27 @@
 		Papa.parse(file, {
 			header: true,
 			dynamicTyping: true,
+			skipEmptyLines: true,
 			error: (error) => {
 				console.log(error);
 			},
 			complete: (result) => {
 				console.log('result-data: ', result.data);
 
-				result.data.forEach((student) => {
+				result.data.forEach((student: Record<string, any>) => {
+					const firstName = pickField(student, ['first_name', 'firstname', 'first']);
+					const lastName = pickField(student, ['last_name', 'lastname', 'last']);
+					const age = normalizeAge(pickField(student, ['age']));
+
+					if (!firstName || !lastName || age == null) {
+						return;
+					}
+
 					studentsFromCSV.push({
 						teacher_id: get(sessionTeacherID),
-						first_name: student.first_name,
-						last_name: student.last_name,
-						age: student.age
+						first_name: String(firstName).trim(),
+						last_name: String(lastName).trim(),
+						age
 					});
 				});
 
